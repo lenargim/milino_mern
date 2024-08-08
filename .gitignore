@@ -1,0 +1,7 @@
+.idea/
+client/node_modules/
+client/src/assets/
+node_modules/
+client/build/
+.env
+/PDFs

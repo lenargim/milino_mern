@@ -1,0 +1,197 @@
+[
+  {
+    "productIds": [1,2,3,4,5,6,9,10,11,12,13,14,15,40,41,42,43,47,48,50,301,305,306,313],
+    "limits": {
+      "width": [9, 48],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [7,44,35],
+    "limits": {
+      "width": [6, 48],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [8,16,49,304,310,311,312,314,315,316,320,321,322,325],
+    "limits": {
+      "width": [27, 48],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [17, 18,19,20, 29, 45,46,302,303],
+    "limits": {
+      "width": [24, 48],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [21,53],
+    "limits": {
+      "width": [40, 46],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [22,54],
+    "limits": {
+      "width": [44, 50],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [23,24,25,26,51,52],
+    "limits": {
+      "width": [33,36],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [27,28],
+    "limits": {
+      "width": [30,39],
+      "height": [10.5, 54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [30,31],
+    "limits": {
+      "width": [24,36],
+      "height": [10.5,19.5],
+      "depth": [9, 48]
+    }
+  },
+
+  {
+    "productIds": [36],
+    "limits": {
+      "width": [21,36],
+      "height": [6,54],
+      "depth": [21, 36]
+    }
+  },
+
+  {
+    "productIds": [101,115],
+    "limits": {
+      "width": [9, 48],
+      "height": [30,42],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [102, 103,116,117],
+    "limits": {
+      "width": [27, 48],
+      "height": [30,42],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [33,104,105,106,107,108],
+    "limits": {
+      "width": [30, 36],
+      "height": [12,24],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [109,110,113,114],
+    "limits": {
+      "width": [24, 36],
+      "height": [30,42],
+      "depth": [24, 36]
+    }
+  },
+  {
+    "productIds": [111,118],
+    "limits": {
+      "width": [27, 36],
+      "height": [30,42],
+      "depth": [9,48]
+    }
+  },
+  {
+    "productIds": [112,119],
+    "limits": {
+      "width": [13, 48],
+      "height": [30,42],
+      "depth": [13,48]
+    }
+  },
+
+  {
+    "productIds": [201,202, 203,204,212,213,400,401,402,403,404],
+    "limits": {
+      "width": [12, 48],
+      "height": [84,96],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [214,215,413],
+    "limits": {
+      "width": [12, 27],
+      "height": [84,96],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [205,206,217,218,219,220,405,406,407],
+    "limits": {
+      "width": [40,50],
+      "height": [84,96],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [207,208,216],
+    "limits": {
+      "width": [30,36],
+      "height": [84,96],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [209,210],
+    "limits": {
+      "width": [12,36],
+      "height": [49,61],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [211],
+    "limits": {
+      "width": [15,21],
+      "height": [84,96],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [307,308,309,317,318,319,323,324,326,415],
+    "limits": {
+      "width": [12,48],
+      "height": [10.5,54],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [408,409,410,411,412,414,416,417,418],
+    "limits": {
+      "width": [12,48],
+      "height": [90,100],
+      "depth": [9, 48]
+    }
+  }
+]
