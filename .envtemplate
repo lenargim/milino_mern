@@ -1,5 +1,6 @@
-PORT=80
-EMAIL_SERVICE=
-EMAIL_USER=
-EMAIL_PASS=
-BASE_URL=
+PORT=5002
+EMAIL_SERVICE=smtp.office365.com
+EMAIL_USER=mail@milinocabinets.com
+EMAIL_PASS=vB79h6RRoY7A
+EMAIL_TO=linz14@mail.ru
+BASE_URL=http://localhost:5002/api/

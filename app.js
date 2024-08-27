@@ -28,6 +28,7 @@ const storage = multer.diskStorage({
   }
 })
 
+
 const start = async () => {
   try {
     const upload = multer({storage});
@@ -41,17 +42,27 @@ const start = async () => {
       if (type === 'send') {
 
         let transporter = nodemailer.createTransport({
-          service: process.env.EMAIL_SERVICE,
+          // service: process.env.EMAIL_SERVICE,
+          // auth: {
+          //   user: process.env.EMAIL_USER,
+          //   pass: process.env.EMAIL_PASS,
+          // },
+          // secure: false,
+          // ignoreTLS: true
+
+          // host: "smtpout.secureserver.net",
+          service: 'Godaddy',
+          secure: true,
+          port: 465,
           auth: {
             user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          },
-          secure: false,
-          ignoreTLS: true
+            pass: process.env.EMAIL_PASS,
+          }
         })
+
         let mailOptions = {
           from: process.env.EMAIL_USER,
-          to: "linz14@mail.ru",
+          to: process.env.EMAIL_TO,
           subject: "Milino New Order",
           text: file.filename,
           attachments: [{

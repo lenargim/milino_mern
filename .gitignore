@@ -1,7 +1,8 @@
 .idea/
 client/node_modules/
-client/src/assets/
+client/src/.DS_Store
 node_modules/
 client/build/
 .env
 /PDFs
+.DS_Store

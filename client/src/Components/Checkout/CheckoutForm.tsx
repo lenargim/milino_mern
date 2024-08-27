@@ -61,13 +61,13 @@ const CheckoutForm: FC<{ cart: CartItemType[], total: number, materials: OrderFo
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData)
                         if (serverResponse.status === 201) {
+                            resetForm();
                             setModal({open: true, status: 'Email was sended!\n\nThank you'})
                         }
                     } catch (e) {
-                        console.log(e);
+                        alert(e);
                     }
                     if (buttonType === 'download') saveAs(blob, fileName);
-                    if (buttonType === 'send') resetForm();
                 }}
         >
             {({isSubmitting}) => {

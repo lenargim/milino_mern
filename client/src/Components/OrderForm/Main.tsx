@@ -29,6 +29,7 @@ const {
     leatherColor: leatherColorArr,
     grain
 }: MaterialsType = materials;
+
 const Main: FC<MainType> = ({values, isSubmitting, isValid, setFieldValue}) => {
     const {resetForm} = useFormikContext<OrderFormType>();
     const {
