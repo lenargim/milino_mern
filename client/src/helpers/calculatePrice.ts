@@ -429,6 +429,7 @@ export function getHeightRange(priceData: pricePart[] | undefined, category: pro
     switch (category) {
         case 'Base Cabinets':
         case "Regular Vanities":
+        case "Gola Vanities":
         case "Gola Base Cabinets":
         case "Standart Base Cabinets":
             return [34.5];

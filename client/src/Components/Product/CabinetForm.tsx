@@ -82,7 +82,6 @@ const CabinetForm: FC<CabinetFormType> = ({
         initialDepth
     } = productPriceData;
     const {widthRange, heightRange, depthRange} = productRange;
-
     const widthRangeWithCustom = widthRange.concat([0]);
     const heightRangeWithCustom = heightRange.concat([0]);
     const depthRangeWithCustom = depthRange.concat([0]);
