@@ -5,12 +5,14 @@ import Main from "./Main";
 import Sidebar from "./Sidebar/Sidebar";
 import {useNavigate} from "react-router-dom";
 import {setMaterials} from "../../store/reducers/generalSlice";
-import {getInitialMaterials, useAppDispatch} from "../../helpers/helpers";
+import {getCartData, getInitialMaterials, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 
 const OrderForm = () => {
     const dispatch = useAppDispatch();
     const history = useNavigate();
     const initialValues = getInitialMaterials()
+    const cartState = useAppSelector(state => state.general.cart)
+    const {cart, total, cartLength} = getCartData(cartState,dispatch);
 
     return (
         <Formik
@@ -27,8 +29,8 @@ const OrderForm = () => {
 
                     <Form className="page">
                         <Main values={values} isSubmitting={isSubmitting} isValid={isValid}
-                              setFieldValue={setFieldValue}/>
-                        <Sidebar values={values} />
+                              setFieldValue={setFieldValue} cartLength={cartLength} cart={cart}/>
+                        <Sidebar values={values} cart={cart} total={total} cartLength={cartLength} />
                     </Form>
                 )
             }}

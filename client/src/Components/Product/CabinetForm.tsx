@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, FormEvent} from 'react';
 import {Form, Formik, FormikValues} from "formik";
 import {
     ProductInputCustom,
@@ -16,7 +16,7 @@ import {
     addToCart,
 } from "../../store/reducers/generalSlice";
 import {
-    CabinetFormType, extraPricesType, productSizesType,
+    CabinetFormType, CartExtrasType, extraPricesType, productSizesType,
 } from "../../helpers/productTypes";
 import {
     addGlassDoorPrice,
@@ -51,7 +51,7 @@ const CabinetForm: FC<CabinetFormType> = ({
                                               productPriceData,
                                               materialData,
                                               sizeLimit,
-                                              priceData,
+                                              tablePriceData,
                                               productRange
                                           }) => {
     const dispatch = useAppDispatch();
@@ -70,6 +70,7 @@ const CabinetForm: FC<CabinetFormType> = ({
         hasSolidWidth,
         hasMiddleSection,
         isCornerChoose,
+        cartExtras
     } = product;
     const {category: materialCat, premiumCoef, boxMaterialCoefs, doorPriceMultiplier, isAcrylic, doorType, doorFinish, drawer} = materialData
     const {
@@ -79,21 +80,19 @@ const CabinetForm: FC<CabinetFormType> = ({
         shelfsQty,
         rolloutsQty,
         filteredOptions, hasLedBlock,
-        initialDepth
     } = productPriceData;
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = widthRange.concat([0]);
     const heightRangeWithCustom = heightRange.concat([0]);
     const depthRangeWithCustom = depthRange.concat([0]);
 
-
     return (
         <Formik
-            initialValues={getInitialProductValues(productRange, isBlind, blindArr, doorValues, initialDepth, isCornerChoose)}
+            initialValues={getInitialProductValues(productRange, isBlind, blindArr, doorValues, isCornerChoose)}
             validationSchema={getProductSchema(sizeLimit, isAngle, hasMiddleSection)}
             onSubmit={(values: FormikValues, {resetForm}) => {
                 if (price) {
-                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price)
+                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight)
                     dispatch(addToCart(cartData))
                     resetForm();
                 }
@@ -132,7 +131,8 @@ const CabinetForm: FC<CabinetFormType> = ({
                 const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues);
                 const hingeArr = getHingeArr(doorArr || [], category);
                 checkDoors(+doors, doorArr, hingeOpening, setFieldValue)
-                checkHingeOpening(hingeOpening, hingeArr, +doors, setFieldValue)
+                checkHingeOpening(hingeOpening, hingeArr, +doors, setFieldValue);
+                const boxFromFinishMaterial:boolean = chosenOptions.includes("Box from finish material");
 
                 const doorWidth = getDoorWidth(realWidth, realBlindWidth, isBlind, isAngle);
                 const doorSquare = getDoorSquare(doorWidth, doorHeight);
@@ -141,23 +141,23 @@ const CabinetForm: FC<CabinetFormType> = ({
                 const extraPrices: extraPricesType = {
                     ptoDoors: chosenOptions.includes('PTO for doors') ? addPTODoorsPrice(attributes, type) : 0,
                     ptoDrawers: chosenOptions.includes('PTO for drawers') ? addPTODrawerPrice(type, drawersQty) : 0,
-                    ptoTrashBins: chosenOptions.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
                     glassShelf: chosenOptions.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
                     glassDoor: chosenOptions.includes('Glass Door') ? addGlassDoorPrice(doorSquare, doorProfile) : 0,
+                    ptoTrashBins: chosenOptions.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
+                    ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
                     pvcPrice: getPvcPrice(realWidth,realBlindWidth, doorHeight, isAcrylic, doorType, doorFinish),
-                    frontSquare:frontSquare,
                     doorPrice: getDoorPrice(frontSquare, doorPriceMultiplier),
                     drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, drawer, realWidth, materialCat),
-                    ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
-                    boxMaterialCoef: chosenOptions.includes("Box from finish material") ? boxMaterialCoefs.boxMaterialFinishCoef : boxMaterialCoefs.boxMaterialCoef,
+                    boxMaterialCoef: boxFromFinishMaterial ? boxMaterialCoefs.boxMaterialFinishCoef : boxMaterialCoefs.boxMaterialCoef,
+                    frontSquare,
                     premiumCoef: premiumCoef,
                     doorSquare: doorSquare
                 }
                 const allCoefs = extraPrices.boxMaterialCoef * premiumCoef;
-                const initialPrice = getInitialPrice(priceData, productRange, category, allCoefs);
+                const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
                 if (!initialPrice) return <div>Cannot find initial price</div>
 
-                const tablePrice = getTablePrice(realWidth, realHeight, realDepth, priceData, category);
+                const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
                 const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
                 const sizes: productSizesType = {
                     width: realWidth,
@@ -167,16 +167,28 @@ const CabinetForm: FC<CabinetFormType> = ({
                     maxHeight: heightRange[heightRange.length - 1],
                 }
                 const calculatedData = calculatePrice(sizes, extraPrices, productRange, startPrice, isAngle);
-                const {totalPrice, coef} = calculatedData;
+                const {totalPrice, coef, coefExtra} = calculatedData;
                 const totalDepthPrice = initialPrice * (coef.depth + 1)
 
-                extraPrices.width = getPriceForExtraWidth(initialPrice, priceData, width, coef.width, allCoefs)
-                extraPrices.height = getPriceForExtraHeight(priceData, initialPrice, width, height, allCoefs, coef.height)
+                extraPrices.width = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef.width, allCoefs)
+                extraPrices.height = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef.height)
                 extraPrices.depth = +(totalDepthPrice - initialPrice).toFixed(1);
-                extraPrices.tablePrice = tablePrice
+                extraPrices.tablePrice = tablePrice;
+
+                const cartExtras:CartExtrasType = {
+                    ptoDoors: extraPrices.ptoDoors,
+                    ptoDrawers: extraPrices.ptoDrawers,
+                    glassShelf: extraPrices.glassShelf,
+                    glassDoor: extraPrices.glassDoor,
+                    ptoTrashBins: extraPrices.ptoTrashBins,
+                    ledPrice: extraPrices.ledPrice,
+                    coefExtra,
+                    attributes,
+                    boxFromFinishMaterial
+                }
 
                 setTimeout(() => {
-                    checkProduct(price, totalPrice, type, newType, dispatch)
+                    checkProduct(price, totalPrice, type, newType, cartExtras , dispatch)
                 }, 0)
 
                 return (
@@ -249,7 +261,10 @@ const CabinetForm: FC<CabinetFormType> = ({
                             <span>Total: </span>
                             <span>{totalPrice}$</span>
                         </div>
-                        <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+                        <button
+                            type="submit"
+                            className={['button yellow'].join(' ')}
+                        >Add to cart</button>
                         <Test addition={extraPrices} coef={coef}/>
                     </Form>
                 )

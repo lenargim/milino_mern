@@ -38,7 +38,7 @@ const Room: FC<{room: RoomType}> = ({room}) => {
     return (
         <>
             <Slider room={room} category={category} setCategory={setCategory}/>
-            {category && <List category={category}/>}
+            {category && <List category={category} room={room}/>}
         </>
     )
 };

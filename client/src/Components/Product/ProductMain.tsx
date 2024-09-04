@@ -3,13 +3,13 @@ import {OrderFormType} from "../../helpers/types";
 import s from './product.module.sass'
 import {getImg, getImgSize, getProductImage} from "../../helpers/helpers";
 import {AtrrsList} from "../Cabinets/List";
-import {productType} from "../../helpers/productTypes";
+import {productType, standartProductType} from "../../helpers/productTypes";
 import StandartCabinet from "./StandartCabinet";
 import Cabinet from "./Cabinet";
 import Materials from "../../common/Materials";
 
 type ProductMainType = {
-    product: productType | null,
+    product: productType | standartProductType | null,
     materials: OrderFormType
 }
 const ProductMain: FC<ProductMainType> = ({product, materials}) => {
@@ -30,11 +30,11 @@ const ProductMain: FC<ProductMainType> = ({product, materials}) => {
             </div>
             <div className={s.right}>
                 {isStandartCabinet ?
-                    <StandartCabinet product={product}
+                    <StandartCabinet product={product as standartProductType}
                                      materials={materials}
                     /> :
                     <Cabinet
-                        product={product}
+                        product={product as productType}
                         materials={materials}
                     />
                 }

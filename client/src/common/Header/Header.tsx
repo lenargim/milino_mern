@@ -15,11 +15,11 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
         const location = useLocation();
         const path = location.pathname.slice(1);
         const cartState = useAppSelector(state => state.general.cart)
-        const {length} = getCartData(cartState,dispatch);
+        const {cartLength} = getCartData(cartState,dispatch);
         const isCabinetsPageShown = !['cabinets', ''].includes(path);
         const isChangeMaterialsPageShown = materials && path !== '';
         const isResetMaterialsShown = materials && path !== 'checkout';
-        const isCartShown = length && path !== 'checkout';
+        const isCartShown = cartLength && path !== 'checkout';
         const resetMaterials = () => {
             localStorage.removeItem('materials');
             resetForm ?
@@ -35,8 +35,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
                         'Drawer': '',
                         'Drawer Type': '',
                         'Drawer Color': '',
-                        'Leather Type': '',
-                        'Leather Color': ''
+                        'Leather Type': ''
                     },
                     submitCount: 0
                 }) : navigate('/')
@@ -52,7 +51,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
                 <div className={s.right}>
                     {isResetMaterialsShown ? <button type="button" onClick={() => resetMaterials()}>Reset</button> : null}
                     {isChangeMaterialsPageShown ? <NavLink to={"/"} className={s.link}>Change materials</NavLink> : null}
-                    {isCartShown ? <Cart length={length}/> : null}
+                    {isCartShown ? <Cart length={cartLength}/> : null}
                 </div>
             </header>
         );

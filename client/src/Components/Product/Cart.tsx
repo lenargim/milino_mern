@@ -11,7 +11,7 @@ export type changeAmountType = 'plus' | 'minus'
 const Cart:FC = () => {
     const dispatch = useAppDispatch()
     const cartState = useAppSelector(state => state.general.cart)
-    const {cart, total, length} = getCartData(cartState,dispatch);
+    const {cart, total} = getCartData(cartState,dispatch);
     return (
         <div className={[s.sidebar, s.product].join(' ')}>
             <div className={s.sidebarContent}>

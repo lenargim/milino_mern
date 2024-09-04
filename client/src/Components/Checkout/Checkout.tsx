@@ -9,7 +9,7 @@ import CheckoutForm from "./CheckoutForm";
 const Checkout = () => {
     const dispatch = useAppDispatch()
     const cartState = useAppSelector(state => state.general.cart)
-    const {cart, length, total} = getCartData(cartState,dispatch)
+    const {cart, cartLength, total} = getCartData(cartState,dispatch)
     const materialsString = localStorage.getItem('materials');
     if (!materialsString) return <Navigate to={{pathname: '/'}}/>;
     const materials = JSON.parse(materialsString)
@@ -18,10 +18,10 @@ const Checkout = () => {
             <div className="main">
                 <div className="container">
                     <Header/>
-                    {length ? <CheckoutForm cart={cart} total={total} materials={materials}/> : <CartEmpty/>}
+                    {cartLength ? <CheckoutForm cart={cart} total={total} materials={materials}/> : <CartEmpty/>}
                 </div>
             </div>
-            <Sidebar values={materials}/>
+            <Sidebar values={materials} total={total} cartLength={cartLength} cart={cart}/>
         </div>
     );
 };

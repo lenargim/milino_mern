@@ -1,13 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {OrderFormType} from "../../helpers/types";
 import {
-    attrItem,
+    attrItem, CartExtrasType,
     customPartDataType,
-    productCategory,
+    productCategory, productDataType,
     productType,
-    productTypings
+    productTypings, standartProductType
 } from "../../helpers/productTypes";
-import {getCartTotal} from "../../helpers/helpers";
 import {LEDAccessoriesType} from "../../Components/CustomPart/LEDForm";
 import {DoorAccessoiresType} from "../../Components/CustomPart/DoorAccessoiresForm";
 import {DoorType} from "../../Components/CustomPart/StandartDoorForm";
@@ -15,10 +14,9 @@ import {DoorType} from "../../Components/CustomPart/StandartDoorForm";
 
 interface GeneralState {
     materials: OrderFormType | null,
-    product: productType | null,
+    product: productType | standartProductType | null,
     customPart: customPartDataType | null,
     cart: CartItemType[]
-    // cartTotal: number
 }
 
 export type CartItemType = {
@@ -60,6 +58,7 @@ export type productExtraType = {
     blindWidth?: number,
     hinge: 'Left' | 'Right' | 'Double Doors',
     corner?: 'Left' | 'Right',
+    legsHeight: number,
     options: string[],
     doorProfile?: string,
     doorGlassType?: string,
@@ -73,7 +72,8 @@ export type productExtraType = {
         alignment: string,
         indent?: number
     },
-    leather?: string
+    leather?: string,
+    cartExtras: CartExtrasType
 }
 
 export type customPartExtraType = {
@@ -96,17 +96,29 @@ export interface productChangeMaterialType extends CartItemType {
     customDepth?: number,
 }
 
+const initialCartExtras = {
+    ptoDoors: 0,
+    ptoDrawers: 0,
+    glassShelf: 0,
+    glassDoor: 0,
+    ptoTrashBins: 0,
+    ledPrice: 0,
+    coefExtra:0,
+    attributes: [],
+    boxFromFinishMaterial: false
+}
+
 const initialState: GeneralState = {
     materials: null,
     product: null,
     customPart: null,
     cart: [],
-    // cartTotal: 0
 }
 
 type updateProductType = {
     type: productTypings,
-    price: number
+    price: number,
+    cartExtras:CartExtrasType
 }
 type updateProductAmountType = {
     uuid: string,
@@ -120,8 +132,14 @@ export const generalSlice = createSlice({
         setMaterials: (state, action: PayloadAction<OrderFormType | null>) => {
             state.materials = action.payload
         },
-        setProduct: (state, action: PayloadAction<productType | null>) => {
-            state.product = action.payload
+        setProduct: (state, action: PayloadAction<productDataType | null>) => {
+            const payload = action.payload;
+            if (payload) {
+                state.product = {...payload, type: 1, price: 0, cartExtras: initialCartExtras}
+            } else {
+                state.product = null;
+            }
+
         },
         setCustomPart: (state, action: PayloadAction<customPartDataType | null>) => {
             state.customPart = action.payload
@@ -132,6 +150,14 @@ export const generalSlice = createSlice({
         },
         fillCart: (state, action: PayloadAction<CartItemType[]>) => {
             state.cart = action.payload;
+        },
+        updateCartItemPrice: (state, action: PayloadAction<{uuid:string, price:number}>) => {
+            const cartItem = state.cart.find(itemEl => itemEl.uuid === action.payload.uuid);
+            if (cartItem) {
+                cartItem.price = action.payload.price;
+                const foundIndex = state.cart.findIndex(x => x.uuid == cartItem.uuid);
+                state.cart[foundIndex] = cartItem;
+            }
         },
         deleteItemFromCart: (state, action: PayloadAction<string>) => {
             state.cart = state.cart.filter(item => item.uuid !== action.payload);
@@ -145,8 +171,10 @@ export const generalSlice = createSlice({
             if (state.product) {
                 state.product.price = action.payload.price;
                 state.product.type = action.payload.type;
+                state.product.cartExtras = action.payload.cartExtras;
             }
         },
+
         updateProductAmount: (state, action: PayloadAction<updateProductAmountType>) => {
             const product = state.cart.find(el => el.uuid === action.payload.uuid);
             if (product) {
@@ -167,6 +195,7 @@ export const {
     removeCart,
     fillCart,
     updateProductAmount,
+    updateCartItemPrice
 } = generalSlice.actions
 
 export default generalSlice.reducer

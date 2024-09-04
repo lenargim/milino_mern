@@ -62,12 +62,22 @@ export type materialsLimitsType = {
 
 export interface productType extends productDataType {
     type: productTypings,
-    height: number,
-    depth: number,
     price: number,
     doorSquare?: number,
     widthDivider?: number,
     heightRange?: number,
+    cartExtras:CartExtrasType
+}
+
+export interface standartProductType extends productDataType {
+    type: productTypings,
+    price: number,
+    height: number,
+    depth: number,
+    doorSquare?: number,
+    widthDivider?: number,
+    heightRange?: number,
+    cartExtras:CartExtrasType
 }
 
 export type materialDataType = {
@@ -82,7 +92,7 @@ export type materialDataType = {
     doorType: string,
     doorFinish: string,
     drawer: drawerInterface,
-    leather?: string
+    leatherType?: string
 }
 
 
@@ -177,13 +187,13 @@ export type CabinetFormType = {
     product: productType,
     productPriceData: productDataToCalculatePriceType,
     sizeLimit: sizeLimitsType,
-    priceData: pricePart[],
+    tablePriceData: pricePart[],
     productRange: productRangeType,
     materialData: materialDataType
 }
 
 export type StandartCabinetType = {
-    product: productType,
+    product: standartProductType,
     materials: OrderFormType,
 }
 
@@ -194,7 +204,7 @@ export type standartMaterialDataType = {
 }
 
 export type StandartCabinetFormType = {
-    product: productType,
+    product: standartProductType,
     standartProductPriceData: standartProductDataToCalculatePriceType,
     sizeLimit: sizeLimitsType,
     baseProductPrice: pricePart[],
@@ -255,8 +265,7 @@ export type productDataToCalculatePriceType = {
     rolloutsQty: number,
     blindArr?: number[],
     filteredOptions: string[],
-    hasLedBlock: boolean,
-    initialDepth: number
+    hasLedBlock: boolean
 }
 
 export type standartProductDataToCalculatePriceType = {
@@ -280,4 +289,16 @@ export type productSizesType = {
     depth: number,
     maxWidth: number,
     maxHeight: number
+}
+
+export type CartExtrasType = {
+    ptoDoors: number,
+    ptoDrawers: number,
+    glassShelf: number,
+    glassDoor: number,
+    ptoTrashBins: number,
+    ledPrice: number,
+    coefExtra:number,
+    attributes: attrItem[],
+    boxFromFinishMaterial: boolean
 }

@@ -14,7 +14,7 @@ const CustomPart: FC = () => {
     const materials: OrderFormType = materialsString ? JSON.parse(materialsString) : <Navigate to={{pathname: '/'}}/>;
     const {Category} = materials;
     let {productId} = useParams();
-    const customParts = Category && productId ? getcustomParts() : [];
+    const customParts = Category && productId ? getcustomParts(Category) : [];
     const customPart = customParts.find(part => (part.id).toString() === productId);
     if (!customPart ) return <Navigate to={{pathname: '/cabinets'}}/>;
     localStorage.setItem('category', 'Custom Parts');

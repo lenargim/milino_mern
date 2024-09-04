@@ -41,10 +41,5 @@ export const OrderFormSchema = Yup.object({
         .when('Category', {
             is: 'Leather Closet',
             then: schema => schema.required('Please write Leather Type')
-        }),
-    'Leather Color': Yup.string()
-        .when('Category', {
-            is: 'Leather Closet',
-            then: schema => schema.required('Please write Leather Color')
         })
 })

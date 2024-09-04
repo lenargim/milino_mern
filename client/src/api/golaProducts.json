@@ -161,10 +161,6 @@
       {
         "type": 1,
         "value": "GC/PBG.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PBG.webp"
       }
     ],
     "attributes": [
@@ -178,7 +174,7 @@
         ]
       },
       {
-        "name": "Drawer",
+        "name": "Rollout",
         "values": [
           {
             "type": 1,
@@ -192,17 +188,12 @@
           {
             "type": 1,
             "value": 1
-          },
-          {
-            "type": 2,
-            "value": 2
           }
         ]
       }
     ],
     "widthDivider": 15,
     "options": [
-      "PTO for drawers",
       "PTO for Trash Bins",
       "Box from finish material",
       "Glass Door"

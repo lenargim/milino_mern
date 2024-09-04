@@ -4862,7 +4862,7 @@
       ]
     }
   ],
-  "leatherType": [
+  "leatherBoxMaterial": [
     {
       "value": "Luxe",
       "img": "luxe.jpg"
@@ -4896,7 +4896,7 @@
       "img": "milino.jpg"
     }
   ],
-  "leatherColor": [
+  "leatherType": [
     {
       "value": "Goya 1523",
       "img": "Goya 1523.jpg"

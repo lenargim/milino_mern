@@ -50,7 +50,7 @@ const StandartDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) 
         Note: '',
     }
 
-    const doorColors = settings.doorColors as string[]
+    const doorColors = settings.doorColors as string[];
     const doorColorsArr = doorColors.map(el => ({value: el, label: el}))
 
     const doorSizes = type === 'standart-door' ? settings.standartDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];

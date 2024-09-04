@@ -6,14 +6,18 @@ import Cart from "./Cart";
 import {Navigate, useParams} from "react-router-dom";
 import {OrderFormType} from "../../helpers/types";
 import {getProductsByCategory, useAppDispatch, useAppSelector} from "../../helpers/helpers";
-import {productCategory, productDataType, productType, productTypings} from "../../helpers/productTypes";
+import {
+    productCategory,
+    productDataType,
+    productType,
+    productTypings,
+    standartProductType
+} from "../../helpers/productTypes";
 import {setProduct} from "../../store/reducers/generalSlice";
-type initialDataType = {
-    type: productTypings,
-    height: number,
-    depth: number,
-    price: number
-}
+// type initialDataType = {
+//     type: productTypings,
+//     price: number
+// }
 
 const Product: FC = () => {
     const dispatch = useAppDispatch()
@@ -27,9 +31,9 @@ const Product: FC = () => {
     localStorage.setItem('category', category);
 
     if (!storeProduct || storeProduct.id !== productById.id) {
-        const initialData: initialDataType = {type: 1, height: 0, depth: 0, price: 0}
-        const initialProduct:productType = {...productById, ...initialData};
-        dispatch(setProduct(initialProduct));
+        // const initialData: initialDataType = {type: 1, price: 0}
+        // const initialProduct:productType|standartProductType = {...productById, ...initialData};
+        dispatch(setProduct(productById));
     }
     return (
         <div className={s.wrap}>

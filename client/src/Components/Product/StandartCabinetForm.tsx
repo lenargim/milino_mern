@@ -16,6 +16,7 @@ import {
     addToCart,
 } from "../../store/reducers/generalSlice";
 import {
+    CartExtrasType,
     extraStandartPricesType, StandartCabinetFormType,
 } from "../../helpers/productTypes";
 import {
@@ -65,6 +66,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
         isAngle,
         hasMiddleSection,
         isCornerChoose,
+        cartExtras
     } = product;
     const {
         doorValues,
@@ -83,7 +85,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
             validationSchema={getStandartProductSchema(sizeLimit, isAngle)}
             onSubmit={(values: FormikValues, {resetForm}) => {
                 if (price) {
-                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price)
+                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight)
                     dispatch(addToCart(cartData))
                     resetForm();
                 }
@@ -133,12 +135,13 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                 const extraPrices: extraStandartPricesType = {
                     ptoDoors: chosenOptions.includes('PTO for doors') ? addPTODoorsPrice(attributes, type) : 0,
                     ptoDrawers: chosenOptions.includes('PTO for drawers') ? addPTODrawerPrice(type, drawersQty) : 0,
-                    ptoTrashBins: chosenOptions.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
                     glassShelf: chosenOptions.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
                     glassDoor: chosenOptions.includes('Glass Door') ? addGlassDoorPrice(doorSquare, doorProfile) : 0,
-                    ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
+                    ptoTrashBins: chosenOptions.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
+
                     doorPrice: getDoorPrice(doorSquare, 37.8),
                     drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, drawer, realWidth, materialCat),
+                    ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
                     boxMaterialCoef: boxMaterialCoef,
                     doorSquare: doorSquare,
                 }
@@ -152,13 +155,26 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                 const startPrice: number = getStandartStartPrice(realDepth, boxMaterialCoef, sizeLimit, tablePrice);
 
                 const calculatedStandartData = calculateStandartData(startPrice, extraPrices, realDepth, depthRange, isAngle);
-                const {totalPrice, coefDepth} = calculatedStandartData
+                const {totalPrice, coefDepth, coefExtra} = calculatedStandartData
                 const totalDepthPrice = initialPrice * (coefDepth + 1);
                 extraPrices.depth = +(totalDepthPrice - initialPrice).toFixed(1);
-                extraPrices.tablePrice = tablePrice
+                extraPrices.tablePrice = tablePrice;
+
+                const cartExtras:CartExtrasType = {
+                    ptoDoors: extraPrices.ptoDoors,
+                    ptoDrawers: extraPrices.ptoDrawers,
+                    glassShelf: extraPrices.glassShelf,
+                    glassDoor: extraPrices.glassDoor,
+                    ptoTrashBins: extraPrices.ptoTrashBins,
+                    ledPrice: extraPrices.ledPrice,
+                    coefExtra,
+                    attributes,
+                    boxFromFinishMaterial: false
+                }
+
 
                 setTimeout(() => {
-                    checkProduct(price, totalPrice, type, newType, dispatch)
+                    checkProduct(price, totalPrice, type, newType, cartExtras, dispatch)
                 }, 0)
 
                 return (

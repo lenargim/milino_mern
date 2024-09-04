@@ -14,11 +14,12 @@ import {
     productDataType,
     productTypings
 } from "../../helpers/productTypes";
+import {RoomType} from "../../helpers/categoriesTypes";
 
-const List: FC<{ category: productCategory }> = ({category}) => {
+const List: FC<{ category: productCategory, room: RoomType }> = ({category, room}) => {
     switch (category) {
         case "Custom Parts":
-            const customParts = getcustomParts();
+            const customParts = getcustomParts(room);
             return (
                 customParts.length ?
                     <div className={s.list}>
