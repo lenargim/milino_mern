@@ -17,8 +17,10 @@ type CustomPartFormType = {
     materials: OrderFormType
 }
 export type GlassShelfValuesType = {
-    Width: number,
-    Height: number,
+    Width: string,
+    Height: string,
+    ['Width Number']: number,
+    ['Height Number']: number,
     Depth: number,
 
     Note: string,
@@ -54,8 +56,10 @@ const GlassShelfForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     const sizeLimitInitial = materialsRange?.find(el => doorFinish.includes(el.name))?.limits ?? materialsRange?.find(el => doorType === el.name)?.limits ?? limits ?? {};
 
     const initialValues: GlassShelfFormValuesType = {
-        'Width': widthConst ?? getLimit(sizeLimitInitial.width),
-        'Height': getLimit(sizeLimitInitial.height),
+        'Width': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)).toString(),
+        'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
+        'Width Number': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)),
+        'Height Number': Math.ceil(getLimit(sizeLimitInitial.height)),
         'Depth': depthConst ?? getLimit(sizeLimitInitial.depth),
         price: 170,
         'Note': ''

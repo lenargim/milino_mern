@@ -97,6 +97,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                     ['Height']: height,
                     ['Depth']: depth,
                     ['Custom Depth']: customDepth,
+                    ['Custom Depth Number']: customDepthNumber,
                     ['Doors']: doors,
                     ['Blind Width']: blindWidth,
                     ['Hinge opening']: hingeOpening,
@@ -116,7 +117,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                 const realBlindWidth: number = +blindWidth ?? 0;
                 const realHeight = +height ?? 0;
                 const doorHeight: number = realHeight ? realHeight - legsHeight : 0;
-                const realDepth: number = isAngle ? realWidth : (+depth || +customDepth || 0);
+                const realDepth: number = isAngle ? realWidth : (+depth || +customDepthNumber || 0);
                 if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
 
                 const validHeightRange = getValidHeightRange(realWidth, heightRange, baseProductPrice);

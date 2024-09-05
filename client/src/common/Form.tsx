@@ -1,10 +1,10 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import styles from './Form.module.sass'
 import {useField, ErrorMessage, Field} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
-import {getFraction} from "../helpers/helpers";
+import {getFraction, getSizeNumberRegex} from "../helpers/helpers";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -142,26 +142,25 @@ export const RadioInputGrain: FC<RadioInterface> = ({name, value, className, img
     )
 }
 
-export const  ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> = ({
+export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> = ({
                                                                                       name,
                                                                                       value,
                                                                                       className,
                                                                                       nullable = false
                                                                                   }) => {
-    const [, , helpers] = useField(name)
+    const [field, , helpers] = useField(name)
     const label = nullable ? value : value ? getFraction(value) : `Custom ${name}`;
-
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
-
 
 
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
                 onChange={(e: any) => convert(e.target)}
-                type="radio" name={name} value={value}
+                type="radio" name={name}
+                value={value}
                 id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`}
                    className={styles.radioLabel}><span>{label}</span></label>
@@ -190,7 +189,7 @@ type checkboxType = {
 }
 export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, inputIndex}) => {
 
-    const [, meta, ] = useField(name);
+    const [, meta,] = useField(name);
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
@@ -198,22 +197,45 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
                 id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`}
                    className={styles.radioLabel}><span>{value}</span></label>
-            {inputIndex === 0 && meta.error  && <div className={styles.error}>{meta.error}</div>}
+            {inputIndex === 0 && meta.error && <div className={styles.error}>{meta.error}</div>}
         </div>
     )
 }
 
-export const ProductInputCustom: FC<ProductDimensionRadioCustomInterface> = ({name, value, className, label}) => {
+
+
+
+export const ProductInputCustom: FC<{ name: string, value: string | null, label?: string }> = ({
+                                                                                                   name,
+                                                                                                   value,
+                                                                                                   label
+                                                                                               }) => {
+    const [field] = useField(name);
+    const [fieldNumber, _, helpers] = useField(name + ' Number');
+    const result = getSizeNumberRegex(field.value.toString());
+
+    useEffect(() => {
+        if (fieldNumber.value !== result) helpers.setValue(result);
+    }, [result])
+
+
     return (
-        <div className={[className, styles.productText].join(' ')}>
+        <div className={[styles.productText].join(' ')}>
             <label htmlFor={name}>
                 <Field
-                    type="number"
+                    type="text"
                     name={name}
                     id={name}
-                    placeholder={label || name}
+                    placeholder={label ?? `Example: 12 5/8″`}
                 />
             </label>
+            <Field
+                className={'hidden'}
+                type="number"
+                name={name + ' Number'}
+                id={name}
+                readOnly={true}
+            />
             <ErrorMessage name={name} component="div" className={styles.error}/>
         </div>
     )

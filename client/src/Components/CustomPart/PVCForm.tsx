@@ -17,7 +17,8 @@ type PVCFormType = {
     materials: OrderFormType
 }
 export type PVCValuesType = {
-    Width: number,
+    Width: string,
+    ['Width Number']: number,
     Material: string,
 }
 
@@ -47,7 +48,8 @@ const PVCForm: FC<PVCFormType> = ({customPart, materials}) => {
     const sizeLimitInitial = materialsRange?.find(el => doorFinish.includes(el.name))?.limits || {};
 
     const initialValues: PVCFormValuesType = {
-        Width: getLimit(sizeLimitInitial.width),
+        Width: getLimit(sizeLimitInitial.width).toString(),
+        ['Width Number']: getLimit(sizeLimitInitial.width),
         Material: initialMaterial,
         price: 0,
         Note: ''
@@ -68,12 +70,13 @@ const PVCForm: FC<PVCFormType> = ({customPart, materials}) => {
             {({values, setFieldValue}) => {
                 const {
                     ['Width']: width,
+                    ['Width Number']: widthNumber,
                     ['Material']: material,
                     ['Note']: note,
                     price: price
                 } = values;
 
-                const priceNew = getCustomPartPVCPrice(width, material);
+                const priceNew = getCustomPartPVCPrice(widthNumber, material);
 
                 setTimeout(() => {
                     if (price !== priceNew) setFieldValue('price', priceNew);
@@ -82,7 +85,7 @@ const PVCForm: FC<PVCFormType> = ({customPart, materials}) => {
                 return (
                     <Form>
                         <div className={s.block}>
-                            <h3>PVC Width(ft)</h3>
+                            <h3>PVC Length(ft)</h3>
                             <div className={s.options}>
                                 <ProductInputCustom value={null} name={'Width'}/>
                             </div>

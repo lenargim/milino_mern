@@ -22,7 +22,7 @@ import closetProducts from '../api/closets.json'
 import standartBaseProducts from '../api/standartProducts.json'
 import settings from "../api/settings.json";
 import {v4 as uuidv4} from "uuid";
-import {FormikValues} from "formik";
+import {FormikValues, useField} from "formik";
 import {LEDFormValuesType} from "../Components/CustomPart/LEDForm";
 import {DoorAccessoiresValuesType} from "../Components/CustomPart/DoorAccessoiresForm";
 import {GlassDoorFormValuesType} from "../Components/CustomPart/GlassDoorForm";
@@ -83,18 +83,92 @@ export const getCartTotal = (cart: CartItemType[]): number => {
 export const getFraction = (number: number): string => {
     if (Number.isInteger(number)) return number.toString();
     const floor = Math.floor(number);
-    const reminder = (number - floor);
+    const reminder = +(number - floor).toFixed(3);
     const quarters = {
         0.125: '⅛',
-        0.25: '¼',
+        0.250: '¼',
         0.375: '⅜',
-        0.5: '½',
+        0.500: '½',
         0.625: '⅝',
-        0.75: '¾',
-        0.875: '⅞'
+        0.750: '¾',
+        0.875: '⅞',
+        0.333: '⅓',
+        0.667: '⅔',
+        0.200: '⅕',
+        0.400: '⅖',
+        0.600: '⅗',
+        0.800: '⅘',
+        0.167: '⅙',
+        0.833: '⅚',
+        0.143: '⅐',
+        0.286: '2/7',
+        0.429: '3/7',
+        0.571: '4/7',
+        0.714: '5/7',
+        0.857: '6/7',
+        0.111: '1/9',
+        0.222: '2/9',
+        0.444: '4/9',
+        0.556: '5/9',
+        0.778: '7/9',
+        0.889: '8/9',
+        0.100: '1/10',
+        0.300: '3/10',
+        0.700: '7/10',
+        0.900: '9/10',
+        0.091: '1/11',
+        0.182: '2/11',
+        0.273: '3/11',
+        0.364: '4/11',
+        0.455: '5/11',
+        0.545: '6/11',
+        0.636: '7/11',
+        0.727: '8/11',
+        0.818: '9/11',
+        0.909: '10/11',
+        0.083: '1/12',
+        0.417: '5/12',
+        0.583: '7/12',
+        0.917: '11/12',
+
+
+
+
+
+
+
+
+
+
     };
     const currQ = Object.entries(quarters).find((el) => el[0] === reminder.toString());
-    return currQ ? `${floor > 0 ? floor : ''} ${currQ[1]}` : number.toString()
+    return currQ ? `${floor > 0 ? floor : ''} ${currQ[1]}` : number.toFixed(3);
+}
+
+
+export const getDivider = (fraction: string): number => {
+    const beforeFraction = Number(fraction.substring(0, fraction.indexOf('/')));
+    const afterFraction = Number(fraction.substring(fraction.indexOf('/') + 1));
+    if (beforeFraction < afterFraction) return beforeFraction / afterFraction;
+    return 0;
+}
+
+export const getSizeNumberRegex = (sizeString: string):number => {
+    if (sizeString) {
+        const trimLetters = sizeString.replace(/[^0-9\s//]/g, '');
+        const template = trimLetters.match(/\d{1,}\s\d{1,}\/\d{1,}|\d{1,}\/\d{1,}|\d{1,}/);
+        if (!template) return 0;
+        if (template[0].match(/\d{1,}\s\d{1,}\/\d{1,}/)) {
+            const spaceIndex = template[0].indexOf(" ");
+            const main = Number(template[0].substring(0, spaceIndex));
+            return main + getDivider(template[0].substring(spaceIndex + 1));
+        } else if (template[0].match(/\d{1,}\/\d{1,}/)) {
+            return getDivider(template[0])
+        } else {
+            return Number(template[0])
+        }
+    }
+    return 0
 }
 
 
@@ -170,6 +244,10 @@ interface initialValuesType extends initialStandartValues {
     "Custom Width": string,
     'Custom Blind Width': string,
     'Custom Height': string,
+    "Custom Width Number": string,
+    'Custom Blind Width Number': string,
+    'Custom Height Number': string,
+    'Custom Depth Number': string,
 }
 
 
@@ -185,6 +263,10 @@ export const getInitialProductValues = (productRange: productRangeType, isBlind:
         ['Custom Blind Width']: '',
         ['Custom Height']: '',
         ['Custom Depth']: '',
+        ['Custom Width Number']: '',
+        ['Custom Blind Width Number']: '',
+        ['Custom Height Number']: '',
+        ['Custom Depth Number']: '',
         ['Doors']: doorValues && doorValues[0]?.value || 0,
         ['Hinge opening']: doorValues && settings["Hinge opening"][0] || '',
         ['Corner']: isCornerChoose ? 'Left' : '',
@@ -239,16 +321,16 @@ export const getLimit = (d: number[] | undefined): number => {
     return d ? d[0] : 0
 }
 
-export const addToCartData = (values: FormikValues, type: productTypings, id: number, isBlind: boolean, images: itemImg[], name: string, hasMiddleSection: true | undefined, category: productCategory, price: number, cartExtras:CartExtrasType, legsHeight:number) => {
+export const addToCartData = (values: FormikValues, type: productTypings, id: number, isBlind: boolean, images: itemImg[], name: string, hasMiddleSection: true | undefined, category: productCategory, price: number, cartExtras: CartExtrasType, legsHeight: number) => {
     const {
         ['Width']: width,
         ['Blind Width']: blindWidth,
         ['Height']: height,
         ['Depth']: depth,
-        ['Custom Width']: customWidth,
-        ['Custom Blind Width']: customBlindWidth,
-        ['Custom Height']: customHeight,
-        ['Custom Depth']: customDepth,
+        ['Custom Width Number']: customWidth,
+        ['Custom Blind Width Number']: customBlindWidth,
+        ['Custom Height Number']: customHeight,
+        ['Custom Depth Number']: customDepth,
         ['Hinge opening']: hinge,
         ['Corner']: corner,
         Options: chosenOptions,
@@ -287,6 +369,8 @@ export const addToCartData = (values: FormikValues, type: productTypings, id: nu
         legsHeight,
         cartExtras
     };
+
+    console.log(extra.depth)
 
     if (isBlind) {
         extra.blindWidth = blindWidth || customBlindWidth;
@@ -327,9 +411,9 @@ export const addToCartData = (values: FormikValues, type: productTypings, id: nu
 
 export const addToCartCustomPart = (values: FormikValues, id: number, price: number | undefined, image: string, name: string, category: productCategory) => {
     const {
-        ['Width']: width,
-        ['Height']: height,
-        ['Depth']: depth,
+        ['Width Number']: width,
+        ['Height Number']: height,
+        ['Depth Number']: depth,
         ['Material']: material,
         ['Note']: note,
     } = values;
@@ -351,13 +435,14 @@ export const addToCartCustomPart = (values: FormikValues, id: number, price: num
             depth: depth || 0,
         }
     }
+
     return cartData
 }
 
 export const addToCartGlassDoor = (values: GlassDoorFormValuesType, id: number, image: string, name: string, category: productCategory) => {
     const {
-        ['Width']: width,
-        ['Height']: height,
+        ['Width Number']: width,
+        ['Height Number']: height,
         ['Depth']: depth,
         ['Material']: material,
         Profile: doorProfile,
@@ -396,8 +481,8 @@ export const addToCartGlassDoor = (values: GlassDoorFormValuesType, id: number, 
 
 export const addToCartGlassShelf = (values: GlassShelfFormValuesType, id: number, image: string, name: string, category: productCategory) => {
     const {
-        ['Width']: width,
-        ['Height']: height,
+        ['Width Number']: width,
+        ['Height Number']: height,
         ['Depth']: depth,
         Color: shelfColor,
         ['Note']: note,
@@ -429,7 +514,7 @@ export const addToCartGlassShelf = (values: GlassShelfFormValuesType, id: number
 
 export const addToCartPVC = (values: PVCFormValuesType, id: number, image: string, name: string, category: productCategory) => {
     const {
-        ['Width']: pvcFeet,
+        ['Width Number']: pvcFeet,
         ['Material']: material,
         ['Note']: note,
         price
@@ -579,7 +664,7 @@ export const checkHingeOpening = (hingeOpening: string, hingeArr: string[], door
 }
 
 
-export const checkProduct = (price: number, totalPrice: number, type: productTypings, newType: productTypings, cartExtras:CartExtrasType, dispatch: Function) => {
+export const checkProduct = (price: number, totalPrice: number, type: productTypings, newType: productTypings, cartExtras: CartExtrasType, dispatch: Function) => {
     if (price !== totalPrice || type !== newType) {
         dispatch(updateProduct({
             type: newType,

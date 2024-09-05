@@ -6,7 +6,8 @@ import {ProductInputCustom} from "../../common/Form";
 
 export type alProfileType = {
     uuid: string,
-    length: number,
+    length: string,
+    ['length Number']: number,
     qty: number
 }
 

@@ -10,7 +10,8 @@ type colorOption = 'Black' | 'White';
 
 export type golaProfileType = {
     uuid: string,
-    length: number,
+    length: string,
+    ['length Number']: number,
     color:  colorOption,
     qty: number,
 }

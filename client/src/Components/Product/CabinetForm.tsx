@@ -108,6 +108,13 @@ const CabinetForm: FC<CabinetFormType> = ({
                     ['Custom Height']: customHeight,
                     ['Custom Depth']: customDepth,
                     ['Custom Blind Width']: customBlindWidth,
+
+                    ['Custom Width Number']: customWidthNumber,
+                    ['Custom Height Number']: customHeightNumber,
+                    ['Custom Depth Number']: customDepthNumber,
+                    ['Custom Blind Width Number']: customBlindWidthNumber,
+
+
                     ['Doors']: doors,
                     Options: chosenOptions,
                     ['Door Profile']: doorProfile,
@@ -119,14 +126,14 @@ const CabinetForm: FC<CabinetFormType> = ({
                     ['Hinge opening']: hingeOpening,
                     'LED borders': ledBorders,
                     'LED alignment': ledAlignment,
-                    'LED indent': ledIndent
+                    'LED indent': ledIndent,
                 } = values;
 
-                const realWidth: number = +width || +customWidth || 0;
-                const realBlindWidth: number = +blindWidth || +customBlindWidth || 0;
-                const realHeight = +height || +customHeight || 0;
+                const realWidth: number = +width || +customWidthNumber || 0;
+                const realBlindWidth: number = +blindWidth || +customBlindWidthNumber || 0;
+                const realHeight = +height || +customHeightNumber || 0;
                 const doorHeight: number = realHeight ? realHeight - legsHeight : 0;
-                const realDepth: number = !isAngle ? (+depth || customDepth || 0) : realWidth;
+                const realDepth: number = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
                 if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
                 const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues);
                 const hingeArr = getHingeArr(doorArr || [], category);
@@ -136,7 +143,7 @@ const CabinetForm: FC<CabinetFormType> = ({
 
                 const doorWidth = getDoorWidth(realWidth, realBlindWidth, isBlind, isAngle);
                 const doorSquare = getDoorSquare(doorWidth, doorHeight);
-                const frontSquare = getSquare(width, doorHeight);
+                const frontSquare = getSquare(realWidth, doorHeight);
                 const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
                 const extraPrices: extraPricesType = {
                     ptoDoors: chosenOptions.includes('PTO for doors') ? addPTODoorsPrice(attributes, type) : 0,

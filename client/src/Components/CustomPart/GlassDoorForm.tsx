@@ -19,8 +19,10 @@ type CustomPartFormType = {
     materials: OrderFormType
 }
 export type GlassDoorValuesType = {
-    Width: number,
-    Height: number,
+    Width: string,
+    Height: string,
+    ['Width Number']: number,
+    ['Height Number']: number,
     Depth: number,
     Material?: string,
     Note: string,
@@ -64,14 +66,15 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     const sizeLimitInitial = currentMaterialData?.limits ?? limits ?? {};
 
     const initialValues: GlassDoorFormValuesType = {
-        'Width': widthConst ?? getLimit(sizeLimitInitial.width),
-        'Height': getLimit(sizeLimitInitial.height),
+        'Width': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)).toString(),
+        'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
         'Depth': depthConst ?? getLimit(sizeLimitInitial.depth),
+        'Width Number': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)),
+        'Height Number': Math.ceil(getLimit(sizeLimitInitial.height)),
         'Material': currentMaterialData?.name,
         price: 0,
         'Note': ''
     }
-
 
     return (
         <Formik
@@ -90,6 +93,8 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
                     ['Width']: width,
                     ['Height']: height,
                     ['Depth']: depth,
+                    ['Width Number']: widthNumber,
+                    ['Height Number']: heightNumber,
                     ['Profile']: doorProfile,
                     ['Type']: doorType,
                     ['Color']: doorColor,
@@ -99,19 +104,13 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
                     return el.type === doorType
                 });
 
-
                 const colorVal = getSelectValfromVal(doorColor, doorColorsFiltered ?? []);
-
                 const profileNumber: number | undefined = doorProfiles?.find(el => el.value === doorProfile)?.glassDoorType
-
-
-                const priceNew = +(getGlassDoorPrice(name, width, height, doorFinish, profileNumber)).toFixed(1);
-
+                const priceNew = +(getGlassDoorPrice(name, widthNumber, heightNumber, doorFinish, profileNumber)).toFixed(1);
 
                 setTimeout(() => {
                     if (price !== priceNew) setFieldValue('price', priceNew);
                 }, 0);
-
 
                 return (
                     <Form>

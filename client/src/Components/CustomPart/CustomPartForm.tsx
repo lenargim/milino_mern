@@ -18,9 +18,12 @@ type CustomPartFormType = {
     materials: OrderFormType
 }
 export type CustomPartFormValuesType = {
-    Width: number,
-    Height: number,
-    Depth: number,
+    Width: string,
+    Height: string,
+    Depth: string,
+    ['Width Number']: number,
+    ['Height Number']: number,
+    ['Depth Number']: number,
     Material: string,
     Note: string,
 }
@@ -54,9 +57,12 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     const initialDepth = isDepthConst ?? getLimit(sizeLimitInitial.depth);
 
     const initialValues: CustomPartFormValuesType = {
-        'Width': widthConst ?? getLimit(sizeLimitInitial.width),
-        'Height': getLimit(sizeLimitInitial.height),
-        'Depth': initialDepth,
+        'Width': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)).toString(),
+        'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
+        'Depth': Math.ceil(initialDepth).toString(),
+        'Width Number': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)),
+        'Height Number': Math.ceil(getLimit(sizeLimitInitial.height)),
+        'Depth Number': Math.ceil(initialDepth),
         'Material': currentMaterialData.name,
         'Note': ''
     }
@@ -76,10 +82,13 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
                     ['Width']: width,
                     ['Height']: height,
                     ['Depth']: depth,
+                    ['Width Number']: widthNumber,
+                    ['Height Number']: heightNumber,
+                    ['Depth Number']: depthNumber,
                     ['Material']: material,
                 } = values;
 
-                const priceNew = +(getCustomPartPrice(name, width, height, depth, material)).toFixed(1);
+                const priceNew = +(getCustomPartPrice(name, widthNumber, heightNumber, depthNumber, material)).toFixed(1);
 
                 setTimeout(() => {
                     if (price !== priceNew) dispatch(setCustomPart({...customPart, price: priceNew}));
@@ -88,7 +97,7 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
                 if (currentMaterialData && currentMaterialData.depth) {
                     const curMaterial = values.Material;
                     const newDepth = materialsRange?.find(el => el.name === curMaterial)?.depth;
-                    if (depth !== newDepth) setFieldValue('Depth', newDepth);
+                    if (depthNumber !== newDepth) setFieldValue('Depth', newDepth);
                 }
                 return (
                     <Form>

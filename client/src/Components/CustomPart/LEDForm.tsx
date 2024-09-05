@@ -61,6 +61,7 @@ const LEDForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
                             setFieldValue('LED Aluminum Profiles', [...alumProfiles, {
                                 uuid: uuidv4(),
                                 length: '',
+                                ['length Number']: 0,
                                 qty: 1
                             }])
                             break;
@@ -68,6 +69,7 @@ const LEDForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
                             setFieldValue('LED Gola Profiles', [...golaProfiles, {
                                 uuid: uuidv4(),
                                 length: '',
+                                ['length Number']: 0,
                                 color: 'Black',
                                 qty: 1
                             }])
@@ -142,8 +144,8 @@ const getPrice = (values: LEDFormValuesType): number => {
         "Door Sensor": doorSensor,
         "Transformer": transformer
     } = values;
-    const alumProfPrice = alumProf.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
-    const golaProfPrice = golaProf.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
+    const alumProfPrice = alumProf.reduce((acc, profile) => acc + (profile['length Number'] * 2.55 * profile.qty), 0);
+    const golaProfPrice = golaProf.reduce((acc, profile) => acc + (profile['length Number'] * 5.5 * profile.qty), 0);
     const dimRemotePrice = dimRemote * 100;
     const doorSensorPrice = doorSensor * 150;
     const transformerPrice = transformer * 50;

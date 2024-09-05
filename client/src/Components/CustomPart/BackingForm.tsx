@@ -15,9 +15,11 @@ type CustomPartFormType = {
     customPart: customPartDataType,
 }
 export type CustomPartFormValuesType = {
-    Width: number,
-    Height: number,
+    Width: string,
+    Height: string,
     Depth: number,
+    ['Width Number']: number,
+    ['Height Number']: number,
     Note: string,
 }
 
@@ -38,8 +40,10 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart}) => {
     const sizeLimitInitial = limits ?? {};
     const initialDepth = depthConst ?? getLimit(sizeLimitInitial.depth);
     const initialValues: CustomPartFormValuesType = {
-        'Width': widthConst ?? getLimit(sizeLimitInitial.width),
-        'Height': getLimit(sizeLimitInitial.height),
+        'Width': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)).toString(),
+        'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
+        'Width Number': widthConst ?? getLimit(sizeLimitInitial.width),
+        'Height Number': getLimit(sizeLimitInitial.height),
         'Depth': initialDepth,
         'Note': ''
     }
@@ -57,9 +61,11 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart}) => {
             {({values}) => {
                 const {
                     ['Width']: width,
-                    ['Height']: height
+                    ['Height']: height,
+                    ['Width Number']: widthNumber,
+                    ['Height Number']: heightNumber,
                 } = values;
-                const priceNew = +(width * height / 144 * 4.6).toFixed(1);
+                const priceNew = +(widthNumber * heightNumber / 144 * 4.6).toFixed(1);
 
                 setTimeout(() => {
                     if (price !== priceNew) dispatch(setCustomPart({...customPart, price: priceNew}));
