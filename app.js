@@ -42,24 +42,14 @@ const start = async () => {
       if (type === 'send') {
 
         let transporter = nodemailer.createTransport({
-          // service: process.env.EMAIL_SERVICE,
-          // auth: {
-          //   user: process.env.EMAIL_USER,
-          //   pass: process.env.EMAIL_PASS,
-          // },
-          // secure: false,
-          // ignoreTLS: true
-
-          // host: "smtpout.secureserver.net",
-          service: 'Godaddy',
-          secure: true,
-          port: 465,
+          service: process.env.EMAIL_SERVICE,
+          secure: process.env.EMAIL_SECURE,
+          port: process.env.EMAIL_PORT,
           auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
           }
         })
-
         let mailOptions = {
           from: process.env.EMAIL_USER,
           to: process.env.EMAIL_TO,
