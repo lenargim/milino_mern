@@ -6,10 +6,10 @@ import {materialsData, OrderFormSelectType} from "../../helpers/materialsTypes";
 import SelectFieldWithImg from "../../common/SelectFieldWithImg";
 
 
-const DataType: FC<OrderFormSelectType> = ({data, value, name}) => {
+const DataType: FC<OrderFormSelectType> = ({data, value, name, label}) => {
     return (
         <div className={s.orderBlock}>
-            <h2>{name}:</h2>
+            <h2>{label ?? name}:</h2>
             {value
                 ? <SelectedField value={value} data={data} name={name}/>
                 : <UnSelectedField value={value} data={data} name={name}/>

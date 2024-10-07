@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Form, Formik, FormikValues} from "formik";
+import {Form, Formik} from "formik";
 import {
     ProductInputCustom,
     ProductRadioInputCustom,
@@ -7,50 +7,55 @@ import {
 } from "../../common/Form";
 import s from './product.module.sass'
 import {
-    addToCartData, checkDoors, checkHingeOpening, checkProduct,
-    getInitialStandartProductValues,
+    addToCartStandardProduct,
+    checkDoors,
+    checkHingeOpening,
+    checkProduct,
+    getInitialStandardProductValues,
     isHasLedBlock,
+    standardProductValuesType,
     useAppDispatch
 } from "../../helpers/helpers";
 import {
     addToCart,
 } from "../../store/reducers/generalSlice";
 import {
-    CartExtrasType,
-    extraStandartPricesType, StandartCabinetFormType,
+    CartExtrasType, extraStandardPricesType, StandardCabinetFormType,
+
 } from "../../helpers/productTypes";
 import {
     addGlassDoorPrice,
     addGlassShelfPrice,
     addPTODoorsPrice,
     addPTODrawerPrice,
-    addPTOTrashBinsPrice,
-    calculateStandartData,
+    addPTOTrashBinsPrice, calculateStandardData,
     getDoorMinMaxValuesArr, getDoorPrice,
     getDoorSquare,
     getDoorWidth, getDrawerPrice,
     getHingeArr,
     getInitialPrice,
-    getLedPrice,
-    getStandartStartPrice, getStandartTablePrice,
+    getLedPrice, getStandardStartPrice, getStandardTablePrice,
+
     getType, getValidHeightRange
 } from "../../helpers/calculatePrice";
 import LedBlock from "./LED";
-import {getStandartProductSchema} from "./ProductSchema";
-import TestStandart from "./TestStandart";
+import {getStandardProductSchema} from "./ProductSchema";
+import TestStandard from "./TestStandart";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
+import {useParams} from "react-router-dom";
 
-const CabinetForm: FC<StandartCabinetFormType> = ({
+const CabinetForm: FC<StandardCabinetFormType> = ({
                                                       product,
-                                                      standartProductPriceData,
+                                                      StandardProductPriceData,
                                                       productRange,
                                                       sizeLimit,
                                                       baseProductPrice,
     materialData
                                                   }) => {
     const dispatch = useAppDispatch();
+    const {id:roomId} = useParams();
     const {
         id,
         name,
@@ -71,7 +76,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
     const {
         doorValues,
         blindArr, filteredOptions, shelfsQty, drawersQty, rolloutsQty
-    } = standartProductPriceData
+    } = StandardProductPriceData
     const {category:materialCat, drawer, boxMaterialCoef} = materialData
     const {widthRange, heightRange, depthRange} = productRange;
 
@@ -81,11 +86,11 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
 
     return (
         <Formik
-            initialValues={getInitialStandartProductValues(productRange, doorValues, category, depth, isBlind, blindArr, isAngle, isCornerChoose)}
-            validationSchema={getStandartProductSchema(sizeLimit, isAngle)}
-            onSubmit={(values: FormikValues, {resetForm}) => {
+            initialValues={getInitialStandardProductValues(productRange, doorValues, category, depth, isBlind, blindArr, isAngle, isCornerChoose)}
+            validationSchema={getStandardProductSchema(sizeLimit, isAngle)}
+            onSubmit={(values: standardProductValuesType, {resetForm}) => {
                 if (price) {
-                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight)
+                    const cartData = addToCartStandardProduct(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight,productRange)
                     dispatch(addToCart(cartData))
                     resetForm();
                 }
@@ -96,7 +101,6 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                     ['Width']: width,
                     ['Height']: height,
                     ['Depth']: depth,
-                    ['Custom Depth']: customDepth,
                     ['Custom Depth Number']: customDepthNumber,
                     ['Doors']: doors,
                     ['Blind Width']: blindWidth,
@@ -133,7 +137,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                 const doorSquare = getDoorSquare(doorWidth, doorHeight);
                 const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
 
-                const extraPrices: extraStandartPricesType = {
+                const extraPrices: extraStandardPricesType = {
                     ptoDoors: chosenOptions.includes('PTO for doors') ? addPTODoorsPrice(attributes, type) : 0,
                     ptoDrawers: chosenOptions.includes('PTO for drawers') ? addPTODrawerPrice(type, drawersQty) : 0,
                     glassShelf: chosenOptions.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
@@ -152,11 +156,11 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
 
                 const initialPrice = getInitialPrice(baseProductPrice, productRange, category, boxMaterialCoef);
                 if (!initialPrice) return <div>Cannot find initial price</div>
-                const tablePrice = getStandartTablePrice(realWidth, realHeight, realDepth, baseProductPrice);
-                const startPrice: number = getStandartStartPrice(realDepth, boxMaterialCoef, sizeLimit, tablePrice);
+                const tablePrice = getStandardTablePrice(realWidth, realHeight, realDepth, baseProductPrice);
+                const startPrice: number = getStandardStartPrice(realDepth, boxMaterialCoef, sizeLimit, tablePrice);
 
-                const calculatedStandartData = calculateStandartData(startPrice, extraPrices, realDepth, depthRange, isAngle);
-                const {totalPrice, coefDepth, coefExtra} = calculatedStandartData
+                const calculatedStandardData = calculateStandardData(startPrice, extraPrices, realDepth, depthRange, isAngle);
+                const {totalPrice, coefDepth, coefExtra} = calculatedStandardData
                 const totalDepthPrice = initialPrice * (coefDepth + 1);
                 extraPrices.depth = +(totalDepthPrice - initialPrice).toFixed(1);
                 extraPrices.tablePrice = tablePrice;
@@ -175,7 +179,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
 
 
                 setTimeout(() => {
-                    checkProduct(price, totalPrice, type, newType, cartExtras, dispatch)
+                    checkProduct(price, totalPrice, type, newType, cartExtras, dispatch, roomId)
                 }, 0)
 
                 return (
@@ -227,7 +231,7 @@ const CabinetForm: FC<StandartCabinetFormType> = ({
                             <span>{totalPrice}$</span>
                         </div>
                         <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
-                        <TestStandart extraPrices={extraPrices}/>
+                        <TestStandard extraPrices={extraPrices}/>
                     </Form>
                 )
             }}

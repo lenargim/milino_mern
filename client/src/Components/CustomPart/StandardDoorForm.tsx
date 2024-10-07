@@ -11,9 +11,9 @@ import {TextInput} from "../../common/Form";
 import {v4 as uuidv4} from "uuid";
 import {customPartDataType} from "../../helpers/productTypes";
 import {changeAmountType} from "../Product/Cart";
-import SelectField, {optionType, optionTypeDoor} from "../../common/SelectField";
+import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
-import {standartDoorSchema} from "./standartDoorSchema";
+import {StandardDoorSchema} from "./standardDoorSchema";
 import {addToCart} from "../../store/reducers/generalSlice";
 import settings from './../../api/settings.json'
 
@@ -30,15 +30,15 @@ export type DoorType = {
     ['Color']: string,
 }
 
-export interface StandartDoorFormValuesType extends DoorType {
+export interface StandardDoorFormValuesType extends DoorType {
     price: number,
     Note: string,
 }
 
-const StandartDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
+const StandardDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
     const {id, image, name, category, type} = customPart
     const dispatch = useAppDispatch();
-    const initialValues: StandartDoorFormValuesType = {
+    const initialValues: StandardDoorFormValuesType = {
         ['Color']: '',
         ['Doors']: [{
             name: '',
@@ -53,14 +53,14 @@ const StandartDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) 
     const doorColors = settings.doorColors as string[];
     const doorColorsArr = doorColors.map(el => ({value: el, label: el}))
 
-    const doorSizes = type === 'standart-door' ? settings.standartDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
+    const doorSizes = type === 'standard-door' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
     const doorSizesArr:optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
 
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={standartDoorSchema}
-            onSubmit={(values: StandartDoorFormValuesType, {resetForm}) => {
+            validationSchema={StandardDoorSchema}
+            onSubmit={(values: StandardDoorFormValuesType, {resetForm}) => {
                 if (values.price) {
                     const cartData = addToCartDoor(values, id, image, name, category)
                     dispatch(addToCart(cartData))
@@ -132,11 +132,11 @@ const StandartDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) 
     );
 };
 
-export default StandartDoorForm;
+export default StandardDoorForm;
 
-const getPrice = (values: StandartDoorFormValuesType, name: string): number => {
+const getPrice = (values: StandardDoorFormValuesType, name: string): number => {
     const {Doors: doorsArr, Color: color} = values;
-    const glassPrice: number = name !== 'standart-door' ? 10 : 0;
+    const glassPrice: number = name !== 'standard-door' ? 10 : 0;
     const colorPrice: number = color !== 'White' ? 30 : 0;
     return doorsArr.reduce((acc, door) => {
         const sqr = door.width * door.height / 144;

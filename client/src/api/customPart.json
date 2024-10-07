@@ -1747,15 +1747,15 @@
   },
   {
     "id": 919,
-    "name": "Standart Door",
-    "type": "standart-door",
+    "name": "Standard Door",
+    "type": "standard-door",
     "category": "Custom Parts",
     "image": "Accessories.jpg"
   },
   {
     "id": 920,
     "name": "Glass Door",
-    "type": "standart-glass-door",
+    "type": "standard-glass-door",
     "category": "Custom Parts",
     "image": "Accessories.jpg"
   }

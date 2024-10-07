@@ -4,7 +4,7 @@
 .form
   position: relative
   h1
-    margin-bottom: .9em
+    //margin-bottom: .9em
     text-transform: uppercase
     text-align: center
 
@@ -79,12 +79,19 @@
   display: block
 
 .itemName
+  display: flex
+  align-items: baseline
+  gap: .5em
   font: 500 19px/1.2 $mainFont
   padding-bottom: 0.6em
 
 .category
   font-size: 12.5px
   font-style: italic
+
+.non
+  font-size: 14px
+  color: $red
 
 .note
   padding-top: 0.6em

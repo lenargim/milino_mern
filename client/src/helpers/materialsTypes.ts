@@ -3,7 +3,8 @@ import materials from "../api/materials.json";
 export type OrderFormSelectType = {
     data: materialsData[],
     value: string,
-    name: string
+    name: string,
+    label?: string
 }
 
 export type materialsData = {

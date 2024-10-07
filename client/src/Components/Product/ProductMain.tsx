@@ -3,13 +3,13 @@ import {OrderFormType} from "../../helpers/types";
 import s from './product.module.sass'
 import {getImg, getImgSize, getProductImage} from "../../helpers/helpers";
 import {AtrrsList} from "../Cabinets/List";
-import {productType, standartProductType} from "../../helpers/productTypes";
-import StandartCabinet from "./StandartCabinet";
+import {productType, standardProductType} from "../../helpers/productTypes";
+import StandardCabinet from "./StandardCabinet";
 import Cabinet from "./Cabinet";
 import Materials from "../../common/Materials";
 
 type ProductMainType = {
-    product: productType | standartProductType | null,
+    product: productType | standardProductType | null,
     materials: OrderFormType
 }
 const ProductMain: FC<ProductMainType> = ({product, materials}) => {
@@ -17,7 +17,7 @@ const ProductMain: FC<ProductMainType> = ({product, materials}) => {
     const {type, attributes, name, images, category} = product;
     const img = getProductImage(images, type);
     const imgSize = getImgSize(category);
-    const isStandartCabinet = 'Standart Door' === materials.Category;
+    const isStandardCabinet = 'Standard Door' === materials.Category;
 
     return (
         <div className={s.productWrap}>
@@ -29,8 +29,8 @@ const ProductMain: FC<ProductMainType> = ({product, materials}) => {
                 <Materials data={materials}/>
             </div>
             <div className={s.right}>
-                {isStandartCabinet ?
-                    <StandartCabinet product={product as standartProductType}
+                {isStandardCabinet ?
+                    <StandardCabinet product={product as standardProductType}
                                      materials={materials}
                     /> :
                     <Cabinet

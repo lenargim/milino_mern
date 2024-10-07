@@ -72,7 +72,7 @@ const Main: FC<MainType> = ({values, isSubmitting, isValid, setFieldValue,cart, 
     // Check is values are in array
     useEffect(() => {
         switch (category) {
-            case "Standart Door":
+            case "Standard Door":
                 if (doorType) setFieldValue('Door Type', '');
                 if (doorFinishMaterial) setFieldValue('Door Finish Material', '');
                 if (doorGrain) setFieldValue('Door Grain', '');

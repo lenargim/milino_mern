@@ -1,14 +1,13 @@
 import React, {FC} from 'react';
 import s from "./product.module.sass";
 import {ProductRadioInput} from "../../common/Form";
-import settings from './../../api/settings.json'
-
+import {cornerArr} from "../../helpers/productTypes";
 
 type CornerBlockType = {
     isCornerChoose?: boolean
 }
 
-const cornerArr = settings['Corner']
+
 const CornerBlock:FC<CornerBlockType> = ({isCornerChoose}) => {
     if (!isCornerChoose) return null
     return (

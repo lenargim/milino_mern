@@ -1,0 +1,105 @@
+@use "src/styles/variables" as *
+.profile
+  display: grid
+  grid-template-columns: 200px 1fr
+  gap: 30px
+  width: 100vw
+  height: 100vh
+  h1
+    margin-bottom: 1em
+
+.profileMain
+  padding-top: 50px
+
+
+.logo
+  padding: 0
+  img
+    width: 50px
+    height: 50px
+
+.sidebar
+  display: flex
+  flex-direction: column
+  gap: 10px
+  a, button
+    padding: 10px 0
+    text-align: left
+    text-transform: uppercase
+  .active
+    color: $accent
+
+.rooms
+  width: 100%
+  height: 100%
+  display: grid
+  grid-template-columns: 1fr 360px
+
+.roomsMain
+  height: 100vh
+  padding: 50px 30px 100px 0
+  overflow-y: auto
+
+.roomEdit
+  padding-top: 50px
+
+.nav
+  display: flex
+  align-items: center
+  flex-wrap: nowrap
+  border: 2px solid $accentLight
+  border-radius: 5px
+  width: fit-content
+  margin-bottom: 30px
+  a
+    padding: 10px 20px
+    text-transform: uppercase
+    &:not(:last-of-type)
+      border-right: 2px solid $accentLight
+    &.linkActive
+      background-color: $accentLight
+      color: #fff
+.name
+  display: inline-block
+  margin-right: auto
+.roomForm
+  display: flex
+  flex-direction: column
+  gap: 20px
+
+.roomRow
+  display: flex
+  align-items: baseline
+  gap: 15px
+.edit
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  gap: 20px
+
+.block
+  display: grid
+  grid-template-columns: 1fr
+  max-width: 600px
+  gap: 25px
+  margin-top: 50px
+
+
+.room
+  display: grid
+  grid-template-columns: 1fr 360px
+  gap: 30px
+
+.roomSidebar
+  padding: 20px
+  box-shadow: 4px 4px 10px rgba(0,0,0,.4)
+
+.profileSidebar
+  padding: 20px 0 0 30px
+
+.product
+  display: grid
+  grid-template-columns: 2fr 3fr
+  gap: 30px
+  h2, h3
+    margin-bottom: 1em

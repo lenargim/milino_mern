@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import {DoorType} from "../../CustomPart/StandartDoorForm";
+import {DoorType} from "../../CustomPart/StandardDoorForm";
 import {Text, View} from '@react-pdf/renderer';
 import {s} from "../PDF";
 

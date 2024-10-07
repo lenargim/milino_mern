@@ -5,8 +5,8 @@
     "isBlind": false,
     "isAngle":false,
     "name": "BS Series",
-    "room": "Standart Door",
-    "category": "Standart Base Cabinets",
+    "room": "Standard Door",
+    "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": [
       {
@@ -55,7 +55,7 @@
     "isAngle": false,
     "name": "BD Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": [
       {
@@ -103,7 +103,7 @@
     "isAngle": false,
     "name": "B Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": [
       {
@@ -162,7 +162,7 @@
     "isAngle": false,
     "name": "BID Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": [
       {
@@ -220,7 +220,7 @@
     "isAngle": false,
     "name": "BSG Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "widthDivider": 15,
     "images": [
       {
@@ -268,7 +268,7 @@
     "isAngle": false,
     "name": "BG Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "widthDivider": 15,
     "images": [
       {
@@ -326,7 +326,7 @@
     "isAngle": false,
     "name": "BSP Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -365,7 +365,7 @@
     "isAngle": false,
     "name": "BD2 Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -414,7 +414,7 @@
     "isAngle": false,
     "name": "B2DE Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -443,7 +443,7 @@
     "isAngle": false,
     "name": "B3DI Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -481,7 +481,7 @@
     "isAngle": false,
     "name": "B3D Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -520,7 +520,7 @@
     "isAngle": false,
     "name": "B4D Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -559,7 +559,7 @@
     "isAngle": false,
     "name": "SB2D Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -588,7 +588,7 @@
     "isAngle": false,
     "name": "SB Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -627,7 +627,7 @@
     "isAngle": false,
     "name": "SBD Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -675,7 +675,7 @@
     "isAngle": false,
     "name": "SBT Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -723,7 +723,7 @@
     "isAngle": false,
     "name": "SBDT Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -780,7 +780,7 @@
     "isAngle": false,
     "name": "BCB Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -828,7 +828,7 @@
     "isAngle": false,
     "name": "BCBL Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -876,7 +876,7 @@
     "isAngle": true,
     "name": "BCA Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -924,7 +924,7 @@
     "isAngle": true,
     "name": "BCAL Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -972,7 +972,7 @@
     "isAngle": true,
     "name": "BC Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1020,7 +1020,7 @@
     "isAngle": true,
     "name": "BCL Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1068,7 +1068,7 @@
     "isAngle": false,
     "name": "CTB Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1115,7 +1115,7 @@
     "isAngle": false,
     "name": "COB Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1160,7 +1160,7 @@
     "isAngle": false,
     "name": "MB Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1207,7 +1207,7 @@
     "isAngle": false,
     "name": "B1D Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1236,7 +1236,7 @@
     "isAngle": false,
     "name": "B1KD Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "customHeight": 6,
     "images": [
       {
@@ -1267,7 +1267,7 @@
     "isAngle": false,
     "name": "DDC Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1294,7 +1294,7 @@
     "isAngle": false,
     "name": "BEAC Series",
     "room": "Kitchen",
-    "category": "Standart Base Cabinets",
+    "category": "Standard Base Cabinets",
     "images": [
       {
         "type": 1,
@@ -1343,7 +1343,7 @@
     "isAngle":false,
     "name": "W Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1426,7 +1426,7 @@
     "isAngle":false,
     "name": "WDA Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1487,7 +1487,7 @@
     "isAngle":false,
     "name": "WA Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1526,7 +1526,7 @@
     "isAngle":false,
     "name": "WBL Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1590,7 +1590,7 @@
     "isAngle":false,
     "name": "WBA Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1655,7 +1655,7 @@
     "isAngle":false,
     "name": "WB Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1720,7 +1720,7 @@
     "isAngle":false,
     "name": "WRF Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1785,7 +1785,7 @@
     "isAngle":false,
     "name": "WRFA Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1851,7 +1851,7 @@
     "customDepth": 24,
     "name": "WC Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1914,7 +1914,7 @@
     "customDepth": 24,
     "name": "WCA Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -1976,7 +1976,7 @@
     "isAngle":false,
     "name": "WCB Series",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2043,7 +2043,7 @@
     "hasSolidWidth": true,
     "name": "WEAC",
     "room": "Kitchen",
-    "category": "Standart Wall Cabinets",
+    "category": "Standard Wall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2080,7 +2080,7 @@
     "isAngle":false,
     "name": "PC Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2163,7 +2163,7 @@
     "isAngle":false,
     "name": "PC2D Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2259,7 +2259,7 @@
     "isAngle":false,
     "name": "PC3D Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2355,7 +2355,7 @@
     "isAngle":false,
     "name": "PC4D Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2459,7 +2459,7 @@
     "isAngle":false,
     "name": "TBC Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2521,7 +2521,7 @@
     "isAngle":false,
     "name": "TBCL Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2587,7 +2587,7 @@
     "isAngle":false,
     "name": "TDO Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "hasMiddleSection": true,
     "images": [
       {
@@ -2655,7 +2655,7 @@
     "hasMiddleSection": true,
     "name": "TSO Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2721,7 +2721,7 @@
     "isAngle":false,
     "name": "T Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,
@@ -2787,7 +2787,7 @@
     "isAngle":false,
     "name": "TD Series",
     "room": "Kitchen",
-    "category": "Standart Tall Cabinets",
+    "category": "Standard Tall Cabinets",
     "images": [
       {
         "type": 1,

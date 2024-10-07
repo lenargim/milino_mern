@@ -75,19 +75,19 @@
       }
     ]
   },
-  "Standart Door": {
+  "Standard Door": {
     "defaultImg": "Flatd_01.webp",
     "categories": [
       {
-        "name": "Standart Base Cabinets",
+        "name": "Standard Base Cabinets",
         "img": "Flatd_02.webp"
       },
       {
-        "name": "Standart Wall Cabinets",
+        "name": "Standard Wall Cabinets",
         "img": "Flatd_03.webp"
       },
       {
-        "name": "Standart Tall Cabinets",
+        "name": "Standard Tall Cabinets",
         "img": "Flatd_04.webp"
       },
       {

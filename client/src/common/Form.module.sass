@@ -3,10 +3,13 @@
 .loginForm
   margin-top: 64px
 
+
 .block
   display: grid
   grid-template-columns: 1fr
-  gap: 25px
+  gap: 15px
+  max-width: 600px
+  margin: 50px auto 30px
 
 .row
   position: relative
@@ -18,6 +21,7 @@
   padding: 16px 0 10px
   font: 400 16px/20px $mainFont
   transition: all .2s ease
+  max-width: 600px
   &.inputError
     border-color: $red
   &.focused, &:hover

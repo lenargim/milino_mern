@@ -1,5 +1,5 @@
-import React, {FC, FormEvent} from 'react';
-import {Form, Formik, FormikValues} from "formik";
+import React, {FC, useEffect} from 'react';
+import {Form, Formik} from "formik";
 import {
     ProductInputCustom,
     ProductRadioInputCustom,
@@ -8,12 +8,12 @@ import {
 import s from './product.module.sass'
 import {getProductSchema} from "./ProductSchema";
 import {
-    addToCartData, checkDoors, checkHingeOpening, checkProduct,
-    getInitialProductValues, getSquare,
-    useAppDispatch
+    addToCartProduct, checkDoors, checkHingeOpening, checkProduct,
+    getInitialProductValues, getSquare, productValuesType,
+    useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
 import {
-    addToCart,
+    addToCart, updateProduct,
 } from "../../store/reducers/generalSlice";
 import {
     CabinetFormType, CartExtrasType, extraPricesType, productSizesType,
@@ -45,6 +45,8 @@ import Test from "./Test";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
+import {useParams} from "react-router-dom";
+import {addToCartInRoom, updateProductInRoom} from "../../store/reducers/roomSlice";
 
 const CabinetForm: FC<CabinetFormType> = ({
                                               product,
@@ -55,6 +57,7 @@ const CabinetForm: FC<CabinetFormType> = ({
                                               productRange
                                           }) => {
     const dispatch = useAppDispatch();
+    const {id:roomId} = useParams();
     const {
         id,
         name,
@@ -90,10 +93,10 @@ const CabinetForm: FC<CabinetFormType> = ({
         <Formik
             initialValues={getInitialProductValues(productRange, isBlind, blindArr, doorValues, isCornerChoose)}
             validationSchema={getProductSchema(sizeLimit, isAngle, hasMiddleSection)}
-            onSubmit={(values: FormikValues, {resetForm}) => {
+            onSubmit={(values: productValuesType, {resetForm}) => {
                 if (price) {
-                    const cartData = addToCartData(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight)
-                    dispatch(addToCart(cartData))
+                    const cartData = addToCartProduct(values, type, id, isBlind, images, name, hasMiddleSection, category, price, cartExtras, legsHeight,productRange);
+                    roomId ? dispatch(addToCartInRoom({product:cartData, _id: roomId})) : dispatch(addToCart(cartData))
                     resetForm();
                 }
             }}
@@ -104,17 +107,10 @@ const CabinetForm: FC<CabinetFormType> = ({
                     ['Blind Width']: blindWidth,
                     ['Height']: height,
                     ['Depth']: depth,
-                    ['Custom Width']: customWidth,
-                    ['Custom Height']: customHeight,
-                    ['Custom Depth']: customDepth,
-                    ['Custom Blind Width']: customBlindWidth,
-
                     ['Custom Width Number']: customWidthNumber,
                     ['Custom Height Number']: customHeightNumber,
                     ['Custom Depth Number']: customDepthNumber,
                     ['Custom Blind Width Number']: customBlindWidthNumber,
-
-
                     ['Doors']: doors,
                     Options: chosenOptions,
                     ['Door Profile']: doorProfile,
@@ -127,6 +123,7 @@ const CabinetForm: FC<CabinetFormType> = ({
                     'LED borders': ledBorders,
                     'LED alignment': ledAlignment,
                     'LED indent': ledIndent,
+                    price: price
                 } = values;
 
                 const realWidth: number = +width || +customWidthNumber || 0;
@@ -194,9 +191,32 @@ const CabinetForm: FC<CabinetFormType> = ({
                     boxFromFinishMaterial
                 }
 
-                setTimeout(() => {
-                    checkProduct(price, totalPrice, type, newType, cartExtras , dispatch)
-                }, 0)
+
+                if (price !== totalPrice) {
+                    setFieldValue('price', totalPrice)
+                }
+
+                console.log(values)
+
+                // setTimeout(() => {
+                //     checkProduct(price, totalPrice, type, newType, cartExtras , dispatch,roomId)
+                // }, 0)
+
+
+                // const isProductChanged = useIsProductChanged(newType,)
+
+                // roomId
+                //     ? dispatch(updateProductInRoom({
+                //         _id: roomId,
+                //         type: newType,
+                //         price: totalPrice,
+                //         cartExtras
+                //     })) :
+                //     dispatch(updateProduct({
+                //         type: newType,
+                //         price: totalPrice,
+                //         cartExtras
+                //     }))
 
                 return (
                     <Form>

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {DoorType} from "../CustomPart/StandartDoorForm";
+import {DoorType} from "../CustomPart/StandardDoorForm";
 
 
 const CartItemShelfExtra: FC<{ productExtra: DoorType }> = ({productExtra}) => {

@@ -8,16 +8,9 @@ import {OrderFormType} from "../../helpers/types";
 import {getProductsByCategory, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {
     productCategory,
-    productDataType,
-    productType,
-    productTypings,
-    standartProductType
+    productDataType
 } from "../../helpers/productTypes";
 import {setProduct} from "../../store/reducers/generalSlice";
-// type initialDataType = {
-//     type: productTypings,
-//     price: number
-// }
 
 const Product: FC = () => {
     const dispatch = useAppDispatch()
@@ -31,8 +24,6 @@ const Product: FC = () => {
     localStorage.setItem('category', category);
 
     if (!storeProduct || storeProduct.id !== productById.id) {
-        // const initialData: initialDataType = {type: 1, price: 0}
-        // const initialProduct:productType|standartProductType = {...productById, ...initialData};
         dispatch(setProduct(productById));
     }
     return (

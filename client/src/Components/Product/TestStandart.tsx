@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {extraStandartPricesType} from "../../helpers/productTypes";
+import {extraStandardPricesType} from "../../helpers/productTypes";
 
 
-const Test:FC<{extraPrices:extraStandartPricesType}> = ({extraPrices}) => {
+const Test:FC<{extraPrices:extraStandardPricesType}> = ({extraPrices}) => {
     return (
         <div>
             <h3>Extra prices</h3>

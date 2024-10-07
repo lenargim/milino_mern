@@ -12,7 +12,7 @@ const Room: FC<{room: RoomType}> = ({room}) => {
 
     const closetCats = ['Build In', 'Leather', 'Custom Parts'];
 
-    const standartCats = ['Standart Base Cabinets','Standart Wall Cabinets', 'Standart Tall Cabinets']
+    const StandardCats = ['Standard Base Cabinets','Standard Wall Cabinets', 'Standard Tall Cabinets']
     if (!storageCat) {
         initialCat = ''
     } else {
@@ -27,8 +27,8 @@ const Room: FC<{room: RoomType}> = ({room}) => {
             case "Leather Closet":
                 initialCat = closetCats.includes(storageCat) ? storageCat : ''
                 break;
-            case "Standart Door":
-                initialCat = standartCats.includes(storageCat) ? storageCat : '';
+            case "Standard Door":
+                initialCat = StandardCats.includes(storageCat) ? storageCat : '';
                 break;
             default:
                 initialCat = 'Custom Parts'

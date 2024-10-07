@@ -5,11 +5,12 @@ import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
 
 export type borderType = 'Sides' | 'Top' | 'Bottom';
+export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 export type ledType = {
     hasLedBlock: boolean,
     borders: string[] | [],
-    alignment: 'Center' | 'From Face' | 'From Back',
-    indent?: number,
+    alignment: ledAlignmentType,
+    indent?: string,
     error?: string
 }
 const LedBlock: FC<ledType> = ({alignment, indent, borders, error, hasLedBlock}) => {

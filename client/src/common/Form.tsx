@@ -24,6 +24,7 @@ interface textInputInterface extends InputInterface {
     disabled?: boolean,
     type: 'text' | 'number' | 'email' | 'password' | 'date',
     label: string,
+    [x:string]: any;
 }
 
 interface RadioInterface extends InputInterface {
@@ -52,14 +53,17 @@ export const TextInput: FC<textInputInterface> = ({
                                                       label,
                                                       disabled = false,
                                                       type = 'text',
+                                                      ...props
                                                   }) => {
     const [field, meta, helpers] = useField(name);
     const {error, touched} = meta;
     const length = field?.value?.length ?? 0;
 
+
     return (
         <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
             <Field
+                {...props}
                 className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
                 type={type}
                 name={name}
@@ -148,8 +152,9 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
                                                                                       className,
                                                                                       nullable = false
                                                                                   }) => {
-    const [field, , helpers] = useField(name)
+    const [, , helpers] = useField(name)
     const label = nullable ? value : value ? getFraction(value) : `Custom ${name}`;
+
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
@@ -203,15 +208,13 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
 }
 
 
-
-
 export const ProductInputCustom: FC<{ name: string, value: string | null, label?: string }> = ({
                                                                                                    name,
                                                                                                    value,
                                                                                                    label
                                                                                                }) => {
     const [field] = useField(name);
-    const [fieldNumber, _, helpers] = useField(name + ' Number');
+    const [fieldNumber, , helpers] = useField(name + ' Number');
     const result = getSizeNumberRegex(field.value.toString());
 
     useEffect(() => {

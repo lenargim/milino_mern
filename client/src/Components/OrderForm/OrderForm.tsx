@@ -26,7 +26,6 @@ const OrderForm = () => {
         >
             {({values, isValid, isSubmitting, setFieldValue}) => {
                 return (
-
                     <Form className="page">
                         <Main values={values} isSubmitting={isSubmitting} isValid={isValid}
                               setFieldValue={setFieldValue} cartLength={cartLength} cart={cart}/>

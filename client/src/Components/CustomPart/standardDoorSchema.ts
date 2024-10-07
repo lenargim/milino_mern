@@ -9,7 +9,7 @@ const doors = Yup.object().shape({
     qty: Yup.number().integer().positive()
 })
 
-export const standartDoorSchema = Yup.object().shape({
+export const StandardDoorSchema = Yup.object().shape({
     Doors: Yup.array().of(doors).min(1),
     Color: Yup.string().required('Choose Color')
 })

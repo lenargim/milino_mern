@@ -1,18 +1,18 @@
 import React, {FC} from 'react';
-import {sizeLimitsType, StandartCabinetType} from "../../helpers/productTypes";
+import {sizeLimitsType, StandardCabinetType} from "../../helpers/productTypes";
 import {
     getBaseProductPrice,
     getProductRange,
-    getStandartMaterialData,
-    getStandartProductPriceData
+    getStandardMaterialData,
+    getStandardProductPriceData
 } from "../../helpers/calculatePrice";
-import StandartCabinetForm from "./StandartCabinetForm";
+import StandardCabinetForm from "./StandardCabinetForm";
 import sizes from "../../api/sizes.json";
 
-const StandartCabinet:FC<StandartCabinetType> = ({product, materials}) => {
+const StandardCabinet:FC<StandardCabinetType> = ({product, materials}) => {
     const {id, customHeight, customDepth, category} = product
-    const materialData = getStandartMaterialData(materials)
-    const standartProductPriceData = getStandartProductPriceData(product, materialData)
+    const materialData = getStandardMaterialData(materials)
+    const StandardProductPriceData = getStandardProductPriceData(product, materialData)
     const baseProductPrice = getBaseProductPrice(id);
     const productRange = getProductRange(baseProductPrice, category, customHeight, customDepth);
     const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product.id))?.limits;
@@ -21,7 +21,7 @@ const StandartCabinet:FC<StandartCabinetType> = ({product, materials}) => {
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!productRange.widthRange[0]) return <div>Cannot find initial width</div>;
 
-    return <StandartCabinetForm standartProductPriceData={standartProductPriceData}
+    return <StandardCabinetForm StandardProductPriceData={StandardProductPriceData}
                                 baseProductPrice={baseProductPrice}
                                 productRange={productRange}
                                 sizeLimit={sizeLimit}
@@ -30,4 +30,4 @@ const StandartCabinet:FC<StandartCabinetType> = ({product, materials}) => {
     />;
 };
 
-export default StandartCabinet;
+export default StandardCabinet;

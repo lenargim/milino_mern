@@ -4,10 +4,29 @@ import {OrderFormType} from "./types";
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
+export type hingeTypes = 'Left' | 'Right' | 'Double Doorx' | 'Single Door' | '';
+export type cornerTypes = 'Left' | 'Right' | '';
 
-export type kitchenCategories = 'Base Cabinets' | 'Wall Cabinets' | 'Tall Cabinets' | 'Gola Base Cabinets' | 'Gola Wall Cabinets' | 'Gola Tall Cabinets'
-export type standartCategory = 'Standart Base Cabinets' | 'Standart Wall Cabinets' | 'Standart Tall Cabinets'
-export type productCategory = kitchenCategories | standartCategory | 'Regular Vanities' | 'Gola Vanities' | 'Build In' | 'Leather' | 'Custom Parts'
+export const cornerArr:cornerTypes[] = ["Left", "Right"];
+export const hingeArr:hingeTypes[] = ['Left' , 'Right' , 'Double Doorx' , 'Single Door'];
+
+
+export type kitchenCategories =
+    'Base Cabinets'
+    | 'Wall Cabinets'
+    | 'Tall Cabinets'
+    | 'Gola Base Cabinets'
+    | 'Gola Wall Cabinets'
+    | 'Gola Tall Cabinets'
+export type StandardCategory = 'Standard Base Cabinets' | 'Standard Wall Cabinets' | 'Standard Tall Cabinets'
+export type productCategory =
+    kitchenCategories
+    | StandardCategory
+    | 'Regular Vanities'
+    | 'Gola Vanities'
+    | 'Build In'
+    | 'Leather'
+    | 'Custom Parts'
 export type productDataType = {
     id: number,
     name: string,
@@ -23,16 +42,16 @@ export type productDataType = {
     customDepth?: number,
     hasSolidWidth?: true,
     hasMiddleSection?: true,
-    isCornerChoose?:boolean
+    isCornerChoose?: boolean
 }
 
 export type customPartDataType = {
     id: number,
     name: string,
     room: string,
-    type: 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standart-door' | 'standart-glass-door' | 'backing'
+    type: 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing'
     category: productCategory,
-    width?:number,
+    width?: number,
     depth?: number,
     image: string,
     price?: number,
@@ -66,10 +85,10 @@ export interface productType extends productDataType {
     doorSquare?: number,
     widthDivider?: number,
     heightRange?: number,
-    cartExtras:CartExtrasType
+    cartExtras: CartExtrasType
 }
 
-export interface standartProductType extends productDataType {
+export interface standardProductType extends productDataType {
     type: productTypings,
     price: number,
     height: number,
@@ -77,7 +96,7 @@ export interface standartProductType extends productDataType {
     doorSquare?: number,
     widthDivider?: number,
     heightRange?: number,
-    cartExtras:CartExtrasType
+    cartExtras: CartExtrasType
 }
 
 export type materialDataType = {
@@ -192,24 +211,24 @@ export type CabinetFormType = {
     materialData: materialDataType
 }
 
-export type StandartCabinetType = {
-    product: standartProductType,
+export type StandardCabinetType = {
+    product: standardProductType,
     materials: OrderFormType,
 }
 
-export type standartMaterialDataType = {
+export type StandardMaterialDataType = {
     category: string
     boxMaterialCoef: number,
     drawer: drawerInterface,
 }
 
-export type StandartCabinetFormType = {
-    product: standartProductType,
-    standartProductPriceData: standartProductDataToCalculatePriceType,
+export type StandardCabinetFormType = {
+    product: standardProductType,
+    StandardProductPriceData: StandardProductDataToCalculatePriceType,
     sizeLimit: sizeLimitsType,
     baseProductPrice: pricePart[],
     productRange: productRangeType
-    materialData: standartMaterialDataType
+    materialData: StandardMaterialDataType
 }
 
 export type DepthRangeType = {
@@ -230,13 +249,13 @@ export interface extraPricesType {
     drawerPrice: number,
     ledPrice: number,
     doorSquare: number,
-    frontSquare:number,
+    frontSquare: number,
     premiumCoef: number,
     boxMaterialCoef: number,
     tablePrice?: number
 }
 
-export interface extraStandartPricesType {
+export interface extraStandardPricesType {
     depth?: number,
     ptoDoors: number,
     ptoDrawers: number,
@@ -268,7 +287,7 @@ export type productDataToCalculatePriceType = {
     hasLedBlock: boolean
 }
 
-export type standartProductDataToCalculatePriceType = {
+export type StandardProductDataToCalculatePriceType = {
     doorValues?: valueItemType[],
     blindArr?: number[],
     filteredOptions: string[],
@@ -278,9 +297,9 @@ export type standartProductDataToCalculatePriceType = {
 }
 
 export type customPartDataToCalculatePriceType = {
-    priceData?:  pricePart[],
+    priceData?: pricePart[],
     productRange: productRangeType,
-    sizeLimit?:sizeLimitsType,
+    sizeLimit?: sizeLimitsType,
 }
 
 export type productSizesType = {
@@ -298,7 +317,7 @@ export type CartExtrasType = {
     glassDoor: number,
     ptoTrashBins: number,
     ledPrice: number,
-    coefExtra:number,
+    coefExtra: number,
     attributes: attrItem[],
     boxFromFinishMaterial: boolean
 }

@@ -48,7 +48,7 @@ const Item: FC<{ product: productDataType }> = ({product}) => {
     const imgSize = getImgSize(category);
 
     return (
-        <NavLink to={`/product/${category}/${id}`} className={s.item}
+        <NavLink to={`product/${category}/${id}`} className={s.item}
         >
             <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
             <div className={s.itemData}>
@@ -62,7 +62,7 @@ const Item: FC<{ product: productDataType }> = ({product}) => {
 const Part: FC<{ product: customPartDataType }> = ({product}) => {
     const {name, image, id} = product;
     return (
-        <NavLink to={`/custom_part/${id}`} className={s.item}
+        <NavLink to={`custom_part/${id}`} className={s.item}
         >
             <div className={s.itemImg}><img src={getImg('products/custom', image)} alt={name}/></div>
             <div className={s.itemData}>

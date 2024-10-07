@@ -1,13 +1,14 @@
 import * as Yup from 'yup';
 import settings from './../../api/settings.json'
-import {sizeLimitsType} from "../../helpers/productTypes";
+import {hingeArr, sizeLimitsType} from "../../helpers/productTypes";
 import {getSizeNumberRegex} from "../../helpers/helpers";
+import {ObjectSchema} from "yup";
 
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
-const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
 
-export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, hasMiddleSection: true | undefined): Yup.InferType<any> {
+
+export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, hasMiddleSection: true | undefined): ObjectSchema<any> {
     const blindDoorMinMax = settings.blindDoor;
     const minWidth = sizeLimit.width[0];
     const maxWidth = sizeLimit.width[1];
@@ -53,18 +54,7 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
                 is: (isBlind: boolean, blindWidth: number) => isBlind && blindWidth === 0,
                 then: (schema) => schema
                     .required('Please wright down blind width')
-                    // .typeError('Invalid Input: numbers please')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    // .test(
-                    //     "is-decimal",
-                    //     "Maximum two digits after comma",
-                    //     (val: any) => {
-                    //         if (val !== undefined) {
-                    //             return patterntwodigisaftercomma.test(val);
-                    //         }
-                    //         return true;
-                    //     }
-                    // )
                     .test(
                         "is-min",
                         `Width is too small`,
@@ -102,19 +92,6 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down height')
-                    // .min(minHeight, `Min ${minHeight} inches`)
-                    // .max(maxHeight, `Max ${maxHeight} inches`)
-                    // .typeError('Invalid Input: numbers please')
-                    // .test(
-                    //     "is-decimal",
-                    //     "Maximum two digits after comma",
-                    //     (val: any) => {
-                    //         if (val !== undefined) {
-                    //             return patterntwodigisaftercomma.test(val);
-                    //         }
-                    //         return true;
-                    //     }
-                    // )
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",
@@ -140,19 +117,6 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down depth')
-                    // .min(minDepth, `Min ${minDepth} inches`)
-                    // .max(maxDepth, `Max ${maxDepth} inches`)
-                    // .typeError('Invalid Input: numbers please')
-                    // .test(
-                    //     "is-decimal",
-                    //     "Maximum two digits after comma",
-                    //     (val: any) => {
-                    //         if (val !== undefined) {
-                    //             return patterntwodigisaftercomma.test(val);
-                    //         }
-                    //         return true;
-                    //     }
-                    // )
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",
@@ -177,18 +141,6 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
                 is: () => hasMiddleSection === true,
                 then: (schema) => schema
                     .required()
-                    // .typeError('Invalid Input: numbers please')
-                    // .positive('Should be positive number')
-                    // .test(
-                    //     "is-decimal",
-                    //     "Maximum two digits after comma",
-                    //     (val: any) => {
-                    //         if (val !== undefined) {
-                    //             return patterntwodigisaftercomma.test(val);
-                    //         }
-                    //         return true;
-                    //     }
-                    // )
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-max",
@@ -215,8 +167,6 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
                 is: (val: string) => val !== 'Center',
                 then: (schema) => schema
                     .required('Required')
-                    // .typeError('Invalid Input: numbers please')
-                    // .positive('Should be positive number')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-max",
@@ -230,7 +180,7 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
 
             }),
         'Hinge opening': Yup.string()
-            .oneOf(settings["Hinge opening"]),
+            .oneOf(hingeArr),
         'Options': Yup.array()
             .of(Yup.string()),
         'Door Profile': Yup.string()
@@ -266,7 +216,7 @@ export function getProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean, ha
 
 
 
-export function getStandartProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean): Yup.InferType<any> {
+export function getStandardProductSchema(sizeLimit: sizeLimitsType, isAngle: boolean): Yup.InferType<any> {
     const minDepth = !isAngle ? sizeLimit.depth[0] : sizeLimit.width[0];
     const maxDepth = !isAngle ? sizeLimit.depth[1] : sizeLimit.width[1];
 
@@ -288,19 +238,6 @@ export function getStandartProductSchema(sizeLimit: sizeLimitsType, isAngle: boo
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down depth')
-                    // .min(minDepth, `Min ${minDepth} inches`)
-                    // .max(maxDepth, `Max ${maxDepth} inches`)
-                    // .typeError('Invalid Input: numbers please')
-                    // .test(
-                    //     "is-decimal",
-                    //     "Maximum two digits after comma",
-                    //     (val: any) => {
-                    //         if (val !== undefined) {
-                    //             return patterntwodigisaftercomma.test(val);
-                    //         }
-                    //         return true;
-                    //     }
-                    // )
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",
@@ -334,8 +271,6 @@ export function getStandartProductSchema(sizeLimit: sizeLimitsType, isAngle: boo
                 is: (val: string) => val !== 'Center',
                 then: (schema) => schema
                     .required('Required')
-                    // .typeError('Invalid Input: numbers please')
-                    // .positive('Should be positive number')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-max",
@@ -349,7 +284,7 @@ export function getStandartProductSchema(sizeLimit: sizeLimitsType, isAngle: boo
 
             }),
         'Hinge opening': Yup.string()
-            .oneOf(settings["Hinge opening"]),
+            .oneOf(hingeArr),
         'Options': Yup.array()
             .of(Yup.string()),
         'Door Profile': Yup.string()

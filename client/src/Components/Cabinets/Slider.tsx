@@ -5,11 +5,11 @@ import {getImg} from "../../helpers/helpers";
 import categoriesData from './../../api/categories.json'
 import {productCategory} from "../../helpers/productTypes";
 
-type catItem = {
+export type catItem = {
     name: productCategory,
     img: string
 }
-type catInfoType = {
+export type catInfoType = {
     defaultImg: string,
     categories: catItem[]
 }
@@ -34,7 +34,6 @@ const Slider: FC<SliderType> = ({setCategory, room, category}) => {
                     </div>
                 </div> : <div>Sorry, there are no products yet</div>}
         </form>
-
     );
 };
 

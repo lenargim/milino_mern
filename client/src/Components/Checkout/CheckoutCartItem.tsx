@@ -14,7 +14,8 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
         price,
         amount,
         note,
-        category
+        category,
+        productExtra
     } = el;
     const image = getImg(category === 'Custom Parts' ? 'products/custom' : 'products', img);
     function changeAmount(type: changeAmountType) {
@@ -24,7 +25,11 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
         <div className={s.cartItem}>
             <img className={s.img} src={image} alt={name}/>
             <div className={s.itemData}>
-                <div className={s.itemName}>{name} <span className={s.category}>{category}</span></div>
+                <div className={s.itemName}>
+                    <span>{name}</span>
+                    <span className={s.category}>{category}</span>
+                    {!productExtra?.isStandard && <span className={s.non}>Non-standard size</span>}
+                </div>
                 <div className={s.attrs}>
                     <CartItemOptions item={el} />
                 </div>

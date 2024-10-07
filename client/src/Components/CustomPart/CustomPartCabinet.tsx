@@ -7,7 +7,7 @@ import LEDForm from "./LEDForm";
 import DoorAccessoiresForm from "./DoorAccessoiresForm";
 import GlassDoorForm from "./GlassDoorForm";
 import GlassShelfForm from "./GlassShelfForm";
-import StandartDoorForm from "./StandartDoorForm";
+import StandardDoorForm from "./StandardDoorForm";
 import BackingForm from "./BackingForm";
 
 type CustomPartCabinetType = {
@@ -31,9 +31,9 @@ const CustomPartCabinet: FC<CustomPartCabinetType> = ({customPart, materials}) =
             return <GlassDoorForm customPart={customPart} materials={materials}/>
         case "glass-shelf":
             return <GlassShelfForm customPart={customPart} materials={materials}/>
-        case "standart-door":
-        case "standart-glass-door":
-            return <StandartDoorForm customPart={customPart}/>
+        case "standard-door":
+        case "standard-glass-door":
+            return <StandardDoorForm customPart={customPart}/>
         default:
             return <></>
     }

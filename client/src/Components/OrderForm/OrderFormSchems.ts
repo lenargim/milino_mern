@@ -9,13 +9,13 @@ export const OrderFormSchema = Yup.object({
     'Door Type': Yup.string()
         .ensure()
         .when('Category',  {
-            is: (val:RoomType | '') => val !== 'Standart Door',
+            is: (val:RoomType | '') => val !== 'Standard Door',
             then: schema => schema.required('Please write down door type'),
         }),
     'Door Finish Material': Yup.string()
         .ensure()
         .when('Category',  {
-            is: (val:RoomType | '') => val !== 'Standart Door',
+            is: (val:RoomType | '') => val !== 'Standard Door',
             then: schema => schema.required('Please write down finish material'),
         }),
     'Door Frame Width': Yup.string()

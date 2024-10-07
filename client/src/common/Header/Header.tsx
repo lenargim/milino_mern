@@ -9,57 +9,59 @@ import {FormikState} from 'formik';
 import {OrderFormType} from "../../helpers/types";
 
 const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>) => void }> = ({resetForm}) => {
-        const navigate = useNavigate()
-        const dispatch = useAppDispatch();
-        const materials = localStorage.getItem('materials');
-        const location = useLocation();
-        const path = location.pathname.slice(1);
-        const cartState = useAppSelector(state => state.general.cart)
-        const {cartLength} = getCartData(cartState,dispatch);
-        const isCabinetsPageShown = !['cabinets', ''].includes(path);
-        const isChangeMaterialsPageShown = materials && path !== '';
-        const isResetMaterialsShown = materials && path !== 'checkout';
-        const isCartShown = cartLength && path !== 'checkout';
-        const resetMaterials = () => {
-            localStorage.removeItem('materials');
-            resetForm ?
-                resetForm({
-                    values: {
-                        'Category': '',
-                        'Door Type': '',
-                        'Door Finish Material': '',
-                        'Door Frame Width': '',
-                        'Door Color': '',
-                        'Door Grain': '',
-                        'Box Material': '',
-                        'Drawer': '',
-                        'Drawer Type': '',
-                        'Drawer Color': '',
-                        'Leather Type': ''
-                    },
-                    submitCount: 0
-                }) : navigate('/')
-            dispatch(setMaterials(null))
-            dispatch(removeCart())
-        }
-        return (
-            <header className={s.header}>
-                <div className={s.left}>
-                    <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>
-                    {isCabinetsPageShown ? <NavLink to={"/cabinets"} className={s.link}>Back to cabinets</NavLink> : null}
-                </div>
-                <div className={s.right}>
-                    {isResetMaterialsShown ? <button type="button" onClick={() => resetMaterials()}>Reset</button> : null}
-                    {isChangeMaterialsPageShown ? <NavLink to={"/"} className={s.link}>Change materials</NavLink> : null}
-                    {isCartShown ? <Cart length={cartLength}/> : null}
-                </div>
-            </header>
-        );
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch();
+    const materials = localStorage.getItem('materials');
+    const location = useLocation();
+    const isAuth = useAppSelector(state => state.user.isAuth)
+    const path = location.pathname.slice(1);
+    const cartState = useAppSelector(state => state.general.cart)
+    const {cartLength} = getCartData(cartState, dispatch);
+    const isCabinetsPageShown = !['', 'cabinets'].includes(path);
+
+    const isChangeMaterialsPageShown = materials && path !== '';
+    const isResetMaterialsShown = materials && path !== 'checkout';
+    const isCartShown = cartLength && path !== 'checkout';
+    const resetMaterials = () => {
+        localStorage.removeItem('materials');
+        resetForm ?
+            resetForm({
+                values: {
+                    'Category': '',
+                    'Door Type': '',
+                    'Door Finish Material': '',
+                    'Door Frame Width': '',
+                    'Door Color': '',
+                    'Door Grain': '',
+                    'Box Material': '',
+                    'Drawer': '',
+                    'Drawer Type': '',
+                    'Drawer Color': '',
+                    'Leather Type': ''
+                },
+                submitCount: 0
+            }) : navigate('/')
+        dispatch(setMaterials(null))
+        dispatch(removeCart())
     }
-;
+    return (
+        <header className={s.header}>
+            <div className={s.left}>
+                <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>
+                {isAuth ? <NavLink to={'/profile'}>Profile</NavLink> : <NavLink to={'/login'}>Log In</NavLink>}
+                {!isCabinetsPageShown ?
+                    <NavLink to={"/cabinets"} className={s.link}>Back to cabinets</NavLink> : null}
+            </div>
+            <div className={s.right}>
+                {isResetMaterialsShown ? <button type="button" onClick={() => resetMaterials()}>Reset</button> : null}
+                {isChangeMaterialsPageShown ? <NavLink to={"/"} className={s.link}>Change materials</NavLink> : null}
+                {isCartShown ? <Cart length={cartLength}/> : null}
+            </div>
+        </header>
+    );
+};
 
 export default Header;
-
 
 const Cart: FC<{ length: number }> = ({length}) => {
     return (
