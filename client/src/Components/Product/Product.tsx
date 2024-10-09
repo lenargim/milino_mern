@@ -3,7 +3,7 @@ import s from './product.module.sass'
 import {useParams} from "react-router-dom";
 import {OrderFormType} from "../../helpers/types";
 import {
-    addToCartProduct, getProductById, productValuesType, useAppDispatch,
+    addToCartProduct, addToCartProductAPI, getProductById, productValuesType, useAppDispatch,
 } from "../../helpers/helpers";
 import {
     productCategory, sizeLimitsType
@@ -101,12 +101,15 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
-                const cartData = addToCartProduct(product, values, productRange);
-                roomId ?
-                    addToCartInRoomAPI(cartData, roomId).then(cart => {
+                if (roomId) {
+                    const cartDataAPI = addToCartProductAPI(product.id, values, productRange)
+                    addToCartInRoomAPI(cartDataAPI, roomId).then(cart => {
                         if (cart) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
-                    }) :
+                    })
+                } else {
+                    const cartData = addToCartProduct(product, values, productRange);
                     dispatch(addToCart(cartData))
+                }
                 resetForm();
 
             }}

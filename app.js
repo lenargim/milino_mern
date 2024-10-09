@@ -4,12 +4,10 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import path from 'path';
 import {fileURLToPath} from 'url';
-import {UserController, PDFController} from './controllerls/index.js';
+import {UserController, PDFController, RoomController, CartController} from './controllerls/index.js';
 import {registerValidation, loginValidation, roomCreateValidation, cartItemValidation} from './validations.js'
 import {checkAuth, handleValidationErrors} from './utils/index.js'
 import * as dotenv from 'dotenv';
-import {create, getAll, getOne, remove, update} from "./controllerls/RoomController.js";
-import {addToCart} from "./controllerls/CartController.js";
 
 const env = dotenv.config().parsed;
 mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@cluster0.fwqst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
@@ -52,13 +50,13 @@ const start = async () => {
     app.get('/api/users/me', checkAuth, UserController.getMe)
     app.patch('/api/users/me', checkAuth, UserController.patchMe)
 
-    app.post('/api/rooms', checkAuth, roomCreateValidation, handleValidationErrors, create)
-    app.get('/api/rooms/:id', checkAuth, getOne)
-    app.get('/api/rooms', checkAuth, getAll)
-    app.delete('/api/rooms/:id', checkAuth, remove)
-    app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, update)
+    app.post('/api/rooms', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
+    app.get('/api/rooms/:id', checkAuth, RoomController.getOne)
+    app.get('/api/rooms', checkAuth, RoomController.getAll)
+    app.delete('/api/rooms/:id', checkAuth, RoomController.remove)
+    app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.update)
 
-    app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, addToCart)
+    app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

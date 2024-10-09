@@ -4,9 +4,7 @@ import axios from "axios";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
 import {CartItemType} from "../store/reducers/generalSlice";
 import {cornerTypes, hingeTypes} from "../helpers/productTypes";
-import {useAppDispatch} from "../helpers/helpers";
 import {calculateCart} from "../helpers/calculatePrice";
-import {ThunkDispatch} from "@reduxjs/toolkit";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -138,52 +136,33 @@ export interface CartAPIResponse extends CartAPI {
     updatedAt: Date
 }
 
-export const addToCartInRoomAPI = async (product: CartItemType, _id: string) => {
+export const addToCartInRoomAPI = async (product: CartAPI, _id: string) => {
     try {
-        const {productExtra} = product;
-        if (!productExtra) return ;
-        const {
-            doorProfile,
-            doorGlassType,
-            shelfGlassType,
-            shelfGlassColor,
-            doorGlassColor,
-            hinge,
-            options,
-            middleSection,
-            blindWidth,
-            width,
-            height,
-            depth,
-            shelfProfile,
-            corner,
-            led,
-            leather,
-        } = productExtra;
+        // const cart: CartAPI = {
+        //     product_id: product.id,
+        //     product_type: 'cabinet',
+        //     amount: product.amount,
+        //     width: width || 0,
+        //     height: height || 0,
+        //     depth: depth || 0,
+        //     blind_width: blindWidth || 0,
+        //     corner: corner || '',
+        //     middle_section: middleSection || 0,
+        //     hinge: hinge || '',
+        //     options: options || [],
+        //     door_option: [doorProfile||'', doorGlassType||'', doorGlassColor||''],
+        //     shelf_option: [shelfProfile||'', shelfGlassType||'', shelfGlassColor||''],
+        //     led_border: led?.border || [],
+        //     led_alignment: led?.alignment || '',
+        //     led_indent: led?.indent || '',
+        //     leather: leather || '',
+        //     note: product.note
+        // }
 
-        const cart: CartAPI = {
-            product_id: product.id,
-            product_type: 'cabinet',
-            amount: product.amount,
-            width: width || 0,
-            height: height || 0,
-            depth: depth || 0,
-            blind_width: blindWidth || 0,
-            corner: corner || '',
-            middle_section: middleSection || 0,
-            hinge: hinge || '',
-            options: options || [],
-            door_option: [doorProfile||'', doorGlassType||'', doorGlassColor||''],
-            shelf_option: [shelfProfile||'', shelfGlassType||'', shelfGlassColor||''],
-            led_border: led?.border || [],
-            led_alignment: led?.alignment || '',
-            led_indent: led?.indent || '',
-            leather: leather || '',
-            note: product.note
-        }
+        const cartResponse = await cartAPI.addToCart(product, _id);
 
-        const cartResponse = await cartAPI.addToCart(cart, _id);
-        return calculateCart(cartResponse.data);
+        // return calculateCart(cartResponse.data);
+        return cartResponse.data
     } catch (error) {
         alertError(error);
     }

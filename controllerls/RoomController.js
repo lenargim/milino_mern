@@ -1,5 +1,5 @@
 import RoomModel from "../models/Room.js";
-
+import CartModel from '../models/Cart.js'
 
 export const create = async (req, res) => {
   try {
@@ -10,8 +10,8 @@ export const create = async (req, res) => {
 
     const post = await doc.save()
       .catch(err => {
-      console.log(err)
-    });
+        console.log(err)
+      });
 
     res.json(post);
   } catch (e) {
@@ -42,13 +42,21 @@ export const getOne = async (req, res) => {
 export const getAll = async (req, res) => {
   try {
     const userId = req.userId;
-    const doc = await RoomModel.find({user: userId});
-    if (!doc) {
+    const rooms = await RoomModel.find({user: userId});
+    if (!rooms) {
       return res.status(404).json({
         message: 'Rooms not found'
       })
     }
-    res.json(doc)
+
+    const data = await Promise.all(
+      rooms.map(async (room) => {
+        const cart = await CartModel.find({room: room._id});
+        return {...room._doc, cart: cart || []}
+      })
+    )
+
+    res.json(data)
   } catch (e) {
     res.status(500).json({
       message: 'Cannot get rooms'

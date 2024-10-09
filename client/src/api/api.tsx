@@ -1,10 +1,7 @@
-import axios from "axios";
+import axios, {AxiosInstance} from "axios";
 import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
-import product from "../Components/Product/Product";
-import cartItem from "../Components/Product/CartItem";
-import {CartItemType} from "../store/reducers/generalSlice";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 
 const instanceFormData = axios.create({
@@ -14,13 +11,12 @@ const instanceFormData = axios.create({
     },
 })
 
-const instance = axios.create({
+const instance:AxiosInstance = axios.create({
     baseURL: process.env.BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
 })
-
 
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -40,7 +36,6 @@ export const usersAPI = {
     me: () => instance.get('/api/users/me', {headers: getHeaders()}),
     patchMe: (data:EditProfileType) => instance.patch('/api/users/me', data, {headers: getHeaders()})
 }
-
 
 export const roomsAPI = {
     getAll: () => instance.get<RoomTypeAPI[]>('/api/rooms', {headers: getHeaders()}),

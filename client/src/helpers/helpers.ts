@@ -31,6 +31,7 @@ import {getDoorMinMaxValuesArr} from "./calculatePrice";
 import {OrderFormType} from "./types";
 import {ledAlignmentType} from "../Components/Product/LED";
 import {MaybeNull, MaybeUndefined} from "../Components/Profile/RoomForm";
+import {CartAPI} from "../api/apiFunctions";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -433,6 +434,81 @@ export const addToCartProduct = (product: ProductType, values: productValuesType
         extra.corner = corner
     }
     cartData.productExtra = extra;
+
+    return cartData
+}
+
+
+
+export const addToCartProductAPI = (product_id: number, values: productValuesType, productRange:productRangeType):CartAPI => {
+    const {
+        'Width': width,
+        'Blind Width': blindWidth,
+        'Height': height,
+        'Depth': depth,
+        'Custom Depth Number': customDepth,
+        'Hinge opening': hinge,
+        'Corner': corner,
+        Options: chosenOptions,
+        'Door Profile': doorProfile,
+        'Door Glass Type': doorGlassType,
+        'Door Glass Color': doorGlassColor,
+        'Shelf Profile': shelfProfile,
+        'Shelf Glass Type': shelfGlassType,
+        'Shelf Glass Color': shelfGlassColor,
+        'Note': note,
+        'LED borders': ledBorders,
+        'LED alignment': ledAlignment,
+        'LED indent': ledIndent,
+        image_active_number,
+        price,
+        cartExtras,
+
+        // Excluded in standard cabinet
+        'Custom Width Number': customWidth,
+        'Custom Height Number': customHeight,
+        'Custom Blind Width Number': customBlindWidth,
+        'Middle Section Number': middleSection,
+    } = values;
+
+    // const img = images[image_active_number - 1].value || ''
+    // const cartData: CartItemType = {
+    //     id,
+    //     uuid: uuidv4(),
+    //     category,
+    //     name,
+    //     img: img,
+    //     amount: 1,
+    //     price: price,
+    //     note,
+    // }
+
+    const realW = width || customWidth || 0;
+    const realH = height || customHeight || 0;
+    const realD = depth || customDepth || 0;
+    const realMiddle = middleSection || 0
+    const realBlind = blindWidth || customBlindWidth || 0;
+
+    const cartData:CartAPI = {
+        product_id,
+        product_type: 'cabinet',
+        width: realW,
+        height: realH,
+        depth: realD,
+        blind_width: realBlind,
+        middle_section: realMiddle,
+        amount: 1,
+        hinge: hinge,
+        corner: corner,
+        options: chosenOptions,
+        door_option: [doorProfile, doorGlassType, doorGlassColor],
+        shelf_option: [shelfProfile, shelfGlassType, shelfGlassColor],
+        leather: '',
+        led_alignment: ledAlignment,
+        led_border: ledBorders,
+        led_indent: ledIndent,
+        note: note
+    }
 
     return cartData
 }

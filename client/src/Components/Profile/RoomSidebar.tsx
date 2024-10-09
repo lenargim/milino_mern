@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getCartTotal, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {OrderFormType} from "../../helpers/types";
 import Sidebar from "../OrderForm/Sidebar/Sidebar";
+import {calculateCart} from "../../helpers/calculatePrice";
 
 const RoomSidebar:FC = () => {
     const {roomId} = useParams();
@@ -43,9 +44,12 @@ const RoomSidebar:FC = () => {
         'Leather Type': leather
     };
     if (!cart) return null;
+    
+
+    const frontCart = calculateCart(cart)
 
     return (
-        <Sidebar values={materials} cart={cart} total={getCartTotal(cart)} cartLength={cart.length} />
+        <Sidebar values={materials} cart={frontCart} total={getCartTotal(frontCart)} cartLength={frontCart.length} />
         // <div className={s.roomSidebar}>
         //     <div className={s.categories}>
         //         <div>Category: {category}</div>

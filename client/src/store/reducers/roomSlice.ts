@@ -6,13 +6,13 @@ import {
     ProductType,
     productTypings,
 } from "../../helpers/productTypes";
-import {CartItemType} from "./generalSlice";
+import {CartAPIResponse} from "../../api/apiFunctions";
 
 export interface RoomTypeAPI extends RoomInitialType {
     _id: string,
     activeProductCategory: MaybeEmpty<productCategory>,
     productPage: MaybeNull<ProductType>,
-    cart: CartItemType[]
+    cart: CartAPIResponse[]
 }
 
 interface RoomsState {
@@ -56,7 +56,7 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        updateCartInRoom: (state, action: PayloadAction<{cart:CartItemType[],_id:string}>) => {
+        updateCartInRoom: (state, action: PayloadAction<{cart:CartAPIResponse[],_id:string}>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload._id ? {
                     ...room,
