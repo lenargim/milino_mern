@@ -7,7 +7,7 @@ import {
     pricePart,
     pricesTypings,
     productCategory, productDataToCalculatePriceType,
-    productRangeType, productSizesType, productType,
+    productRangeType, productSizesType, ProductType,
     productTypings,
     profileItem,
     sizeLimitsType, StandardMaterialDataType, valueItemType
@@ -16,15 +16,18 @@ import prices from './../api/prices.json';
 import pricesGola from './../api/pricesGola.json'
 import pricesCloset from './../api/pricesClosets.json'
 import settings from './../api/settings.json'
-import {getAttributes, getSquare, isHasLedBlock} from "./helpers";
+import {getAttributes, getProductById, getSquare, isHasLedBlock} from "./helpers";
 import {OrderFormType} from "./types";
 import {
-    CartItemType,
+    CartItemType, initialCartExtras,
     productChangeMaterialType,
     updateCartItemPrice,
 } from "../store/reducers/generalSlice";
 import baseProductPrices from '../api/standartProductsPrices.json'
 import sizes from './../api/sizes.json'
+import {CartAPI, CartAPIResponse} from "../api/apiFunctions";
+import cabinets from './../api/cabinets.json'
+import {MaybeNull} from "../Components/Profile/RoomForm";
 
 export type coefType = {
     width: number,
@@ -67,8 +70,8 @@ export const getPriceData = (id: number, category: productCategory, basePriceTyp
     return productPrices && productPrices.find(el => el.type === basePriceType)?.data;
 }
 
-export const getInitialPrice = (priceData: pricePart[], productRange: productRangeType, category: productCategory, coefs: number): number | undefined => {
-    let price: number | undefined;
+export const getInitialPrice = (priceData: pricePart[], productRange: productRangeType, category: productCategory, coefs: number): number => {
+    let price;
     switch (category) {
         case 'Base Cabinets':
         case "Regular Vanities":
@@ -89,7 +92,7 @@ export const getInitialPrice = (priceData: pricePart[], productRange: productRan
             price = priceData.find(el => el.width === productRange.widthRange[0] && el.height === productRange.heightRange[0])?.price;
             break
     }
-    return price ? +(price * coefs).toFixed(1) : undefined
+    return price ? +(price * coefs).toFixed(1) : 0
 }
 
 
@@ -646,16 +649,15 @@ export const getStandardMaterialData = (materials: OrderFormType): StandardMater
     }
 }
 
-export const getProductDataToCalculatePrice = (product: productType | productChangeMaterialType, drawerBrand: string): productDataToCalculatePriceType => {
+export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: string, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {
-        type,
         attributes,
         options,
         category,
         isBlind
     } = product;
 
-    const attrArr = getAttributes(attributes, type);
+    const attrArr = getAttributes(attributes, image_active_number);
     const doorValues = attributes.find(el => el.name === 'Door')?.values;
 
     const drawersQty = attrArr.reduce((acc, current) => {
@@ -682,32 +684,32 @@ export const getProductDataToCalculatePrice = (product: productType | productCha
     }
 }
 
-export const getStandardProductPriceData = (product: productType, materialData: StandardMaterialDataType) => {
-    const {category, attributes, isBlind, type, options} = product;
-    const {drawer: {drawerBrand}} = materialData;
-    const attrArr = getAttributes(attributes, type);
-    const doorValues = attributes.find(el => el.name === 'Door')?.values;
-    const drawersQty = attrArr.reduce((acc, current) => {
-        const qty = current.name.includes('Drawer') ? current.value : 0
-        return acc + qty;
-    }, 0);
-    const rolloutsQty = attrArr.reduce((acc, current) => {
-        const qty = current.name.includes('Rollout') ? current.value : 0
-        return acc + qty;
-    }, 0);
-    const blindArr = isBlind ? getBlindArr(category) : undefined;
-    const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
-    const shelfsQty = getShelfsQty(attrArr);
-
-    return {
-        doorValues,
-        blindArr,
-        filteredOptions,
-        shelfsQty,
-        drawersQty,
-        rolloutsQty
-    }
-}
+// export const getStandardProductPriceData = (product: ProductType, materialData: StandardMaterialDataType) => {
+//     const {category, attributes, isBlind, image_active_number, options} = product;
+//     const {drawer: {drawerBrand}} = materialData;
+//     const attrArr = getAttributes(attributes, image_active_number);
+//     const doorValues = attributes.find(el => el.name === 'Door')?.values;
+//     const drawersQty = attrArr.reduce((acc, current) => {
+//         const qty = current.name.includes('Drawer') ? current.value : 0
+//         return acc + qty;
+//     }, 0);
+//     const rolloutsQty = attrArr.reduce((acc, current) => {
+//         const qty = current.name.includes('Rollout') ? current.value : 0
+//         return acc + qty;
+//     }, 0);
+//     const blindArr = isBlind ? getBlindArr(category) : undefined;
+//     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
+//     const shelfsQty = getShelfsQty(attrArr);
+//
+//     return {
+//         doorValues,
+//         blindArr,
+//         filteredOptions,
+//         shelfsQty,
+//         drawersQty,
+//         rolloutsQty
+//     }
+// }
 
 export const getBaseProductPrice = (id: number): pricePart[] | undefined => {
     const arr = baseProductPrices
@@ -938,12 +940,13 @@ function notEmpty<TValue>(value: TValue | undefined): value is TValue {
 export const checkCartData = (cart: CartItemType[], values: OrderFormType, dispatch: Function) => {
     cart.forEach(product => {
         const {id, category, productExtra} = product;
+        console.log(product)
         switch (category) {
             case "Standard Base Cabinets":
             case "Standard Wall Cabinets":
             case "Standard Tall Cabinets": {
                 const materialData = getStandardMaterialData(values);
-                const {boxMaterialCoef, } = materialData
+                const {boxMaterialCoef,} = materialData
                 if (!productExtra) return null;
                 const {width, height, depth, cartExtras} = productExtra;
                 const {
@@ -1033,7 +1036,66 @@ export const checkCartData = (cart: CartItemType[], values: OrderFormType, dispa
                 break;
             }
             case "Custom Parts":
-            break;
+                break;
         }
     })
+}
+
+
+export const calculateCart = (cartResponse: CartAPIResponse[]): CartItemType[] => {
+    const cart = cartResponse.map(item => {
+        const productAPI = getProductById(item.product_id);
+        if (!productAPI) return null;
+        const price = 0;
+        const type = 1;
+        const isStandard = false;
+
+        const product: CartItemType = {
+            id: item.product_id,
+            amount: item.amount,
+            note: item.note,
+            img: productAPI.images[0].value,
+            name: productAPI.name,
+            category: productAPI.category,
+            uuid: item._id,
+            price,
+        }
+        switch (item.product_type) {
+            case "cabinet":
+                product.productExtra = {
+                    width: item.width,
+                    height: item.height,
+                    depth: item.depth,
+                    options: item.options,
+
+                    doorProfile: item.door_option[0],
+                    doorGlassType: item.door_option[1],
+                    doorGlassColor: item.door_option[2],
+                    shelfProfile: item.shelf_option[0],
+                    shelfGlassType: item.shelf_option[1],
+                    shelfGlassColor: item.shelf_option[2],
+                    middleSection: item.middle_section,
+                    led: {
+                        border: item.led_border,
+                        alignment: item.led_alignment,
+                        indent: item.led_indent
+                    },
+                    leather: item.leather,
+                    type,
+                    hinge: item.hinge,
+                    isStandard,
+                    legsHeight: productAPI.legsHeight,
+                    corner: item.corner,
+                    blindWidth: item.blind_width,
+                    cartExtras: initialCartExtras
+                }
+                return product;
+                break
+            default:
+                return product
+        }
+    })
+    const filteredArray = cart.filter((element): element is CartItemType => element !== null)
+
+    return filteredArray
 }

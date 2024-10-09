@@ -1,39 +1,128 @@
 import React, {FC} from 'react';
-import Header from "../../common/Header/Header";
 import s from './product.module.sass'
-import ProductMain from "./ProductMain";
-import Cart from "./Cart";
-import {Navigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {OrderFormType} from "../../helpers/types";
-import {getProductsByCategory, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {
-    productCategory,
-    productDataType
+    addToCartProduct, getProductById, productValuesType, useAppDispatch,
+} from "../../helpers/helpers";
+import {
+    productCategory, sizeLimitsType
 } from "../../helpers/productTypes";
-import {setProduct} from "../../store/reducers/generalSlice";
+import Cabinet from "./Cabinet";
+import {Formik} from 'formik';
+import {
+    getMaterialData,
+    getPriceData,
+    getProductRange,
+} from "../../helpers/calculatePrice";
+import sizes from "../../api/sizes.json";
+import {MaybeNull, MaybeUndefined} from "../Profile/RoomForm";
+import ProductLeft from "./ProductLeft";
+import {getProductSchema} from "./ProductSchema";
+import {addToCart} from "../../store/reducers/generalSlice";
+import {addToCartInRoomAPI} from "../../api/apiFunctions";
+import {updateCartInRoom} from "../../store/reducers/roomSlice";
 
-const Product: FC = () => {
-    const dispatch = useAppDispatch()
+const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
     let {productId, category} = useParams();
-    const storeProduct = useAppSelector(state => state.general.product);
-    const materialsString = localStorage.getItem('materials');
-    const materials: OrderFormType = materialsString ? JSON.parse(materialsString) : <Navigate to={{pathname: '/'}}/>;
-    let products = getProductsByCategory(category as productCategory);
-    const productById: productDataType | undefined = products.find(product => (product.id).toString() === productId);
-    if (!productById || !category) return <Navigate to={{pathname: '/cabinets'}}/>;
+    const dispatch = useAppDispatch();
+    const {roomId} = useParams();
+    if (!productId || !category || !materials) return <div>Product error</div>;
+    let product = getProductById(+productId);
+    if (!product) return <div>Product error</div>;
+
+
     localStorage.setItem('category', category);
 
-    if (!storeProduct || storeProduct.id !== productById.id) {
-        dispatch(setProduct(productById));
+    const {id, isBlind, isCornerChoose, customHeight, customDepth} = product;
+
+    const materialData = getMaterialData(materials)
+    const {basePriceType} = materialData
+    const tablePriceData = getPriceData(id, category as productCategory, basePriceType);
+    const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
+
+    const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
+    const {widthRange, heightRange, depthRange} = productRange
+    if (!widthRange.length) return <div>Cannot find initial width</div>;
+    if (!sizeLimit) return <div>Cannot find size limit</div>;
+    if (!tablePriceData) return <div>No price table data</div>
+
+    const initialValues: productValuesType = {
+        'Width': widthRange[0],
+        isBlind: isBlind,
+        'Blind Width': 0,
+        'Height': heightRange[0],
+        'Depth': depthRange[0],
+        'Custom Width': '',
+        'Custom Blind Width': '',
+        'Custom Height': '',
+        'Custom Depth': '',
+        'Custom Width Number': '',
+        'Custom Blind Width Number': '',
+        'Custom Height Number': '',
+        'Custom Depth Number': '',
+        'Middle Section': '',
+        'Middle Section Number': '',
+        'Doors': 0,
+        'Hinge opening': '',
+        'Corner': isCornerChoose ? 'Left' : '',
+        'Options': [],
+        'Profile': '',
+        'Glass Type': '',
+        'Glass Color': '',
+        'Glass Shelf': '',
+        'LED borders': [],
+        'LED alignment': 'Center',
+        'LED indent': '',
+        'Note': '',
+        'Door Profile': '',
+        'Door Glass Type': '',
+        'Door Glass Color': '',
+        'Shelf Profile': '',
+        'Shelf Glass Type': '',
+        'Shelf Glass Color': '',
+        image_active_number: 1,
+        cartExtras: {
+            ptoDoors: 0,
+            ptoDrawers: 0,
+            glassShelf: 0,
+            glassDoor: 0,
+            ptoTrashBins: 0,
+            ledPrice: 0,
+            coefExtra: 1,
+            attributes: [],
+            boxFromFinishMaterial: false
+        },
+        price: 0,
     }
     return (
-        <div className={s.wrap}>
-            <div className={s.main}>
-                <Header/>
-                <ProductMain product={storeProduct} materials={materials}/>
-            </div>
-            <Cart/>
-        </div>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={getProductSchema(product, sizeLimit)}
+            onSubmit={(values: productValuesType, {resetForm}) => {
+                if (!product) return;
+                const cartData = addToCartProduct(product, values, productRange);
+                roomId ?
+                    addToCartInRoomAPI(cartData, roomId).then(cart => {
+                        if (cart) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
+                    }) :
+                    dispatch(addToCart(cartData))
+                resetForm();
+
+            }}
+        >
+            <>
+                <ProductLeft product={product}/>
+                <div className={s.right}>
+                    <Cabinet product={product}
+                             materialData={materialData}
+                             productRange={productRange}
+                             tablePriceData={tablePriceData}
+                             sizeLimit={sizeLimit}
+                    />
+                </div>
+            </>
+        </Formik>
     );
 };
 

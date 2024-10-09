@@ -1,7 +1,12 @@
 import {EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
-import {AuthAPI, roomsAPI, usersAPI} from "./api";
+import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
+import {CartItemType} from "../store/reducers/generalSlice";
+import {cornerTypes, hingeTypes} from "../helpers/productTypes";
+import {useAppDispatch} from "../helpers/helpers";
+import {calculateCart} from "../helpers/calculatePrice";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -78,7 +83,7 @@ export const getAllRooms = async () => {
     }
 }
 
-export const createRoom = async (room:RoomInitialType) => {
+export const createRoom = async (room: RoomInitialType) => {
     try {
         const res = await roomsAPI.createRoom(room);
         return res.data;
@@ -87,7 +92,7 @@ export const createRoom = async (room:RoomInitialType) => {
     }
 }
 
-export const editRoomAPI = async (room:RoomInitialType, id:string) => {
+export const editRoomAPI = async (room: RoomInitialType, id: string) => {
     try {
         const res = await roomsAPI.editRoom(room, id);
         return res.data;
@@ -96,10 +101,89 @@ export const editRoomAPI = async (room:RoomInitialType, id:string) => {
     }
 }
 
-export const deleteRoomAPI = async (id:string) => {
+export const deleteRoomAPI = async (id: string) => {
     try {
         const res = await roomsAPI.deleteRoom(id);
         return res.data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+
+export type CartAPI = {
+    product_id: number,
+    product_type: 'cabinet',
+    amount: number,
+    width: number,
+    height: number,
+    depth: number,
+    blind_width: number,
+    corner: cornerTypes,
+    middle_section: number,
+    hinge: hingeTypes,
+    options: string[],
+    door_option: string[],
+    shelf_option: string[]
+    led_border: string[],
+    led_alignment: string,
+    led_indent: string,
+    leather: string,
+    note: string
+}
+
+export interface CartAPIResponse extends CartAPI {
+    _id: string,
+    createdAt: Date,
+    updatedAt: Date
+}
+
+export const addToCartInRoomAPI = async (product: CartItemType, _id: string) => {
+    try {
+        const {productExtra} = product;
+        if (!productExtra) return ;
+        const {
+            doorProfile,
+            doorGlassType,
+            shelfGlassType,
+            shelfGlassColor,
+            doorGlassColor,
+            hinge,
+            options,
+            middleSection,
+            blindWidth,
+            width,
+            height,
+            depth,
+            shelfProfile,
+            corner,
+            led,
+            leather,
+        } = productExtra;
+
+        const cart: CartAPI = {
+            product_id: product.id,
+            product_type: 'cabinet',
+            amount: product.amount,
+            width: width || 0,
+            height: height || 0,
+            depth: depth || 0,
+            blind_width: blindWidth || 0,
+            corner: corner || '',
+            middle_section: middleSection || 0,
+            hinge: hinge || '',
+            options: options || [],
+            door_option: [doorProfile||'', doorGlassType||'', doorGlassColor||''],
+            shelf_option: [shelfProfile||'', shelfGlassType||'', shelfGlassColor||''],
+            led_border: led?.border || [],
+            led_alignment: led?.alignment || '',
+            led_indent: led?.indent || '',
+            leather: leather || '',
+            note: product.note
+        }
+
+        const cartResponse = await cartAPI.addToCart(cart, _id);
+        return calculateCart(cartResponse.data);
     } catch (error) {
         alertError(error);
     }

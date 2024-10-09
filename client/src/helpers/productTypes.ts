@@ -1,14 +1,12 @@
 import {optionType} from "../common/SelectField";
-import {OrderFormType} from "./types";
-
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
-export type hingeTypes = 'Left' | 'Right' | 'Double Doorx' | 'Single Door' | '';
+export type hingeTypes = 'Left' | 'Right' | 'Double Door' | 'Single Door' | '';
 export type cornerTypes = 'Left' | 'Right' | '';
 
 export const cornerArr:cornerTypes[] = ["Left", "Right"];
-export const hingeArr:hingeTypes[] = ['Left' , 'Right' , 'Double Doorx' , 'Single Door'];
+export const hingeArr:hingeTypes[] = ['Left' , 'Right' , 'Double Door' , 'Single Door'];
 
 
 export type kitchenCategories =
@@ -18,7 +16,10 @@ export type kitchenCategories =
     | 'Gola Base Cabinets'
     | 'Gola Wall Cabinets'
     | 'Gola Tall Cabinets'
-export type StandardCategory = 'Standard Base Cabinets' | 'Standard Wall Cabinets' | 'Standard Tall Cabinets'
+export type StandardCategory =
+    'Standard Base Cabinets'
+    | 'Standard Wall Cabinets'
+    | 'Standard Tall Cabinets'
 export type productCategory =
     kitchenCategories
     | StandardCategory
@@ -27,22 +28,35 @@ export type productCategory =
     | 'Build In'
     | 'Leather'
     | 'Custom Parts'
-export type productDataType = {
+
+export type ProductType = {
     id: number,
     name: string,
     room: string,
     category: productCategory,
     images: itemImg[],
+    // price: number,
+    // image_active_number: productTypings,
     attributes: attrItem[],
     options: string[],
     legsHeight: number,
     isBlind: boolean,
     isAngle: boolean,
+    isProductStandard: boolean,
     customHeight?: number,
     customDepth?: number,
     hasSolidWidth?: true,
     hasMiddleSection?: true,
-    isCornerChoose?: boolean
+    isCornerChoose?: boolean,
+    doorSquare?: number,
+    widthDivider?: number,
+    heightRange?: number,
+    cartExtras: CartExtrasType
+}
+
+
+export const DefaultProductType: Pick<ProductType, 'isProductStandard'> = {
+    isProductStandard: false,
 }
 
 export type customPartDataType = {
@@ -79,25 +93,17 @@ export type materialsLimitsType = {
     depth?: number[]
 }
 
-export interface productType extends productDataType {
-    type: productTypings,
-    price: number,
-    doorSquare?: number,
-    widthDivider?: number,
-    heightRange?: number,
-    cartExtras: CartExtrasType
-}
 
-export interface standardProductType extends productDataType {
-    type: productTypings,
-    price: number,
-    height: number,
-    depth: number,
-    doorSquare?: number,
-    widthDivider?: number,
-    heightRange?: number,
-    cartExtras: CartExtrasType
-}
+// export interface standardProductType extends productDataType {
+//     type: productTypings,
+//     price: number,
+//     height: number,
+//     depth: number,
+//     doorSquare?: number,
+//     widthDivider?: number,
+//     heightRange?: number,
+//     cartExtras: CartExtrasType
+// }
 
 export type materialDataType = {
     category: string,
@@ -198,23 +204,25 @@ export interface drawerInterface {
 
 
 export type CabinetType = {
-    product: productType,
-    materials: OrderFormType
+    product: ProductType,
+    materialData: materialDataType,
+    productRange:productRangeType,
+    tablePriceData: pricePart[],
+    sizeLimit:sizeLimitsType
 }
 
 export type CabinetFormType = {
-    product: productType,
+    product: ProductType,
+    extraPrices: extraPricesType,
     productPriceData: productDataToCalculatePriceType,
-    sizeLimit: sizeLimitsType,
-    tablePriceData: pricePart[],
     productRange: productRangeType,
-    materialData: materialDataType
+    hingeArr: string[],
 }
 
-export type StandardCabinetType = {
-    product: standardProductType,
-    materials: OrderFormType,
-}
+// export type StandardCabinetType = {
+//     product: standardProductType,
+//     materials: OrderFormType,
+// }
 
 export type StandardMaterialDataType = {
     category: string
@@ -222,14 +230,14 @@ export type StandardMaterialDataType = {
     drawer: drawerInterface,
 }
 
-export type StandardCabinetFormType = {
-    product: standardProductType,
-    StandardProductPriceData: StandardProductDataToCalculatePriceType,
-    sizeLimit: sizeLimitsType,
-    baseProductPrice: pricePart[],
-    productRange: productRangeType
-    materialData: StandardMaterialDataType
-}
+// export type StandardCabinetFormType = {
+//     product: standardProductType,
+//     StandardProductPriceData: StandardProductDataToCalculatePriceType,
+//     sizeLimit: sizeLimitsType,
+//     baseProductPrice: pricePart[],
+//     productRange: productRangeType
+//     materialData: StandardMaterialDataType
+// }
 
 export type DepthRangeType = {
     [key: string]: number,

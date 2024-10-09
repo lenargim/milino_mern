@@ -6,10 +6,10 @@ import {deleteRoomAPI} from "../../api/apiFunctions";
 import {deleteRoom, RoomTypeAPI} from "../../store/reducers/roomSlice";
 
 const ProfileRoom = () => {
-    const {id} = useParams();
+    const {roomId} = useParams();
     const [rooms] = useOutletContext<[RoomTypeAPI[]]>();
     const navigate = useNavigate();
-    const roomData = rooms?.find(room => room._id === id);
+    const roomData = rooms?.find(room => room._id === roomId);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -33,8 +33,7 @@ const ProfileRoom = () => {
                             navigate(`/profile/rooms/`);
                         }
                     })
-                }}>Delete Room
-                </button>
+                }}>Delete Room</button>
             </div>
             <Outlet context={[roomData]}  />
         </div>

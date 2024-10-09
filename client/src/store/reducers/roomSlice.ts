@@ -1,19 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {MaybeEmpty, RoomInitialType} from "../../Components/Profile/RoomForm";
+import {MaybeEmpty, MaybeNull, RoomInitialType} from "../../Components/Profile/RoomForm";
 import {
     CartExtrasType,
     productCategory,
-    productDataType,
-    productType,
+    ProductType,
     productTypings,
-    standardProductType
 } from "../../helpers/productTypes";
-import {CartItemType, initialCartExtras} from "./generalSlice";
+import {CartItemType} from "./generalSlice";
 
 export interface RoomTypeAPI extends RoomInitialType {
     _id: string,
     activeProductCategory: MaybeEmpty<productCategory>,
-    productPage: productType | standardProductType | null,
+    productPage: MaybeNull<ProductType>,
     cart: CartItemType[]
 }
 
@@ -58,49 +56,54 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        setProduct: (state, action: PayloadAction<{ product: productDataType | null, roomId: string }>) => {
-            const prod: productType | standardProductType | null = action.payload.product ?
-                {
-                    ...action.payload.product,
-                    type: 1,
-                    price: 0,
-                    cartExtras: initialCartExtras
-
-                }
-                : null;
-            state.rooms = state.rooms.map(room => {
-                return room._id === action.payload.roomId
-                    ? {
-                        ...room, productPage: prod
-                    }
-                    : room;
-            })
-        },
-        addToCartInRoom: (state, action: PayloadAction<{ product: CartItemType, _id: string }>) => {
-            console.log(action.payload._id);
-            console.log(action.payload.product);
-
+        updateCartInRoom: (state, action: PayloadAction<{cart:CartItemType[],_id:string}>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload._id ? {
-                    ...room, cart: [...room.cart, action.payload.product]
+                    ...room,
+                    cart: action.payload.cart
                 } : room;
             })
-        },
-        updateProductInRoom: (state, action: PayloadAction<updateProductType>) => {
-            const {_id, type, price, cartExtras} = action.payload
-            state.rooms = state.rooms.map(room => {
-                const {productPage} = room
-                const newPage:productType | standardProductType|null = productPage ? JSON.parse(JSON.stringify(productPage)):null;
-                return newPage && room._id === _id ? {
-                    ...room, productPage: {
-                        ...newPage,
-                        type,
-                        price,
-                        cartExtras
-                    }
-                } : room;
-            })
-        },
+        }
+        // setProduct: (state, action: PayloadAction<{ product: productDataType | null, roomId: string }>) => {
+        //     const prod: productType | standardProductType | null = action.payload.product ?
+        //         {
+        //             ...action.payload.product,
+        //             type: 1,
+        //             price: 0,
+        //             cartExtras: initialCartExtras
+        //
+        //         }
+        //         : null;
+        //     state.rooms = state.rooms.map(room => {
+        //         return room._id === action.payload.roomId
+        //             ? {
+        //                 ...room, productPage: prod
+        //             }
+        //             : room;
+        //     })
+        // },
+        // addToCartInRoom: (state, action: PayloadAction<{ product: CartItemType, _id: string }>) => {
+        //     state.rooms = state.rooms.map(room => {
+        //         return room._id === action.payload._id ? {
+        //             ...room, cart: [action.payload.product]
+        //         } : room;
+        //     })
+        // },
+        // updateProductInRoom: (state, action: PayloadAction<updateProductType>) => {
+        //     const {_id, type, price, cartExtras} = action.payload
+        //     state.rooms = state.rooms.map(room => {
+        //         const {productPage} = room
+        //         const newPage:productType | standardProductType|null = productPage ? JSON.parse(JSON.stringify(productPage)):null;
+        //         return newPage && room._id === _id ? {
+        //             ...room, productPage: {
+        //                 ...newPage,
+        //                 type,
+        //                 price,
+        //                 cartExtras
+        //             }
+        //         } : room;
+        //     })
+        // },
     }
 })
 
@@ -110,9 +113,7 @@ export const {
     editRoom,
     deleteRoom,
     roomSetActiveCategory,
-    setProduct,
-    addToCartInRoom,
-    updateProductInRoom
+    updateCartInRoom,
 } = roomSlice.actions
 
 export default roomSlice.reducer

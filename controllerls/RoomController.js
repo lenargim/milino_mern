@@ -1,5 +1,6 @@
 import RoomModel from "../models/Room.js";
 
+
 export const create = async (req, res) => {
   try {
     const doc = new RoomModel({
@@ -7,9 +8,11 @@ export const create = async (req, res) => {
       user: req.userId,
     })
 
-    const post = await doc.save().catch(err => {
+    const post = await doc.save()
+      .catch(err => {
       console.log(err)
     });
+
     res.json(post);
   } catch (e) {
     res.status(500).json({

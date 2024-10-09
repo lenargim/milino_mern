@@ -1,0 +1,24 @@
+import CartModel from '../models/Cart.js'
+
+export const addToCart = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+    const doc = new CartModel({
+      ...req.body,
+      room: roomId,
+    })
+
+    await doc.save()
+      .catch(err => {
+        console.log(err)
+      });
+
+    const cart = await CartModel.find({room: roomId});
+
+    res.json(cart);
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot create Cart'
+    })
+  }
+}

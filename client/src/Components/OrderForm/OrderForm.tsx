@@ -9,7 +9,7 @@ import {getCartData, getInitialMaterials, useAppDispatch, useAppSelector} from "
 
 const OrderForm = () => {
     const dispatch = useAppDispatch();
-    const history = useNavigate();
+    const navigate = useNavigate();
     const initialValues = getInitialMaterials()
     const cartState = useAppSelector(state => state.general.cart)
     const {cart, total, cartLength} = getCartData(cartState,dispatch);
@@ -21,7 +21,7 @@ const OrderForm = () => {
             onSubmit={((values, actions) => {
                 localStorage.setItem('materials', JSON.stringify(values));
                 dispatch(setMaterials(values))
-                history('/cabinets');
+                navigate('/cabinets');
             })}
         >
             {({values, isValid, isSubmitting, setFieldValue}) => {

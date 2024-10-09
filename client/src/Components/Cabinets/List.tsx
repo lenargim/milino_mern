@@ -10,8 +10,7 @@ import {
 import {
     attrItem,
     customPartDataType,
-    productCategory,
-    productDataType,
+    productCategory, ProductType,
     productTypings
 } from "../../helpers/productTypes";
 import {RoomType} from "../../helpers/categoriesTypes";
@@ -41,7 +40,7 @@ const List: FC<{ category: productCategory, room: RoomType }> = ({category, room
 export default List;
 
 
-const Item: FC<{ product: productDataType }> = ({product}) => {
+const Item: FC<{ product: ProductType }> = ({product}) => {
     const {name, attributes, images, id, category} = product;
     const initialType: productTypings = 1;
     const img = getProductImage(images, initialType);

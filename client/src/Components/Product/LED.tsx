@@ -7,13 +7,11 @@ import {alignmentOptions} from "./ProductSchema";
 export type borderType = 'Sides' | 'Top' | 'Bottom';
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 export type ledType = {
-    hasLedBlock: boolean,
-    borders: string[] | [],
     alignment: ledAlignmentType,
-    indent?: string,
+    hasLedBlock: boolean
     error?: string
 }
-const LedBlock: FC<ledType> = ({alignment, indent, borders, error, hasLedBlock}) => {
+const LedBlock: FC<ledType> = ({alignment, error, hasLedBlock}) => {
     if (!hasLedBlock) return null;
     const borderOptions = ['Sides', 'Top', 'Bottom']
     const alignmentOpt: optionType[] = alignmentOptions.map(el => ({value: el, label: el}));
@@ -30,7 +28,7 @@ const LedBlock: FC<ledType> = ({alignment, indent, borders, error, hasLedBlock})
                     {error ? <div>{error}</div> : null}
 
                 </div>
-                <SelectField name="LED alignment" val={alignmentOpt[0]}
+                <SelectField name="LED alignment" val={{value: alignment, label: alignment}}
                              options={alignmentOpt}/>
                 {alignment !== 'Center' ?
                     <ProductInputCustom value={null} name={'LED indent'} label="Indent"/>

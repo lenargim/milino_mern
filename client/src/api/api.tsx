@@ -2,6 +2,10 @@ import axios from "axios";
 import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
+import product from "../Components/Product/Product";
+import cartItem from "../Components/Product/CartItem";
+import {CartItemType} from "../store/reducers/generalSlice";
+import {CartAPI, CartAPIResponse} from "./apiFunctions";
 
 const instanceFormData = axios.create({
     baseURL: process.env.BASE_URL,
@@ -42,5 +46,9 @@ export const roomsAPI = {
     getAll: () => instance.get<RoomTypeAPI[]>('/api/rooms', {headers: getHeaders()}),
     createRoom: (room:RoomInitialType) => instance.post<RoomTypeAPI>('/api/rooms', room,{headers: getHeaders()} ),
     editRoom: (room:RoomInitialType, id:string) => instance.patch<RoomTypeAPI>(`/api/rooms/${id}`, room,{headers: getHeaders()} ),
-    deleteRoom: (id:string) => instance.delete<RoomTypeAPI>(`/api/rooms/${id}`,{headers: getHeaders()} )
+    deleteRoom: (id:string) => instance.delete<RoomTypeAPI>(`/api/rooms/${id}`,{headers: getHeaders()} ),
+}
+
+export const cartAPI = {
+    addToCart: (cart:CartAPI, _id:string) => instance.post<CartAPIResponse[]>(`/api/cart/${_id}`, cart,  {headers: getHeaders()})
 }

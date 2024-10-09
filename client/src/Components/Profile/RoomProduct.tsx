@@ -1,29 +1,17 @@
-import React, {FC, useEffect} from 'react';
-import {
-    getImg,
-    getImgSize,
-    getProductImage,
-    getProductsByCategory,
-    useAppDispatch,
-} from "../../helpers/helpers";
+import React, {useEffect} from 'react';
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
-import {productCategory, productDataType, productType, standardProductType} from "../../helpers/productTypes";
-import {MaybeUndefined} from "./RoomForm";
-import {AtrrsList} from "../Cabinets/List";
-import {RoomTypeAPI, setProduct} from "../../store/reducers/roomSlice";
+import {RoomTypeAPI} from "../../store/reducers/roomSlice";
 import {OrderFormType} from "../../helpers/types";
-import StandardCabinet from "../Product/StandardCabinet";
-import Cabinet from "../Product/Cabinet";
-import s from "./profile.module.sass";
+import Product from "../Product/Product";
+import s from './profile.module.sass'
 
-const RoomProduct: FC = () => {
-    const dispatch = useAppDispatch();
+const RoomProduct = () => {
     const navigate = useNavigate()
+    let {category, productId} = useParams();
     const [roomData] = useOutletContext<[RoomTypeAPI]>()
     const {
         _id,
         category: roomCat,
-        productPage,
         door_finish_material,
         door_type,
         box_material,
@@ -32,28 +20,13 @@ const RoomProduct: FC = () => {
         door_frame_width,
         drawer, drawer_type, drawer_color, leather
     } = roomData;
-    let {category, productId} = useParams();
-    let products = getProductsByCategory(category as productCategory);
-    const product: MaybeUndefined<productDataType> = products.find(product => (product.id).toString() === productId);
 
     useEffect(() => {
-        if (!category || !product) {
+        if (!category || !productId) {
             navigate(`/profile/rooms/${_id}`)
-        } else {
-            if (!productPage || productPage.id !== product.id) {
-                dispatch(setProduct({product, roomId: _id}));
-            }
         }
     }, [])
 
-
-    if (!productPage) return null;
-    const {images, type, attributes, name} = productPage
-
-
-    const img = getProductImage(images, type);
-    const imgSize = getImgSize(category || '');
-    const isStandardCabinet = roomCat === "Standard Door";
     const materials: OrderFormType = {
         'Category': roomCat,
         'Door Type': door_type,
@@ -70,26 +43,9 @@ const RoomProduct: FC = () => {
 
     return (
         <div className={s.product}>
-            <div className={s.left}>
-                <h2>{name}</h2>
-                <div className={[s.img, s[imgSize]].join(' ')}><img src={getImg('products', img)}
-                                                                    alt={name}/>
-                </div>
-                <AtrrsList attributes={attributes} type={type}/>
-            </div>
-            <div className={s.right}>
-                {isStandardCabinet ?
-                    <StandardCabinet product={product as standardProductType}
-                                     materials={materials}
-
-                    /> :
-                    <Cabinet
-                        product={product as productType}
-                        materials={materials}
-                    />
-                }
-            </div>
+            <Product materials={materials} />
         </div>
+
     );
 };
 

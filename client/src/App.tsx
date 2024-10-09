@@ -23,6 +23,9 @@ import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
 import RoomsEmpty from "./Components/Profile/RoomsNew";
 import RoomProduct from "./Components/Profile/RoomProduct";
 import RoomCategory from "./Components/Profile/RoomCategory";
+import {OrderFormType} from "./helpers/types";
+import {MaybeNull} from "./Components/Profile/RoomForm";
+import ProductWrap from "./Components/Product/ProductWrap";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -33,6 +36,9 @@ function App() {
         token,
         authenticationPath: '/login',
     };
+
+    const materialsString = localStorage.getItem('materials');
+    const materials:MaybeNull<OrderFormType> = materialsString ? JSON.parse(materialsString) : null
 
     useEffect(() => {
         token && me().then(user => {
@@ -48,7 +54,7 @@ function App() {
                 <Route path="/" element={<OrderForm/>}/>
                 <Route path="cabinets" element={<WithChosenMaterials outlet={<Cabinets/>}/>}/>
                 <Route path="/cabinets/product/:category/:productId"
-                       element={<WithChosenMaterials outlet={<Product/>}/>}/>
+                       element={<WithChosenMaterials outlet={<ProductWrap materials={materials} />}/>}/>
                 <Route path="/cabinets/custom_part/:productId" element={<WithChosenMaterials outlet={<CustomPart/>}/>}/>
                 <Route path="/cabinets/pvc/:productId" element={<WithChosenMaterials outlet={<CustomPart/>}/>}/>
 
@@ -58,7 +64,7 @@ function App() {
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
                     <Route path="rooms" element={<ProfileRooms user={user}/>}>
-                        <Route path=":id" element={<ProfileRoom/>}>
+                        <Route path=":roomId" element={<ProfileRoom/>}>
                             <Route index element={<RoomCategory/>}/>
                             <Route path="edit" element={<ProfileRoomEdit/>}/>
                             <Route path="product/:category/:productId" element={<RoomProduct/>}/>

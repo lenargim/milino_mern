@@ -3,18 +3,18 @@ import {OrderFormType} from "../../helpers/types";
 import {
     attrItem, CartExtrasType, cornerTypes,
     customPartDataType, hingeTypes,
-    productCategory, productDataType,
-    productType,
-    productTypings, standardProductType
+    productCategory, ProductType,
+    productTypings
 } from "../../helpers/productTypes";
 import {LEDAccessoriesType} from "../../Components/CustomPart/LEDForm";
 import {DoorAccessoiresType} from "../../Components/CustomPart/DoorAccessoiresForm";
 import {DoorType} from "../../Components/CustomPart/StandardDoorForm";
+import {MaybeNull} from "../../Components/Profile/RoomForm";
 
 
 interface GeneralState {
     materials: OrderFormType | null,
-    product: productType | standardProductType | null,
+    product: MaybeNull<ProductType>,
     customPart: customPartDataType | null,
     cart: CartItemType[]
 }
@@ -89,7 +89,7 @@ export interface productChangeMaterialType extends CartItemType {
     width: number,
     height: number,
     depth: number,
-    type: productTypings,
+    image_active_number: productTypings,
     attributes: attrItem[],
     options: string[],
     isBlind: boolean,
@@ -131,18 +131,18 @@ export const generalSlice = createSlice({
     name: 'general',
     initialState,
     reducers: {
-        setMaterials: (state, action: PayloadAction<OrderFormType | null>) => {
+        setMaterials: (state, action: PayloadAction<MaybeNull<OrderFormType>>) => {
             state.materials = action.payload
         },
-        setProduct: (state, action: PayloadAction<productDataType | null>) => {
-            const payload = action.payload;
-            if (payload) {
-                state.product = {...payload, type: 1, price: 0, cartExtras: initialCartExtras}
-            } else {
-                state.product = null;
-            }
-
-        },
+        // setProduct: (state, action: PayloadAction<ProductType | null>) => {
+        //     const payload = action.payload;
+        //     if (payload) {
+        //         state.product = {...payload, image_active_number: 1, price: 0, cartExtras: initialCartExtras}
+        //     } else {
+        //         state.product = null;
+        //     }
+        //
+        // },
         setCustomPart: (state, action: PayloadAction<customPartDataType | null>) => {
             state.customPart = action.payload
         },
@@ -169,13 +169,13 @@ export const generalSlice = createSlice({
             state.cart = [];
             localStorage.removeItem('cart');
         },
-        updateProduct: (state, action: PayloadAction<updateProductType>) => {
-            if (state.product) {
-                state.product.price = action.payload.price;
-                state.product.type = action.payload.type;
-                state.product.cartExtras = action.payload.cartExtras;
-            }
-        },
+        // updateProduct: (state, action: PayloadAction<updateProductType>) => {
+        //     if (state.product) {
+        //         state.product.price = action.payload.price;
+        //         state.product.image_active_number = action.payload.type;
+        //         state.product.cartExtras = action.payload.cartExtras;
+        //     }
+        // },
         updateProductAmount: (state, action: PayloadAction<updateProductAmountType>) => {
             const product = state.cart.find(el => el.uuid === action.payload.uuid);
             if (product) {
@@ -188,11 +188,9 @@ export const generalSlice = createSlice({
 
 export const {
     setMaterials,
-    setProduct,
     setCustomPart,
     addToCart,
     deleteItemFromCart,
-    updateProduct,
     removeCart,
     fillCart,
     updateProductAmount,
