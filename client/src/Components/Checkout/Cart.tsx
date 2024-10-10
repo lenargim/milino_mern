@@ -6,7 +6,7 @@ import CartItem from "../Product/CartItem";
 
 const Cart: FC<{ cart: CartItemType[], cartTotal: number }> = ({cart, cartTotal}) => {
     return (
-        <div className={[s.sidebar, s.checkout].join(' ')}>
+        <div className={[s.sidebar].join(' ')}>
             <div className={s.sidebarContent}>
                 <div>
                     <h3>Cart</h3>

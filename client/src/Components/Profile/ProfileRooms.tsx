@@ -1,5 +1,4 @@
 import React, {FC, useEffect} from 'react';
-import {UserType} from "../../api/apiTypes";
 import s from './profile.module.sass'
 import {NavLink, Outlet} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
@@ -8,13 +7,14 @@ import {getRooms} from "../../store/reducers/roomSlice";
 import RoomsEmpty from './RoomsNew';
 import RoomSidebar from "./RoomSidebar";
 
-const ProfileRooms: FC<{ user: UserType }> = ({user}) => {
+const ProfileRooms: FC = () => {
     const {rooms} = useAppSelector(state => state.room);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         getAllRooms().then(data => {
             if (data) {
+                // const rooms = getRoomsFront(data)
                 dispatch(getRooms(data))
             }
         })

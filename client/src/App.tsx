@@ -63,7 +63,7 @@ function App() {
                 <Route path="/signup" element={<PublicRote isAuth={isAuth} outlet={<SignUp/>}/>}/>
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
-                    <Route path="rooms" element={<ProfileRooms user={user}/>}>
+                    <Route path="rooms" element={<ProfileRooms/>}>
                         <Route path=":roomId" element={<ProfileRoom/>}>
                             <Route index element={<RoomCategory/>}/>
                             <Route path="edit" element={<ProfileRoomEdit/>}/>

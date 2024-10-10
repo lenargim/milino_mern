@@ -4,16 +4,16 @@ import {RoomSchema} from "./RoomSchems";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {editRoomAPI} from "../../api/apiFunctions";
-import {editRoom} from "../../store/reducers/roomSlice";
+import {editRoom, RoomTypeAPI} from "../../store/reducers/roomSlice";
 import {useAppSelector} from "../../helpers/helpers";
 import RoomForm from "./RoomForm";
 
 const ProfileRoomEdit: FC = () => {
-    const {id} = useParams();
+    const {roomId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const {rooms} = useAppSelector(state => state.room);
-    const room = rooms.find(room => room._id === id);
+    const rooms:RoomTypeAPI[] = useAppSelector(state => state.room.rooms);
+    const room = rooms.find(room => room._id === roomId);
     useEffect(() => {
         !room && navigate('/profile/rooms');
     }, []);

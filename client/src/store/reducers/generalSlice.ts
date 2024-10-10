@@ -56,7 +56,7 @@ export type productExtraType = {
     height: number,
     depth: number,
     type: productTypings,
-    isStandard: boolean,
+    isStandardSize: boolean,
     blindWidth?: number,
     hinge: hingeTypes,
     corner?: cornerTypes,

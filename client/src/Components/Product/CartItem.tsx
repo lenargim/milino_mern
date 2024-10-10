@@ -31,7 +31,7 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
                 <div className={s.itemName}>{name}</div>
             </div>
 
-            <div className={s.itemOptions}>
+            <div>
                 <CartItemOptions item={item} />
                 {note &&
                   <div className={s.itemOption}>

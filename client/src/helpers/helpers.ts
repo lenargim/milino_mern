@@ -2,11 +2,11 @@ import {AppDispatch, RootState} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import {
-    attrItem, CartExtrasType, cornerTypes, customPartDataType, DefaultProductType, hingeTypes,
+    attrItem, CartExtrasType, cornerTypes, customPartDataType, DefaultProductType, extraPricesType, hingeTypes,
     itemImg,
     productCategory,
     productRangeType, ProductType,
-    productTypings, valueItemType
+    productTypings, sizeLimitsType, valueItemType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import {
@@ -16,7 +16,6 @@ import {
 } from "../store/reducers/generalSlice";
 import cabinets from '../api/cabinets.json';
 import customParts from '../api/customPart.json';
-import StandardBaseProducts from '../api/standartProducts.json'
 import {v4 as uuidv4} from "uuid";
 import {FormikValues} from "formik";
 import {LEDFormValuesType} from "../Components/CustomPart/LEDForm";
@@ -27,11 +26,37 @@ import {GlassShelfFormValuesType} from "../Components/CustomPart/GlassShelfForm"
 import {StandardDoorFormValuesType} from "../Components/CustomPart/StandardDoorForm";
 import {RoomType} from "./categoriesTypes";
 import {colorType, doorType, finishType, materialsData} from "./materialsTypes";
-import {getDoorMinMaxValuesArr} from "./calculatePrice";
+import {
+    addDepthPriceCoef,
+    addGlassDoorPrice,
+    addGlassShelfPrice,
+    addHeightPriceCoef,
+    addPTODoorsPrice,
+    addPTODrawerPrice,
+    addPTOTrashBinsPrice,
+    addWidthPriceCoef,
+    calculatePrice,
+    coefType,
+    getBaseProductPrice,
+    getDoorMinMaxValuesArr,
+    getDoorPrice,
+    getDrawerPrice,
+    getLedPrice,
+    getMaterialData,
+    getMaterialDataAPI,
+    getPriceData,
+    getProductDataToCalculatePrice, getProductRange,
+    getPvcPrice,
+    getStartPrice,
+    getTablePrice,
+    getType
+} from "./calculatePrice";
 import {OrderFormType} from "./types";
 import {ledAlignmentType} from "../Components/Product/LED";
-import {MaybeNull, MaybeUndefined} from "../Components/Profile/RoomForm";
-import {CartAPI} from "../api/apiFunctions";
+import {MaybeNull} from "../Components/Profile/RoomForm";
+import {CartAPI, CartAPIResponse, CartFront} from "../api/apiFunctions";
+import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
+import sizes from "../api/sizes.json";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -71,7 +96,7 @@ export function getSelectDoorVal(val: string | undefined, options: optionTypeDoo
     return option ?? null
 }
 
-export const getCartTotal = (cart: CartItemType[]): number => {
+export const getCartTotal = (cart: (CartItemType|CartFront)[]): number => {
     return +(cart.reduce(
         (acc, currentVal) => acc + (currentVal.price * currentVal.amount), 0
     )).toFixed(1)
@@ -158,13 +183,13 @@ export const getSizeNumberRegex = (sizeString: string): number => {
 }
 
 
-export const getProductsByCategory = (category: productCategory):ProductType[] => {
+export const getProductsByCategory = (category: productCategory): ProductType[] => {
     const products = cabinets as ProductType[]
-    return  products.filter(product => product.category === category);
+    return products.filter(product => product.category === category);
 }
 
 
-export const getProductById = (id:number):MaybeNull<ProductType> => {
+export const getProductById = (id: number): MaybeNull<ProductType> => {
     const product = cabinets.find(product => product.id === id) as ProductType;
     if (!product) return null;
     return {
@@ -342,8 +367,8 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
 
 }
 
-export const addToCartProduct = (product: ProductType, values: productValuesType, productRange:productRangeType) => {
-    const {images, id, category, name, legsHeight,isBlind, hasMiddleSection} = product
+export const addToCartProduct = (product: ProductType, values: productValuesType, productRange: productRangeType) => {
+    const {images, id, category, name, legsHeight, isBlind, hasMiddleSection} = product
     const {
         'Width': width,
         'Blind Width': blindWidth,
@@ -394,7 +419,7 @@ export const addToCartProduct = (product: ProductType, values: productValuesType
         width: realW,
         height: realH,
         depth: realD,
-        isStandard: getIsProductStandard(productRange, realW, realH, realD),
+        isStandardSize: getIsProductStandard(productRange, realW, realH, realD),
         type: image_active_number,
         hinge: hinge,
         options: chosenOptions,
@@ -439,8 +464,7 @@ export const addToCartProduct = (product: ProductType, values: productValuesType
 }
 
 
-
-export const addToCartProductAPI = (product_id: number, values: productValuesType, productRange:productRangeType):CartAPI => {
+export const addToCartProductAPI = (product_id: number, values: productValuesType, productRange: productRangeType): CartAPI => {
     const {
         'Width': width,
         'Blind Width': blindWidth,
@@ -489,7 +513,7 @@ export const addToCartProductAPI = (product_id: number, values: productValuesTyp
     const realMiddle = middleSection || 0
     const realBlind = blindWidth || customBlindWidth || 0;
 
-    const cartData:CartAPI = {
+    const cartData: CartAPI = {
         product_id,
         product_type: 'cabinet',
         width: realW,
@@ -835,7 +859,7 @@ export const isLeatherType = (drawerColor: string | undefined, isLeather: boolea
 }
 
 
-export const checkDoors = (doors: number, doorArr: number[] | null, hingeOpening: string):number => {
+export const checkDoors = (doors: number, doorArr: number[] | null, hingeOpening: string): number => {
     if (!doorArr && doors) return 0;
     if (doorArr?.length === 1 && doors !== doorArr[0]) return doorArr[0];
     if (doors === 1 && doorArr?.includes(2) && hingeOpening === 'Double Door') return 2
@@ -955,4 +979,120 @@ export const getCartData = (cartState: CartItemType[], dispatch: (a: any) => voi
     if (cart.length) dispatch(fillCart(cart))
     const total = getCartTotal(cart);
     return {cart, total, cartLength: cart.length}
+}
+
+
+export const getRoomFront = (room: RoomTypeAPI): RoomFront => {
+    const cart = room.cart;
+    const frontCart: CartFront[] = getCartArrFront(cart, room)
+    return {...room, cart: frontCart}
+}
+
+export const getCartArrFront = (cart: CartAPIResponse[], room: RoomTypeAPI): CartFront[] => {
+    const cartFront = cart.map(item => {
+        return getCartFront(item, room)
+    })
+    return cartFront.filter((element): element is CartFront => element !== null)
+}
+
+export const getCartFront = (item: CartAPIResponse, room: RoomTypeAPI): MaybeNull<CartFront> => {
+    const materialData = getMaterialDataAPI(room);
+    const {
+        product_id,
+        width,
+        height,
+        depth,
+        blind_width,
+        options,
+        led_border,
+        door_option,
+        hinge
+    } = item;
+    const product = getProductById(product_id)
+    if (!product) return null;
+    const {category, widthDivider, attributes, doorSquare, images, legsHeight, isAngle} = product
+
+    const {
+        basePriceType,
+        premiumCoef,
+        doorPriceMultiplier,
+        doorFinish,
+        doorType,
+        isAcrylic,
+        drawer,
+        boxMaterialCoefs,
+        category: materialCat
+    } = materialData;
+
+    const {boxMaterialCoef, boxMaterialFinishCoef} = boxMaterialCoefs
+    const tablePriceData = getPriceData(product_id, category, basePriceType);
+    if (!tablePriceData) return null;
+    const productPriceData = getProductDataToCalculatePrice(product, drawer.drawerBrand);
+    const {
+        doorValues,
+        drawersQty,
+        shelfsQty,
+        rolloutsQty,
+    } = productPriceData;
+    const doorArr = getDoorMinMaxValuesArr(width, doorValues);
+    const doors = checkDoors(0, doorArr, hinge)
+
+    const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product_id))?.limits;
+    if (!sizeLimit) return null;
+    const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
+    const doorHeight: number = height ? height - legsHeight : 0;
+    const frontSquare = getSquare(width, doorHeight);
+    const boxFromFinishMaterial: boolean = options.includes("Box from finish material");
+    const boxCoef = boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef;
+    const extraPrices: extraPricesType = {
+        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
+        ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
+        glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
+        glassDoor: options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0,
+        ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
+        ledPrice: getLedPrice(width, height, led_border),
+        pvcPrice: getPvcPrice(width, blind_width, doorHeight, isAcrylic, doorType, doorFinish),
+        doorPrice: getDoorPrice(frontSquare, doorPriceMultiplier),
+        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, drawer, width, materialCat),
+        boxMaterialCoef: boxFromFinishMaterial ? boxMaterialCoefs.boxMaterialFinishCoef : boxMaterialCoefs.boxMaterialCoef,
+        frontSquare,
+        premiumCoef: premiumCoef,
+        doorSquare: doorSquare
+    }
+
+    const {ptoDoors, ptoDrawers, ptoTrashBins, ledPrice, glassShelf, glassDoor} = extraPrices
+
+    const allCoefs = boxCoef * premiumCoef;
+    const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
+    const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
+
+    const baseProductPrice = getBaseProductPrice(product_id);
+    if (!baseProductPrice) return null;
+    const productRange = getProductRange(baseProductPrice, category, height, depth);
+    const {widthRange, heightRange, depthRange} = productRange
+
+    const coef: coefType = {
+        width: 0,
+        height: 0,
+        depth: 0
+    }
+
+    const maxWidth = widthRange[widthRange.length - 1];
+    const maxHeight = heightRange[heightRange.length - 1];
+    if (maxWidth < width) coef.width = addWidthPriceCoef(width, maxWidth);
+    if (maxHeight < height) coef.height = addHeightPriceCoef(height, maxHeight);
+    if (depthRange[0] !== depth) coef.depth = addDepthPriceCoef(depth, depthRange, isAngle)
+    const coefExtra = 1 + (coef.width + coef.height + coef.depth);
+
+    const pvcPrice = getPvcPrice(width, blind_width || 0, doorHeight, isAcrylic, doorType, doorFinish);
+    const doorPrice = getDoorPrice(frontSquare, doorPriceMultiplier);
+    const drawerPrice = getDrawerPrice(drawersQty + rolloutsQty, drawer, width, category);
+    const totalPrice = +(startPrice * coefExtra + ptoDoors + ptoDrawers + glassShelf + glassDoor + ptoTrashBins + pvcPrice + doorPrice + drawerPrice + ledPrice).toFixed(1);
+
+    return {
+        ...item,
+        price: totalPrice,
+        image_active_number,
+        isStandardSize: getIsProductStandard(productRange, width, height, depth),
+    }
 }

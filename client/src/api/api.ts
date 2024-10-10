@@ -1,8 +1,10 @@
-import axios, {AxiosInstance} from "axios";
+
 import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
+import axios from "axios";
+
 
 const instanceFormData = axios.create({
     baseURL: process.env.BASE_URL,
@@ -11,12 +13,15 @@ const instanceFormData = axios.create({
     },
 })
 
-const instance:AxiosInstance = axios.create({
-    baseURL: process.env.BASE_URL,
+const instance = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    baseURL: process.env.BASE_URL,
+    responseType: 'json'
 })
+
+
 
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -45,5 +50,6 @@ export const roomsAPI = {
 }
 
 export const cartAPI = {
-    addToCart: (cart:CartAPI, _id:string) => instance.post<CartAPIResponse[]>(`/api/cart/${_id}`, cart,  {headers: getHeaders()})
+    addToCart: (cart:CartAPI, _id:string) => instance.post<CartAPIResponse[]>(`/api/cart/${_id}`, cart,  {headers: getHeaders()}),
+    remove: (_id:string) => instance.delete(`/api/cart/${_id}`,{headers: getHeaders()}),
 }

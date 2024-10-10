@@ -35,8 +35,6 @@ export type ProductType = {
     room: string,
     category: productCategory,
     images: itemImg[],
-    // price: number,
-    // image_active_number: productTypings,
     attributes: attrItem[],
     options: string[],
     legsHeight: number,
@@ -48,7 +46,7 @@ export type ProductType = {
     hasSolidWidth?: true,
     hasMiddleSection?: true,
     isCornerChoose?: boolean,
-    doorSquare?: number,
+    doorSquare: number,
     widthDivider?: number,
     heightRange?: number,
     cartExtras: CartExtrasType

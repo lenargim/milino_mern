@@ -28,7 +28,7 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
                 <div className={s.itemName}>
                     <span>{name}</span>
                     <span className={s.category}>{category}</span>
-                    {!productExtra?.isStandard && <span className={s.non}>Non-standard size</span>}
+                    {!productExtra?.isStandardSize && <span className={s.non}>Non-standard size</span>}
                 </div>
                 <div className={s.attrs}>
                     <CartItemOptions item={el} />

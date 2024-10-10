@@ -25,9 +25,10 @@ import {
 } from "../store/reducers/generalSlice";
 import baseProductPrices from '../api/standartProductsPrices.json'
 import sizes from './../api/sizes.json'
-import {CartAPI, CartAPIResponse} from "../api/apiFunctions";
+import {CartAPI, CartAPIResponse, CartFront} from "../api/apiFunctions";
 import cabinets from './../api/cabinets.json'
-import {MaybeNull} from "../Components/Profile/RoomForm";
+import roomForm, {MaybeNull} from "../Components/Profile/RoomForm";
+import {RoomTypeAPI} from "../store/reducers/roomSlice";
 
 export type coefType = {
     width: number,
@@ -241,15 +242,15 @@ export function getStandardStartPrice(customDepth: number, allCoefs: number, siz
     return +(tablePrice * allCoefs).toFixed(1)
 }
 
-function addWidthPriceCoef(width: number, maxWidth: number) {
+export function addWidthPriceCoef(width: number, maxWidth: number) {
     return Math.ceil((width - maxWidth) / 3) / 10;
 }
 
-function addHeightPriceCoef(customHeight: number, maxHeight: number) {
+export function addHeightPriceCoef(customHeight: number, maxHeight: number) {
     return Math.ceil((customHeight - maxHeight) / 3) / 10
 }
 
-function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: boolean) {
+export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: boolean) {
     if (isAngle) return 0;
     const maxDepth = depthRangeData[depthRangeData.length - 1];
     if (customDepth > maxDepth) {
@@ -649,6 +650,56 @@ export const getStandardMaterialData = (materials: OrderFormType): StandardMater
     }
 }
 
+
+export const getMaterialDataAPI = (room: RoomTypeAPI): { door_type: string; baseCoef: number; drawer: { drawerType: string; drawerColor: string; drawerBrand: string }; doorType: string; grainCoef: number; isAcrylic: boolean; boxMaterialCoefs: getBoxMaterialCoefsType; doorFinish: string; premiumCoef: number; door_finish_material: string; doorPriceMultiplier: number; leatherType: string | undefined; category: "" | "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"; basePriceType: 1 | 2 | 3 } => {
+    const {
+        box_material,
+        door_finish_material,
+        category,
+        cart,
+        leather,
+        drawer,
+        drawer_type,
+        drawer_color,
+        door_color,
+        door_type,
+        door_grain,
+        door_frame_width,
+        _id,
+        activeProductCategory,
+        productPage
+    } = room
+    const basePriceType: pricesTypings = getBasePriceType(door_type, door_finish_material);
+    const baseCoef = basePriceType === 3 ? getPremiumCoef(door_type, door_finish_material) : 1;
+    const grainCoef = door_grain ? getGrainCoef(door_grain) : 1;
+    const premiumCoef = +(baseCoef * grainCoef).toFixed(3)
+    const boxMaterialCoefs = getBoxMaterialCoefs(box_material, door_finish_material)
+    const doorPriceMultiplier = getDoorPriceMultiplier(drawer_type, door_finish_material);
+    const isAcrylic = door_finish_material === 'Ultrapan Acrylic';
+
+    return {
+        category,
+        basePriceType,
+        baseCoef,
+        grainCoef,
+        premiumCoef,
+        boxMaterialCoefs,
+        doorPriceMultiplier,
+        isAcrylic,
+        door_type,
+        door_finish_material,
+        drawer: {
+            drawerType: drawer_type,
+            drawerColor: drawer_color,
+            drawerBrand: drawer
+        },
+        doorType: door_type,
+        doorFinish: door_finish_material,
+        leatherType: leather,
+    }
+}
+
+
 export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: string, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {
         attributes,
@@ -940,7 +991,6 @@ function notEmpty<TValue>(value: TValue | undefined): value is TValue {
 export const checkCartData = (cart: CartItemType[], values: OrderFormType, dispatch: Function) => {
     cart.forEach(product => {
         const {id, category, productExtra} = product;
-        console.log(product)
         switch (category) {
             case "Standard Base Cabinets":
             case "Standard Wall Cabinets":
@@ -1042,60 +1092,58 @@ export const checkCartData = (cart: CartItemType[], values: OrderFormType, dispa
 }
 
 
-export const calculateCart = (cartResponse: CartAPIResponse[]): CartItemType[] => {
-    const cart = cartResponse.map(item => {
-        const productAPI = getProductById(item.product_id);
-        if (!productAPI) return null;
-        const price = 0;
-        const type = 1;
-        const isStandard = false;
-
-        const product: CartItemType = {
-            id: item.product_id,
-            amount: item.amount,
-            note: item.note,
-            img: productAPI.images[0].value,
-            name: productAPI.name,
-            category: productAPI.category,
-            uuid: item._id,
-            price,
-        }
-        switch (item.product_type) {
-            case "cabinet":
-                product.productExtra = {
-                    width: item.width,
-                    height: item.height,
-                    depth: item.depth,
-                    options: item.options,
-
-                    doorProfile: item.door_option[0],
-                    doorGlassType: item.door_option[1],
-                    doorGlassColor: item.door_option[2],
-                    shelfProfile: item.shelf_option[0],
-                    shelfGlassType: item.shelf_option[1],
-                    shelfGlassColor: item.shelf_option[2],
-                    middleSection: item.middle_section,
-                    led: {
-                        border: item.led_border,
-                        alignment: item.led_alignment,
-                        indent: item.led_indent
-                    },
-                    leather: item.leather,
-                    type,
-                    hinge: item.hinge,
-                    isStandard,
-                    legsHeight: productAPI.legsHeight,
-                    corner: item.corner,
-                    blindWidth: item.blind_width,
-                    cartExtras: initialCartExtras
-                }
-                return product;
-                break
-            default:
-                return product
-        }
-    })
-    const filteredArray = cart.filter((element): element is CartItemType => element !== null)
-
-    return filteredArray
-}
+// export const calculateCart = (cartResponse: CartFront[]): CartItemType[] => {
+//     const cart = cartResponse.map(item => {
+//         const productAPI = getProductById(item.product_id);
+//         if (!productAPI) return null;
+//         const price = 0;
+//         const type = 1;
+//         const isStandardSize = false;
+//
+//         const product: CartItemType = {
+//             id: item.product_id,
+//             amount: item.amount,
+//             note: item.note,
+//             img: productAPI.images[0].value,
+//             name: productAPI.name,
+//             category: productAPI.category,
+//             uuid: item._id,
+//             price,
+//         }
+//         switch (item.product_type) {
+//             case "cabinet":
+//                 product.productExtra = {
+//                     width: item.width,
+//                     height: item.height,
+//                     depth: item.depth,
+//                     options: item.options,
+//
+//                     doorProfile: item.door_option[0],
+//                     doorGlassType: item.door_option[1],
+//                     doorGlassColor: item.door_option[2],
+//                     shelfProfile: item.shelf_option[0],
+//                     shelfGlassType: item.shelf_option[1],
+//                     shelfGlassColor: item.shelf_option[2],
+//                     middleSection: item.middle_section,
+//                     led: {
+//                         border: item.led_border,
+//                         alignment: item.led_alignment,
+//                         indent: item.led_indent
+//                     },
+//                     leather: item.leather,
+//                     type,
+//                     hinge: item.hinge,
+//                     isStandardSize,
+//                     legsHeight: productAPI.legsHeight,
+//                     corner: item.corner,
+//                     blindWidth: item.blind_width,
+//                     cartExtras: initialCartExtras
+//                 }
+//                 return product;
+//                 break
+//             default:
+//                 return product
+//         }
+//     })
+//     return cart.filter((element): element is CartItemType => element !== null)
+// }

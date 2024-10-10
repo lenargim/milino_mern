@@ -2,9 +2,7 @@ import {EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
 import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
 import {RoomInitialType} from "../Components/Profile/RoomForm";
-import {CartItemType} from "../store/reducers/generalSlice";
-import {cornerTypes, hingeTypes} from "../helpers/productTypes";
-import {calculateCart} from "../helpers/calculatePrice";
+import {cornerTypes, hingeTypes, productTypings} from "../helpers/productTypes";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -74,8 +72,8 @@ export const me = async (): Promise<UserType | undefined> => {
 
 export const getAllRooms = async () => {
     try {
-        const res = await roomsAPI.getAll();
-        return res.data;
+        const response = (await roomsAPI.getAll()).data;
+        return response;
     } catch (error) {
         alertError(error);
     }
@@ -132,37 +130,30 @@ export type CartAPI = {
 
 export interface CartAPIResponse extends CartAPI {
     _id: string,
+    room: string,
     createdAt: Date,
     updatedAt: Date
 }
 
+export interface CartFront extends CartAPIResponse {
+    price: number,
+    image_active_number: productTypings,
+    isStandardSize: boolean
+}
+
 export const addToCartInRoomAPI = async (product: CartAPI, _id: string) => {
     try {
-        // const cart: CartAPI = {
-        //     product_id: product.id,
-        //     product_type: 'cabinet',
-        //     amount: product.amount,
-        //     width: width || 0,
-        //     height: height || 0,
-        //     depth: depth || 0,
-        //     blind_width: blindWidth || 0,
-        //     corner: corner || '',
-        //     middle_section: middleSection || 0,
-        //     hinge: hinge || '',
-        //     options: options || [],
-        //     door_option: [doorProfile||'', doorGlassType||'', doorGlassColor||''],
-        //     shelf_option: [shelfProfile||'', shelfGlassType||'', shelfGlassColor||''],
-        //     led_border: led?.border || [],
-        //     led_alignment: led?.alignment || '',
-        //     led_indent: led?.indent || '',
-        //     leather: leather || '',
-        //     note: product.note
-        // }
-
         const cartResponse = await cartAPI.addToCart(product, _id);
-
-        // return calculateCart(cartResponse.data);
         return cartResponse.data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const removeFromCartInRoomAPI = async (_id: string) => {
+    try {
+        const cartResponse = await cartAPI.remove( _id);
+        return cartResponse.status
     } catch (error) {
         alertError(error);
     }

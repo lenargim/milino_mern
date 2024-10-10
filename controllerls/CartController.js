@@ -22,3 +22,25 @@ export const addToCart = async (req, res) => {
     })
   }
 }
+
+
+export const remove = async (req, res) => {
+  try {
+    const cartId = req.params.cartId;
+    await CartModel.findByIdAndDelete(cartId).then(async doc => {
+      if (!doc) {
+        return res.status(404).json({
+          message: 'Product not found'
+        })
+      }
+      return res.status(200).json({
+        message: 'ok'
+      });
+    });
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot get room'
+    })
+  }
+}
