@@ -65,7 +65,7 @@ const Cabinet: FC<CabinetType> = ({
         doorValues,
         drawersQty,
         shelfsQty,
-        rolloutsQty,
+        rolloutsQty
     } = productPriceData;
 
     const {

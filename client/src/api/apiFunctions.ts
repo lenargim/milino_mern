@@ -158,3 +158,12 @@ export const removeFromCartInRoomAPI = async (_id: string) => {
         alertError(error);
     }
 }
+
+
+export const updateProductAmountAPI = async (_id:string, amount:number) => {
+    try {
+        return (await cartAPI.updateAmount(_id, amount)).data
+    } catch (error) {
+        alertError(error);
+    }
+}

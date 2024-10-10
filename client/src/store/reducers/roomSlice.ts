@@ -1,11 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {MaybeEmpty, MaybeNull, RoomInitialType} from "../../Components/Profile/RoomForm";
-import {
-    productCategory,
-    ProductType,
-} from "../../helpers/productTypes";
+import {productCategory, ProductType,} from "../../helpers/productTypes";
 import {CartAPIResponse, CartFront} from "../../api/apiFunctions";
-import {getCartArrFront, getRoomFront} from "../../helpers/helpers";
+import {getCartArrFront, getCartFront, getRoomFront} from "../../helpers/helpers";
 
 export interface RoomTypeAPI extends RoomInitialType {
     _id: string,
@@ -34,11 +31,9 @@ export const roomSlice = createSlice({
     initialState,
     reducers: {
         getRooms: (state, action: PayloadAction<RoomTypeAPI[]>) => {
-            const frontRooms = action.payload.map(room => {
+            state.rooms = action.payload.map(room => {
                 return getRoomFront(room)
             })
-
-            state.rooms = frontRooms
         },
         addRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
             state.rooms.push(getRoomFront(action.payload))
@@ -59,19 +54,32 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        updateCartInRoom: (state, action: PayloadAction<{cart:CartAPIResponse[],_id:string}>) => {
+        updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPIResponse[], _id: string }>) => {
             state.rooms = state.rooms.map(room => {
 
                 return room._id === action.payload._id ? {
                     ...room,
-                    cart: getCartArrFront(action.payload.cart,room)
+                    cart: getCartArrFront(action.payload.cart, room)
                 } : room;
             })
         },
-        removeFromCartInRoom: (state, action: PayloadAction<{room:string, _id:string}>) => {
+        removeFromCartInRoom: (state, action: PayloadAction<{ room: string, _id: string }>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload.room ?
                     {...room, cart: room.cart.filter(item => item._id !== action.payload._id)}
+                    : room;
+            })
+        },
+        updateCartAmountInRoom: (state, action: PayloadAction<CartAPIResponse>) => {
+            state.rooms = state.rooms.map(room => {
+                const cart = room.cart;
+                return room._id === action.payload.room ?
+                    {
+                        ...room, cart: cart.map((item) => {
+                            const newItem = getCartFront(action.payload, room);
+                            return item._id === action.payload._id && newItem ? newItem : item
+                        })
+                    }
                     : room;
             })
         }
@@ -85,7 +93,8 @@ export const {
     deleteRoom,
     roomSetActiveCategory,
     updateCartInRoom,
-    removeFromCartInRoom
+    removeFromCartInRoom,
+    updateCartAmountInRoom
 } = roomSlice.actions
 
 export default roomSlice.reducer

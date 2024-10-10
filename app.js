@@ -58,6 +58,7 @@ const start = async () => {
 
     app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
     app.delete('/api/cart/:cartId', checkAuth, CartController.remove)
+    app.patch('/api/cart/:cartId', checkAuth, CartController.update)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

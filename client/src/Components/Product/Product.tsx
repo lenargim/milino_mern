@@ -11,6 +11,7 @@ import {
 import Cabinet from "./Cabinet";
 import {Formik} from 'formik';
 import {
+    getBlindArr,
     getMaterialData,
     getPriceData,
     getProductRange,
@@ -47,10 +48,12 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
 
+    const blindArr = isBlind ? getBlindArr(category) : undefined;
+
     const initialValues: productValuesType = {
         'Width': widthRange[0],
         isBlind: isBlind,
-        'Blind Width': 0,
+        'Blind Width': blindArr ? blindArr[0]:'',
         'Height': heightRange[0],
         'Depth': depthRange[0],
         'Custom Width': '',

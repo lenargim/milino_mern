@@ -29,7 +29,7 @@ const CartSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  blindWidth: {
+  blind_width: {
     type: Number,
   },
   middle_section: {

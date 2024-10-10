@@ -35,14 +35,12 @@ import {
     addPTODrawerPrice,
     addPTOTrashBinsPrice,
     addWidthPriceCoef,
-    calculatePrice,
     coefType,
     getBaseProductPrice,
     getDoorMinMaxValuesArr,
     getDoorPrice,
     getDrawerPrice,
     getLedPrice,
-    getMaterialData,
     getMaterialDataAPI,
     getPriceData,
     getProductDataToCalculatePrice, getProductRange,
@@ -53,7 +51,7 @@ import {
 } from "./calculatePrice";
 import {OrderFormType} from "./types";
 import {ledAlignmentType} from "../Components/Product/LED";
-import {MaybeNull} from "../Components/Profile/RoomForm";
+import {MaybeEmpty, MaybeNull, MaybeUndefined} from "../Components/Profile/RoomForm";
 import {CartAPI, CartAPIResponse, CartFront} from "../api/apiFunctions";
 import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
@@ -96,7 +94,7 @@ export function getSelectDoorVal(val: string | undefined, options: optionTypeDoo
     return option ?? null
 }
 
-export const getCartTotal = (cart: (CartItemType|CartFront)[]): number => {
+export const getCartTotal = (cart: (CartItemType | CartFront)[]): number => {
     return +(cart.reduce(
         (acc, currentVal) => acc + (currentVal.price * currentVal.amount), 0
     )).toFixed(1)
@@ -209,7 +207,7 @@ export const getcustomParts = (room: RoomType): customPartDataType[] => {
 type initialStandardValues = {
     Width: number,
     isBlind: boolean,
-    "Blind Width": number,
+    "Blind Width": MaybeEmpty<number>,
     Height: number,
     Depth: number,
     'Custom Depth': string,
@@ -231,14 +229,14 @@ type initialStandardValues = {
 }
 
 export interface productValuesType extends initialStandardValues {
-    "Custom Width": number | '',
-    'Custom Blind Width': number | '',
-    'Custom Height': number | '',
-    "Custom Width Number": number | '',
-    'Custom Blind Width Number': number | '',
-    'Custom Height Number': number | '',
-    'Custom Depth Number': number | '',
-    'Middle Section Number': number | '',
+    "Custom Width": MaybeEmpty<number>,
+    'Custom Blind Width': MaybeEmpty<number>,
+    'Custom Height': MaybeEmpty<number>,
+    "Custom Width Number": MaybeEmpty<number>,
+    'Custom Blind Width Number': MaybeEmpty<number>,
+    'Custom Height Number': MaybeEmpty<number>,
+    'Custom Depth Number': MaybeEmpty<number>,
+    'Middle Section Number': MaybeEmpty<number>,
     'Door Profile': string,
     'Door Glass Type': string,
     'Door Glass Color': string,
@@ -249,7 +247,7 @@ export interface productValuesType extends initialStandardValues {
 }
 
 export interface standardProductValuesType extends initialStandardValues {
-    'Custom Depth Number': number | '',
+    'Custom Depth Number': MaybeEmpty<number>,
     'Door Profile': string,
     'Door Glass Type': string,
     'Door Glass Color': string,
@@ -259,96 +257,96 @@ export interface standardProductValuesType extends initialStandardValues {
 }
 
 
-export const getInitialProductValues = (productRange: productRangeType, isBlind: boolean, blindArr: number[] | undefined, doorValues: valueItemType[] | undefined, isCornerChoose?: boolean): productValuesType => {
-    const {widthRange, heightRange, depthRange} = productRange
-    return {
-        'Width': widthRange[0],
-        isBlind: isBlind,
-        'Blind Width': blindArr ? blindArr[0] : 0,
-        'Height': heightRange[0],
-        'Depth': depthRange[0],
-        'Custom Width': '',
-        'Custom Blind Width': '',
-        'Custom Height': '',
-        'Custom Depth': '',
-        'Custom Width Number': '',
-        'Custom Blind Width Number': '',
-        'Custom Height Number': '',
-        'Custom Depth Number': '',
-        'Middle Section Number': '',
-        'Doors': doorValues && doorValues[0]?.value || 0,
-        'Hinge opening': doorValues ? 'Left' : '',
-        'Corner': isCornerChoose ? 'Left' : '',
-        'Options': [],
-        'Profile': '',
-        'Glass Type': '',
-        'Glass Color': '',
-        'Glass Shelf': '',
-        'Middle Section': '',
-        'LED borders': [],
-        'LED alignment': 'Center',
-        'LED indent': '',
-        'Note': '',
-        cartExtras: {
-            ptoDoors: 0,
-            ptoDrawers: 0,
-            glassShelf: 0,
-            glassDoor: 0,
-            ptoTrashBins: 0,
-            ledPrice: 0,
-            coefExtra: 1,
-            attributes: [],
-            boxFromFinishMaterial: false
-        },
-        price: 0,
-        image_active_number: 1,
+// export const getInitialProductValues = (productRange: productRangeType, isBlind: boolean, blindArr: number[] | undefined, doorValues: valueItemType[] | undefined, isCornerChoose?: boolean): productValuesType => {
+//     const {widthRange, heightRange, depthRange} = productRange
+//     return {
+//         'Width': widthRange[0],
+//         isBlind: isBlind,
+//         'Blind Width': blindArr ? blindArr[0] : 0,
+//         'Height': heightRange[0],
+//         'Depth': depthRange[0],
+//         'Custom Width': '',
+//         'Custom Blind Width': '',
+//         'Custom Height': '',
+//         'Custom Depth': '',
+//         'Custom Width Number': '',
+//         'Custom Blind Width Number': '',
+//         'Custom Height Number': '',
+//         'Custom Depth Number': '',
+//         'Middle Section Number': '',
+//         'Doors': doorValues && doorValues[0]?.value || 0,
+//         'Hinge opening': doorValues ? 'Left' : '',
+//         'Corner': isCornerChoose ? 'Left' : '',
+//         'Options': [],
+//         'Profile': '',
+//         'Glass Type': '',
+//         'Glass Color': '',
+//         'Glass Shelf': '',
+//         'Middle Section': '',
+//         'LED borders': [],
+//         'LED alignment': 'Center',
+//         'LED indent': '',
+//         'Note': '',
+//         cartExtras: {
+//             ptoDoors: 0,
+//             ptoDrawers: 0,
+//             glassShelf: 0,
+//             glassDoor: 0,
+//             ptoTrashBins: 0,
+//             ledPrice: 0,
+//             coefExtra: 1,
+//             attributes: [],
+//             boxFromFinishMaterial: false
+//         },
+//         price: 0,
+//         image_active_number: 1,
+//
+//
+//         'Door Profile': '',
+//         'Door Glass Type': '',
+//         'Door Glass Color': '',
+//         'Shelf Profile': '',
+//         'Shelf Glass Type': '',
+//         'Shelf Glass Color': '',
+//     };
+// }
 
-
-        'Door Profile': '',
-        'Door Glass Type': '',
-        'Door Glass Color': '',
-        'Shelf Profile': '',
-        'Shelf Glass Type': '',
-        'Shelf Glass Color': '',
-    };
-}
-
-export const getInitialStandardProductValues = (productRange: productRangeType, doorValues: valueItemType[] | undefined, category: productCategory, depth: number, isBlind: boolean, blindArr: number[] | undefined, isAngle: boolean, isCornerChoose?: boolean): standardProductValuesType => {
-    const initialDepth = getInitialDepth(productRange, isAngle, depth);
-    const {widthRange, heightRange} = productRange
-    const doorArr = getDoorMinMaxValuesArr(widthRange[0], doorValues);
-    return {
-        'Width': widthRange[0],
-        isBlind: isBlind,
-        'Blind Width': blindArr ? blindArr[0] : 0,
-        'Height': heightRange[0],
-        'Depth': initialDepth,
-        'Custom Depth': '',
-        'Custom Depth Number': '',
-        'Doors': doorArr && doorArr[0] || 0,
-        'Hinge opening': doorArr ? 'Left' : '',
-        'Corner': isCornerChoose ? 'Left' : '',
-        'Options': [],
-        'Profile': '',
-        'Glass Type': '',
-        'Glass Color': '',
-        'Glass Shelf': '',
-        'Middle Section': '',
-        'LED borders': [],
-        'LED alignment': 'Center',
-        'LED indent': '',
-        'Note': '',
-        price: 0,
-        image_active_number: 1,
-
-        'Door Profile': '',
-        'Door Glass Type': '',
-        'Door Glass Color': '',
-        'Shelf Profile': '',
-        'Shelf Glass Type': '',
-        'Shelf Glass Color': '',
-    };
-}
+// export const getInitialStandardProductValues = (productRange: productRangeType, doorValues: valueItemType[] | undefined, category: productCategory, depth: number, isBlind: boolean, blindArr: number[] | undefined, isAngle: boolean, isCornerChoose?: boolean): standardProductValuesType => {
+//     const initialDepth = getInitialDepth(productRange, isAngle, depth);
+//     const {widthRange, heightRange} = productRange
+//     const doorArr = getDoorMinMaxValuesArr(widthRange[0], doorValues);
+//     return {
+//         'Width': widthRange[0],
+//         isBlind: isBlind,
+//         'Blind Width': blindArr ? blindArr[0] : 0,
+//         'Height': heightRange[0],
+//         'Depth': initialDepth,
+//         'Custom Depth': '',
+//         'Custom Depth Number': '',
+//         'Doors': doorArr && doorArr[0] || 0,
+//         'Hinge opening': doorArr ? 'Left' : '',
+//         'Corner': isCornerChoose ? 'Left' : '',
+//         'Options': [],
+//         'Profile': '',
+//         'Glass Type': '',
+//         'Glass Color': '',
+//         'Glass Shelf': '',
+//         'Middle Section': '',
+//         'LED borders': [],
+//         'LED alignment': 'Center',
+//         'LED indent': '',
+//         'Note': '',
+//         price: 0,
+//         image_active_number: 1,
+//
+//         'Door Profile': '',
+//         'Door Glass Type': '',
+//         'Door Glass Color': '',
+//         'Shelf Profile': '',
+//         'Shelf Glass Type': '',
+//         'Shelf Glass Color': '',
+//     };
+// }
 
 export const getInitialDepth = (productRange: productRangeType, isAngle: boolean, depth: number): number => {
     const tableDepth = productRange?.depthRange[0];
@@ -983,7 +981,7 @@ export const getCartData = (cartState: CartItemType[], dispatch: (a: any) => voi
 
 
 export const getRoomFront = (room: RoomTypeAPI): RoomFront => {
-    const cart = room.cart;
+    const cart = room.cart || [];
     const frontCart: CartFront[] = getCartArrFront(cart, room)
     return {...room, cart: frontCart}
 }
@@ -997,6 +995,7 @@ export const getCartArrFront = (cart: CartAPIResponse[], room: RoomTypeAPI): Car
 
 export const getCartFront = (item: CartAPIResponse, room: RoomTypeAPI): MaybeNull<CartFront> => {
     const materialData = getMaterialDataAPI(room);
+
     const {
         product_id,
         width,
@@ -1008,6 +1007,8 @@ export const getCartFront = (item: CartAPIResponse, room: RoomTypeAPI): MaybeNul
         door_option,
         hinge
     } = item;
+
+    console.log(item)
     const product = getProductById(product_id)
     if (!product) return null;
     const {category, widthDivider, attributes, doorSquare, images, legsHeight, isAngle} = product
@@ -1037,37 +1038,34 @@ export const getCartFront = (item: CartAPIResponse, room: RoomTypeAPI): MaybeNul
     const doorArr = getDoorMinMaxValuesArr(width, doorValues);
     const doors = checkDoors(0, doorArr, hinge)
 
-    const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product_id))?.limits;
+    const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
     if (!sizeLimit) return null;
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
     const doorHeight: number = height ? height - legsHeight : 0;
     const frontSquare = getSquare(width, doorHeight);
     const boxFromFinishMaterial: boolean = options.includes("Box from finish material");
     const boxCoef = boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef;
-    const extraPrices: extraPricesType = {
-        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
-        ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
-        glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
-        glassDoor: options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0,
-        ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led_border),
-        pvcPrice: getPvcPrice(width, blind_width, doorHeight, isAcrylic, doorType, doorFinish),
-        doorPrice: getDoorPrice(frontSquare, doorPriceMultiplier),
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, drawer, width, materialCat),
-        boxMaterialCoef: boxFromFinishMaterial ? boxMaterialCoefs.boxMaterialFinishCoef : boxMaterialCoefs.boxMaterialCoef,
-        frontSquare,
-        premiumCoef: premiumCoef,
-        doorSquare: doorSquare
-    }
+    const ptoDoors = options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0;
+    const ptoDrawers = options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0;
+    const glassShelf = options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0;
+    const glassDoor = options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0;
+    const ptoTrashBins = options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0;
+    const ledPrice = getLedPrice(width, height, led_border)
+    const pvcPrice = getPvcPrice(width, blind_width, doorHeight, isAcrylic, doorType, doorFinish)
+    const doorPrice = getDoorPrice(frontSquare, doorPriceMultiplier);
 
-    const {ptoDoors, ptoDrawers, ptoTrashBins, ledPrice, glassShelf, glassDoor} = extraPrices
-
+    const drawerPrice = getDrawerPrice(drawersQty + rolloutsQty, drawer, width, materialCat)
     const allCoefs = boxCoef * premiumCoef;
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
     const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
 
-    const baseProductPrice = getBaseProductPrice(product_id);
+    console.log(blind_width)
+
+    const isStandardCabinet = materialCat === "Standard Door";
+    const baseProductPrice = getBaseProductPrice(product_id, isStandardCabinet, basePriceType);
+
     if (!baseProductPrice) return null;
+
     const productRange = getProductRange(baseProductPrice, category, height, depth);
     const {widthRange, heightRange, depthRange} = productRange
 
@@ -1084,9 +1082,6 @@ export const getCartFront = (item: CartAPIResponse, room: RoomTypeAPI): MaybeNul
     if (depthRange[0] !== depth) coef.depth = addDepthPriceCoef(depth, depthRange, isAngle)
     const coefExtra = 1 + (coef.width + coef.height + coef.depth);
 
-    const pvcPrice = getPvcPrice(width, blind_width || 0, doorHeight, isAcrylic, doorType, doorFinish);
-    const doorPrice = getDoorPrice(frontSquare, doorPriceMultiplier);
-    const drawerPrice = getDrawerPrice(drawersQty + rolloutsQty, drawer, width, category);
     const totalPrice = +(startPrice * coefExtra + ptoDoors + ptoDrawers + glassShelf + glassDoor + ptoTrashBins + pvcPrice + doorPrice + drawerPrice + ledPrice).toFixed(1);
 
     return {

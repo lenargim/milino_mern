@@ -53,6 +53,15 @@ export type ProductType = {
 }
 
 
+export type productPricesType = {
+    id: number,
+    prices: {
+        type: pricesTypings,
+        data: pricePart[]
+    }[]
+}
+
+
 export const DefaultProductType: Pick<ProductType, 'isProductStandard'> = {
     isProductStandard: false,
 }

@@ -44,3 +44,27 @@ export const remove = async (req, res) => {
     })
   }
 }
+
+
+export const update = async (req, res) => {
+  try {
+    const cartId = req.params.cartId;
+    await CartModel.findByIdAndUpdate(cartId, {
+      amount: req.body.amount
+    }, {
+      returnDocument: "after",
+    }).then(doc => {
+      if (!doc) {
+        return res.status(404).json({
+          message: 'Cart Item not found'
+        })
+      }
+      return res.json(doc);
+    });
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot update Cart'
+    })
+  }
+}
