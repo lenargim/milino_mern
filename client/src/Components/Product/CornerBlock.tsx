@@ -2,9 +2,10 @@ import React, {FC} from 'react';
 import s from "./product.module.sass";
 import {ProductRadioInput} from "../../common/Form";
 import {cornerArr} from "../../helpers/productTypes";
+import {MaybeUndefined} from "../Profile/RoomForm";
 
 type CornerBlockType = {
-    isCornerChoose?: boolean
+    isCornerChoose: MaybeUndefined<boolean>
 }
 
 

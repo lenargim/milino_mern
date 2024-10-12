@@ -3,11 +3,12 @@ import s from "./product.module.sass";
 import {ProductCheckboxInput, ProductInputCustom} from "../../common/Form";
 import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
+import {MaybeEmpty} from "../Profile/RoomForm";
 
 export type borderType = 'Sides' | 'Top' | 'Bottom';
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 export type ledType = {
-    alignment: ledAlignmentType,
+    alignment: MaybeEmpty<ledAlignmentType>,
     hasLedBlock: boolean
     error?: string
 }

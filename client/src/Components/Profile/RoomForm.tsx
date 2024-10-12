@@ -85,14 +85,13 @@ const RoomForm: FC<RoomFormType> = ({submitLabel = 'Create room'}) => {
     } = values;
 
     const isLeather = category === 'Leather Closet';
-    const finishArr: finishType[] = doors.find(el => el.value === door_type)?.finish ?? [];
-    const colorArr: colorType[] = getDoorColorsArr(door_finish_material, category, doors, door_type) ?? []
-    const isGrain = colorArr && colorArr.find(el => el.value === door_color)?.isGrain;
+    const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
+    const colorArr = getDoorColorsArr(door_finish_material, category, doors, door_type) ?? []
+    const isGrain = colorArr.find(el => el.value === door_color)?.isGrain;
     const boxMaterialArr: materialsData[] = getBoxMaterialArr(isLeather, boxMaterial, leatherBoxMaterialArr)
     const drawerTypesArr = drawers.find(el => el.value === drawer)?.types;
     const drawerColorsArr = drawerTypesArr && drawerTypesArr.find(el => el.value === drawer_type)?.colors
     const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
-
     const showDoorType = isDoorTypeShown(category)
     const showDoorFinish = isDoorFinishShown(category, door_type, finishArr);
     const showDoorColor = isDoorColorShown(category, door_finish_material, finishArr, colorArr);
@@ -170,6 +169,9 @@ const RoomForm: FC<RoomFormType> = ({submitLabel = 'Create room'}) => {
 
         // if (cartLength) checkCartData(cart, values, dispatch);
     }, [values]);
+
+    // console.log(`showDoorGrain ${showDoorGrain}`)
+    // console.log(`doorGrain  ${door_grain}`)
 
     return (
         <Form className={s.roomForm}>

@@ -21,13 +21,13 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 productPriceData,
                                                 hingeArr,
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose} = product
+    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock,blindArr} = product
     const {depth:depthExtra, height:heightExtra, width:widthExtra} = extraPrices
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = widthRange.concat([0]);
     const heightRangeWithCustom = heightRange.concat([0]);
     const depthRangeWithCustom = depthRange.concat([0]);
-    const {blindArr, filteredOptions, hasLedBlock} = productPriceData;
+    const {filteredOptions} = productPriceData;
     const {values} = useFormikContext<productValuesType>();
     const {
         Width: width,

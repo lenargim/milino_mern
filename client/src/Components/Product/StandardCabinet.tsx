@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import {sizeLimitsType} from "../../helpers/productTypes";
 import {
-    getBaseProductPrice,
+    // getBaseProductPrice,
     getProductRange,
-    getStandardMaterialData,
+    // getStandardMaterialData,
     // getStandardProductPriceData
 } from "../../helpers/calculatePrice";
 //import StandardCabinetForm from "./StandardCabinetForm";

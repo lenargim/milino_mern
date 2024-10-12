@@ -1,8 +1,7 @@
 import {
     attrItem,
-    drawerInterface,
     extraPricesType, extraStandardPricesType,
-    getBoxMaterialCoefsType, hingeArr,
+    hingeArr,
     materialDataType, priceItem,
     pricePart,
     pricesTypings,
@@ -10,13 +9,10 @@ import {
     productRangeType, productSizesType, ProductType,
     productTypings,
     profileItem,
-    sizeLimitsType, StandardMaterialDataType, valueItemType
+    sizeLimitsType, valueItemType
 } from "./productTypes";
-import prices from './../api/prices.json';
-import pricesGola from '../api/no-pricesGola.json'
-import pricesCloset from '../api/no-pricesClosets.json'
 import settings from './../api/settings.json'
-import {getAttributes, getSquare, isHasLedBlock} from "./helpers";
+import {getAttributes, getSquare} from "./helpers";
 import {OrderFormType} from "./types";
 import {
     CartItemType,
@@ -45,29 +41,6 @@ type calculateStandardPriceType = {
     totalPrice: number,
     coefDepth: number,
     coefExtra: number
-}
-
-export const getPriceData = (id: number, category: productCategory, basePriceType: pricesTypings): pricePart[] | undefined => {
-    type apiPartType = {
-        id: number,
-        prices: priceItem[]
-    }
-    let api;
-    switch (category) {
-        case "Gola Base Cabinets":
-        case "Gola Wall Cabinets":
-        case "Gola Tall Cabinets":
-            api = pricesGola as apiPartType[]
-            break;
-        case "Build In":
-        case "Leather":
-            api = pricesCloset as apiPartType[]
-            break
-        default:
-            api = prices as apiPartType[];
-    }
-    const productPrices = api && api.find(el => el.id === id)?.prices;
-    return productPrices && productPrices.find(el => el.type === basePriceType)?.data;
 }
 
 export const getInitialPrice = (priceData: pricePart[], productRange: productRangeType, category: productCategory, coefs: number): number => {
@@ -380,9 +353,9 @@ export function getDoorPrice(square: number, doorPriceMultiplier: number): numbe
     return +(square * doorPriceMultiplier).toFixed(1);
 }
 
-export function getDrawerPrice(qty: number, drawer: drawerInterface, width: number, category: string): number {
+export function getDrawerPrice(qty: number, width: number, category: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
     const isStandardCabinet = category === "Standard Door";
-    const {drawerBrand, drawerType, drawerColor} = drawer
+
     if (!qty) return 0
     let price: number = 0;
     switch (drawerBrand) {
@@ -538,14 +511,16 @@ export function getLedPrice(realWidth: number, realHeight: number, ledBorders: s
 }
 
 
-export const getBasePriceType = (doorType: string, doorFinish: string): pricesTypings => {
+export const getBasePriceType = (doorType: MaybeUndefined<string>, doorFinish: MaybeUndefined<string>): pricesTypings => {
+    if (!doorType || !doorFinish) return 1
     if (doorType === 'Painted' || doorType === 'Slatted' || doorType === 'Micro Shaker') return 3
     if (doorFinish.includes('Milino') || doorFinish.includes('No Doors')) return 1;
     if (doorFinish.includes('Syncron') || doorFinish === 'Cleaf') return 2
     return 3
 }
 
-export const getPremiumCoef = (doorType: string, doorFinish: string): number => {
+export const getPremiumCoef = (doorType: MaybeUndefined<string>, doorFinish: MaybeUndefined<string>): number => {
+    if (!doorType || !doorFinish) return 1
     if (doorType === 'Painted' || doorType === 'Slatted' || doorType === 'Micro Shaker') return 1.05;
     if (doorFinish === 'Stone') return 1.69
     if (doorFinish === 'Zenit') return 1.03
@@ -557,18 +532,16 @@ export const getGrainCoef = (doorGrain: string): number => {
     return doorGrain === 'Gorizontal' ? 1.1 : 1
 }
 
-export const getBoxMaterialCoefs = (boxMaterial: string, doorFinish: string): getBoxMaterialCoefsType => {
-    return {
-        boxMaterialCoef: boxMaterial.includes('Plywood') ? 1.2 : 1,
-        boxMaterialFinishCoef: doorFinish === 'Cleaf' || doorFinish === 'Syncron' ? 1.845 : 2.706
-    }
+export const getBoxMaterialCoef = (boxMaterial: MaybeUndefined<string>, isStandard: boolean): number => {
+    if (!boxMaterial || !boxMaterial.includes('Plywood')) return 1;
+    return !isStandard ? 1.2 : 1.1
 }
 
-export const getStandardBoxMaterialCoefs = (boxMaterial: string): number => {
-    return boxMaterial.includes('Plywood') ? 1.1 : 1
+export const getBoxMaterialFinishCoef = (doorFinish: MaybeUndefined<string>): number => {
+    return doorFinish === 'Cleaf' || doorFinish === 'Syncron' ? 1.845 : 2.706
 }
 
-export const getDoorPriceMultiplier = (doorType: string, doorFinish: string): number => {
+export const getDoorPriceMultiplier = (doorType: MaybeUndefined<string>, doorFinish: MaybeUndefined<string>): number => {
     if (doorType === 'Slab') return 0
     if (doorType === 'Painted' || doorType === 'Slatted') return 37.8
     if (doorType === 'Micro Shaker') return 36
@@ -591,66 +564,47 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
 export const getMaterialData = (materials: OrderFormType): materialDataType => {
     const {
         ['Category']: category,
-        ['Door Type']: doorType,
-        ['Door Finish Material']: doorFinish,
-        ['Door Grain']: doorGrain,
         ['Box Material']: boxMaterial,
         ['Drawer']: drawerBrand,
         ['Drawer Type']: drawerType,
         ['Drawer Color']: drawerColor,
+        ['Door Type']: doorType,
+        ['Door Finish Material']: doorFinish,
+        ['Door Grain']: doorGrain,
         ['Leather Type']: leatherType
     } = materials;
-    const basePriceType: pricesTypings = getBasePriceType(doorType, doorFinish);
+
+    const isStandardCabinet = category === "Standard Door";
+    const basePriceType = getBasePriceType(doorType, doorFinish);
     const baseCoef = basePriceType === 3 ? getPremiumCoef(doorType, doorFinish) : 1;
     const grainCoef = doorGrain ? getGrainCoef(doorGrain) : 1;
     const premiumCoef = +(baseCoef * grainCoef).toFixed(3)
-    const boxMaterialCoefs = getBoxMaterialCoefs(boxMaterial, doorFinish)
-    const doorPriceMultiplier = getDoorPriceMultiplier(doorType, doorFinish);
+    const boxMaterialCoef = getBoxMaterialCoef(boxMaterial, isStandardCabinet);
+    const boxMaterialFinishCoef = !isStandardCabinet ? getBoxMaterialFinishCoef(doorFinish) : 1;
+    const doorPriceMultiplier = !isStandardCabinet ? getDoorPriceMultiplier(doorType, doorFinish) : 1;
     const isAcrylic = doorFinish === 'Ultrapan Acrylic';
-    const drawer: drawerInterface = {
-        drawerBrand,
-        drawerType,
-        drawerColor
-    };
+
     return {
+        isStandardCabinet,
         category,
         basePriceType,
         baseCoef,
         grainCoef,
         premiumCoef,
-        boxMaterialCoefs,
+        boxMaterialCoef,
+        boxMaterialFinishCoef,
         doorPriceMultiplier,
         isAcrylic,
         doorType,
         doorFinish,
-        drawer,
+        drawerBrand,
+        drawerType,
+        drawerColor,
         leatherType
     }
 }
 
-export const getStandardMaterialData = (materials: OrderFormType): StandardMaterialDataType => {
-    const {
-        ['Category']: category,
-        ['Box Material']: boxMaterial,
-        ['Drawer']: drawerBrand,
-        ['Drawer Type']: drawerType,
-        ['Drawer Color']: drawerColor
-    } = materials;
-    const boxMaterialCoef = getStandardBoxMaterialCoefs(boxMaterial)
-    const drawer: drawerInterface = {
-        drawerBrand,
-        drawerType,
-        drawerColor
-    };
-    return {
-        boxMaterialCoef,
-        drawer,
-        category
-    }
-}
-
-
-export const getMaterialDataAPI = (room: RoomTypeAPI): { door_type: string; baseCoef: number; drawer: { drawerType: string; drawerColor: string; drawerBrand: string }; doorType: string; grainCoef: number; isAcrylic: boolean; boxMaterialCoefs: getBoxMaterialCoefsType; doorFinish: string; premiumCoef: number; door_finish_material: string; doorPriceMultiplier: number; leatherType: string | undefined; category: "" | "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"; basePriceType: 1 | 2 | 3 } => {
+export const getMaterialDataAPI = (room: RoomTypeAPI) => {
     const {
         box_material,
         door_finish_material,
@@ -662,11 +616,13 @@ export const getMaterialDataAPI = (room: RoomTypeAPI): { door_type: string; base
         door_type,
         door_grain,
     } = room
+    const isStandardCabinet = category === "Standard Door";
     const basePriceType: pricesTypings = getBasePriceType(door_type, door_finish_material);
     const baseCoef = basePriceType === 3 ? getPremiumCoef(door_type, door_finish_material) : 1;
     const grainCoef = door_grain ? getGrainCoef(door_grain) : 1;
     const premiumCoef = +(baseCoef * grainCoef).toFixed(3)
-    const boxMaterialCoefs = getBoxMaterialCoefs(box_material, door_finish_material)
+    const boxMaterialCoef = getBoxMaterialCoef(box_material, isStandardCabinet);
+    const boxMaterialFinishCoef = !isStandardCabinet ? getBoxMaterialFinishCoef(door_finish_material) : 1;
     const doorPriceMultiplier = getDoorPriceMultiplier(door_type, door_finish_material);
     const isAcrylic = door_finish_material === 'Ultrapan Acrylic';
 
@@ -676,7 +632,8 @@ export const getMaterialDataAPI = (room: RoomTypeAPI): { door_type: string; base
         baseCoef,
         grainCoef,
         premiumCoef,
-        boxMaterialCoefs,
+        boxMaterialCoef,
+        boxMaterialFinishCoef,
         doorPriceMultiplier,
         isAcrylic,
         door_type,
@@ -693,12 +650,10 @@ export const getMaterialDataAPI = (room: RoomTypeAPI): { door_type: string; base
 }
 
 
-export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: string, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
+export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {
         attributes,
         options,
-        category,
-        isBlind
     } = product;
 
     const attrArr = getAttributes(attributes, image_active_number);
@@ -712,50 +667,19 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
     }, 0);
-    const blindArr = isBlind ? getBlindArr(category) : undefined;
     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
-    const hasLedBlock = isHasLedBlock(category);
 
     return {
         doorValues,
         drawersQty,
         rolloutsQty,
-        blindArr,
         filteredOptions,
-        shelfsQty,
-        hasLedBlock
+        shelfsQty
     }
 }
 
-// export const getStandardProductPriceData = (product: ProductType, materialData: StandardMaterialDataType) => {
-//     const {category, attributes, isBlind, image_active_number, options} = product;
-//     const {drawer: {drawerBrand}} = materialData;
-//     const attrArr = getAttributes(attributes, image_active_number);
-//     const doorValues = attributes.find(el => el.name === 'Door')?.values;
-//     const drawersQty = attrArr.reduce((acc, current) => {
-//         const qty = current.name.includes('Drawer') ? current.value : 0
-//         return acc + qty;
-//     }, 0);
-//     const rolloutsQty = attrArr.reduce((acc, current) => {
-//         const qty = current.name.includes('Rollout') ? current.value : 0
-//         return acc + qty;
-//     }, 0);
-//     const blindArr = isBlind ? getBlindArr(category) : undefined;
-//     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
-//     const shelfsQty = getShelfsQty(attrArr);
-//
-//     return {
-//         doorValues,
-//         blindArr,
-//         filteredOptions,
-//         shelfsQty,
-//         drawersQty,
-//         rolloutsQty
-//     }
-// }
-
-export const getBaseProductPrice = (id: number, isStandardCabinet:boolean = false,type: pricesTypings = 1): MaybeUndefined<pricePart[]> => {
+export const getProductPriceRange = (id: number, isStandardCabinet: boolean = false, type: pricesTypings = 1): MaybeUndefined<pricePart[]> => {
     if (isStandardCabinet) return standardProductsPrices.find(el => el.id === id)?.prices;
     const data = productPrices.find(el => el.id === id)?.prices as priceItem[];
     return data ? data.find(i => i.type === type)?.data : undefined
@@ -985,159 +909,58 @@ function notEmpty<TValue>(value: TValue | undefined): value is TValue {
 export const checkCartData = (cart: CartItemType[], values: OrderFormType, dispatch: Function) => {
     cart.forEach(product => {
         const {id, category, productExtra} = product;
-        switch (category) {
-            case "Standard Base Cabinets":
-            case "Standard Wall Cabinets":
-            case "Standard Tall Cabinets": {
-                const materialData = getStandardMaterialData(values);
-                const {boxMaterialCoef} = materialData
-                if (!productExtra) return null;
-                const {width, height, depth, cartExtras} = productExtra;
-                const {
-                    glassDoor,
-                    ledPrice,
-                    glassShelf,
-                    ptoDrawers,
-                    ptoDoors,
-                    ptoTrashBins,
-                    coefExtra,
-                } = cartExtras;
+        if (category === 'Custom Parts') return;
 
-                const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product.id))?.limits;
-                if (!sizeLimit) return null;
+        const materialData = getMaterialData(values)
+        const {
+            basePriceType,
+            premiumCoef,
+            doorPriceMultiplier,
+            doorFinish,
+            doorType,
+            isAcrylic,
+            drawerType, drawerColor, drawerBrand, isStandardCabinet,
+            boxMaterialCoef,
+            boxMaterialFinishCoef
+        } = materialData;
+        if (!productExtra) return null;
+        const {width, blindWidth, height, depth, cartExtras, legsHeight, type} = productExtra;
+        const {
+            glassDoor,
+            ledPrice,
+            glassShelf,
+            ptoDrawers,
+            ptoDoors,
+            ptoTrashBins,
+            coefExtra,
+            attributes,
+            boxFromFinishMaterial
+        } = cartExtras;
 
-                const baseProductPrice = getBaseProductPrice(id);
-                if (!baseProductPrice) return null;
-                const productRange = getProductRange(baseProductPrice, category, height, depth);
-                const initialPrice = getInitialPrice(baseProductPrice, productRange, category, boxMaterialCoef);
-                if (!initialPrice) return null;
-                const tablePrice = getStandardTablePrice(width, height, depth, baseProductPrice);
-                const startPrice: number = getStandardStartPrice(depth, boxMaterialCoef, sizeLimit, tablePrice);
-                const totalPrice = +(startPrice * coefExtra + ptoDoors + ptoDrawers + ptoTrashBins + glassShelf + glassDoor + ledPrice).toFixed(1)
-                dispatch(updateCartItemPrice({uuid: product.uuid, price: totalPrice}))
-                break;
-            }
-            case "Base Cabinets":
-            case "Wall Cabinets":
-            case "Tall Cabinets":
-            case "Gola Base Cabinets":
-            case "Gola Wall Cabinets":
-            case "Gola Tall Cabinets":
-            case "Regular Vanities":
-            case "Gola Vanities":
-            case "Leather":
-            case "Build In": {
-                const materialData = getMaterialData(values)
-                const {
-                    basePriceType,
-                    premiumCoef,
-                    doorPriceMultiplier,
-                    doorFinish,
-                    doorType,
-                    isAcrylic,
-                    drawer,
-                    boxMaterialCoefs
-                } = materialData;
-                if (!productExtra) return null;
-                const {width, blindWidth, height, depth, cartExtras, legsHeight, type} = productExtra;
-                const {
-                    glassDoor,
-                    ledPrice,
-                    glassShelf,
-                    ptoDrawers,
-                    ptoDoors,
-                    ptoTrashBins,
-                    coefExtra,
-                    attributes,
-                    boxFromFinishMaterial
-                } = cartExtras;
-                const {boxMaterialCoef, boxMaterialFinishCoef} = boxMaterialCoefs
-                const tablePriceData = getPriceData(id, category, basePriceType);
-                if (!tablePriceData) return null;
-                const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product.id))?.limits;
-                if (!sizeLimit) return null;
-                const doorHeight: number = height ? height - legsHeight : 0;
-                const frontSquare = getSquare(width, doorHeight);
-                const boxCoef = boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef;
-                const attrArr = getAttributes(attributes, type);
-                const drawersQty = attrArr.reduce((acc, current) => {
-                    const qty = current.name.includes('Drawer') ? current.value : 0
-                    return acc + qty;
-                }, 0);
-                const rolloutsQty = attrArr.reduce((acc, current) => {
-                    const qty = current.name.includes('Rollout') ? current.value : 0
-                    return acc + qty;
-                }, 0);
-                const allCoefs = boxCoef * premiumCoef;
-                const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
-                const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
+        const tablePriceData = getProductPriceRange(id, isStandardCabinet, basePriceType);
+        if (!tablePriceData) return null;
+        const sizeLimit: sizeLimitsType | undefined = sizes.find(size => size.productIds.includes(product.id))?.limits;
+        if (!sizeLimit) return null;
+        const doorHeight: number = height ? height - legsHeight : 0;
+        const frontSquare = getSquare(width, doorHeight);
+        const boxCoef = boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef;
+        const attrArr = getAttributes(attributes, type);
+        const drawersQty = attrArr.reduce((acc, current) => {
+            const qty = current.name.includes('Drawer') ? current.value : 0
+            return acc + qty;
+        }, 0);
+        const rolloutsQty = attrArr.reduce((acc, current) => {
+            const qty = current.name.includes('Rollout') ? current.value : 0
+            return acc + qty;
+        }, 0);
+        const allCoefs = boxCoef * premiumCoef;
+        const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
+        const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
 
-                const pvcPrice = getPvcPrice(width, blindWidth, doorHeight, isAcrylic, doorType, doorFinish);
-                const doorPrice = getDoorPrice(frontSquare, doorPriceMultiplier);
-                const drawerPrice = getDrawerPrice(drawersQty + rolloutsQty, drawer, width, category);
-                const totalPrice = +(startPrice * coefExtra + ptoDoors + ptoDrawers + glassShelf + glassDoor + ptoTrashBins + pvcPrice + doorPrice + drawerPrice + ledPrice).toFixed(1);
-                dispatch(updateCartItemPrice({uuid: product.uuid, price: totalPrice}))
-                break;
-            }
-            case "Custom Parts":
-                break;
-        }
+        const pvcPrice = getPvcPrice(width, blindWidth, doorHeight, isAcrylic, doorType, doorFinish);
+        const doorPrice = getDoorPrice(frontSquare, doorPriceMultiplier);
+        const drawerPrice = getDrawerPrice(drawersQty + rolloutsQty, width, category, drawerBrand, drawerType, drawerColor);
+        const totalPrice = +(startPrice * coefExtra + ptoDoors + ptoDrawers + glassShelf + glassDoor + ptoTrashBins + pvcPrice + doorPrice + drawerPrice + ledPrice).toFixed(1);
+        dispatch(updateCartItemPrice({uuid: product.uuid, price: totalPrice}))
     })
 }
-
-
-// export const calculateCart = (cartResponse: CartFront[]): CartItemType[] => {
-//     const cart = cartResponse.map(item => {
-//         const productAPI = getProductById(item.product_id);
-//         if (!productAPI) return null;
-//         const price = 0;
-//         const type = 1;
-//         const isStandardSize = false;
-//
-//         const product: CartItemType = {
-//             id: item.product_id,
-//             amount: item.amount,
-//             note: item.note,
-//             img: productAPI.images[0].value,
-//             name: productAPI.name,
-//             category: productAPI.category,
-//             uuid: item._id,
-//             price,
-//         }
-//         switch (item.product_type) {
-//             case "cabinet":
-//                 product.productExtra = {
-//                     width: item.width,
-//                     height: item.height,
-//                     depth: item.depth,
-//                     options: item.options,
-//
-//                     doorProfile: item.door_option[0],
-//                     doorGlassType: item.door_option[1],
-//                     doorGlassColor: item.door_option[2],
-//                     shelfProfile: item.shelf_option[0],
-//                     shelfGlassType: item.shelf_option[1],
-//                     shelfGlassColor: item.shelf_option[2],
-//                     middleSection: item.middle_section,
-//                     led: {
-//                         border: item.led_border,
-//                         alignment: item.led_alignment,
-//                         indent: item.led_indent
-//                     },
-//                     leather: item.leather,
-//                     type,
-//                     hinge: item.hinge,
-//                     isStandardSize,
-//                     legsHeight: productAPI.legsHeight,
-//                     corner: item.corner,
-//                     blindWidth: item.blind_width,
-//                     cartExtras: initialCartExtras
-//                 }
-//                 return product;
-//                 break
-//             default:
-//                 return product
-//         }
-//     })
-//     return cart.filter((element): element is CartItemType => element !== null)
-// }

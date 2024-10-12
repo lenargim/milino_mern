@@ -1090,8 +1090,7 @@
             },
             {
               "value": "Beige Linen Melamine",
-              "img": "Beige-Linen-Melamine.jpg",
-              "isGrain": false
+              "img": "Beige-Linen-Melamine.jpg"
             },
             {
               "value": "Blanco Wood Melamine",
@@ -1100,13 +1099,11 @@
             },
             {
               "value": "Grey Linen Melamine",
-              "img": "Gray-Linen-Melamine.jpg",
-              "isGrain": false
+              "img": "Gray-Linen-Melamine.jpg"
             },
             {
               "value": "Grey Melamine",
-              "img": "Gray-Melamine.jpg",
-              "isGrain": false
+              "img": "Gray-Melamine.jpg"
             },
             {
               "value": "Walnut Melamine",
@@ -1115,8 +1112,7 @@
             },
             {
               "value": "White Melamine",
-              "img": "White-Melamine.jpg",
-              "isGrain": false
+              "img": "White-Melamine.jpg"
             }
           ]
         },

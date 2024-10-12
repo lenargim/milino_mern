@@ -60,7 +60,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
             .oneOf(alignmentOptions, 'error'),
         'LED indent': Yup.string()
             .when('LED alignment', {
-                is: (val: string) => val !== 'Center',
+                is: (val: string) => val && val !== 'Center',
                 then: (schema) => schema
                     .required('Required')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")

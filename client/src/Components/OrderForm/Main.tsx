@@ -55,12 +55,11 @@ const Main: FC<MainType> = ({values, isSubmitting, isValid, setFieldValue,cart, 
     const isLeather = category === 'Leather Closet';
     const finishArr: finishType[] = doors.find(el => el.value === doorType)?.finish ?? [];
     const colorArr: colorType[] = getDoorColorsArr(doorFinishMaterial, category, doors, doorType) ?? []
-    const isGrain = colorArr && colorArr.find(el => el.value === doorColor)?.isGrain;
+    // const isGrain = colorArr && colorArr.find(el => el.value === doorColor)?.isGrain;
     const boxMaterialArr:materialsData[] = getBoxMaterialArr(isLeather,boxMaterial, leatherBoxMaterialArr)
     const drawerTypesArr = drawers.find(el => el.value === drawerVal)?.types;
     const drawerColorsArr = drawerTypesArr && drawerTypesArr.find(el => el.value === drawerTypeVal)?.colors
     const frameArr: materialsData[] = doors.find(el => el.value === doorType)?.frame ?? [];
-
     const showDoorType = isDoorTypeShown(category)
     const showDoorFinish = isDoorFinishShown(category, doorType, finishArr);
     const showDoorColor = isDoorColorShown(category, doorFinishMaterial, finishArr, colorArr);
@@ -132,12 +131,14 @@ const Main: FC<MainType> = ({values, isSubmitting, isValid, setFieldValue,cart, 
                 }
         }
 
-        if (isGrain && !doorGrain) setFieldValue('Door Grain', 'Gorizontal');
+        if (showDoorGrain && !doorGrain) setFieldValue('Door Grain', 'Gorizontal');
         if (!isLeather && leatherType) setFieldValue('Leather Type', '');
         if (doorType !== 'Micro Shaker' && doorFrameWidth) setFieldValue('Door Frame Width', '');
 
         if (cartLength) checkCartData(cart, values, dispatch);
     }, [values]);
+
+
 
     return (
         <main id="main" className="main">

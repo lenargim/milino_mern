@@ -29,13 +29,13 @@ export const OrderFormSchema = Yup.object({
             then: (schema => schema.required('Please choose down color'))
         }),
     'Door Grain': Yup.string(),
-    'Box Material': Yup.string()
+    'Box Material': Yup.string().defined()
         .required('Please write down box material'),
-    'Drawer': Yup.string()
+    'Drawer': Yup.string().defined()
         .required('Please write down Drawer'),
-    'Drawer Type': Yup.string()
+    'Drawer Type': Yup.string().defined()
         .required('Please write down drawer type'),
-    'Drawer Color': Yup.string()
+    'Drawer Color': Yup.string().defined()
         .required('Please write color'),
     'Leather Type': Yup.string()
         .when('Category', {

@@ -1,4 +1,5 @@
 import {optionType} from "../common/SelectField";
+import {MaybeEmpty, MaybeUndefined} from "../Components/Profile/RoomForm";
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
@@ -8,6 +9,7 @@ export type cornerTypes = 'Left' | 'Right' | '';
 export const cornerArr:cornerTypes[] = ["Left", "Right"];
 export const hingeArr:hingeTypes[] = ['Left' , 'Right' , 'Double Door' , 'Single Door'];
 
+export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -45,11 +47,13 @@ export type ProductType = {
     customDepth?: number,
     hasSolidWidth?: true,
     hasMiddleSection?: true,
-    isCornerChoose?: boolean,
+    isCornerChoose: MaybeUndefined<true>,
     doorSquare: number,
     widthDivider?: number,
     heightRange?: number,
-    cartExtras: CartExtrasType
+    cartExtras: CartExtrasType,
+    hasLedBlock: boolean,
+    blindArr?: number[]
 }
 
 
@@ -113,18 +117,22 @@ export type materialsLimitsType = {
 // }
 
 export type materialDataType = {
-    category: string,
+    isStandardCabinet: boolean,
+    category: MaybeEmpty<RoomCategories>,
     basePriceType: pricesTypings,
     baseCoef: number,
     grainCoef: number,
     premiumCoef: number,
-    boxMaterialCoefs: getBoxMaterialCoefsType,
+    boxMaterialCoef: number,
+    boxMaterialFinishCoef: number,
     doorPriceMultiplier: number,
     isAcrylic: boolean,
-    doorType: string,
-    doorFinish: string,
-    drawer: drawerInterface,
-    leatherType?: string
+    doorType: MaybeUndefined<string>,
+    doorFinish: MaybeUndefined<string>,
+    drawerBrand: string,
+    drawerType: string,
+    drawerColor: string,
+    leatherType: MaybeUndefined<string>
 }
 
 
@@ -204,9 +212,9 @@ export type getBoxMaterialCoefsType = {
 }
 
 export interface drawerInterface {
-    drawerBrand: string,
-    drawerType: string,
-    drawerColor: string
+    drawerBrand: MaybeUndefined<string>,
+    drawerType: MaybeUndefined<string>,
+    drawerColor: MaybeUndefined<string>
 }
 
 
@@ -268,6 +276,7 @@ export interface extraPricesType {
     premiumCoef: number,
     boxMaterialCoef: number,
     tablePrice?: number
+    startPrice?: number
 }
 
 export interface extraStandardPricesType {
@@ -298,8 +307,7 @@ export type productDataToCalculatePriceType = {
     shelfsQty: number
     rolloutsQty: number,
     blindArr?: number[],
-    filteredOptions: string[],
-    hasLedBlock: boolean
+    filteredOptions: string[]
 }
 
 export type StandardProductDataToCalculatePriceType = {

@@ -3,7 +3,7 @@ import s from './product.module.sass'
 import {useParams} from "react-router-dom";
 import {OrderFormType} from "../../helpers/types";
 import {
-    addToCartProduct, addToCartProductAPI, getProductById, productValuesType, useAppDispatch,
+    addToCartProduct, addToCartProductAPI, getProductById, isHasLedBlock, productValuesType, useAppDispatch,
 } from "../../helpers/helpers";
 import {
     productCategory, sizeLimitsType
@@ -11,9 +11,7 @@ import {
 import Cabinet from "./Cabinet";
 import {Formik} from 'formik';
 import {
-    getBlindArr,
-    getMaterialData,
-    getPriceData,
+    getMaterialData, getProductPriceRange,
     getProductRange,
 } from "../../helpers/calculatePrice";
 import sizes from "../../api/sizes.json";
@@ -31,15 +29,12 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
     if (!productId || !category || !materials) return <div>Product error</div>;
     let product = getProductById(+productId);
     if (!product) return <div>Product error</div>;
-
-
     localStorage.setItem('category', category);
-
-    const {id, isBlind, isCornerChoose, customHeight, customDepth} = product;
+    const {id, isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr} = product;
 
     const materialData = getMaterialData(materials)
-    const {basePriceType} = materialData
-    const tablePriceData = getPriceData(id, category as productCategory, basePriceType);
+    const {basePriceType, isStandardCabinet} = materialData;
+    const tablePriceData = getProductPriceRange(+productId, isStandardCabinet, basePriceType);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
 
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
@@ -48,7 +43,6 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
 
-    const blindArr = isBlind ? getBlindArr(category) : undefined;
 
     const initialValues: productValuesType = {
         'Width': widthRange[0],
@@ -75,7 +69,7 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
         'Glass Color': '',
         'Glass Shelf': '',
         'LED borders': [],
-        'LED alignment': 'Center',
+        'LED alignment': hasLedBlock ? 'Center' : '',
         'LED indent': '',
         'Note': '',
         'Door Profile': '',

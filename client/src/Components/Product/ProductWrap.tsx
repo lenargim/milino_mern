@@ -10,7 +10,7 @@ import {
 } from "../../helpers/productTypes";
 import {
     getMaterialData,
-    getPriceData,
+    getProductPriceRange,
     getProductRange,
 } from "../../helpers/calculatePrice";
 import sizes from "../../api/sizes.json";
@@ -30,7 +30,11 @@ const ProductWrap: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) =
 
     const materialData = getMaterialData(materials)
     const {basePriceType} = materialData
-    const tablePriceData = getPriceData(id, category as productCategory, basePriceType);
+    const isStandardCabinet = category === "Standard Door";
+    const tablePriceData = getProductPriceRange(+productId, isStandardCabinet, basePriceType);
+    if (!tablePriceData) return null;
+
+
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
 
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;

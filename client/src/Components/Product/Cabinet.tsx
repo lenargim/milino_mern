@@ -22,7 +22,6 @@ import {
 import {
     checkDoors, getSquare, productValuesType
 } from "../../helpers/helpers";
-import {useParams} from "react-router-dom";
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";
 import Test from "./Test";
@@ -34,7 +33,6 @@ const Cabinet: FC<CabinetType> = ({
                                       tablePriceData,
                                       sizeLimit
                                   }) => {
-    const {id: roomId} = useParams();
     const {
         attributes,
         widthDivider,
@@ -48,24 +46,24 @@ const Cabinet: FC<CabinetType> = ({
     const {
         category: materialCat,
         premiumCoef,
-        boxMaterialCoefs,
+        boxMaterialCoef,
+        boxMaterialFinishCoef,
         doorPriceMultiplier,
         isAcrylic,
         doorType,
         doorFinish,
-        drawer
+        drawerBrand,
+        drawerType, drawerColor
     } = materialData
-    const {drawerBrand} = drawer
 
     const {widthRange, heightRange} = productRange;
     const {values, setFieldValue} = useFormikContext<productValuesType>();
-
     const productPriceData = getProductDataToCalculatePrice(product, drawerBrand);
     const {
         doorValues,
         drawersQty,
         shelfsQty,
-        rolloutsQty
+        rolloutsQty,
     } = productPriceData;
 
     const {
@@ -83,7 +81,6 @@ const Cabinet: FC<CabinetType> = ({
         ['Hinge opening']: hingeOpening,
         'LED borders': ledBorders,
         image_active_number,
-
         price: price,
     } = values;
 
@@ -109,8 +106,8 @@ const Cabinet: FC<CabinetType> = ({
         ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
         pvcPrice: getPvcPrice(realWidth, realBlindWidth, doorHeight, isAcrylic, doorType, doorFinish),
         doorPrice: getDoorPrice(frontSquare, doorPriceMultiplier),
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, drawer, realWidth, materialCat),
-        boxMaterialCoef: boxFromFinishMaterial ? boxMaterialCoefs.boxMaterialFinishCoef : boxMaterialCoefs.boxMaterialCoef,
+        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, realWidth, materialCat, drawerBrand, drawerType, drawerColor),
+        boxMaterialCoef: boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef,
         frontSquare,
         premiumCoef: premiumCoef,
         doorSquare: doorSquare
@@ -134,6 +131,7 @@ const Cabinet: FC<CabinetType> = ({
     extraPrices.height = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef.height)
     extraPrices.depth = +(totalDepthPrice - initialPrice).toFixed(1);
     extraPrices.tablePrice = tablePrice;
+    extraPrices.startPrice = startPrice
 
     useEffect(() => {
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)

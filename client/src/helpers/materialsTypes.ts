@@ -1,4 +1,5 @@
 import materials from "../api/materials.json";
+import {MaybeUndefined} from "../Components/Profile/RoomForm";
 
 export type OrderFormSelectType = {
     data: materialsData[],
@@ -43,7 +44,7 @@ export type MaterialsType = {
     doors: doorType[],
     boxMaterial: typeof materials.boxMaterial,
     drawers: drawer[],
-    grain: materialsData[]
     leatherBoxMaterial: materialsData[]
     leatherType: materialsData[],
+    grain: materialsData[]
 }

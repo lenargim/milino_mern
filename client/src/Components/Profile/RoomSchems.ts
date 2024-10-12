@@ -30,7 +30,7 @@ export const RoomSchema= (reservedNames:string[] = []) => {
             door_frame_width: Yup.string()
                 .when('door_type', {
                     is: 'Micro Shaker',
-                    then: schema => schema.required('Please write Leather')
+                    then: schema => schema.required('Please choose Frame width')
                 }),
             door_color: Yup.string()
                 .when('door_finish_material', {
@@ -49,7 +49,7 @@ export const RoomSchema= (reservedNames:string[] = []) => {
             leather: Yup.string()
                 .when('category', {
                     is: 'Leather Closet',
-                    then: schema => schema.required('Please write Leather Type')
+                    then: schema => schema.required('Please choose Leather Type')
                 })
         })
 
