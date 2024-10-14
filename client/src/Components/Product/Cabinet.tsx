@@ -45,20 +45,27 @@ const Cabinet: FC<CabinetType> = ({
 
     const {
         category: materialCat,
-        premiumCoef,
-        boxMaterialCoef,
-        boxMaterialFinishCoef,
-        doorPriceMultiplier,
-        isAcrylic,
-        doorType,
-        doorFinish,
-        drawerBrand,
-        drawerType, drawerColor
+        door_type,
+        door_finish_material,
+        is_standard_cabinet,
+        base_coef,
+        base_price_type,
+        box_material_coef,
+        box_material_finish_coef,
+        door_price_multiplier,
+        drawer_brand,
+        drawer_type,
+        drawer_color,
+        grain_coef,
+        premium_coef,
+        is_acrylic,
+        leather,
+
     } = materialData
 
     const {widthRange, heightRange} = productRange;
     const {values, setFieldValue} = useFormikContext<productValuesType>();
-    const productPriceData = getProductDataToCalculatePrice(product, drawerBrand);
+    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {
         doorValues,
         drawersQty,
@@ -84,15 +91,15 @@ const Cabinet: FC<CabinetType> = ({
         price: price,
     } = values;
 
-    const realWidth: number = +width || +customWidthNumber || 0;
-    const realBlindWidth: number = +blindWidth || +customBlindWidthNumber || 0;
+    const realWidth = +width || +customWidthNumber || 0;
+    const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
     const realHeight = +height || +customHeightNumber || 0;
-    const doorHeight: number = realHeight ? realHeight - legsHeight : 0;
-    const realDepth: number = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
+    const doorHeight = realHeight ? realHeight - legsHeight : 0;
+    const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues);
     const hingeArr = getHingeArr(doorArr || [], category);
-    const boxFromFinishMaterial: boolean = chosenOptions.includes("Box from finish material");
+    const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
     const doorWidth = getDoorWidth(realWidth, realBlindWidth, isBlind, isAngle);
     const doorSquare = getDoorSquare(doorWidth, doorHeight);
     const frontSquare = getSquare(realWidth, doorHeight);
@@ -104,15 +111,15 @@ const Cabinet: FC<CabinetType> = ({
         glassDoor: chosenOptions.includes('Glass Door') ? addGlassDoorPrice(doorSquare, doorProfile) : 0,
         ptoTrashBins: chosenOptions.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(realWidth, realHeight, ledBorders),
-        pvcPrice: getPvcPrice(realWidth, realBlindWidth, doorHeight, isAcrylic, doorType, doorFinish),
-        doorPrice: getDoorPrice(frontSquare, doorPriceMultiplier),
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, realWidth, materialCat, drawerBrand, drawerType, drawerColor),
-        boxMaterialCoef: boxFromFinishMaterial ? boxMaterialFinishCoef : boxMaterialCoef,
+        pvcPrice: getPvcPrice(realWidth, realBlindWidth, doorHeight, is_acrylic, door_type, door_finish_material),
+        doorPrice: getDoorPrice(frontSquare, door_price_multiplier),
+        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, realWidth, materialCat, drawer_brand, drawer_type, drawer_color),
+        boxMaterialCoef: boxFromFinishMaterial ? box_material_finish_coef : box_material_coef,
         frontSquare,
-        premiumCoef: premiumCoef,
+        premiumCoef: premium_coef,
         doorSquare: doorSquare
     }
-    const allCoefs = extraPrices.boxMaterialCoef * premiumCoef;
+    const allCoefs = extraPrices.boxMaterialCoef * premium_coef;
     const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
 
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
@@ -157,7 +164,6 @@ const Cabinet: FC<CabinetType> = ({
         if (JSON.stringify(cartExtras) === JSON.stringify(newCartExtras)) {
             setFieldValue('cartExtras', newCartExtras)
         }
-
     }, [values])
 
     return (

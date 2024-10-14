@@ -2,13 +2,12 @@ import React, {useEffect} from 'react';
 import OrderForm from "./Components/OrderForm/OrderForm";
 import {Route, Routes} from "react-router-dom";
 import Cabinets from "./Components/Cabinets/Cabinets";
-import Product from "./Components/Product/Product";
 import WithChosenMaterials from "./common/WithChosenMaterials";
 import Checkout from "./Components/Checkout/Checkout";
 import CustomPart from "./Components/CustomPart/CustomPart";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
-import {useAppDispatch, useAppSelector} from "./helpers/helpers";
+import {getStorageMaterials, useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
 import {me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
@@ -23,8 +22,6 @@ import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
 import RoomsEmpty from "./Components/Profile/RoomsNew";
 import RoomProduct from "./Components/Profile/RoomProduct";
 import RoomCategory from "./Components/Profile/RoomCategory";
-import {OrderFormType} from "./helpers/types";
-import {MaybeNull} from "./Components/Profile/RoomForm";
 import ProductWrap from "./Components/Product/ProductWrap";
 
 function App() {
@@ -36,9 +33,7 @@ function App() {
         token,
         authenticationPath: '/login',
     };
-
-    const materialsString = localStorage.getItem('materials');
-    const materials:MaybeNull<OrderFormType> = materialsString ? JSON.parse(materialsString) : null
+    const materials = getStorageMaterials();
 
     useEffect(() => {
         token && me().then(user => {

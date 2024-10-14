@@ -1,10 +1,7 @@
 import React, {FC} from 'react';
-import {getCartData, getCartTotal, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {getCartData, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import s from './../OrderForm/Sidebar/sidebar.module.sass'
-import {NavLink} from "react-router-dom";
 import SidebarCart from "../OrderForm/Sidebar/SidebarCart";
-import {OrderFormType} from "../../helpers/types";
-import {CartItemType} from "../../store/reducers/generalSlice";
 
 export type changeAmountType = 'plus' | 'minus'
 

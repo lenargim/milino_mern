@@ -1,42 +1,41 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {OrderFormType} from "../../helpers/types";
 import {
     attrItem, CartExtrasType, cornerTypes,
-    customPartDataType, hingeTypes,
-    productCategory, ProductType,
+    customPartDataType, hingeTypes, MaybeNull,
+    ProductType,
     productTypings
 } from "../../helpers/productTypes";
-import {LEDAccessoriesType} from "../../Components/CustomPart/LEDForm";
-import {DoorAccessoiresType} from "../../Components/CustomPart/DoorAccessoiresForm";
-import {DoorType} from "../../Components/CustomPart/StandardDoorForm";
-import {MaybeNull} from "../../Components/Profile/RoomForm";
+import {MaterialsFormType} from "../../common/MaterialsForm";
+import {CartItemType} from "../../api/apiFunctions";
+import {v4 as uuidv4} from "uuid";
+
 
 
 interface GeneralState {
-    materials: OrderFormType | null,
+    materials: MaybeNull<MaterialsFormType>,
     product: MaybeNull<ProductType>,
     customPart: customPartDataType | null,
     cart: CartItemType[]
 }
 
-export type CartItemType = {
-    id: number,
-    uuid: string,
-    name: string,
-    category: productCategory,
-    amount: number,
-    price: number,
-    note: string,
-    img: string,
-    productExtra?: productExtraType,
-    customPartExtra?: customPartExtraType,
-    glassDoorExtra?: glassDoorExtraType,
-    glassShelfExtra?: string,
-    PVCExtra?: PVCExtraType,
-    DoorExtra?: DoorType
-    LEDAccessories?: LEDAccessoriesType,
-    DoorAccessories?: DoorAccessoiresType,
-}
+// export type CartItemType = {
+//     id: number,
+//     uuid: string,
+//     name: string,
+//     category: productCategory,
+//     amount: number,
+//     price: number,
+//     note: string,
+//     img: string,
+//     productExtra?: productExtraType,
+//     customPartExtra?: customPartExtraType,
+//     glassDoorExtra?: glassDoorExtraType,
+//     glassShelfExtra?: string,
+//     PVCExtra?: PVCExtraType,
+//     DoorExtra?: DoorType
+//     LEDAccessories?: LEDAccessoriesType,
+//     DoorAccessories?: DoorAccessoiresType,
+// }
 
 export type glassDoorExtraType = {
     material?: string,
@@ -117,13 +116,13 @@ const initialState: GeneralState = {
     cart: [],
 }
 
-type updateProductType = {
-    type: productTypings,
-    price: number,
-    cartExtras:CartExtrasType
-}
+// type updateProductType = {
+//     type: productTypings,
+//     price: number,
+//     cartExtras:CartExtrasType
+// }
 type updateProductAmountType = {
-    uuid: string,
+    _id: string,
     amount: number,
 }
 
@@ -131,53 +130,37 @@ export const generalSlice = createSlice({
     name: 'general',
     initialState,
     reducers: {
-        setMaterials: (state, action: PayloadAction<MaybeNull<OrderFormType>>) => {
+        setMaterials: (state, action: PayloadAction<MaybeNull<MaterialsFormType>>) => {
             state.materials = action.payload
         },
-        // setProduct: (state, action: PayloadAction<ProductType | null>) => {
-        //     const payload = action.payload;
-        //     if (payload) {
-        //         state.product = {...payload, image_active_number: 1, price: 0, cartExtras: initialCartExtras}
-        //     } else {
-        //         state.product = null;
-        //     }
-        //
-        // },
-        setCustomPart: (state, action: PayloadAction<customPartDataType | null>) => {
+        setCustomPart: (state, action: PayloadAction<MaybeNull<customPartDataType>>) => {
             state.customPart = action.payload
         },
         addToCart: (state, action: PayloadAction<CartItemType>) => {
-            state.cart = [...state.cart, action.payload];
+            state.cart = [...state.cart, {...action.payload, _id: uuidv4()}];
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         fillCart: (state, action: PayloadAction<CartItemType[]>) => {
             state.cart = action.payload;
         },
-        updateCartItemPrice: (state, action: PayloadAction<{uuid:string, price:number}>) => {
-            const cartItem = state.cart.find(itemEl => itemEl.uuid === action.payload.uuid);
+        updateCartItemPrice: (state, action: PayloadAction<{_id:string, price:number}>) => {
+            const cartItem = state.cart.find(item => item._id === action.payload._id);
             if (cartItem) {
                 cartItem.price = action.payload.price;
-                const foundIndex = state.cart.findIndex(x => x.uuid === cartItem.uuid);
+                const foundIndex = state.cart.findIndex(x => x._id === cartItem._id);
                 state.cart[foundIndex] = cartItem;
             }
         },
         deleteItemFromCart: (state, action: PayloadAction<string>) => {
-            state.cart = state.cart.filter(item => item.uuid !== action.payload);
+            state.cart = state.cart.filter(item => item._id !== action.payload);
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         removeCart: (state) => {
             state.cart = [];
             localStorage.removeItem('cart');
         },
-        // updateProduct: (state, action: PayloadAction<updateProductType>) => {
-        //     if (state.product) {
-        //         state.product.price = action.payload.price;
-        //         state.product.image_active_number = action.payload.type;
-        //         state.product.cartExtras = action.payload.cartExtras;
-        //     }
-        // },
         updateProductAmount: (state, action: PayloadAction<updateProductAmountType>) => {
-            const product = state.cart.find(el => el.uuid === action.payload.uuid);
+            const product = state.cart.find(el => el._id === action.payload._id);
             if (product) {
                 product.amount = action.payload.amount
                 localStorage.setItem('cart', JSON.stringify(state.cart));

@@ -1,7 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartCustomPart,
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
@@ -53,8 +52,8 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart}) => {
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(materialsRange, limits)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                const cartData = addToCartCustomPart(values, id, price, image, name, category)
-                dispatch(addToCart(cartData))
+                // const cartData = addToCartCustomPart(values, id, price, image, name, category)
+                // dispatch(addToCart(cartData))
                 resetForm();
             }}
         >

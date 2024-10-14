@@ -1,20 +1,20 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartPVC, getCustomPartPVCPrice, getInitialMaterialInPVCForm,
+     getCustomPartPVCPrice, getInitialMaterialInPVCForm,
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
 import {customPartDataType} from "../../helpers/productTypes";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
-import {OrderFormType} from "../../helpers/types";
 import {addToCart} from "../../store/reducers/generalSlice";
 import {getPVCSchema} from "./PVCSchema";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 type PVCFormType = {
     customPart: customPartDataType,
-    materials: OrderFormType
+    materials: MaterialsFormType
 }
 export type PVCValuesType = {
     Width: string,
@@ -39,13 +39,13 @@ const PVCForm: FC<PVCFormType> = ({customPart, materials}) => {
     } = customPart;
 
     const {
-        "Door Finish Material": doorFinish,
-        "Door Type": doorType
+        door_finish_material,
+        door_type
     } = materials;
 
     const materialArr = materialsRange ? Object.values(materialsRange).map(el => el.name) : [];
-    const initialMaterial = getInitialMaterialInPVCForm(materialArr, doorFinish, doorType)
-    const sizeLimitInitial = materialsRange?.find(el => doorFinish.includes(el.name))?.limits || {};
+    const initialMaterial = getInitialMaterialInPVCForm(materialArr, door_finish_material, door_type)
+    const sizeLimitInitial = materialsRange?.find(el => door_finish_material.includes(el.name))?.limits || {};
 
     const initialValues: PVCFormValuesType = {
         Width: getLimit(sizeLimitInitial.width).toString(),
@@ -61,9 +61,9 @@ const PVCForm: FC<PVCFormType> = ({customPart, materials}) => {
             validationSchema={getPVCSchema(materialsRange, limits)}
             onSubmit={(values: PVCFormValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartPVC(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm();
+                    // const cartData = addToCartPVC(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm();
                 }
             }}
         >

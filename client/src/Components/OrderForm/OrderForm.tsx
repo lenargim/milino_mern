@@ -1,38 +1,34 @@
 import React from 'react';
-import {Formik, Form} from "formik";
+import {Formik} from "formik";
 import {OrderFormSchema} from "./OrderFormSchems";
-import Main from "./Main";
 import Sidebar from "./Sidebar/Sidebar";
 import {useNavigate} from "react-router-dom";
 import {setMaterials} from "../../store/reducers/generalSlice";
-import {getCartData, getInitialMaterials, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {getInitialMaterials, useAppDispatch} from "../../helpers/helpers";
+import Main from "./Main";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const OrderForm = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const initialValues = getInitialMaterials()
-    const cartState = useAppSelector(state => state.general.cart)
-    const {cart, total, cartLength} = getCartData(cartState,dispatch);
-
+    const initialValues = getInitialMaterials();
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={OrderFormSchema}
-            onSubmit={((values, actions) => {
-                localStorage.setItem('materials', JSON.stringify(values));
-                dispatch(setMaterials(values))
+            onSubmit={((values:MaterialsFormType, actions) => {
+                const {room_name, ...rest} = values
+                localStorage.setItem('materials', JSON.stringify(rest));
+                dispatch(setMaterials({...values, room_name: null}))
                 navigate('/cabinets');
             })}
         >
-            {({values, isValid, isSubmitting, setFieldValue}) => {
-                return (
-                    <Form className="page">
-                        <Main values={values} isSubmitting={isSubmitting} isValid={isValid}
-                              setFieldValue={setFieldValue} cartLength={cartLength} cart={cart}/>
-                        <Sidebar values={values} cart={cart} total={total} cartLength={cartLength} />
-                    </Form>
-                )
-            }}
+            {props => (
+                <div className="page">
+                    <Main />
+                    <Sidebar materials={props.values} />
+                </div>
+            )}
         </Formik>
     );
 };

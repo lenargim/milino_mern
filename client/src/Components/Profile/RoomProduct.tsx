@@ -1,25 +1,23 @@
 import React, {useEffect} from 'react';
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
-import {RoomTypeAPI} from "../../store/reducers/roomSlice";
-import {OrderFormType} from "../../helpers/types";
+import {RoomFront} from "../../store/reducers/roomSlice";
 import Product from "../Product/Product";
 import s from './profile.module.sass'
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const RoomProduct = () => {
     const navigate = useNavigate()
     let {category, productId} = useParams();
-    const [roomData] = useOutletContext<[RoomTypeAPI]>()
+    const [roomData] = useOutletContext<[RoomFront]>()
     const {
         _id,
-        category: roomCat,
-        door_finish_material,
-        door_type,
-        box_material,
-        door_color,
-        door_grain,
-        door_frame_width,
-        drawer, drawer_type, drawer_color, leather
+        activeProductCategory,
+        productPage,
+        cart,
+        ...rest
     } = roomData;
+
+    const materials: MaterialsFormType = {...rest}
 
     useEffect(() => {
         if (!category || !productId) {
@@ -27,23 +25,9 @@ const RoomProduct = () => {
         }
     }, [])
 
-    const materials: OrderFormType = {
-        'Category': roomCat,
-        'Door Type': door_type,
-        'Door Finish Material': door_finish_material,
-        'Door Frame Width': door_frame_width,
-        'Door Color': door_color,
-        'Door Grain': door_grain,
-        'Box Material': box_material,
-        'Drawer': drawer,
-        'Drawer Type': drawer_type,
-        'Drawer Color': drawer_color,
-        'Leather Type': leather
-    };
-
     return (
         <div className={s.product}>
-            <Product materials={materials} />
+            <Product materials={materials}/>
         </div>
 
     );

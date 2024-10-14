@@ -1,14 +1,19 @@
 import {optionType} from "../common/SelectField";
-import {MaybeEmpty, MaybeUndefined} from "../Components/Profile/RoomForm";
+
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
+
+export type MaybeEmpty<T> = T | '';
+export type MaybeUndefined<T> = T | undefined;
+export type MaybeNull<T> = T | null;
 
 export type hingeTypes = 'Left' | 'Right' | 'Double Door' | 'Single Door' | '';
 export type cornerTypes = 'Left' | 'Right' | '';
 
-export const cornerArr:cornerTypes[] = ["Left", "Right"];
-export const hingeArr:hingeTypes[] = ['Left' , 'Right' , 'Double Door' , 'Single Door'];
+export const cornerArr: cornerTypes[] = ["Left", "Right"];
+export const hingeArr: hingeTypes[] = ['Left', 'Right', 'Double Door', 'Single Door'];
 
+export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "Standard Door"]
 export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"
 
 export type kitchenCategories =
@@ -43,8 +48,8 @@ export type ProductType = {
     isBlind: boolean,
     isAngle: boolean,
     isProductStandard: boolean,
-    customHeight?: number,
-    customDepth?: number,
+    customHeight: MaybeUndefined<number>,
+    customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
     hasMiddleSection?: true,
     isCornerChoose: MaybeUndefined<true>,
@@ -104,35 +109,23 @@ export type materialsLimitsType = {
     depth?: number[]
 }
 
-
-// export interface standardProductType extends productDataType {
-//     type: productTypings,
-//     price: number,
-//     height: number,
-//     depth: number,
-//     doorSquare?: number,
-//     widthDivider?: number,
-//     heightRange?: number,
-//     cartExtras: CartExtrasType
-// }
-
 export type materialDataType = {
-    isStandardCabinet: boolean,
+    is_standard_cabinet: boolean,
     category: MaybeEmpty<RoomCategories>,
-    basePriceType: pricesTypings,
-    baseCoef: number,
-    grainCoef: number,
-    premiumCoef: number,
-    boxMaterialCoef: number,
-    boxMaterialFinishCoef: number,
-    doorPriceMultiplier: number,
-    isAcrylic: boolean,
-    doorType: MaybeUndefined<string>,
-    doorFinish: MaybeUndefined<string>,
-    drawerBrand: string,
-    drawerType: string,
-    drawerColor: string,
-    leatherType: MaybeUndefined<string>
+    base_price_type: pricesTypings,
+    base_coef: number,
+    grain_coef: number,
+    premium_coef: number,
+    box_material_coef: number,
+    box_material_finish_coef: number,
+    door_price_multiplier: number,
+    is_acrylic: boolean,
+    door_type: string,
+    door_finish_material: string,
+    drawer_brand: string,
+    drawer_type: string,
+    drawer_color: string,
+    leather: string
 }
 
 
@@ -221,9 +214,9 @@ export interface drawerInterface {
 export type CabinetType = {
     product: ProductType,
     materialData: materialDataType,
-    productRange:productRangeType,
+    productRange: productRangeType,
     tablePriceData: pricePart[],
-    sizeLimit:sizeLimitsType
+    sizeLimit: sizeLimitsType
 }
 
 export type CabinetFormType = {

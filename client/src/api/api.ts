@@ -1,9 +1,10 @@
 
 import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
-import {RoomInitialType} from "../Components/Profile/RoomForm";
+
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import axios from "axios";
+import {MaterialsFormType} from "../common/MaterialsForm";
 
 
 const instanceFormData = axios.create({
@@ -44,8 +45,8 @@ export const usersAPI = {
 
 export const roomsAPI = {
     getAll: () => instance.get<RoomTypeAPI[]>('/api/rooms', {headers: getHeaders()}),
-    createRoom: (room:RoomInitialType) => instance.post<RoomTypeAPI>('/api/rooms', room,{headers: getHeaders()} ),
-    editRoom: (room:RoomInitialType, id:string) => instance.patch<RoomTypeAPI>(`/api/rooms/${id}`, room,{headers: getHeaders()} ),
+    createRoom: (room:MaterialsFormType) => instance.post<RoomTypeAPI>('/api/rooms', room,{headers: getHeaders()} ),
+    editRoom: (room:MaterialsFormType, id:string) => instance.patch<RoomTypeAPI>(`/api/rooms/${id}`, room,{headers: getHeaders()} ),
     deleteRoom: (id:string) => instance.delete<RoomTypeAPI>(`/api/rooms/${id}`,{headers: getHeaders()} ),
 }
 

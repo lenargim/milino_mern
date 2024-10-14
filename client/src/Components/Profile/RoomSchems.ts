@@ -1,8 +1,6 @@
 import * as Yup from 'yup';
-import {ObjectSchema, StringSchema} from "yup";
+import { StringSchema} from "yup";
 import {RoomType} from "../../helpers/categoriesTypes";
-import {RoomTypeAPI} from "../../store/reducers/roomSlice";
-import {RoomInitialType} from "./RoomForm";
 
 
 export const RoomSchema= (reservedNames:string[] = []) => {

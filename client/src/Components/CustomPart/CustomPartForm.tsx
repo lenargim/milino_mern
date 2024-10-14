@@ -1,7 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartCustomPart,
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
@@ -10,12 +9,12 @@ import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
-import {OrderFormType} from "../../helpers/types";
 import {addToCart, setCustomPart} from "../../store/reducers/generalSlice";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 type CustomPartFormType = {
     customPart: customPartDataType,
-    materials: OrderFormType
+    materials: MaterialsFormType
 }
 export type CustomPartFormValuesType = {
     Width: string,
@@ -43,14 +42,14 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     } = customPart;
 
     const {
-        "Door Finish Material": doorFinish,
-        "Door Type": doorType
+        door_finish_material,
+        door_type
     } = materials;
 
     if (!materialsRange?.length) return <div>No material Data</div>
     const currentMaterialData =
-        materialsRange.find(el => doorFinish.includes(el.name))
-        ?? materialsRange.find(el => doorType === el.name)
+        materialsRange.find(el => door_finish_material.includes(el.name))
+        ?? materialsRange.find(el => door_type === el.name)
         ?? materialsRange[0];
     const sizeLimitInitial = currentMaterialData.limits ?? limits ?? {};
     const isDepthConst = currentMaterialData?.depth ?? depthConst
@@ -72,9 +71,9 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(materialsRange, limits)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                const cartData = addToCartCustomPart(values, id, price, image, name, category)
-                dispatch(addToCart(cartData))
-                resetForm();
+                // const cartData = addToCartCustomPart(values, id, price, image, name, category)
+                // dispatch(addToCart(cartData))
+                // resetForm();
             }}
         >
             {({values, setFieldValue, }) => {

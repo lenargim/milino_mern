@@ -8,11 +8,9 @@ const RoomSidebar: FC = () => {
     const {roomId} = useParams();
     const {rooms} = useAppSelector(state => state.room);
     const room = rooms.find(room => room._id === roomId);
-
     if (!room) return null;
     const {cart} = room
     if (!cart) return null;
-
     const total = getCartTotal(cart);
     return (
         <aside className={s.sidebar}>

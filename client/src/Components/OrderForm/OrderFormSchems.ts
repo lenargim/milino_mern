@@ -1,45 +1,61 @@
 import * as Yup from 'yup';
 import {RoomType} from "../../helpers/categoriesTypes";
-import {StringSchema} from "yup";
+import {ObjectSchema} from "yup";
+import {MaybeEmpty, roomCategories} from "../../helpers/productTypes";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
-export const OrderFormSchema = Yup.object({
-    'Category': Yup.string()
-        .ensure()
-        .required() as StringSchema<RoomType | ''>,
-    'Door Type': Yup.string()
-        .ensure()
-        .when('Category',  {
-            is: (val:RoomType | '') => val !== 'Standard Door',
-            then: schema => schema.required('Please write down door type'),
+export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
+    room_name: Yup.string()
+        .default(null)
+        .defined('Enter room name')
+        .nullable(),
+        // .required('Enter room name'),
+    category: Yup.string()
+        .oneOf(roomCategories)
+        .defined()
+        .required(),
+    door_type: Yup.string()
+        .default('')
+        .when('category', {
+            is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
+            then: schema => schema.required('Please write down door type').required(),
         }),
-    'Door Finish Material': Yup.string()
-        .ensure()
-        .when('Category',  {
-            is: (val:RoomType | '') => val !== 'Standard Door',
+    door_finish_material: Yup.string()
+        .default('')
+        .when('category', {
+            is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
             then: schema => schema.required('Please write down finish material'),
         }),
-    'Door Frame Width': Yup.string()
-        .when('Door Type', {
+    door_frame_width: Yup.string()
+        .default('')
+        .when('door_type', {
             is: 'Micro Shaker',
-            then: schema => schema.required('Please write Leather')
+            then: schema => schema.required('Please choose Frame width')
         }),
-    'Door Color': Yup.string()
-        .when('Door Finish Material', {
+    door_color: Yup.string()
+        .default('')
+        .when('door_finish_material', {
             is: (val: string) => val !== 'No Doors No Hinges',
-            then: (schema => schema.required('Please choose down color'))
+            then: (schema => schema.required('Please choose color'))
         }),
-    'Door Grain': Yup.string(),
-    'Box Material': Yup.string().defined()
+    door_grain: Yup.string()
+        .default(''),
+    box_material: Yup.string()
+        .default('')
         .required('Please write down box material'),
-    'Drawer': Yup.string().defined()
+    drawer_brand: Yup.string()
+        .default('')
         .required('Please write down Drawer'),
-    'Drawer Type': Yup.string().defined()
+    drawer_type: Yup.string()
+        .default('')
         .required('Please write down drawer type'),
-    'Drawer Color': Yup.string().defined()
+    drawer_color: Yup.string()
+        .default('')
         .required('Please write color'),
-    'Leather Type': Yup.string()
-        .when('Category', {
+    leather: Yup.string()
+        .default('')
+        .when('category', {
             is: 'Leather Closet',
-            then: schema => schema.required('Please write Leather Type')
+            then: schema => schema.required('Please choose Leather Type')
         })
 })

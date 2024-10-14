@@ -1,7 +1,7 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartGlassDoor,
+
     getLimit, getSelectValfromVal,
     useAppDispatch
 } from "../../helpers/helpers";
@@ -10,13 +10,13 @@ import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import {getGlassDoorPrice} from "../../helpers/calculatePrice";
-import {OrderFormType} from "../../helpers/types";
 import {addToCart} from "../../store/reducers/generalSlice";
 import SelectField from "../../common/SelectField";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 type CustomPartFormType = {
     customPart: customPartDataType,
-    materials: OrderFormType
+    materials: MaterialsFormType
 }
 export type GlassDoorValuesType = {
     Width: string,
@@ -51,15 +51,15 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     } = customPart;
 
     const {
-        "Door Finish Material": doorFinish,
-        "Door Type": doorType
+        door_finish_material,
+        door_type
     } = materials;
     if (!glassDoor) return <div>No data</div>
     const {Profile: doorProfiles, 'Glass Type': doorTypes, 'Glass Color': doorColors} = glassDoor
 
     const currentMaterialData = materialsRange && (
-        materialsRange.find(el => doorFinish.includes(el.name))
-        ?? materialsRange.find(el => doorType === el.name)
+        materialsRange.find(el => door_finish_material.includes(el.name))
+        ?? materialsRange.find(el => door_type === el.name)
         ?? materialsRange[0]);
 
 
@@ -82,9 +82,9 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
             validationSchema={getCustomPartSchema(materialsRange, limits)}
             onSubmit={(values: GlassDoorFormValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartGlassDoor(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm();
+                    // const cartData = addToCartGlassDoor(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm();
                 }
             }}
         >
@@ -106,7 +106,7 @@ const CustomPartForm: FC<CustomPartFormType> = ({customPart, materials}) => {
 
                 const colorVal = getSelectValfromVal(doorColor, doorColorsFiltered ?? []);
                 const profileNumber: number | undefined = doorProfiles?.find(el => el.value === doorProfile)?.glassDoorType
-                const priceNew = +(getGlassDoorPrice(name, widthNumber, heightNumber, doorFinish, profileNumber)).toFixed(1);
+                const priceNew = +(getGlassDoorPrice(name, widthNumber, heightNumber, door_finish_material, profileNumber)).toFixed(1);
 
                 setTimeout(() => {
                     if (price !== priceNew) setFieldValue('price', priceNew);

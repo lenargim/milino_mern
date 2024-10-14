@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
-import {addToCartGlassShelf,
+import {
     getLimit, getSelectValfromVal,
     useAppDispatch
 } from "../../helpers/helpers";
@@ -8,13 +8,13 @@ import {customPartDataType} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
-import {OrderFormType} from "../../helpers/types";
 import {addToCart} from "../../store/reducers/generalSlice";
 import SelectField from "../../common/SelectField";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 type CustomPartFormType = {
     customPart: customPartDataType,
-    materials: OrderFormType
+    materials: MaterialsFormType
 }
 export type GlassShelfValuesType = {
     Width: string,
@@ -48,12 +48,13 @@ const GlassShelfForm: FC<CustomPartFormType> = ({customPart, materials}) => {
     } = customPart;
 
     const {
-        "Door Finish Material": doorFinish,
-        "Door Type": doorType
+        door_finish_material,
+        door_type
     } = materials;
 
 
-    const sizeLimitInitial = materialsRange?.find(el => doorFinish.includes(el.name))?.limits ?? materialsRange?.find(el => doorType === el.name)?.limits ?? limits ?? {};
+    const sizeLimitInitial = materialsRange?.find(el => door_finish_material.includes(el.name))?.limits ??
+        materialsRange?.find(el => door_type === el.name)?.limits ?? limits ?? {};
 
     const initialValues: GlassShelfFormValuesType = {
         'Width': Math.ceil(widthConst ?? getLimit(sizeLimitInitial.width)).toString(),
@@ -70,9 +71,9 @@ const GlassShelfForm: FC<CustomPartFormType> = ({customPart, materials}) => {
             validationSchema={getCustomPartSchema(materialsRange, limits)}
             onSubmit={(values: GlassShelfFormValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartGlassShelf(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm();
+                    // const cartData = addToCartGlassShelf(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm();
                 }
             }}
         >

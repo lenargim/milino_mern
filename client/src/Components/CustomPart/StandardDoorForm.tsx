@@ -1,7 +1,6 @@
 import {FieldArray, Form, Formik, useField} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartDoor,
     getSelectDoorVal,
     getSelectValfromVal,
     useAppDispatch
@@ -62,21 +61,21 @@ const StandardDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) 
             validationSchema={StandardDoorSchema}
             onSubmit={(values: StandardDoorFormValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartDoor(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm({
-                        values: {
-                            ['Color']: '',
-                            ['Doors']: [{
-                                name: '',
-                                qty: 1,
-                                width: 0,
-                                height: 0
-                            }],
-                            price: 0,
-                            Note: '',
-                        }
-                    });
+                    // const cartData = addToCartDoor(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm({
+                    //     values: {
+                    //         ['Color']: '',
+                    //         ['Doors']: [{
+                    //             name: '',
+                    //             qty: 1,
+                    //             width: 0,
+                    //             height: 0
+                    //         }],
+                    //         price: 0,
+                    //         Note: '',
+                    //     }
+                    // });
                 }
             }}
         >

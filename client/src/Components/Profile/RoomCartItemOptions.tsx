@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {CartFront} from "../../api/apiFunctions";
+import {CartItemType} from "../../api/apiFunctions";
 import {Dimentions} from "../Product/CartItem";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
 
-const RoomCartItemOptions: FC<{ item: CartFront }> = ({item}) => {
+const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
     const {
         options,
         blind_width,

@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
-import {addToCartDoorAccessories, useAppDispatch} from "../../helpers/helpers";
+import { useAppDispatch} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {customPartDataType} from "../../helpers/productTypes";
@@ -119,9 +119,9 @@ const DoorAccessoiresForm: FC<{ customPart: customPartDataType }> = ({customPart
             validationSchema={doorAccessoiresSchema}
             onSubmit={(values: DoorAccessoiresValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartDoorAccessories(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm();
+                    // const cartData = addToCartDoorAccessories(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm();
                 }
             }}
         >

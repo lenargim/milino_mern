@@ -6,9 +6,9 @@ import CartSVG from "../../assets/img/cart";
 import logo from '../../assets/img/SiteLogo.jpg'
 import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import {FormikState} from 'formik';
-import {OrderFormType} from "../../helpers/types";
+import {materialsFormInitial, MaterialsFormType} from "../MaterialsForm";
 
-const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>) => void }> = ({resetForm}) => {
+const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormType>>) => void }> = ({resetForm}) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const materials = localStorage.getItem('materials');
@@ -17,7 +17,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
     const path = location.pathname.slice(1);
     const cartState = useAppSelector(state => state.general.cart)
     const {cartLength} = getCartData(cartState, dispatch);
-    const isCabinetsPageShown = !['', 'cabinets'].includes(path);
+    const isBackToCabinetsShown = !isAuth && path !== 'cabinets' && path !== '';
 
     const isChangeMaterialsPageShown = materials && path !== '';
     const isResetMaterialsShown = materials && path !== 'checkout';
@@ -26,19 +26,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
         localStorage.removeItem('materials');
         resetForm ?
             resetForm({
-                values: {
-                    'Category': '',
-                    'Door Type': '',
-                    'Door Finish Material': '',
-                    'Door Frame Width': '',
-                    'Door Color': '',
-                    'Door Grain': '',
-                    'Box Material': '',
-                    'Drawer': '',
-                    'Drawer Type': '',
-                    'Drawer Color': '',
-                    'Leather Type': ''
-                },
+                values: materialsFormInitial,
                 submitCount: 0
             }) : navigate('/')
         dispatch(setMaterials(null))
@@ -49,12 +37,12 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<OrderFormType>>)
             <div className={s.left}>
                 <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>
                 {isAuth ? <NavLink to={'/profile'}>Profile</NavLink> : <NavLink to={'/login'}>Log In</NavLink>}
-                {!isCabinetsPageShown ?
-                    <NavLink to={"/cabinets"} className={s.link}>Back to cabinets</NavLink> : null}
+                {isBackToCabinetsShown ?
+                    <NavLink to={"/cabinets"}>Back to cabinets</NavLink> : null}
             </div>
             <div className={s.right}>
                 {isResetMaterialsShown ? <button type="button" onClick={() => resetMaterials()}>Reset</button> : null}
-                {isChangeMaterialsPageShown ? <NavLink to={"/"} className={s.link}>Change materials</NavLink> : null}
+                {isChangeMaterialsPageShown ? <NavLink to={"/"}>Change materials</NavLink> : null}
                 {isCartShown ? <Cart length={cartLength}/> : null}
             </div>
         </header>

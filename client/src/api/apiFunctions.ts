@@ -1,8 +1,8 @@
 import {EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
 import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
-import {RoomInitialType} from "../Components/Profile/RoomForm";
-import {cornerTypes, hingeTypes, productTypings} from "../helpers/productTypes";
+import {cornerTypes, hingeTypes, MaybeNull, productTypings} from "../helpers/productTypes";
+import {MaterialsFormType} from "../common/MaterialsForm";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -79,7 +79,7 @@ export const getAllRooms = async () => {
     }
 }
 
-export const createRoom = async (room: RoomInitialType) => {
+export const createRoom = async (room: MaterialsFormType) => {
     try {
         const res = await roomsAPI.createRoom(room);
         return res.data;
@@ -88,7 +88,7 @@ export const createRoom = async (room: RoomInitialType) => {
     }
 }
 
-export const editRoomAPI = async (room: RoomInitialType, id: string) => {
+export const editRoomAPI = async (room: MaterialsFormType, id: string) => {
     try {
         const res = await roomsAPI.editRoom(room, id);
         return res.data;
@@ -109,14 +109,14 @@ export const deleteRoomAPI = async (id: string) => {
 
 export type CartAPI = {
     product_id: number,
-    product_type: 'cabinet',
+    product_type: 'cabinet' | 'custom',
     amount: number,
     width: number,
     height: number,
     depth: number,
     blind_width: number,
-    corner: cornerTypes,
     middle_section: number,
+    corner: cornerTypes,
     hinge: hingeTypes,
     options: string[],
     door_option: string[],
@@ -131,14 +131,14 @@ export type CartAPI = {
 export interface CartAPIResponse extends CartAPI {
     _id: string,
     room: string,
-    createdAt: Date,
-    updatedAt: Date
 }
 
-export interface CartFront extends CartAPIResponse {
+export interface CartItemType extends CartAPI {
+    _id: string,
+    room: MaybeNull<string>,
     price: number,
     image_active_number: productTypings,
-    isStandardSize: boolean
+    isStandardSize: boolean,
 }
 
 export const addToCartInRoomAPI = async (product: CartAPI, _id: string) => {

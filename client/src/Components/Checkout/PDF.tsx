@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
-import {CartItemType} from "../../store/reducers/generalSlice";
-import {getCartTotal, getImg} from "../../helpers/helpers";
+import {getCartTotal, getImg, getProductById} from "../../helpers/helpers";
 import logo from './../../assets/img/black-logo.jpg'
 import CartItemOptions from "./PDF/CartItemOptions";
+import {CartItemType} from "../../api/apiFunctions";
 
 export const s = StyleSheet.create({
     page: {
@@ -129,7 +129,7 @@ type StrType = {
     leatherStr: string | null,
 }
 
-const PDF: FC<{ values: CheckoutType, cart: CartItemType[], str: StrType }> = ({values, cart, str}) => (
+const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) => (
     <Document language="en">
         <Page orientation="landscape" style={s.page}>
             <Image style={s.logo} src={logo}/>
@@ -139,12 +139,12 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], str: StrType }> = ({
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>
             </View>
-            <View>
-                <Text>Door: {str.doorStr}</Text>
-                <Text>Box Material: {str.boxMaterialStr}</Text>
-                <Text>Drawer: {str.drawerStr}</Text>
-                {str.leatherStr ? <Text>Leather: {str.leatherStr}</Text> : null}
-            </View>
+            {/*<View>*/}
+            {/*    <Text>Door: {str.doorStr}</Text>*/}
+            {/*    <Text>Box Material: {str.boxMaterialStr}</Text>*/}
+            {/*    <Text>Drawer: {str.drawerStr}</Text>*/}
+            {/*    {str.leatherStr ? <Text>Leather: {str.leatherStr}</Text> : null}*/}
+            {/*</View>*/}
         </Page>
         <Page orientation="landscape" style={s.page}>
             <View style={s.table}>
@@ -156,7 +156,11 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], str: StrType }> = ({
                     <View style={s.th4}><Text>Product total</Text></View>
                 </View>
                 {cart.map((el, index) => {
-                    const image = getImg(el.category === 'Custom Parts' ? 'products-checkout/custom' : 'products-checkout', el.img);
+                    const product = getProductById(el.product_id);
+                    if (!product) return;
+                    const {category, images, name} = product;
+                    const img = images[el.image_active_number - 1].value;
+                    const image = getImg(category === 'Custom Parts' ? 'products-checkout/custom' : 'products-checkout', img);
                     return (
                         <View wrap={false} style={s.cartItem} key={index}>
                             <View style={s.th0}><Text>{++index}</Text></View>
@@ -164,8 +168,8 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], str: StrType }> = ({
                                 <Image src={image}/>
                             </View>
                             <View style={s.data}>
-                                <Text style={s.itemName}>{el.name}</Text>
-                                <Text style={s.category}>{el.category}</Text>
+                                <Text style={s.itemName}>{name}</Text>
+                                <Text style={s.category}>{category}</Text>
                                 <CartItemOptions el={el}/>
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}
                             </View>

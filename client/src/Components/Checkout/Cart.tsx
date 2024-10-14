@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import s from './../OrderForm/Sidebar/sidebar.module.sass'
-import {NavLink} from "react-router-dom";
-import {CartItemType} from "../../store/reducers/generalSlice";
 import CartItem from "../Product/CartItem";
+import {CartItemType} from "../../api/apiFunctions";
 
 const Cart: FC<{ cart: CartItemType[], cartTotal: number }> = ({cart, cartTotal}) => {
     return (

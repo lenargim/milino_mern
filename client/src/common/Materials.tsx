@@ -1,40 +1,39 @@
 import React, {FC} from 'react';
 import s from "../Components/OrderForm/Sidebar/sidebar.module.sass";
-import {getDoorStr, getDrawerStr, getLeatherStr, getSingleStr} from "../helpers/helpers";
-import {OrderFormType} from "../helpers/types";
+import {MaterialsFormType} from "./MaterialsForm";
+import {getMaterialStrings} from "../helpers/helpers";
 
-const Materials: FC<{ data: OrderFormType }> = ({data}) => {
-    const choosenMaterials = Object.entries(data).filter(el => !!el[1]);
-    const categoryStr = getSingleStr(choosenMaterials, 'Category')
-    const doorStr = getDoorStr(choosenMaterials)
-    const boxMaterialStr = getSingleStr(choosenMaterials, 'Box Material')
-    const drawerStr = getDrawerStr(choosenMaterials);
-    const leatherStr = getLeatherStr(choosenMaterials)
+
+export type MaterialStringsType = {
+    category: string,
+    doorString: string,
+    box_material: string,
+    drawerString: string,
+    leather: string
+}
+
+const Materials: FC<{ materials: MaterialsFormType }> = ({materials}) => {
+    const materialStrings = getMaterialStrings(materials);
+    const {drawerString, doorString, box_material, leather, category} = materialStrings
+
     return (
         <div className={s.materials}>
-            {
-                choosenMaterials.length ?
-                    <>
-                        <h4 className={s.choose}>Materials you choose:</h4>
-                        {categoryStr ? <span className={s.chooseItem}>
-                     <span>Category: {categoryStr}</span>
-                </span> : null}
-                        {doorStr ? <span className={s.chooseItem}>
-                    <span>Door:</span> <span>{doorStr}</span>
-                </span> : null}
-                        {boxMaterialStr ? <span className={s.chooseItem}>
-                    <span>Box Material:</span><span>{boxMaterialStr}</span>
-                </span> : null}
-                        {drawerStr ? <span className={s.chooseItem}>
-                    <span>Drawer:</span> <span>{drawerStr}</span>
-                </span> : null}
-                        {leatherStr ? <span className={s.chooseItem}>
-                    <span>Leather:</span><span>{leatherStr}</span>
-                </span> : null}
-                    </>
-                    : null}
+            <h4 className={s.choose}>Materials you choose:</h4>
+            {category ? <MaterialItem label="Category" value={category}/> : null}
+            {doorString ? <MaterialItem label="Door" value={doorString}/> : null}
+            {box_material ? <MaterialItem label="Box Material" value={box_material}/> : null}
+            {drawerString ? <MaterialItem label="Drawer" value={drawerString}/> : null}
+            {leather ? <MaterialItem label="Leather" value={leather}/> : null}
         </div>
     );
 };
 
 export default Materials;
+
+const MaterialItem: FC<{ label: string, value: string }> = ({label, value}) => {
+    return (
+        <div className={s.chooseItem}>
+            <span>{label}: {value}</span>
+        </div>
+    )
+}

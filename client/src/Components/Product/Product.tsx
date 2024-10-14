@@ -1,11 +1,12 @@
 import React, {FC} from 'react';
 import s from './product.module.sass'
 import {useParams} from "react-router-dom";
-import {OrderFormType} from "../../helpers/types";
 import {
-    addToCartProduct, addToCartProductAPI, getProductById, isHasLedBlock, productValuesType, useAppDispatch,
+    addProductToCart,
+    getProductById, productValuesType, useAppDispatch,
 } from "../../helpers/helpers";
 import {
+    MaybeNull, MaybeUndefined,
     productCategory, sizeLimitsType
 } from "../../helpers/productTypes";
 import Cabinet from "./Cabinet";
@@ -15,26 +16,24 @@ import {
     getProductRange,
 } from "../../helpers/calculatePrice";
 import sizes from "../../api/sizes.json";
-import {MaybeNull, MaybeUndefined} from "../Profile/RoomForm";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
 import {addToCart} from "../../store/reducers/generalSlice";
 import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
-const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
-    let {productId, category} = useParams();
+const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
+    let {productId, category,roomId} = useParams();
     const dispatch = useAppDispatch();
-    const {roomId} = useParams();
     if (!productId || !category || !materials) return <div>Product error</div>;
     let product = getProductById(+productId);
     if (!product) return <div>Product error</div>;
-    localStorage.setItem('category', category);
     const {id, isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr} = product;
 
     const materialData = getMaterialData(materials)
-    const {basePriceType, isStandardCabinet} = materialData;
-    const tablePriceData = getProductPriceRange(+productId, isStandardCabinet, basePriceType);
+    const {base_price_type, is_standard_cabinet} = materialData;
+    const tablePriceData = getProductPriceRange(+productId, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
 
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
@@ -98,17 +97,15 @@ const Product: FC<{ materials: MaybeNull<OrderFormType> }> = ({materials}) => {
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
+                const cartData = addProductToCart(id, values, productRange,roomId)
                 if (roomId) {
-                    const cartDataAPI = addToCartProductAPI(product.id, values, productRange)
-                    addToCartInRoomAPI(cartDataAPI, roomId).then(cart => {
-                        if (cart) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
+                    addToCartInRoomAPI(cartData, roomId).then(cart => {
+                        if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
                     })
                 } else {
-                    const cartData = addToCartProduct(product, values, productRange);
                     dispatch(addToCart(cartData))
                 }
                 resetForm();
-
             }}
         >
             <>

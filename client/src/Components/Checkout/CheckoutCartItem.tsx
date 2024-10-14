@@ -1,36 +1,40 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
-import {CartItemType, updateProductAmount} from "../../store/reducers/generalSlice";
+import {updateProductAmount} from "../../store/reducers/generalSlice";
 import CartItemOptions from "../Product/CartItemOptions";
-import {getImg, useAppDispatch} from "../../helpers/helpers";
+import {getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
 import {changeAmountType} from "../Product/Cart";
+import {CartItemType} from "../../api/apiFunctions";
 
 const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
     const dispatch = useAppDispatch()
     const {
-        uuid,
-        name,
-        img,
+        _id,
         price,
         amount,
         note,
-        category,
-        productExtra
+        product_id,
+        isStandardSize,
+        image_active_number
     } = el;
+    const product = getProductById(product_id);
+    if (!product) return null;
+    const {name, images,category} = product
+    const img = images[image_active_number-1].value
     const image = getImg(category === 'Custom Parts' ? 'products/custom' : 'products', img);
     function changeAmount(type: changeAmountType) {
-        dispatch(updateProductAmount({uuid: uuid, amount: type === 'minus' ? amount - 1 : amount + 1}))
+        dispatch(updateProductAmount({_id: _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
     return (
         <div className={s.cartItem}>
             <img className={s.img} src={image} alt={name}/>
-            <div className={s.itemData}>
+            <div>
                 <div className={s.itemName}>
                     <span>{name}</span>
                     <span className={s.category}>{category}</span>
-                    {!productExtra?.isStandardSize && <span className={s.non}>Non-standard size</span>}
+                    {!isStandardSize && <span className={s.non}>Non-standard size</span>}
                 </div>
-                <div className={s.attrs}>
+                <div>
                     <CartItemOptions item={el} />
                 </div>
                 {note ? <div className={s.note}>*{note}</div> : null}

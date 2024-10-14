@@ -2,15 +2,15 @@ import React, {FC} from 'react';
 import {changeAmountType} from "../Product/Cart";
 import {getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {CartFront, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
+import {CartItemType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
 import {removeFromCartInRoom, updateCartAmountInRoom} from "../../store/reducers/roomSlice";
 import RoomCartItemOptions from "./RoomCartItemOptions";
 
-const RoomCartItem: FC<{ item: CartFront }> = ({item}) => {
+const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
     const dispatch = useAppDispatch()
-    const {amount, note, _id, room, price, image_active_number} = item
+    const {amount, note, _id, room, price, image_active_number,} = item
     const productAPI = getProductById(item.product_id);
-    if (!productAPI) return null;
+    if (!productAPI || !room) return null;
     const {category, images, name} = productAPI
     const img = images[image_active_number-1].value
     function changeAmount(type: changeAmountType) {

@@ -5,8 +5,8 @@ import {createRoom} from "../../api/apiFunctions";
 import {addRoom} from "../../store/reducers/roomSlice";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
-import RoomForm, {initialValuesRoom} from "./RoomForm";
 import {useAppSelector} from "../../helpers/helpers";
+import MaterialsForm, {materialsFormInitial} from "../../common/MaterialsForm";
 
 
 const RoomsNew: FC = () => {
@@ -15,7 +15,7 @@ const RoomsNew: FC = () => {
     const {rooms} = useAppSelector(state => state.room);
     const uniqueNames = rooms.map(el => el.room_name);
     return (
-        <Formik initialValues={initialValuesRoom}
+        <Formik initialValues={materialsFormInitial}
                 validationSchema={RoomSchema(uniqueNames)}
                 validateOnMount
                 onSubmit={(values, {setSubmitting}) => {
@@ -28,7 +28,7 @@ const RoomsNew: FC = () => {
                         }
                     })
                 }}>
-            <RoomForm />
+            <MaterialsForm button="Create" />
         </Formik>
     );
 };

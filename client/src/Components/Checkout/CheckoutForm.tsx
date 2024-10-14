@@ -1,24 +1,31 @@
 import {Form, Formik, FormikProps} from 'formik';
 import React, {Dispatch, FC, useRef, useState} from 'react';
 import {PhoneInput, TextInput} from "../../common/Form";
-import {getDoorStr, getDrawerStr, getLeatherStr, getSingleStr, useAppDispatch} from "../../helpers/helpers";
+import {getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from './checkout.module.sass'
 import {CheckoutSchema} from "./CheckoutSchema";
-import {CheckoutType, OrderFormType} from "../../helpers/types";
-import {CartItemType, removeCart, setMaterials} from "../../store/reducers/generalSlice";
+import {CheckoutType} from "../../helpers/types";
+import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import CheckoutCart from "./CheckoutCart";
 import {pdf} from '@react-pdf/renderer';
 import PDF from "./PDF";
 import {saveAs} from "file-saver";
 import {checkoutAPI,} from "../../api/api";
+import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaybeNull} from "../../helpers/productTypes";
+import {CartItemType} from "../../api/apiFunctions";
 
 export type buttonType = 'download' | 'send';
 type modalType = { open: boolean, status: string }
-const CheckoutForm: FC<{ cart: CartItemType[], total: number, materials: OrderFormType }> = ({
-                                                                                                 cart,
-                                                                                                 total,
-                                                                                                 materials
-                                                                                             }) => {
+type CheckoutFormType = {
+    cart: CartItemType[], total: number,
+    materials: MaterialsFormType
+}
+const CheckoutForm: FC<CheckoutFormType> = ({
+                                                cart,
+                                                total,
+                                                materials
+                                            }) => {
     const initialValues: CheckoutType = {
         company: '',
         project: '',
@@ -26,15 +33,16 @@ const CheckoutForm: FC<{ cart: CartItemType[], total: number, materials: OrderFo
         phone: ''
     };
 
-    const [buttonType, setButtonType] = useState<buttonType | null>(null)
-    const choosenMaterials = Object.entries(materials).filter(el => !!el[1]);
-    const categoryStr = getSingleStr(choosenMaterials, 'Category')
-    const doorStr = getDoorStr(choosenMaterials)
-    const boxMaterialStr = getSingleStr(choosenMaterials, 'Box Material')
-    const drawerStr = getDrawerStr(choosenMaterials);
-    const leatherStr = getLeatherStr(choosenMaterials);
-    const str = {categoryStr, doorStr, boxMaterialStr, drawerStr, leatherStr};
-    const jpgCart = cart.map(el => ({...el, img: el.img.replace('webp', 'jpg')}))
+    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null)
+    const jpgCart = cart.map(el => {
+        const product = getProductById(el.product_id);
+        if (product) {
+            const {images} = product
+            const img = images[el.image_active_number - 1].value
+            return ({...el, img: img.replace('webp', 'jpg')})
+        }
+        return el
+    })
     const formRef = useRef<FormikProps<CheckoutType>>(null);
     const [modal, setModal] = useState<modalType>({open: false, status: ''});
     const handleSubmit = async (type: buttonType) => {
@@ -51,7 +59,7 @@ const CheckoutForm: FC<{ cart: CartItemType[], total: number, materials: OrderFo
                 onSubmit={async (values, {resetForm}) => {
                     const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
                     const fileName = `Milino Order ${date}(${values.company} ${values.project}).pdf`;
-                    const blob = await pdf(<PDF values={values} cart={jpgCart} str={str}/>).toBlob();
+                    const blob = await pdf(<PDF values={values} cart={jpgCart}/>).toBlob();
                     const formData = new FormData();
                     const pdfFile = new File([blob], fileName, {type: "application/pdf"})
                     formData.append("file", pdfFile);
@@ -113,7 +121,7 @@ const EmailWasSended: FC<EmailWasSendedType> = ({status, setModal}) => {
     localStorage.removeItem('materials')
     localStorage.removeItem('category')
     setTimeout(() => {
-        setModal({open:false, status: ''})
+        setModal({open: false, status: ''})
         dispatch(setMaterials(null));
         dispatch(removeCart())
     }, 4000)

@@ -17,7 +17,6 @@ const ProfileRoom = () => {
     }, [roomData])
 
     if (!roomData) return null;
-
     const {_id, room_name, category} = roomData;
     if (!category) return null;
 

@@ -1,6 +1,6 @@
 import {Navigate} from "react-router-dom";
-import {MaybeNull} from "../Components/Profile/RoomForm";
-import {OrderFormType} from "../helpers/types";
+import {MaybeNull} from "../helpers/productTypes";
+import {MaterialsFormType} from "./MaterialsForm";
 
 export type WithChosenMaterialsProps = {
     outlet: JSX.Element,
@@ -8,7 +8,7 @@ export type WithChosenMaterialsProps = {
 
 export default function WithChosenMaterials({ outlet}: WithChosenMaterialsProps) {
     const materialsString = localStorage.getItem('materials');
-    const materials:MaybeNull<OrderFormType> = materialsString ? JSON.parse(materialsString) : null
+    const materials:MaybeNull<MaterialsFormType> = materialsString ? JSON.parse(materialsString) : null
     if(materials) {
         return outlet;
     } else {

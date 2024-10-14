@@ -1,21 +1,21 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {MaybeEmpty, MaybeNull, RoomInitialType} from "../../Components/Profile/RoomForm";
-import {productCategory, ProductType,} from "../../helpers/productTypes";
-import {CartAPIResponse, CartFront} from "../../api/apiFunctions";
-import {getCartArrFront, getCartFront, getRoomFront} from "../../helpers/helpers";
+import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helpers/productTypes";
+import {CartAPIResponse, CartItemType} from "../../api/apiFunctions";
+import {getCartArrFront, getCartItem, getRoomFront} from "../../helpers/helpers";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
-export interface RoomTypeAPI extends RoomInitialType {
+export interface RoomTypeAPI extends MaterialsFormType {
     _id: string,
-    activeProductCategory: MaybeEmpty<productCategory>,
-    productPage: MaybeNull<ProductType>,
+    room_name: string,
     cart: CartAPIResponse[]
 }
 
-export interface RoomFront extends RoomInitialType {
+export interface RoomFront extends MaterialsFormType {
     _id: string,
-    activeProductCategory: MaybeEmpty<productCategory>,
+    room_name: string,
     productPage: MaybeNull<ProductType>,
-    cart: CartFront[]
+    activeProductCategory: MaybeEmpty<productCategory>,
+    cart: CartItemType[]
 }
 
 interface RoomsState {
@@ -56,7 +56,7 @@ export const roomSlice = createSlice({
         },
         updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPIResponse[], _id: string }>) => {
             state.rooms = state.rooms.map(room => {
-
+                // if (!room) return;
                 return room._id === action.payload._id ? {
                     ...room,
                     cart: getCartArrFront(action.payload.cart, room)
@@ -72,11 +72,11 @@ export const roomSlice = createSlice({
         },
         updateCartAmountInRoom: (state, action: PayloadAction<CartAPIResponse>) => {
             state.rooms = state.rooms.map(room => {
-                const cart = room.cart;
+                const cart: CartItemType[] = room.cart;
                 return room._id === action.payload.room ?
                     {
                         ...room, cart: cart.map((item) => {
-                            const newItem = getCartFront(action.payload, room);
+                            const newItem = getCartItem(action.payload, room);
                             return item._id === action.payload._id && newItem ? newItem : item
                         })
                     }

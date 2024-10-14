@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
-import {addToCartLed, useAppDispatch} from "../../helpers/helpers";
+import { useAppDispatch} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {v4 as uuidv4} from "uuid";
@@ -42,9 +42,9 @@ const LEDForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
             initialValues={initialValues}
             onSubmit={(values: LEDFormValuesType, {resetForm}) => {
                 if (values.price) {
-                    const cartData = addToCartLed(values, id, image, name, category)
-                    dispatch(addToCart(cartData))
-                    resetForm();
+                    // const cartData = addToCartLed(values, id, image, name, category)
+                    // dispatch(addToCart(cartData))
+                    // resetForm();
                 }
             }}
         >

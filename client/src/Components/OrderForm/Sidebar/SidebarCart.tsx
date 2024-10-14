@@ -1,6 +1,6 @@
 import React, {FC} from "react";
-import {CartItemType} from "../../../store/reducers/generalSlice";
 import CartItem from "../../Product/CartItem";
+import {CartItemType} from "../../../api/apiFunctions";
 
 const SidebarCart: FC<{ cart: CartItemType[], total:number }> = ({cart, total}) => {
     return (

@@ -1,16 +1,15 @@
 import React, {FC} from 'react';
-import {productCategory} from "../../helpers/productTypes";
+import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
 import {catInfoType} from "../Cabinets/Slider";
 import List from "../Cabinets/List";
 import {getImg, useAppDispatch} from "../../helpers/helpers";
 import s from "../Cabinets/cabinets.module.sass";
-import {roomSetActiveCategory, RoomTypeAPI} from "../../store/reducers/roomSlice";
+import {RoomFront, roomSetActiveCategory} from "../../store/reducers/roomSlice";
 import categoriesData from "../../api/categories.json";
-import {MaybeEmpty} from "./RoomForm";
 import {useOutletContext} from "react-router-dom";
 
 const RoomCategory: FC = () => {
-    const [roomData] = useOutletContext<[RoomTypeAPI]>()
+    const [roomData] = useOutletContext<[RoomFront]>()
     const {_id, activeProductCategory: category, category: room} = roomData;
     if (!room) return null;
     const {categories, defaultImg} = categoriesData[room] as catInfoType;
@@ -18,7 +17,7 @@ const RoomCategory: FC = () => {
     return (
         <>
             <form>
-                <div className={s.slider}>
+                <div >
                     <div className={s.img}>
                         <img src={getImg('categories', currentCat ? currentCat.img : defaultImg)} alt={room}/>
                     </div>
