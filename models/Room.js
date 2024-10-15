@@ -50,7 +50,7 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    drawer: {
+    drawer_brand: {
         type: String,
         required: true,
     },

@@ -18,7 +18,7 @@ export const roomCreateValidation = [
 
 export const cartItemValidation = [
   body('product_type')
-    .isIn(["cabinet"])
+    .isIn(["cabinet", "standard","custom"])
     .withMessage("value is invalid"),
   body('hinge')
     .isIn(['Left', 'Right', 'Double Door', 'Single Door'])

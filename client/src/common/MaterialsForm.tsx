@@ -58,9 +58,9 @@ const {
     grain
 }: MaterialsType = materials;
 
-const MaterialsForm: FC<{ button: string, cart?: CartItemType[] }> = ({button,cart = []}) => {
+const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
     const dispatch = useAppDispatch()
-    const {values, setFieldValue, isValid, isSubmitting} = useFormikContext<MaterialsFormType>();
+    const {values, setFieldValue, isValid, isSubmitting,errors} = useFormikContext<MaterialsFormType>();
     const {
         room_name,
         category,
@@ -75,7 +75,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[] }> = ({button,ca
         drawer_color,
         leather
     } = values;
-    const has_room_field = room_name === typeof 'String';
     const isLeather = category === 'Leather Closet';
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, category, doors, door_type) ?? []

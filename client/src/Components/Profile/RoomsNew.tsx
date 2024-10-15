@@ -28,7 +28,7 @@ const RoomsNew: FC = () => {
                         }
                     })
                 }}>
-            <MaterialsForm button="Create" />
+            <MaterialsForm button="Create" has_room_field={true} />
         </Formik>
     );
 };

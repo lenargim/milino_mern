@@ -11,7 +11,7 @@ import MaterialsForm from "../../common/MaterialsForm";
 const ProfileRoomEdit: FC = () => {
     const {roomId} = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const rooms:RoomFront[] = useAppSelector(state => state.room.rooms);
     const room = rooms.find(room => room._id === roomId);
     useEffect(() => {
@@ -30,7 +30,7 @@ const ProfileRoomEdit: FC = () => {
                         }
                     })
                 }}>
-            <MaterialsForm button="Edit Room" />
+            <MaterialsForm button="Edit Room" has_room_field={true} />
         </Formik>
     );
 };

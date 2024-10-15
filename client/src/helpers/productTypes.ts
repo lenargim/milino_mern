@@ -1,4 +1,6 @@
 import {optionType} from "../common/SelectField";
+import {AttributesPrices} from "./calculatePrice";
+import {CabinetItemType} from "../api/apiFunctions";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -15,6 +17,7 @@ export const hingeArr: hingeTypes[] = ['Left', 'Right', 'Double Door', 'Single D
 
 export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "Standard Door"]
 export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"
+export type ProductApiType = 'cabinet' | 'standard' | 'custom'
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -48,6 +51,7 @@ export type ProductType = {
     isBlind: boolean,
     isAngle: boolean,
     isProductStandard: boolean,
+    product_type: ProductApiType,
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
@@ -70,10 +74,6 @@ export type productPricesType = {
     }[]
 }
 
-
-export const DefaultProductType: Pick<ProductType, 'isProductStandard'> = {
-    isProductStandard: false,
-}
 
 export type customPartDataType = {
     id: number,
@@ -216,16 +216,9 @@ export type CabinetType = {
     materialData: materialDataType,
     productRange: productRangeType,
     tablePriceData: pricePart[],
-    sizeLimit: sizeLimitsType
+    sizeLimit: sizeLimitsType,
 }
 
-export type CabinetFormType = {
-    product: ProductType,
-    extraPrices: extraPricesType,
-    productPriceData: productDataToCalculatePriceType,
-    productRange: productRangeType,
-    hingeArr: string[],
-}
 
 // export type StandardCabinetType = {
 //     product: standardProductType,

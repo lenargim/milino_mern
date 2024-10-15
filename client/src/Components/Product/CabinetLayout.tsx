@@ -6,29 +6,53 @@ import {
     TextInput
 } from "../../common/Form";
 import s from './product.module.sass'
-import {CabinetFormType} from "../../helpers/productTypes";
+import {
+    pricePart,
+    productDataToCalculatePriceType,
+    productRangeType,
+    ProductType
+} from "../../helpers/productTypes";
 
 import LedBlock from "./LED";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
 import {productValuesType} from "../../helpers/helpers";
+import {
+    AttributesPrices, coefType,
+    getInitialPrice, getPriceForExtraDepth,
+    getPriceForExtraHeight,
+    getPriceForExtraWidth
+} from "../../helpers/calculatePrice";
 
+
+export type CabinetFormType = {
+    product: ProductType,
+    productRange: productRangeType,
+    productPriceData: productDataToCalculatePriceType,
+    hingeArr: string[],
+    tablePriceData: pricePart[],
+    allCoefs: number,
+    coef: coefType
+}
 const CabinetLayOut: FC<CabinetFormType> = ({
                                                 product,
-                                                extraPrices,
                                                 productRange,
                                                 productPriceData,
                                                 hingeArr,
+                                                tablePriceData,
+                                                allCoefs,
+                                                coef
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock,blindArr} = product
-    const {depth:depthExtra, height:heightExtra, width:widthExtra} = extraPrices
+    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard} = product;
+
+    const {values} = useFormikContext<productValuesType>();
+
     const {widthRange, heightRange, depthRange} = productRange;
-    const widthRangeWithCustom = widthRange.concat([0]);
-    const heightRangeWithCustom = heightRange.concat([0]);
+    const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
+    const heightRangeWithCustom = !isProductStandard ? heightRange.concat([0]) : heightRange;
     const depthRangeWithCustom = depthRange.concat([0]);
     const {filteredOptions} = productPriceData;
-    const {values} = useFormikContext<productValuesType>();
     const {
         Width: width,
         Height: height,
@@ -43,7 +67,14 @@ const CabinetLayOut: FC<CabinetFormType> = ({
         ['Shelf Glass Type']: shelfGlassType,
         ['Shelf Glass Color']: shelfGlassColor,
         price
-    } = values
+    } = values;
+
+    const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
+    const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
+    const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
+    const depthExtra = getPriceForExtraDepth(initialPrice, coef);
+
+
 
     return (
         <Form>

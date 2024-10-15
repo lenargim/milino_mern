@@ -7,7 +7,6 @@ import {
 } from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import {CartItemType} from "../../api/apiFunctions";
-import {v4 as uuidv4} from "uuid";
 
 
 
@@ -97,17 +96,17 @@ export interface productChangeMaterialType extends CartItemType {
     customDepth?: number,
 }
 
-export const initialCartExtras = {
-    ptoDoors: 0,
-    ptoDrawers: 0,
-    glassShelf: 0,
-    glassDoor: 0,
-    ptoTrashBins: 0,
-    ledPrice: 0,
-    coefExtra:0,
-    attributes: [],
-    boxFromFinishMaterial: false
-}
+// export const initialCartExtras = {
+//     ptoDoors: 0,
+//     ptoDrawers: 0,
+//     glassShelf: 0,
+//     glassDoor: 0,
+//     ptoTrashBins: 0,
+//     ledPrice: 0,
+//     coefExtra:0,
+//     attributes: [],
+//     boxFromFinishMaterial: false
+// }
 
 const initialState: GeneralState = {
     materials: null,
@@ -137,7 +136,7 @@ export const generalSlice = createSlice({
             state.customPart = action.payload
         },
         addToCart: (state, action: PayloadAction<CartItemType>) => {
-            state.cart = [...state.cart, {...action.payload, _id: uuidv4()}];
+            state.cart = [...state.cart, {...action.payload}];
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         fillCart: (state, action: PayloadAction<CartItemType[]>) => {

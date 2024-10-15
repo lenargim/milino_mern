@@ -13,10 +13,11 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
         note,
         product_id,
         image_active_number,
-        _id
+        _id,
+        product_type
     } = item;
     const dispatch = useAppDispatch();
-    const product = getProductById(product_id);
+    const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
     const {images, category, name} = product
     const img = images[image_active_number - 1].value

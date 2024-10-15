@@ -1,24 +1,26 @@
 import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
-import {NavLink, Outlet} from "react-router-dom";
+import {NavLink, Outlet, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {getAllRooms} from "../../api/apiFunctions";
 import {getRooms} from "../../store/reducers/roomSlice";
-import RoomsEmpty from './RoomsNew';
+import RoomsNew from './RoomsNew';
 import RoomSidebar from "./RoomSidebar";
 
 const ProfileRooms: FC = () => {
     const {rooms} = useAppSelector(state => state.room);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllRooms().then(data => {
             if (data) {
-                // const rooms = getRoomsFront(data)
                 dispatch(getRooms(data))
             }
+            // if (!rooms.length) navigate('/profile/rooms/new');
         })
     }, []);
+
     return (
         <div className={s.rooms}>
             <div className={s.roomsMain}>
@@ -34,7 +36,7 @@ const ProfileRooms: FC = () => {
                         </nav>
                         <Outlet context={[rooms]}/>
                     </>
-                    : <RoomsEmpty/>}
+                    : <RoomsNew/>}
             </div>
             <RoomSidebar />
         </div>

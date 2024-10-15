@@ -10,7 +10,8 @@ const ProfileRoom = () => {
     const [rooms] = useOutletContext<[RoomTypeAPI[]]>();
     const navigate = useNavigate();
     const roomData = rooms?.find(room => room._id === roomId);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
 
     useEffect(() => {
         !roomData && navigate('/profile');

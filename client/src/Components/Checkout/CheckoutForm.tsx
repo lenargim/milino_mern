@@ -35,7 +35,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
 
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null)
     const jpgCart = cart.map(el => {
-        const product = getProductById(el.product_id);
+        const product = getProductById(el.product_id, el.product_type === 'standard');
         if (product) {
             const {images} = product
             const img = images[el.image_active_number - 1].value

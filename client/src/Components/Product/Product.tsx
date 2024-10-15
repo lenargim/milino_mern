@@ -24,16 +24,16 @@ import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
-    let {productId, category,roomId} = useParams();
     const dispatch = useAppDispatch();
+    let {productId, category,roomId} = useParams();
     if (!productId || !category || !materials) return <div>Product error</div>;
-    let product = getProductById(+productId);
+    const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(category)
+    let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
-    const {id, isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr} = product;
-
+    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id} = product;
     const materialData = getMaterialData(materials)
     const {base_price_type, is_standard_cabinet} = materialData;
-    const tablePriceData = getProductPriceRange(+productId, is_standard_cabinet, base_price_type);
+    const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
 
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
@@ -41,7 +41,6 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     if (!widthRange.length) return <div>Cannot find initial width</div>;
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
-
 
     const initialValues: productValuesType = {
         'Width': widthRange[0],
@@ -78,17 +77,17 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'Shelf Glass Type': '',
         'Shelf Glass Color': '',
         image_active_number: 1,
-        cartExtras: {
-            ptoDoors: 0,
-            ptoDrawers: 0,
-            glassShelf: 0,
-            glassDoor: 0,
-            ptoTrashBins: 0,
-            ledPrice: 0,
-            coefExtra: 1,
-            attributes: [],
-            boxFromFinishMaterial: false
-        },
+        // cartExtras: {
+        //     ptoDoors: 0,
+        //     ptoDrawers: 0,
+        //     glassShelf: 0,
+        //     glassDoor: 0,
+        //     ptoTrashBins: 0,
+        //     ledPrice: 0,
+        //     coefExtra: 1,
+        //     attributes: [],
+        //     boxFromFinishMaterial: false
+        // },
         price: 0,
     }
     return (
@@ -97,7 +96,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
-                const cartData = addProductToCart(id, values, productRange,roomId)
+                const cartData = addProductToCart(product, values, productRange,roomId)
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
                         if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));

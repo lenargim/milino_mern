@@ -156,7 +156,7 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) 
                     <View style={s.th4}><Text>Product total</Text></View>
                 </View>
                 {cart.map((el, index) => {
-                    const product = getProductById(el.product_id);
+                    const product = getProductById(el.product_id,el.product_type === 'standard');
                     if (!product) return;
                     const {category, images, name} = product;
                     const img = images[el.image_active_number - 1].value;

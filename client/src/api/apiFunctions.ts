@@ -1,7 +1,7 @@
 import {EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
 import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
-import {cornerTypes, hingeTypes, MaybeNull, productTypings} from "../helpers/productTypes";
+import {cornerTypes, hingeTypes, MaybeNull, ProductApiType, productTypings} from "../helpers/productTypes";
 import {MaterialsFormType} from "../common/MaterialsForm";
 
 export const alertError = (error: unknown) => {
@@ -109,7 +109,7 @@ export const deleteRoomAPI = async (id: string) => {
 
 export type CartAPI = {
     product_id: number,
-    product_type: 'cabinet' | 'custom',
+    product_type: ProductApiType,
     amount: number,
     width: number,
     height: number,
@@ -133,17 +133,23 @@ export interface CartAPIResponse extends CartAPI {
     room: string,
 }
 
-export interface CartItemType extends CartAPI {
+export interface CabinetItemType extends CartAPI {
+    image_active_number: productTypings,
+}
+
+export interface CartItemType extends CabinetItemType {
     _id: string,
     room: MaybeNull<string>,
     price: number,
-    image_active_number: productTypings,
     isStandardSize: boolean,
 }
 
-export const addToCartInRoomAPI = async (product: CartAPI, _id: string) => {
+export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) => {
     try {
-        const cartResponse = await cartAPI.addToCart(product, _id);
+        const {_id, room, price, image_active_number, isStandardSize, ...data} = product
+        const cartAPIData:CartAPI = {...data};
+
+        const cartResponse = await cartAPI.addToCart(cartAPIData, roomId);
         return cartResponse.data
     } catch (error) {
         alertError(error);

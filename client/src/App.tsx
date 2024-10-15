@@ -19,7 +19,7 @@ import ProfileRooms from "./Components/Profile/ProfileRooms";
 import ProfileRoom from "./Components/Profile/ProfileRoom";
 import NotFound from "./Components/NotFound/NotFound";
 import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
-import RoomsEmpty from "./Components/Profile/RoomsNew";
+import RoomsNew from "./Components/Profile/RoomsNew";
 import RoomProduct from "./Components/Profile/RoomProduct";
 import RoomCategory from "./Components/Profile/RoomCategory";
 import ProductWrap from "./Components/Product/ProductWrap";
@@ -64,7 +64,7 @@ function App() {
                             <Route path="edit" element={<ProfileRoomEdit/>}/>
                             <Route path="product/:category/:productId" element={<RoomProduct/>}/>
                         </Route>
-                        <Route path="new" element={<RoomsEmpty/>}/>
+                        <Route path="new" element={<RoomsNew/>}/>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
                 </Route>

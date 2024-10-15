@@ -26,12 +26,13 @@ const List: FC<{ category: productCategory, room: RoomType }> = ({category, room
                     </div> : <div>Sorry, there are no custom parts yet</div>
             );
         default:
-            const products = getProductsByCategory(category);
+            const products = getProductsByCategory(room, category);
             return (
                 products.length ?
                     <div className={s.list}>
                         {products.map((el, index) => <Item key={index} product={el}/>)}
-                    </div> : <div>Sorry, there are no products yet</div>
+                    </div>
+                    : <div>Sorry, there are no products yet</div>
             );
 
     }
@@ -72,7 +73,7 @@ const Part: FC<{ product: customPartDataType }> = ({product}) => {
 }
 
 
-export const AtrrsList: FC<{ attributes: attrItem[], type: productTypings}> = ({attributes, type}) => {
+export const AtrrsList: FC<{ attributes: attrItem[], type: productTypings }> = ({attributes, type}) => {
     const attrs = getAttributes(attributes, type);
     return (
         <div className={s.attrs}>

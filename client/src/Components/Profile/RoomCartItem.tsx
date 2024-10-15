@@ -9,14 +9,13 @@ import RoomCartItemOptions from "./RoomCartItemOptions";
 const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
     const dispatch = useAppDispatch()
     const {amount, note, _id, room, price, image_active_number,} = item
-    const productAPI = getProductById(item.product_id);
+    const productAPI = getProductById(item.product_id, item.product_type === 'standard');
     if (!productAPI || !room) return null;
     const {category, images, name} = productAPI
     const img = images[image_active_number-1].value
     function changeAmount(type: changeAmountType) {
         updateProductAmountAPI(_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
             if (cart) {
-                console.log(cart)
                 dispatch(updateCartAmountInRoom(cart))
             }
         })

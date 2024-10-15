@@ -38,7 +38,7 @@ export const RoomSchema= (reservedNames:string[] = []) => {
             door_grain: Yup.string(),
             box_material: Yup.string()
                 .required('Please write down box material'),
-            drawer: Yup.string()
+            drawer_brand: Yup.string()
                 .required('Please write down Drawer'),
             drawer_type: Yup.string()
                 .required('Please write down drawer type'),

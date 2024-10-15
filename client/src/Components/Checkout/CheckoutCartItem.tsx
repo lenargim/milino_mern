@@ -15,9 +15,10 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
         note,
         product_id,
         isStandardSize,
-        image_active_number
+        image_active_number,
+        product_type
     } = el;
-    const product = getProductById(product_id);
+    const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
     const {name, images,category} = product
     const img = images[image_active_number-1].value

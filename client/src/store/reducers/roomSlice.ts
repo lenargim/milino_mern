@@ -56,7 +56,6 @@ export const roomSlice = createSlice({
         },
         updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPIResponse[], _id: string }>) => {
             state.rooms = state.rooms.map(room => {
-                // if (!room) return;
                 return room._id === action.payload._id ? {
                     ...room,
                     cart: getCartArrFront(action.payload.cart, room)
@@ -82,6 +81,13 @@ export const roomSlice = createSlice({
                     }
                     : room;
             })
+        },
+        updateCartAfterMaterialsChange: (state, action: PayloadAction<{ room: string, cart: CartItemType[] }>) => {
+            state.rooms = state.rooms.map(room => {
+                return room._id === action.payload.room ?
+                    {...room, cart: action.payload.cart}
+                    : room;
+            })
         }
     }
 })
@@ -94,7 +100,8 @@ export const {
     roomSetActiveCategory,
     updateCartInRoom,
     removeFromCartInRoom,
-    updateCartAmountInRoom
+    updateCartAmountInRoom,
+    updateCartAfterMaterialsChange
 } = roomSlice.actions
 
 export default roomSlice.reducer
