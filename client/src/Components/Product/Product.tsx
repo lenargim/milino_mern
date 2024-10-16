@@ -42,6 +42,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
 
+
     const initialValues: productValuesType = {
         'Width': widthRange[0],
         isBlind: isBlind,
@@ -96,7 +97,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
-                const cartData = addProductToCart(product, values, productRange,roomId)
+                const cartData = addProductToCart(product, values, productRange,roomId,materialData);
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
                         if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));

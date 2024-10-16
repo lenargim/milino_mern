@@ -2,8 +2,8 @@ import {AppDispatch, RootState} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import {
-    attrItem, CartExtrasType, cornerTypes, customPartDataType, hingeTypes,
-    itemImg, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
+    attrItem, CartExtrasType, cornerTypes, CustomPart, customPartDataType, hingeTypes,
+    itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
     productRangeType, ProductType,
     productTypings, sizeLimitsType, valueItemType
@@ -17,10 +17,11 @@ import standardCabinets from '../api/standartProducts.json'
 import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
 import {colorType, doorType, finishType, materialsData} from "./materialsTypes";
-import { getAttributesProductPrices,
+import {
+    getAttributesProductPrices,
     getBlindArr,
     getDoorMinMaxValuesArr,
-     getMaterialData, getProductCoef,
+    getMaterialData, getProductCoef,
     getProductDataToCalculatePrice, getProductPriceRange, getProductRange,
     getStartPrice,
     getTablePrice,
@@ -33,6 +34,7 @@ import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
+import React from "react";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -62,7 +64,7 @@ export const getProductImage = (images: itemImg[], type: productTypings = 1): st
     return img ? img.value.toString() : ''
 }
 
-export function getSelectValfromVal(val: string | undefined, options: optionType[]): optionType | null {
+export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
     const option = options.find(el => el.value === val)
     return option || null
 }
@@ -158,20 +160,18 @@ export const getSizeNumberRegex = (sizeString: string): number => {
     return 0
 }
 
-export const getProductsByCategory = (room:RoomType, category: productCategory): ProductType[] => {
+export const getProductsByCategory = (room: RoomType, category: productCategory): ProductType[] => {
     const isProductStandard = room === 'Standard Door';
     const products = (isProductStandard ? standardCabinets : cabinets) as ProductType[]
     return products.filter(product => product.category === category);
 }
 
-export const getProductById = (id: number,isProductStandard:boolean): MaybeNull<ProductType> => {
+export const getProductById = (id: number, isProductStandard: boolean): MaybeNull<ProductType> => {
     const product = (isProductStandard ? standardCabinets : cabinets).find(product => product.id === id) as ProductType;
     if (!product) return null;
     const {category, isBlind} = product;
     const hasLedBlock = isHasLedBlock(category);
-    const product_type = getProductApiType(product.category,isProductStandard)
-    // console.log(product_type)
-    // console.log(product.category)
+    const product_type = getProductApiType(product.category, isProductStandard)
     return {
         ...product,
         isProductStandard,
@@ -181,12 +181,28 @@ export const getProductById = (id: number,isProductStandard:boolean): MaybeNull<
     }
 }
 
-export const getcustomParts = (room: RoomType): customPartDataType[] => {
+export const getCustomParts = (room: RoomType): customPartDataType[] => {
     if (room === 'Standard Door') {
-        const StandardDoorCustomParts = customParts.filter(el => el.name !== 'Standard Door' && el.name !== 'Glass Door')
-        return StandardDoorCustomParts as customPartDataType[];
+        const standardDoorCustomParts = customParts.filter(el => el.name !== 'Standard Door' && el.name !== 'Glass Door')
+        return standardDoorCustomParts as customPartDataType[];
     }
     return customParts as customPartDataType[];
+}
+
+export const getCustomPartById = (id: number): MaybeNull<CustomPart> => {
+    const arr = customParts as CustomPart[];
+    const product = arr.find(part => +part.id === id);
+    return product ? product : null;
+}
+
+
+export const getInitialMaterialData = (custom: CustomPart, materials: MaterialsFormType): MaybeNull<materialsCustomPart> => {
+    const {materials_array} = custom;
+    const {door_finish_material, door_type} = materials
+    if (!materials_array) return null;
+    return materials_array.find(el => door_finish_material.includes(el.name))
+        ?? materials_array.find(el => door_type === el.name)
+        ?? materials_array[0];
 }
 
 type initialStandardValues = {
@@ -356,8 +372,9 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
 // }
 
 
-export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>): CartItemType => {
+export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>, materialData: materialDataType): CartItemType => {
     const {id, product_type} = product
+    const {leather} = materialData
     const {
         'Width': width,
         'Blind Width': blindWidth,
@@ -385,7 +402,6 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         'Middle Section Number': middleSection,
         price,
         image_active_number,
-
     } = values;
 
     const realW = width || customWidth || 0;
@@ -417,7 +433,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         led_indent: ledIndent,
         note: note,
         room: roomId || null,
-        leather: ''
+        leather: leather
     }
     return cartData
 }
@@ -694,9 +710,9 @@ export const getInitialMaterialInPVCForm = (materialArr: string[], doorFinish: s
     return materialArr.includes(curMaterial) ? curMaterial : materialArr[0];
 }
 
-export const getCustomPartPVCPrice = (width: number, material: string): number => {
-    return material === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
-}
+// export const getCustomPartPVCPrice = (width: number, material: string): number => {
+//     return material === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+// }
 
 export const getImgSize = (category: string): 's' | 'm' | 'l' => {
     let imgSize: 's' | 'm' | 'l';
@@ -798,7 +814,17 @@ export const getCartItem = (item: CartAPIResponse, room: RoomTypeAPI | RoomFront
 
     const product = getProductById(product_id, product_type === 'standard')
     if (!product) return null;
-    const {category, widthDivider, attributes, doorSquare, images, legsHeight, isAngle, customHeight, customDepth} = product
+    const {
+        category,
+        widthDivider,
+        attributes,
+        doorSquare,
+        images,
+        legsHeight,
+        isAngle,
+        customHeight,
+        customDepth
+    } = product
 
     const {
         is_standard_cabinet,
@@ -827,7 +853,7 @@ export const getCartItem = (item: CartAPIResponse, room: RoomTypeAPI | RoomFront
     const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
     const newType = getType(width, height, widthDivider, doors, category, attributes);
 
-    const cabinet:CabinetItemType = {
+    const cabinet: CabinetItemType = {
         ...item,
         image_active_number: newType,
     }
@@ -869,7 +895,7 @@ export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {
 }
 
 
-export const getProductApiType = (category:productCategory, isProductStandard:boolean):ProductApiType => {
+export const getProductApiType = (category: productCategory, isProductStandard: boolean): ProductApiType => {
     if (category === 'Custom Parts') return 'custom'
     return isProductStandard ? 'standard' : 'cabinet'
 }

@@ -17,7 +17,8 @@ export const hingeArr: hingeTypes[] = ['Left', 'Right', 'Double Door', 'Single D
 
 export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "Standard Door"]
 export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"
-export type ProductApiType = 'cabinet' | 'standard' | 'custom'
+export type ProductApiType = 'cabinet' | 'standard' | 'custom';
+export type CustomTypes = 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -75,17 +76,36 @@ export type productPricesType = {
 }
 
 
+export type CustomPart = {
+    id: number,
+    name: string,
+    type: CustomTypes,
+    width?: number,
+    depth?: number,
+    image: string,
+    materials_array?: materialsCustomPart[],
+    limits?: materialsLimitsType,
+    glass_door?: {
+        Profile: optionType[]
+        Glass: string[],
+        Mirror: string[],
+        Colored: string[]
+    },
+    glass_shelf?: string[],
+
+}
+
 export type customPartDataType = {
     id: number,
     name: string,
     room: string,
-    type: 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing'
+    type: CustomTypes,
     category: productCategory,
     width?: number,
     depth?: number,
     image: string,
     price?: number,
-    materials?: materialsCustomPart[],
+    materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
     glassDoor?: glassDoorType,
     glassShelf?: optionType[]
@@ -93,13 +113,13 @@ export type customPartDataType = {
 
 export type glassDoorType = {
     ['Profile']?: optionType[],
-    ['Glass Type']?: optionType[],
-    ['Glass Color']?: optionType[]
+    ['Glass Type']: optionType[],
+    ['Glass Color']: optionType[]
 }
 
 export type materialsCustomPart = {
     name: string,
-    limits: materialsLimitsType,
+    limits?: materialsLimitsType,
     depth?: number
 }
 

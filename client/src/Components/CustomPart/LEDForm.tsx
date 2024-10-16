@@ -8,7 +8,7 @@ import AlumProfile, {alProfileType} from "./AlumProfile";
 import GolaProfile, {golaProfileType} from "./GolaProfile";
 import NumberPart from "./NumberPart";
 import {addToCart} from "../../store/reducers/generalSlice";
-import {customPartDataType} from "../../helpers/productTypes";
+import {CustomPart, customPartDataType} from "../../helpers/productTypes";
 
 
 export type LEDAccessoriesType = {
@@ -24,8 +24,7 @@ export interface LEDFormValuesType extends LEDAccessoriesType {
     Note: string,
 }
 
-const LEDForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
-    const {id, image, name, category} = customPart
+const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
     const dispatch = useAppDispatch();
     const initialValues: LEDFormValuesType = {
         ['LED Aluminum Profiles']: [],

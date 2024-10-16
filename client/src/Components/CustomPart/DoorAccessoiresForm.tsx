@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import { useAppDispatch} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {customPartDataType} from "../../helpers/productTypes";
+import {CustomPart, customPartDataType} from "../../helpers/productTypes";
 import NumberPartArrayItem from "./NumberPartArrayItem";
 import {doorAccessoiresSchema} from "./doorAccessoiresSchema";
 import {addToCart} from "../../store/reducers/generalSlice";
@@ -37,9 +37,9 @@ export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
     Note: string,
 }
 
-const DoorAccessoiresForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
+const DoorAccessoiresForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
     const dispatch = useAppDispatch();
-    const {id, image, name, category} = customPart
+    const {id, image, name} = customPart
     const initialValues: DoorAccessoiresValuesType = {
         aventos: [
             {
@@ -138,7 +138,7 @@ const DoorAccessoiresForm: FC<{ customPart: customPartDataType }> = ({customPart
                 if (price !== priceNew) setFieldValue('price', priceNew);
 
                 return (
-                    <Form className={s.accessories}>
+                    <div className={s.accessories}>
                         <div className={s.block}>
                             <h3>Aventos</h3>
                             {aventos.map((el, index) => <NumberPartArrayItem key={index} name="aventos"
@@ -171,7 +171,7 @@ const DoorAccessoiresForm: FC<{ customPart: customPartDataType }> = ({customPart
                             <span>{priceNew}$</span>
                         </div>
                         <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
-                    </Form>
+                    </div>
                 )
             }}
         </Formik>

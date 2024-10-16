@@ -21,7 +21,7 @@ export const cartItemValidation = [
     .isIn(["cabinet", "standard","custom"])
     .withMessage("value is invalid"),
   body('hinge')
-    .isIn(['Left', 'Right', 'Double Door', 'Single Door'])
+    .isIn(['Left', 'Right', 'Double Door', 'Single Door', ''])
     .withMessage("value is invalid"),
   body('corner')
     .isIn(['Left', 'Right', ''])

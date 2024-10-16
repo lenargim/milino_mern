@@ -1,32 +1,32 @@
 import React, {FC, useEffect} from 'react';
 import Header from "../../common/Header/Header";
-import s from './product.module.sass'
-import Cart from "./Cart";
+import s from '../Product/product.module.sass'
+import Cart from "../Product/Cart";
 import {useNavigate, useParams} from "react-router-dom";
-import {MaybeNull} from "../../helpers/productTypes";
-import Product from "./Product";
 import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaybeNull} from "../../helpers/productTypes";
+import CustomPart from "./CustomPart";
 
-const ProductWrap: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
-    const navigate = useNavigate()
-    let {productId, category} = useParams();
-
+const CustomPartWrap: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
+    const navigate = useNavigate();
+    let {productId} = useParams();
     useEffect(() => {
         if (!materials) {
             navigate(`/`)
         }
-        if (!category || !productId) {
+        if (!materials?.category || !productId) {
             navigate('/cabinets')
         }
+        if (materials?.category) localStorage.setItem('category', 'Custom Parts');
     },[])
 
-    if (category) localStorage.setItem('category', category);
+
     return (
         <div className={s.wrap}>
             <div className={s.main}>
                 <Header/>
                 <div className={s.productWrap}>
-                    <Product materials={materials}/>
+                    <CustomPart materials={materials}/>
                 </div>
             </div>
             <Cart/>
@@ -34,4 +34,4 @@ const ProductWrap: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials
     );
 };
 
-export default ProductWrap;
+export default CustomPartWrap;

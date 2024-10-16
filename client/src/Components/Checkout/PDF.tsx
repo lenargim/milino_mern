@@ -3,7 +3,6 @@ import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer
 import {CheckoutType} from "../../helpers/types";
 import {getCartTotal, getImg, getProductById} from "../../helpers/helpers";
 import logo from './../../assets/img/black-logo.jpg'
-import CartItemOptions from "./PDF/CartItemOptions";
 import {CartItemType} from "../../api/apiFunctions";
 
 export const s = StyleSheet.create({
@@ -170,7 +169,7 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) 
                             <View style={s.data}>
                                 <Text style={s.itemName}>{name}</Text>
                                 <Text style={s.category}>{category}</Text>
-                                <CartItemOptions el={el}/>
+                                {/*<CartItemOptions el={el}/>*/}
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}
                             </View>
                             <View style={s.itemPrice}>

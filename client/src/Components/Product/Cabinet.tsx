@@ -3,14 +3,13 @@ import {CabinetType} from "../../helpers/productTypes";
 import {
     getAttributesProductPrices,
     getDoorMinMaxValuesArr,
-    getDoorWidth,
     getHingeArr,
     getProductCoef, getProductDataToCalculatePrice,
     getStartPrice, getTablePrice,
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getProductApiType, productValuesType
+    checkDoors, productValuesType
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";
@@ -29,7 +28,6 @@ const Cabinet: FC<CabinetType> = ({
         attributes,
         widthDivider,
         category,
-        isBlind,
         isAngle,
     } = product;
 
@@ -77,30 +75,17 @@ const Cabinet: FC<CabinetType> = ({
     const realWidth = +width || +customWidthNumber || 0;
     const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
     const realHeight = +height || +customHeightNumber || 0;
-    // const doorHeight = realHeight ? realHeight - legsHeight : 0;
     const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     const realMiddleSection = middleSectionNumber || 0
     if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
-    const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues,widthDivider);
+    const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], category);
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
-    const doorWidth = getDoorWidth(realWidth, realBlindWidth, isBlind, isAngle);
-    // const doorSquare = getDoorSquare(doorWidth, doorHeight);
-    // const frontSquare = getSquare(realWidth, doorHeight);
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const boxMaterialCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-
     const allCoefs = boxMaterialCoef * premium_coef;
-
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
     const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
-    // const sizes: productSizesType = {
-    //     width: realWidth,
-    //     height: realHeight,
-    //     depth: realDepth,
-    //     maxWidth: widthRange[widthRange.length - 1],
-    //     maxHeight: heightRange[heightRange.length - 1],
-    // }
 
     const cabinetItem: CabinetItemType = {
         product_id: id,
@@ -130,25 +115,6 @@ const Cabinet: FC<CabinetType> = ({
     let attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     if (attrPrice < 0) attrPrice = 0;
     const totalPrice = +(startPrice * productCoef + attrPrice).toFixed(1);
-
-    // const calculatedData = calculatePrice(sizes, extraPrices, productRange, startPrice, isAngle);
-    // const {totalPrice, coef, coefExtra} = calculatedData;
-    // const coef: coefType = {
-    //     width: 0,
-    //     height: 0,
-    //     depth: 0
-    // }
-
-    // if (sizes.maxWidth < width) coef.width = addWidthPriceCoef(width, sizes.maxWidth);
-    // if (sizes.maxHeight < height) coef.height = addHeightPriceCoef(height, sizes.maxHeight);
-    // if (productRange.depthRange[0] !== depth) coef.depth = addDepthPriceCoef(depth, productRange.depthRange, isAngle)
-    // const coefExtra = 1 + (coef.width + coef.height + coef.depth);
-    // const totalPrice = startPrice ? +(startPrice * coefExtra + extraPrices.ptoDoors + extraPrices.ptoDrawers + extraPrices.glassShelf + extraPrices.glassDoor + extraPrices.ptoTrashBins + extraPrices.pvcPrice + extraPrices.doorPrice + extraPrices.drawerPrice + extraPrices.ledPrice) : 0
-
-    // const totalDepthPrice = initialPrice * (coef.depth + 1);
-    //
-
-
     useEffect(() => {
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)
         if (doors !== doorNum) setFieldValue('Doors', doorNum);
@@ -159,22 +125,7 @@ const Cabinet: FC<CabinetType> = ({
         if (newType !== image_active_number) {
             setFieldValue('image_active_number', newType)
         }
-        // const newCartExtras: CartExtrasType = {
-        //     ptoDoors: extraPrices.ptoDoors,
-        //     ptoDrawers: extraPrices.ptoDrawers,
-        //     glassShelf: extraPrices.glassShelf,
-        //     glassDoor: extraPrices.glassDoor,
-        //     ptoTrashBins: extraPrices.ptoTrashBins,
-        //     ledPrice: extraPrices.ledPrice,
-        //     coefExtra: productCoef,
-        //     attributes,
-        //     boxFromFinishMaterial
-        // }
-        // if (JSON.stringify(cartExtras) === JSON.stringify(newCartExtras)) {
-        //     setFieldValue('cartExtras', newCartExtras)
-        // }
     }, [values])
-
     return (
         <>
             <CabinetLayout product={product} productRange={productRange}

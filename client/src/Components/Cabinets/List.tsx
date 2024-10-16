@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from './cabinets.module.sass'
 import {NavLink} from "react-router-dom";
 import {
-    getAttributes, getcustomParts,
+    getAttributes, getCustomParts,
     getImg, getImgSize,
     getProductImage,
     getProductsByCategory
@@ -18,7 +18,7 @@ import {RoomType} from "../../helpers/categoriesTypes";
 const List: FC<{ category: productCategory, room: RoomType }> = ({category, room}) => {
     switch (category) {
         case "Custom Parts":
-            const customParts = getcustomParts(room);
+            const customParts = getCustomParts(room);
             return (
                 customParts.length ?
                     <div className={s.list}>

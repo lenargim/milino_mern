@@ -6,7 +6,7 @@ import styles from "./Form.module.sass";
 export type optionType = {
     value: string,
     label: string,
-    glassDoorType?: number,
+    // glassDoorType?: number,
     type?: string
 }
 
@@ -21,9 +21,10 @@ type SelectFieldType = {
     options: optionType[],
     name: string,
     val: optionType | null
+    label?: string,
 }
 
-const SelectField: FC<SelectFieldType> = ({options, name, val}) => {
+const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) => {
     const [field, meta, {setValue}] = useField(name);
     const {error, touched} = meta;
     const onChange = (value: OnChangeValue<optionType, false>) => {
@@ -104,7 +105,7 @@ const SelectField: FC<SelectFieldType> = ({options, name, val}) => {
 
             <Select options={options}
                     onChange={onChange}
-                    placeholder={name}
+                    placeholder={label}
                     styles={customStyles}
                     isSearchable={false}
                     defaultValue={val}

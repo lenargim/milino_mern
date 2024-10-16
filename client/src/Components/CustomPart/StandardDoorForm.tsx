@@ -1,5 +1,5 @@
-import {FieldArray, Form, Formik, useField} from 'formik';
 import React, {FC} from 'react';
+import {FieldArray, Form, Formik, useField} from 'formik';
 import {
     getSelectDoorVal,
     getSelectValfromVal,
@@ -8,7 +8,7 @@ import {
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {v4 as uuidv4} from "uuid";
-import {customPartDataType} from "../../helpers/productTypes";
+import {CustomPart, customPartDataType} from "../../helpers/productTypes";
 import {changeAmountType} from "../Product/Cart";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
@@ -34,8 +34,8 @@ export interface StandardDoorFormValuesType extends DoorType {
     Note: string,
 }
 
-const StandardDoorForm: FC<{ customPart: customPartDataType }> = ({customPart}) => {
-    const {id, image, name, category, type} = customPart
+const StandardDoorForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
+    const {id, image, name, type} = customPart
     const dispatch = useAppDispatch();
     const initialValues: StandardDoorFormValuesType = {
         ['Color']: '',

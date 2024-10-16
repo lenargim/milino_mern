@@ -579,7 +579,6 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const {
         box_material,
         door_type,
-        door_color,
         door_finish_material,
         category,
         drawer_brand,
@@ -702,11 +701,11 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
 }
 
 
-export const getCustomPartPrice = (name: string, width: number, height: number, depth: number, doorFinish: string): number => {
+export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, finishMaterial: string, profile: MaybeNull<number> = null): number => {
     const area = width * height / 144;
-    switch (name) {
-        case "Open Cabinet":
-            switch (doorFinish) {
+    switch (id) {
+        case 900:
+            switch (finishMaterial) {
                 case "Milino":
                     return (width * height * depth / 100) + 120;
                 case "Plywood":
@@ -729,9 +728,9 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Floating Shelf":
+        case 901:
             const opetCabinetCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
-            switch (doorFinish) {
+            switch (finishMaterial) {
                 case "Milino":
                     return opetCabinetCoef * 20
                 case "Syncron":
@@ -752,10 +751,10 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Panel, Filler, Wood Toe Kick":
-        case "Wood Gola Trims":
+        case 903:
+        case 908:
             const k = area > 1 ? 1 : 1.8;
-            switch (doorFinish) {
+            switch (finishMaterial) {
                 case "Milino":
                     return area * k * 8;
                 case "Plywood":
@@ -778,8 +777,8 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Double Panel":
-            switch (doorFinish) {
+        case 905:
+            switch (finishMaterial) {
                 case "Milino":
                     return area * 36;
                 case "Plywood":
@@ -802,9 +801,9 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "L Shape":
+        case 906:
             const lSHapeArea = (width + depth) * height / 144
-            switch (doorFinish) {
+            switch (finishMaterial) {
                 case "Milino":
                     return lSHapeArea * 19;
                 case "Plywood":
@@ -827,9 +826,9 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Column":
+        case 907:
             const columnArea = (width * height + width * depth + height * depth) / 144 * 2 * 2.3;
-            switch (doorFinish) {
+            switch (finishMaterial) {
                 case "Milino":
                     return columnArea * 15.2;
                 case "Syncron":
@@ -850,8 +849,10 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Shaker Panel":
-            switch (doorFinish) {
+        case 909:
+            return width * height / 144 * 4.6
+        case 910:
+            switch (finishMaterial) {
                 case "Milino":
                     return area * 36;
                 case "Syncron":
@@ -874,23 +875,15 @@ export const getCustomPartPrice = (name: string, width: number, height: number, 
                 default:
                     return 0;
             }
-        case "Slatted Panel":
-            return area * 48;
-        case "Decor Panel":
+        case 911:
             let decorPrice = area > 4 ? area * 64 : 240;
-            return doorFinish === 'Ultrapan Acrilic' ? decorPrice * 1.1 : decorPrice
-        default:
-            return 0
-    }
-}
-
-export const getGlassDoorPrice = (name: string, width: number, height: number, doorFinish: string, profile?: number): number => {
-    const area = width * height / 144;
-    switch (name) {
-        case "Shaker Glass Door":
+            return finishMaterial === 'Ultrapan Acrilic' ? decorPrice * 1.1 : decorPrice
+        case 912:
+            return area * 48;
+        case 913:
             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
-            return doorFinish === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
-        case "Glass Aluminum Door":
+            return finishMaterial === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
+        case 914:
             switch (profile) {
                 case 1021:
                 case 1040:
@@ -901,10 +894,36 @@ export const getGlassDoorPrice = (name: string, width: number, height: number, d
                 default:
                     return 0;
             }
+        case 915:
+            return finishMaterial === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+        case 916:
+            return 170;
         default:
             return 0
     }
 }
+
+// export const getGlassDoorPrice = (id: number, width: number, height: number, doorFinish: string, profile?: number): number => {
+//     const area = width * height / 144;
+//     switch (id) {
+//         case 913:
+//             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
+//             return doorFinish === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
+//         case 914:
+//             switch (profile) {
+//                 case 1021:
+//                 case 1040:
+//                     return area * 100 > 300 ? area * 100 : 300
+//                 case 1022:
+//                 case 1042:
+//                     return area * 120 > 300 ? area * 120 : 300
+//                 default:
+//                     return 0;
+//             }
+//         default:
+//             return 0
+//     }
+// }
 
 export const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     const val = attrArr.find(el => el.name === 'Adjustable Shelf')?.value;
