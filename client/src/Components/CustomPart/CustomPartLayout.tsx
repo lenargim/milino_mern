@@ -36,8 +36,8 @@ export type hingeHoleCustomType = {
 
 export type DoorAccessoiresType = {
     aventos: HingeType[],
-    ['Door Hinge']: number,
-    ['Hinge Holes']: number,
+    door_hinge: number,
+    hinge_holes: number,
     PTO: HingeType[],
     servo: HingeType[]
 
@@ -58,6 +58,7 @@ export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst
     const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     const showGlassDoorBlock = type === 'glass-door'
     const showGlassShelfBlock = type === 'glass-shelf'
+
     return (
         <Form>
             {!width ?

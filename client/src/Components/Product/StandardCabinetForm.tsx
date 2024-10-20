@@ -102,7 +102,7 @@ import React, {FC} from 'react';
 //                     ['Height']: height,
 //                     ['Depth']: depth,
 //                     ['Custom Depth Number']: customDepthNumber,
-//                     ['Doors']: doors,
+//                     doors: doors,
 //                     ['Blind Width']: blindWidth,
 //                     ['Hinge opening']: hingeOpening,
 //                     ['Door Profile']: doorProfile,

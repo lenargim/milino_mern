@@ -9,10 +9,9 @@ const Room: FC<{room: RoomType}> = ({room}) => {
     let initialCat: productCategory | '';
     const kichenCat = ['Base Cabinets', 'Wall Cabinets', 'Tall Cabinets', 'Gola Base Cabinets', 'Gola Wall Cabinets', 'Gola Tall Cabinets','Custom Parts'];
     const vanityCat = ['Regular Vanities', 'Gola Vanities','Custom Parts'];
-
     const closetCats = ['Build In', 'Leather', 'Custom Parts'];
-
     const StandardCats = ['Standard Base Cabinets','Standard Wall Cabinets', 'Standard Tall Cabinets']
+
     if (!storageCat) {
         initialCat = ''
     } else {

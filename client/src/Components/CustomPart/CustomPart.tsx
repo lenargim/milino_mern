@@ -1,6 +1,7 @@
 import {Formik} from 'formik';
 import React, {FC} from 'react';
 import {
+    addToCartCustomPart,
     getCustomPartById, getInitialMaterialData,
     getLimit,
     useAppDispatch
@@ -12,7 +13,12 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 import {Navigate, useParams} from "react-router-dom";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLeft from "./CustomPartLeft";
-import LEDForm from "./LEDForm";
+import {addToCart} from "../../store/reducers/generalSlice";
+import LEDForm, {LEDAccessoriesType} from "./LEDForm";
+import {golaProfileType} from "./GolaProfile";
+import {alProfileType} from "./AlumProfile";
+import DoorAccessoiresForm, {DoorAccessoiresType} from "./DoorAccessoiresForm";
+import StandardDoorForm, {DoorType} from "./StandardDoorForm";
 
 type CustomPartFormType = {
     // customPart: customPartDataType,
@@ -29,6 +35,91 @@ export type CustomPartFormValuesType = {
     Note: string,
     price: number,
     glass_door: string[],
+    glass_shelf: string,
+    led_accessories: LEDAccessoriesType,
+    door_accessories: DoorAccessoiresType,
+    standard_door: DoorType
+}
+
+const initialDoorAccessoires: DoorAccessoiresType = {
+    aventos: [
+        {
+            title: 'HF',
+            label: 'Aventos HF',
+            qty: 0,
+            price: 280
+        },
+        {
+            title: 'HK',
+            label: 'Aventos HK',
+            qty: 0,
+            price: 210
+        },
+        {
+            title: 'HL',
+            label: 'Aventos HL',
+            qty: 0,
+            price: 350
+        }
+    ],
+    door_hinge: 0,
+    hinge_holes: 0,
+    PTO: [
+        {
+            title: 'Doors',
+            label: 'For Doors',
+            qty: 0,
+            price: 30
+        },
+        {
+            title: 'Drawers',
+            label: 'For Drawers',
+            qty: 0,
+            price: 80
+        },
+        {
+            title: 'Trash Bins',
+            label: 'For Trash Bins',
+            qty: 0,
+            price: 350
+        }
+    ],
+    servo: [
+        {
+            title: 'WBA',
+            label: 'For WBA Cab',
+            qty: 0,
+            price: 1000
+        },
+        {
+            title: 'WBL',
+            label: 'For WBL Cab',
+            qty: 0,
+            price: 1000
+        },
+        {
+            title: 'WDA',
+            label: 'For WDA Cab',
+            qty: 0,
+            price: 1000
+        },
+        {
+            title: 'BG',
+            label: 'For BG Cab',
+            qty: 0,
+            price: 600
+        }
+    ]
+};
+
+const initialStandardDoor:DoorType = {
+    color: '',
+    doors: [{
+        name: '',
+        qty: 1,
+        width: 0,
+        height: 0
+    }],
 }
 
 const CustomPart: FC<CustomPartFormType> = ({materials}) => {
@@ -44,6 +135,8 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     const isDepthIsConst = !!(initialMaterialData?.depth ?? depth)
     const initialDepth = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
 
+    const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
+
     const initialValues: CustomPartFormValuesType = {
         'Width': Math.ceil(width ?? getLimit(sizeLimitInitial.width)).toString(),
         'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
@@ -52,29 +145,40 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
         'Height Number': Math.ceil(getLimit(sizeLimitInitial.height)),
         'Depth Number': Math.ceil(initialDepth),
         'Material': initialMaterialData ? initialMaterialData.name : '',
-        'Note': '',
         glass_door: [],
+        glass_shelf: '',
+        led_accessories: {
+            led_alum_profiles: [],
+            led_gola_profiles: [],
+            door_sensor: 0,
+            dimmable_remote: 0,
+            transformer: 0,
+        },
+        door_accessories: initialDoorAccessoires,
+        standard_door: initialStandardDoor,
+        'Note': '',
         price: 0,
     }
 
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={getCustomPartSchema(customPart.materials_array, limits)}
+            validationSchema={getCustomPartSchema(customPart)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                // const cartData = addToCartCustomPart(values, id, price, image, name, category)
-                // dispatch(addToCart(cartData))
-                // resetForm();
+                if (!customPart) return;
+                const cartData = addToCartCustomPart(values, customPart, undefined)
+                dispatch(addToCart(cartData))
+                resetForm();
             }}
         >
             <>
-            <CustomPartLeft product={customPart}/>
-            <div className={s.right}>
-                <CustomPartCabinet
-                    product={customPart}
-                    isDepthIsConst={isDepthIsConst}
-                />
-            </div>
+                <CustomPartLeft product={customPart}/>
+                <div className={s.right}>
+                    {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst}/>}
+                    {type === 'led-accessories' && <LEDForm customPart={customPart}/>}
+                    {type === 'door-accessories' && <DoorAccessoiresForm customPart={customPart}/>}
+                    {(type === 'standard-door' || type === 'standard-glass-door') && <StandardDoorForm customPart={customPart} />}
+                </div>
             </>
         </Formik>
     );

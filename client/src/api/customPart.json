@@ -1,6 +1,7 @@
 [
   {
     "id": 900,
+    "product_type": "custom",
     "name": "Open Cabinet",
     "type": "custom",
     "materials_array": [
@@ -192,10 +193,16 @@
         }
       }
     ],
-    "image": "Open Cabinet.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Open Cabinet.jpg"
+      }
+    ]
   },
   {
     "id": 901,
+    "product_type": "custom",
     "name": "Floating Shelf",
     "type": "custom",
     "materials_array": [
@@ -370,10 +377,16 @@
         }
       }
     ],
-    "image": "Floating Shelf.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Floating Shelf.jpg"
+      }
+    ]
   },
   {
     "id": 903,
+    "product_type": "custom",
     "name": "Panel, Filler, Wood Toe Kick",
     "type": "custom",
     "materials_array": [
@@ -522,10 +535,16 @@
       }
     ],
     "depth": 0.75,
-    "image": "Panel.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Panel.jpg"
+      }
+    ]
   },
   {
     "id": 905,
+    "product_type": "custom",
     "name": "Double Panel",
     "type": "custom",
     "depth": 1.5,
@@ -674,10 +693,16 @@
         }
       }
     ],
-    "image": "panel.png"
+    "images": [
+      {
+        "type": 1,
+        "value": "panel.png"
+      }
+    ]
   },
   {
     "id": 906,
+    "product_type": "custom",
     "name": "L Shape",
     "type": "custom",
     "materials_array": [
@@ -869,10 +894,16 @@
         }
       }
     ],
-    "image": "L-Shape.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "L-Shape.jpg"
+      }
+    ]
   },
   {
     "id": 907,
+    "product_type": "custom",
     "name": "Column",
     "type": "custom",
     "materials_array": [
@@ -1047,10 +1078,16 @@
         }
       }
     ],
-    "image": "Column.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Column.jpg"
+      }
+    ]
   },
   {
     "id": 908,
+    "product_type": "custom",
     "name": "Wood Gola Trims",
     "type": "custom",
     "width": 3.625,
@@ -1156,10 +1193,16 @@
         }
       }
     ],
-    "image": "panel.png"
+    "images": [
+      {
+        "type": 1,
+        "value": "panel.png"
+      }
+    ]
   },
   {
     "id": 909,
+    "product_type": "custom",
     "name": "Backing",
     "type": "backing",
     "depth": 0.25,
@@ -1173,10 +1216,16 @@
         96
       ]
     },
-    "image": "panel.png"
+    "images": [
+      {
+        "type": 1,
+        "value": "panel.png"
+      }
+    ]
   },
   {
     "id": 910,
+    "product_type": "custom",
     "name": "Shaker Panel",
     "type": "custom",
     "materials_array": [
@@ -1237,10 +1286,16 @@
         "depth": 1
       }
     ],
-    "image": "Shaker Panel.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Shaker Panel.jpg"
+      }
+    ]
   },
   {
     "id": 911,
+    "product_type": "custom",
     "name": "Decor Panel",
     "type": "custom",
     "depth": 0.75,
@@ -1350,10 +1405,16 @@
         }
       }
     ],
-    "image": "Decor panel.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Decor panel.jpg"
+      }
+    ]
   },
   {
     "id": 912,
+    "product_type": "custom",
     "name": "Slatted Panel",
     "type": "custom",
     "depth": 0.75,
@@ -1411,10 +1472,16 @@
         }
       }
     ],
-    "image": "Slatted Panel.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Slatted Panel.jpg"
+      }
+    ]
   },
   {
     "id": 913,
+    "product_type": "custom",
     "name": "Shaker Glass Door",
     "type": "glass-door",
     "depth": 0.75,
@@ -1534,10 +1601,16 @@
         108
       ]
     },
-    "image": "Shaker Glass Door.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Shaker Glass Door.jpg"
+      }
+    ]
   },
   {
     "id": 914,
+    "product_type": "custom",
     "name": "Glass Aluminum Door",
     "type": "glass-door",
     "depth": 0.75,
@@ -1664,18 +1737,21 @@
           "type": "1042"
         }
       ],
-      "Glass": ["Clear",
+      "Glass": [
+        "Clear",
         "Frosted",
         "Bronze Translucent",
         "Gray Translucent"
       ],
-      "Mirror": ["Acid Etch",
+      "Mirror": [
+        "Acid Etch",
         "Bronze",
         "Clear",
         "Gray",
         "One-way"
       ],
-      "Colored": ["White 010",
+      "Colored": [
+        "White 010",
         "Golden Yellow 020",
         "Yellow 021",
         "Light Yellow 022",
@@ -1747,10 +1823,16 @@
         108
       ]
     },
-    "image": "Alum Glass Door.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Alum Glass Door.jpg"
+      }
+    ]
   },
   {
     "id": 915,
+    "product_type": "custom",
     "name": "PVC",
     "type": "pvc",
     "materials_array": [
@@ -1836,10 +1918,16 @@
         }
       }
     ],
-    "image": "PVC.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "PVC.jpg"
+      }
+    ]
   },
   {
     "id": 916,
+    "product_type": "custom",
     "name": "Glass shelf",
     "type": "glass-shelf",
     "depth": 0.25,
@@ -1859,30 +1947,59 @@
       "Bronze Translucent",
       "Gray Translucent"
     ],
-    "image": "Glass shelf.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Glass shelf.jpg"
+      }
+    ]
   },
   {
     "id": 917,
+    "product_type": "custom",
     "name": "LED Accessories",
     "type": "led-accessories",
-    "image": "LED.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "LED.jpg"
+      }
+    ]
   },
   {
     "id": 918,
+    "product_type": "custom",
     "name": "Door Accessories",
     "type": "door-accessories",
-    "image": "Accessories.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Accessories.jpg"
+      }
+    ]
   },
   {
     "id": 919,
+    "product_type": "custom",
     "name": "Standard Door",
     "type": "standard-door",
-    "image": "Accessories.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Accessories.jpg"
+      }
+    ]
   },
   {
     "id": 920,
+    "product_type": "custom",
     "name": "Glass Door",
     "type": "standard-glass-door",
-    "image": "Accessories.jpg"
+    "images": [
+      {
+        "type": 1,
+        "value": "Accessories.jpg"
+      }
+    ]
   }
 ]

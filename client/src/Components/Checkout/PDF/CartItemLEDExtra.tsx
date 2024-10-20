@@ -6,11 +6,11 @@ const CartItemLedExtra
     // :FC<{productExtra: LEDAccessoriesType}>
     = () => {
     // const {
-    //     ['LED Aluminum Profiles']: alumProfiles,
-    //     ['LED Gola Profiles']: golaProfiles,
-    //     ['Door Sensor']: doorSensor,
-    //     ['Dimmable Remote']: dimRemote,
-    //     ['Transformer']: transformer,
+    //     led_alum_profiles: alumProfiles,
+    //     led_gola_profiles: golaProfiles,
+    //     door_sensor: doorSensor,
+    //     dimmable_remote: dimRemote,
+    //     transformer: transformer,
     // } = productExtra
     return (
         <>

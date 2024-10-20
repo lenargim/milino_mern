@@ -18,7 +18,7 @@ export type golaProfileType = {
 const colorsArr:colorOption[] = ['Black', 'White']
 
 const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, index}) => {
-    const [{value}, , {setValue}] = useField<golaProfileType[]>('LED Gola Profiles')
+    const [{value}, , {setValue}] = useField<golaProfileType[]>('led_accessories.led_gola_profiles')
     const {qty, uuid, color} = profile;
 
     const deleteItem = (uuid: string) => {
@@ -37,7 +37,7 @@ const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, 
         <div className={s.row}>
             <button onClick={() => deleteItem(uuid)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length" value={null}
-                                name={`[LED Gola Profiles].${index}.length`}/>
+                                name={`[led_accessories.led_gola_profiles].${index}.length`}/>
             <div className={s.row}>
                 ×
                 <div className={s.buttons}>
@@ -47,7 +47,7 @@ const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, 
                     {qty}
                     <button value="plus" onClick={() => changeAmount('plus')} type={"button"}>+</button>
                 </div>
-                <ColorField options={colorsArr} name={`[LED Gola Profiles].${index}.color`} />
+                <ColorField options={colorsArr} name={`[led_accessories.led_gola_profiles].${index}.color`} />
             </div>
         </div>
     )

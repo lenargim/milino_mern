@@ -1,7 +1,4 @@
 import {optionType} from "../common/SelectField";
-import {AttributesPrices} from "./calculatePrice";
-import {CabinetItemType} from "../api/apiFunctions";
-
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
@@ -80,9 +77,10 @@ export type CustomPart = {
     id: number,
     name: string,
     type: CustomTypes,
+    product_type: 'custom',
     width?: number,
     depth?: number,
-    image: string,
+    images: itemImg[],
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
     glass_door?: {
@@ -99,11 +97,12 @@ export type customPartDataType = {
     id: number,
     name: string,
     room: string,
+    product_type: 'custom',
     type: CustomTypes,
     category: productCategory,
     width?: number,
     depth?: number,
-    image: string,
+    images: itemImg[],
     price?: number,
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,

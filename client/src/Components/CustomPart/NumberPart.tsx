@@ -3,7 +3,7 @@ import s from "../Product/product.module.sass";
 import {changeAmountType} from "../Product/Cart";
 import {useField} from "formik";
 
-const NumberPart: FC<{ name?: string, el: string }> = ({name, el}) => {
+const NumberPart: FC<{ name?: string, el: string,label?:string }> = ({name, el, label}) => {
     const fieldName = name ? `${name}.${el}` : el
     const [field, , helpers] = useField(fieldName)
     const changeAmount = (type: changeAmountType) => {
@@ -14,7 +14,7 @@ const NumberPart: FC<{ name?: string, el: string }> = ({name, el}) => {
     return (
         <div className={s.part}>
             <div className={s.number}>
-                <h4>{el}</h4>
+                <h4>{label}</h4>
                 <div className={s.buttons}>
                     <button value="minus" disabled={field.value <= 0} onClick={() => changeAmount('minus')}
                             type={"button"}>-

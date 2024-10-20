@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {FieldArray, Form, Formik, useField} from 'formik';
+import React, {FC, useEffect} from 'react';
+import {FieldArray, Form, Formik, useField, useFormikContext} from 'formik';
 import {
     getSelectDoorVal,
     getSelectValfromVal,
@@ -15,6 +15,7 @@ import SelectFieldInArr from "../../common/SelectFieldInArr";
 import {StandardDoorSchema} from "./standardDoorSchema";
 import {addToCart} from "../../store/reducers/generalSlice";
 import settings from './../../api/settings.json'
+import {CustomPartFormValuesType} from "./CustomPart";
 
 
 type Door = {
@@ -25,116 +26,74 @@ type Door = {
 }
 
 export type DoorType = {
-    ['Doors']: Door[]
-    ['Color']: string,
+    doors: Door[]
+    color: string,
 }
 
-export interface StandardDoorFormValuesType extends DoorType {
-    price: number,
-    Note: string,
-}
 
 const StandardDoorForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
-    const {id, image, name, type} = customPart
-    const dispatch = useAppDispatch();
-    const initialValues: StandardDoorFormValuesType = {
-        ['Color']: '',
-        ['Doors']: [{
-            name: '',
-            qty: 1,
-            width: 0,
-            height: 0
-        }],
-        price: 0,
-        Note: '',
-    }
+    const {type} = customPart;
+    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
+    const {standard_door, price} = values
+    const {doors, color} = standard_door
 
     const doorColors = settings.doorColors as string[];
     const doorColorsArr = doorColors.map(el => ({value: el, label: el}))
 
     const doorSizes = type === 'standard-door' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
-    const doorSizesArr:optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
+    const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
+
+    useEffect(() => {
+        const newPrice = getPrice(standard_door, type);
+        if (price !== newPrice) {
+            setFieldValue('price', newPrice)
+        }
+    }, [standard_door, doors, color, doorSizesArr])
 
     return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={StandardDoorSchema}
-            onSubmit={(values: StandardDoorFormValuesType, {resetForm}) => {
-                if (values.price) {
-                    // const cartData = addToCartDoor(values, id, image, name, category)
-                    // dispatch(addToCart(cartData))
-                    // resetForm({
-                    //     values: {
-                    //         ['Color']: '',
-                    //         ['Doors']: [{
-                    //             name: '',
-                    //             qty: 1,
-                    //             width: 0,
-                    //             height: 0
-                    //         }],
-                    //         price: 0,
-                    //         Note: '',
-                    //     }
-                    // });
-                }
-            }}
-        >
-            {({values, errors, setFieldValue}) => {
-                const {
-                    ['Color']: color,
-                    ['Doors']: doorsArr,
-                    price
-                } = values;
+        <Form className={s.accessories}>
+            <div className={s.block}>
+                <h3>Door Type</h3>
+                <FieldArray name="standard_door.doors" render={({push, remove}) => (
+                    <div>
+                        {doors.map((door, index) =>
+                            <DoorItem door={door} index={index} key={index} remove={remove}
+                                      doorSizesArr={doorSizesArr}/>)}
+                        {typeof errors['standard_door'] === 'string' &&
+                          <div className="error">{errors['standard_door']}</div>}
+                        <button
+                            type="button"
+                            onClick={() => push({name: '', qty: 1, width: 0, height: 0})}
+                            className={['button yellow small'].join(' ')}>Add Door
 
-                const priceNew = getPrice(values, type);
-                if (price !== priceNew) setFieldValue('price', priceNew);
-
-                return (
-                    <Form className={s.accessories}>
-                        <div className={s.block}>
-                            <h3>Door Type</h3>
-                            <FieldArray name="Doors" render={({push, remove}) => (
-                                <div>
-                                    {doorsArr.map((door, index) =>
-                                        <DoorItem door={door} index={index} key={index} remove={remove} doorSizesArr={doorSizesArr}/>)}
-                                    {typeof errors['Doors'] === 'string' &&
-                                      <div className="error">{errors['Doors']}</div>}
-                                    <button
-                                        type="button"
-                                        onClick={() => push({uuid: uuidv4(), name: '', qty: 1, width: 0, height: 0})}
-                                        className={['button yellow small'].join(' ')}>Add Door
-
-                                    </button>
-                                </div>
-                            )}
-                            />
-                        </div>
-                        <div className={s.block}>
-                            <h3>Color</h3>
-                            <SelectField options={doorColorsArr} name="Color"
-                                         val={getSelectValfromVal(color, doorColorsArr)}/>
-                        </div>
+                        </button>
+                    </div>
+                )}
+                />
+            </div>
+            <div className={s.block}>
+                <h3>Color</h3>
+                <SelectField options={doorColorsArr} name="standard_door.color" label="Color"
+                             val={getSelectValfromVal(color, doorColorsArr)}/>
+            </div>
 
 
-                        <div className={s.block}>
-                            <TextInput type={"text"} label={'Note'} name="Note"/>
-                        </div>
-                        <div className={s.total}>
-                            <span>Total: </span>
-                            <span>{priceNew}$</span>
-                        </div>
-                        <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
-                    </Form>
-                )
-            }}
-        </Formik>
+            <div className={s.block}>
+                <TextInput type={"text"} label={'Note'} name="Note"/>
+            </div>
+            <div className={s.total}>
+                <span>Total: </span>
+                <span>{price}$</span>
+            </div>
+            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+        </Form>
     );
 };
 
 export default StandardDoorForm;
 
-const getPrice = (values: StandardDoorFormValuesType, name: string): number => {
-    const {Doors: doorsArr, Color: color} = values;
+const getPrice = (values: DoorType, name: string): number => {
+    const {doors: doorsArr, color} = values;
     const glassPrice: number = name !== 'standard-door' ? 10 : 0;
     const colorPrice: number = color !== 'White' ? 30 : 0;
     return doorsArr.reduce((acc, door) => {
@@ -144,22 +103,26 @@ const getPrice = (values: StandardDoorFormValuesType, name: string): number => {
     }, 0);
 }
 
-const DoorItem: FC<{ door: Door, index: number, remove: Function, doorSizesArr:optionTypeDoor[] }> = ({door, index, remove, doorSizesArr}) => {
-    const [{value}, _, {setValue}] = useField<Door[]>('Doors')
+const DoorItem: FC<{ door: Door, index: number, remove: Function, doorSizesArr: optionTypeDoor[] }> = ({
+                                                                                                           door,
+                                                                                                           index,
+                                                                                                           remove,
+                                                                                                           doorSizesArr
+                                                                                                       }) => {
+    const [{value}, _, {setValue}] = useField<DoorType>('standard_door');
     const {qty, name} = door;
-
     const selectVal = getSelectDoorVal(name, doorSizesArr);
-
     const changeAmount = (type: changeAmountType) => {
-        const door = value[index];
+        const door = value.doors[index];
         door.qty = type === 'minus' ? door.qty - 1 : door.qty + 1;
-        value.splice(index, 1, door)
-        setValue(value)
+        value.doors.splice(index, 1, door);
+        setValue(value, true);
+
     }
     return (
         <div className={s.row}>
             <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
-            <SelectFieldInArr options={doorSizesArr} name={`Doors`} val={selectVal} arrIndex={index}
+            <SelectFieldInArr options={doorSizesArr} name={`standard_door.doors`} val={selectVal} arrIndex={index}
                               placeholder={'Door size'}/>
             <div className={s.row}>×
                 <div className={s.buttons}>

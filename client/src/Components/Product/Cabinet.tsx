@@ -55,7 +55,7 @@ const Cabinet: FC<CabinetType> = ({
         ['Custom Blind Width Number']: customBlindWidthNumber,
         ['Middle Section Number']: middleSectionNumber,
         Corner: corner,
-        ['Doors']: doors,
+        'Doors': doors,
         Options: chosenOptions,
         ['Door Profile']: door_profile,
         ['Door Glass Type']: door_glass_type,
@@ -106,6 +106,7 @@ const Cabinet: FC<CabinetType> = ({
         led_indent: led_indent,
         image_active_number: newType,
         note: note,
+        material: '',
         leather: ''
     }
 

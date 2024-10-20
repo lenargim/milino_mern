@@ -2,9 +2,10 @@ import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {CustomPart} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
-import {CustomPartFormValuesType} from "./CustomPartCabinet";
+
 import {getSelectValfromVal} from "../../helpers/helpers";
 import SelectField, {optionType} from "../../common/SelectField";
+import {CustomPartFormValuesType} from "./CustomPart";
 
 
 function prepareToSelectField(arr: string[]): optionType[] {

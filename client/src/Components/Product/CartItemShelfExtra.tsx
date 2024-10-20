@@ -1,12 +1,20 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {DoorAccessoiresType} from "../CustomPart/DoorAccessoiresForm";
+import {MaybeUndefined} from "../../helpers/productTypes";
+import {CartItemType} from "../../api/apiFunctions";
+import {Dimentions} from "./CartItem";
 
-const CartItemShelfExtra: FC<{ productExtra: string }> = ({productExtra}) => {
+const CartItemShelfExtra: FC<{ product: CartItemType }> = ({product}) => {
+    const {glass_shelf, width, height, depth} = product
+    if (!glass_shelf) return null;
     return (
-        <span className={s.itemOption}>
-            <span>Glass Color: {productExtra}</span>
+        <>
+            <Dimentions width={width} height={height} depth={depth}/>
+            <span className={s.itemOption}>
+            <span>Glass Color: {glass_shelf}</span>
         </span>
+        </>
     );
 };
 

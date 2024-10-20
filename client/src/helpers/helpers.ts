@@ -29,12 +29,13 @@ import {
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
 import {ledAlignmentType} from "../Components/Product/LED";
-import {CabinetItemType, CartAPIResponse, CartItemType} from "../api/apiFunctions";
+import {CabinetItemType, CartAPI, CartAPIResponse, CartItemType} from "../api/apiFunctions";
 import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
 import React from "react";
+import {CustomPartFormValuesType} from "../Components/CustomPart/CustomPart";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -373,7 +374,7 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
 
 
 export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>, materialData: materialDataType): CartItemType => {
-    const {id, product_type} = product
+    const {id, product_type, category} = product
     const {leather} = materialData
     const {
         'Width': width,
@@ -413,6 +414,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
     const cartData: CartItemType = {
         _id: uuidv4(),
         product_id: id,
+        subcategory: category,
         price,
         image_active_number,
         isStandardSize: getIsProductStandard(productRange, realW, realH, realD),
@@ -432,41 +434,74 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         led_alignment: ledAlignment,
         led_indent: ledIndent,
         note: note,
+        material: '',
         room: roomId || null,
         leather: leather
     }
     return cartData
 }
 
-// export const addToCartCustomPart = (values: FormikValues, id: number, price: number | undefined, image: string, name: string, category: productCategory) => {
-//     const {
-//         ['Width Number']: width,
-//         ['Height Number']: height,
-//         ['Depth Number']: depth,
-//         ['Material']: material,
-//         ['Note']: note,
-//     } = values;
-//
-//
-//     const cartData: CartItemType = {
-//         id: id,
-//         uuid: uuidv4(),
-//         category,
-//         name,
-//         img: image || '',
-//         amount: 1,
-//         price: price ? price : 0,
-//         note,
-//         customPartExtra: {
-//             material,
-//             width: width || 0,
-//             height: height || 0,
-//             depth: depth || 0,
-//         }
-//     }
-//
-//     return cartData
-// }
+export const addToCartCustomPart = (values: CustomPartFormValuesType, product:CustomPart,roomId: MaybeUndefined<string>,) => {
+    const {
+        ['Width Number']: width,
+        ['Height Number']: height,
+        ['Depth Number']: depth,
+        ['Material']: material,
+        glass_door,
+        glass_shelf,
+        price,
+        ['Note']: note,
+        door_accessories,
+        led_accessories,
+        standard_door
+    } = values;
+
+    const {id, type, name, product_type} = product;
+
+    const cartData: CartItemType = {
+        _id: uuidv4(),
+        subcategory: type,
+        room: roomId || null,
+        price,
+        isStandardSize: true,
+        image_active_number: 1,
+        product_id: id,
+        product_type: "custom",
+        amount: 1,
+        width: width,
+        height: height,
+        depth: depth,
+        blind_width: 0,
+        middle_section: 0,
+        hinge: "",
+        corner: "",
+        options: [],
+        door_option: [],
+        shelf_option: [],
+        led_border: [],
+        led_alignment: '',
+        led_indent: '',
+        leather: '',
+        material: material,
+        note: note,
+        glass_door: glass_door,
+        glass_shelf: glass_shelf
+    }
+
+    if (type === 'led-accessories') {
+        cartData.led_accessories = led_accessories
+    }
+
+    if (type === 'door-accessories') {
+        cartData.door_accessories = door_accessories
+    }
+
+    if (type === 'standard-door' || type === 'standard-glass-door') {
+        cartData.standard_door = standard_door
+    }
+
+    return cartData
+}
 //
 // export const addToCartGlassDoor = (values: GlassDoorFormValuesType, id: number, image: string, name: string, category: productCategory) => {
 //     const {
@@ -622,8 +657,8 @@ export const isHasLedBlock = (category: productCategory): boolean => {
 //         amount: 1,
 //         note: values.Note,
 //         DoorExtra: {
-//             Doors: values['Doors'],
-//             Color: values['Color']
+//             Doors: valuesdoors,
+//             Color: valuescolor
 //         }
 //     }
 //     return cartData
@@ -880,6 +915,7 @@ export const getCartItem = (item: CartAPIResponse, room: RoomTypeAPI | RoomFront
 
     return {
         ...item,
+        subcategory: category,
         price: totalPrice,
         image_active_number,
         isStandardSize: getIsProductStandard(productRange, width, height, depth),
@@ -898,4 +934,12 @@ export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {
 export const getProductApiType = (category: productCategory, isProductStandard: boolean): ProductApiType => {
     if (category === 'Custom Parts') return 'custom'
     return isProductStandard ? 'standard' : 'cabinet'
+}
+
+export const getCartItemImg = (product:ProductType|CustomPart, image_active_number: productTypings):string => {
+    const {product_type, images} = product;
+    if (product_type === 'custom') {
+        return getImg('products/custom', images[0].value)
+    }
+    return getImg('products', images[image_active_number - 1].value)
 }

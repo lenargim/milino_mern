@@ -3,36 +3,39 @@ import {productExtraType} from "../../store/reducers/generalSlice";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
 import {Dimentions} from "./CartItem";
+import {CartItemType} from "../../api/apiFunctions";
 
-const CartItemProductExtra: FC<{ productExtra: productExtraType }> = ({productExtra}) => {
+const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
     const {
-        led,
-        blindWidth,
-        middleSection,
+        width,
+        depth,
+        height,
+        middle_section,
+        blind_width,
         hinge,
+        leather,
         options,
-        doorProfile,
-        doorGlassType,
-        doorGlassColor,
-        shelfProfile,
-        shelfGlassType,
-        shelfGlassColor,
-        width, height, depth, leather, corner
-    } = productExtra
+        corner,
+        door_option,
+        shelf_option,
+        led_border,
+        led_alignment,
+        led_indent
+    } = product
     return (
         <>
-            <Dimentions width={width} depth={depth} height={height} />
-            {blindWidth ?
+            <Dimentions width={width} depth={depth} height={height}/>
+            {blind_width ?
                 <div className={s.itemOption}>
                     <span>Blind Width:</span>
-                    <span>{getFraction(blindWidth)}</span>
+                    <span>{getFraction(blind_width)}</span>
                 </div>
                 : null}
 
-            {middleSection ?
+            {middle_section ?
                 <div className={s.itemOption}>
                     <span>Middle Section Height:</span>
-                    <span>{getFraction(middleSection)}</span>
+                    <span>{getFraction(middle_section)}</span>
                 </div> : null
             }
             {hinge ?
@@ -40,10 +43,10 @@ const CartItemProductExtra: FC<{ productExtra: productExtraType }> = ({productEx
                     <span>Hinge opening:</span>
                     <span>{hinge}</span>
                 </div> : null}
-            {led ?
+            {led_border.length ?
                 <div className={s.itemOption}>
                     <span>LED:</span>
-                    <span>{`${led.border.map(el => el)}. ${led.alignment} ${led.indent ? led.indent + '"' : ''}`}</span>
+                    <span>{`${led_border.map(el => el)}. ${led_alignment} ${led_indent ? led_indent + '"' : ''}`}</span>
                 </div> : null
             }
             {corner ?
@@ -65,17 +68,16 @@ const CartItemProductExtra: FC<{ productExtra: productExtraType }> = ({productEx
                     {options.includes('Glass Door') ?
                         <div className={s.itemOption}>
                             <span>Glass Door:</span>
-                            <span>{`${doorProfile}|${doorGlassType}|${doorGlassColor}`}</span>
+                            <span>{door_option.join('|')}</span>
                         </div> : null
                     }
 
                     {options.includes('Glass Shelf') ?
                         <div className={s.itemOption}>
                             <span>Glass Shelf:</span>
-                            <span>{`${shelfProfile}|${shelfGlassType}|${shelfGlassColor}`}</span>
+                            <span>{shelf_option.join('|')}</span>
                         </div> : null
                     }
-
 
                     {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
                         <div className={s.itemOption} key={index}>
@@ -88,4 +90,4 @@ const CartItemProductExtra: FC<{ productExtra: productExtraType }> = ({productEx
     )
 }
 
-export default CartItemProductExtra;
+export default CartItemProduct;

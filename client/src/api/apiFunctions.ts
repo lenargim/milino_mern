@@ -3,6 +3,11 @@ import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
 import {cornerTypes, hingeTypes, MaybeNull, ProductApiType, productTypings} from "../helpers/productTypes";
 import {MaterialsFormType} from "../common/MaterialsForm";
+import alumProfile, {alProfileType} from "../Components/CustomPart/AlumProfile";
+import golaProfile, {golaProfileType} from "../Components/CustomPart/GolaProfile";
+import {DoorAccessoiresType} from "../Components/CustomPart/DoorAccessoiresForm";
+import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
+import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -125,7 +130,13 @@ export type CartAPI = {
     led_alignment: string,
     led_indent: string,
     leather: string,
-    note: string
+    material: string,
+    note: string,
+    glass_door?: string[],
+    glass_shelf?: string,
+    led_accessories?: LEDAccessoriesType,
+    door_accessories?: DoorAccessoiresType,
+    standard_door?: DoorType
 }
 
 export interface CartAPIResponse extends CartAPI {
@@ -140,6 +151,7 @@ export interface CabinetItemType extends CartAPI {
 export interface CartItemType extends CabinetItemType {
     _id: string,
     room: MaybeNull<string>,
+    subcategory:string,
     price: number,
     isStandardSize: boolean,
 }

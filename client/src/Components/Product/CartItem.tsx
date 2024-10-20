@@ -1,6 +1,12 @@
 import React, {FC} from 'react';
 import {deleteItemFromCart, updateProductAmount} from "../../store/reducers/generalSlice";
-import {getFraction, getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {
+    getCartItemImg,
+    getCustomPartById,
+    getFraction,
+    getProductById,
+    useAppDispatch
+} from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {changeAmountType} from "./Cart";
 import CartItemOptions from "./CartItemOptions";
@@ -14,26 +20,28 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
         product_id,
         image_active_number,
         _id,
-        product_type
+        product_type,
     } = item;
     const dispatch = useAppDispatch();
-    const product = getProductById(product_id, product_type === 'standard');
+    const product = product_type !== 'custom'
+        ? getProductById(product_id, product_type === 'standard')
+        : getCustomPartById(product_id);
     if (!product) return null;
-    const {images, category, name} = product
-    const img = images[image_active_number - 1].value
+    const {name} = product;
+    // const img = images[image_active_number - 1].value
+
+    const img = getCartItemImg(product, image_active_number)
 
     function changeAmount(type: changeAmountType) {
         dispatch(updateProductAmount({_id: _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
-
-    const image = getImg(category === 'Custom Parts' ? 'products/custom' : 'products', img);
 
     return (
         <div className={s.cartItem} data-uuid={_id}>
             <div className={s.cartItemTop}>
                 {isCheckout ? null : <button onClick={() => dispatch(deleteItemFromCart(_id))} className={s.itemClose}
                                              type={"button"}>×</button>}
-                <img className={s.itemimg} src={image} alt={name}/>
+                <img className={s.itemimg} src={img} alt={name}/>
                 <div className={s.itemName}>{name}</div>
             </div>
 
@@ -46,7 +54,6 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
                   </div>
                 }
             </div>
-
 
             <div className={s.itemPriceBlock}>
                 <div className={s.itemSubPrice}>

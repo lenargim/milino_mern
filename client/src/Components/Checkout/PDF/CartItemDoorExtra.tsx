@@ -4,7 +4,7 @@ import {Text, View} from "@react-pdf/renderer";
 import {s} from "../PDF";
 
 const CartItemDoorExtra: FC<{ productExtra: DoorAccessoiresType }> = ({productExtra}) => {
-    const {aventos, PTO, ['Door Hinge']: doorHinge, ['Hinge Holes']: hingeHoles, servo} = productExtra
+    const {aventos, PTO, door_hinge: doorHinge, hinge_holes: hingeHoles, servo} = productExtra
     const aventArr = aventos.filter(el => el.qty > 0);
     const PTOArr = PTO.filter(el => el.qty > 0);
     const servoArr = servo.filter(el => el.qty > 0);

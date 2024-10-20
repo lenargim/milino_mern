@@ -10,23 +10,24 @@ import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import LEDForm from "./LEDForm";
 import DoorAccessoiresForm from "./DoorAccessoiresForm";
 import StandardDoorForm from "./StandardDoorForm";
+import {CustomPartFormValuesType} from "./CustomPart";
 export type CustomPartFormType = {
     product: CustomPart,
     isDepthIsConst: boolean
 }
-export type CustomPartFormValuesType = {
-    Width: string,
-    Height: string,
-    Depth: string,
-    ['Width Number']: number,
-    ['Height Number']: number,
-    ['Depth Number']: number,
-    Material: string,
-    Note: string,
-    price: number,
-    glass_door: string[],
-    glass_shelf: string
-}
+// export type CustomPartFormValuesType = {
+//     Width: string,
+//     Height: string,
+//     Depth: string,
+//     ['Width Number']: number,
+//     ['Height Number']: number,
+//     ['Depth Number']: number,
+//     Material: string,
+//     Note: string,
+//     price: number,
+//     glass_door: string[],
+//     glass_shelf: string
+// }
 
 
 export type HingeType = {
@@ -44,8 +45,8 @@ export type hingeHoleCustomType = {
 
 export type DoorAccessoiresType = {
     aventos: HingeType[],
-    ['Door Hinge']: number,
-    ['Hinge Holes']: number,
+    door_hinge: number,
+    hinge_holes: number,
     PTO: HingeType[],
     servo: HingeType[]
 
@@ -57,7 +58,7 @@ export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
 }
 
 const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
 
     const {
         Material: material,
@@ -93,9 +94,10 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) =>
         }
     }, [values])
 
-    if (type === 'led-accessories') return <LEDForm customPart={product} />
-    if (type === 'door-accessories') return <DoorAccessoiresForm customPart={product} />
-    if (type === 'standard-door' || type === 'standard-glass-door') return <StandardDoorForm customPart={product} />
+    // if (type === 'led-accessories') return <LEDForm customPart={product} />
+    // if (type === 'door-accessories') return <DoorAccessoiresForm customPart={product} />
+    // if (type === 'standard-door' || type === 'standard-glass-door') return <StandardDoorForm customPart={product} />
+
 
     return (
         <CustomPartLayout product={product} isDepthIsConst={isDepthIsConst} />

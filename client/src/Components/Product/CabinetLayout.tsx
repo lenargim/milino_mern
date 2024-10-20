@@ -19,7 +19,7 @@ import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
 import {productValuesType} from "../../helpers/helpers";
 import {
-    AttributesPrices, coefType,
+    coefType,
     getInitialPrice, getPriceForExtraDepth,
     getPriceForExtraHeight,
     getPriceForExtraWidth

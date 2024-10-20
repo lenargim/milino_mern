@@ -1,9 +1,11 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {DoorAccessoiresType} from "../CustomPart/DoorAccessoiresForm";
+import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CartItemDoorExtra: FC<{ productExtra: DoorAccessoiresType }> = ({productExtra}) => {
-    const {aventos, PTO, ['Door Hinge']:doorHinge, ['Hinge Holes']: hingeHoles, servo} = productExtra
+const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoiresType> }> = ({accessories}) => {
+    if (!accessories) return null;
+    const {aventos, PTO, door_hinge:doorHinge, hinge_holes: hingeHoles, servo} = accessories
     const aventArr = aventos.filter(el => el.qty > 0);
     const PTOArr = PTO.filter(el => el.qty > 0);
     const servoArr = servo.filter(el => el.qty > 0);
