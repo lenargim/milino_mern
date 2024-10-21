@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from './cabinets.module.sass'
 import {NavLink} from "react-router-dom";
 import {
-    getAttributes, getCartItemImg, getCustomParts,
+    getAttributes, getCustomParts,
     getImg, getImgSize,
     getProductImage,
     getProductsByCategory
@@ -47,10 +47,11 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
     const img = getProductImage(images, initialType);
     const imgSize = getImgSize(category);
 
+
     return (
         <NavLink to={`product/${category}/${id}`} className={s.item}
         >
-            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={img} alt={name}/></div>
+            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
             <div className={s.itemData}>
                 <div className={s.name}>{name}</div>
                 <AtrrsList attributes={attributes} type={initialType}/>
@@ -71,7 +72,6 @@ const Part: FC<{ product: customPartDataType }> = ({product}) => {
         </NavLink>
     )
 }
-
 
 export const AtrrsList: FC<{ attributes: attrItem[], type: productTypings }> = ({attributes, type}) => {
     const attrs = getAttributes(attributes, type);

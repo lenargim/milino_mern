@@ -1,7 +1,5 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {DoorAccessoiresType} from "../CustomPart/DoorAccessoiresForm";
-import {MaybeUndefined} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
 import {Dimentions} from "./CartItem";
 

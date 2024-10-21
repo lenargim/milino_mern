@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {productExtraType} from "../../store/reducers/generalSlice";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
 import {Dimentions} from "./CartItem";

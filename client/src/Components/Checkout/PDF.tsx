@@ -1,9 +1,19 @@
 import React, {FC} from 'react';
 import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
-import {getCartTotal, getImg, getProductById} from "../../helpers/helpers";
+import {
+    getCartItemImg,
+    getCartTotal,
+    getCustomPartById,
+    getImg,
+    getMaterialStrings,
+    getProductById
+} from "../../helpers/helpers";
 import logo from './../../assets/img/black-logo.jpg'
 import {CartItemType} from "../../api/apiFunctions";
+import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialStringsType} from "../../common/Materials";
+import CartItemOptions from "./PDF/CartItemOptions";
 
 export const s = StyleSheet.create({
     page: {
@@ -117,18 +127,19 @@ export const s = StyleSheet.create({
     h2: {
         fontSize: '14px',
         marginBottom: '5px'
+    },
+    non: {
+        fontSize: '14px',
+        color: 'red'
     }
 })
 
-type StrType = {
-    categoryStr: string | null,
-    doorStr: string | null,
-    boxMaterialStr: string | null,
-    drawerStr: string | null,
-    leatherStr: string | null,
-}
 
-const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) => (
+const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: MaterialStringsType }> = ({
+                                                                                                           values,
+                                                                                                           cart,
+                                                                                                           materialStrings
+                                                                                                       }) => (
     <Document language="en">
         <Page orientation="landscape" style={s.page}>
             <Image style={s.logo} src={logo}/>
@@ -138,12 +149,12 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) 
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>
             </View>
-            {/*<View>*/}
-            {/*    <Text>Door: {str.doorStr}</Text>*/}
-            {/*    <Text>Box Material: {str.boxMaterialStr}</Text>*/}
-            {/*    <Text>Drawer: {str.drawerStr}</Text>*/}
-            {/*    {str.leatherStr ? <Text>Leather: {str.leatherStr}</Text> : null}*/}
-            {/*</View>*/}
+            <View>
+                <Text>Door: {materialStrings.doorString}</Text>
+                <Text>Box Material: {materialStrings.box_material}</Text>
+                <Text>Drawer: {materialStrings.drawerString}</Text>
+                {materialStrings.leather ? <Text>Leather: {materialStrings.leather}</Text> : null}
+            </View>
         </Page>
         <Page orientation="landscape" style={s.page}>
             <View style={s.table}>
@@ -155,21 +166,24 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[]}> = ({values, cart}) 
                     <View style={s.th4}><Text>Product total</Text></View>
                 </View>
                 {cart.map((el, index) => {
-                    const product = getProductById(el.product_id,el.product_type === 'standard');
+                    const {product_id, product_type, image_active_number, isStandardSize} = el;
+                    const product = product_type !== 'custom'
+                        ? getProductById(product_id, product_type === 'standard')
+                        : getCustomPartById(product_id);
                     if (!product) return;
-                    const {category, images, name} = product;
-                    const img = images[el.image_active_number - 1].value;
-                    const image = getImg(category === 'Custom Parts' ? 'products-checkout/custom' : 'products-checkout', img);
+                    const {name} = product;
+                    const img = getCartItemImg(product, image_active_number)
                     return (
                         <View wrap={false} style={s.cartItem} key={index}>
                             <View style={s.th0}><Text>{++index}</Text></View>
                             <View style={s.img}>
-                                <Image src={image}/>
+                                <Image src={img}/>
                             </View>
                             <View style={s.data}>
                                 <Text style={s.itemName}>{name}</Text>
-                                <Text style={s.category}>{category}</Text>
-                                {/*<CartItemOptions el={el}/>*/}
+                                {/*<Text style={s.category}>{category}</Text>*/}
+                                {!isStandardSize && <Text style={s.non}>Non-standard size</Text>}
+                                <CartItemOptions item={el}/>
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}
                             </View>
                             <View style={s.itemPrice}>

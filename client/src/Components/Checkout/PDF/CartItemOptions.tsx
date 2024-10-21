@@ -1,38 +1,26 @@
 import React, {FC} from "react";
-// import CartItemProductExtra from "./CartItemProductExtra";
-// import CartItemCustomExtra from "./CartItemCustomExtra";
-// import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
-// import CartItemPVCExtra from "./CartItemPVCExtra";
-// import CartItemLEDExtra from "./CartItemLEDExtra";
-// import CartItemDoorExtra from "./CartItemDoorExtra";
-// import CartItemShelfExtra from "./CartItemShelfExtra";
+import CartItemProductExtra from "./CartItemProduct";
+import CartItemCustom from "./CartItemCustom";
+import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
+import CartItemPVCExtra from "./CartItemPVCExtra";
+import CartItemLEDExtra from "./CartItemLEDExtra";
+import CartItemDoorExtra from "./CartItemDoorExtra";
+import CartItemShelfExtra from "./CartItemShelfExtra";
 // import CartItemDoor from "./CartItemDoor";
-// import {View} from "@react-pdf/renderer";
-// import {CartItemType} from "../../../api/apiFunctions";
+import {View} from "@react-pdf/renderer";
+import {CartItemType} from "../../../api/apiFunctions";
+import CartItemProduct from "./CartItemProduct";
 
-// const CartItemOptions: FC<{ el: CartItemType }> = ({el}) => {
-//     const {
-        // productExtra,
-        // customPartExtra,
-        // PVCExtra,
-        // LEDAccessories,
-        // DoorAccessories,
-        // glassDoorExtra,
-        // glassShelfExtra,
-        // DoorExtra
-    // } = el;
-    // return (
-    //     <View>
-    //         {/*{productExtra && <CartItemProductExtra productExtra={productExtra}/>}*/}
-    //         {/*{customPartExtra && <CartItemCustomExtra productExtra={customPartExtra}/>}*/}
-    //         {/*{glassDoorExtra && <CartItemGlassDoorExtra glassDoorExtra={glassDoorExtra}/>}*/}
-    //         {/*{PVCExtra && <CartItemPVCExtra productExtra={PVCExtra}/>}*/}
-    //         {/*{LEDAccessories && <CartItemLEDExtra productExtra={LEDAccessories}/>}*/}
-    //         {/*{DoorAccessories && <CartItemDoorExtra productExtra={DoorAccessories}/>}*/}
-    //         {/*{glassShelfExtra && <CartItemShelfExtra productExtra={glassShelfExtra} />}*/}
-    //         {/*{DoorExtra && <CartItemDoor productExtra={DoorExtra?? ''} />}*/}
-        // </View>
-    // )
-// }
+const CartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
+    const {product_type} = item;
 
-// export default CartItemOptions
+    switch (product_type) {
+        case "cabinet":
+        case "standard":
+            return <View><CartItemProduct product={item}/></View>
+        default:
+            return <View><CartItemCustom product={item}/></View>
+    }
+}
+
+export default CartItemOptions

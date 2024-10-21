@@ -16,7 +16,6 @@ const CartItemOptions:FC<{item: CartItemType}> = ({item}) => {
     const {
         product_type
     } = item;
-
     switch (product_type) {
         case "cabinet":
         case "standard":

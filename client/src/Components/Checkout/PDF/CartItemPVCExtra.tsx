@@ -1,15 +1,15 @@
 import React, {FC} from "react";
-import {PVCExtraType} from "../../../store/reducers/generalSlice";
 import {Text, View} from '@react-pdf/renderer';
-import {s} from "../PDF";
+import {CartItemType} from "../../../api/apiFunctions";
+import {s} from '../PDF'
 
-const CartItemPvcExtra: FC<{ productExtra: PVCExtraType }> = ({productExtra}) => {
-    const {material, pvcFeet} = productExtra;
+const CartItemPvcExtra: FC<{ product: CartItemType }> = ({product}) => {
+    const {material, width} = product;
 
     return (
         <>
-            {pvcFeet && <View style={s.itemOption}>
-              <Text>Width: {pvcFeet} ft.</Text>
+            {width && <View style={s.itemOption}>
+              <Text>Width: {width} ft.</Text>
             </View>}
             {material &&
               <View style={s.itemOption}>

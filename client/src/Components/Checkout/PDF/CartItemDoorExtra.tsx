@@ -1,10 +1,12 @@
 import React, {FC} from "react";
 import {DoorAccessoiresType} from "../../CustomPart/DoorAccessoiresForm";
 import {Text, View} from "@react-pdf/renderer";
-import {s} from "../PDF";
+import {MaybeUndefined} from "../../../helpers/productTypes";
+import {s} from '../PDF'
 
-const CartItemDoorExtra: FC<{ productExtra: DoorAccessoiresType }> = ({productExtra}) => {
-    const {aventos, PTO, door_hinge: doorHinge, hinge_holes: hingeHoles, servo} = productExtra
+const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoiresType> }> = ({accessories}) => {
+    if (!accessories) return null;
+    const {aventos, PTO, door_hinge:doorHinge, hinge_holes: hingeHoles, servo} = accessories
     const aventArr = aventos.filter(el => el.qty > 0);
     const PTOArr = PTO.filter(el => el.qty > 0);
     const servoArr = servo.filter(el => el.qty > 0);

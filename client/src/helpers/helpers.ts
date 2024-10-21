@@ -34,7 +34,6 @@ import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
-import React from "react";
 import {CustomPartFormValuesType} from "../Components/CustomPart/CustomPart";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
@@ -43,6 +42,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const getImg = (folder: string, img: string = ''): string => {
     if (!folder || !img) return noImg;
     try {
+        // console.log(`./../assets/img/${folder}/${img}`)
         return require(`./../assets/img/${folder}/${img}`)
     } catch (e) {
         return noImg
@@ -941,5 +941,6 @@ export const getCartItemImg = (product:ProductType|CustomPart, image_active_numb
     if (product_type === 'custom') {
         return getImg('products/custom', images[0].value)
     }
+
     return getImg('products', images[image_active_number - 1].value)
 }
