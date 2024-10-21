@@ -701,7 +701,7 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
 }
 
 
-export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, finishMaterial: string, profile: MaybeNull<number> = null): number => {
+export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, finishMaterial: MaybeUndefined<string>, profile: MaybeNull<number> = null): number => {
     const area = width * height / 144;
     switch (id) {
         case 900:

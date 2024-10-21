@@ -1,18 +1,21 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../Product/Cart";
-import {getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {getCartItemImg, getCustomPartById, getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
 import {removeFromCartInRoom, updateCartAmountInRoom} from "../../store/reducers/roomSlice";
 import RoomCartItemOptions from "./RoomCartItemOptions";
+import CartItemOptions from "../Product/CartItemOptions";
 
 const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
     const dispatch = useAppDispatch()
-    const {amount, note, _id, room, price, image_active_number,} = item
-    const productAPI = getProductById(item.product_id, item.product_type === 'standard');
+    const {amount, note, _id, room, price, image_active_number, product_id, product_type} = item
+    const productAPI = product_type !== 'custom'
+        ? getProductById(product_id, product_type === 'standard')
+        : getCustomPartById(product_id);
     if (!productAPI || !room) return null;
-    const {category, images, name} = productAPI
-    const img = images[image_active_number-1].value
+    const { name} = productAPI
+    const img = getCartItemImg(productAPI, image_active_number)
     function changeAmount(type: changeAmountType) {
         updateProductAmountAPI(_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
             if (cart) {
@@ -20,7 +23,6 @@ const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
             }
         })
     }
-    const image = getImg(category === 'Custom Parts' ? 'products/custom' : 'products', img);
 
     return (
         <div className={s.cartItem} data-uuid={_id}>
@@ -30,12 +32,12 @@ const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
                 })} className={s.itemClose}
                         type={"button"}>×
                 </button>
-                <img className={s.itemimg} src={image} alt={name}/>
+                <img className={s.itemimg} src={img} alt={name}/>
                 <div className={s.itemName}>{name}</div>
             </div>
 
             <div>
-                <RoomCartItemOptions item={item}/>
+                <CartItemOptions item={item}/>
                 {note &&
                   <div className={s.itemOption}>
                     <span>Note:</span>

@@ -11,7 +11,6 @@ import CartItemDoor from "./CartItemDoor";
 
 const CartItemCustom: FC<{ product: CartItemType }> = ({product}) => {
     const {material, width, height, depth, door_accessories, subcategory, led_accessories, standard_door} = product;
-
     switch (subcategory) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product}/>

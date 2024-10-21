@@ -7,8 +7,7 @@ import {v4 as uuidv4} from "uuid";
 import AlumProfile, {alProfileType} from "./AlumProfile";
 import GolaProfile, {golaProfileType} from "./GolaProfile";
 import NumberPart from "./NumberPart";
-import {addToCart} from "../../store/reducers/generalSlice";
-import {CustomPart, customPartDataType} from "../../helpers/productTypes";
+import {CustomPart} from "../../helpers/productTypes";
 import {CustomPartFormValuesType} from "./CustomPart";
 
 
@@ -22,13 +21,12 @@ export type LEDAccessoriesType = {
 }
 
 const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
-    const dispatch = useAppDispatch();
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
 
     useEffect(() => {
-        const newPrice = getPrice(led_accessories)
+        const newPrice = getLEDProductPrice(led_accessories)
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
@@ -38,7 +36,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
         switch (field) {
             case 'led_alum_profiles':
                 setFieldValue('led_accessories.led_alum_profiles', [...led_alum_profiles, {
-                    uuid: uuidv4(),
+                    _id: uuidv4(),
                     length: '',
                     ['length Number']: 0,
                     qty: 1
@@ -46,7 +44,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
                 break;
             case 'led_gola_profiles':
                 setFieldValue('led_accessories.led_gola_profiles', [...led_gola_profiles, {
-                    uuid: uuidv4(),
+                    _id: uuidv4(),
                     length: '',
                     ['length Number']: 0,
                     color: 'Black',
@@ -62,7 +60,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
                 <h3>LED Aluminum Profile</h3>
                 {led_alum_profiles.length
                     ? led_alum_profiles.map((profile, index) => <AlumProfile
-                        key={profile.uuid}
+                        key={profile._id}
                         profile={profile}
                         index={index}
                     />)
@@ -78,7 +76,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
                     ? led_gola_profiles.map((profile, index) => <GolaProfile
                         profile={profile}
                         index={index}
-                        key={profile.uuid}
+                        key={profile._id}
                     />)
                     : null}
                 <button type="button" className={['button yellow small'].join(' ')}
@@ -109,7 +107,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
 export default LEDForm;
 
 
-const getPrice = (values: LEDAccessoriesType): number => {
+export const getLEDProductPrice = (values: LEDAccessoriesType): number => {
     const {
         led_alum_profiles,
         led_gola_profiles,

@@ -5,7 +5,7 @@ import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
 
 export type alProfileType = {
-    uuid: string,
+    _id: string,
     length: string,
     ['length Number']: number,
     qty: number
@@ -13,10 +13,10 @@ export type alProfileType = {
 
 const AlumProfile: FC<{ profile: alProfileType, index: number }> = ({profile, index}) => {
     const [{value}, , {setValue}] = useField<alProfileType[]>('led_accessories.led_alum_profiles')
-    const {qty, uuid} = profile;
+    const {qty, _id} = profile;
 
-    const deleteAlItem = (uuid: string) => {
-        const newArr = value.filter(profile => profile.uuid !== uuid)
+    const deleteAlItem = (_id: string) => {
+        const newArr = value.filter(profile => profile._id !== _id)
         setValue(newArr)
     };
 
@@ -28,7 +28,7 @@ const AlumProfile: FC<{ profile: alProfileType, index: number }> = ({profile, in
     }
     return (
         <div className={s.row}>
-            <button onClick={() => deleteAlItem(uuid)} className={s.close} type={"button"}>×</button>
+            <button onClick={() => deleteAlItem(_id)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length" value={null}
                                 name={`[led_accessories.led_alum_profiles].${index}.length`}/>
             <div className={s.row}>×

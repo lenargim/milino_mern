@@ -2,12 +2,19 @@ import React, {FC} from 'react';
 import {glassDoorExtraType} from "../../store/reducers/generalSlice";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType} from "../../api/apiFunctions";
+import {Dimentions} from "./CartItem";
 
 const CartItemGlassDoorExtra: FC<{ product: CartItemType }> = ({product}) => {
-    const {glass_door} = product
+    const {glass_door,width, height, depth, material} = product
     if (!glass_door) return null;
     return (
         <>
+            <Dimentions width={width} depth={depth} height={height}/>
+            {material &&
+              <div className={s.itemOption}>
+                <span>Material:</span>
+                <span>{material}</span>
+              </div>}
             {glass_door[0] &&
               <div className={s.itemOption}>
                 <span>Door Profile: </span>

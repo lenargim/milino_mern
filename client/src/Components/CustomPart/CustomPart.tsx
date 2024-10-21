@@ -15,13 +15,12 @@ import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLeft from "./CustomPartLeft";
 import {addToCart} from "../../store/reducers/generalSlice";
 import LEDForm, {LEDAccessoriesType} from "./LEDForm";
-import {golaProfileType} from "./GolaProfile";
-import {alProfileType} from "./AlumProfile";
 import DoorAccessoiresForm, {DoorAccessoiresType} from "./DoorAccessoiresForm";
 import StandardDoorForm, {DoorType} from "./StandardDoorForm";
+import {addToCartInRoomAPI} from "../../api/apiFunctions";
+import {updateCartInRoom} from "../../store/reducers/roomSlice";
 
 type CustomPartFormType = {
-    // customPart: customPartDataType,
     materials: MaybeNull<MaterialsFormType>
 }
 export type CustomPartFormValuesType = {
@@ -66,19 +65,19 @@ const initialDoorAccessoires: DoorAccessoiresType = {
     hinge_holes: 0,
     PTO: [
         {
-            title: 'Doors',
+            title: 'PTO_door',
             label: 'For Doors',
             qty: 0,
             price: 30
         },
         {
-            title: 'Drawers',
+            title: 'PTO_drawer',
             label: 'For Drawers',
             qty: 0,
             price: 80
         },
         {
-            title: 'Trash Bins',
+            title: 'PTO_trashbin',
             label: 'For Trash Bins',
             qty: 0,
             price: 350
@@ -167,7 +166,13 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
                 if (!customPart) return;
                 const cartData = addToCartCustomPart(values, customPart, undefined)
-                dispatch(addToCart(cartData))
+                if (roomId) {
+                    addToCartInRoomAPI(cartData, roomId).then(cart => {
+                        if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
+                    })
+                } else {
+                    dispatch(addToCart(cartData))
+                }
                 resetForm();
             }}
         >

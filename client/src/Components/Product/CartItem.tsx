@@ -28,10 +28,7 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
         : getCustomPartById(product_id);
     if (!product) return null;
     const {name} = product;
-    // const img = images[image_active_number - 1].value
-
     const img = getCartItemImg(product, image_active_number)
-
     function changeAmount(type: changeAmountType) {
         dispatch(updateProductAmount({_id: _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }

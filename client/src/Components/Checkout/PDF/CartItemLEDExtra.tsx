@@ -18,14 +18,14 @@ const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> 
             {alumProfiles.length ?
                 <View style={s.itemOption}>
                     <Text>LED Aluminum Profiles: {alumProfiles.map(profile =>
-                        <Text key={profile.uuid}>{profile.length}'' x {profile.qty}</Text>
+                        <Text key={profile._id}>{profile.length}'' x {profile.qty}</Text>
                     )}</Text>
                 </View>
                 : null}
             {golaProfiles.length ?
                 <View style={s.itemOption}>
                     <Text>LED Gola Profiles: {golaProfiles.map(profile =>
-                        <Text key={profile.uuid}>{profile.length}'' x {profile.qty} - {profile.color}</Text>
+                        <Text key={profile._id}>{profile.length}'' x {profile.qty} - {profile.color}</Text>
                     )}</Text>
                 </View>
                 : null}

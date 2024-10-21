@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {LEDAccessoriesType} from "../CustomPart/LEDForm";
 import {MaybeUndefined} from "../../helpers/productTypes";
-// import {LEDAccessoriesType} from "../CustomPart/LEDForm";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 
 const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> = ({accessories}) => {
@@ -13,13 +12,14 @@ const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> 
         dimmable_remote: dimRemote,
         transformer: transformer,
     } = accessories
+    console.log(alumProfiles)
     return (
         <>
             {alumProfiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
                     <span>{alumProfiles.map(profile =>
-                        <span className={s.profileItem} key={profile.uuid}>{profile.length}'' x {profile.qty}</span>
+                        <span className={s.profileItem} key={profile._id}>{profile.length}'' x {profile.qty}</span>
                     )}</span>
                 </div>
                 : null}
@@ -28,7 +28,7 @@ const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> 
                     <span>LED Gola Profiles:</span>
                     <span>{golaProfiles.map(profile =>
                         <span className={s.profileItem}
-                              key={profile.uuid}>{profile.length}'' x {profile.qty} - {profile.color}</span>
+                              key={profile._id}>{profile.length}'' x {profile.qty} - {profile.color}</span>
                     )}</span>
                 </div>
                 : null}

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helpers/productTypes";
 import {CartAPIResponse, CartItemType} from "../../api/apiFunctions";
-import {getCartArrFront, getCartItem, getRoomFront} from "../../helpers/helpers";
+import {getCartArrFront, getCartItemCustomPart, getCartItemProduct, getRoomFront} from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export interface RoomTypeAPI extends MaterialsFormType {
@@ -75,7 +75,7 @@ export const roomSlice = createSlice({
                 return room._id === action.payload.room ?
                     {
                         ...room, cart: cart.map((item) => {
-                            const newItem = getCartItem(action.payload, room);
+                            const newItem = item.product_type === 'custom' ? getCartItemCustomPart(action.payload, room) : getCartItemProduct(action.payload, room);
                             return item._id === action.payload._id && newItem ? newItem : item
                         })
                     }

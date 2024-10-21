@@ -9,7 +9,7 @@ import styles from "../../common/Form.module.sass";
 type colorOption = 'Black' | 'White';
 
 export type golaProfileType = {
-    uuid: string,
+    _id: string,
     length: string,
     ['length Number']: number,
     color:  colorOption,
@@ -19,10 +19,10 @@ const colorsArr:colorOption[] = ['Black', 'White']
 
 const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, index}) => {
     const [{value}, , {setValue}] = useField<golaProfileType[]>('led_accessories.led_gola_profiles')
-    const {qty, uuid, color} = profile;
+    const {qty, _id, color} = profile;
 
-    const deleteItem = (uuid: string) => {
-        const newArr = value.filter(profile => profile.uuid !== uuid)
+    const deleteItem = (_id: string) => {
+        const newArr = value.filter(profile => profile._id !== _id)
         setValue(newArr)
     };
     const changeAmount = (type: changeAmountType) => {
@@ -35,7 +35,7 @@ const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, 
 
     return (
         <div className={s.row}>
-            <button onClick={() => deleteItem(uuid)} className={s.close} type={"button"}>×</button>
+            <button onClick={() => deleteItem(_id)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length" value={null}
                                 name={`[led_accessories.led_gola_profiles].${index}.length`}/>
             <div className={s.row}>
