@@ -8,13 +8,6 @@ export function getPVCSchema(materialsRange: materialsCustomPart[] | undefined, 
     const schemaMain = Yup.object({
         'Width': Yup.string()
             .required('Please wright down width')
-            // .typeError('Invalid Input: numbers please')
-            // .test("is-decimal",
-            //     "Maximum two digits after comma",
-            //     (val: any) => {
-            //         return val !== undefined ? patterntwodigisaftercomma.test(val) : true
-            //     })
-
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {

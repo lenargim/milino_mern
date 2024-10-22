@@ -78,17 +78,6 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'Shelf Glass Type': '',
         'Shelf Glass Color': '',
         image_active_number: 1,
-        // cartExtras: {
-        //     ptoDoors: 0,
-        //     ptoDrawers: 0,
-        //     glassShelf: 0,
-        //     glassDoor: 0,
-        //     ptoTrashBins: 0,
-        //     ledPrice: 0,
-        //     coefExtra: 1,
-        //     attributes: [],
-        //     boxFromFinishMaterial: false
-        // },
         price: 0,
     }
     return (

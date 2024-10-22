@@ -1,19 +1,15 @@
 import React, {FC, useEffect} from 'react';
-import {FieldArray, Form, Formik, useField, useFormikContext} from 'formik';
+import {FieldArray, Form, useField, useFormikContext } from 'formik';
 import {
     getSelectDoorVal,
     getSelectValfromVal,
-    useAppDispatch
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {v4 as uuidv4} from "uuid";
-import {CustomPart, customPartDataType} from "../../helpers/productTypes";
+import {CustomPart} from "../../helpers/productTypes";
 import {changeAmountType} from "../Product/Cart";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
-import {StandardDoorSchema} from "./standardDoorSchema";
-import {addToCart} from "../../store/reducers/generalSlice";
 import settings from './../../api/settings.json'
 import {CustomPartFormValuesType} from "./CustomPart";
 

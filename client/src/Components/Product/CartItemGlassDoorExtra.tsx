@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {glassDoorExtraType} from "../../store/reducers/generalSlice";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType} from "../../api/apiFunctions";
 import {Dimentions} from "./CartItem";

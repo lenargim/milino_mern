@@ -161,8 +161,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         if (cart.length) {
             checkCartData(cart, values,dispatch);
         }
-
-
     }, [values]);
     return (
         <Form className={s.roomForm}>

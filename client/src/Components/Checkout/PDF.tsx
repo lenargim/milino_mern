@@ -5,13 +5,10 @@ import {
     getCartItemImg,
     getCartTotal,
     getCustomPartById,
-    getImg,
-    getMaterialStrings,
     getProductById
 } from "../../helpers/helpers";
 import logo from './../../assets/img/black-logo.jpg'
 import {CartItemType} from "../../api/apiFunctions";
-import {MaterialsFormType} from "../../common/MaterialsForm";
 import {MaterialStringsType} from "../../common/Materials";
 import CartItemOptions from "./PDF/CartItemOptions";
 

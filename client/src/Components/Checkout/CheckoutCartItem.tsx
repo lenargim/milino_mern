@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
 import {updateProductAmount} from "../../store/reducers/generalSlice";
-import {getCartItemImg, getCustomPartById, getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
 import {changeAmountType} from "../Product/Cart";
 import {CartItemType} from "../../api/apiFunctions";
 import CartItemOptions from "../Product/CartItemOptions";

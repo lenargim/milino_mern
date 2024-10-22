@@ -11,7 +11,6 @@ export type colorOption = 'Black' | 'White';
 export type golaProfileType = {
     _id: string,
     length: number,
-    // ['length Number']: number,
     color:  colorOption,
     qty: number,
 }
@@ -27,7 +26,7 @@ const colorsArr:colorOption[] = ['Black', 'White']
 
 const GolaProfile: FC<{ profile: golaProfileFormType, index: number }> = ({profile, index}) => {
     const [{value}, , {setValue}] = useField<golaProfileType[]>('led_accessories.led_gola_profiles')
-    const {qty, _id, color} = profile;
+    const {qty, _id} = profile;
 
     const deleteItem = (_id: string) => {
         const newArr = value.filter(profile => profile._id !== _id)

@@ -9,13 +9,8 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         options,
         blind_width,
         width,
-        room,
-        image_active_number,
         door_option,
         shelf_option,
-        _id,
-        price,
-        note,
         hinge,
         leather,
         corner,
@@ -25,10 +20,6 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         led_alignment,
         led_indent,
         middle_section,
-        amount,
-        product_id,
-        product_type,
-        isStandardSize
     } = item
     return (
         <>

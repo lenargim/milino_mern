@@ -16,7 +16,7 @@ function prepareToSelectField(arr: string[]): optionType[] {
 }
 
 const GlassShelfBlock: FC<{ product: CustomPart }> = ({product}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values} = useFormikContext<CustomPartFormValuesType>();
     const {glass_shelf} = product
     if (!glass_shelf) return <>Glass Door error</>
     const {

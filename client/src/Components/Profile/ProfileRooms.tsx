@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
-import {NavLink, Outlet, useNavigate} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {getAllRooms} from "../../api/apiFunctions";
 import {getRooms} from "../../store/reducers/roomSlice";
@@ -10,16 +10,14 @@ import RoomSidebar from "./RoomSidebar";
 const ProfileRooms: FC = () => {
     const {rooms} = useAppSelector(state => state.room);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         getAllRooms().then(data => {
             if (data) {
                 dispatch(getRooms(data))
             }
-            // if (!rooms.length) navigate('/profile/rooms/new');
         })
-    }, []);
+    },[]);
 
     return (
         <div className={s.rooms}>

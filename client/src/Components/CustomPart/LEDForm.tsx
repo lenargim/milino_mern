@@ -1,13 +1,11 @@
-import {Form, Formik, useFormikContext} from 'formik';
+import {Form, useFormikContext} from 'formik';
 import React, {FC, useEffect} from 'react';
-import {addToCartCustomPart, useAppDispatch} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {v4 as uuidv4} from "uuid";
 import AlumProfile, {alProfileType} from "./AlumProfile";
 import GolaProfile, {golaProfileType} from "./GolaProfile";
 import NumberPart from "./NumberPart";
-import {CustomPart} from "../../helpers/productTypes";
 import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
 
 
@@ -21,7 +19,7 @@ export type LEDAccessoriesType = {
 }
 
 
-const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
+const LEDForm: FC = () => {
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories

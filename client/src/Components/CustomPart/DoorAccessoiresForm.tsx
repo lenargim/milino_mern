@@ -2,13 +2,12 @@ import {Form, useFormikContext} from 'formik';
 import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPart} from "../../helpers/productTypes";
 import NumberPartArrayItem from "./NumberPartArrayItem";
-import {CustomPartFormValuesType, DoorAccessoireAPIType, DoorAccessoireType} from "./CustomPart";
+import {CustomPartFormValuesType, DoorAccessoireAPIType} from "./CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
 
 
-const DoorAccessoiresForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
+const DoorAccessoiresForm: FC = () => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
     const {door_accessories, price} = values;
     const aventos = door_accessories.filter(el => el.filter === 'aventos');

@@ -6,41 +6,41 @@ import s from "../OrderForm/Sidebar/sidebar.module.sass";
 const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> = ({accessories}) => {
     if (!accessories) return null;
     const {
-        led_alum_profiles: alumProfiles,
-        led_gola_profiles: golaProfiles,
-        door_sensor: doorSensor,
-        dimmable_remote: dimRemote,
-        transformer: transformer,
+        led_alum_profiles,
+        led_gola_profiles,
+        door_sensor,
+        dimmable_remote,
+        transformer
     } = accessories
     return (
         <>
-            {alumProfiles.length ?
+            {led_alum_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
-                    <span>{alumProfiles.map(profile =>
+                    <span>{led_alum_profiles.map(profile =>
                         <span className={s.profileItem} key={profile._id}>{profile.length}'' x {profile.qty}</span>
                     )}</span>
                 </div>
                 : null}
-            {golaProfiles.length ?
+            {led_gola_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Gola Profiles:</span>
-                    <span>{golaProfiles.map(profile =>
+                    <span>{led_gola_profiles.map(profile =>
                         <span className={s.profileItem}
                               key={profile._id}>{profile.length}'' x {profile.qty} - {profile.color}</span>
                     )}</span>
                 </div>
                 : null}
-            {doorSensor ?
+            {door_sensor ?
                 <div className={s.itemOption}>
                     <span>Door Sensor:</span>
-                    <span>{doorSensor}</span>
+                    <span>{door_sensor}</span>
                 </div>
                 : null}
-            {dimRemote ?
+            {dimmable_remote ?
                 <div className={s.itemOption}>
                     <span>Dimmable Remote:</span>
-                    <span>{dimRemote}</span>
+                    <span>{dimmable_remote}</span>
                 </div>
                 : null}
             {transformer ?
