@@ -1,4 +1,3 @@
-
 import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 
@@ -51,7 +50,7 @@ export const roomsAPI = {
 }
 
 export const cartAPI = {
-    addToCart: (cart:any, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
+    addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
     updateAmount: ( _id:string,amount:number) => instance.patch<CartAPIResponse>(`/api/cart/${_id}`, {amount:amount},  {headers: getHeaders()}),
     remove: (_id:string) => instance.delete(`/api/cart/${_id}`,{headers: getHeaders()}),
 }

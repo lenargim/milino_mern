@@ -6,12 +6,18 @@ import {ProductInputCustom} from "../../common/Form";
 
 export type alProfileType = {
     _id: string,
+    length: number,
+    qty: number
+}
+
+export type alProfileFormType = {
+    _id: string,
     length: string,
     ['length Number']: number,
     qty: number
 }
 
-const AlumProfile: FC<{ profile: alProfileType, index: number }> = ({profile, index}) => {
+const AlumProfile: FC<{ profile: alProfileFormType, index: number }> = ({profile, index}) => {
     const [{value}, , {setValue}] = useField<alProfileType[]>('led_accessories.led_alum_profiles')
     const {qty, _id} = profile;
 

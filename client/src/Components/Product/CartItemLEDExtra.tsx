@@ -12,7 +12,6 @@ const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> 
         dimmable_remote: dimRemote,
         transformer: transformer,
     } = accessories
-    console.log(alumProfiles)
     return (
         <>
             {alumProfiles.length ?

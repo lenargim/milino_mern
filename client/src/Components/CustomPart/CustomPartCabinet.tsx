@@ -29,34 +29,6 @@ export type CustomPartFormType = {
 //     glass_shelf: string
 // }
 
-
-export type HingeType = {
-    title: string,
-    label: string,
-    qty: number,
-    price: number
-}
-
-export type hingeHoleCustomType = {
-    title: string,
-    qty: number,
-    price: 6
-}
-
-export type DoorAccessoiresType = {
-    aventos: HingeType[],
-    door_hinge: number,
-    hinge_holes: number,
-    PTO: HingeType[],
-    servo: HingeType[]
-
-}
-
-export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
-    price: number,
-    Note: string,
-}
-
 const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) => {
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
 

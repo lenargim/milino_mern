@@ -44,7 +44,7 @@ const StandardDoorForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
     const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
 
     useEffect(() => {
-        const newPrice = getPrice(standard_door, type);
+        const newPrice = getCustomPartStandardDoorPrice(standard_door, type);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
@@ -92,7 +92,7 @@ const StandardDoorForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
 
 export default StandardDoorForm;
 
-const getPrice = (values: DoorType, name: string): number => {
+export const getCustomPartStandardDoorPrice = (values: DoorType, name: string): number => {
     const {doors: doorsArr, color} = values;
     const glassPrice: number = name !== 'standard-door' ? 10 : 0;
     const colorPrice: number = color !== 'White' ? 30 : 0;

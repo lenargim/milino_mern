@@ -1,52 +1,46 @@
 import React, {FC} from "react";
-import {DoorAccessoiresType} from "../../CustomPart/DoorAccessoiresForm";
 import {Text, View} from "@react-pdf/renderer";
 import {MaybeUndefined} from "../../../helpers/productTypes";
 import {s} from '../PDF'
+import {DoorAccessoireAPIType} from "../../CustomPart/CustomPart";
+import {splitFrontDoorAccessories} from "../../Product/CartItemDoorExtra";
 
-const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoiresType> }> = ({accessories}) => {
+const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoireAPIType[]> }> = ({accessories}) => {
     if (!accessories) return null;
-    const {aventos, PTO, door_hinge:doorHinge, hinge_holes: hingeHoles, servo} = accessories
-    const aventArr = aventos.filter(el => el.qty > 0);
-    const PTOArr = PTO.filter(el => el.qty > 0);
-    const servoArr = servo.filter(el => el.qty > 0);
+    const front = splitFrontDoorAccessories(accessories);
+    const {aventos, PTO, hinge, servo} = front;
     return (
         <View style={s.blocks}>
-            {aventArr.length ? <View>
+            {aventos.length ? <View>
                 <Text style={s.h2}>Aventos:</Text>
-                {aventArr.map((el, index) =>
+                {aventos.map((el, index) =>
                     <Text style={s.itemOption} key={index}>
                         <Text>{el.label}: {el.price}$ x {el.qty}</Text>
                     </Text>
                 )}
             </View> : null}
 
-            <View>
-                {doorHinge ?
-                    <View style={s.itemOption}>
-                        <Text>Door Hinge: {doorHinge}</Text>
-                    </View>
-                    : null}
+            {hinge.length ? <View>
+                <Text style={s.h2}>Hinge:</Text>
+                {hinge.map((el, index) =>
+                    <Text style={s.itemOption} key={index}>
+                        <Text>{el.label}: {el.price}$ x {el.qty}</Text>
+                    </Text>
+                )}
+            </View> : null}
 
-                {hingeHoles ?
-                    <View style={s.itemOption}>
-                        <Text>Hinge Holes: {hingeHoles}</Text>
-                    </View>
-                    : null}
-            </View>
-
-            {PTOArr.length ? <View>
+            {PTO.length ? <View>
                 <Text style={s.h2}>Push to Open:</Text>
-                {PTOArr.map((el, index) =>
+                {PTO.map((el, index) =>
                     <Text style={s.itemOption} key={index}>
                         <Text>{el.label}: {el.price}$ x {el.qty}</Text>
                     </Text>
                 )}
             </View> : null}
 
-            {servoArr.length ? <View>
+            {servo.length ? <View>
                 <Text style={s.h2}>Servo System:</Text>
-                {servoArr.map((el, index) =>
+                {servo.map((el, index) =>
                     <Text style={s.itemOption} key={index}>
                         <Text>{el.label}: {el.price}$ x {el.qty}</Text>
                     </Text>

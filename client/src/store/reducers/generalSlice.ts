@@ -17,25 +17,6 @@ interface GeneralState {
     cart: CartItemType[]
 }
 
-// export type CartItemType = {
-//     id: number,
-//     uuid: string,
-//     name: string,
-//     category: productCategory,
-//     amount: number,
-//     price: number,
-//     note: string,
-//     img: string,
-//     productExtra?: productExtraType,
-//     customPartExtra?: customPartExtraType,
-//     glassDoorExtra?: glassDoorExtraType,
-//     glassShelfExtra?: string,
-//     PVCExtra?: PVCExtraType,
-//     DoorExtra?: DoorType
-//     LEDAccessories?: LEDAccessoriesType,
-//     DoorAccessories?: DoorAccessoiresType,
-// }
-
 export type glassDoorExtraType = {
     material?: string,
     Profile?: string,

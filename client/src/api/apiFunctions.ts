@@ -10,11 +10,9 @@ import {
     productTypings
 } from "../helpers/productTypes";
 import {MaterialsFormType} from "../common/MaterialsForm";
-import {v4 as uuidv4} from "uuid";
-import {DoorAccessoiresType} from "../Components/CustomPart/DoorAccessoiresForm";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
-import {getFraction} from "../helpers/helpers";
+import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
@@ -142,7 +140,7 @@ export type CartAPI = {
     glass_door?: string[],
     glass_shelf?: string,
     led_accessories?: LEDAccessoriesType,
-    door_accessories?: DoorAccessoiresType,
+    door_accessories?: DoorAccessoireAPIType[],
     standard_door?: DoorType
 
     note: string,
@@ -175,100 +173,33 @@ export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) 
             isStandardSize,
             image_active_number,
             led_accessories,
-            door_accessories,
             ...data
         } = product
         let cartAPIData: any = {...data};
-
         if (subcategory === 'led-accessories' && led_accessories) {
-            let ledApi: {
-                led_gola_profiles: { length: number, qty: number, color: string }[],
-                led_alum_profiles: { length: number, qty: number }[],
-                dimmable_remote: number,
-                door_sensor: number,
-                transformer: number
-            } = {
-                led_gola_profiles: [],
-                led_alum_profiles: [],
-                dimmable_remote: led_accessories.dimmable_remote,
-                door_sensor: led_accessories.door_sensor,
-                transformer: led_accessories.transformer
-            };
-
-            ledApi.led_gola_profiles = led_accessories.led_gola_profiles.map(el => {
-                return {
-                    length: el["length Number"],
-                    qty: el.qty,
-                    color: el.color
-                }
-            })
-            ledApi.led_alum_profiles = led_accessories.led_alum_profiles.map(el => {
-                return {
-                    length: el["length Number"],
-
-                    qty: el.qty
-                }
-            })
+            const {led_gola_profiles, led_alum_profiles, door_sensor, dimmable_remote, transformer} = led_accessories
             cartAPIData = {
                 ...cartAPIData,
-                led_accessories: ledApi
-            }
-
-        }
-
-        if (subcategory === 'door-accessories' && door_accessories) {
-            let doorApi: {
-                value: string,
-                qty: number
-            }[] = [];
-            const {aventos, PTO, door_hinge, hinge_holes, servo} = door_accessories
-            aventos.forEach(el => {
-                if (el.qty) doorApi.push({value: el.title, qty: el.qty})
-            })
-            servo.forEach(el => {
-                if (el.qty) doorApi.push({value: el.title, qty: el.qty})
-            })
-            PTO.forEach(el => {
-                if (el.qty) doorApi.push({value: el.title, qty: el.qty})
-            })
-            if (door_hinge) doorApi.push({value: 'door_hinge', qty: door_hinge})
-            if (hinge_holes) doorApi.push({value: 'hinge_holes', qty: hinge_holes})
-            cartAPIData = {
-                ...cartAPIData,
-                door_accessories: doorApi
+                led_accessories: {
+                    ...cartAPIData.led_accessories,
+                    led_alum_profiles: led_alum_profiles.map(el => ({
+                        length: el.length,
+                        qty: el.qty
+                    })),
+                    led_gola_profiles: led_gola_profiles.map(el => ({
+                        length: el.length,
+                        qty: el.qty,
+                        color: el.color
+                    })),
+                    door_sensor: door_sensor,
+                    dimmable_remote: dimmable_remote,
+                    transformer: transformer
+                },
             }
         }
 
-        let cartResponse: MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
+        let cartResponse:MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
         if (!cartResponse) return undefined;
-
-        cartResponse = cartResponse.map(cartItem => {
-            const {led_accessories} = cartItem
-            if (subcategory === 'led-accessories' && led_accessories) {
-                const ledRes: LEDAccessoriesType = {
-                    transformer: led_accessories.transformer || 0,
-                    door_sensor: led_accessories.door_sensor || 0,
-                    dimmable_remote: led_accessories.dimmable_remote || 0,
-                    led_alum_profiles: [],
-                    led_gola_profiles: []
-                }
-                ledRes.led_alum_profiles = led_accessories.led_alum_profiles.map(el => ({
-                    _id: uuidv4(),
-                    qty: el.qty,
-                    "length Number": +el.length,
-                    length: getFraction(+el.length),
-                }));
-                ledRes.led_gola_profiles = led_accessories.led_gola_profiles.map(el => ({
-                    _id: uuidv4(),
-                    qty: el.qty,
-                    "length Number": +el.length,
-                    length: getFraction(+el.length),
-                    color: el.color
-                }))
-                return {...cartItem, led_accessories: ledRes}
-            }
-            return cartItem;
-        })
 
         return cartResponse
     } catch (error) {

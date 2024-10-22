@@ -14,15 +14,48 @@ import {Navigate, useParams} from "react-router-dom";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLeft from "./CustomPartLeft";
 import {addToCart} from "../../store/reducers/generalSlice";
-import LEDForm, {LEDAccessoriesType} from "./LEDForm";
-import DoorAccessoiresForm, {DoorAccessoiresType} from "./DoorAccessoiresForm";
+import LEDForm from "./LEDForm";
+import DoorAccessoiresForm from "./DoorAccessoiresForm";
 import StandardDoorForm, {DoorType} from "./StandardDoorForm";
 import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
+import {colorOption} from "./GolaProfile";
 
 type CustomPartFormType = {
     materials: MaybeNull<MaterialsFormType>
 }
+
+export type LedAccessoriesFormType = {
+    led_alum_profiles: {
+        _id: string,
+        length: string,
+        ['length Number']: number,
+        qty: number
+    }[],
+    led_gola_profiles: {
+        _id: string,
+        length: string,
+        ['length Number']: number,
+        color: colorOption,
+        qty: number,
+    }[],
+    door_sensor: number,
+    dimmable_remote: number,
+    transformer: number,
+}
+
+export type DoorAccessoireAPIType = {
+    value: string,
+    qty: number
+}
+
+export interface DoorAccessoireType extends DoorAccessoireAPIType {
+    id: number,
+    filter: 'aventos' | 'hinge'| 'PTO'|'servo',
+    label: string,
+    price: number
+}
+
 export type CustomPartFormValuesType = {
     Width: string,
     Height: string,
@@ -35,83 +68,111 @@ export type CustomPartFormValuesType = {
     price: number,
     glass_door: string[],
     glass_shelf: string,
-    led_accessories: LEDAccessoriesType,
-    door_accessories: DoorAccessoiresType,
+    led_accessories: LedAccessoriesFormType,
+    door_accessories: DoorAccessoireType[],
     standard_door: DoorType
 }
 
-const initialDoorAccessoires: DoorAccessoiresType = {
-    aventos: [
-        {
-            title: 'HF',
-            label: 'Aventos HF',
-            qty: 0,
-            price: 280
-        },
-        {
-            title: 'HK',
-            label: 'Aventos HK',
-            qty: 0,
-            price: 210
-        },
-        {
-            title: 'HL',
-            label: 'Aventos HL',
-            qty: 0,
-            price: 350
-        }
-    ],
-    door_hinge: 0,
-    hinge_holes: 0,
-    PTO: [
-        {
-            title: 'PTO_door',
-            label: 'For Doors',
-            qty: 0,
-            price: 30
-        },
-        {
-            title: 'PTO_drawer',
-            label: 'For Drawers',
-            qty: 0,
-            price: 80
-        },
-        {
-            title: 'PTO_trashbin',
-            label: 'For Trash Bins',
-            qty: 0,
-            price: 350
-        }
-    ],
-    servo: [
-        {
-            title: 'WBA',
-            label: 'For WBA Cab',
-            qty: 0,
-            price: 1000
-        },
-        {
-            title: 'WBL',
-            label: 'For WBL Cab',
-            qty: 0,
-            price: 1000
-        },
-        {
-            title: 'WDA',
-            label: 'For WDA Cab',
-            qty: 0,
-            price: 1000
-        },
-        {
-            title: 'BG',
-            label: 'For BG Cab',
-            qty: 0,
-            price: 600
-        }
-    ]
-};
+const initialDoorAccessoires: DoorAccessoireType[] = [
+    {
+        id: 0,
+        value: 'HF',
+        label: 'Aventos HF',
+        filter: 'aventos',
+        qty: 0,
+        price: 280
+    },
+    {
+        id: 1,
+        value: 'HK',
+        label: 'Aventos HK',
+        filter: 'aventos',
+        qty: 0,
+        price: 210
+    },
+    {
+        id: 2,
+        value: 'HL',
+        label: 'Aventos HL',
+        filter: 'aventos',
+        qty: 0,
+        price: 350
+    },
+    {
+        id: 3,
+        value: 'door_hinge',
+        filter: 'hinge',
+        qty: 0,
+        price: 10,
+        label: 'Door Hinge'
+    },
+    {
+        id: 4,
+        value: 'hinge_holes',
+        filter: 'hinge',
+        qty: 0,
+        price: 6,
+        label: 'Hinge Holes'
+    },
+    {
+        id: 5,
+        value: 'PTO_door',
+        filter: 'PTO',
+        label: 'For Doors',
+        qty: 0,
+        price: 30
+    },
+    {
+        id: 6,
+        value: 'PTO_drawer',
+        filter: 'PTO',
+        label: 'For Drawers',
+        qty: 0,
+        price: 80
+    },
+    {
+        id: 7,
+        value: 'PTO_trashbin',
+        filter: 'PTO',
+        label: 'For Trash Bins',
+        qty: 0,
+        price: 350
+    },
+    {
+        id: 8,
+        value: 'WBA',
+        filter: 'servo',
+        label: 'For WBA Cab',
+        qty: 0,
+        price: 1000
+    },
+    {
+        id: 9,
+        value: 'WBL',
+        filter: 'servo',
+        label: 'For WBL Cab',
+        qty: 0,
+        price: 1000
+    },
+    {
+        id: 10,
+        value: 'WDA',
+        filter: 'servo',
+        label: 'For WDA Cab',
+        qty: 0,
+        price: 1000
+    },
+    {
+        id: 11,
+        value: 'BG',
+        filter: 'servo',
+        label: 'For BG Cab',
+        qty: 0,
+        price: 600
+    }
+]
 
-const initialStandardDoor:DoorType = {
+const initialStandardDoor: DoorType = {
     color: '',
     doors: [{
         name: '',
@@ -168,7 +229,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
                 const cartData = addToCartCustomPart(values, customPart, undefined)
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
-                        if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
+                        if (cart && roomId) dispatch(updateCartInRoom({cart: cart, _id: roomId}));
                     })
                 } else {
                     dispatch(addToCart(cartData))
@@ -182,7 +243,8 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
                     {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst}/>}
                     {type === 'led-accessories' && <LEDForm customPart={customPart}/>}
                     {type === 'door-accessories' && <DoorAccessoiresForm customPart={customPart}/>}
-                    {(type === 'standard-door' || type === 'standard-glass-door') && <StandardDoorForm customPart={customPart} />}
+                    {(type === 'standard-door' || type === 'standard-glass-door') &&
+                      <StandardDoorForm customPart={customPart}/>}
                 </div>
             </>
         </Formik>

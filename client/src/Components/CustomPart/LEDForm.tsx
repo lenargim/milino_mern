@@ -8,7 +8,7 @@ import AlumProfile, {alProfileType} from "./AlumProfile";
 import GolaProfile, {golaProfileType} from "./GolaProfile";
 import NumberPart from "./NumberPart";
 import {CustomPart} from "../../helpers/productTypes";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
 
 
 
@@ -20,17 +20,18 @@ export type LEDAccessoriesType = {
     transformer: number,
 }
 
+
 const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
 
+    const newPrice = getLEDProductPrice(led_accessories)
     useEffect(() => {
-        const newPrice = getLEDProductPrice(led_accessories)
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
-    }, [values])
+    }, [values, newPrice])
 
     const addProfile = (field: string) => {
         switch (field) {
@@ -38,7 +39,6 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
                 setFieldValue('led_accessories.led_alum_profiles', [...led_alum_profiles, {
                     _id: uuidv4(),
                     length: '',
-                    ['length Number']: 0,
                     qty: 1
                 }])
                 break;
@@ -46,7 +46,6 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
                 setFieldValue('led_accessories.led_gola_profiles', [...led_gola_profiles, {
                     _id: uuidv4(),
                     length: '',
-                    ['length Number']: 0,
                     color: 'Black',
                     qty: 1
                 }])
@@ -107,7 +106,7 @@ const LEDForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
 export default LEDForm;
 
 
-export const getLEDProductPrice = (values: LEDAccessoriesType): number => {
+export const getLEDProductPrice = (values: LedAccessoriesFormType): number => {
     const {
         led_alum_profiles,
         led_gola_profiles,
@@ -115,8 +114,8 @@ export const getLEDProductPrice = (values: LEDAccessoriesType): number => {
         dimmable_remote,
         transformer,
     } = values;
-    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile['length Number'] * 2.55 * profile.qty), 0);
-    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile['length Number'] * 5.5 * profile.qty), 0);
+    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 2.55 * profile.qty), 0);
+    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 5.5 * profile.qty), 0);
     const dimRemotePrice = dimmable_remote * 100;
     const doorSensorPrice = door_sensor * 150;
     const transformerPrice = transformer * 50;

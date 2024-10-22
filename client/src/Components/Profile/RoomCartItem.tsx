@@ -1,10 +1,9 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../Product/Cart";
-import {getCartItemImg, getCustomPartById, getImg, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
 import {removeFromCartInRoom, updateCartAmountInRoom} from "../../store/reducers/roomSlice";
-import RoomCartItemOptions from "./RoomCartItemOptions";
 import CartItemOptions from "../Product/CartItemOptions";
 
 const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {

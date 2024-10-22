@@ -34,8 +34,12 @@ import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
-import {CustomPartFormValuesType} from "../Components/CustomPart/CustomPart";
-import {getLEDProductPrice} from "../Components/CustomPart/LEDForm";
+import {
+    CustomPartFormValuesType, DoorAccessoireAPIType, DoorAccessoireType,
+} from "../Components/CustomPart/CustomPart";
+import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
+import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
+import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -43,7 +47,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const getImg = (folder: string, img: string = ''): string => {
     if (!folder || !img) return noImg;
     try {
-        // console.log(`./../assets/img/${folder}/${img}`)
         return require(`./../assets/img/${folder}/${img}`)
     } catch (e) {
         return noImg
@@ -457,7 +460,7 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         standard_door
     } = values;
 
-    const {id, type, name, product_type} = product;
+    const {id, type} = product;
 
     const cartData: CartItemType = {
         _id: uuidv4(),
@@ -490,11 +493,21 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
     }
 
     if (type === 'led-accessories') {
-        cartData.led_accessories = led_accessories
+        const {led_alum_profiles, led_gola_profiles} = led_accessories
+        cartData.led_accessories = {
+            ...led_accessories,
+            led_alum_profiles: led_alum_profiles.map(el => ({length: el["length Number"], qty: el.qty, _id: el._id})),
+            led_gola_profiles: led_gola_profiles.map(el => ({
+                length: el["length Number"],
+                qty: el.qty,
+                color: el.color,
+                _id: el._id
+            })),
+        }
     }
 
     if (type === 'door-accessories') {
-        cartData.door_accessories = door_accessories
+        cartData.door_accessories = door_accessories.filter(el => el.qty > 0)
     }
 
     if (type === 'standard-door' || type === 'standard-glass-door') {
@@ -907,6 +920,22 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
     }
 };
 
+const getLEDProductCartPrice = (values: LEDAccessoriesType): number => {
+    const {
+        led_alum_profiles,
+        led_gola_profiles,
+        door_sensor,
+        dimmable_remote,
+        transformer,
+    } = values;
+    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
+    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
+    const dimRemotePrice = dimmable_remote * 100 || 0;
+    const doorSensorPrice = door_sensor * 150 || 0;
+    const transformerPrice = transformer * 50 || 0;
+
+    return +(alumProfPrice + golaProfPrice + dimRemotePrice + doorSensorPrice + transformerPrice).toFixed(1)
+}
 
 export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI | RoomFront): MaybeNull<CartItemType> => {
     // const materialData = getMaterialData(room);
@@ -921,6 +950,8 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         _id,
         glass_door: glass_door_val,
         led_accessories,
+        door_accessories,
+        standard_door,
         glass_shelf,
         amount,
     } = item;
@@ -946,10 +977,17 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         }
         price = +(getCustomPartPrice(product_id, width, height, depth, material, profileNumber)).toFixed(1);
     }
+
     if (type === 'led-accessories' && led_accessories) {
-        price = getLEDProductPrice(led_accessories)
+        price = getLEDProductCartPrice(led_accessories);
     }
 
+    if (type === 'door-accessories' && door_accessories) {
+        price = addToCartAccessories(door_accessories)
+    }
+    if ((type === 'standard-door' || type === 'standard-glass-door') && standard_door) {
+        price = getCustomPartStandardDoorPrice(standard_door, type)
+    }
 
     const cartData: CartItemType = {
         _id: _id,
@@ -976,6 +1014,8 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         leather: '',
         material: material,
         led_accessories: led_accessories,
+        door_accessories: door_accessories,
+        standard_door: standard_door,
         note: note,
         glass_door: glass_door_val,
         glass_shelf: glass_shelf,
@@ -1005,4 +1045,117 @@ export const getCartItemImg = (product: ProductType | CustomPart, image_active_n
     }
 
     return getImg('products', images[image_active_number - 1].value)
+}
+
+export const convertDoorAccessories = (el: DoorAccessoireAPIType): DoorAccessoireType => {
+    switch (el.value) {
+        case 'HF':
+            return {
+                id: 0,
+                value: 'HF',
+                label: 'Aventos HF',
+                filter: 'aventos',
+                qty: el.qty,
+                price: 280
+            };
+        case 'HK':
+            return {
+                id: 1,
+                value: 'HK',
+                label: 'Aventos HK',
+                filter: 'aventos',
+                qty: el.qty,
+                price: 210
+            };
+        case 'HL':
+            return {
+                id: 2,
+                value: 'HL',
+                label: 'Aventos HL',
+                filter: 'aventos',
+                qty: el.qty,
+                price: 350
+            };
+        case 'door_hinge':
+            return {
+                id: 3,
+                value: 'door_hinge',
+                filter: 'hinge',
+                qty: el.qty,
+                price: 10,
+                label: 'Door Hinge'
+            };
+        case 'hinge_holes':
+            return {
+                id: 4,
+                value: 'hinge_holes',
+                filter: 'hinge',
+                qty: el.qty,
+                price: 6,
+                label: 'Hinge Holes'
+            };
+        case 'PTO_door':
+            return {
+                id: 5,
+                value: 'PTO_door',
+                filter: 'PTO',
+                label: 'For Doors',
+                qty: el.qty,
+                price: 30
+            };
+        case 'PTO_drawer':
+            return {
+                id: 6,
+                value: 'PTO_drawer',
+                filter: 'PTO',
+                label: 'For Drawers',
+                qty: el.qty,
+                price: 80
+            };
+        case 'PTO_trashbin':
+            return {
+                id: 7,
+                value: 'PTO_trashbin',
+                filter: 'PTO',
+                label: 'For Trash Bins',
+                qty: el.qty,
+                price: 350
+            };
+        case 'WBA':
+            return {
+                id: 8,
+                value: 'WBA',
+                filter: 'servo',
+                label: 'For WBA Cab',
+                qty: el.qty,
+                price: 1000
+            };
+        case 'WBL':
+            return {
+                id: 9,
+                value: 'WBL',
+                filter: 'servo',
+                label: 'For WBL Cab',
+                qty: el.qty,
+                price: 1000
+            };
+        case 'WDA':
+            return {
+                id: 10,
+                value: 'WDA',
+                filter: 'servo',
+                label: 'For WDA Cab',
+                qty: el.qty,
+                price: 1000
+            };
+        default:
+            return {
+                id: 11,
+                value: 'BG',
+                filter: 'servo',
+                label: 'For BG Cab',
+                qty: el.qty,
+                price: 600
+            }
+    }
 }

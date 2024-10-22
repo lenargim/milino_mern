@@ -1,40 +1,20 @@
-import {Form, Formik, useFormikContext} from 'formik';
+import {Form, useFormikContext} from 'formik';
 import React, {FC, useEffect} from 'react';
-import {useAppDispatch} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPart, customPartDataType} from "../../helpers/productTypes";
+import {CustomPart} from "../../helpers/productTypes";
 import NumberPartArrayItem from "./NumberPartArrayItem";
-import NumberPart from "./NumberPart";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormValuesType, DoorAccessoireAPIType, DoorAccessoireType} from "./CustomPart";
+import {convertDoorAccessories} from "../../helpers/helpers";
 
-
-export type HingeType = {
-    title: string,
-    label: string,
-    qty: number,
-    price: number
-}
-
-export type hingeHoleCustomType = {
-    title: string,
-    qty: number,
-    price: 6
-}
-
-export type DoorAccessoiresType = {
-    aventos: HingeType[],
-    door_hinge: number,
-    hinge_holes: number,
-    PTO: HingeType[],
-    servo: HingeType[]
-}
 
 const DoorAccessoiresForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
-    const dispatch = useAppDispatch();
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
     const {door_accessories, price} = values;
-    const {aventos, door_hinge, hinge_holes, PTO, servo} = door_accessories
+    const aventos = door_accessories.filter(el => el.filter === 'aventos');
+    const hinge = door_accessories.filter(el => el.filter === 'hinge');
+    const PTO = door_accessories.filter(el => el.filter === 'PTO');
+    const servo = door_accessories.filter(el => el.filter === 'servo');
 
     useEffect(() => {
         const newPrice = addToCartAccessories(door_accessories)
@@ -47,25 +27,21 @@ const DoorAccessoiresForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
         <Form className={s.accessories}>
             <div className={s.block}>
                 <h3>Aventos</h3>
-                {aventos.map((el, index) => <NumberPartArrayItem key={index} name="door_accessories.aventos"
-                                                                 index={index}/>)}
+                {aventos.map((el) => <NumberPartArrayItem key={el.id} el={el}/>)}
             </div>
             <div className={s.block}>
                 <h3>Hinge</h3>
-                <NumberPart el={`door_accessories.door_hinge`} label={'Door Hinge'}/>
-                <NumberPart el={`door_accessories.hinge_holes`} label={'Hinge Holes'}/>
+                {hinge.map((el) => <NumberPartArrayItem key={el.id} el={el}/>)}
             </div>
 
             <div className={s.block}>
                 <h3>Push To Open</h3>
-                {PTO.map((el, index) => <NumberPartArrayItem key={index} name="door_accessories.PTO"
-                                                             index={index}/>)}
+                {PTO.map((el) => <NumberPartArrayItem key={el.id} el={el}/>)}
             </div>
 
             <div className={s.block}>
                 <h3>Servo System</h3>
-                {servo.map((el, index) => <NumberPartArrayItem key={index} name="door_accessories.servo"
-                                                               index={index}/>)}
+                {servo.map((el) => <NumberPartArrayItem key={el.id} el={el}/>)}
             </div>
 
 
@@ -84,12 +60,7 @@ const DoorAccessoiresForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
 export default DoorAccessoiresForm;
 
 
-const addToCartAccessories = (values: DoorAccessoiresType): number => {
-    const {aventos, door_hinge: doorHinge, hinge_holes: hingeHoles, PTO, servo} = values
-    const aventosPrice = aventos.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const doorHingePrice = doorHinge * 10;
-    const hingeHolesPrice = hingeHoles * 6;
-    const PTOPrice = PTO.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    const servoPrice = servo.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    return +(aventosPrice + doorHingePrice + hingeHolesPrice + PTOPrice + servoPrice).toFixed(1)
+export const addToCartAccessories = (values: DoorAccessoireAPIType[]): number => {
+    const frontAccessories = values.map(el => (convertDoorAccessories(el)))
+    return +(frontAccessories.reduce((acc, item) => acc + (item.price * item.qty), 0)).toFixed(1)
 }

@@ -9,16 +9,17 @@ const CartItemStandardDoor: FC<{ standard_door: MaybeUndefined<DoorType> }> = ({
     const {color, doors: doorArr} = standard_door
     return (
         <>
-           <span className={s.itemOption}>
-            <span>Door Color: {color}</span>
-        </span>
+
             {doorArr.map((el, index) => {
                 return (
                     <span className={s.itemOption} key={index}>
-                        <span>Size: {el.name}. Amount: {el.qty}</span>
+                        <span>Size: {el.width}x{el.height}. Amount: {el.qty}</span>
                     </span>
                 )
             })}
+            <div className={s.itemOption}>
+                <span>Door Color: {color}</span>
+            </div>
         </>
     );
 };

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import {HingeType} from "./DoorAccessoiresForm";
+// import {HingeType} from "./DoorAccessoiresForm";
 
 const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
 

@@ -6,9 +6,17 @@ import {ProductInputCustom} from "../../common/Form";
 import Select, {OnChangeValue, StylesConfig} from "react-select";
 import styles from "../../common/Form.module.sass";
 
-type colorOption = 'Black' | 'White';
+export type colorOption = 'Black' | 'White';
 
 export type golaProfileType = {
+    _id: string,
+    length: number,
+    // ['length Number']: number,
+    color:  colorOption,
+    qty: number,
+}
+
+export type golaProfileFormType = {
     _id: string,
     length: string,
     ['length Number']: number,
@@ -17,7 +25,7 @@ export type golaProfileType = {
 }
 const colorsArr:colorOption[] = ['Black', 'White']
 
-const GolaProfile: FC<{ profile: golaProfileType, index: number }> = ({profile, index}) => {
+const GolaProfile: FC<{ profile: golaProfileFormType, index: number }> = ({profile, index}) => {
     const [{value}, , {setValue}] = useField<golaProfileType[]>('led_accessories.led_gola_profiles')
     const {qty, _id, color} = profile;
 
