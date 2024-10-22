@@ -28,7 +28,7 @@ const getHeaders = () => ({
 })
 
 export const checkoutAPI = {
-    postEmail: (form:FormData) => instanceFormData.post('api/email', form)
+    postEmail: (form:FormData) => instanceFormData.post('/api/email', form)
 }
 
 export const AuthAPI = {

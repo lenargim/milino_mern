@@ -1,5 +1,11 @@
 import React, {Dispatch, FC, useRef, useState} from 'react';
-import {getMaterialStrings, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {
+    getCartItemImg,
+    getCustomPartById,
+    getMaterialStrings,
+    getProductById,
+    useAppDispatch
+} from "../../helpers/helpers";
 import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import {Form, Formik, FormikProps} from 'formik';
 import {PhoneInput, TextInput} from "../../common/Form";
@@ -16,29 +22,35 @@ import {MaybeNull} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
 
 export type buttonType = 'download' | 'send';
-type modalType = { open: boolean, status: string }
-type CheckoutFormType = {
-    cart: CartItemType[], total: number,
-    materials: MaterialsFormType
+type modalType = {
+    open: boolean,
+    status: string
 }
-const CheckoutForm:FC<CheckoutFormType> = ({
+type CheckoutFormType = {
+    cart: CartItemType[],
+    total: number,
+    materials: MaterialsFormType,
+    initialValues: CheckoutType,
+    room_id?: string
+}
+const CheckoutForm: FC<CheckoutFormType> = ({
                                                 cart,
                                                 total,
-                                                materials
+                                                materials,
+                                                initialValues,
+                                                room_id
                                             }) => {
-    const initialValues: CheckoutType = {
-        company: '',
-        project: '',
-        email: '',
-        phone: ''
-    };
-
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null)
     const jpgCart = cart.map(el => {
-        const product = getProductById(el.product_id, el.product_type === 'standard');
+        const {product_id, product_type, image_active_number} = el
+        // const product = getProductById(el.product_id, el.product_type === 'standard');
+        const product = product_type !== 'custom'
+            ? getProductById(product_id, product_type === 'standard')
+            : getCustomPartById(product_id);
+
         if (product) {
-            const {images} = product
-            const img = images[el.image_active_number - 1].value
+            // const {images} = product
+            const img = getCartItemImg(product, image_active_number)
             return ({...el, img: img.replace('webp', 'jpg')})
         }
         return el
@@ -51,10 +63,7 @@ const CheckoutForm:FC<CheckoutFormType> = ({
             formRef.current.handleSubmit();
         }
     }
-
     const materialStrings = getMaterialStrings(materials);
-    const {drawerString, doorString, box_material, leather, category} = materialStrings
-
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
@@ -62,7 +71,8 @@ const CheckoutForm:FC<CheckoutFormType> = ({
                 onSubmit={async (values, {resetForm}) => {
                     const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
                     const fileName = `Milino Order ${date}(${values.company} ${values.project}).pdf`;
-                    const blob = await pdf(<PDF values={values} materialStrings={materialStrings} cart={jpgCart}/>).toBlob();
+                    const blob = await pdf(<PDF values={values} materialStrings={materialStrings}
+                                                cart={jpgCart}/>).toBlob();
                     const formData = new FormData();
                     const pdfFile = new File([blob], fileName, {type: "application/pdf"})
                     formData.append("file", pdfFile);
@@ -92,7 +102,7 @@ const CheckoutForm:FC<CheckoutFormType> = ({
                             <TextInput type="email" name="email" label="E-mail"/>
                             <PhoneInput type="text" name="phone" label="Phone number"/>
                         </div>
-                        <CheckoutCart cart={cart} total={total}/>
+                        <CheckoutCart cart={cart} total={total} room_id={room_id}/>
                         <div className={s.buttonRow}>
                             <button type="button"
                                     onClick={() => handleSubmit('download')}

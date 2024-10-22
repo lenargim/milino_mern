@@ -760,8 +760,17 @@ export const getCartItemImg = (product: ProductType | CustomPart, image_active_n
     if (product_type === 'custom') {
         return getImg('products/custom', images[0].value)
     }
-
     return getImg('products', images[image_active_number - 1].value)
+}
+
+export const getCartItemImgPDF = (product: ProductType | CustomPart, image_active_number: productTypings): string => {
+    const {product_type, images} = product;
+    if (product_type === 'custom') {
+        const val = images[0].value.replace('webp', 'jpg');
+        return getImg('products-checkout/custom', val)
+    }
+    const val = images[image_active_number - 1].value.replace('webp', 'jpg');
+    return getImg('products-checkout', val)
 }
 
 export const convertDoorAccessories = (el: DoorAccessoireAPIType): DoorAccessoireType => {

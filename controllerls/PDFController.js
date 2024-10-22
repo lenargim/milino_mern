@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
+import * as dotenv from "dotenv";
 
 export const SendPDF = (req, res) => {
+  const env = dotenv.config().parsed;
   const type = req.body.buttonType;
   const file = req.file;
   if (!file) res.status(400).json({

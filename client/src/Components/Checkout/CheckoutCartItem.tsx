@@ -3,10 +3,12 @@ import s from './checkout.module.sass'
 import {updateProductAmount} from "../../store/reducers/generalSlice";
 import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
 import {changeAmountType} from "../Product/Cart";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemType, updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Product/CartItemOptions";
+import {updateCartAmountInRoom} from "../../store/reducers/roomSlice";
+import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
+const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
     const dispatch = useAppDispatch()
     const {
         _id,
@@ -24,9 +26,19 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
     if (!product) return null;
     const {name} = product;
     const img = getCartItemImg(product, image_active_number)
+
     function changeAmount(type: changeAmountType) {
-        dispatch(updateProductAmount({_id: _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
+        if (room_id) {
+            updateProductAmountAPI(_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
+                if (cart) {
+                    dispatch(updateCartAmountInRoom(cart))
+                }
+            })
+        } else {
+            dispatch(updateProductAmount({_id, amount: type === 'minus' ? amount - 1 : amount + 1}))
+        }
     }
+
     return (
         <div className={s.cartItem}>
             <img className={s.img} src={img} alt={name}/>
@@ -37,7 +49,7 @@ const CheckoutCartItem:FC<{el: CartItemType}> = ({el}) => {
                     {!isStandardSize && <span className={s.non}>Non-standard size</span>}
                 </div>
                 <div>
-                    <CartItemOptions item={el} />
+                    <CartItemOptions item={el}/>
                 </div>
                 {note ? <div className={s.note}>*{note}</div> : null}
             </div>

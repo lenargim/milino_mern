@@ -26,6 +26,7 @@ import {MaybeNull} from "./helpers/productTypes";
 import {MaterialsFormType} from "./common/MaterialsForm";
 import CustomPartWrap from "./Components/CustomPart/CustomPartWrap";
 import RoomCustomPart from "./Components/Profile/RoomCustomPart";
+import RoomCheckout from "./Components/Profile/RoomCheckout";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -67,6 +68,7 @@ function App() {
                             <Route path="edit" element={<ProfileRoomEdit/>}/>
                             <Route path="product/:category/:productId" element={<RoomProduct/>}/>
                             <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
+                            <Route path="checkout" element={<RoomCheckout />} />
                         </Route>
                         <Route path="new" element={<RoomsNew/>}/>
                     </Route>
