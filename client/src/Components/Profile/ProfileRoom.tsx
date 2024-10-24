@@ -21,7 +21,6 @@ const ProfileRoom = () => {
     if (!roomData) return null;
     const {_id, room_name, category} = roomData;
     if (!category) return null;
-    console.log(path)
     const isBackToCabinetsShown = path !== `profile/rooms/${roomId}`;
     const {cart} = roomData
     const cartLength = cart.length

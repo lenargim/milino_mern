@@ -11,11 +11,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BS.webp"
+        "value": "standard/BS.webp"
       },
       {
         "type": 2,
-        "value": "BC/BS_2.webp"
+        "value": "standard/BS_2.webp"
       }
     ],
     "attributes": [
@@ -60,11 +60,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BD.webp"
+        "value": "standard/BD.webp"
       },
       {
         "type": 2,
-        "value": "BC/BD_2.webp"
+        "value": "standard/BD_2.webp"
       }
     ],
     "attributes": [
@@ -108,11 +108,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B.webp"
+        "value": "standard/B.webp"
       },
       {
         "type": 2,
-        "value": "BC/B_2.webp"
+        "value": "standard/B_2.webp"
       }
     ],
     "attributes": [
@@ -167,11 +167,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BID.webp"
+        "value": "standard/BID.webp"
       },
       {
         "type": 2,
-        "value": "BC/BID_2.webp"
+        "value": "standard/BID_2.webp"
       }
     ],
     "attributes": [
@@ -225,11 +225,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BSG.webp"
+        "value": "standard/BSG.webp"
       },
       {
         "type": 2,
-        "value": "BC/BSG.webp"
+        "value": "standard/BSG.webp"
       }
     ],
     "attributes": [
@@ -273,11 +273,11 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BG.webp"
+        "value": "standard/BG.webp"
       },
       {
         "type": 2,
-        "value": "BC/BG.webp"
+        "value": "standard/BG.webp"
       }
     ],
     "attributes": [
@@ -330,7 +330,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BSP.webp"
+        "value": "standard/BSP.webp"
       }
     ],
     "attributes": [
@@ -369,7 +369,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BD2.webp"
+        "value": "standard/BD2.webp"
       }
     ],
     "attributes": [
@@ -418,7 +418,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B2DE.webp"
+        "value": "standard/B2DE.webp"
       }
     ],
     "attributes": [
@@ -447,7 +447,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B3DI.webp"
+        "value": "standard/B3DI.webp"
       }
     ],
     "attributes": [
@@ -485,7 +485,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B3D.webp"
+        "value": "standard/B3D.webp"
       }
     ],
     "attributes": [
@@ -524,7 +524,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B4D.webp"
+        "value": "standard/B4D.webp"
       }
     ],
     "attributes": [
@@ -563,7 +563,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/SB2D.webp"
+        "value": "standard/SB2D.webp"
       }
     ],
     "attributes": [
@@ -592,7 +592,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/SB.webp"
+        "value": "standard/SB.webp"
       }
     ],
     "attributes": [
@@ -631,7 +631,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/SBD.webp"
+        "value": "standard/SBD.webp"
       }
     ],
     "attributes": [
@@ -679,7 +679,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/SBT.webp"
+        "value": "standard/SBT.webp"
       }
     ],
     "attributes": [
@@ -727,7 +727,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/SBDT.webp"
+        "value": "standard/SBDT.webp"
       }
     ],
     "attributes": [
@@ -784,7 +784,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BCB.webp"
+        "value": "standard/BCB.webp"
       }
     ],
     "attributes": [
@@ -832,7 +832,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BCBL.webp"
+        "value": "standard/BCBL.webp"
       }
     ],
     "attributes": [
@@ -880,7 +880,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BCA.webp"
+        "value": "standard/BCA.webp"
       }
     ],
     "attributes": [
@@ -928,7 +928,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BCAL.webp"
+        "value": "standard/BCAL.webp"
       }
     ],
     "attributes": [
@@ -976,7 +976,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BC.webp"
+        "value": "standard/BC.webp"
       }
     ],
     "attributes": [
@@ -1024,7 +1024,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BCL.webp"
+        "value": "standard/BCL.webp"
       }
     ],
     "attributes": [
@@ -1072,7 +1072,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/CTB.webp"
+        "value": "standard/CTB.webp"
       }
     ],
     "attributes": [
@@ -1119,7 +1119,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/COB.webp"
+        "value": "standard/COB.webp"
       }
     ],
     "attributes": [
@@ -1164,7 +1164,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/MB.webp"
+        "value": "standard/MB.webp"
       }
     ],
     "attributes": [
@@ -1211,7 +1211,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B1D.webp"
+        "value": "standard/B1D.webp"
       }
     ],
     "attributes": [
@@ -1241,7 +1241,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/B1KD.webp"
+        "value": "standard/B1KD.webp"
       }
     ],
     "attributes": [
@@ -1271,7 +1271,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/DDC.webp"
+        "value": "standard/DDC.webp"
       }
     ],
     "attributes": [
@@ -1298,7 +1298,7 @@
     "images": [
       {
         "type": 1,
-        "value": "BC/BEAC.webp"
+        "value": "standard/BEAC.webp"
       }
     ],
     "attributes": [
@@ -1347,19 +1347,19 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/W.webp"
+        "value": "standard/W.webp"
       },
       {
         "type": 2,
-        "value": "WC/W_2.webp"
+        "value": "standard/W_2.webp"
       },
       {
         "type": 3,
-        "value": "WC/W.webp"
+        "value": "standard/W.webp"
       },
       {
         "type": 4,
-        "value": "WC/W_2.webp"
+        "value": "standard/W_2.webp"
       }
     ],
     "attributes": [
@@ -1430,11 +1430,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WDA.webp"
+        "value": "standard/WDA.webp"
       },
       {
         "type": 2,
-        "value": "WC/WDA.webp"
+        "value": "standard/WDA.webp"
       }
     ],
     "attributes": [
@@ -1491,7 +1491,7 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WA.webp"
+        "value": "standard/WA.webp"
       }
     ],
     "attributes": [
@@ -1530,11 +1530,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WBL.webp"
+        "value": "standard/WBL.webp"
       },
       {
         "type": 2,
-        "value": "WC/WBL.webp"
+        "value": "standard/WBL.webp"
       }
     ],
     "attributes": [
@@ -1594,11 +1594,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WBA.webp"
+        "value": "standard/WBA.webp"
       },
       {
         "type": 2,
-        "value": "WC/WBA.webp"
+        "value": "standard/WBA.webp"
       }
     ],
     "attributes": [
@@ -1659,11 +1659,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WB.webp"
+        "value": "standard/WB.webp"
       },
       {
         "type": 2,
-        "value": "WC/WB.webp"
+        "value": "standard/WB.webp"
       }
     ],
     "attributes": [
@@ -1724,11 +1724,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WRF.webp"
+        "value": "standard/WRF.webp"
       },
       {
         "type": 2,
-        "value": "WC/WRF.webp"
+        "value": "standard/WRF.webp"
       }
     ],
     "attributes": [
@@ -1789,11 +1789,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WRFA.webp"
+        "value": "standard/WRFA.webp"
       },
       {
         "type": 2,
-        "value": "WC/WRFA.webp"
+        "value": "standard/WRFA.webp"
       }
     ],
     "attributes": [
@@ -1855,11 +1855,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WC.webp"
+        "value": "standard/WC.webp"
       },
       {
         "type": 2,
-        "value": "WC/WC.webp"
+        "value": "standard/WC.webp"
       }
     ],
     "attributes": [
@@ -1918,11 +1918,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WCA.webp"
+        "value": "standard/WCA.webp"
       },
       {
         "type": 2,
-        "value": "WC/WCA.webp"
+        "value": "standard/WCA.webp"
       }
     ],
     "attributes": [
@@ -1980,11 +1980,11 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WCB.webp"
+        "value": "standard/WCB.webp"
       },
       {
         "type": 2,
-        "value": "WC/WCB.webp"
+        "value": "standard/WCB.webp"
       }
     ],
     "attributes": [
@@ -2047,7 +2047,7 @@
     "images": [
       {
         "type": 1,
-        "value": "WC/WEAC.webp"
+        "value": "standard/WEAC.webp"
       }
     ],
     "attributes": [
@@ -2084,19 +2084,19 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/PC.webp"
+        "value": "standard/PC.webp"
       },
       {
         "type": 2,
-        "value": "TC/PC_2.webp"
+        "value": "standard/PC_2.webp"
       },
       {
         "type": 3,
-        "value": "TC/PC.webp"
+        "value": "standard/PC.webp"
       },
       {
         "type": 4,
-        "value": "TC/PC_2.webp"
+        "value": "standard/PC_2.webp"
       }
     ],
     "attributes": [
@@ -2167,19 +2167,19 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/PC2D.webp"
+        "value": "standard/PC2D.webp"
       },
       {
         "type": 2,
-        "value": "TC/PC2D_2.webp"
+        "value": "standard/PC2D_2.webp"
       },
       {
         "type": 3,
-        "value": "TC/PC2D.webp"
+        "value": "standard/PC2D.webp"
       },
       {
         "type": 4,
-        "value": "TC/PC2D_2.webp"
+        "value": "standard/PC2D_2.webp"
       }
     ],
     "attributes": [
@@ -2263,19 +2263,19 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/PC3D.webp"
+        "value": "standard/PC3D.webp"
       },
       {
         "type": 2,
-        "value": "TC/PC3D_2.webp"
+        "value": "standard/PC3D_2.webp"
       },
       {
         "type": 3,
-        "value": "TC/PC3D.webp"
+        "value": "standard/PC3D.webp"
       },
       {
         "type": 4,
-        "value": "TC/PC3D_2.webp"
+        "value": "standard/PC3D_2.webp"
       }
     ],
     "attributes": [
@@ -2359,19 +2359,19 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/PC4D.webp"
+        "value": "standard/PC4D.webp"
       },
       {
         "type": 2,
-        "value": "TC/PC4D_2.webp"
+        "value": "standard/PC4D_2.webp"
       },
       {
         "type": 3,
-        "value": "TC/PC4D.webp"
+        "value": "standard/PC4D.webp"
       },
       {
         "type": 4,
-        "value": "TC/PC4D_2.webp"
+        "value": "standard/PC4D_2.webp"
       }
     ],
     "attributes": [
@@ -2463,11 +2463,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/TBC.webp"
+        "value": "standard/TBC.webp"
       },
       {
         "type": 2,
-        "value": "TC/TBC.webp"
+        "value": "standard/TBC.webp"
       }
     ],
     "attributes": [
@@ -2525,11 +2525,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/TBCL.webp"
+        "value": "standard/TBCL.webp"
       },
       {
         "type": 2,
-        "value": "TC/TBCL.webp"
+        "value": "standard/TBCL.webp"
       }
     ],
     "attributes": [
@@ -2592,11 +2592,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/TDO.webp"
+        "value": "standard/TDO.webp"
       },
       {
         "type": 2,
-        "value": "TC/TDO.webp"
+        "value": "standard/TDO.webp"
       }
     ],
     "attributes": [
@@ -2659,11 +2659,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/TSO.webp"
+        "value": "standard/TSO.webp"
       },
       {
         "type": 2,
-        "value": "TC/TSO.webp"
+        "value": "standard/TSO.webp"
       }
     ],
     "attributes": [
@@ -2725,11 +2725,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/T.webp"
+        "value": "standard/T.webp"
       },
       {
         "type": 2,
-        "value": "TC/T_2.webp"
+        "value": "standard/T_2.webp"
       }
     ],
     "attributes": [
@@ -2791,11 +2791,11 @@
     "images": [
       {
         "type": 1,
-        "value": "TC/TD.webp"
+        "value": "standard/TD.webp"
       },
       {
         "type": 2,
-        "value": "TC/TD_2.webp"
+        "value": "standard/TD_2.webp"
       }
     ],
     "attributes": [
