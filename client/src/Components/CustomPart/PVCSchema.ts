@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import {materialsCustomPart, materialsLimitsType} from "../../helpers/productTypes";
-import {getSizeNumberRegex} from "../../helpers/helpers";
+import { numericQuantity } from 'numeric-quantity';
 
 const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
 
@@ -11,7 +11,7 @@ export function getPVCSchema(materialsRange: materialsCustomPart[] | undefined, 
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materialsRange?.find(el => el.name === material)?.limits ?? limits
                     if (!sizeLimit?.width) return true;
@@ -22,7 +22,7 @@ export function getPVCSchema(materialsRange: materialsCustomPart[] | undefined, 
             .test('max',
                 ({value}) => `It's too huge size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materialsRange?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.width) return true;

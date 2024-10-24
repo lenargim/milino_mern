@@ -387,7 +387,7 @@
   {
     "id": 903,
     "product_type": "custom",
-    "name": "Panel, Filler, Wood Toe Kick",
+    "name": "Panels",
     "type": "custom",
     "materials_array": [
       {
@@ -1082,121 +1082,6 @@
       {
         "type": 1,
         "value": "Column.webp"
-      }
-    ]
-  },
-  {
-    "id": 908,
-    "product_type": "custom",
-    "name": "Wood Gola Trims",
-    "type": "custom",
-    "width": 3.625,
-    "depth": 0.75,
-    "materials_array": [
-      {
-        "name": "Milino",
-        "limits": {
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Plywood",
-        "limits": {
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Luxe",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Zenit",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Syncron",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "OneSkin",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan PET",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan Acrilic",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Stone",
-        "limits": {
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Painted",
-        "limits": {
-          "height": [
-            2.5,
-            120
-          ]
-        }
-      }
-    ],
-    "images": [
-      {
-        "type": 1,
-        "value": "panel.png"
       }
     ]
   },

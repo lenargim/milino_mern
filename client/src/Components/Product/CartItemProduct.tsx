@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import {Dimentions} from "./CartItem";
 import {CartItemType} from "../../api/apiFunctions";
+import Dimentions from "../../common/Dimentions";
 
-const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
+const CartItemProduct: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
     const {
         width,
         depth,
@@ -23,7 +23,7 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
     } = product
     return (
         <>
-            <Dimentions width={width} depth={depth} height={height}/>
+            <Dimentions dimentions={dimentions}/>
             {blind_width ?
                 <div className={s.itemOption}>
                     <span>Blind Width:</span>

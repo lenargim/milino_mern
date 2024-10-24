@@ -45,7 +45,6 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 coef
                                             }) => {
     const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard} = product;
-
     const {values} = useFormikContext<productValuesType>();
 
     const {widthRange, heightRange, depthRange} = productRange;

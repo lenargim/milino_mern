@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 import settings from './../../api/settings.json'
 import {hingeArr, ProductType, sizeLimitsType} from "../../helpers/productTypes";
-import {getSizeNumberRegex} from "../../helpers/helpers";
 import {ObjectSchema} from "yup";
+import { numericQuantity } from 'numeric-quantity';
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType): ObjectSchema<any> {
@@ -35,7 +35,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "min",
                         `Minimum ${minDepth} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal >= minDepth
                         }
                     )
@@ -43,7 +43,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "max",
                         `Maximum ${maxDepth} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal <= maxDepth
                         }
                     )
@@ -68,7 +68,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "is-max",
                         `Indent should be lower than Cabinet Depth`,
                         (val: any, {parent}) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             const fullDepth = parent['Depth Number'] || parent['Custom Depth Number'];
                             return numberVal < fullDepth
                         }
@@ -128,7 +128,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "min",
                         `Minimum ${minWidth} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal >= minWidth
                         }
                     )
@@ -136,7 +136,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "max",
                         `Maximum ${maxWidth} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal <= maxWidth
                         }
                     )
@@ -151,7 +151,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "is-min",
                         `Width is too small`,
                         (val: any, {parent}) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             const fullWidth = parent['Width'] || parent['Custom Width'];
                             if (isAngle) {
                                 const maxCorner = blindDoorMinMax[1] * Math.cos(45);
@@ -165,7 +165,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "is-max",
                         `Width is too big`,
                         (val: any, {parent}) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             const fullWidth = parent['Width'] || parent['Custom Width'];
                             if (isAngle) {
                                 const minCorner = blindDoorMinMax[0] * Math.cos(45);
@@ -187,7 +187,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "min",
                         `Minimum ${minHeight} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal >= minHeight
                         }
                     )
@@ -195,7 +195,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "max",
                         `Maximum ${maxHeight} inches`,
                         (val: string) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             return numberVal <= maxHeight
                         }
                     )
@@ -210,7 +210,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                         "is-max",
                         `Middle Section height should be lower than cabinet height`,
                         (val: any, {parent}) => {
-                            const numberVal = getSizeNumberRegex(val);
+                            const numberVal = numericQuantity(val);
                             const fullHeight = parent['Height'] || parent['Custom Height'];
                             return numberVal < fullHeight
                         }

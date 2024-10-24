@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {CartItemType} from "../../api/apiFunctions";
-import {Dimentions} from "../Product/CartItem";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {getFraction} from "../../helpers/helpers";
+import {getDimentionsRow, getFraction} from "../../helpers/helpers";
+import Dimentions from "../../common/Dimentions";
 
 const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
     const {
@@ -20,10 +20,11 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         led_alignment,
         led_indent,
         middle_section,
-    } = item
+    } = item;
+    const dimentions = getDimentionsRow(width, height, depth)
     return (
         <>
-            <Dimentions width={width} depth={depth} height={height}/>
+            <Dimentions dimentions={dimentions}/>
             {blind_width ?
                 <div className={s.itemOption}>
                     <span>Blind Width:</span>

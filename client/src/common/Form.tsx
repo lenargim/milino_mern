@@ -4,7 +4,8 @@ import {useField, ErrorMessage, Field} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
-import {getFraction, getSizeNumberRegex} from "../helpers/helpers";
+import {getFraction} from "../helpers/helpers";
+import { numericQuantity } from 'numeric-quantity';
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -208,6 +209,7 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
 }
 
 
+
 export const ProductInputCustom: FC<{ name: string, value: string | null, label?: string }> = ({
                                                                                                    name,
                                                                                                    value,
@@ -215,8 +217,7 @@ export const ProductInputCustom: FC<{ name: string, value: string | null, label?
                                                                                                }) => {
     const [field] = useField(name);
     const [fieldNumber, , helpers] = useField(name + ' Number');
-    const result = getSizeNumberRegex(field.value.toString());
-
+    const result = numericQuantity(field.value || '')
     useEffect(() => {
         if (fieldNumber.value !== result) helpers.setValue(result);
     }, [result])

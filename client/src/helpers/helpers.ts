@@ -1,6 +1,7 @@
 import {AppDispatch, RootState} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
+import Fraction from "fraction.js";
 import {
     attrItem, cornerTypes, CustomPart, customPartDataType, hingeTypes,
     itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
@@ -40,6 +41,7 @@ import {
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
+import {useEffect, useRef} from "react";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -85,85 +87,10 @@ export const getCartTotal = (cart: (CartItemType)[]): number => {
     )).toFixed(1)
 }
 
-export const getFraction = (number: number): string => {
-    if (Number.isInteger(number)) return number.toString();
-    const floor = Math.floor(number);
-    const reminder = +(number - floor).toFixed(3);
-    const quarters = {
-        0.125: '1/8',
-        0.250: '1/4',
-        0.375: '3/8',
-        0.500: '1/2',
-        0.625: '5/8',
-        0.750: '3/4',
-        0.875: '7/8',
-        0.333: '1/3',
-        0.667: '2/3',
-        0.200: '1/5',
-        0.400: '2/5',
-        0.600: '3/5',
-        0.800: '4/5',
-        0.167: '1/6',
-        0.833: '5/6',
-        0.143: '1/7',
-        0.286: '2/7',
-        0.429: '3/7',
-        0.571: '4/7',
-        0.714: '5/7',
-        0.857: '6/7',
-        0.111: '1/9',
-        0.222: '2/9',
-        0.444: '4/9',
-        0.556: '5/9',
-        0.778: '7/9',
-        0.889: '8/9',
-        0.100: '1/10',
-        0.300: '3/10',
-        0.700: '7/10',
-        0.900: '9/10',
-        0.091: '1/11',
-        0.182: '2/11',
-        0.273: '3/11',
-        0.364: '4/11',
-        0.455: '5/11',
-        0.545: '6/11',
-        0.636: '7/11',
-        0.727: '8/11',
-        0.818: '9/11',
-        0.909: '10/11',
-        0.083: '1/12',
-        0.417: '5/12',
-        0.583: '7/12',
-        0.917: '11/12',
-    };
-    const currQ = Object.entries(quarters).find((el) => el[0] === reminder.toString());
-    return currQ ? `${floor > 0 ? floor : ''} ${currQ[1]}` : number.toFixed(3);
+export const getFraction = (numberFraction: number): string => {
+    return new Fraction(numberFraction).simplify(0.001).toFraction(true);
 }
 
-export const getDivider = (fraction: string): number => {
-    const beforeFraction = Number(fraction.substring(0, fraction.indexOf('/')));
-    const afterFraction = Number(fraction.substring(fraction.indexOf('/') + 1));
-    if (beforeFraction < afterFraction) return beforeFraction / afterFraction;
-    return 0;
-}
-
-export const getSizeNumberRegex = (sizeString: string): number => {
-    if (sizeString) {
-        const trimLetters = sizeString.replace(/[^0-9\s//]/g, '');
-        const template = trimLetters.match(/\d{1,}\s\d{1,}\/\d{1,}|\d{1,}\/\d{1,}|\d{1,}/);
-        if (!template) return 0;
-        if (template[0].match(/\d{1,}\s\d{1,}\/\d{1,}/)) {
-            const spaceIndex = template[0].indexOf(" ");
-            const main = Number(template[0].substring(0, spaceIndex));
-            return main + getDivider(template[0].substring(spaceIndex + 1));
-        } else if (template[0].match(/\d{1,}\/\d{1,}/)) {
-            return getDivider(template[0])
-        } else {
-            return Number(template[0])
-        }
-    }
-    return 0
-}
 
 export const getProductsByCategory = (room: RoomType, category: productCategory): ProductType[] => {
     const isProductStandard = room === 'Standard Door';
@@ -187,7 +114,7 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
 }
 
 export const getCustomParts = (room: RoomType): customPartDataType[] => {
-    if (room === 'Standard Door') {
+    if (room !== 'Standard Door') {
         const standardDoorCustomParts = customParts.filter(el => el.name !== 'Standard Door' && el.name !== 'Glass Door')
         return standardDoorCustomParts as customPartDataType[];
     }
@@ -884,4 +811,19 @@ export const convertDoorAccessories = (el: DoorAccessoireAPIType): DoorAccessoir
                 price: 600
             }
     }
+}
+
+export const usePrevious = (data: string) => {
+    const prev = useRef<string>()
+    useEffect(() => {
+        prev.current = data
+    }, [data])
+    return prev.current
+}
+
+export const getDimentionsRow = (width: number, height: number, depth: number): string => {
+    const widthPart = width ? `${getFraction(width)}"W x` : '';
+    const heightPart = height ? `${getFraction(height)}"H` : '';
+    const depthPart = depth && depth > 1 ? `x ${getFraction(depth)}"D` : '';
+    return `${widthPart} ${heightPart} ${depthPart}`
 }

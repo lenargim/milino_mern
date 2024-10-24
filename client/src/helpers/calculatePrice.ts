@@ -654,7 +654,6 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                     return 0;
             }
         case 903:
-        case 908:
             const k = area > 1 ? 1 : 1.8;
             switch (finishMaterial) {
                 case "Milino":

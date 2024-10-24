@@ -42,7 +42,6 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
 
-
     const initialValues: productValuesType = {
         'Width': widthRange[0],
         isBlind: isBlind,

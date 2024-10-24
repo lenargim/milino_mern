@@ -1436,7 +1436,7 @@
               "img": "flint-ultra-gloss-large-300x300.jpg"
             },
             {
-              "value": "Flint Grey UM",
+              "value": "Flint UM",
               "img": "Flint Grey.jpg"
             },
             {
@@ -1527,10 +1527,6 @@
             {
               "value": "Timberline UM",
               "img": "Timberline.jpg"
-            },
-            {
-              "value": "Merlot UM",
-              "img": ""
             },
             {
               "value": "Quiet Concrete",
@@ -1771,24 +1767,6 @@
             {
               "value": "Argento",
               "img": "Argento.jpg"
-            }
-          ]
-        },
-        {
-          "value": "Plywood",
-          "img": "",
-          "colors": [
-            {
-              "value": "Grey",
-              "img": ""
-            },
-            {
-              "value": "Natural",
-              "img": ""
-            },
-            {
-              "value": "White",
-              "img": ""
             }
           ]
         }
@@ -2357,11 +2335,7 @@
           "img": "luxe.jpg",
           "colors": [
             {
-              "value": "Antracita HGFP",
-              "img": "Luxe-Antracita.jpg"
-            },
-            {
-              "value": "Blanco HGFP",
+              "value": "Blanco HG FP",
               "img": "Luxe-Blanco.jpg"
             }
           ]
@@ -2371,16 +2345,12 @@
           "img": "zenit.jpg",
           "colors": [
             {
-              "value": "Antracita SM FP",
-              "img": "Zénit-Antracita.jpg"
-            },
-            {
               "value": "Blanco SM FP",
               "img": "Zénit-Blanco.jpg"
             },
             {
-              "value": "Black SM FP",
-              "img": "black-super-mate.jpg"
+              "value": "Cashmere SM FP",
+              "img": "Cashmere-Zenit-Finger-Pull.jpg"
             }
           ]
         },

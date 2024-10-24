@@ -10,7 +10,7 @@ const Dimentions: FC<{ width: number | undefined, depth: number | undefined, hei
                                                                                                               }) => {
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? `${getFraction(height)}"H` : '';
-    const depthPart = depth ? `x ${getFraction(depth)}"D` : '';
+    const depthPart = depth && depth > 1 ? `x ${getFraction(depth)}"D` : '';
     const dimentions = `${widthPart} ${heightPart} ${depthPart}`
     return (
         <View>

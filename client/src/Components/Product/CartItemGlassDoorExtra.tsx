@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType} from "../../api/apiFunctions";
-import {Dimentions} from "./CartItem";
+import Dimentions from "../../common/Dimentions";
 
-const CartItemGlassDoorExtra: FC<{ product: CartItemType }> = ({product}) => {
-    const {glass_door,width, height, depth, material} = product
+const CartItemGlassDoorExtra: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
+    const {glass_door, material} = product
     if (!glass_door) return null;
     return (
         <>
-            <Dimentions width={width} depth={depth} height={height}/>
+            <Dimentions dimentions={dimentions}/>
             {material &&
               <div className={s.itemOption}>
                 <span>Material:</span>

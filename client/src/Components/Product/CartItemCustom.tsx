@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {Dimentions} from "./CartItem";
 import {CartItemType} from "../../api/apiFunctions";
 import CartItemDoorExtra from "./CartItemDoorExtra";
 import CartItemPVCExtra from "./CartItemPVCExtra";
@@ -8,14 +7,15 @@ import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
 import CartItemShelfExtra from "./CartItemShelfExtra";
 import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
+import Dimentions from "../../common/Dimentions";
 
-const CartItemCustom: FC<{ product: CartItemType }> = ({product}) => {
-    const {material, width, height, depth, door_accessories, subcategory, led_accessories, standard_door} = product;
+const CartItemCustom: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
+    const {material, door_accessories, subcategory, led_accessories, standard_door} = product;
     switch (subcategory) {
         case 'glass-door':
-            return <CartItemGlassDoorExtra product={product}/>
+            return <CartItemGlassDoorExtra product={product} dimentions={dimentions}/>
         case 'glass-shelf':
-            return <CartItemShelfExtra product={product}/>
+            return <CartItemShelfExtra product={product} dimentions={dimentions}/>
         case 'pvc':
             return <CartItemPVCExtra productExtra={product}/>
         case 'door-accessories':
@@ -27,7 +27,7 @@ const CartItemCustom: FC<{ product: CartItemType }> = ({product}) => {
             return <CartItemDoor standard_door={standard_door}/>
         default:
             return <>
-                <Dimentions width={width} depth={depth} height={height}/>
+                <Dimentions dimentions={dimentions}/>
                 {material &&
                   <div className={s.itemOption}>
                     <span>Material:</span>

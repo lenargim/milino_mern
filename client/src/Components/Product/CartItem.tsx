@@ -3,7 +3,6 @@ import {deleteItemFromCart, updateProductAmount} from "../../store/reducers/gene
 import {
     getCartItemImg,
     getCustomPartById,
-    getFraction,
     getProductById,
     useAppDispatch
 } from "../../helpers/helpers";
@@ -69,21 +68,3 @@ export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item
 }
 
 export default CartItem;
-
-export const Dimentions: FC<{ width?: number, height?: number, depth?: number }> = ({width, height, depth}) => {
-    const widthPart = width ? `${getFraction(width)}"W x` : '';
-    const heightPart = height ? `${getFraction(height)}"H` : '';
-    const depthPart = depth ? `x ${getFraction(depth)}"D` : '';
-    const dimentions = `${widthPart} ${heightPart} ${depthPart}`
-
-    return (
-        <>
-            {widthPart || heightPart || depthPart ?
-                <div className={s.itemOption}>
-                    <span>Dimentions:</span>
-                    <span>{dimentions}</span>
-                </div> : null
-            }
-        </>
-    )
-}

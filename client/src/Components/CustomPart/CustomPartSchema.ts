@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import {CustomPart, materialsCustomPart, materialsLimitsType} from "../../helpers/productTypes";
-import {getSizeNumberRegex} from "../../helpers/helpers";
 import {string, tuple} from "yup";
+import { numericQuantity } from 'numeric-quantity';
 
 const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
 const patternthreedigisaftercomma = /^\d+(\.\d{0,3})?$/;
@@ -16,7 +16,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits ?? limits
                     if (!sizeLimit?.width) return true;
@@ -27,7 +27,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('max',
                 ({value}) => `It's too huge size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.width) return true;
@@ -41,7 +41,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.height) return true;
@@ -52,7 +52,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('max',
                 ({value}) => `It's too huge size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.height) return true;
@@ -66,7 +66,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.depth) return true;
@@ -77,7 +77,7 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
             .test('max',
                 ({value}) => `It's too huge size`,
                 (val, context) => {
-                    const numberVal = getSizeNumberRegex(val);
+                    const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent['Material'];
                     const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
                     if (!sizeLimit?.depth) return true;
