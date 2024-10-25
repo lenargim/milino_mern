@@ -1,0 +1,228 @@
+{
+  "colors" : [
+    {
+      "value": "Default White",
+      "img": "painted/White.jpg"
+    },
+    {
+      "value": "Aqua Marina",
+      "img": "painted/Aqua Marina.jpg"
+    },
+    {
+      "value": "Azul Indigo",
+      "img": "painted/Azul Indigo.jpg"
+    },
+    {
+      "value": "Verde Salvia",
+      "img": "painted/Verde Salvia.jpg"
+    },
+    {
+      "value": "Gris Plomo",
+      "img": "painted/Gris Plomo.jpg"
+    },
+    {
+      "value": "Antracita",
+      "img": "painted/Antracita.jpg"
+    },
+    {
+      "value": "SW 0055 Light French Gray",
+      "img": "painted/SW0055.f.jpg"
+    },
+    {
+      "value": "SW 6204 Sea Salt",
+      "img": "painted/SW6204.f.jpg"
+    },
+    {
+      "value": "SW 6211 Rainwashed",
+      "img": "painted/SW6211.f.jpg"
+    },
+    {
+      "value": "SW 6241 Aleutian",
+      "img": "painted/SW6241.f.jpg"
+    },
+    {
+      "value": "SW 6244 Naval",
+      "img": "painted/SW6244.f.jpg"
+    },
+    {
+      "value": "SW 6250 Granite Peak",
+      "img": "painted/SW6250.f.jpg"
+    },
+    {
+      "value": "SW 6253 Olympus White",
+      "img": "painted/SW6253.f.jpg"
+    },
+    {
+      "value": "SW 6254 Lazy Gray",
+      "img": "painted/SW6254.f.jpg"
+    },
+    {
+      "value": "SW 6258 Tricorn Black",
+      "img": "painted/SW6258.f.jpg"
+    },
+    {
+      "value": "SW 6385 Dover White",
+      "img": "painted/SW6385.f.jpg"
+    },
+    {
+      "value": "SW 7004 Snowbound",
+      "img": "painted/SW7004.f.jpg"
+    },
+    {
+      "value": "SW 7005 Pure White",
+      "img": "painted/SW7005.f.jpg"
+    },
+    {
+      "value": "SW 7006 Extra White",
+      "img": "painted/SW7006.f.jpg"
+    },
+    {
+      "value": "SW 7007 Ceiling Bright White",
+      "img": "painted/SW7007.f.jpg"
+    },
+    {
+      "value": "SW 7008 Alabaster",
+      "img": "painted/SW7008.f.jpg"
+    },
+    {
+      "value": "SW 7009 Pearly White",
+      "img": "painted/SW7009.f.jpg"
+    },
+    {
+      "value": "SW 7012 Creamy",
+      "img": "painted/SW7012.f.jpg"
+    },
+    {
+      "value": "SW 7014 Eider White",
+      "img": "painted/SW7014.f.jpg"
+    },
+    {
+      "value": "SW 7015 Repose Gray",
+      "img": "painted/SW7015.f.jpg"
+    },
+    {
+      "value": "SW 7016 Mindful Gray",
+      "img": "painted/SW7016.f.jpg"
+    },
+    {
+      "value": "SW 7019 Gauntlet Gray",
+      "img": "painted/SW7019.f.jpg"
+    },
+    {
+      "value": "SW 7029 Agreeable Gray",
+      "img": "painted/SW7029.f.jpg"
+    },
+    {
+      "value": "SW 7035 Aesthetic White",
+      "img": "painted/SW7035.f.jpg"
+    },
+    {
+      "value": "SW 7036 Accessible Beige",
+      "img": "painted/SW7036.f.jpg"
+    },
+    {
+      "value": "SW 7042 Shoji White",
+      "img": "painted/SW7042.f.jpg"
+    },
+    {
+      "value": "SW 7043 Worldly Gray",
+      "img": "painted/SW7043.f.jpg"
+    },
+    {
+      "value": "SW 7048 Urbane Bronze",
+      "img": "painted/SW7048.f.jpg"
+    },
+    {
+      "value": "SW 7064 Passive",
+      "img": "painted/SW7064.f.jpg"
+    },
+    {
+      "value": "SW 7069 Iron Ore",
+      "img": "painted/SW7069.f.jpg"
+    },
+    {
+      "value": "SW 7071 Gray Screen",
+      "img": "painted/SW7071.f.jpg"
+    },
+    {
+      "value": "SW 7551 Greek Villa",
+      "img": "painted/SW7551.jpg"
+    },
+    {
+      "value": "SW 7566 Westhighland White",
+      "img": "painted/SW7566.jpg"
+    },
+    {
+      "value": "SW 7602 Indigo Batik",
+      "img": "painted/SW7602.jpg"
+    },
+    {
+      "value": "SW 7631 City Loft",
+      "img": "painted/SW7631.jpg"
+    },
+    {
+      "value": "SW 7632 Modern Gray",
+      "img": "painted/SW7632.jpg"
+    },
+    {
+      "value": "SW 7636 Origami White",
+      "img": "painted/SW7636.jpg"
+    },
+    {
+      "value": "SW 7646 First Star",
+      "img": "painted/SW7646.jpg"
+    },
+    {
+      "value": "SW 7647 Crushed Ice",
+      "img": "painted/SW7647.jpg"
+    },
+    {
+      "value": "SW 7661 Reflection",
+      "img": "painted/SW7661.jpg"
+    },
+    {
+      "value": "SW 7669 Summit Gray",
+      "img": "painted/SW7669.jpg"
+    },
+    {
+      "value": "SW 7674 Peppercorn",
+      "img": "painted/SW7674.jpg"
+    },
+    {
+      "value": "SW 7730 Forestwood",
+      "img": "painted/SW7730.jpg"
+    },
+    {
+      "value": "SW 7757 High Reflective White",
+      "img": "painted/SW7757.jpg"
+    },
+    {
+      "value": "SW 9104 Woven Wicker",
+      "img": "painted/SW9104.jpg"
+    },
+    {
+      "value": "SW 9109 Natural Linen",
+      "img": "painted/SW9109.jpg"
+    },
+    {
+      "value": "SW 9130 Evergreen Fog",
+      "img": "painted/SW9130.jpg"
+    },
+    {
+      "value": "SW 9132 Acacia Haze",
+      "img": "painted/SW9132.jpg"
+    },
+    {
+      "value": "SW 9144 Moonmist",
+      "img": "painted/SW9144.jpg"
+    },
+    {
+      "value": "SW 9165 Gossamer Veil",
+      "img": "painted/SW9165.jpg"
+    },
+    {
+      "value": "SW 9166 Drift of Mist",
+      "img": "painted/SW9166.jpg"
+    }
+  ]
+}

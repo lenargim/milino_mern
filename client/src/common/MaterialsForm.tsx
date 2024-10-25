@@ -55,7 +55,7 @@ const {
     drawers,
     leatherBoxMaterial: leatherBoxMaterialArr,
     leatherType: leatherTypeArr,
-    grain
+    grain,
 }: MaterialsType = materials;
 
 const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
@@ -78,7 +78,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const isLeather = category === 'Leather Closet';
     const isStandardDoor = category === 'Standard Door';
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
-    const colorArr = getDoorColorsArr(door_finish_material, category, doors, door_type) ?? []
+    const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     const isGrain = colorArr.find(el => el.value === door_color)?.isGrain;
     const boxMaterialArr: materialsData[] = getBoxMaterialArr(isLeather, boxMaterial, leatherBoxMaterialArr)
     const drawerTypesArr = drawers.find(el => el.value === drawer_brand)?.types;

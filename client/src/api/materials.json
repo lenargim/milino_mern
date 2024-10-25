@@ -4670,27 +4670,34 @@
           "colors": [
             {
               "value": "Ash Melamine",
+              "img": "Ash-Melamine-1.jpg",
               "isGrain": true
             },
             {
-              "value": "Beige Linen Melamine"
+              "value": "Beige Linen Melamine",
+              "img": "Beige-Linen-Melamine.jpg"
             },
             {
               "value": "Blanco Wood Melamine",
+              "img": "Blanco-Wood-Melamine.jpg",
               "isGrain": true
             },
             {
-              "value": "Grey Linen Melamine"
+              "value": "Grey Linen Melamine",
+              "img": "Gray-Linen-Melamine.jpg"
             },
             {
-              "value": "Grey Melamine"
+              "value": "Grey Melamine",
+              "img": "Gray-Melamine.jpg"
             },
             {
               "value": "Walnut Melamine",
+              "img": "Walnut-Melamine.jpg",
               "isGrain": true
             },
             {
-              "value": "White Melamine"
+              "value": "White Melamine",
+              "img": "White-Melamine.jpg"
             }
           ]
         }

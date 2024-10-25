@@ -42,6 +42,7 @@ import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
 import {useEffect, useRef} from "react";
+import standardColors from '../api/standardColors.json'
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -377,13 +378,11 @@ export const isDoorGrain = (doorFinishMaterial: string, colorArr: colorType[], d
 export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string): boolean => {
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
 }
-export const getDoorColorsArr = (doorFinishMaterial: string, room: MaybeEmpty<RoomType>, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
+export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boolean, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
     const finishArr: MaybeUndefined<finishType[]> = doors.find(el => el.value === doorType)?.finish;
-    if (!room) return undefined;
-    if (room === 'Standard Door') {
-        return doors.find(el => el.value === 'Painted')?.finish[0].colors;
-    }
-    return finishArr?.find(el => el.value === doorFinishMaterial)?.colors
+    return isStandardDoor ?
+        standardColors.colors as colorType[] :
+        finishArr?.find(el => el.value === doorFinishMaterial)?.colors
 }
 
 export const getBoxMaterialArr = (isLeather: boolean, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
