@@ -153,23 +153,13 @@ export function getStartPrice(customWidth: number, customHeight: number, customD
     const settingMinDepth = sizeLimit.depth[0];
     const settingMaxDepth = sizeLimit.depth[1];
 
+
+
     const isFitMinMaxWidth = (customWidth >= settingMinWidth) && (customWidth <= settingMaxWidth);
     const isFitMinMaxHeight = (customHeight >= settingMinHeight) && (customHeight <= settingMaxHeight);
     const isFitMinMaxDepth = (customDepth >= settingMinDepth) && (customDepth <= settingMaxDepth);
 
     if (!isFitMinMaxWidth || !isFitMinMaxHeight || !isFitMinMaxDepth || !tablePrice) {
-        return 0;
-    }
-    return +(tablePrice * allCoefs).toFixed(1)
-}
-
-export function getStandardStartPrice(customDepth: number, allCoefs: number, sizeLimit: sizeLimitsType, tablePrice: number | undefined): number {
-    const settingMinDepth = sizeLimit.depth[0];
-    const settingMaxDepth = sizeLimit.depth[1];
-
-    const isFitMinMaxDepth = (customDepth >= settingMinDepth) && (customDepth <= settingMaxDepth);
-
-    if (!isFitMinMaxDepth || !tablePrice) {
         return 0;
     }
     return +(tablePrice * allCoefs).toFixed(1)
@@ -302,9 +292,10 @@ export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItem
     return [...new Set<number>(filter.map(el => el.value))]
 }
 
-export function getPvcPrice(width: number, blindWidth: MaybeUndefined<number> = 0, height: number, isAcrylic = false, doorType?: string, doorFinish?: string): number {
+export function getPvcPrice(width: number, blindWidth: MaybeUndefined<number> = 0, height: number, isAcrylic = false, horizontal_line: number, doorType?: string, doorFinish?: string): number {
     if (doorType === 'No Doors' || doorFinish === 'Milino') return 0;
-    const sq = (width - blindWidth + height) * 2 / 12;
+    // const sq = (width - blindWidth + height) * 2 / 12;
+    const sq = (horizontal_line*(width - blindWidth) + height*2)/12
     const pvcPrice = sq * 2.5;
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
@@ -314,47 +305,42 @@ export function getDoorPrice(square: number, doorPriceMultiplier: number): numbe
     return +(square * doorPriceMultiplier).toFixed(1);
 }
 
-export function getDrawerPrice(qty: number, width: number, category: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
-    const isStandardCabinet = category === "Standard Door";
+export function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
+    const isStandardCabinet = door_type === 'Standard Door'
+    if (!qty) return 0;
 
-    if (!qty) return 0
-    let price: number = 0;
     switch (drawerBrand) {
         case 'Milino':
             switch (drawerType) {
                 case 'Undermount':
-                    price = isStandardCabinet ? qty * 10 : qty * 15;
-                    break;
+                    return isStandardCabinet ? qty * 10 : qty * 15;
                 case 'Legrabox':
-                    if (drawerColor === 'Led') {
-                        price = qty * 150;
-                        break;
+                    if (drawerColor === 'LED') {
+                        return qty * 150;
                     }
-                    price = !isStandardCabinet ? qty * 33 : 0;
-                    break;
+                    return !isStandardCabinet ? qty * 33 : 0;
                 case 'Dovetail':
-                    if (drawerColor === 'Maple') price = qty * (width * 2 + 25);
-                    if (drawerColor === 'Walnut') price = qty * (width * 2 + 45);
+                    if (drawerColor === 'Maple') return qty * (width * 2 + 25);
+                    if (drawerColor === 'Walnut') return qty * (width * 2 + 45);
                     break;
             }
             break
         case 'BLUM':
             switch (drawerType) {
                 case 'Undermount':
-                    price = qty * 40 + 15;
-                    break;
+                    return qty * 55;
                 case 'Legrabox':
-                    if (drawerColor === 'Orion Gray') price = qty * 150;
-                    if (drawerColor === 'Stainless Steel') price = qty * 200;
+                    if (drawerColor === 'Orion Gray') return qty * 150;
+                    if (drawerColor === 'Stainless Steel') return qty * 200;
                     break;
                 case 'Dovetail':
-                    if (drawerColor === 'Maple') price = qty * (width * 2 + 65);
-                    if (drawerColor === 'Walnut') price = qty * (width * 2 + 85);
+                    if (drawerColor === 'Maple') return qty * (width * 2 + 65);
+                    if (drawerColor === 'Walnut') return qty * (width * 2 + 85);
                     break;
             }
             break;
     }
-    return +price.toFixed(1)
+    return 0
 }
 
 
@@ -491,7 +477,7 @@ export const getPremiumCoef = (doorType: string, doorFinish: string): number => 
 }
 
 export const getGrainCoef = (doorGrain: string): number => {
-    return doorGrain === 'Gorizontal' ? 1.1 : 1
+    return doorGrain === 'Horizontal' ? 1.1 : 1
 }
 
 export const getBoxMaterialCoef = (boxMaterial: string, isStandard: boolean): number => {
@@ -504,7 +490,10 @@ export const getBoxMaterialFinishCoef = (doorFinish: string): number => {
 }
 
 export const getDoorPriceMultiplier = (doorType: string, doorFinish: string): number => {
-    if (doorType === 'Slab') return 0
+    if (doorType === 'Slab') {
+        if (doorFinish === 'Style Lite' || doorFinish === 'Wood Veneer') return 20;
+        return 0
+    }
     if (doorType === 'Painted' || doorType === 'Slatted') return 37.8
     if (doorType === 'Micro Shaker') return 36
     if (doorType === 'No Doors') return -8
@@ -536,7 +525,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
         leather
     } = materials;
 
-    const is_standard_cabinet = category === "Standard Door";
+    const is_standard_cabinet = door_type === "Standard Door";
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
     const base_price_type = getBasePriceType(door_type, door_finish_material);
@@ -873,7 +862,7 @@ export type AttributesPrices = {
     drawerPrice: number,
 }
 export const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {doorSquare, legsHeight, attributes, isProductStandard} = product;
+    const {doorSquare, legsHeight, attributes, isProductStandard, horizontal_line = 2} = product;
     const {
         door_option,
         options,
@@ -887,7 +876,6 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         drawer_brand,
         drawer_type,
         drawer_color,
-        category,
         door_price_multiplier,
         door_finish_material,
         door_type
@@ -908,9 +896,9 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         glassDoor: options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
-        pvcPrice: !isProductStandard ? getPvcPrice(width, blind_width, doorHeight, is_acrylic, door_type, door_finish_material) : 0,
+        pvcPrice: !isProductStandard ? getPvcPrice(width, blind_width, doorHeight, is_acrylic, horizontal_line,door_type, door_finish_material) : 0,
         doorPrice: !isProductStandard ? getDoorPrice(frontSquare, door_price_multiplier) : 0,
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, width, category, drawer_brand, drawer_type, drawer_color),
+        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, width, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }
 

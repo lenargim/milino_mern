@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
-import {changeAmountType} from "../Product/Cart";
+import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import {useField} from "formik";
 
 const NumberPart: FC<{ name?: string, el: string,label?:string }> = ({name, el, label}) => {

@@ -17,7 +17,7 @@ import LedBlock from "./LED";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
-import {productValuesType} from "../../helpers/helpers";
+import {isShowBlindWidthBlock, productValuesType} from "../../helpers/helpers";
 import {
     coefType,
     getInitialPrice, getPriceForExtraDepth,
@@ -44,9 +44,8 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 allCoefs,
                                                 coef
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard} = product;
+    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard, product_type} = product;
     const {values} = useFormikContext<productValuesType>();
-
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
     const heightRangeWithCustom = !isProductStandard ? heightRange.concat([0]) : heightRange;
@@ -68,6 +67,8 @@ const CabinetLayOut: FC<CabinetFormType> = ({
         price
     } = values;
 
+    const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
+
     const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
     const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
     const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
@@ -87,11 +88,11 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                         {!width && <ProductInputCustom value={null} name={'Custom Width'}/>}
                     </div>
                 </div> : null}
-            {blindArr ?
+            {showBlindWidthBlock ?
                 <div className={s.block}>
                     <h3>Blind width</h3>
                     <div className={s.options}>
-                        {blindArr.map((w, index) => <ProductRadioInputCustom key={index}
+                        {blindArr && blindArr.map((w, index) => <ProductRadioInputCustom key={index}
                                                                              name={'Blind Width'}
                                                                              value={w}/>)}
                         {!blindWidth && <ProductInputCustom value={null} name={'Custom Blind Width'}/>}

@@ -1,31 +1,31 @@
 import * as Yup from 'yup';
-import {RoomType} from "../../helpers/categoriesTypes";
 import {ObjectSchema} from "yup";
-import {MaybeEmpty, roomCategories} from "../../helpers/productTypes";
+import {roomCategories} from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
     room_name: Yup.string()
         .default(null)
-        .defined('Enter room name')
+        .defined('Enter Process Order name')
         .nullable(),
-        // .required('Enter room name'),
     category: Yup.string()
         .oneOf(roomCategories)
         .defined()
         .required(),
     door_type: Yup.string()
         .default('')
-        .when('category', {
-            is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
-            then: schema => schema.required('Please write down door type').required(),
-        }),
+        // .when('category', {
+        //     is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
+        //     then: schema => schema.required('Please write down door type').required(),
+        // })
+    ,
     door_finish_material: Yup.string()
         .default('')
-        .when('category', {
-            is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
-            then: schema => schema.required('Please write down finish material'),
-        }),
+        // .when('category', {
+        //     is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
+        //     then: schema => schema.required('Please write down finish material'),
+        // })
+    ,
     door_frame_width: Yup.string()
         .default('')
         .when('door_type', {

@@ -5,6 +5,7 @@ export type OrderFormSelectType = {
     value: string,
     name: string,
     label?: string
+    small?: boolean
 }
 
 export type materialsData = {
@@ -31,11 +32,6 @@ export interface finishType extends materialsData{
 
 export interface colorType extends materialsData{
     isGrain?: boolean,
-}
-
-export type boxMaterialType = {
-    value: string,
-    img: string
 }
 
 export type MaterialsType = {

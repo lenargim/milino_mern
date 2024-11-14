@@ -35,7 +35,6 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
-
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
     const {widthRange, heightRange, depthRange} = productRange
     if (!widthRange.length) return <div>Cannot find initial width</div>;
@@ -97,7 +96,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             }}
         >
             <>
-                <ProductLeft product={product}/>
+                <ProductLeft product={product} materials={materials}/>
                 <div className={s.right}>
                     <Cabinet product={product}
                              materialData={materialData}

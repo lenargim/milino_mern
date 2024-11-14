@@ -7,7 +7,7 @@ import {
     useAppDispatch
 } from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {changeAmountType} from "./Cart";
+import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import CartItemOptions from "./CartItemOptions";
 import {CartItemType} from "../../api/apiFunctions";
 

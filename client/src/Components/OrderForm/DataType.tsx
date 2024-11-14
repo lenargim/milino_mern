@@ -6,13 +6,13 @@ import {materialsData, OrderFormSelectType} from "../../helpers/materialsTypes";
 import SelectFieldWithImg from "../../common/SelectFieldWithImg";
 
 
-const DataType: FC<OrderFormSelectType> = ({data, value, name, label}) => {
+const DataType: FC<OrderFormSelectType> = ({data, value, name, label, small}) => {
     return (
         <div className={s.orderBlock}>
             <h2>{label ?? name}:</h2>
             {value
                 ? <SelectedField value={value} data={data} name={name}/>
-                : <UnSelectedField value={value} data={data} name={name}/>
+                : <UnSelectedField value={value} data={data} name={name} small={!!small}/>
             }
         </div>
     );
@@ -33,7 +33,7 @@ const SelectedField: FC<OrderFormSelectType> = ({value, data, name}) => {
     )
 }
 
-const UnSelectedField: FC<OrderFormSelectType> = ({data, name}) => {
+const UnSelectedField: FC<OrderFormSelectType> = ({data, name, small}) => {
     return (
         <div className={s.type} role="group">
             {data.map((el, key) => <RadioInput
@@ -41,7 +41,7 @@ const UnSelectedField: FC<OrderFormSelectType> = ({data, name}) => {
                 key={key}
                 value={el.value}
                 name={name}
-                className={s.typeItem}
+                className={[s.typeItem, small ? s.typeItemSmall : ''].join(' ')}
                 />)}
         </div>
     )

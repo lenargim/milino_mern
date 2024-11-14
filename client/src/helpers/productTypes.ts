@@ -12,8 +12,8 @@ export type cornerTypes = 'Left' | 'Right' | '';
 export const cornerArr: cornerTypes[] = ["Left", "Right"];
 export const hingeArr: hingeTypes[] = ['Left', 'Right', 'Double Door', 'Single Door'];
 
-export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "Standard Door"]
-export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet" | "Standard Door"
+export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"]
+export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet"
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes = 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing';
 
@@ -60,7 +60,8 @@ export type ProductType = {
     heightRange?: number,
     cartExtras: CartExtrasType,
     hasLedBlock: boolean,
-    blindArr?: number[]
+    blindArr?: number[],
+    horizontal_line?: number
 }
 
 
@@ -238,26 +239,11 @@ export type CabinetType = {
     sizeLimit: sizeLimitsType,
 }
 
-
-// export type StandardCabinetType = {
-//     product: standardProductType,
-//     materials: OrderFormType,
-// }
-
 export type StandardMaterialDataType = {
     category: string
     boxMaterialCoef: number,
     drawer: drawerInterface,
 }
-
-// export type StandardCabinetFormType = {
-//     product: standardProductType,
-//     StandardProductPriceData: StandardProductDataToCalculatePriceType,
-//     sizeLimit: sizeLimitsType,
-//     baseProductPrice: pricePart[],
-//     productRange: productRangeType
-//     materialData: StandardMaterialDataType
-// }
 
 export type DepthRangeType = {
     [key: string]: number,

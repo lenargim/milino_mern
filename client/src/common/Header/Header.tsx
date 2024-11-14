@@ -43,7 +43,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormTyp
             <div className={s.right}>
                 {isResetMaterialsShown ? <button type="button" onClick={() => resetMaterials()}>Reset</button> : null}
                 {isChangeMaterialsPageShown ? <NavLink to={"/"}>Change materials</NavLink> : null}
-                {isCartShown ? <Cart length={cartLength} link="/checkout"/> : null}
+                {isCartShown ? <MiniCart length={cartLength} link="/checkout"/> : null}
             </div>
         </header>
     );
@@ -51,7 +51,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormTyp
 
 export default Header;
 
-export const Cart: FC<{ length: number, link:string }> = ({length, link}) => {
+export const MiniCart: FC<{ length: number, link:string }> = ({length, link}) => {
     return (
         <NavLink to={link} className={s.cart}>
             <CartSVG classes={s.cart}/>

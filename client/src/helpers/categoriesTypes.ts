@@ -5,7 +5,7 @@ export type category = {
     img: string
 }
 
-export type RoomType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet' | 'Standard Door';
+export type RoomType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet';
 
 export type roomType = {
     defaultImg: string,
@@ -18,5 +18,6 @@ export type setCategoryType = (value: productCategory) => void;
 export type SliderType = {
     category: productCategory | '',
     setCategory: setCategoryType,
-    room: RoomType
+    room: RoomType,
+    isStandardCabinet: boolean
 }

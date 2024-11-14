@@ -23,12 +23,10 @@ const OrderForm = () => {
                 navigate('/cabinets');
             })}
         >
-            {props => (
-                <div className="page">
-                    <Main />
-                    <Sidebar materials={props.values} />
-                </div>
-            )}
+            <div className="page">
+                <Main />
+                <Sidebar />
+            </div>
         </Formik>
     );
 };

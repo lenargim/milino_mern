@@ -8,13 +8,14 @@ export type CabinetsMainType = {
 }
 
 const CabinetsMain: FC<CabinetsMainType> = ({materials}) => {
-    const {category} = materials;
+    const {category, door_type} = materials;
+    const isStandardCabinet = door_type === 'Standard Door'
     if (!category) return <Navigate to={{pathname: '/'}}/>;
     return (
         <div className="container">
             <Header/>
             <h1>{category}</h1>
-            <Room room={category}  />
+            <Room isStandardCabinet={isStandardCabinet} room={category} />
         </div>
     );
 

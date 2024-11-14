@@ -15,10 +15,10 @@ import {
 } from "../../helpers/productTypes";
 import {RoomType} from "../../helpers/categoriesTypes";
 
-const List: FC<{ category: productCategory, room: RoomType }> = ({category, room}) => {
+const List: FC<{ category: productCategory, room: RoomType, isStandardCabinet:boolean }> = ({category, room, isStandardCabinet}) => {
     switch (category) {
         case "Custom Parts":
-            const customParts = getCustomParts(room);
+            const customParts = getCustomParts(room,isStandardCabinet);
             return (
                 customParts.length ?
                     <div className={s.list}>
@@ -26,7 +26,7 @@ const List: FC<{ category: productCategory, room: RoomType }> = ({category, room
                     </div> : <div>Sorry, there are no custom parts yet</div>
             );
         default:
-            const products = getProductsByCategory(room, category);
+            const products = getProductsByCategory(room, category,isStandardCabinet);
             return (
                 products.length ?
                     <div className={s.list}>
@@ -52,7 +52,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
         <NavLink to={`product/${category}/${id}`} className={s.item}
         >
             <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
-            <div className={s.itemData}>
+            <div>
                 <div className={s.name}>{name}</div>
                 <AtrrsList attributes={attributes} type={initialType}/>
             </div>
@@ -66,7 +66,7 @@ const Part: FC<{ product: customPartDataType }> = ({product}) => {
         <NavLink to={`custom_part/${id}`} className={s.item}
         >
             <div className={s.itemImg}><img src={getImg('products/custom', images[0].value)} alt={name}/></div>
-            <div className={s.itemData}>
+            <div>
                 <div className={s.name}>{name}</div>
             </div>
         </NavLink>
@@ -76,7 +76,7 @@ const Part: FC<{ product: customPartDataType }> = ({product}) => {
 export const AtrrsList: FC<{ attributes: attrItem[], type: productTypings }> = ({attributes, type}) => {
     const attrs = getAttributes(attributes, type);
     return (
-        <div className={s.attrs}>
+        <div>
             {attrs.map((attr, index) => {
                 let hasValue = !!attr.value;
                 const isMultiple = attr.value > 1;

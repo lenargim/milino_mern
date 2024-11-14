@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2",
-    "@types/jest": "^29.5.12"
+    "@types/jest": "^29.5.12",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

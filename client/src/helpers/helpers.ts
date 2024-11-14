@@ -43,6 +43,7 @@ import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
 import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
+import {retry} from "@reduxjs/toolkit/query";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -93,14 +94,19 @@ export const getFraction = (numberFraction: number): string => {
 }
 
 
-export const getProductsByCategory = (room: RoomType, category: productCategory): ProductType[] => {
-    const isProductStandard = room === 'Standard Door';
-    const products = (isProductStandard ? standardCabinets : cabinets) as ProductType[]
+export const getProductsByCategory = (room: RoomType, category: productCategory,isStandardCabinet:boolean): ProductType[] => {
+    const products = (isStandardCabinet ? standardCabinets : cabinets) as ProductType[]
     return products.filter(product => product.category === category);
 }
 
 export const getProductById = (id: number, isProductStandard: boolean): MaybeNull<ProductType> => {
-    const product = (isProductStandard ? standardCabinets : cabinets).find(product => product.id === id) as ProductType;
+    let product;
+    if (isProductStandard) {
+        product = standardCabinets.find(product => product.id === id) as ProductType
+    } else {
+        product = cabinets.find(product => product.id === id) as ProductType
+    }
+
     if (!product) return null;
     const {category, isBlind} = product;
     const hasLedBlock = isHasLedBlock(category);
@@ -114,8 +120,8 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
     }
 }
 
-export const getCustomParts = (room: RoomType): customPartDataType[] => {
-    if (room !== 'Standard Door') {
+export const getCustomParts = (room: RoomType,isStandardCabinet:boolean): customPartDataType[] => {
+    if (!isStandardCabinet) {
         const standardDoorCustomParts = customParts.filter(el => el.name !== 'Standard Door' && el.name !== 'Glass Door')
         return standardDoorCustomParts as customPartDataType[];
     }
@@ -350,17 +356,17 @@ export const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-export const isDoorTypeShown = (room: RoomType | ''): boolean => {
-    return (!!room && room !== 'Standard Door')
-}
+// export const isDoorTypeShown = (room: RoomType | ''): boolean => {
+//     return (!!room && room !== 'Standard Door')
+// }
 
 export const isDoorFinishShown = (room: RoomType | '', doorType: string, finishArr?: finishType[]): boolean => {
-    if (!room || room === 'Standard Door') return false
+    if (!room || doorType === 'Standard Door') return false
     return !!(doorType && finishArr?.length)
 }
 
-export const isDoorColorShown = (room: RoomType | '', doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
-    if (room === 'Standard Door') return true;
+export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+    if (doorType === 'Standard Door') return true;
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
@@ -383,6 +389,10 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
     return isStandardDoor ?
         standardColors.colors as colorType[] :
         finishArr?.find(el => el.value === doorFinishMaterial)?.colors
+}
+
+export const getDoorTypeArr = (doors:doorType[], isKitchen:boolean) => {
+    return isKitchen ? doors : doors.filter(el => el.value !== 'Standard Door')
 }
 
 export const getBoxMaterialArr = (isLeather: boolean, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
@@ -483,6 +493,12 @@ export const getRoomFront = (room: RoomTypeAPI): RoomFront => {
         cart: frontCart
     }
     return roomFront
+}
+
+
+export const getUpdatedCart = (room:RoomFront):CartItemType[] => {
+    const {cart} = room
+    return cart
 }
 
 export const getCartArrFront = (cart: CartAPIResponse[], room: RoomTypeAPI | RoomFront): CartItemType[] => {
@@ -825,4 +841,9 @@ export const getDimentionsRow = (width: number, height: number, depth: number): 
     const heightPart = height ? `${getFraction(height)}"H` : '';
     const depthPart = depth && depth > 1 ? `x ${getFraction(depth)}"D` : '';
     return `${widthPart} ${heightPart} ${depthPart}`
+}
+
+
+export const isShowBlindWidthBlock = (blindArr:MaybeUndefined<number[]>,product_type:ProductApiType): boolean => {
+    return (!(product_type === 'standard' || !blindArr || !blindArr.length));
 }

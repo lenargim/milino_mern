@@ -30,7 +30,6 @@ const Cabinet: FC<CabinetType> = ({
         category,
         isAngle,
     } = product;
-
     const {
         box_material_coef,
         box_material_finish_coef,

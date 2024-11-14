@@ -1,30 +1,33 @@
 import * as Yup from 'yup';
-import { StringSchema} from "yup";
+import {StringSchema} from "yup";
 import {RoomType} from "../../helpers/categoriesTypes";
+import {MaybeEmpty} from "../../helpers/productTypes";
 
 
-export const RoomSchema= (reservedNames:string[] = []) => {
+export const RoomSchema = (reservedNames: string[] = []) => {
     return (
         Yup.object({
             room_name: Yup.string()
-                .required()
+                .required('Enter Process Order name')
                 .notOneOf(reservedNames, 'Name should be unique')
                 .min(2, 'Min 2 symbols'),
             category: Yup.string()
                 .ensure()
-                .required() as StringSchema<RoomType | ''>,
+                .required() as StringSchema<MaybeEmpty<RoomType>>,
             door_type: Yup.string()
                 .ensure()
-                .when('category',  {
-                    is: (val:RoomType | '') => val !== 'Standard Door',
-                    then: schema => schema.required('Please write down door type'),
-                }),
+                .required('Please write down door type'),
+            // .when('category',  {
+            //     is: (val:RoomType | '') => val !== 'Standard Door',
+            //     then: schema => schema,
+            // }),
             door_finish_material: Yup.string()
                 .ensure()
-                .when('category',  {
-                    is: (val:RoomType | '') => val !== 'Standard Door',
-                    then: schema => schema.required('Please write down finish material'),
-                }),
+                .required('Please write down door type'),
+            // .when('category',  {
+            //     is: (val:RoomType | '') => val !== 'Standard Door',
+            //     then: schema => schema.required('Please write down finish material'),
+            // }),
             door_frame_width: Yup.string()
                 .when('door_type', {
                     is: 'Micro Shaker',

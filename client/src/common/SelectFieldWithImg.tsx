@@ -16,6 +16,10 @@ const SelectFieldWithImg: FC<SelectFieldType> = ({options, name, val}) => {
     const onChange = (value: OnChangeValue<materialsData, false>) => {
         if (value) setValue(value.value);
     };
+
+    const onFocus = () => {
+        if (field.value) setValue('');
+    };
     useEffect(() => {
         if (field.value && !val) {
             setValue('')
@@ -77,6 +81,7 @@ const SelectFieldWithImg: FC<SelectFieldType> = ({options, name, val}) => {
             className={[styles.row, styles.selectImg].join(' ')}>
             <Select options={options}
                     onChange={onChange}
+                    onFocus={onFocus}
                     styles={customStyles}
                     isSearchable={false}
                     defaultValue={val}

@@ -27,11 +27,12 @@ import {MaterialsFormType} from "./common/MaterialsForm";
 import CustomPartWrap from "./Components/CustomPart/CustomPartWrap";
 import RoomCustomPart from "./Components/Profile/RoomCustomPart";
 import RoomCheckout from "./Components/Profile/RoomCheckout";
+import LoggedInRoute from "./common/LoggedInRoute";
 
 function App() {
     const dispatch = useAppDispatch()
     const {isAuth, user} = useAppSelector(state => state.user);
-    const materials:MaybeNull<MaterialsFormType> = useAppSelector(state => state.general.materials) ?? getStorageMaterials();
+    const materials: MaybeNull<MaterialsFormType> = useAppSelector(state => state.general.materials) ?? getStorageMaterials();
     const token = localStorage.getItem('token');
     const privateRouteProps: Omit<PrivateRouteProps, 'outlet'> = {
         isAuth,
@@ -41,25 +42,33 @@ function App() {
 
     useEffect(() => {
         token && me().then(user => {
-            if (user) {
-                dispatch(setUser(user))
-                dispatch(setIsAuth(true))
-            }
+            user ? dispatch(setUser(user)) : dispatch(setIsAuth(false))
         });
     }, [isAuth]);
     return (
         <div className="app">
             <Routes>
-                <Route path="/" element={<OrderForm/>}/>
-                <Route path="cabinets" element={<WithChosenMaterials outlet={<Cabinets/>}/>}/>
+                <Route path='/' element={<LoggedInRoute {...privateRouteProps} authenticationPath="/profile"
+                                                        outlet={<OrderForm/>}/>}/>
+                <Route path="cabinets"
+                       element={<LoggedInRoute
+                           {...privateRouteProps}
+                           authenticationPath="/profile"
+                           outlet={<WithChosenMaterials
+                               outlet={<Cabinets/>}/>}/>}/>
                 <Route path="/cabinets/product/:category/:productId"
-                       element={<WithChosenMaterials outlet={<ProductWrap materials={materials} />}/>}/>
-                <Route path="/cabinets/custom_part/:productId" element={<WithChosenMaterials outlet={<CustomPartWrap materials={materials}/>}/>}/>
-                {/*<Route path="/cabinets/pvc/:productId" element={<WithChosenMaterials outlet={<CustomPart/>}/>}/>*/}
+                       element={<WithChosenMaterials outlet={<ProductWrap materials={materials}/>}/>}/>
+                <Route path="/cabinets/custom_part/:productId"
+                       element={<WithChosenMaterials outlet={<CustomPartWrap materials={materials}/>}/>}/>
 
-                <Route path="/checkout" element={<WithChosenMaterials outlet={<Checkout/>}/>}/>
+                <Route path="/checkout" element={<LoggedInRoute
+                    {...privateRouteProps}
+                    authenticationPath="/profile"
+                    outlet={<WithChosenMaterials
+                        outlet={<Checkout/>}/>}/>}/>
                 <Route path="/login" element={<PublicRote isAuth={isAuth} outlet={<Login/>}/>}/>
                 <Route path="/signup" element={<PublicRote isAuth={isAuth} outlet={<SignUp/>}/>}/>
+
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
                     <Route path="rooms" element={<ProfileRooms/>}>
@@ -68,7 +77,7 @@ function App() {
                             <Route path="edit" element={<ProfileRoomEdit/>}/>
                             <Route path="product/:category/:productId" element={<RoomProduct/>}/>
                             <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
-                            <Route path="checkout" element={<RoomCheckout />} />
+                            <Route path="checkout" element={<RoomCheckout/>}/>
                         </Route>
                         <Route path="new" element={<RoomsNew/>}/>
                     </Route>

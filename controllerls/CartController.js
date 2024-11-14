@@ -1,4 +1,5 @@
 import CartModel from '../models/Cart.js'
+import RoomModel from "../models/Room.js";
 
 export const addToCart = async (req, res) => {
   try {
@@ -19,6 +20,24 @@ export const addToCart = async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create Cart'
+    })
+  }
+}
+
+
+export const getOne = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+    const doc = await CartModel.findOne({room: roomId});
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Process Order not found'
+      })
+    }
+    res.json(doc)
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot get Process Order'
     })
   }
 }

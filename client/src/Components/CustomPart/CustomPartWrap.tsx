@@ -1,11 +1,11 @@
 import React, {FC, useEffect} from 'react';
 import Header from "../../common/Header/Header";
 import s from '../Product/product.module.sass'
-import Cart from "../Product/Cart";
 import {useNavigate, useParams} from "react-router-dom";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import {MaybeNull} from "../../helpers/productTypes";
 import CustomPart from "./CustomPart";
+import Sidebar from "../OrderForm/Sidebar/Sidebar";
 
 const CustomPartWrap: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const CustomPartWrap: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materi
                     <CustomPart materials={materials}/>
                 </div>
             </div>
-            <Cart/>
+            <Sidebar/>
         </div>
     );
 };

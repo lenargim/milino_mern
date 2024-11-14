@@ -60,7 +60,6 @@ export const TextInput: FC<textInputInterface> = ({
     const {error, touched} = meta;
     const length = field?.value?.length ?? 0;
 
-
     return (
         <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
             <Field
@@ -99,6 +98,7 @@ export const PhoneInput: FC<textInputInterface> = ({
                         helpers.setValue(value);
                         helpers.setTouched(true);
                     }}
+                    value={field.value}
                     className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
                     type={type}
                     id={name}

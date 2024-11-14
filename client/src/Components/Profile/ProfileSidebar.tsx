@@ -16,7 +16,7 @@ const ProfileSidebar = () => {
         <div className={s.profileSidebar}>
             <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>
             <aside className={s.sidebar}>
-                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">Rooms</NavLink>
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">Process Orders</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
                 <button type="button" onClick={logOut}>Log out</button>
             </aside>

@@ -712,87 +712,27 @@
     "prices": [
       {
         "width": 24,
-        "height": 10.5,
-        "price": 177
-      },
-      {
-        "width": 24,
-        "height": 16.5,
-        "price": 177
-      },
-      {
-        "width": 24,
-        "height": 19.5,
+        "height": 12,
         "price": 177
       },
       {
         "width": 27,
-        "height": 10.5,
-        "price": 189
-      },
-      {
-        "width": 27,
-        "height": 16.5,
-        "price": 189
-      },
-      {
-        "width": 27,
-        "height": 19.5,
+        "height": 12,
         "price": 189
       },
       {
         "width": 30,
-        "height": 10.5,
-        "price": 199
-      },
-      {
-        "width": 30,
-        "height": 13.5,
-        "price": 199
-      },
-      {
-        "width": 30,
-        "height": 16.5,
-        "price": 199
-      },
-      {
-        "width": 30,
-        "height": 19.5,
+        "height": 12,
         "price": 199
       },
       {
         "width": 33,
-        "height": 10.5,
-        "price": 211
-      },
-      {
-        "width": 33,
-        "height": 16.5,
-        "price": 211
-      },
-      {
-        "width": 33,
-        "height": 19.5,
+        "height": 12,
         "price": 211
       },
       {
         "width": 36,
-        "height": 10.5,
-        "price": 221
-      },
-      {
-        "width": 36,
-        "height": 13.5,
-        "price": 221
-      },
-      {
-        "width": 36,
-        "height": 16.5,
-        "price": 221
-      },
-      {
-        "width": 36,
-        "height": 19.5,
+        "height": 12,
         "price": 221
       }
     ]

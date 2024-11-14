@@ -10,8 +10,9 @@ import {useOutletContext} from "react-router-dom";
 
 const RoomCategory: FC = () => {
     const [roomData] = useOutletContext<[RoomFront]>()
-    const {_id, activeProductCategory: category, category: room} = roomData;
+    const {_id, activeProductCategory: category, category: room, door_type} = roomData;
     if (!room) return null;
+    const isStandardCabinet = door_type === 'Standard Door'
     const {categories, defaultImg} = categoriesData[room] as catInfoType;
     const currentCat = categories.find(cat => cat.name === category);
     return (
@@ -31,7 +32,7 @@ const RoomCategory: FC = () => {
                     </div>
                 </div>
             </form>
-            {category && <List category={category} room={room}/>}
+            {category && <List category={category} room={room} isStandardCabinet={isStandardCabinet}/>}
         </>
     )
 };

@@ -10,6 +10,7 @@ export const emptyUser = {
     _id: '',
     email: '',
     name: '',
+    phone: ''
 }
 
 const initialState: UserState = {

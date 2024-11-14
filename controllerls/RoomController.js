@@ -28,13 +28,13 @@ export const getOne = async (req, res) => {
     const doc = await RoomModel.findOne({_id: roomId});
     if (!doc) {
       return res.status(404).json({
-        message: 'Room not found'
+        message: 'Process Order not found'
       })
     }
     res.json(doc)
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot get room'
+      message: 'Cannot get Process Order'
     })
   }
 }
@@ -70,7 +70,7 @@ export const remove = async (req, res) => {
     await RoomModel.findByIdAndDelete(roomId).then(doc => {
       if (!doc) {
         return res.status(404).json({
-          message: 'Room not found'
+          message: 'Process Order not found'
         })
       }
       return res.json(doc);
@@ -78,7 +78,7 @@ export const remove = async (req, res) => {
 
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot get room'
+      message: 'Cannot get Process Order'
     })
   }
 }
@@ -93,7 +93,7 @@ export const update = async (req, res) => {
     }).then(doc => {
       if (!doc) {
         return res.status(404).json({
-          message: 'Room not found'
+          message: 'Process Order not found'
         })
       }
       return res.json(doc);
@@ -101,7 +101,7 @@ export const update = async (req, res) => {
 
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot update room'
+      message: 'Cannot update Process Order'
     })
   }
 }

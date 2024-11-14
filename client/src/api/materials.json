@@ -15,10 +15,6 @@
     {
       "value": "Leather Closet",
       "img": "leather.jpg"
-    },
-    {
-      "value": "Standard Door",
-      "img": "standard door.jpg"
     }
   ],
   "doors": [
@@ -581,82 +577,82 @@
           "img": "Veneer.jpg",
           "colors": [
             {
-              "value": "Oak Desert",
+              "value": "Oak Desert (In Stock)",
               "img": "veneer/Desert Oak.jpg"
             },
             {
-              "value": "Oak Ivory",
+              "value": "Oak Ivory (In Stock)",
               "img": "veneer/Ivory Oak 2.jpg"
             },
             {
-              "value": "Oak Manhattan",
+              "value": "Oak Manhattan (In Stock)",
               "img": "veneer/Manhattan Oak.jpg"
             },
             {
-              "value": "Oak Milk",
+              "value": "Oak Milk (In Stock)",
               "img": "veneer/Milk Oak.jpg"
             },
             {
-              "value": "Triba Pebble",
+              "value": "Triba Pebble (In Stock)",
               "img": "veneer/Pebble Triba.jpg"
             },
             {
-              "value": "Walnut Frozen",
+              "value": "Walnut Frozen (In Stock)",
               "img": "veneer/Frozen Walnut.jpg"
             },
             {
-              "value": "Walnut Pure",
+              "value": "Walnut Pure (In Stock)",
               "img": "veneer/Pure Walnut.jpg"
             },
             {
-              "value": "Walnut Smoked",
+              "value": "Walnut Smoked (In Stock)",
               "img": "veneer/Smoked Walnut.jpg"
             },
             {
-              "value": "Eucalyptus Shadow",
+              "value": "Eucalyptus Shadow (Special Order)",
               "img": "veneer/Shadow Eucalyptus.jpg"
             },
             {
-              "value": "Oak Bondi",
+              "value": "Oak Bondi (Special Order)",
               "img": "veneer/Bondi Oak.jpg"
             },
             {
-              "value": "Oak Burley",
+              "value": "Oak Burley (Special Order)",
               "img": "veneer/Burley Oak.jpg"
             },
             {
-              "value": "Oak Ivory Infinite",
+              "value": "Oak Ivory Infinite (Special Order)",
               "img": "veneer/Ivory Infinite Oak.jpg"
             },
             {
-              "value": "Oak Natural",
+              "value": "Oak Natural (Special Order)",
               "img": "veneer/Natural Oak.jpg"
             },
             {
-              "value": "Oak Raven",
+              "value": "Oak Raven (Special Order)",
               "img": "veneer/Raven Oak.jpg"
             },
             {
-              "value": "Oak Sahara",
+              "value": "Oak Sahara (Special Order)",
               "img": "veneer/Sahara Oak.jpg"
             },
             {
-              "value": "Sapele Terra",
+              "value": "Sapele Terra (Special Order)",
               "img": "veneer/Terra Sapele.jpg"
             },
             {
-              "value": "Triba Cinnamon",
+              "value": "Triba Cinnamon (Special Order)",
               "img": "veneer/Cinnamon Triba.jpg"
             },
             {
-              "value": "Walnut Stardust",
+              "value": "Walnut Stardust (Special Order)",
               "img": "veneer/Stardust Walnut.jpg"
             }
           ]
         },
         {
           "value": "Style Lite",
-          "img": "stylelite.jpg",
+          "img": "StyleLite.jpg",
           "colors": [
             {
               "value": "Alabaster Gloss",
@@ -1723,52 +1719,6 @@
               "img": "Titanium-300x300.jpg"
             }
           ]
-        },
-        {
-          "value": "Stone",
-          "img": "",
-          "colors": [
-            {
-              "value": "Silver Grey",
-              "img": "Silver Grey.jpg"
-            },
-            {
-              "value": "Galaxy Black",
-              "img": "Galaxy Black.jpg"
-            },
-            {
-              "value": "Ice Pearl",
-              "img": "Ice Pearl.jpg"
-            },
-            {
-              "value": "Blanco",
-              "img": "Blanco.jpg"
-            },
-            {
-              "value": "Verde",
-              "img": "Verde.jpg"
-            },
-            {
-              "value": "California Gold",
-              "img": "California Gold.jpg"
-            },
-            {
-              "value": "Mare",
-              "img": "Mare.jpg"
-            },
-            {
-              "value": "D.Black",
-              "img": "D.Black.jpg"
-            },
-            {
-              "value": "Green Pearl",
-              "img": "Green Pearl.jpg"
-            },
-            {
-              "value": "Argento",
-              "img": "Argento.jpg"
-            }
-          ]
         }
       ]
     },
@@ -1790,12 +1740,12 @@
           "value": "Zenit",
           "colors": [
             {
-              "value": "Antracita SM",
-              "img": "Supermatt Antracita.jpg"
+              "value": "Agave SM",
+              "img": "Agave.jpg"
             },
             {
-              "value": "Azul Marino SM",
-              "img": "SuperMatt Azul Marino.jpg"
+              "value": "Antracita SM",
+              "img": "Supermatt Antracita.jpg"
             },
             {
               "value": "Blanco SM",
@@ -1804,10 +1754,6 @@
             {
               "value": "Cashmere SM",
               "img": "Supermatt Cashmere.jpg"
-            },
-            {
-              "value": "Verde Salvia SM",
-              "img": "SuperMatt Verde Salvia.jpg"
             }
           ],
           "img": "zenit.jpg"
@@ -1817,59 +1763,9 @@
           "img": "syncron.jpg",
           "colors": [
             {
-              "value": "Como Ash 1",
-              "isGrain": true,
-              "img": "Como Ash 1.jpg"
-            },
-            {
               "value": "Como Ash 2",
               "isGrain": true,
               "img": "Como Ash 2.jpg"
-            },
-            {
-              "value": "Frappe 1",
-              "isGrain": true,
-              "img": "Frappé 1.jpg"
-            },
-            {
-              "value": "Ida 1",
-              "isGrain": true,
-              "img": "Ida 1.jpg"
-            },
-            {
-              "value": "Muratti 4",
-              "isGrain": true,
-              "img": "Muratti 4.jpg"
-            },
-            {
-              "value": "Nocce 1",
-              "isGrain": true,
-              "img": "Nocce 1.jpg"
-            },
-            {
-              "value": "Nocce 3",
-              "isGrain": true,
-              "img": "Nocce 3.jpg"
-            },
-            {
-              "value": "Olmo 3",
-              "isGrain": true,
-              "img": "Olmo 3.jpg"
-            },
-            {
-              "value": "Picasso 1",
-              "isGrain": true,
-              "img": "Picasso 1.jpg"
-            },
-            {
-              "value": "Picasso 2",
-              "isGrain": true,
-              "img": "Picasso 2.jpg"
-            },
-            {
-              "value": "Picasso 3",
-              "isGrain": true,
-              "img": "Picasso 3.jpg"
             },
             {
               "value": "Rosales 1",
@@ -1880,6 +1776,26 @@
               "value": "Rosales 2",
               "isGrain": true,
               "img": "Rosales 2.jpg"
+            },
+            {
+              "value": "Rosales 3",
+              "isGrain": true,
+              "img": "Rosales 3.jpg"
+            },
+            {
+              "value": "Nocce 1",
+              "isGrain": true,
+              "img": "Nocce 1.jpg"
+            },
+            {
+              "value": "Muratti 4",
+              "isGrain": true,
+              "img": "Muratti 4.jpg"
+            },
+            {
+              "value": "Woodline 3",
+              "isGrain": true,
+              "img": "Woodline 3.jpg"
             }
           ]
         }
@@ -4086,7 +4002,7 @@
             },
             {
               "value": "Jet Black Acrylic",
-              "img": ""
+              "img": "Black-Ultra-Gloss-300x300.jpg"
             },
             {
               "value": "Royal Blue Acrylic",
@@ -4702,6 +4618,11 @@
           ]
         }
       ]
+    },
+    {
+      "value": "Standard Door",
+      "img": "Standard Shaker Door.jpg",
+      "finish": []
     }
   ],
   "boxMaterial": [
@@ -4930,12 +4851,12 @@
   ],
   "grain": [
     {
-      "value": "Gorizontal",
-      "img": ""
+      "value": "Horizontal",
+      "img": "Horizontal Grain.jpg"
     },
     {
       "value": "Vertical",
-      "img": ""
+      "img": "Vertical Grain.jpg"
     }
   ]
 }

@@ -23,6 +23,7 @@ const corsOptions = {
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
   "optionsSuccessStatus": 204
+
 }
 const CORS = cors(corsOptions);
 
@@ -56,6 +57,7 @@ const start = async () => {
     app.delete('/api/rooms/:id', checkAuth, RoomController.remove)
     app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.update)
 
+    app.get('/api/cart/:roomId', checkAuth, CartController.getOne)
     app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
     app.delete('/api/cart/:cartId', checkAuth, CartController.remove)
     app.patch('/api/cart/:cartId', checkAuth, CartController.update)

@@ -10,7 +10,7 @@ const Cabinets: FC = () => {
     return (
         <div className="page">
             <CabinetsMain materials={materials}/>
-            <Sidebar materials={materials} />
+            <Sidebar />
         </div>
     );
 };

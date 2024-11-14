@@ -1,7 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helpers/productTypes";
 import {CartAPIResponse, CartItemType} from "../../api/apiFunctions";
-import {getCartArrFront, getCartItemCustomPart, getCartItemProduct, getRoomFront} from "../../helpers/helpers";
+import {
+    getCartArrFront,
+    getCartItemCustomPart,
+    getCartItemProduct,
+    getRoomFront,
+    getUpdatedCart
+} from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export interface RoomTypeAPI extends MaterialsFormType {
@@ -40,7 +46,8 @@ export const roomSlice = createSlice({
         },
         editRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
             state.rooms = state.rooms.map(room => {
-                return room._id === action.payload._id ? getRoomFront(action.payload) : room;
+                const updatedCart = getUpdatedCart(room)
+                return room._id === action.payload._id ? {...getRoomFront(action.payload), cart: updatedCart} : room;
             })
         },
         deleteRoom: (state, action: PayloadAction<RoomTypeAPI>) => {

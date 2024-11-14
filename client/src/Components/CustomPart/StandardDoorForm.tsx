@@ -7,7 +7,7 @@ import {
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {CustomPart} from "../../helpers/productTypes";
-import {changeAmountType} from "../Product/Cart";
+import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'

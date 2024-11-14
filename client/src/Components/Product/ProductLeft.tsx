@@ -4,8 +4,10 @@ import {getImg, getImgSize, getProductImage, productValuesType} from "../../help
 import {AtrrsList} from "../Cabinets/List";
 import {ProductType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
+import {MaterialsFormType} from "../../common/MaterialsForm";
+import Materials from "../../common/Materials";
 
-const ProductLeft:FC<{product:ProductType}> = ({product}) => {
+const ProductLeft:FC<{product:ProductType, materials:MaterialsFormType}> = ({product, materials}) => {
     const {images, category, name, attributes} = product;
     const {values: {image_active_number}} = useFormikContext<productValuesType>();
     const img = getProductImage(images, image_active_number);
@@ -17,7 +19,7 @@ const ProductLeft:FC<{product:ProductType}> = ({product}) => {
                                                                 alt={name}/>
             </div>
             <AtrrsList attributes={attributes} type={image_active_number}/>
-            {/*<Materials data={materials}/>*/}
+            <Materials materials={materials}/>
         </div>
     );
 };

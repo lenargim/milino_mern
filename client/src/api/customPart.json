@@ -1489,7 +1489,7 @@
     "images": [
       {
         "type": 1,
-        "value": "Shaker Glass Doors.webp"
+        "value": "Shaker Glass Door.webp"
       }
     ]
   },
@@ -1871,7 +1871,7 @@
     "images": [
       {
         "type": 1,
-        "value": "Accessories.webp"
+        "value": "Standard Shaker Door.webp"
       }
     ]
   },
@@ -1883,7 +1883,7 @@
     "images": [
       {
         "type": 1,
-        "value": "Accessories.webp"
+        "value": "Standard Shaker Glass Door.webp"
       }
     ]
   }

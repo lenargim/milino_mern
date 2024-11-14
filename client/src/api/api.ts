@@ -1,4 +1,4 @@
-import {EditProfileType, LogInType, SignUpType} from "./apiTypes";
+import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
@@ -22,7 +22,6 @@ const instance = axios.create({
 })
 
 
-
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`
 })
@@ -32,14 +31,14 @@ export const checkoutAPI = {
 }
 
 export const AuthAPI = {
-    signUp: (data:SignUpType) => instance.post('/api/auth/register', data),
+    signUp: (data:SignUpType) => instance.post<UserTypeResponse>('/api/auth/register', data),
     logIn: (data:LogInType ) => instance.post('/api/auth/login', data),
     // refresh: () => instance.post('auth/jwt/refresh', null, {headers: getHeaders()}),
 }
 
 export const usersAPI = {
     me: () => instance.get('/api/users/me', {headers: getHeaders()}),
-    patchMe: (data:EditProfileType) => instance.patch('/api/users/me', data, {headers: getHeaders()})
+    patchMe: (data:EditProfileType) => instance.patch<UserTypeResponse>('/api/users/me', data, {headers: getHeaders()})
 }
 
 export const roomsAPI = {
@@ -50,6 +49,7 @@ export const roomsAPI = {
 }
 
 export const cartAPI = {
+    getCart: (roomId:string) => instance.get<CartAPIResponse[]>(`/api/cart/${roomId}`, {headers: getHeaders()}),
     addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
     updateAmount: ( _id:string,amount:number) => instance.patch<CartAPIResponse>(`/api/cart/${_id}`, {amount:amount},  {headers: getHeaders()}),
     remove: (_id:string) => instance.delete(`/api/cart/${_id}`,{headers: getHeaders()}),

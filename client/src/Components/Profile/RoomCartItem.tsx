@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {changeAmountType} from "../Product/Cart";
+import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {CartItemType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
@@ -13,7 +13,7 @@ const RoomCartItem: FC<{ item: CartItemType }> = ({item}) => {
         ? getProductById(product_id, product_type === 'standard')
         : getCustomPartById(product_id);
     if (!productAPI || !room) return null;
-    const { name} = productAPI
+    const {name} = productAPI
     const img = getCartItemImg(productAPI, image_active_number)
     function changeAmount(type: changeAmountType) {
         updateProductAmountAPI(_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {

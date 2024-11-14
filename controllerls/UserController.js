@@ -23,6 +23,7 @@ export const register = async (req, res) => {
     const doc = new UserModel({
       name: req.body.name,
       email: req.body.email,
+      phone: req.body.phone,
       passwordHash,
     })
 
@@ -111,6 +112,7 @@ export const patchMe = async (req, res) => {
     const newData = {
       name: req.body.name,
       email: req.body.email,
+      phone: req.body.phone,
       passwordHash
     }
     const user = await UserModel.findOneAndUpdate({

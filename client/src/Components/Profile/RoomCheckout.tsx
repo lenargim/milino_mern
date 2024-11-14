@@ -17,7 +17,7 @@ const RoomCheckout: FC = () => {
         company: user.name,
         email: user.email,
         project: roomData.room_name,
-        phone: ''
+        phone: user.phone
     }
     return (
         <div>

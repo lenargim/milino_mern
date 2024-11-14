@@ -30,7 +30,7 @@ const Checkout = () => {
                         <CartEmpty/>}
                 </div>
             </div>
-            <Sidebar materials={materials}/>
+            <Sidebar/>
         </div>
     );
 };

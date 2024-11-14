@@ -2,10 +2,10 @@ import React, {FC} from 'react';
 import s from "./OrderForm.module.sass";
 import {RadioInput} from "../../common/Form";
 import {getImg} from "../../helpers/helpers";
-import {boxMaterialType} from "../../helpers/materialsTypes";
+import {materialsData} from "../../helpers/materialsTypes";
 
 
-const BoxMaterial: FC<{ boxMaterial: boxMaterialType[], name: string, value?: string }> = ({boxMaterial, name, value}) => {
+const BoxMaterial: FC<{ boxMaterial: materialsData[], name: string, value?: string }> = ({boxMaterial, name, value}) => {
     return (
         <div className={[s.orderBlock, value && s.checked].join(' ')}>
             <h2>{name}</h2>

@@ -1,4 +1,4 @@
-import {EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
+import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
 import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
 import {
@@ -28,7 +28,8 @@ export const signUp = async (values: SignUpType) => {
         return {
             _id: res.data._id,
             name: res.data.name,
-            email: res.data.email
+            email: res.data.email,
+            phone: res.data.phone
         };
 
     } catch (error) {
@@ -39,12 +40,10 @@ export const signUp = async (values: SignUpType) => {
 export const updateProfile = async (values: EditProfileType) => {
     try {
         const res = await usersAPI.patchMe(values);
-        localStorage.setItem('token', res.data.token);
-        return {
-            _id: res.data._id,
-            name: res.data.name,
-            email: res.data.email
-        };
+        const {token,...user}:UserTypeResponse = res.data;
+
+        localStorage.setItem('token', token);
+        return user
 
     } catch (error) {
         alertError(error)
@@ -58,20 +57,22 @@ export const logIn = async (values: LogInType): Promise<UserType | undefined> =>
         return {
             _id: res.data._id,
             name: res.data.name,
-            email: res.data.email
+            email: res.data.email,
+            phone: res.data.phone
         };
     } catch (error) {
         alertError(error)
     }
 }
 
-export const me = async (): Promise<UserType | undefined> => {
+export const me = async (): Promise<MaybeUndefined<UserType>> => {
     try {
         const res = await usersAPI.me();
         return {
             _id: res.data._id,
             name: res.data.name,
-            email: res.data.email
+            email: res.data.email,
+            phone: res.data.phone
         };
     } catch (error) {
         alertError(error);

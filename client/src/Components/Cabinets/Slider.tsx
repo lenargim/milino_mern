@@ -13,14 +13,15 @@ export type catInfoType = {
     defaultImg: string,
     categories: catItem[]
 }
-const Slider: FC<SliderType> = ({setCategory, room, category}) => {
-    const {categories, defaultImg} = categoriesData[room] as catInfoType;
+const Slider: FC<SliderType> = ({setCategory, room, category, isStandardCabinet}) => {
 
+    const {categories, defaultImg} = (!isStandardCabinet ? categoriesData[room] : categoriesData["Standard Door"]) as catInfoType;
     const currentCat = categories.find(cat => cat.name === category);
+
     return (
         <form>
             {categories.length
-                ? <div className={s.slider}>
+                ? <div>
                     <div className={s.img}>
                         <img src={getImg('categories', currentCat ? currentCat.img : defaultImg)} alt={room}/>
                     </div>

@@ -8,7 +8,7 @@ const Profile: FC = () => {
     return (
         <div className={s.profile}>
             <ProfileSidebar/>
-            <main className={s.main}>
+            <main>
                 <Outlet/>
             </main>
         </div>
