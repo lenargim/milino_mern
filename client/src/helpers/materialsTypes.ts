@@ -37,7 +37,7 @@ export interface colorType extends materialsData{
 export type MaterialsType = {
     categories: materialsData[],
     doors: doorType[],
-    boxMaterial: typeof materials.boxMaterial,
+    boxMaterial: materialsData[],
     drawers: drawer[],
     leatherBoxMaterial: materialsData[]
     leatherType: materialsData[],

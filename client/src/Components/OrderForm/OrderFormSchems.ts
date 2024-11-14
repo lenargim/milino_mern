@@ -43,6 +43,13 @@ export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
     box_material: Yup.string()
         .default('')
         .required('Please write down box material'),
+    box_color: Yup.string()
+        .default('')
+        .when('category', {
+            is: 'Leather Closet',
+            then: schema => schema.required('Please choose Box Color')
+        })
+    ,
     drawer_brand: Yup.string()
         .default('')
         .required('Please write down Drawer'),

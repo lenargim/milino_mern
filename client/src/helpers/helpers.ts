@@ -7,7 +7,7 @@ import {
     itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
     productRangeType, ProductType,
-    productTypings, sizeLimitsType, valueItemType
+    productTypings, RoomCategories, sizeLimitsType, valueItemType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import {
@@ -356,10 +356,6 @@ export const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-// export const isDoorTypeShown = (room: RoomType | ''): boolean => {
-//     return (!!room && room !== 'Standard Door')
-// }
-
 export const isDoorFinishShown = (room: RoomType | '', doorType: string, finishArr?: finishType[]): boolean => {
     if (!room || doorType === 'Standard Door') return false
     return !!(doorType && finishArr?.length)
@@ -371,8 +367,7 @@ export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, f
 }
 
 export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: materialsData[] | undefined): boolean => {
-    if (!frameArr) return false
-    if (doorType !== 'Micro Shaker') return false
+    if (!frameArr || doorType !== 'Micro Shaker') return false
     return !!doorFinishMaterial
 }
 
@@ -381,8 +376,19 @@ export const isDoorGrain = (doorFinishMaterial: string, colorArr: colorType[], d
     return !!colorArr.find(el => el.value === doorColor)?.isGrain
 }
 
-export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string): boolean => {
+export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr:materialsData[]): boolean => {
+    if (!boxMaterialArr.length) return false;
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
+}
+export const isBoxColor = (box_material:string,isLeather:boolean, boxMaterial:materialsData[]):boolean => {
+    return !!(isLeather && box_material && boxMaterial.length)
+}
+
+export const isDrawerBrand = (box_material:string, box_color:string, isLeather:boolean):boolean => {
+    if (!box_material) return false;
+    return !(isLeather && !box_color);
+
+
 }
 export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boolean, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
     const finishArr: MaybeUndefined<finishType[]> = doors.find(el => el.value === doorType)?.finish;
@@ -395,8 +401,9 @@ export const getDoorTypeArr = (doors:doorType[], isKitchen:boolean) => {
     return isKitchen ? doors : doors.filter(el => el.value !== 'Standard Door')
 }
 
-export const getBoxMaterialArr = (isLeather: boolean, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
-    return isLeather ? leatherBoxMaterialArr : boxMaterial
+export const getBoxMaterialArr = (category:MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
+    if (!category) return [];
+    return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
 }
 
 export const isLeatherType = (drawerColor: string | undefined, isLeather: boolean, leatherTypeArr: materialsData[]): boolean => {
@@ -831,7 +838,7 @@ export const convertDoorAccessories = (el: DoorAccessoireAPIType): DoorAccessoir
 export const usePrevious = (data: string) => {
     const prev = useRef<string>()
     useEffect(() => {
-        prev.current = data
+        if (data) prev.current = data;
     }, [data])
     return prev.current
 }
