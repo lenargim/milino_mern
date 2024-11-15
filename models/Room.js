@@ -50,6 +50,9 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    box_color: {
+        type: String,
+    },
     drawer_brand: {
         type: String,
         required: true,

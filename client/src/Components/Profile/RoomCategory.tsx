@@ -13,7 +13,7 @@ const RoomCategory: FC = () => {
     const {_id, activeProductCategory: category, category: room, door_type} = roomData;
     if (!room) return null;
     const isStandardCabinet = door_type === 'Standard Door'
-    const {categories, defaultImg} = categoriesData[room] as catInfoType;
+    const {categories, defaultImg} = (!isStandardCabinet ? categoriesData[room] : categoriesData["Standard Door"]) as catInfoType;
     const currentCat = categories.find(cat => cat.name === category);
     return (
         <>

@@ -113,7 +113,8 @@ const Cabinet: FC<CabinetType> = ({
     const productCoef = 1 + (coef.width + coef.height + coef.depth)
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
     let attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    if (attrPrice < 0) attrPrice = 0;
+    // if (attrPrice < 0) attrPrice = 0;
+
     const totalPrice = +(startPrice * productCoef + attrPrice).toFixed(1);
     useEffect(() => {
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)

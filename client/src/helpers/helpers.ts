@@ -95,6 +95,7 @@ export const getFraction = (numberFraction: number): string => {
 
 
 export const getProductsByCategory = (room: RoomType, category: productCategory,isStandardCabinet:boolean): ProductType[] => {
+
     const products = (isStandardCabinet ? standardCabinets : cabinets) as ProductType[]
     return products.filter(product => product.category === category);
 }

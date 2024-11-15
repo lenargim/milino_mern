@@ -28,7 +28,7 @@ export const addToCart = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const roomId = req.params.roomId;
-    const doc = await CartModel.findOne({room: roomId});
+    const doc = await CartModel.find({room: roomId});
     if (!doc) {
       return res.status(404).json({
         message: 'Process Order not found'

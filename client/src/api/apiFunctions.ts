@@ -101,8 +101,8 @@ export const createRoom = async (room: MaterialsFormType) => {
 
 export const editRoomAPI = async (room: MaterialsFormType, id: string) => {
     try {
-        const res = await roomsAPI.editRoom(room, id);
-        return res.data;
+        // const roomRes = await roomsAPI.editRoom(room, id);
+        return await Promise.allSettled([roomsAPI.editRoom(room, id), cartAPI.getCart(id)]);
     } catch (error) {
         alertError(error);
     }
