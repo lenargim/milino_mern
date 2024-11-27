@@ -5,23 +5,23 @@ import {getMaterialStrings} from "../helpers/helpers";
 
 
 export type MaterialStringsType = {
-    category: string,
+    categoryString: string,
     doorString: string,
-    box_material: string,
+    boxString: string,
     drawerString: string,
     leather: string
 }
 
 const Materials: FC<{ materials: MaterialsFormType }> = ({materials}) => {
     const materialStrings = getMaterialStrings(materials);
-    const {drawerString, doorString, box_material, leather, category} = materialStrings
+    const {drawerString, doorString, boxString, leather, categoryString} = materialStrings
 
     return (
         <div className={s.materials}>
             <h4 className={s.choose}>Materials you choose:</h4>
-            {category ? <MaterialItem label="Category" value={category}/> : null}
+            {categoryString ? <MaterialItem label="Category" value={categoryString}/> : null}
             {doorString ? <MaterialItem label="Door" value={doorString}/> : null}
-            {box_material ? <MaterialItem label="Box Material" value={box_material}/> : null}
+            {boxString ? <MaterialItem label="Box Material" value={boxString}/> : null}
             {drawerString ? <MaterialItem label="Drawer" value={drawerString}/> : null}
             {leather ? <MaterialItem label="Leather" value={leather}/> : null}
         </div>

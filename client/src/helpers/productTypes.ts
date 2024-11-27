@@ -31,11 +31,13 @@ export type StandardCategory =
 export type productCategory =
     kitchenCategories
     | StandardCategory
-    | 'Regular Vanities'
+    | 'Vanities'
     | 'Gola Vanities'
     | 'Build In'
     | 'Leather'
     | 'Custom Parts'
+
+export type AngleType = false|'flat'|'corner';
 
 export type ProductType = {
     id: number,
@@ -47,13 +49,14 @@ export type ProductType = {
     options: string[],
     legsHeight: number,
     isBlind: boolean,
-    isAngle: boolean,
+    isAngle: AngleType,
     isProductStandard: boolean,
     product_type: ProductApiType,
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
     hasMiddleSection?: true,
+    middleSectionDefault?: number,
     isCornerChoose: MaybeUndefined<true>,
     doorSquare: number,
     widthDivider?: number,

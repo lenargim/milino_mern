@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
 import {
-    getCartItemImg, getCartItemImgPDF,
+    getCartItemImgPDF,
     getCartTotal,
     getCustomPartById,
     getProductById
@@ -146,8 +146,9 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
                 <Text>Phone: {values.phone}</Text>
             </View>
             <View>
+                <Text>Category: {materialStrings.categoryString}</Text>
                 <Text>Door: {materialStrings.doorString}</Text>
-                <Text>Box Material: {materialStrings.box_material}</Text>
+                <Text>Box Material: {materialStrings.boxString}</Text>
                 <Text>Drawer: {materialStrings.drawerString}</Text>
                 {materialStrings.leather ? <Text>Leather: {materialStrings.leather}</Text> : null}
             </View>

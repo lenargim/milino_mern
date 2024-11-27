@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from './product.module.sass'
 import {useParams} from "react-router-dom";
 import {
-    addProductToCart,
+    addProductToCart, getFraction,
     getProductById, productValuesType, useAppDispatch,
 } from "../../helpers/helpers";
 import {
@@ -30,7 +30,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(category)
     let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
-    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id} = product;
+    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id, hasMiddleSection, middleSectionDefault} = product;
     const materialData = getMaterialData(materials)
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
@@ -40,7 +40,8 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     if (!widthRange.length) return <div>Cannot find initial width</div>;
     if (!sizeLimit) return <div>Cannot find size limit</div>;
     if (!tablePriceData) return <div>No price table data</div>
-
+    const middleSectionNumber = hasMiddleSection && middleSectionDefault ? middleSectionDefault : 0;
+    const middleSection = hasMiddleSection && middleSectionDefault ? getFraction(middleSectionNumber) : '';
     const initialValues: productValuesType = {
         'Width': widthRange[0],
         isBlind: isBlind,
@@ -55,8 +56,8 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'Custom Blind Width Number': '',
         'Custom Height Number': '',
         'Custom Depth Number': '',
-        'Middle Section': '',
-        'Middle Section Number': '',
+        'Middle Section': middleSection,
+        'Middle Section Number': middleSectionNumber,
         'Doors': 0,
         'Hinge opening': '',
         'Corner': isCornerChoose ? 'Left' : '',

@@ -12,6 +12,12 @@ export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
         .oneOf(roomCategories)
         .defined()
         .required(),
+    gola: Yup.string()
+        .default('')
+        .when('category', {
+            is: (val:string) => val === 'Kitchen' || val === 'Vanity',
+            then: (schema => schema.required('Please choose gola type'))
+        }),
     door_type: Yup.string()
         .default('')
         // .when('category', {

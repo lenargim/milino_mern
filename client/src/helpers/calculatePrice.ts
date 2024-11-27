@@ -1,4 +1,5 @@
 import {
+    AngleType,
     attrItem,
     hingeArr,
     materialDataType, MaybeNull, MaybeUndefined, priceItem,
@@ -11,7 +12,7 @@ import {
     sizeLimitsType, valueItemType
 } from "./productTypes";
 import settings from './../api/settings.json'
-import {getAttributes, getProductById, getSquare} from "./helpers";
+import {getAttributes, getProductById, getSquare, getWidthToCalculateDoor} from "./helpers";
 import {
     fillCart,
     productChangeMaterialType,
@@ -35,7 +36,7 @@ export const getInitialPrice = (priceData: pricePart[], productRange: productRan
     let price;
     switch (category) {
         case 'Base Cabinets':
-        case "Regular Vanities":
+        case "Vanities":
         case "Gola Vanities":
         case "Custom Parts":
         case "Gola Base Cabinets":
@@ -61,7 +62,7 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
     const maxData = priceData[priceData.length - 1];
     switch (category) {
         case 'Base Cabinets':
-        case "Regular Vanities":
+        case "Vanities":
         case "Gola Vanities":
         case "Gola Base Cabinets":
             const widthTablePrice: number | undefined = priceData.find(el => el.width >= width)?.price;
@@ -173,7 +174,7 @@ export function addHeightPriceCoef(customHeight: number, maxHeight: number) {
     return Math.ceil((customHeight - maxHeight) / 3) / 10
 }
 
-export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: boolean) {
+export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: AngleType) {
     if (isAngle) return 0;
     const maxDepth = depthRangeData[depthRangeData.length - 1];
     if (customDepth > maxDepth) {
@@ -221,11 +222,6 @@ export function addGlassDoorPrice(square: number = 0, profileVal: any): number {
     return 0
 }
 
-export function getDoorSquare(width: number, height: number): number {
-    if (width > 0 && height > 0) return +(width * height / 144).toFixed(1);
-    return 0;
-}
-
 export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: attrItem[]): productTypings {
     const doorValues = attributes.find(el => el.name === 'Door')?.values ?? [];
     const shelfValues = attributes.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
@@ -233,7 +229,7 @@ export function getType(width: number, height: number, widthDivider: number | un
 
     switch (category) {
         case 'Base Cabinets':
-        case "Regular Vanities":
+        case "Vanities":
         case "Gola Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
@@ -292,14 +288,13 @@ export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItem
     return [...new Set<number>(filter.map(el => el.value))]
 }
 
-export function getPvcPrice(width: number, blindWidth: MaybeUndefined<number> = 0, height: number, isAcrylic = false, horizontal_line: number, doorType?: string, doorFinish?: string): number {
+export function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, horizontal_line: number, doorType?: string, doorFinish?: string): number {
     if (doorType === 'No Doors' || doorFinish === 'Milino') return 0;
-    // const sq = (width - blindWidth + height) * 2 / 12;
-    const sq = (horizontal_line*(width - blindWidth) + height*2)/12
-    const pvcPrice = sq * 2.5;
+    const per = (horizontal_line*doorWidth + doorHeight*2)/12;
+    console.log(`per ${per}`)
+    const pvcPrice = per * 2.5;
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
-
 
 export function getDoorPrice(square: number, doorPriceMultiplier: number): number {
     return +(square * doorPriceMultiplier).toFixed(1);
@@ -364,7 +359,7 @@ export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category:
     }
     switch (category) {
         case 'Base Cabinets':
-        case "Regular Vanities":
+        case "Vanities":
         case "Gola Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
@@ -398,7 +393,7 @@ export function getDepthRange(priceData: pricePart[] | undefined, category: prod
         case "Gola Wall Cabinets":
         case "Standard Wall Cabinets":
             return [13];
-        case "Regular Vanities":
+        case "Vanities":
         case "Gola Vanities":
             return [21];
         case "Build In":
@@ -420,7 +415,7 @@ export function getBlindArr(category: string): number[] {
 
 }
 
-export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind: boolean, isAngle: boolean): number {
+export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind: boolean, isAngle: AngleType): number {
     if (isBlind && isAngle) {
         const leg = realWidth - realBlindWidth;
         return +(Math.sqrt(Math.pow(leg, 2) * 2)).toFixed(2)
@@ -449,7 +444,7 @@ export function getHingeArr(doorArr: number[], category: productCategory): strin
     }
 }
 
-export function getLedPrice(realWidth: number, realHeight: number, ledBorders: string[] | undefined): number {
+export function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUndefined<string[]> ): number {
     if (!ledBorders || !ledBorders.length) return 0;
     let sum: number = 0;
     if (ledBorders.includes('Sides')) sum = realHeight * 2 * 2.55
@@ -468,8 +463,9 @@ export const getBasePriceType = (doorType: string, doorFinish: string): pricesTy
 }
 
 export const getPremiumCoef = (doorType: string, doorFinish: string): number => {
-    if (!doorType || !doorFinish) return 1
-    if (doorType === 'Painted' || doorType === 'Slatted' || doorType === 'Micro Shaker') return 1.05;
+    if (!doorType || !doorFinish || doorType === 'Micro Shaker') return 1
+    if (doorType === 'Painted') return 1.05;
+    if (doorType === 'Slatted') return 1.03
     if (doorFinish === 'Stone') return 1.69
     if (doorFinish === 'Zenit') return 1.03
     if (doorFinish === 'Ultrapan Acrylic') return 1.1
@@ -862,14 +858,16 @@ export type AttributesPrices = {
     drawerPrice: number,
 }
 export const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {doorSquare, legsHeight, attributes, isProductStandard, horizontal_line = 2} = product;
+    const {doorSquare, legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle} = product;
     const {
         door_option,
         options,
-        width, height,
+        width,
+        height,
         led_border,
         blind_width,
-        image_active_number
+        image_active_number,
+        middle_section,
     } = cart;
     const {
         is_acrylic,
@@ -886,8 +884,11 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         shelfsQty,
         rolloutsQty,
     } = productPriceData;
-    const doorHeight = height - legsHeight;
-    const frontSquare = getSquare(width, doorHeight);
+    const doorWidth = getWidthToCalculateDoor(width,blind_width, isAngle)
+    const doorHeight = height - legsHeight - middle_section;
+    const frontSquare = getSquare(doorWidth, doorHeight);
+    console.log(`w ${doorWidth}`);
+    console.log(`sq ${frontSquare}`)
 
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
@@ -896,9 +897,9 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         glassDoor: options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
-        pvcPrice: !isProductStandard ? getPvcPrice(width, blind_width, doorHeight, is_acrylic, horizontal_line,door_type, door_finish_material) : 0,
+        pvcPrice: !isProductStandard ? getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line,door_type, door_finish_material) : 0,
         doorPrice: !isProductStandard ? getDoorPrice(frontSquare, door_price_multiplier) : 0,
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, width, door_type, drawer_brand, drawer_type, drawer_color),
+        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }
 

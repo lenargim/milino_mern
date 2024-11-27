@@ -4,23 +4,28 @@ import List from "./List";
 import {RoomType} from '../../helpers/categoriesTypes';
 import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
 
-const Room: FC<{ room: RoomType, isStandardCabinet: boolean }> = ({room, isStandardCabinet}) => {
+const Room: FC<{ room: RoomType, isStandardCabinet: boolean, noGola:boolean}> = ({room, isStandardCabinet, noGola}) => {
     const storageCat = localStorage.getItem('category') ? localStorage.getItem('category') as productCategory : '';
     let initialCat: MaybeEmpty<productCategory>;
-    const kichenCat = ['Base Cabinets', 'Wall Cabinets', 'Tall Cabinets', 'Gola Base Cabinets', 'Gola Wall Cabinets', 'Gola Tall Cabinets', 'Custom Parts'];
-    const vanityCat = ['Regular Vanities', 'Gola Vanities', 'Custom Parts'];
-    const closetCats = ['Build In', 'Leather', 'Custom Parts'];
+    const kitchenCat = noGola ?
+        ['Base Cabinets', 'Wall Cabinets', 'Tall Cabinets', 'Custom Parts']
+        : ['Gola Base Cabinets', 'Gola Wall Cabinets', 'Gola Tall Cabinets', 'Custom Parts'];
     const StandardCats = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets']
+    const vanityCat = noGola ?
+        ['Vanities', 'Custom Parts'] :
+        ['Gola Vanities', 'Custom Parts'];
+    const closetCats = ['Build In', 'Leather', 'Custom Parts'];
 
     if (!storageCat) {
         initialCat = ''
-    } else {
+    }
+    else {
         switch (room) {
             case "Kitchen":
                 if (isStandardCabinet) {
                     initialCat = StandardCats.includes(storageCat) ? storageCat : '';
                 } else {
-                    initialCat = kichenCat.includes(storageCat) ? storageCat : '';
+                    initialCat = kitchenCat.includes(storageCat) ? storageCat : '';
                 }
                 break
             case "Vanity":
@@ -37,7 +42,7 @@ const Room: FC<{ room: RoomType, isStandardCabinet: boolean }> = ({room, isStand
     const [category, setCategory] = useState<MaybeEmpty<productCategory>>(initialCat)
     return (
         <>
-            <Slider room={room} category={category} setCategory={setCategory} isStandardCabinet={isStandardCabinet}/>
+            <Slider room={room} category={category} setCategory={setCategory} isStandardCabinet={isStandardCabinet} noGola={noGola}/>
             {category && <List category={category} room={room} isStandardCabinet={isStandardCabinet}/>}
         </>
     )

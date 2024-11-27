@@ -993,7 +993,7 @@
     "id": 23,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "flat",
     "name": "BCA Series",
     "room": "Kitchen",
     "category": "Base Cabinets",
@@ -1042,7 +1042,7 @@
     "id": 24,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "flat",
     "name": "BCAL Series",
     "room": "Kitchen",
     "category": "Base Cabinets",
@@ -1091,7 +1091,7 @@
     "id": 25,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "BC Series",
     "room": "Kitchen",
     "category": "Base Cabinets",
@@ -1140,7 +1140,7 @@
     "id": 26,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "BCL Series",
     "room": "Kitchen",
     "category": "Base Cabinets",
@@ -1454,7 +1454,7 @@
     "id": 36,
     "legsHeight": 4.5,
     "isBlind": false,
-    "isAngle": false,
+    "isAngle": "flat",
     "name": "BEAC Series",
     "room": "Kitchen",
     "category": "Base Cabinets",
@@ -1970,14 +1970,14 @@
     "id": 51,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "PBC Series",
     "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": [
       {
         "type": 1,
-        "value": "GC/PBC.webp"
+        "value": "GC/PBCC.webp"
       }
     ],
     "attributes": [
@@ -2019,7 +2019,7 @@
     "id": 52,
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "PBCL Series",
     "room": "Kitchen",
     "category": "Gola Base Cabinets",
@@ -2628,7 +2628,7 @@
     "id": 109,
     "legsHeight": 0,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "customDepth": 24,
     "name": "WC Series",
     "room": "Kitchen",
@@ -2692,7 +2692,7 @@
     "id": 110,
     "legsHeight": 0,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "flat",
     "customDepth": 24,
     "name": "WCA Series",
     "room": "Kitchen",
@@ -2805,7 +2805,7 @@
     "id": 112,
     "legsHeight": 0,
     "isBlind": false,
-    "isAngle": true,
+    "isAngle": "corner",
     "hasSolidWidth": true,
     "name": "WDC Series",
     "room": "Kitchen",
@@ -2842,7 +2842,7 @@
     "id": 113,
     "legsHeight": 0,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "corner",
     "customDepth": 24,
     "name": "PWC Series",
     "room": "Kitchen",
@@ -2906,7 +2906,7 @@
     "id": 114,
     "legsHeight": 0,
     "isBlind": true,
-    "isAngle": true,
+    "isAngle": "flat",
     "customDepth": 24,
     "name": "PWCA Series",
     "room": "Kitchen",
@@ -3205,7 +3205,7 @@
     "id": 119,
     "legsHeight": 0,
     "isBlind": false,
-    "isAngle": true,
+    "isAngle": "flat",
     "hasSolidWidth": true,
     "name": "WEAC",
     "room": "Kitchen",
@@ -3530,7 +3530,7 @@
   {
     "id": 205,
     "legsHeight": 4.5,
-    "isBlind": false,
+    "isBlind": true,
     "isAngle": false,
     "name": "TBC Series",
     "room": "Kitchen",
@@ -3538,6 +3538,10 @@
     "images": [
       {
         "type": 1,
+        "value": "TC/TBC.webp"
+      },
+      {
+        "type": 2,
         "value": "TC/TBC.webp"
       }
     ],
@@ -3548,6 +3552,10 @@
           {
             "type": 1,
             "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
           }
         ]
       },
@@ -3556,7 +3564,13 @@
         "values": [
           {
             "type": 1,
-            "value": 5
+            "value": 4,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 5,
+            "minHeight": 96
           }
         ]
       },
@@ -3566,11 +3580,15 @@
           {
             "type": 1,
             "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
           }
         ]
       }
     ],
-    "horizontal_line": 6,
+    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door",
@@ -3580,7 +3598,7 @@
   {
     "id": 206,
     "legsHeight": 4.5,
-    "isBlind": false,
+    "isBlind": true,
     "isAngle": false,
     "name": "TBCL Series",
     "room": "Kitchen",
@@ -3589,6 +3607,76 @@
       {
         "type": 1,
         "value": "TC/TBCL.webp"
+      },
+      {
+        "type": 2,
+        "value": "TC/TBCL.webp"
+      }
+    ],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Double LeMans Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "horizontal_line": 4,
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 207,
+    "legsHeight": 4.5,
+    "isBlind": false,
+    "isAngle": false,
+    "name": "TDO Series",
+    "room": "Kitchen",
+    "category": "Tall Cabinets",
+    "hasMiddleSection": true,
+    "middleSectionDefault": 49.5,
+    "images": [
+      {
+        "type": 1,
+        "value": "TC/TDO.webp"
       }
     ],
     "attributes": [
@@ -3611,69 +3699,18 @@
         ]
       },
       {
-        "name": "Double LeMans Blind Corner",
+        "name": "Drawer",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
-      "Glass Door",
-      "Box from finish material"
-    ]
-  },
-  {
-    "id": 207,
-    "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
-    "name": "TDO Series",
-    "room": "Kitchen",
-    "category": "Tall Cabinets",
-    "hasMiddleSection": true,
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TDO.webp"
-      }
-    ],
-    "attributes": [
-      {
-        "name": "Door",
-        "values": [
-          {
-            "type": 1,
-            "value": 4
-          }
-        ]
-      },
-      {
-        "name": "Adjustable Shelf",
-        "values": [
-          {
-            "type": 1,
-            "value": 3
-          }
-        ]
-      },
-      {
-        "name": "Double Oven",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
-      }
-    ],
-    "horizontal_line": 6,
-    "options": [
-      "PTO for doors",
+      "PTO for drawers",
       "Glass Door",
       "Box from finish material"
     ]
@@ -3683,13 +3720,18 @@
     "legsHeight": 4.5,
     "isBlind": false,
     "isAngle": false,
-    "hasMiddleSection": true,
     "name": "TSO Series",
+    "hasMiddleSection": true,
+    "middleSectionDefault": 30,
     "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": [
       {
         "type": 1,
+        "value": "TC/TSO.webp"
+      },
+      {
+        "type": 2,
         "value": "TC/TSO.webp"
       }
     ],
@@ -3700,6 +3742,10 @@
           {
             "type": 1,
             "value": 4
+          },
+          {
+            "type": 2,
+            "value": 4
           }
         ]
       },
@@ -3708,7 +3754,13 @@
         "values": [
           {
             "type": 1,
-            "value": 3
+            "value": 2,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 96
           }
         ]
       },
@@ -3718,11 +3770,14 @@
           {
             "type": 1,
             "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
           }
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
       "Glass Door",
@@ -4181,108 +4236,11 @@
     "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "hasMiddleSection": true,
+    "middleSectionDefault": 49.5,
     "images": [
       {
         "type": 1,
         "value": "GC/PTDO.webp"
-      }
-    ],
-    "attributes": [
-      {
-        "name": "Door",
-        "values": [
-          {
-            "type": 1,
-            "value": 4
-          }
-        ]
-      },
-      {
-        "name": "Adjustable Shelf",
-        "values": [
-          {
-            "type": 1,
-            "value": 3
-          }
-        ]
-      },
-      {
-        "name": "Double Oven",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
-      }
-    ],
-    "options": [
-      "PTO for doors",
-      "Glass Door",
-      "Box from finish material"
-    ]
-  },
-  {
-    "id": 217,
-    "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
-    "name": "PTBC Series",
-    "room": "Kitchen",
-    "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBC.webp"
-      }
-    ],
-    "attributes": [
-      {
-        "name": "Door",
-        "values": [
-          {
-            "type": 1,
-            "value": 2
-          }
-        ]
-      },
-      {
-        "name": "Adjustable Shelf",
-        "values": [
-          {
-            "type": 1,
-            "value": 5
-          }
-        ]
-      },
-      {
-        "name": "Tall Blind Corner",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
-      }
-    ],
-    "options": [
-      "PTO for doors",
-      "Glass Door",
-      "Box from finish material"
-    ]
-  },
-  {
-    "id": 218,
-    "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
-    "name": "PTBCL Series",
-    "room": "Kitchen",
-    "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBCL.webp"
       }
     ],
     "attributes": [
@@ -4305,15 +4263,152 @@
         ]
       },
       {
-        "name": "Double LeMans Blind Corner",
+        "name": "Drawer",
         "values": [
           {
             "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "PTO for drawers",
+      "Glass Door",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 217,
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": false,
+    "name": "PTBC Series",
+    "room": "Kitchen",
+    "category": "Gola Tall Cabinets",
+    "images": [
+      {
+        "type": 1,
+        "value": "GC/PTBC.webp"
+      },
+      {
+        "type": 2,
+        "value": "GC/PTBC.webp"
+      }
+    ],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 4,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 5,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Tall Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
             "value": 0
           }
         ]
       }
     ],
+    "horizontal_line": 4,
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 218,
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": false,
+    "name": "PTBCL Series",
+    "room": "Kitchen",
+    "category": "Gola Tall Cabinets",
+    "images": [
+      {
+        "type": 1,
+        "value": "GC/PTBCL.webp"
+      },
+      {
+        "type": 2,
+        "value": "GC/PTBCL.webp"
+      }
+    ],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Double LeMans Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door",
@@ -4426,7 +4521,7 @@
     "isAngle": false,
     "name": "VBS Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4477,7 +4572,7 @@
     "isAngle": false,
     "name": "VSB Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4517,7 +4612,7 @@
     "isAngle": false,
     "name": "VSBD Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4566,7 +4661,7 @@
     "isAngle": false,
     "name": "VB2D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4596,7 +4691,7 @@
     "isAngle": false,
     "name": "VSB2D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4626,7 +4721,7 @@
     "isAngle": false,
     "name": "VB3D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "images": [
       {
         "type": 1,
@@ -4665,7 +4760,7 @@
     "isAngle": false,
     "name": "VF Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4717,7 +4812,7 @@
     "isAngle": false,
     "name": "VF2D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4748,7 +4843,7 @@
     "isAngle": false,
     "name": "VF3D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4779,7 +4874,7 @@
     "isAngle": false,
     "name": "VSF Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4820,7 +4915,7 @@
     "isAngle": false,
     "name": "VSFD Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4870,7 +4965,7 @@
     "isAngle": false,
     "name": "VSF2D Series",
     "room": "Vanity",
-    "category": "Regular Vanities",
+    "category": "Vanities",
     "customHeight": 25.5,
     "images": [
       {

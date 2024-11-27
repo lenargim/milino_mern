@@ -31,6 +31,9 @@ const RoomSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    gola: {
+      type: String
+    },
     door_type: {
         type: String,
     },

@@ -873,7 +873,7 @@
     "id": 23,
     "legsHeight": 4.5,
     "isBlind":  true,
-    "isAngle": true,
+    "isAngle": "flat",
     "name": "BCA Series",
     "room": "Kitchen",
     "category": "Standard Base Cabinets",
@@ -921,7 +921,7 @@
     "id": 24,
     "legsHeight": 4.5,
     "isBlind":  true,
-    "isAngle": true,
+    "isAngle": "flat",
     "name": "BCAL Series",
     "room": "Kitchen",
     "category": "Standard Base Cabinets",
@@ -969,7 +969,7 @@
     "id": 25,
     "legsHeight": 4.5,
     "isBlind":  true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "BC Series",
     "room": "Kitchen",
     "category": "Standard Base Cabinets",
@@ -1017,7 +1017,7 @@
     "id": 26,
     "legsHeight": 4.5,
     "isBlind":  true,
-    "isAngle": true,
+    "isAngle": "corner",
     "name": "BCL Series",
     "room": "Kitchen",
     "category": "Standard Base Cabinets",
@@ -2152,7 +2152,6 @@
         ]
       }
     ],
-    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2249,7 +2248,6 @@
         ]
       }
     ],
-    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2346,7 +2344,6 @@
         ]
       }
     ],
-    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2451,7 +2448,6 @@
         ]
       }
     ],
-    "horizontal_line": 4,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2514,7 +2510,6 @@
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2581,7 +2576,6 @@
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2596,6 +2590,7 @@
     "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "hasMiddleSection": true,
+    "middleSectionDefault": 49.5,
     "images": [
       {
         "type": 1,
@@ -2649,7 +2644,6 @@
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
       "Glass Door"
@@ -2660,8 +2654,9 @@
     "legsHeight": 4.5,
     "isBlind": false,
     "isAngle":false,
-    "hasMiddleSection": true,
     "name": "TSO Series",
+    "hasMiddleSection": true,
+    "middleSectionDefault": 30,
     "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": [
@@ -2717,7 +2712,6 @@
         ]
       }
     ],
-    "horizontal_line": 6,
     "options": [
       "PTO for doors",
       "Glass Door"

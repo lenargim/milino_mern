@@ -1,4 +1,4 @@
-import {productCategory} from "./productTypes";
+import {MaybeEmpty, productCategory} from "./productTypes";
 
 export type category = {
     name: string,
@@ -16,8 +16,9 @@ export type roomType = {
 export type setCategoryType = (value: productCategory) => void;
 
 export type SliderType = {
-    category: productCategory | '',
+    category: MaybeEmpty<productCategory>,
     setCategory: setCategoryType,
     room: RoomType,
-    isStandardCabinet: boolean
+    isStandardCabinet: boolean,
+    noGola: boolean
 }

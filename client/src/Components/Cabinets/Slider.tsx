@@ -1,9 +1,8 @@
 import React, {FC} from 'react';
 import s from './cabinets.module.sass'
 import {setCategoryType, SliderType} from "../../helpers/categoriesTypes";
-import {getImg} from "../../helpers/helpers";
-import categoriesData from './../../api/categories.json'
-import {productCategory} from "../../helpers/productTypes";
+import {getImg, getSliderCategories} from "../../helpers/helpers";
+import {MaybeUndefined, productCategory} from "../../helpers/productTypes";
 
 export type catItem = {
     name: productCategory,
@@ -13,11 +12,9 @@ export type catInfoType = {
     defaultImg: string,
     categories: catItem[]
 }
-const Slider: FC<SliderType> = ({setCategory, room, category, isStandardCabinet}) => {
-
-    const {categories, defaultImg} = (!isStandardCabinet ? categoriesData[room] : categoriesData["Standard Door"]) as catInfoType;
+const Slider: FC<SliderType> = ({setCategory, room, category, isStandardCabinet, noGola}) => {
+    const {categories, defaultImg} = getSliderCategories(room, noGola, isStandardCabinet);
     const currentCat = categories.find(cat => cat.name === category);
-
     return (
         <form>
             {categories.length
@@ -33,7 +30,8 @@ const Slider: FC<SliderType> = ({setCategory, room, category, isStandardCabinet}
                         />)
                         }
                     </div>
-                </div> : <div>Sorry, there are no products yet</div>}
+                </div>
+                : <div>Sorry, there are no products yet</div>}
         </form>
     );
 };
@@ -42,7 +40,7 @@ export default Slider;
 
 type CategoryItemType = {
     name: productCategory,
-    current: string|undefined,
+    current: MaybeUndefined<string>,
     setCategory: setCategoryType
 }
 const CategoryItem: FC<CategoryItemType> = ({name, setCategory, current}) => {

@@ -3,6 +3,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import Fraction from "fraction.js";
 import {
+    AngleType,
     attrItem, cornerTypes, CustomPart, customPartDataType, hingeTypes,
     itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
@@ -44,6 +45,9 @@ import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardD
 import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {retry} from "@reduxjs/toolkit/query";
+import {boolean} from "yup";
+import {catInfoType} from "../Components/Cabinets/Slider";
+import categoriesData from "../api/categories.json";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -94,8 +98,7 @@ export const getFraction = (numberFraction: number): string => {
 }
 
 
-export const getProductsByCategory = (room: RoomType, category: productCategory,isStandardCabinet:boolean): ProductType[] => {
-
+export const getProductsByCategory = (room: RoomType, category: productCategory, isStandardCabinet: boolean): ProductType[] => {
     const products = (isStandardCabinet ? standardCabinets : cabinets) as ProductType[]
     return products.filter(product => product.category === category);
 }
@@ -121,7 +124,7 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
     }
 }
 
-export const getCustomParts = (room: RoomType,isStandardCabinet:boolean): customPartDataType[] => {
+export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
     if (!isStandardCabinet) {
         const standardDoorCustomParts = customParts.filter(el => el.name !== 'Standard Door' && el.name !== 'Glass Door')
         return standardDoorCustomParts as customPartDataType[];
@@ -196,7 +199,7 @@ export interface standardProductValuesType extends initialStandardValues {
     'Shelf Glass Color': string,
 }
 
-export const getInitialDepth = (productRange: productRangeType, isAngle: boolean, depth: number): number => {
+export const getInitialDepth = (productRange: productRangeType, isAngle: AngleType, depth: number): number => {
     const tableDepth = productRange?.depthRange[0];
     if (tableDepth) return tableDepth;
     return !isAngle ? depth : productRange.widthRange[0]
@@ -357,7 +360,19 @@ export const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-export const isDoorFinishShown = (room: RoomType | '', doorType: string, finishArr?: finishType[]): boolean => {
+export const isGolaShown = (room: MaybeEmpty<RoomType>, hasGola: boolean): boolean => {
+    if (!room) return false;
+    return hasGola
+}
+
+export const isDoorTypeShown = (room: MaybeEmpty<RoomType>, gola: string, showGola: boolean): boolean => {
+    if (!room) return false;
+    return !(showGola && !gola);
+
+
+}
+
+export const isDoorFinishShown = (room: MaybeEmpty<RoomType>, doorType: string, finishArr?: finishType[]): boolean => {
     if (!room || doorType === 'Standard Door') return false
     return !!(doorType && finishArr?.length)
 }
@@ -372,20 +387,20 @@ export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, f
     return !!doorFinishMaterial
 }
 
-export const isDoorGrain = (doorFinishMaterial: string, colorArr: colorType[], doorColor?: string): boolean => {
-    if (!doorFinishMaterial) return false;
-    return !!colorArr.find(el => el.value === doorColor)?.isGrain
+export const isDoorGrain = (doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+    return !(!doorFinishMaterial || !grainArr)
 }
 
-export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr:materialsData[]): boolean => {
+export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
     if (!boxMaterialArr.length) return false;
+    if (showDoorGrain && !door_grain) return false;
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
 }
-export const isBoxColor = (box_material:string,isLeather:boolean, boxMaterial:materialsData[]):boolean => {
+export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial: materialsData[]): boolean => {
     return !!(isLeather && box_material && boxMaterial.length)
 }
 
-export const isDrawerBrand = (box_material:string, box_color:string, isLeather:boolean):boolean => {
+export const isDrawerBrand = (box_material: string, box_color: string, isLeather: boolean): boolean => {
     if (!box_material) return false;
     return !(isLeather && !box_color);
 
@@ -398,13 +413,28 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
         finishArr?.find(el => el.value === doorFinishMaterial)?.colors
 }
 
-export const getDoorTypeArr = (doors:doorType[], isKitchen:boolean) => {
+export const getDoorTypeArr = (doors: doorType[], isKitchen: boolean) => {
     return isKitchen ? doors : doors.filter(el => el.value !== 'Standard Door')
 }
 
-export const getBoxMaterialArr = (category:MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
+export const getBoxMaterialArr = (category: MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
     if (!category) return [];
     return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
+}
+
+export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {
+    const grainType = colorArr.find(el => el.value === door_color)?.isGrain;
+
+    switch (grainType) {
+        case true:
+            return grain;
+        case 1:
+            return grain.filter(el => el.value === 'Horizontal')
+        case 2:
+            return grain.filter(el => el.value === 'Vertical')
+        default:
+            return null
+    }
 }
 
 export const isLeatherType = (drawerColor: string | undefined, isLeather: boolean, leatherTypeArr: materialsData[]): boolean => {
@@ -451,22 +481,27 @@ export const getMaterialStrings = (materials: MaterialsFormType): MaterialString
     const {room_name, ...data} = materials;
     const {
         category,
+        gola,
         door_type,
         door_finish_material,
         door_grain,
         door_frame_width,
         door_color,
         box_material,
+        box_color,
         drawer_brand,
         drawer_type,
         drawer_color,
         leather
     } = data;
+
+    const categoryString = materialsStringify([category, gola])
     const doorString = materialsStringify([door_type, door_finish_material, door_color, door_grain, door_frame_width])
+    const boxString = materialsStringify([box_material, box_color])
     const drawerString = materialsStringify([drawer_brand, drawer_type, drawer_color]);
     return {
-        category,
-        box_material,
+        categoryString,
+        boxString,
         doorString,
         drawerString,
         leather
@@ -477,8 +512,22 @@ const materialsStringify = (materialsArr: string[]): string => {
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (realWidth: number, realHeight: number): number => {
-    return +(realWidth * realHeight / 144).toFixed(2)
+export const getSquare = (doorWidth: number, doorHeight: number): number => {
+    return +((doorWidth*doorHeight) / 144).toFixed(2)
+}
+
+export const getWidthToCalculateDoor = (realWidth: number,blind_width:number, isAngle:AngleType):number => {
+    if (!isAngle) return realWidth - blind_width;
+    // 24 is a standard blind with for corner cabinets;
+    const a = realWidth - 24;
+    if (a <= 0) return +(Math.sqrt(2*Math.pow(realWidth, 2))).toFixed(2);
+    switch (isAngle) {
+        case "flat":
+            return +(Math.sqrt(2*Math.pow(a, 2))).toFixed(2)
+        case "corner":
+            return a*2;
+    }
+    return 0
 }
 
 export const getCartData = (cartState: CartItemType[], dispatch: (a: any) => void): { cart: CartItemType[], total: number, cartLength: number } => {
@@ -504,7 +553,7 @@ export const getRoomFront = (room: RoomTypeAPI): RoomFront => {
 }
 
 
-export const getUpdatedCart = (room:RoomFront):CartItemType[] => {
+export const getUpdatedCart = (room: RoomFront): CartItemType[] => {
     const {cart} = room
     return cart
 }
@@ -852,6 +901,17 @@ export const getDimentionsRow = (width: number, height: number, depth: number): 
 }
 
 
-export const isShowBlindWidthBlock = (blindArr:MaybeUndefined<number[]>,product_type:ProductApiType): boolean => {
+export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType): boolean => {
     return (!(product_type === 'standard' || !blindArr || !blindArr.length));
+}
+
+export const isShowMiddleSectionBlock = (hasMiddleSection: MaybeUndefined<true>, middleSectionDefault: MaybeUndefined<number>, isProductStandard: boolean): boolean => {
+    return !!(hasMiddleSection && !isProductStandard && middleSectionDefault)
+}
+
+export const getSliderCategories = (room: RoomType, noGola: boolean, isStandardCabinet: boolean): catInfoType => {
+    if (isStandardCabinet) return categoriesData['Standard Door'] as catInfoType;
+    return noGola
+        ? categoriesData[room] as catInfoType
+        : categoriesData[`${room} Gola`] as catInfoType
 }

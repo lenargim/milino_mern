@@ -1,5 +1,3 @@
-import materials from "../api/materials.json";
-
 export type OrderFormSelectType = {
     data: materialsData[],
     value: string,
@@ -31,11 +29,12 @@ export interface finishType extends materialsData{
 }
 
 export interface colorType extends materialsData{
-    isGrain?: boolean,
+    isGrain?: boolean|number,
 }
 
 export type MaterialsType = {
     categories: materialsData[],
+    gola: materialsData[],
     doors: doorType[],
     boxMaterial: materialsData[],
     drawers: drawer[],

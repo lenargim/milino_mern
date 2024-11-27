@@ -56,7 +56,8 @@
             },
             {
               "value": "Bernini HG",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Black HG",
@@ -84,13 +85,13 @@
             },
             {
               "value": "Cuzco Oro HG",
-              "isGrain": true,
-              "img": "Cuzco Oro.jpg"
+              "img": "Cuzco Oro.jpg",
+              "isGrain": true
             },
             {
               "value": "Euroline 3 HG",
-              "isGrain": true,
-              "img": "Euroline 3.jpg"
+              "img": "Euroline 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Gris Metallic HG",
@@ -129,11 +130,13 @@
             },
             {
               "value": "Nuvola 2 HG",
-              "img": "Nuvola 2.jpg"
+              "img": "Nuvola 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Nuvola 3 HG",
-              "img": "Nuvola 3.jpg"
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Olivo HG",
@@ -147,15 +150,18 @@
             },
             {
               "value": "Picasso 1 HG",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2 HG",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3 HG",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Porcelain 1 HG",
@@ -261,11 +267,13 @@
             },
             {
               "value": "Nuvola 2 SM",
-              "img": "Nuvola 2.jpg"
+              "img": "Nuvola 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Nuvola 3 SM",
-              "img": "Nuvola 3.jpg"
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Titán 1 SM",
@@ -312,19 +320,23 @@
           "colors": [
             {
               "value": "Agave Natural Wood",
-              "img": "Agave Natural Wood.jpg"
+              "img": "Agave Natural Wood.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 1",
-              "img": "Anniversary Oak 1.jpg"
+              "value": "Anniversary Oak 1",
+              "img": "Anniversary Oak 1.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 2",
-              "img": "Anniversary Oak 2.jpg"
+              "value": "Anniversary Oak 2",
+              "img": "Anniversary Oak 2.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 3",
-              "img": "Anniversary Oak 3.jpg"
+              "value": "Anniversary Oak 3",
+              "img": "Anniversary Oak 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Antracita Solid Wood",
@@ -333,7 +345,8 @@
             },
             {
               "value": "Bernini",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Blanco Solid Wood",
@@ -342,11 +355,13 @@
             },
             {
               "value": "Brushed Concrete 1",
-              "img": "Brushed Concrete 1.jpg"
+              "img": "Brushed Concrete 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Brushed Concrete 2",
-              "img": "Brushed Concrete 2.jpg"
+              "img": "Brushed Concrete 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Cashmere Solid Wood",
@@ -380,15 +395,18 @@
             },
             {
               "value": "Frappe 1",
-              "img": "Frappé 1.jpg"
+              "img": "Frappé 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 2",
-              "img": "Frappé 2.jpg"
+              "img": "Frappé 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 3",
-              "img": "Frappé 3.jpg"
+              "img": "Frappé 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Gris Plomo Solid Wood",
@@ -497,63 +515,78 @@
             },
             {
               "value": "Petal Natural Wood",
-              "img": "Petal Natural Wood.jpg"
+              "img": "Petal Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 1",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Agave",
-              "img": "Reeded Agave.jpg"
+              "img": "Reeded Agave.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Petal",
-              "img": "Reeded Petal.jpg"
+              "img": "Reeded Petal.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Sky",
-              "img": "Reeded Sky.jpg"
+              "img": "Reeded Sky.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 1",
-              "img": "Rosales 1.jpg"
+              "img": "Rosales 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 2",
-              "img": "Rosales 2.jpg"
+              "img": "Rosales 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 3",
-              "img": "Rosales 3.jpg"
+              "img": "Rosales 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Siena",
-              "img": "Siena.jpg"
+              "img": "Siena.jpg",
+              "isGrain": true
             },
             {
               "value": "Sky Natural Wood",
-              "img": "Sky Natural Wood.jpg"
+              "img": "Sky Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Textil Plata",
-              "img": "Textil Plata.jpg"
+              "img": "Textil Plata.jpg",
+              "isGrain": true
             },
             {
               "value": "Tierra Nosta",
-              "img": "Tierra Nosta.jpg"
+              "img": "Tierra Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Verde Nosta",
-              "img": "Verde Nosta.jpg"
+              "img": "Verde Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Woodline 1",
@@ -578,75 +611,93 @@
           "colors": [
             {
               "value": "Oak Desert (In Stock)",
-              "img": "veneer/Desert Oak.jpg"
+              "img": "veneer/Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Ivory (In Stock)",
-              "img": "veneer/Ivory Oak 2.jpg"
+              "img": "veneer/Ivory Oak 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Manhattan (In Stock)",
-              "img": "veneer/Manhattan Oak.jpg"
+              "img": "veneer/Manhattan Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Milk (In Stock)",
-              "img": "veneer/Milk Oak.jpg"
+              "img": "veneer/Milk Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Triba Pebble (In Stock)",
-              "img": "veneer/Pebble Triba.jpg"
+              "img": "veneer/Pebble Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Frozen (In Stock)",
-              "img": "veneer/Frozen Walnut.jpg"
+              "img": "veneer/Frozen Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Pure (In Stock)",
-              "img": "veneer/Pure Walnut.jpg"
+              "img": "veneer/Pure Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Smoked (In Stock)",
-              "img": "veneer/Smoked Walnut.jpg"
+              "img": "veneer/Smoked Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Eucalyptus Shadow (Special Order)",
-              "img": "veneer/Shadow Eucalyptus.jpg"
+              "img": "veneer/Shadow Eucalyptus.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Bondi (Special Order)",
-              "img": "veneer/Bondi Oak.jpg"
+              "img": "veneer/Bondi Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Burley (Special Order)",
-              "img": "veneer/Burley Oak.jpg"
+              "img": "veneer/Burley Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Ivory Infinite (Special Order)",
-              "img": "veneer/Ivory Infinite Oak.jpg"
+              "img": "veneer/Ivory Infinite Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Natural (Special Order)",
-              "img": "veneer/Natural Oak.jpg"
+              "img": "veneer/Natural Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Raven (Special Order)",
-              "img": "veneer/Raven Oak.jpg"
+              "img": "veneer/Raven Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Oak Sahara (Special Order)",
-              "img": "veneer/Sahara Oak.jpg"
+              "img": "veneer/Sahara Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Sapele Terra (Special Order)",
-              "img": "veneer/Terra Sapele.jpg"
+              "img": "veneer/Terra Sapele.jpg",
+              "isGrain": true
             },
             {
               "value": "Triba Cinnamon (Special Order)",
-              "img": "veneer/Cinnamon Triba.jpg"
+              "img": "veneer/Cinnamon Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Stardust (Special Order)",
-              "img": "veneer/Stardust Walnut.jpg"
+              "img": "veneer/Stardust Walnut.jpg",
+              "isGrain": true
             }
           ]
         },
@@ -692,11 +743,13 @@
             },
             {
               "value": "Calacatta Marble Gloss",
-              "img": "StyleLite/Calacatta.jpg"
+              "img": "StyleLite/Calacatta.jpg",
+              "isGrain": true
             },
             {
               "value": "Calacatta Marble Velvet",
-              "img": "StyleLite/Calacatta.jpg"
+              "img": "StyleLite/Calacatta.jpg",
+              "isGrain": true
             },
             {
               "value": "Carbon Gloss",
@@ -740,15 +793,18 @@
             },
             {
               "value": "Lavato-Oak Gloss",
-              "img": "StyleLite/Lavato-Oak.jpg"
+              "img": "StyleLite/Lavato-Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Lavato-Oak Velvet",
-              "img": "StyleLite/Lavato-Oak.jpg"
+              "img": "StyleLite/Lavato-Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Misty Mirra Gloss",
-              "img": "StyleLite/Misty-Mirra.jpg"
+              "img": "StyleLite/Misty-Mirra.jpg",
+              "isGrain": true
             },
             {
               "value": "Mirror Gloss",
@@ -768,7 +824,8 @@
             },
             {
               "value": "Pewter Gloss",
-              "img": "StyleLite/Pewter.jpg"
+              "img": "StyleLite/Pewter.jpg",
+              "isGrain": true
             },
             {
               "value": "Rainforest Matte",
@@ -776,11 +833,13 @@
             },
             {
               "value": "Riga-Birch Gloss",
-              "img": "StyleLite/Riga-Birch.jpg"
+              "img": "StyleLite/Riga-Birch.jpg",
+              "isGrain": true
             },
             {
               "value": "Riga-Birch Velvet",
-              "img": "StyleLite/Riga-Birch.jpg"
+              "img": "StyleLite/Riga-Birch.jpg",
+              "isGrain": true
             },
             {
               "value": "Ruby Gloss",
@@ -796,11 +855,13 @@
             },
             {
               "value": "Sienna-Teak Gloss",
-              "img": "StyleLite/Sienna-Teak.jpg"
+              "img": "StyleLite/Sienna-Teak.jpg",
+              "isGrain": true
             },
             {
               "value": "Sienna-Teak Velvet",
-              "img": "StyleLite/Sienna-Teak.jpg"
+              "img": "StyleLite/Sienna-Teak.jpg",
+              "isGrain": true
             },
             {
               "value": "Silver Gloss",
@@ -816,39 +877,48 @@
             },
             {
               "value": "Tierra Elm Gloss",
-              "img": "StyleLite/Tierra-Elm.jpg"
+              "img": "StyleLite/Tierra-Elm.jpg",
+              "isGrain": true
             },
             {
               "value": "Tierra Elm Velvet",
-              "img": "StyleLite/Tierra-Elm.jpg"
+              "img": "StyleLite/Tierra-Elm.jpg",
+              "isGrain": true
             },
             {
               "value": "Titanium Gloss",
-              "img": "StyleLite/Titanium.jpg"
+              "img": "StyleLite/Titanium.jpg",
+              "isGrain": true
             },
             {
               "value": "Travertine Crosscut Velvet",
-              "img": "StyleLite/Travertine-Crosscut.jpg"
+              "img": "StyleLite/Travertine-Crosscut.jpg",
+              "isGrain": true
             },
             {
               "value": "Travertine Veincut Velvet",
-              "img": "StyleLite/Travertine-Veincut.jpg"
+              "img": "StyleLite/Travertine-Veincut.jpg",
+              "isGrain": true
             },
             {
               "value": "Vintage Mira Gloss",
-              "img": "StyleLite/Vintage-Mira.jpg"
+              "img": "StyleLite/Vintage-Mira.jpg",
+              "isGrain": true
             },
             {
               "value": "Wired Mercury Gloss",
-              "img": "StyleLite/Wired-Mercury.jpg"
+              "img": "StyleLite/Wired-Mercury.jpg",
+              "isGrain": true
             },
             {
               "value": "Wired Mercury Velvet",
-              "img": "StyleLite/Wired-Mercury.jpg"
+              "img": "StyleLite/Wired-Mercury.jpg",
+              "isGrain": true
             },
             {
               "value": "Wired Zinc Gloss",
-              "img": "StyleLite/Wired-Zinc.jpg"
+              "img": "StyleLite/Wired-Zinc.jpg",
+              "isGrain": true
             }
           ]
         },
@@ -1497,7 +1567,8 @@
             },
             {
               "value": "Amalfi Noce UG",
-              "img": "amalfi-noce-ultra-gloss-large-300x300.jpg"
+              "img": "amalfi-noce-ultra-gloss-large-300x300.jpg",
+              "isGrain": true
             },
             {
               "value": "Daybreak Pearl",
@@ -1522,47 +1593,58 @@
             },
             {
               "value": "Timberline UM",
-              "img": "Timberline.jpg"
+              "img": "Timberline.jpg",
+              "isGrain": true
             },
             {
               "value": "Quiet Concrete",
-              "img": "Quiet Concrete.jpg"
+              "img": "Quiet Concrete.jpg",
+              "isGrain": true
             },
             {
               "value": "Quiet Grain",
-              "img": "Quiet Grain.jpg"
+              "img": "Quiet Grain.jpg",
+              "isGrain": true
             },
             {
               "value": "Quiet Leather",
-              "img": "Quiet Leather.jpg"
+              "img": "Quiet Leather.jpg",
+              "isGrain": true
             },
             {
               "value": "Quiet Stone",
-              "img": "Quiet Stone.jpg"
+              "img": "Quiet Stone.jpg",
+              "isGrain": true
             },
             {
               "value": "Quiet Wood",
-              "img": "Quiet Wood.jpg"
+              "img": "Quiet Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Willow Concrete",
-              "img": "Willow Concrete.jpg"
+              "img": "Willow Concrete.jpg",
+              "isGrain": true
             },
             {
               "value": "Willow Grain",
-              "img": "Ultrapan-Willow-Grain.jpg"
+              "img": "Ultrapan-Willow-Grain.jpg",
+              "isGrain": true
             },
             {
               "value": "Willow Leather",
-              "img": "Willow Leather.jpg"
+              "img": "Willow Leather.jpg",
+              "isGrain": true
             },
             {
               "value": "Willow Stone",
-              "img": "Willow Stone.jpg"
+              "img": "Willow Stone.jpg",
+              "isGrain": true
             },
             {
               "value": "Willow Wood",
-              "img": "Willow Wood.jpg"
+              "img": "Willow Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Arizona ST",
@@ -1839,7 +1921,8 @@
             },
             {
               "value": "Bernini HG",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Black HG",
@@ -1912,11 +1995,13 @@
             },
             {
               "value": "Nuvola 2 HG",
-              "img": "Nuvola 2.jpg"
+              "img": "Nuvola 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Nuvola 3 HG",
-              "img": "Nuvola 3.jpg"
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Olivo HG",
@@ -1930,15 +2015,18 @@
             },
             {
               "value": "Picasso 1 HG",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2 HG",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3 HG",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Porcelain 1 HG",
@@ -1980,19 +2068,23 @@
           "colors": [
             {
               "value": "Agave Natural Wood",
-              "img": "Agave Natural Wood.jpg"
+              "img": "Agave Natural Wood.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 1",
-              "img": "Anniversary Oak 1.jpg"
+              "value": "Anniversary Oak 1",
+              "img": "Anniversary Oak 1.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 2",
-              "img": "Anniversary Oak 2.jpg"
+              "value": "Anniversary Oak 2",
+              "img": "Anniversary Oak 2.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 3",
-              "img": "Anniversary Oak 3.jpg"
+              "value": "Anniversary Oak 3",
+              "img": "Anniversary Oak 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Antracita Solid Wood",
@@ -2001,7 +2093,8 @@
             },
             {
               "value": "Bernini",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Blanco Solid Wood",
@@ -2010,11 +2103,13 @@
             },
             {
               "value": "Brushed Concrete 1",
-              "img": "Brushed Concrete 1.jpg"
+              "img": "Brushed Concrete 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Brushed Concrete 2",
-              "img": "Brushed Concrete 2.jpg"
+              "img": "Brushed Concrete 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Cashmere Solid Wood",
@@ -2048,15 +2143,18 @@
             },
             {
               "value": "Frappe 1",
-              "img": "Frappé 1.jpg"
+              "img": "Frappé 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 2",
-              "img": "Frappé 2.jpg"
+              "img": "Frappé 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 3",
-              "img": "Frappé 3.jpg"
+              "img": "Frappé 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Gris Plomo Solid Wood",
@@ -2165,63 +2263,78 @@
             },
             {
               "value": "Petal Natural Wood",
-              "img": "Petal Natural Wood.jpg"
+              "img": "Petal Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 1",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Agave",
-              "img": "Reeded Agave.jpg"
+              "img": "Reeded Agave.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Petal",
-              "img": "Reeded Petal.jpg"
+              "img": "Reeded Petal.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Sky",
-              "img": "Reeded Sky.jpg"
+              "img": "Reeded Sky.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 1",
-              "img": "Rosales 1.jpg"
+              "img": "Rosales 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 2",
-              "img": "Rosales 2.jpg"
+              "img": "Rosales 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 3",
-              "img": "Rosales 3.jpg"
+              "img": "Rosales 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Siena",
-              "img": "Siena.jpg"
+              "img": "Siena.jpg",
+              "isGrain": true
             },
             {
               "value": "Sky Natural Wood",
-              "img": "Sky Natural Wood.jpg"
+              "img": "Sky Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Textil Plata",
-              "img": "Textil Plata.jpg"
+              "img": "Textil Plata.jpg",
+              "isGrain": true
             },
             {
               "value": "Tierra Nosta",
-              "img": "Tierra Nosta.jpg"
+              "img": "Tierra Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Verde Nosta",
-              "img": "Verde Nosta.jpg"
+              "img": "Verde Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Woodline 1",
@@ -2276,43 +2389,53 @@
           "colors": [
             {
               "value": "Como Ash 1 FP",
-              "img": "Como Ash 1.jpg"
+              "img": "Como Ash 1.jpg",
+              "isGrain": 1
             },
             {
               "value": "Como Ash 2 FP",
-              "img": "Como Ash 2.jpg"
+              "img": "Como Ash 2.jpg",
+              "isGrain": 1
             },
             {
               "value": "Muratti 1 FP",
-              "img": "Syncron Muratti 1.jpg"
+              "img": "Syncron Muratti 1.jpg",
+              "isGrain": 1
             },
             {
               "value": "Muratti 4 FP",
-              "img": "Syncron Muratti 4.jpg"
+              "img": "Syncron Muratti 4.jpg",
+              "isGrain": 1
             },
             {
               "value": "Nocce 1 FP",
-              "img": "Nocce 1.jpg"
+              "img": "Nocce 1.jpg",
+              "isGrain": 1
             },
             {
               "value": "Nocce 3 FP",
-              "img": "Nocce 3.jpg"
+              "img": "Nocce 3.jpg",
+              "isGrain": 1
             },
             {
               "value": "Rosales 2 FP",
-              "img": "Rosales 2.jpg"
+              "img": "Rosales 2.jpg",
+              "isGrain": 1
             },
             {
               "value": "Rosales 3 FP",
-              "img": "Rosales 3.jpg"
+              "img": "Rosales 3.jpg",
+              "isGrain": 1
             },
             {
               "value": "Woodline 1 FP",
-              "img": "Woodline 1.jpg"
+              "img": "Woodline 1.jpg",
+              "isGrain": 1
             },
             {
               "value": "Woodline 3 FP",
-              "img": "Woodline 3.jpg"
+              "img": "Woodline 3.jpg",
+              "isGrain": 1
             }
           ]
         }
@@ -4064,7 +4187,8 @@
             },
             {
               "value": "Bernini HG",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Black HG",
@@ -4137,11 +4261,13 @@
             },
             {
               "value": "Nuvola 2 HG",
-              "img": "Nuvola 2.jpg"
+              "img": "Nuvola 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Nuvola 3 HG",
-              "img": "Nuvola 3.jpg"
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Olivo HG",
@@ -4155,15 +4281,18 @@
             },
             {
               "value": "Picasso 1 HG",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2 HG",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3 HG",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Porcelain 1 HG",
@@ -4269,11 +4398,13 @@
             },
             {
               "value": "Nuvola 2 SM",
-              "img": "Nuvola 2.jpg"
+              "img": "Nuvola 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Nuvola 3 SM",
-              "img": "Nuvola 3.jpg"
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Titán 1 SM",
@@ -4320,19 +4451,23 @@
           "colors": [
             {
               "value": "Agave Natural Wood",
-              "img": "Agave Natural Wood.jpg"
+              "img": "Agave Natural Wood.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 1",
-              "img": "Anniversary Oak 1.jpg"
+              "value": "Anniversary Oak 1",
+              "img": "Anniversary Oak 1.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 2",
-              "img": "Anniversary Oak 2.jpg"
+              "value": "Anniversary Oak 2",
+              "img": "Anniversary Oak 2.jpg",
+              "isGrain": true
             },
             {
-              "value": "Anniversary 3",
-              "img": "Anniversary Oak 3.jpg"
+              "value": "Anniversary Oak 3",
+              "img": "Anniversary Oak 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Antracita Solid Wood",
@@ -4341,7 +4476,8 @@
             },
             {
               "value": "Bernini",
-              "img": "Bernini.jpg"
+              "img": "Bernini.jpg",
+              "isGrain": true
             },
             {
               "value": "Blanco Solid Wood",
@@ -4350,11 +4486,13 @@
             },
             {
               "value": "Brushed Concrete 1",
-              "img": "Brushed Concrete 1.jpg"
+              "img": "Brushed Concrete 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Brushed Concrete 2",
-              "img": "Brushed Concrete 2.jpg"
+              "img": "Brushed Concrete 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Cashmere Solid Wood",
@@ -4388,15 +4526,18 @@
             },
             {
               "value": "Frappe 1",
-              "img": "Frappé 1.jpg"
+              "img": "Frappé 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 2",
-              "img": "Frappé 2.jpg"
+              "img": "Frappé 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Frappe 3",
-              "img": "Frappé 3.jpg"
+              "img": "Frappé 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Gris Plomo Solid Wood",
@@ -4505,63 +4646,78 @@
             },
             {
               "value": "Petal Natural Wood",
-              "img": "Petal Natural Wood.jpg"
+              "img": "Petal Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 1",
-              "img": "Picasso 1.jpg"
+              "img": "Picasso 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 2",
-              "img": "Picasso 2.jpg"
+              "img": "Picasso 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Picasso 3",
-              "img": "Picasso 3.jpg"
+              "img": "Picasso 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Agave",
-              "img": "Reeded Agave.jpg"
+              "img": "Reeded Agave.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Petal",
-              "img": "Reeded Petal.jpg"
+              "img": "Reeded Petal.jpg",
+              "isGrain": true
             },
             {
               "value": "Reeded Sky",
-              "img": "Reeded Sky.jpg"
+              "img": "Reeded Sky.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 1",
-              "img": "Rosales 1.jpg"
+              "img": "Rosales 1.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 2",
-              "img": "Rosales 2.jpg"
+              "img": "Rosales 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Rosales 3",
-              "img": "Rosales 3.jpg"
+              "img": "Rosales 3.jpg",
+              "isGrain": true
             },
             {
               "value": "Siena",
-              "img": "Siena.jpg"
+              "img": "Siena.jpg",
+              "isGrain": true
             },
             {
               "value": "Sky Natural Wood",
-              "img": "Sky Natural Wood.jpg"
+              "img": "Sky Natural Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Textil Plata",
-              "img": "Textil Plata.jpg"
+              "img": "Textil Plata.jpg",
+              "isGrain": true
             },
             {
               "value": "Tierra Nosta",
-              "img": "Tierra Nosta.jpg"
+              "img": "Tierra Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Verde Nosta",
-              "img": "Verde Nosta.jpg"
+              "img": "Verde Nosta.jpg",
+              "isGrain": true
             },
             {
               "value": "Woodline 1",
@@ -4857,6 +5013,32 @@
     {
       "value": "Vertical",
       "img": "Vertical Grain.jpg"
+    }
+  ],
+  "gola": [
+    {
+      "value": "No Gola",
+      "img": "No Gola.jpg"
+    },
+    {
+      "value": "Aluminum Gola",
+      "img": "Aluminum Gola.jpg"
+    },
+    {
+      "value": "Black Gloss Gola",
+      "img": "Black Metal Gloss Gola.jpg"
+    },
+    {
+      "value": "White Gloss Gola",
+      "img": "White Metal Gloss Gola.jpg"
+    },
+    {
+      "value": "Champagne Gola",
+      "img": "Champagne Metal Gola.jpg"
+    },
+    {
+      "value": "Wood Gola",
+      "img": "Wood Gola.jpg"
     }
   ]
 }

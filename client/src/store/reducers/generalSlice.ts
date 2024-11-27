@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
+    AngleType,
     attrItem, CartExtrasType, cornerTypes,
     customPartDataType, hingeTypes, MaybeNull,
     ProductType,
@@ -72,7 +73,7 @@ export interface productChangeMaterialType extends CartItemType {
     attributes: attrItem[],
     options: string[],
     isBlind: boolean,
-    isAngle: boolean,
+    isAngle: AngleType,
     customHeight?: number,
     customDepth?: number,
 }

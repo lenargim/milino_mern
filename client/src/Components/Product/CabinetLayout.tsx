@@ -17,7 +17,7 @@ import LedBlock from "./LED";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
-import {isShowBlindWidthBlock, productValuesType} from "../../helpers/helpers";
+import {isShowBlindWidthBlock, isShowMiddleSectionBlock, productValuesType} from "../../helpers/helpers";
 import {
     coefType,
     getInitialPrice, getPriceForExtraDepth,
@@ -44,7 +44,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 allCoefs,
                                                 coef
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard, product_type} = product;
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard, product_type} = product;
     const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
@@ -68,13 +68,12 @@ const CabinetLayOut: FC<CabinetFormType> = ({
     } = values;
 
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
+    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
 
     const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
     const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
     const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
     const depthExtra = getPriceForExtraDepth(initialPrice, coef);
-
-
 
     return (
         <Form>
@@ -108,7 +107,6 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                     {!height && <ProductInputCustom value={null} name={'Custom Height'}/>}
                 </div>
             </div>
-
             <div className={s.divider}>
                 {!isAngle ?
                     <div className={s.block}>
@@ -121,7 +119,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                         </div>
                     </div>
                     : null}
-                {hasMiddleSection &&
+                {showMiddleSectionBlock &&
                   <div className={s.block}>
                     <h3>Middle Section Height</h3>
                     <ProductInputCustom value={null} name={'Middle Section'}/>

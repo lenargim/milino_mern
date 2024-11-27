@@ -3400,7 +3400,7 @@
         "type": 1,
         "data": [
           {
-            "width": 21,
+            "width": 24,
             "price": 388
           }
         ]
@@ -3409,7 +3409,7 @@
         "type": 2,
         "data": [
           {
-            "width": 21,
+            "width": 24,
             "price": 420
           }
         ]
@@ -3418,7 +3418,7 @@
         "type": 3,
         "data": [
           {
-            "width": 21,
+            "width": 24,
             "price": 462
           }
         ]

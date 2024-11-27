@@ -517,6 +517,8 @@
     "Gola Base Cabinets": 27,
     "Wall Cabinets": 16,
     "Gola Wall Cabinets": 16,
+    "Tall Cabinets": 27,
+    "Gola Tall Cabinets": 27,
     "Build In": 27
   },
   "blindDoor": [9,27],
