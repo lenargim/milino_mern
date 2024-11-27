@@ -4418,7 +4418,7 @@
   {
     "id": 219,
     "legsHeight": 4.5,
-    "isBlind": false,
+    "isBlind": true,
     "isAngle": false,
     "name": "PTBCLV Series",
     "room": "Kitchen",
@@ -4467,7 +4467,7 @@
   {
     "id": 220,
     "legsHeight": 4.5,
-    "isBlind": false,
+    "isBlind": true,
     "isAngle": false,
     "name": "PTBCV Series",
     "room": "Kitchen",

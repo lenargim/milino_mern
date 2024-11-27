@@ -291,7 +291,6 @@ export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItem
 export function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, horizontal_line: number, doorType?: string, doorFinish?: string): number {
     if (doorType === 'No Doors' || doorFinish === 'Milino') return 0;
     const per = (horizontal_line*doorWidth + doorHeight*2)/12;
-    console.log(`per ${per}`)
     const pvcPrice = per * 2.5;
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
@@ -858,7 +857,7 @@ export type AttributesPrices = {
     drawerPrice: number,
 }
 export const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {doorSquare, legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle} = product;
+    const {doorSquare, legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle, category} = product;
     const {
         door_option,
         options,
@@ -884,11 +883,10 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         shelfsQty,
         rolloutsQty,
     } = productPriceData;
-    const doorWidth = getWidthToCalculateDoor(width,blind_width, isAngle)
+    const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
+    const doorWidth = getWidthToCalculateDoor(width,blind_width, isAngle,isWallCab)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight);
-    console.log(`w ${doorWidth}`);
-    console.log(`sq ${frontSquare}`)
 
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,

@@ -516,10 +516,11 @@ export const getSquare = (doorWidth: number, doorHeight: number): number => {
     return +((doorWidth*doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number,blind_width:number, isAngle:AngleType):number => {
+export const getWidthToCalculateDoor = (realWidth: number,blind_width:number, isAngle:AngleType,isWallCab:boolean):number => {
     if (!isAngle) return realWidth - blind_width;
-    // 24 is a standard blind with for corner cabinets;
-    const a = realWidth - 24;
+    // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
+    const blindCorner = isWallCab ? 13.5:24;
+    const a = realWidth - blindCorner;
     if (a <= 0) return +(Math.sqrt(2*Math.pow(realWidth, 2))).toFixed(2);
     switch (isAngle) {
         case "flat":

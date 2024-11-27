@@ -76,7 +76,6 @@ const Cabinet: FC<CabinetType> = ({
     const realHeight = +height || +customHeightNumber || 0;
     const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     const realMiddleSection = middleSectionNumber || 0
-    if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], category);
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
@@ -116,6 +115,7 @@ const Cabinet: FC<CabinetType> = ({
 
     const totalPrice = +(startPrice * productCoef + attrPrice).toFixed(1);
     useEffect(() => {
+        if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)
         if (doors !== doorNum) setFieldValue('Doors', doorNum);
         if (doors && !hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
