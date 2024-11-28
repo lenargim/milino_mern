@@ -67,15 +67,14 @@ export const getAll = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const roomId = req.params.id;
-    await RoomModel.findByIdAndDelete(roomId).then(doc => {
-      if (!doc) {
+    Promise.all([CartModel.findOneAndDelete({room: roomId}), RoomModel.findByIdAndDelete(roomId)]).then(([cartRes, roomRes]) => {
+      if (!roomRes) {
         return res.status(404).json({
           message: 'Process Order not found'
         })
       }
-      return res.json(doc);
+      return res.json(roomRes);
     });
-
   } catch (e) {
     res.status(500).json({
       message: 'Cannot get Process Order'
