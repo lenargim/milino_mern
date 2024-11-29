@@ -1,31 +1,31 @@
 import React, {FC} from 'react';
 import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
-import {catInfoType} from "../Cabinets/Slider";
 import List from "../Cabinets/List";
-import {getImg, useAppDispatch} from "../../helpers/helpers";
+import {getImg, getSliderCategories, useAppDispatch} from "../../helpers/helpers";
 import s from "../Cabinets/cabinets.module.sass";
 import {RoomFront, roomSetActiveCategory} from "../../store/reducers/roomSlice";
-import categoriesData from "../../api/categories.json";
 import {useOutletContext} from "react-router-dom";
 
 const RoomCategory: FC = () => {
     const [roomData] = useOutletContext<[RoomFront]>()
-    const {_id, activeProductCategory: category, category: room, door_type} = roomData;
+    const {_id, activeProductCategory: category, category: room, door_type, gola} = roomData;
     if (!room) return null;
-    const isStandardCabinet = door_type === 'Standard Door'
-    const {categories, defaultImg} = (!isStandardCabinet ? categoriesData[room] : categoriesData["Standard Door"]) as catInfoType;
+    const isStandardCabinet = door_type === 'Standard Door';
+    const noGola = !gola || gola === 'No Gola'
+
+    const {categories, defaultImg} = getSliderCategories(room, noGola, isStandardCabinet);
     const currentCat = categories.find(cat => cat.name === category);
     return (
         <>
             <form>
-                <div >
+                <div>
                     <div className={s.img}>
                         <img src={getImg('categories', currentCat ? currentCat.img : defaultImg)} alt={room}/>
                     </div>
                     <div className={s.category}>
-                        {categories.map(el => <CategoryItem name={el.name}
+                        {categories.map(el => <CategoryItem key={el.name}
+                                                            name={el.name}
                                                             current={category}
-                                                            key={el.name}
                                                             _id={_id}
                         />)
                         }

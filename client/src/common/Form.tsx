@@ -6,6 +6,7 @@ import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
 import {getFraction} from "../helpers/helpers";
 import { numericQuantity } from 'numeric-quantity';
+import {MaybeNull} from "../helpers/productTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -210,18 +211,16 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
 
 
 
-export const ProductInputCustom: FC<{ name: string, value: string | null, label?: string }> = ({
+export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
                                                                                                    name,
-                                                                                                   value,
                                                                                                    label
                                                                                                }) => {
     const [field] = useField(name);
     const [fieldNumber, , helpers] = useField(name + ' Number');
-    const result = numericQuantity(field.value || '')
+    const result = numericQuantity(field.value ) || '';
     useEffect(() => {
-        if (fieldNumber.value !== result) helpers.setValue(result);
+        if ( fieldNumber.value !== result) helpers.setValue(result);
     }, [result])
-
 
     return (
         <div className={[styles.productText].join(' ')}>

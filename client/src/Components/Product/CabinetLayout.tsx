@@ -84,7 +84,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                         {widthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                          name={'Width'}
                                                                                          value={w}/>)}
-                        {!width && <ProductInputCustom value={null} name={'Custom Width'}/>}
+                        {!width && <ProductInputCustom  name={'Custom Width'}/>}
                     </div>
                 </div> : null}
             {showBlindWidthBlock ?
@@ -94,7 +94,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                         {blindArr && blindArr.map((w, index) => <ProductRadioInputCustom key={index}
                                                                              name={'Blind Width'}
                                                                              value={w}/>)}
-                        {!blindWidth && <ProductInputCustom value={null} name={'Custom Blind Width'}/>}
+                        {!blindWidth && <ProductInputCustom name={'Custom Blind Width'}/>}
                     </div>
                 </div> : null
             }
@@ -104,7 +104,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                     {heightRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                       name={'Height'}
                                                                                       value={w}/>)}
-                    {!height && <ProductInputCustom value={null} name={'Custom Height'}/>}
+                    {!height && <ProductInputCustom name={'Custom Height'}/>}
                 </div>
             </div>
             <div className={s.divider}>
@@ -115,14 +115,14 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                             {depthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                              name={'Depth'}
                                                                                              value={w}/>)}
-                            {!depth && <ProductInputCustom value={null} name={'Custom Depth'}/>}
+                            {!depth && <ProductInputCustom name={'Custom Depth'}/>}
                         </div>
                     </div>
                     : null}
                 {showMiddleSectionBlock &&
                   <div className={s.block}>
                     <h3>Middle Section Height</h3>
-                    <ProductInputCustom value={null} name={'Middle Section'}/>
+                    <ProductInputCustom name={'Middle Section'}/>
                   </div>
                 }
             </div>

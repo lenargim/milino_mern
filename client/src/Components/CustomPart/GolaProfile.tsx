@@ -43,7 +43,7 @@ const GolaProfile: FC<{ profile: golaProfileFormType, index: number }> = ({profi
     return (
         <div className={s.row}>
             <button onClick={() => deleteItem(_id)} className={s.close} type={"button"}>×</button>
-            <ProductInputCustom label="Length" value={null}
+            <ProductInputCustom label="Length"
                                 name={`[led_accessories.led_gola_profiles].${index}.length`}/>
             <div className={s.row}>
                 ×

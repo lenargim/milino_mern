@@ -46,7 +46,7 @@ export type MaterialsFormType = {
 }
 
 export const materialsFormInitial: MaterialsFormType = {
-    room_name: null,
+    room_name: '',
     category: '',
     gola: '',
     door_type: '',

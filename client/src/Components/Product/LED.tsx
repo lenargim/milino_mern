@@ -32,7 +32,7 @@ const LedBlock: FC<ledType> = ({alignment, error, hasLedBlock}) => {
                 <SelectField name="LED alignment" val={{value: alignment, label: alignment}}
                              options={alignmentOpt}/>
                 {alignment !== 'Center' ?
-                    <ProductInputCustom value={null} name={'LED indent'} label="Indent"/>
+                    <ProductInputCustom name={'LED indent'} label="Indent"/>
                     : null}
             </div>
         </div>

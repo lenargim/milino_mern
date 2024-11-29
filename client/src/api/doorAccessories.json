@@ -1,0 +1,86 @@
+[
+  {
+    "id": 0,
+    "value": "HF",
+    "label": "Aventos HF",
+    "filter": "aventos",
+    "price": 280
+  },
+  {
+    "id": 1,
+    "value": "HK",
+    "label": "Aventos HK",
+    "filter": "aventos",
+    "price": 210
+  },
+  {
+    "id": 2,
+    "value": "HL",
+    "label": "Aventos HL",
+    "filter": "aventos",
+    "price": 350
+  },
+  {
+    "id": 3,
+    "value": "door_hinge",
+    "filter": "hinge",
+    "price": 10,
+    "label": "Door Hinge"
+  },
+  {
+    "id": 4,
+    "value": "hinge_holes",
+    "filter": "hinge",
+    "price": 6,
+    "label": "Hinge Holes"
+  },
+  {
+    "id": 5,
+    "value": "PTO_door",
+    "filter": "PTO",
+    "label": "For Doors",
+    "price": 30
+  },
+  {
+    "id": 6,
+    "value": "PTO_drawer",
+    "filter": "PTO",
+    "label": "For Drawers",
+    "price": 80
+  },
+  {
+    "id": 7,
+    "value": "PTO_trashbin",
+    "filter": "PTO",
+    "label": "For Trash Bins",
+    "price": 350
+  },
+  {
+    "id": 8,
+    "value": "WBA",
+    "filter": "servo",
+    "label": "For WBA Cab",
+    "price": 1000
+  },
+  {
+    "id": 9,
+    "value": "WBL",
+    "filter": "servo",
+    "label": "For WBL Cab",
+    "price": 1000
+  },
+  {
+    "id": 10,
+    "value": "WDA",
+    "filter": "servo",
+    "label": "For WDA Cab",
+    "price": 1000
+  },
+  {
+    "id": 11,
+    "value": "BG",
+    "filter": "servo",
+    "label": "For BG Cab",
+    "price": 1000
+  }
+]

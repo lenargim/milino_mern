@@ -1,10 +1,9 @@
-import React, {MutableRefObject, useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {RoomFront} from "../../store/reducers/roomSlice";
 import Product from "../Product/Product";
 import s from './profile.module.sass'
 import {MaterialsFormType} from "../../common/MaterialsForm";
-import {MaybeNull} from "../../helpers/productTypes";
 
 const RoomProduct = () => {
     const navigate = useNavigate()

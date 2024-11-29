@@ -37,17 +37,16 @@ import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
 import {
-    CustomPartFormValuesType, DoorAccessoireAPIType, DoorAccessoireType,
+    CustomPartFormValuesType, DoorAccessoireAPIType, DoorAccessoireFront, DoorAccessoireType,
 } from "../Components/CustomPart/CustomPart";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
 import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
-import {retry} from "@reduxjs/toolkit/query";
-import {boolean} from "yup";
 import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
+import DA from '../api/doorAccessories.json'
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -774,116 +773,10 @@ export const getCartItemImgPDF = (product: ProductType | CustomPart, image_activ
 }
 
 export const convertDoorAccessories = (el: DoorAccessoireAPIType): DoorAccessoireType => {
-    switch (el.value) {
-        case 'HF':
-            return {
-                id: 0,
-                value: 'HF',
-                label: 'Aventos HF',
-                filter: 'aventos',
-                qty: el.qty,
-                price: 280
-            };
-        case 'HK':
-            return {
-                id: 1,
-                value: 'HK',
-                label: 'Aventos HK',
-                filter: 'aventos',
-                qty: el.qty,
-                price: 210
-            };
-        case 'HL':
-            return {
-                id: 2,
-                value: 'HL',
-                label: 'Aventos HL',
-                filter: 'aventos',
-                qty: el.qty,
-                price: 350
-            };
-        case 'door_hinge':
-            return {
-                id: 3,
-                value: 'door_hinge',
-                filter: 'hinge',
-                qty: el.qty,
-                price: 10,
-                label: 'Door Hinge'
-            };
-        case 'hinge_holes':
-            return {
-                id: 4,
-                value: 'hinge_holes',
-                filter: 'hinge',
-                qty: el.qty,
-                price: 6,
-                label: 'Hinge Holes'
-            };
-        case 'PTO_door':
-            return {
-                id: 5,
-                value: 'PTO_door',
-                filter: 'PTO',
-                label: 'For Doors',
-                qty: el.qty,
-                price: 30
-            };
-        case 'PTO_drawer':
-            return {
-                id: 6,
-                value: 'PTO_drawer',
-                filter: 'PTO',
-                label: 'For Drawers',
-                qty: el.qty,
-                price: 80
-            };
-        case 'PTO_trashbin':
-            return {
-                id: 7,
-                value: 'PTO_trashbin',
-                filter: 'PTO',
-                label: 'For Trash Bins',
-                qty: el.qty,
-                price: 350
-            };
-        case 'WBA':
-            return {
-                id: 8,
-                value: 'WBA',
-                filter: 'servo',
-                label: 'For WBA Cab',
-                qty: el.qty,
-                price: 1000
-            };
-        case 'WBL':
-            return {
-                id: 9,
-                value: 'WBL',
-                filter: 'servo',
-                label: 'For WBL Cab',
-                qty: el.qty,
-                price: 1000
-            };
-        case 'WDA':
-            return {
-                id: 10,
-                value: 'WDA',
-                filter: 'servo',
-                label: 'For WDA Cab',
-                qty: el.qty,
-                price: 1000
-            };
-        default:
-            return {
-                id: 11,
-                value: 'BG',
-                filter: 'servo',
-                label: 'For BG Cab',
-                qty: el.qty,
-                price: 600
-            }
-    }
+    const doorAccessoires = DA as DoorAccessoireFront[];
+    const item = doorAccessoires.find(ac => ac.value === el.value);
+    if (!item) return {...doorAccessoires[0], qty: el.qty}
+    return {...item, qty: el.qty}
 }
 
 export const usePrevious = (data: string) => {

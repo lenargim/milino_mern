@@ -20,7 +20,6 @@ export type CustomPartFormValuesType = {
     glass_shelf: string
 }
 
-
 export type HingeType = {
     title: string,
     label: string,
@@ -53,7 +52,7 @@ export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst
     const {
         price
     } = values
-    const {id, materials_array, width, type} = product;
+    const {materials_array, width, type} = product;
     const showHeightBlock = type !== 'pvc';
     const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     const showGlassDoorBlock = type === 'glass-door'
@@ -65,7 +64,7 @@ export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst
                 <div className={s.block}>
                     <h3>{type !== 'pvc' ? 'Width' : 'PVC Length(ft)'}</h3>
                     <div className={s.options}>
-                        <ProductInputCustom value={null} name={'Width'}/>
+                        <ProductInputCustom name={'Width'}/>
                     </div>
                 </div> : null}
 
@@ -73,7 +72,7 @@ export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst
             <div className={s.block}>
                 <h3>Height</h3>
                 <div className={s.options}>
-                    <ProductInputCustom value={null} name={'Height'}/>
+                    <ProductInputCustom name={'Height'}/>
                 </div>
             </div> : null}
 
@@ -81,7 +80,7 @@ export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst
                 <div className={s.block}>
                     <h3>Depth</h3>
                     <div className={s.options}>
-                        <ProductInputCustom value={null} name={'Depth'}/>
+                        <ProductInputCustom name={'Depth'}/>
                     </div>
                 </div> : null
             }

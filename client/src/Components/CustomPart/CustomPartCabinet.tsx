@@ -17,7 +17,6 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) =>
 
     const {
         Material: material,
-        Note,
         glass_door: [doorProfileVal],
         'Width Number': widthNumber,
         'Height Number': heightNumber,

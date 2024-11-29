@@ -14,7 +14,7 @@ const ProfileRooms: FC = () => {
     const location = useLocation();
     useEffect(() => {
         getAllRooms().then(data => {
-            if (data) {
+            if (data ) {
                 dispatch(getRooms(data));
             }
         })

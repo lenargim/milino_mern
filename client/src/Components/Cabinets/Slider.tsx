@@ -23,9 +23,9 @@ const Slider: FC<SliderType> = ({setCategory, room, category, isStandardCabinet,
                         <img src={getImg('categories', currentCat ? currentCat.img : defaultImg)} alt={room}/>
                     </div>
                     <div className={s.category}>
-                        {categories.map(el => <CategoryItem name={el.name}
+                        {categories.map(el => <CategoryItem key={el.name}
+                                                            name={el.name}
                                                             current={currentCat?.name}
-                                                            key={el.name}
                                                             setCategory={setCategory}
                         />)
                         }

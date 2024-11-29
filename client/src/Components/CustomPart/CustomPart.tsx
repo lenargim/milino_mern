@@ -20,6 +20,8 @@ import StandardDoorForm, {DoorType} from "./StandardDoorForm";
 import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
+import DA from '../../api/doorAccessories.json'
+
 
 type CustomPartFormType = {
     materials: MaybeNull<MaterialsFormType>
@@ -44,6 +46,16 @@ export type LedAccessoriesFormType = {
     transformer: number,
 }
 
+type FilterAccessoire = 'aventos' | 'hinge' | 'PTO' | 'servo';
+
+export type DoorAccessoireFront = {
+    id: number,
+    value: string,
+    label: string,
+    filter: FilterAccessoire,
+    price: number
+}
+
 export type DoorAccessoireAPIType = {
     value: string,
     qty: number
@@ -51,7 +63,7 @@ export type DoorAccessoireAPIType = {
 
 export interface DoorAccessoireType extends DoorAccessoireAPIType {
     id: number,
-    filter: 'aventos' | 'hinge'| 'PTO'|'servo',
+    filter: FilterAccessoire,
     label: string,
     price: number
 }
@@ -73,105 +85,8 @@ export type CustomPartFormValuesType = {
     standard_door: DoorType
 }
 
-const initialDoorAccessoires: DoorAccessoireType[] = [
-    {
-        id: 0,
-        value: 'HF',
-        label: 'Aventos HF',
-        filter: 'aventos',
-        qty: 0,
-        price: 280
-    },
-    {
-        id: 1,
-        value: 'HK',
-        label: 'Aventos HK',
-        filter: 'aventos',
-        qty: 0,
-        price: 210
-    },
-    {
-        id: 2,
-        value: 'HL',
-        label: 'Aventos HL',
-        filter: 'aventos',
-        qty: 0,
-        price: 350
-    },
-    {
-        id: 3,
-        value: 'door_hinge',
-        filter: 'hinge',
-        qty: 0,
-        price: 10,
-        label: 'Door Hinge'
-    },
-    {
-        id: 4,
-        value: 'hinge_holes',
-        filter: 'hinge',
-        qty: 0,
-        price: 6,
-        label: 'Hinge Holes'
-    },
-    {
-        id: 5,
-        value: 'PTO_door',
-        filter: 'PTO',
-        label: 'For Doors',
-        qty: 0,
-        price: 30
-    },
-    {
-        id: 6,
-        value: 'PTO_drawer',
-        filter: 'PTO',
-        label: 'For Drawers',
-        qty: 0,
-        price: 80
-    },
-    {
-        id: 7,
-        value: 'PTO_trashbin',
-        filter: 'PTO',
-        label: 'For Trash Bins',
-        qty: 0,
-        price: 350
-    },
-    {
-        id: 8,
-        value: 'WBA',
-        filter: 'servo',
-        label: 'For WBA Cab',
-        qty: 0,
-        price: 1000
-    },
-    {
-        id: 9,
-        value: 'WBL',
-        filter: 'servo',
-        label: 'For WBL Cab',
-        qty: 0,
-        price: 1000
-    },
-    {
-        id: 10,
-        value: 'WDA',
-        filter: 'servo',
-        label: 'For WDA Cab',
-        qty: 0,
-        price: 1000
-    },
-    {
-        id: 11,
-        value: 'BG',
-        filter: 'servo',
-        label: 'For BG Cab',
-        qty: 0,
-        price: 600
-    }
-]
-
+const doorAccessoires = DA as DoorAccessoireFront[]
+const initialDoorAccessoires: DoorAccessoireType[] = doorAccessoires.map(el => ({...el, qty: 0}))
 const initialStandardDoor: DoorType = {
     color: '',
     doors: [{
@@ -196,7 +111,6 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     const initialDepth = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
 
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
-
     const initialValues: CustomPartFormValuesType = {
         'Width': Math.ceil(width ?? getLimit(sizeLimitInitial.width)).toString(),
         'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
@@ -241,7 +155,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
                 <CustomPartLeft product={customPart}/>
                 <div className={s.right}>
                     {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst}/>}
-                    {type === 'led-accessories' && <LEDForm />}
+                    {type === 'led-accessories' && <LEDForm/>}
                     {type === 'door-accessories' && <DoorAccessoiresForm/>}
                     {(type === 'standard-door' || type === 'standard-glass-door') &&
                       <StandardDoorForm customPart={customPart}/>}
