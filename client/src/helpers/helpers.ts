@@ -412,8 +412,9 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
         finishArr?.find(el => el.value === doorFinishMaterial)?.colors
 }
 
-export const getDoorTypeArr = (doors: doorType[], isKitchen: boolean) => {
-    return isKitchen ? doors : doors.filter(el => el.value !== 'Standard Door')
+export const getDoorTypeArr = (doors: doorType[], gola:string) => {
+    const noGola = gola === '' || gola === 'No Gola'
+    return noGola ? doors : doors.filter(el => el.value !== 'Standard Door');;
 }
 
 export const getBoxMaterialArr = (category: MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {

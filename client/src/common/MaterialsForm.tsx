@@ -93,11 +93,10 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         leather
     } = values;
 
-    const isKitchen = category === 'Kitchen'
     const isLeather = category === 'Leather Closet';
     const isStandardDoor = door_type === 'Standard Door';
     const hasGola = category === 'Kitchen' || category === 'Vanity';
-    const doorTypeArr = getDoorTypeArr(doors, isKitchen);
+    const doorTypeArr = getDoorTypeArr(doors,gola);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     // const isGrain = colorArr.find(el => el.value === door_color)?.isGrain;
