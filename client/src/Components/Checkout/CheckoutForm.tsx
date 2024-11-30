@@ -21,6 +21,7 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 import {MaybeNull} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
 
+
 export type buttonType = 'download' | 'send';
 type modalType = {
     open: boolean,
@@ -33,6 +34,16 @@ type CheckoutFormType = {
     initialValues: CheckoutType,
     room_id?: string
 }
+
+// function getJSONBlob (data:any):Blob {
+//     const str = JSON.stringify(data);
+//     const bytes = new TextEncoder().encode(str);
+//     return new Blob([bytes], {
+//         type: "application/json;charset=utf-8"
+//     });
+// }
+//
+
 const CheckoutForm: FC<CheckoutFormType> = ({
                                                 cart,
                                                 total,
@@ -43,13 +54,11 @@ const CheckoutForm: FC<CheckoutFormType> = ({
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null)
     const jpgCart = cart.map(el => {
         const {product_id, product_type, image_active_number} = el
-        // const product = getProductById(el.product_id, el.product_type === 'standard');
         const product = product_type !== 'custom'
             ? getProductById(product_id, product_type === 'standard')
             : getCustomPartById(product_id);
 
         if (product) {
-            // const {images} = product
             const img = getCartItemImg(product, image_active_number)
             return ({...el, img: img.replace('webp', 'jpg')})
         }
@@ -70,15 +79,56 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                 innerRef={formRef}
                 onSubmit={async (values, {resetForm}) => {
                     const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
-                    const fileName = `Milino Order ${date}(${values.company} ${values.project}).pdf`;
+                    const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
                     const blob = await pdf(<PDF values={values} materialStrings={materialStrings}
                                                 cart={jpgCart}/>).toBlob();
+                    const dataToJSON = {
+                        date: date,
+                        contact: {
+                            ...values
+                        },
+                        materials: materials,
+                        cart: cart.map(el => {
+                            return {
+                                product_id: el.product_id,
+                                price: el.price,
+                                amount: el.amount,
+                                width: el.width,
+                                height: el.height,
+                                depth: el.depth,
+                                blind_width: el.blind_width,
+                                middle_section: el.middle_section,
+                                corner: el.corner,
+                                hinge: el.hinge,
+                                options: el.options,
+                                door_option: el.door_option,
+                                shelf_option: el.shelf_option,
+                                led_border: el.led_border,
+                                led_alignment: el.led_alignment,
+                                led_indent: el.led_indent,
+                                leather: el.leather,
+                                material: el.material,
+                                glass_door: el.glass_door,
+                                glass_shelf: el.glass_shelf,
+                                led_accessories: el.led_accessories,
+                                door_accessories: el.door_accessories,
+                                standard_door: el.standard_door,
+                                note: el.note,
+                            }
+                        })
+                    };
                     const formData = new FormData();
-                    const pdfFile = new File([blob], fileName, {type: "application/pdf"})
-                    formData.append("file", pdfFile);
+                    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
+                    formData.append("pdf", pdfFile);
+                    const blob2 = await new Blob([JSON.stringify(dataToJSON)], { type: 'application/json' });
+                    const JsonFile = new File([blob2], `${fileName}.txt`);
+                    formData.append("json", JsonFile);
+
                     if (buttonType) {
                         formData.append("buttonType", buttonType)
                     }
+
+                    console.log(formData)
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData)
                         if (serverResponse.status === 201) {
@@ -88,7 +138,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     } catch (e) {
                         alert(e);
                     }
-                    if (buttonType === 'download') saveAs(blob, fileName);
+                    if (buttonType === 'download') saveAs(blob, `${fileName}.pdf`);
                 }}
         >
             {({isSubmitting}) => {

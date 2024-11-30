@@ -40,11 +40,11 @@ const storage = multer.diskStorage({
   }
 })
 
-
 const start = async () => {
   try {
     const upload = multer({storage});
-    app.post('/api/email', CORS, upload.single('file'), PDFController.SendPDF);
+    // app.post('/api/email', CORS, upload.single('json'), PDFController.SendPDF);
+    app.post('/api/email', CORS, upload.fields([{name: "pdf"}, {name: "json"}]), PDFController.SendPDF);
 
     app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
     app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login);
