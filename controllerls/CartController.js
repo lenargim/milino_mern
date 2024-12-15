@@ -1,5 +1,4 @@
 import CartModel from '../models/Cart.js'
-import RoomModel from "../models/Room.js";
 
 export const addToCart = async (req, res) => {
   try {
@@ -23,7 +22,6 @@ export const addToCart = async (req, res) => {
     })
   }
 }
-
 
 export const getOne = async (req, res) => {
   try {

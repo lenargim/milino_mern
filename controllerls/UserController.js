@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import UserModel from "../models/User.js";
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+const env = dotenv.config().parsed;
 
 export const register = async (req, res) => {
   try {
@@ -34,7 +36,7 @@ export const register = async (req, res) => {
       {
         _id: user._id
       },
-      'secret123',
+      env.BACKEND_SECRET_KEY,
       {
         expiresIn: '30d'
       }
@@ -67,7 +69,7 @@ export const login = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = jwt.sign({_id: user._id}, 'secret123', {expiresIn: '30d'});
+    const token = jwt.sign({_id: user._id}, env.BACKEND_SECRET_KEY, {expiresIn: '30d'});
     res.json({...userData, token});
   } catch (err) {
     console.log(err);
@@ -90,7 +92,7 @@ export const getMe = async (req, res) => {
       {
         _id: user._id
       },
-      'secret123',
+      env.BACKEND_SECRET_KEY,
       {
         expiresIn: '30d'
       }
@@ -125,7 +127,7 @@ export const patchMe = async (req, res) => {
       {
         _id: req.body._id
       },
-      'secret123',
+      env.BACKEND_SECRET_KEY,
       {
         expiresIn: '30d'
       }

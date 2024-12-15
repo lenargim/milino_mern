@@ -16,11 +16,13 @@ import CheckoutCart from "./CheckoutCart";
 import {pdf} from '@react-pdf/renderer';
 import PDF from "./PDF";
 import {saveAs} from "file-saver";
-import {checkoutAPI,} from "../../api/api";
+import {checkoutAPI, orderAPI,} from "../../api/api";
 import {MaterialsFormType} from "../../common/MaterialsForm";
-import {MaybeNull} from "../../helpers/productTypes";
+import {MaybeNull, OrderType} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
-
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {deleteCart} from "../../store/reducers/roomSlice";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
@@ -35,15 +37,6 @@ type CheckoutFormType = {
     room_id?: string
 }
 
-// function getJSONBlob (data:any):Blob {
-//     const str = JSON.stringify(data);
-//     const bytes = new TextEncoder().encode(str);
-//     return new Blob([bytes], {
-//         type: "application/json;charset=utf-8"
-//     });
-// }
-//
-
 const CheckoutForm: FC<CheckoutFormType> = ({
                                                 cart,
                                                 total,
@@ -51,7 +44,8 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                                                 initialValues,
                                                 room_id
                                             }) => {
-    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null)
+    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
+    const dispatch = useDispatch()
     const jpgCart = cart.map(el => {
         const {product_id, product_type, image_active_number} = el
         const product = product_type !== 'custom'
@@ -82,45 +76,42 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
                     const blob = await pdf(<PDF values={values} materialStrings={materialStrings}
                                                 cart={jpgCart}/>).toBlob();
+                    const order: OrderType[] = cart.map(el => ({
+                        product_id: el.product_id,
+                        price: el.price,
+                        amount: el.amount,
+                        width: el.width,
+                        height: el.height,
+                        depth: el.depth,
+                        blind_width: el.blind_width,
+                        middle_section: el.middle_section,
+                        corner: el.corner,
+                        hinge: el.hinge,
+                        options: el.options,
+                        door_option: el.door_option,
+                        shelf_option: el.shelf_option,
+                        led_border: el.led_border,
+                        led_alignment: el.led_alignment,
+                        led_indent: el.led_indent,
+                        leather: el.leather,
+                        material: el.material,
+                        glass_door: el.glass_door,
+                        glass_shelf: el.glass_shelf,
+                        led_accessories: el.led_accessories,
+                        door_accessories: el.door_accessories,
+                        standard_door: el.standard_door,
+                        note: el.note,
+                    }))
                     const dataToJSON = {
                         date: date,
-                        contact: {
-                            ...values
-                        },
-                        materials: materials,
-                        cart: cart.map(el => {
-                            return {
-                                product_id: el.product_id,
-                                price: el.price,
-                                amount: el.amount,
-                                width: el.width,
-                                height: el.height,
-                                depth: el.depth,
-                                blind_width: el.blind_width,
-                                middle_section: el.middle_section,
-                                corner: el.corner,
-                                hinge: el.hinge,
-                                options: el.options,
-                                door_option: el.door_option,
-                                shelf_option: el.shelf_option,
-                                led_border: el.led_border,
-                                led_alignment: el.led_alignment,
-                                led_indent: el.led_indent,
-                                leather: el.leather,
-                                material: el.material,
-                                glass_door: el.glass_door,
-                                glass_shelf: el.glass_shelf,
-                                led_accessories: el.led_accessories,
-                                door_accessories: el.door_accessories,
-                                standard_door: el.standard_door,
-                                note: el.note,
-                            }
-                        })
+                        contact: values,
+                        materials,
+                        order
                     };
                     const formData = new FormData();
                     const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
                     formData.append("pdf", pdfFile);
-                    const blob2 = await new Blob([JSON.stringify(dataToJSON)], { type: 'application/json' });
+                    const blob2 = await new Blob([JSON.stringify(dataToJSON)], {type: 'application/json'});
                     const JsonFile = new File([blob2], `${fileName}.txt`);
                     formData.append("json", JsonFile);
 
@@ -128,12 +119,19 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                         formData.append("buttonType", buttonType)
                     }
 
-                    console.log(formData)
                     try {
-                        const serverResponse = await checkoutAPI.postEmail(formData)
+                        const serverResponse = await checkoutAPI.postEmail(formData);
                         if (serverResponse.status === 201) {
-                            resetForm();
+                            if (room_id) {
+                                orderAPI.placeOrder(room_id, {order, total}).then(res => {
+                                    if (res.status === 200) {
+                                        dispatch(deleteCart(room_id))
+                                    }
+                                });
+                            }
                             setModal({open: true, status: 'Email was sended!\n\nThank you'})
+                        } else {
+                            alert('Email was not sent')
                         }
                     } catch (e) {
                         alert(e);
@@ -180,13 +178,15 @@ type EmailWasSendedType = {
 }
 
 const EmailWasSended: FC<EmailWasSendedType> = ({status, setModal}) => {
-    const dispatch = useAppDispatch();
-    localStorage.removeItem('materials')
-    localStorage.removeItem('category')
+    const navigate = useNavigate();
+    // localStorage.removeItem('materials')
+    // localStorage.removeItem('category')
     setTimeout(() => {
         setModal({open: false, status: ''})
-        dispatch(setMaterials(null));
-        dispatch(removeCart())
+        // For unlogined
+        // dispatch(setMaterials(null));
+        // dispatch(removeCart())
+        navigate(`/profile/rooms`)
     }, 4000)
 
     return (

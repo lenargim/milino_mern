@@ -1,4 +1,4 @@
-import {AppDispatch, RootState} from "../store/store";
+import {AppDispatch, RootState, store} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import Fraction from "fraction.js";
@@ -47,6 +47,8 @@ import standardColors from '../api/standardColors.json'
 import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
+import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
+import {useNavigate} from "react-router-dom";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -809,4 +811,11 @@ export const getSliderCategories = (room: RoomType, noGola: boolean, isStandardC
     return noGola
         ? categoriesData[room] as catInfoType
         : categoriesData[`${room} Gola`] as catInfoType
+}
+
+
+export const logout = () => {
+    localStorage.removeItem('token')
+    store.dispatch(setUser(emptyUser))
+    store.dispatch(setIsAuth(false))
 }

@@ -1,4 +1,7 @@
 import {optionType} from "../common/SelectField";
+import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
+import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
+import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
@@ -337,4 +340,31 @@ export type CartExtrasType = {
     coefExtra: number,
     attributes: attrItem[],
     boxFromFinishMaterial: boolean
+}
+
+export type OrderType = {
+    product_id: number,
+    price: number,
+    amount: number,
+    width: number,
+    height: number,
+    depth: number,
+    blind_width: number,
+    middle_section: number,
+    corner: cornerTypes,
+    hinge: hingeTypes,
+    options: string[],
+    door_option: string[],
+    shelf_option: string[]
+    led_border: string[],
+    led_alignment: string,
+    led_indent: string,
+    leather: string,
+    material?: string,
+    glass_door?: string[],
+    glass_shelf?: string,
+    led_accessories?: LEDAccessoriesType,
+    door_accessories?: DoorAccessoireAPIType[],
+    standard_door?: DoorType
+    note: string,
 }

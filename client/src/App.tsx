@@ -1,9 +1,5 @@
 import React, {useEffect} from 'react';
-import OrderForm from "./Components/OrderForm/OrderForm";
-import {Route, Routes} from "react-router-dom";
-import Cabinets from "./Components/Cabinets/Cabinets";
-import WithChosenMaterials from "./common/WithChosenMaterials";
-import Checkout from "./Components/Checkout/Checkout";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
 import {getStorageMaterials, useAppDispatch, useAppSelector} from "./helpers/helpers";
@@ -21,52 +17,52 @@ import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
 import RoomsNew from "./Components/Profile/RoomsNew";
 import RoomProduct from "./Components/Profile/RoomProduct";
 import RoomCategory from "./Components/Profile/RoomCategory";
-import ProductWrap from "./Components/Product/ProductWrap";
-import {MaybeNull} from "./helpers/productTypes";
-import {MaterialsFormType} from "./common/MaterialsForm";
-import CustomPartWrap from "./Components/CustomPart/CustomPartWrap";
 import RoomCustomPart from "./Components/Profile/RoomCustomPart";
 import RoomCheckout from "./Components/Profile/RoomCheckout";
-import LoggedInRoute from "./common/LoggedInRoute";
 
 function App() {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
     const {isAuth, user} = useAppSelector(state => state.user);
-    const materials: MaybeNull<MaterialsFormType> = useAppSelector(state => state.general.materials) ?? getStorageMaterials();
     const token = localStorage.getItem('token');
     const privateRouteProps: Omit<PrivateRouteProps, 'outlet'> = {
         isAuth,
         token,
-        authenticationPath: '/login',
+        authenticationPath: '/',
     };
 
     useEffect(() => {
         token && me().then(user => {
-            user ? dispatch(setUser(user)) : dispatch(setIsAuth(false))
+            if (user) {
+                dispatch(setUser(user))
+            } else {
+                dispatch(setIsAuth(false))
+                navigate('/')
+            }
         });
     }, [isAuth]);
     return (
         <div className="app">
             <Routes>
-                <Route path='/' element={<LoggedInRoute {...privateRouteProps} authenticationPath="/profile"
-                                                        outlet={<OrderForm/>}/>}/>
-                <Route path="cabinets"
-                       element={<LoggedInRoute
-                           {...privateRouteProps}
-                           authenticationPath="/profile"
-                           outlet={<WithChosenMaterials
-                               outlet={<Cabinets/>}/>}/>}/>
-                <Route path="/cabinets/product/:category/:productId"
-                       element={<WithChosenMaterials outlet={<ProductWrap materials={materials}/>}/>}/>
-                <Route path="/cabinets/custom_part/:productId"
-                       element={<WithChosenMaterials outlet={<CustomPartWrap materials={materials}/>}/>}/>
+                {/*<Route path='/' element={<LoggedInRoute {...privateRouteProps} authenticationPath="/profile" outlet={<OrderForm/>}/>}/>*/}
+                {/*<Route path="cabinets"*/}
+                {/*       element={<LoggedInRoute*/}
+                {/*           {...privateRouteProps}*/}
+                {/*           authenticationPath="/profile"*/}
+                {/*           outlet={<WithChosenMaterials*/}
+                {/*               outlet={<Cabinets/>}/>}/>}/>*/}
+                {/*<Route path="/cabinets/product/:category/:productId"*/}
+                {/*       element={<WithChosenMaterials outlet={<ProductWrap materials={materials}/>}/>}/>*/}
+                {/*<Route path="/cabinets/custom_part/:productId"*/}
+                {/*       element={<WithChosenMaterials outlet={<CustomPartWrap materials={materials}/>}/>}/>*/}
 
-                <Route path="/checkout" element={<LoggedInRoute
-                    {...privateRouteProps}
-                    authenticationPath="/profile"
-                    outlet={<WithChosenMaterials
-                        outlet={<Checkout/>}/>}/>}/>
-                <Route path="/login" element={<PublicRote isAuth={isAuth} outlet={<Login/>}/>}/>
+                {/*<Route path="/checkout" element={<LoggedInRoute*/}
+                {/*    {...privateRouteProps}*/}
+                {/*    authenticationPath="/profile"*/}
+                {/*    outlet={<WithChosenMaterials*/}
+                {/*        outlet={<Checkout/>}/>}/>}/>*/}
+
+                <Route path="/" element={<PublicRote isAuth={isAuth} outlet={<Login/>}/>}/>
                 <Route path="/signup" element={<PublicRote isAuth={isAuth} outlet={<SignUp/>}/>}/>
 
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>

@@ -4,7 +4,7 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import path from 'path';
 import {fileURLToPath} from 'url';
-import {UserController, PDFController, RoomController, CartController} from './controllerls/index.js';
+import {UserController, PDFController, RoomController, CartController, OrderController} from './controllerls/index.js';
 import {registerValidation, loginValidation, roomCreateValidation, cartItemValidation} from './validations.js'
 import {checkAuth, handleValidationErrors} from './utils/index.js'
 import * as dotenv from 'dotenv';
@@ -61,6 +61,9 @@ const start = async () => {
     app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
     app.delete('/api/cart/:cartId', checkAuth, CartController.remove)
     app.patch('/api/cart/:cartId', checkAuth, CartController.update)
+
+
+    app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

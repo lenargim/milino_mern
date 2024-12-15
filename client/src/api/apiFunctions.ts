@@ -13,11 +13,16 @@ import {MaterialsFormType} from "../common/MaterialsForm";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
+import {logout} from "../helpers/helpers";
+
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
         console.log(error)
         alert(error.response.data.message)
+        if (error.status === 403 && error.response.data.action === 'logout') {
+            logout()
+        }
     }
 }
 
@@ -41,7 +46,6 @@ export const updateProfile = async (values: EditProfileType) => {
     try {
         const res = await usersAPI.patchMe(values);
         const {token,...user}:UserTypeResponse = res.data;
-
         localStorage.setItem('token', token);
         return user
 
@@ -50,7 +54,7 @@ export const updateProfile = async (values: EditProfileType) => {
     }
 }
 
-export const logIn = async (values: LogInType): Promise<UserType | undefined> => {
+export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>> => {
     try {
         const res = await AuthAPI.logIn(values);
         localStorage.setItem('token', res.data.token);
@@ -68,6 +72,10 @@ export const logIn = async (values: LogInType): Promise<UserType | undefined> =>
 export const me = async (): Promise<MaybeUndefined<UserType>> => {
     try {
         const res = await usersAPI.me();
+        if (res.status === 403) {
+            alert(res.data.message)
+            logout()
+        }
         return {
             _id: res.data._id,
             name: res.data.name,
@@ -76,7 +84,6 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
         };
     } catch (error) {
         alertError(error);
-        localStorage.removeItem('token');
     }
 }
 

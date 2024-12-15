@@ -36,7 +36,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormTyp
         <header className={s.header}>
             <div className={s.left}>
                 <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>
-                {isAuth ? <NavLink to={'/profile'}>Profile</NavLink> : <NavLink to={'/login'}>Log In</NavLink>}
+                {isAuth ? <NavLink to={'/profile'}>Profile</NavLink> : <NavLink to={'/'}>Log In</NavLink>}
                 {isBackToCabinetsShown ?
                     <NavLink to={"/cabinets"}>Back to cabinets</NavLink> : null}
             </div>

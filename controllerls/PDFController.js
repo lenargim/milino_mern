@@ -45,17 +45,6 @@ export const SendPDF = (req, res) => {
       ],
     };
 
-    // transporter.sendMail(mailOptions, (err, i) => {
-    //   if (err) {
-    //     // console.log(err);
-    //     return res.status(500).json({
-    //       error: err
-    //     })
-    //   }
-    //   return res.status(201).send('Ok')
-    // })
-
-
     transporter.sendMail(mailOptions).then((trans) => {
       res.status(201);
       res.json(trans);

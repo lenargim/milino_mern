@@ -1,17 +1,17 @@
-import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
+import {EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 
-import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import axios from "axios";
+import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
-
+import {OrderType} from "../helpers/productTypes";
 
 const instanceFormData = axios.create({
     baseURL: process.env.BASE_URL,
     headers: {
         'Content-Type': "multipart/form-data"
     },
-})
+});
 
 const instance = axios.create({
     headers: {
@@ -19,7 +19,7 @@ const instance = axios.create({
     },
     baseURL: process.env.BASE_URL,
     responseType: 'json'
-})
+});
 
 
 const getHeaders = () => ({
@@ -53,4 +53,9 @@ export const cartAPI = {
     addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
     updateAmount: ( _id:string,amount:number) => instance.patch<CartAPIResponse>(`/api/cart/${_id}`, {amount:amount},  {headers: getHeaders()}),
     remove: (_id:string) => instance.delete(`/api/cart/${_id}`,{headers: getHeaders()}),
+}
+
+
+export const orderAPI = {
+    placeOrder: (roomId:string, data: {order:OrderType[], total:number}) => instance.post(`/api/order/${roomId}`, data ,{headers: getHeaders()}),
 }

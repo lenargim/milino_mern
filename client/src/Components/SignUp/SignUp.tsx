@@ -13,7 +13,7 @@ const SignUp = () => {
                 <h1 className="h1">SignUp</h1>
                 <SignUpForm/>
                 <span className={s.signup}>
-                <NavLink to='/login'>Back to Login</NavLink>
+                <NavLink to='/'>Back to Login</NavLink>
                 </span>
             </div>
         </div>
