@@ -22,7 +22,7 @@ export default DataType;
 
 
 const SelectedField: FC<OrderFormSelectType> = ({value, data, name}) => {
-    const dataWithImgPath:materialsData[] = data.map(data => ({...data, img: getImg(`materials/${name}`, `${data.img}`)}))
+    const dataWithImgPath:materialsData[] = data.map(data => ({value: value.toString(),  img: getImg(`materials/${name}`, `${data.img}`)}))
     const curValue = dataWithImgPath.find(el => el.value === value) ?? {value: '', img: ''};
 
     return (

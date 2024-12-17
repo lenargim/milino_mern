@@ -19,21 +19,13 @@ export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
             then: (schema => schema.required('Please choose gola type'))
         }),
     door_type: Yup.string()
-        .default('')
-        // .when('category', {
-        //     is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
-        //     then: schema => schema.required('Please write down door type').required(),
-        // })
-    ,
+        .default(''),
     door_finish_material: Yup.string()
-        .default('')
-        // .when('category', {
-        //     is: (val: MaybeEmpty<RoomType>) => val !== 'Standard Door',
-        //     then: schema => schema.required('Please write down finish material'),
-        // })
-    ,
-    door_frame_width: Yup.string()
-        .default('')
+        .default(''),
+    door_frame_width: Yup.number()
+        .default(null)
+        .nullable()
+        .positive()
         .when('door_type', {
             is: 'Micro Shaker',
             then: schema => schema.required('Please choose Frame width')
@@ -54,8 +46,7 @@ export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
         .when('category', {
             is: 'Leather Closet',
             then: schema => schema.required('Please choose Box Color')
-        })
-    ,
+        }),
     drawer_brand: Yup.string()
         .default('')
         .required('Please write down Drawer'),

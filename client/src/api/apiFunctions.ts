@@ -45,7 +45,7 @@ export const signUp = async (values: SignUpType) => {
 export const updateProfile = async (values: EditProfileType) => {
     try {
         const res = await usersAPI.patchMe(values);
-        const {token,...user}:UserTypeResponse = res.data;
+        const {token, ...user}: UserTypeResponse = res.data;
         localStorage.setItem('token', token);
         return user
 
@@ -97,6 +97,15 @@ export const getAllRooms = async () => {
     }
 }
 
+export const getOneRoom = async (id: string) => {
+    try {
+        const response = (await roomsAPI.getOne(id)).data;
+        return response;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
 export const createRoom = async (room: MaterialsFormType) => {
     try {
         const res = await roomsAPI.createRoom(room);
@@ -108,8 +117,8 @@ export const createRoom = async (room: MaterialsFormType) => {
 
 export const editRoomAPI = async (room: MaterialsFormType, id: string) => {
     try {
-        // const roomRes = await roomsAPI.editRoom(room, id);
-        return await Promise.allSettled([roomsAPI.editRoom(room, id), cartAPI.getCart(id)]);
+        const res = await roomsAPI.editRoom(room, id);
+        return res.data;
     } catch (error) {
         alertError(error);
     }
@@ -206,28 +215,27 @@ export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) 
             }
         }
 
-        let cartResponse:MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
+        let cartResponse: MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
         if (!cartResponse) return undefined;
-
         return cartResponse
     } catch (error) {
         alertError(error);
     }
 }
 
-export const removeFromCartInRoomAPI = async (_id: string) => {
+export const removeFromCartInRoomAPI = async (room: string, _id: string) => {
     try {
-        const cartResponse = await cartAPI.remove(_id);
-        return cartResponse.status
+        const cartResponse = await cartAPI.remove(room, _id);
+        return cartResponse.data
     } catch (error) {
         alertError(error);
     }
 }
 
 
-export const updateProductAmountAPI = async (_id: string, amount: number) => {
+export const updateProductAmountAPI = async (room:string,_id: string, amount: number) => {
     try {
-        return (await cartAPI.updateAmount(_id, amount)).data
+        return (await cartAPI.updateAmount(room, _id, amount)).data
     } catch (error) {
         alertError(error);
     }

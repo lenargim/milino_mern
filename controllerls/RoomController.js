@@ -6,6 +6,7 @@ export const create = async (req, res) => {
     const doc = new RoomModel({
       ...req.body,
       user: req.userId,
+      cart: []
     })
 
     const post = await doc.save()
@@ -49,12 +50,11 @@ export const getAll = async (req, res) => {
       })
     }
 
-    const data = await Promise.all(
-      rooms.map(async (room) => {
-        const cart = await CartModel.find({room: room._id});
-        return {...room._doc, cart: cart || []}
-      })
-    )
+    const data = rooms.map(room => {
+      const {_doc} = room
+      const {cart, ...rest} = _doc;
+      return rest;
+    })
 
     res.json(data)
   } catch (e) {
@@ -67,7 +67,7 @@ export const getAll = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const roomId = req.params.id;
-    Promise.all([CartModel.findOneAndDelete({room: roomId}), RoomModel.findByIdAndDelete(roomId)]).then(([cartRes, roomRes]) => {
+    RoomModel.findByIdAndDelete(roomId).then((roomRes) => {
       if (!roomRes) {
         return res.status(404).json({
           message: 'Process Order not found'
@@ -82,7 +82,7 @@ export const remove = async (req, res) => {
   }
 }
 
-export const update = async (req, res) => {
+export const updateRoom = async (req, res) => {
   try {
     const roomId = req.params.id;
     await RoomModel.findByIdAndUpdate(roomId, {

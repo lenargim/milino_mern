@@ -31,7 +31,7 @@ interface textInputInterface extends InputInterface {
 
 interface RadioInterface extends InputInterface {
     img?: string,
-    value: string,
+    value: string|number,
     checked?: boolean,
 }
 
@@ -121,7 +121,7 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
         <div className={[className, styles.checkboxSelect].join(' ')}>
             <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
-                <img src={img} alt={value} className={styles.radioImg}/>
+                <img src={img} alt={value.toString()} />
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
@@ -140,7 +140,7 @@ export const RadioInputGrain: FC<RadioInterface> = ({name, value, className, img
             <Field type="radio" checked={checked} onChange={(e: any) => handleChange(e.target)} name={name}
                    value={value} id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
-                <img src={img} alt={value} className={styles.radioImg}/>
+                <img src={img} alt={value.toString()} />
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>

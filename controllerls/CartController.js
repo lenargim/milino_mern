@@ -1,21 +1,24 @@
-import CartModel from '../models/Cart.js'
+import RoomModel from "../models/Room.js";
 
 export const addToCart = async (req, res) => {
   try {
     const roomId = req.params.roomId;
-    const doc = new CartModel({
-      ...req.body,
-      room: roomId,
-    })
 
-    await doc.save()
-      .catch(err => {
-        console.log(err)
+    const doc = await RoomModel.findByIdAndUpdate(roomId, {
+        $push: {cart: {...req.body}}
+      },
+      {
+        returnDocument: "after",
       });
 
-    const cart = await CartModel.find({room: roomId});
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Process Order not found'
+      })
+    }
 
-    res.json(cart);
+
+    res.json(doc.cart);
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create Cart'
@@ -23,61 +26,53 @@ export const addToCart = async (req, res) => {
   }
 }
 
-export const getOne = async (req, res) => {
-  try {
-    const roomId = req.params.roomId;
-    const doc = await CartModel.find({room: roomId});
-    if (!doc) {
-      return res.status(404).json({
-        message: 'Process Order not found'
-      })
-    }
-    res.json(doc)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get Process Order'
-    })
-  }
-}
-
-
 export const remove = async (req, res) => {
   try {
+    const roomId = req.params.roomId;
     const cartId = req.params.cartId;
-    await CartModel.findByIdAndDelete(cartId).then(async doc => {
-      if (!doc) {
-        return res.status(404).json({
-          message: 'Product not found'
-        })
-      }
-      return res.status(200).json({
-        message: 'ok'
-      });
-    });
+    const doc = await RoomModel.findByIdAndUpdate(roomId, {
+      $pull: {cart: {_id: cartId}}
+    }, {
+      returnDocument: "after",
+    })
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Cart Item not found'
+      })
+    }
+    return res.json(doc.cart);
+
 
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot get room'
+      message: 'Cannot remove cart item'
     })
   }
 }
-
 
 export const update = async (req, res) => {
   try {
+    const roomId = req.params.roomId;
     const cartId = req.params.cartId;
-    await CartModel.findByIdAndUpdate(cartId, {
-      amount: req.body.amount
-    }, {
-      returnDocument: "after",
-    }).then(doc => {
-      if (!doc) {
-        return res.status(404).json({
-          message: 'Cart Item not found'
-        })
-      }
-      return res.json(doc);
-    });
+
+    const doc = await RoomModel.findByIdAndUpdate(roomId,
+      {
+        $set: {"cart.$[cartId].amount": req.body.amount},
+      }, {
+        returnDocument: "after",
+        arrayFilters: [{
+          "cartId._id": cartId
+        }]
+      })
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Cart Item not found'
+      })
+    }
+    return res.json(doc.cart);
+
 
   } catch (e) {
     res.status(500).json({

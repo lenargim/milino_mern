@@ -18,7 +18,7 @@ import cabinets from '../api/cabinets.json';
 import standardCabinets from '../api/standartProducts.json'
 import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
-import {colorType, doorType, finishType, materialsData} from "./materialsTypes";
+import {colorType, doorType, finishType, materialsData, materialsDataNumber} from "./materialsTypes";
 import {
     getAttributesProductPrices,
     getBlindArr, getCustomPartPrice,
@@ -383,7 +383,7 @@ export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, f
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
-export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: materialsData[] | undefined): boolean => {
+export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsDataNumber[]>): boolean => {
     if (!frameArr || doorType !== 'Micro Shaker') return false
     return !!doorFinishMaterial
 }
@@ -510,7 +510,7 @@ export const getMaterialStrings = (materials: MaterialsFormType): MaterialString
     }
 }
 
-const materialsStringify = (materialsArr: string[]): string => {
+const materialsStringify = (materialsArr: (string|number|null)[]): string => {
     return materialsArr.filter(el => !!el).join(', ')
 }
 
@@ -629,7 +629,7 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
     const productCoef = 1 + (coef.width + coef.height + coef.depth)
     const attributesPrices = getAttributesProductPrices(cabinet, product, materialData);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    const totalPrice = +(startPrice * productCoef + attrPrice).toFixed(1);
+    const totalPrice = startPrice ? +(startPrice * productCoef + attrPrice).toFixed(1) : 0;
 
     return {
         ...item,

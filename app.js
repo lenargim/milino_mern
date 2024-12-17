@@ -43,7 +43,6 @@ const storage = multer.diskStorage({
 const start = async () => {
   try {
     const upload = multer({storage});
-    // app.post('/api/email', CORS, upload.single('json'), PDFController.SendPDF);
     app.post('/api/email', CORS, upload.fields([{name: "pdf"}, {name: "json"}]), PDFController.SendPDF);
 
     app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
@@ -55,12 +54,11 @@ const start = async () => {
     app.get('/api/rooms/:id', checkAuth, RoomController.getOne)
     app.get('/api/rooms', checkAuth, RoomController.getAll)
     app.delete('/api/rooms/:id', checkAuth, RoomController.remove)
-    app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.update)
+    app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
 
-    app.get('/api/cart/:roomId', checkAuth, CartController.getOne)
     app.post('/api/cart/:roomId', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
-    app.delete('/api/cart/:cartId', checkAuth, CartController.remove)
-    app.patch('/api/cart/:cartId', checkAuth, CartController.update)
+    app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.remove)
+    app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.update)
 
 
     app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)

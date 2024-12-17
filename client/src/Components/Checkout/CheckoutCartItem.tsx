@@ -5,7 +5,7 @@ import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from 
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import {CartItemType, updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Product/CartItemOptions";
-import {updateCartAmountInRoom} from "../../store/reducers/roomSlice";
+import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
 const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
@@ -29,9 +29,9 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
 
     function changeAmount(type: changeAmountType) {
         if (room_id) {
-            updateProductAmountAPI(_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
+            updateProductAmountAPI(room_id,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
                 if (cart) {
-                    dispatch(updateCartAmountInRoom(cart))
+                    if (cart) dispatch(updateCartInRoom({cart: cart,_id:room_id}))
                 }
             })
         } else {

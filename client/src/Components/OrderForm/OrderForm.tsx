@@ -16,7 +16,7 @@ const OrderForm = () => {
         <Formik
             initialValues={initialValues}
             validationSchema={OrderFormSchema}
-            onSubmit={((values:MaterialsFormType, actions) => {
+            onSubmit={((values:MaterialsFormType) => {
                 const {room_name, ...rest} = values
                 localStorage.setItem('materials', JSON.stringify(rest));
                 dispatch(setMaterials({...values, room_name: null}))

@@ -1,5 +1,5 @@
-import CartModel from '../models/Cart.js'
 import OrderModel from '../models/Order.js'
+import RoomModel from "../models/Room.js";
 
 
 export const placeOrder = async (req, res) => {
@@ -13,16 +13,22 @@ export const placeOrder = async (req, res) => {
 
     await doc.save()
       .then(async () => {
-        await CartModel.deleteMany({room: roomId});
+        const room = await RoomModel.findByIdAndUpdate(roomId,
+          {
+            cart: [],
+          }, {
+            returnDocument: "after",
+          })
+        if (!room) {
+          return res.status(404).json({
+            message: 'Cart not updated'
+          })
+        }
+        return res.status(200).json(room.cart);
       })
       .catch(err => {
         console.log(err)
       });
-
-    return res.status(200).json({
-      message: 'ok'
-    });
-
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create order'

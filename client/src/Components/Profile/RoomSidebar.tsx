@@ -7,8 +7,8 @@ import RoomCartItem from "./RoomCartItem";
 const RoomSidebar: FC = () => {
     const {roomId} = useParams();
     const {rooms} = useAppSelector(state => state.room);
+    if (!roomId) return null;
     const room = rooms.find(room => room._id === roomId);
-
     if (!room) return null;
     const {cart} = room
     if (!cart) return null;
@@ -22,7 +22,7 @@ const RoomSidebar: FC = () => {
                             <h3>Cart</h3>
                             {cart.map((item, key) => {
                                 return (
-                                    <RoomCartItem item={item} key={key}/>
+                                    <RoomCartItem room={roomId} item={item} key={key}/>
                                 )
                             })}
                         </div>

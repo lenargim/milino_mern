@@ -4,7 +4,7 @@ import {RoomSchema} from "./RoomSchems";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {editRoomAPI} from "../../api/apiFunctions";
-import {editRoom, RoomFront, updateCartAfterMaterialsChange, updateCartInRoom} from "../../store/reducers/roomSlice";
+import {editRoom, RoomFront} from "../../store/reducers/roomSlice";
 import {useAppSelector} from "../../helpers/helpers";
 import MaterialsForm from "../../common/MaterialsForm";
 
@@ -22,11 +22,11 @@ const ProfileRoomEdit: FC = () => {
     return (
         <Formik initialValues={room}
                 validationSchema={RoomSchema(uniqueNames)}
-                onSubmit={(values) => {
-                    editRoomAPI(values, room._id).then(res => {
-                        if (res && res[0].status === 'fulfilled' && res[1].status === 'fulfilled') {
-                            dispatch(editRoom(res[0].value.data))
-                            dispatch(updateCartInRoom({cart: res[1].value.data, _id: room._id}));
+                onSubmit={(values:RoomFront) => {
+                    const {cart, activeProductCategory, _id, productPage, ...rest} = values;
+                    editRoomAPI(rest, room._id).then(data => {
+                        if (data) {
+                            dispatch(editRoom(data))
                             navigate(`/profile/rooms/${room._id}`);
                         }
                     })

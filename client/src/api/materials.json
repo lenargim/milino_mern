@@ -4136,15 +4136,15 @@
       ],
       "frame": [
         {
-          "value": "0.75",
+          "value": 0.75,
           "img": "frame0.75.jpg"
         },
         {
-          "value": "1",
+          "value": 1,
           "img": "frame1.jpg"
         },
         {
-          "value": "1.25",
+          "value": 1.25,
           "img": "frame1.25.jpg"
         }
       ]

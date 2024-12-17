@@ -17,7 +17,7 @@ import {
     useAppDispatch,
     usePrevious
 } from "../helpers/helpers";
-import {materialsData, MaterialsType} from "../helpers/materialsTypes";
+import {materialsData, materialsDataNumber, MaterialsType} from "../helpers/materialsTypes";
 import s from "../Components/Profile/profile.module.sass";
 import {TextInput} from "./Form";
 import DataType from "../Components/OrderForm/DataType";
@@ -34,7 +34,7 @@ export type MaterialsFormType = {
     gola: string,
     door_type: string,
     door_finish_material: string,
-    door_frame_width: string,
+    door_frame_width: MaybeNull<number>,
     door_color: string,
     door_grain: string,
     box_material: string,
@@ -51,7 +51,7 @@ export const materialsFormInitial: MaterialsFormType = {
     gola: '',
     door_type: '',
     door_finish_material: '',
-    door_frame_width: '',
+    door_frame_width: null,
     door_color: '',
     door_grain: '',
     box_material: '',
@@ -75,7 +75,7 @@ const {
 
 const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
     const dispatch = useAppDispatch()
-    const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<MaterialsFormType>();
+    const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<MaterialsFormType>();
     const {
         room_name,
         gola,
@@ -99,11 +99,10 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const doorTypeArr = getDoorTypeArr(doors,gola);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
-    // const isGrain = colorArr.find(el => el.value === door_color)?.isGrain;
     const boxMaterialArr: materialsData[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr)
     const drawerTypesArr = drawers.find(el => el.value === drawer_brand)?.types;
     const drawerColorsArr = drawerTypesArr && drawerTypesArr.find(el => el.value === drawer_type)?.colors
-    const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
+    const frameArr: materialsDataNumber[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
 
     const prevCategory = usePrevious(category);
@@ -117,7 +116,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
                 gola: '',
                 door_type: '',
                 door_finish_material: '',
-                door_frame_width: '',
+                door_frame_width: null,
                 door_color: '',
                 door_grain: '',
                 box_material: '',

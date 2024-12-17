@@ -42,6 +42,7 @@ export const usersAPI = {
 }
 
 export const roomsAPI = {
+    getOne: (roomId:string) => instance.get<RoomTypeAPI>(`/api/rooms/${roomId}`, {headers: getHeaders()}),
     getAll: () => instance.get<RoomTypeAPI[]>('/api/rooms', {headers: getHeaders()}),
     createRoom: (room:MaterialsFormType) => instance.post<RoomTypeAPI>('/api/rooms', room,{headers: getHeaders()} ),
     editRoom: (room:MaterialsFormType, id:string) => instance.patch<RoomTypeAPI>(`/api/rooms/${id}`, room,{headers: getHeaders()} ),
@@ -51,8 +52,8 @@ export const roomsAPI = {
 export const cartAPI = {
     getCart: (roomId:string) => instance.get<CartAPIResponse[]>(`/api/cart/${roomId}`, {headers: getHeaders()}),
     addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
-    updateAmount: ( _id:string,amount:number) => instance.patch<CartAPIResponse>(`/api/cart/${_id}`, {amount:amount},  {headers: getHeaders()}),
-    remove: (_id:string) => instance.delete(`/api/cart/${_id}`,{headers: getHeaders()}),
+    updateAmount: ( room:string,_id:string, amount:number) => instance.patch<CartAPIResponse[]>(`/api/cart/${room}/${_id}`, {amount:amount},  {headers: getHeaders()}),
+    remove: (room:string,_id:string) => instance.delete(`/api/cart/${room}/${_id}`,{headers: getHeaders()}),
 }
 
 

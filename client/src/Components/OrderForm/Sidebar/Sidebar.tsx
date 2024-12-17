@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import s from './sidebar.module.sass'
 import {getCartData, useAppDispatch, useAppSelector} from "../../../helpers/helpers";
-import {MaterialsFormType} from "../../../common/MaterialsForm";
 import CartItem from "../../Product/CartItem";
 
 

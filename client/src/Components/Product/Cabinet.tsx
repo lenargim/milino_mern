@@ -113,7 +113,7 @@ const Cabinet: FC<CabinetType> = ({
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
     let attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
 
-    const totalPrice = +(startPrice * productCoef + attrPrice).toFixed(1);
+    const totalPrice = startPrice ? +(startPrice * productCoef + attrPrice).toFixed(1) : 0;
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)

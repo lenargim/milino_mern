@@ -88,7 +88,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
                 const cartData = addProductToCart(product, values, productRange,roomId,materialData);
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
-                        if (cart && roomId) dispatch(updateCartInRoom({cart:cart, _id: roomId}));
+                        if (cart && roomId) dispatch(updateCartInRoom({cart, _id: roomId}));
                     })
                 } else {
                     dispatch(addToCart(cartData))

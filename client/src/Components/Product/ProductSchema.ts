@@ -103,17 +103,6 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                 options[0].includes('Glass Shelf') ? field.required() : field
             ),
         'Note': Yup.string(),
-        // cartExtras: Yup.object({
-        //     ptoDoors: Yup.number().required(),
-        //     ptoDrawers: Yup.number().required(),
-        //     glassShelf: Yup.number().required(),
-        //     glassDoor: Yup.number().required(),
-        //     ptoTrashBins: Yup.number().required(),
-        //     ledPrice: Yup.number().required(),
-        //     coefExtra: Yup.number().required(),
-        //     attributes: Yup.array(),
-        //     boxFromFinishMaterial: Yup.boolean()
-        // }),
         price: Yup.number().required().positive()
     });
 

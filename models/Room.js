@@ -1,76 +1,193 @@
 import mongoose from "mongoose";
 
-
-// export interface IRoom extends mongoose.Document {
-//     room_name: string;
-//     user: string,
-//     category: string,
-//     door_type?: string,
-//     door_finish_material?: string,
-//     door_frame_width?: string,
-//     door_color?: string,
-//     door_grain?: string,
-//     box_material: string,
-//     drawer: string
-//     drawer_type: string
-//     drawer_color: string
-//     leather?: string
-// }
-
 const RoomSchema = new mongoose.Schema({
-    room_name: {
-        type: String,
-        required: true,
+  room_name: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  gola: {
+    type: String
+  },
+  door_type: {
+    type: String,
+  },
+  door_finish_material: {
+    type: String,
+  },
+  door_frame_width: {
+    type: Number
+  },
+  door_color: {
+    type: String
+  },
+  door_grain: {
+    type: String
+  },
+  box_material: {
+    type: String,
+    required: true,
+  },
+  box_color: {
+    type: String,
+  },
+  drawer_brand: {
+    type: String,
+    required: true,
+  },
+  drawer_type: {
+    type: String,
+    required: true,
+  },
+  drawer_color: {
+    type: String,
+    required: true,
+  },
+  leather: {
+    type: String
+  },
+  cart: [{
+    product_id: {
+      type: Number,
+      required: true,
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        // required: true,
+    product_type: {
+      type: String,
+      required: true,
     },
-    category: {
-        type: String,
-        required: true,
+    amount: {
+      type: Number,
+      required: true,
     },
-    gola: {
-      type: String
+    width: {
+      type: Number,
     },
-    door_type: {
-        type: String,
+    height: {
+      type: Number,
     },
-    door_finish_material: {
-        type: String,
+    depth: {
+      type: Number,
     },
-    door_frame_width: {
-        type: String
+    blind_width: {
+      type: Number,
     },
-    door_color: {
-        type: String
+    middle_section: {
+      type: Number,
     },
-    door_grain: {
-        type: String
+    corner: {
+      type: String,
     },
-    box_material: {
-        type: String,
-        required: true,
+    hinge: {
+      type: String,
     },
-    box_color: {
-        type: String,
+    options: {
+      type: Array,
+      default: [],
     },
-    drawer_brand: {
-        type: String,
-        required: true,
+    door_option: {
+      type: Array,
+      default: [],
     },
-    drawer_type: {
-        type: String,
-        required: true,
+    shelf_option: {
+      type: Array,
+      default: [],
     },
-    drawer_color: {
-        type: String,
-        required: true,
+    led_border: {
+      type: Array,
+      default: [],
+    },
+    led_alignment: {
+      type: String,
+    },
+    led_indent: {
+      type: String,
     },
     leather: {
-        type: String
+      type: String,
+    },
+    material: {
+      type: String,
+    },
+    glass_door: {
+      type: Array,
+      default: [],
+    },
+    glass_shelf: {
+      type: String,
+    },
+    led_accessories: {
+      led_alum_profiles: [
+        {
+          length: {
+            type: Number,
+          },
+          qty: {
+            type: Number,
+          }
+        }
+      ],
+      led_gola_profiles: [
+        {
+          length: {
+            type: Number,
+          },
+          color: {
+            type: String,
+          },
+          qty: {
+            type: Number,
+          },
+        }
+      ],
+      door_sensor: {
+        type: Number,
+      },
+      dimmable_remote: {
+        type: Number,
+      },
+      transformer: {
+        type: Number,
+      },
+    },
+    door_accessories: [
+      {
+        value: {
+          type: String,
+        },
+        qty: {
+          type: Number,
+        }
+      }
+    ],
+    standard_door: {
+      doors: [
+        {
+          width: {
+            type: Number,
+          },
+          height: {
+            type: Number,
+          },
+          qty: {
+            type: Number,
+          }
+        }
+      ],
+      color: {
+        type: String,
+      },
+    },
+    note: {
+      type: String,
     }
+  }]
 })
 
 export default mongoose.model('Room', RoomSchema);

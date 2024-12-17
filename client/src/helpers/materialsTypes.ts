@@ -1,6 +1,6 @@
 export type OrderFormSelectType = {
-    data: materialsData[],
-    value: string,
+    data: materialsData[]|materialsDataNumber[],
+    value: string|number,
     name: string,
     label?: string
     small?: boolean
@@ -8,6 +8,11 @@ export type OrderFormSelectType = {
 
 export type materialsData = {
     value: string,
+    img?: string
+}
+
+export type materialsDataNumber = {
+    value: number,
     img?: string
 }
 
@@ -21,7 +26,7 @@ export interface drawerType extends materialsData{
 
 export interface doorType extends materialsData {
     finish: finishType[]
-    frame?: materialsData[],
+    frame?: materialsDataNumber[],
 }
 
 export interface finishType extends materialsData{

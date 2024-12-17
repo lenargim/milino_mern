@@ -3,10 +3,7 @@ import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helper
 import {CartAPIResponse, CartItemType} from "../../api/apiFunctions";
 import {
     getCartArrFront,
-    getCartItemCustomPart,
-    getCartItemProduct,
     getRoomFront,
-    getUpdatedCart
 } from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
@@ -44,10 +41,16 @@ export const roomSlice = createSlice({
         addRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
             state.rooms.push(getRoomFront(action.payload))
         },
+        setRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
+            state.rooms = state.rooms.map(room => {
+                return room._id === action.payload._id ? {...getRoomFront(action.payload)} : room;
+            })
+        },
         editRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
             state.rooms = state.rooms.map(room => {
-                const updatedCart = getUpdatedCart(room)
-                return room._id === action.payload._id ? {...getRoomFront(action.payload), cart: updatedCart} : room;
+                return room._id === action.payload._id ?
+                    {...getRoomFront(action.payload)}
+                    : room;
             })
         },
         deleteRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
@@ -77,26 +80,6 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        removeFromCartInRoom: (state, action: PayloadAction<{ room: string, _id: string }>) => {
-            state.rooms = state.rooms.map(room => {
-                return room._id === action.payload.room ?
-                    {...room, cart: room.cart.filter(item => item._id !== action.payload._id)}
-                    : room;
-            })
-        },
-        updateCartAmountInRoom: (state, action: PayloadAction<CartAPIResponse>) => {
-            state.rooms = state.rooms.map(room => {
-                const cart: CartItemType[] = room.cart;
-                return room._id === action.payload.room ?
-                    {
-                        ...room, cart: cart.map((item) => {
-                            const newItem = item.product_type === 'custom' ? getCartItemCustomPart(action.payload, room) : getCartItemProduct(action.payload, room);
-                            return item._id === action.payload._id && newItem ? newItem : item
-                        })
-                    }
-                    : room;
-            })
-        },
         updateCartAfterMaterialsChange: (state, action: PayloadAction<{ room: string, cart: CartItemType[] }>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload.room ?
@@ -109,14 +92,13 @@ export const roomSlice = createSlice({
 
 export const {
     addRoom,
+    setRoom,
     getRooms,
     editRoom,
     deleteRoom,
     deleteCart,
     roomSetActiveCategory,
     updateCartInRoom,
-    removeFromCartInRoom,
-    updateCartAmountInRoom,
     updateCartAfterMaterialsChange
 } = roomSlice.actions
 
