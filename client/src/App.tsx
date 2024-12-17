@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
-import {getStorageMaterials, useAppDispatch, useAppSelector} from "./helpers/helpers";
+import {useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
 import {me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
@@ -14,11 +14,12 @@ import ProfileRooms from "./Components/Profile/ProfileRooms";
 import ProfileRoom from "./Components/Profile/ProfileRoom";
 import NotFound from "./Components/NotFound/NotFound";
 import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
-import RoomsNew from "./Components/Profile/RoomsNew";
-import RoomProduct from "./Components/Profile/RoomProduct";
-import RoomCategory from "./Components/Profile/RoomCategory";
-import RoomCustomPart from "./Components/Profile/RoomCustomPart";
-import RoomCheckout from "./Components/Profile/RoomCheckout";
+import RoomsNew from "./Components/Room/RoomsNew";
+import RoomProduct from "./Components/Room/RoomProduct";
+import RoomCategory from "./Components/Room/RoomCategory";
+import RoomCustomPart from "./Components/Room/RoomCustomPart";
+import RoomCheckout from "./Components/Room/RoomCheckout";
+import ProfileOrders from "./Components/Profile/ProfileOrders";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -78,6 +79,7 @@ function App() {
                         <Route path="new" element={<RoomsNew/>}/>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
+                    <Route path="orders" element={<ProfileOrders user={user}/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

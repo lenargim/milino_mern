@@ -819,3 +819,17 @@ export const logout = () => {
     store.dispatch(setUser(emptyUser))
     store.dispatch(setIsAuth(false))
 }
+
+
+export const formatDateToText = (dateApi:Date):string => {
+    const date = new Date(dateApi);
+    const options: Intl.DateTimeFormatOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}

@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {UserType} from "../../api/apiTypes";
+import {OrderTypeApi, UserType} from "../../api/apiTypes";
 
 export interface UserState {
     isAuth: boolean,
     user: UserType,
+    orders: OrderTypeApi[]
 }
 
 export const emptyUser = {
@@ -16,6 +17,7 @@ export const emptyUser = {
 const initialState: UserState = {
     isAuth: false,
     user: emptyUser,
+    orders: []
 }
 
 export const userSlice = createSlice({
@@ -28,10 +30,13 @@ export const userSlice = createSlice({
         },
         setIsAuth: (state, action: PayloadAction<boolean>) => {
             state.isAuth = action.payload
+        },
+        setOrders: (state, action: PayloadAction<OrderTypeApi[]>) => {
+            state.orders = action.payload
         }
     }
 })
 
-export const {setUser, setIsAuth} = userSlice.actions
+export const {setUser, setIsAuth,setOrders} = userSlice.actions
 
 export default userSlice.reducer

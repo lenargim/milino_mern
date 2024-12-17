@@ -4,8 +4,8 @@ import {NavLink, Outlet, useLocation} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {getAllRooms} from "../../api/apiFunctions";
 import {getRooms} from "../../store/reducers/roomSlice";
-import RoomsNew from './RoomsNew';
-import RoomSidebar from "./RoomSidebar";
+import RoomsNew from '../Room/RoomsNew';
+import RoomSidebar from "../Room/RoomSidebar";
 import {MaybeNull} from "../../helpers/productTypes";
 
 const ProfileRooms: FC = () => {

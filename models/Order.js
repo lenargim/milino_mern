@@ -1,9 +1,16 @@
 import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
-  room: {
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  room_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room'
+  },
+  room_name: {
+    type: String
   },
   order: [
     {

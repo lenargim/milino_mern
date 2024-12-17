@@ -1,5 +1,5 @@
 import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
-import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
+import {AuthAPI, cartAPI, orderAPI, roomsAPI, usersAPI} from "./api";
 import axios from "axios";
 import {
     cornerTypes,
@@ -236,6 +236,15 @@ export const removeFromCartInRoomAPI = async (room: string, _id: string) => {
 export const updateProductAmountAPI = async (room:string,_id: string, amount: number) => {
     try {
         return (await cartAPI.updateAmount(room, _id, amount)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+
+export const getAllOrders = async (user_id:string) => {
+    try {
+        return (await orderAPI.getAll(user_id)).data
     } catch (error) {
         alertError(error);
     }

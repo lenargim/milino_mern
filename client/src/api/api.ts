@@ -59,4 +59,5 @@ export const cartAPI = {
 
 export const orderAPI = {
     placeOrder: (roomId:string, data: {order:OrderType[], total:number}) => instance.post(`/api/order/${roomId}`, data ,{headers: getHeaders()}),
+    getAll: (user_id:string) => instance.get(`/api/order/${user_id}` ,{headers: getHeaders()}),
 }

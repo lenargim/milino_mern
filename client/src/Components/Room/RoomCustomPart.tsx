@@ -1,13 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
+import CustomPart from "../CustomPart/CustomPart";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {RoomFront} from "../../store/reducers/roomSlice";
-import Product from "../Product/Product";
-import s from './profile.module.sass'
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import s from '../Profile/profile.module.sass'
 
-const RoomProduct = () => {
+const RoomCustomPart:FC = () => {
     const navigate = useNavigate()
-    let {category, productId} = useParams();
+    let {productId} = useParams();
     const [roomData] = useOutletContext<[RoomFront]>()
     const {
         _id,
@@ -16,19 +16,19 @@ const RoomProduct = () => {
         cart,
         ...rest
     } = roomData;
+
     const materials: MaterialsFormType = {...rest}
+
     useEffect(() => {
-        if (!category || !productId) {
+        if (!productId) {
             navigate(`/profile/rooms/${_id}`)
         }
     }, [])
-
     return (
         <div className={s.product}>
-            <Product materials={materials}/>
+            <CustomPart materials={materials} />
         </div>
-
     );
 };
 
-export default RoomProduct;
+export default RoomCustomPart;

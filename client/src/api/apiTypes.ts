@@ -1,3 +1,5 @@
+import {OrderType} from "../helpers/productTypes";
+
 type UserDataType = {
     name: string,
     email: string,
@@ -24,4 +26,13 @@ export interface EditProfileType extends UserDataType {
 export type LogInType = {
     email: string,
     password: string
+}
+
+export type OrderTypeApi = {
+    user: string,
+    room_id: string,
+    room_name: string,
+    order: OrderType[],
+    total: number,
+    createdAt: Date
 }

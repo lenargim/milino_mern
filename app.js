@@ -62,6 +62,7 @@ const start = async () => {
 
 
     app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
+    app.get('/api/order/:user_id', checkAuth, OrderController.getAll)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

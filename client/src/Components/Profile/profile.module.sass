@@ -115,3 +115,30 @@
   gap: 20px
   justify-content: center
   align-items: center
+
+.orderList
+  display: flex
+  flex-direction: column
+  width: 100%
+  max-width: 800px
+  position: relative
+.orderRow, .orderHead
+  display: grid
+  grid-template-columns: 25% 10% 25% 40%
+
+.orderHead
+  background: $accentLight
+  padding: 12px 10px
+  border-radius: 10px 10px 0 0
+  border-left: 1px solid $black
+  border-right: 1px solid $black
+  border-top: 1px solid $black
+.orderRow
+  padding: 10px
+  border-bottom: 1px solid $black
+  border-left: 1px solid $black
+  border-right: 1px solid $black
+  &:nth-child(even)
+    background-color: rgba(227, 220, 220, .4)
+  &:last-of-type
+    border-radius: 0 0 10px 10px

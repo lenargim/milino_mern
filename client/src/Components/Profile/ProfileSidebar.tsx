@@ -1,8 +1,6 @@
 import React from 'react';
 import s from "./profile.module.sass";
 import {NavLink} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {emptyUser, setIsAuth, setUser} from "../../store/reducers/userSlice";
 import logo from "../../assets/img/SiteLogo.jpg";
 import {logout} from "../../helpers/helpers";
 

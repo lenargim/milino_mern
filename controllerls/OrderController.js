@@ -6,9 +6,19 @@ export const placeOrder = async (req, res) => {
   try {
     const roomId = req.params.roomId;
 
+    const room = await RoomModel.findByIdAndUpdate(roomId)
+    if (!room) {
+      return res.status(404).json({
+        message: 'Room not found'
+      })
+    }
+    const user_id = room._doc.user;
+
     const doc = new OrderModel({
       ...req.body,
-      room: roomId,
+      user: user_id,
+      room_id: roomId,
+      room_name: room._doc.room_name,
     })
 
     await doc.save()
@@ -32,6 +42,23 @@ export const placeOrder = async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create order'
+    })
+  }
+}
+
+export const getAll = async (req, res) => {
+  try {
+    const user_id = req.params.user_id;
+    const orders = await OrderModel.find({user: user_id})
+    if (!orders) {
+      return res.status(404).json({
+        message: 'Cannot find orders'
+      })
+    }
+    return res.status(200).json(orders);
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot find orders'
     })
   }
 }
