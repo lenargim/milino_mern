@@ -45,20 +45,3 @@ export const placeOrder = async (req, res) => {
     })
   }
 }
-
-export const getAll = async (req, res) => {
-  try {
-    const user_id = req.params.user_id;
-    const orders = await OrderModel.find({user: user_id})
-    if (!orders) {
-      return res.status(404).json({
-        message: 'Cannot find orders'
-      })
-    }
-    return res.status(200).json(orders);
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot find orders'
-    })
-  }
-}

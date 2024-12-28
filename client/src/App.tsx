@@ -19,7 +19,6 @@ import RoomProduct from "./Components/Room/RoomProduct";
 import RoomCategory from "./Components/Room/RoomCategory";
 import RoomCustomPart from "./Components/Room/RoomCustomPart";
 import RoomCheckout from "./Components/Room/RoomCheckout";
-import ProfileOrders from "./Components/Profile/ProfileOrders";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -79,7 +78,6 @@ function App() {
                         <Route path="new" element={<RoomsNew/>}/>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
-                    <Route path="orders" element={<ProfileOrders user={user}/>}/>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

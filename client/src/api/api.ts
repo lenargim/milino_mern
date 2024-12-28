@@ -55,9 +55,3 @@ export const cartAPI = {
     updateAmount: ( room:string,_id:string, amount:number) => instance.patch<CartAPIResponse[]>(`/api/cart/${room}/${_id}`, {amount:amount},  {headers: getHeaders()}),
     remove: (room:string,_id:string) => instance.delete(`/api/cart/${room}/${_id}`,{headers: getHeaders()}),
 }
-
-
-export const orderAPI = {
-    placeOrder: (roomId:string, data: {order:OrderType[], total:number}) => instance.post(`/api/order/${roomId}`, data ,{headers: getHeaders()}),
-    getAll: (user_id:string) => instance.get(`/api/order/${user_id}` ,{headers: getHeaders()}),
-}

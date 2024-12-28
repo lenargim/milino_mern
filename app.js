@@ -60,9 +60,7 @@ const start = async () => {
     app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.remove)
     app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.update)
 
-
     app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
-    app.get('/api/order/:user_id', checkAuth, OrderController.getAll)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

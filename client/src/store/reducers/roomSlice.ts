@@ -56,14 +56,6 @@ export const roomSlice = createSlice({
         deleteRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
             state.rooms = state.rooms.filter(room => room._id !== action.payload._id);
         },
-        deleteCart: (state, action: PayloadAction<string>) => {
-            state.rooms = state.rooms.map(room => {
-                return room._id === action.payload ? {
-                    ...room,
-                    cart: []
-                } : room;
-            })
-        },
         roomSetActiveCategory: (state, action: PayloadAction<{ _id: string, category: productCategory }>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload._id ? {
@@ -96,7 +88,6 @@ export const {
     getRooms,
     editRoom,
     deleteRoom,
-    deleteCart,
     roomSetActiveCategory,
     updateCartInRoom,
     updateCartAfterMaterialsChange

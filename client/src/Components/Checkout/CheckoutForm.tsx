@@ -4,9 +4,7 @@ import {
     getCustomPartById,
     getMaterialStrings,
     getProductById,
-    useAppDispatch
 } from "../../helpers/helpers";
-import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import {Form, Formik, FormikProps} from 'formik';
 import {PhoneInput, TextInput} from "../../common/Form";
 import s from './checkout.module.sass'
@@ -16,13 +14,12 @@ import CheckoutCart from "./CheckoutCart";
 import {pdf} from '@react-pdf/renderer';
 import PDF from "./PDF";
 import {saveAs} from "file-saver";
-import {checkoutAPI, orderAPI,} from "../../api/api";
+import {checkoutAPI} from "../../api/api";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import {MaybeNull, OrderType} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {deleteCart} from "../../store/reducers/roomSlice";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
@@ -122,13 +119,6 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData);
                         if (serverResponse.status === 201) {
-                            if (room_id) {
-                                orderAPI.placeOrder(room_id, {order, total}).then(res => {
-                                    if (res.status === 200) {
-                                        dispatch(deleteCart(room_id))
-                                    }
-                                });
-                            }
                             setModal({open: true, status: 'Email was sended!\n\nThank you'})
                         } else {
                             alert('Email was not sent')
@@ -179,13 +169,8 @@ type EmailWasSendedType = {
 
 const EmailWasSended: FC<EmailWasSendedType> = ({status, setModal}) => {
     const navigate = useNavigate();
-    // localStorage.removeItem('materials')
-    // localStorage.removeItem('category')
     setTimeout(() => {
         setModal({open: false, status: ''})
-        // For unlogined
-        // dispatch(setMaterials(null));
-        // dispatch(removeCart())
         navigate(`/profile/rooms`)
     }, 4000)
 
