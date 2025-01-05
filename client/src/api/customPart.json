@@ -91,40 +91,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -143,23 +109,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             6,
@@ -275,40 +224,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            3,
-            96
-          ],
-          "height": [
-            3,
-            96
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -327,23 +242,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             3,
@@ -456,32 +354,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -496,19 +368,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             2.5,
@@ -615,32 +474,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -655,19 +488,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             2.5,
@@ -792,40 +612,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -844,23 +630,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             3,
@@ -976,40 +745,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -1028,23 +763,6 @@
       },
       {
         "name": "Ultrapan Acrilic",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Stone",
         "limits": {
           "width": [
             3,
@@ -1238,32 +956,6 @@
         }
       },
       {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
-      },
-      {
         "name": "Ultrapan PET",
         "limits": {
           "width": [
@@ -1382,12 +1074,6 @@
       },
       {
         "name": "Syncron"
-      },
-      {
-        "name": "OneSkin"
-      },
-      {
-        "name": "Cleaf"
       },
       {
         "name": "Ultrapan PET"
@@ -1759,24 +1445,6 @@
       },
       {
         "name": "Syncron",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
-      },
-      {
-        "name": "OneSkin",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
-      },
-      {
-        "name": "Cleaf",
         "limits": {
           "width": [
             1,

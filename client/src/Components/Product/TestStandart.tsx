@@ -7,11 +7,14 @@ type TestType = {
     coef: coefType,
     attributesPrices: AttributesPrices,
     boxMaterialCoef: number,
+    grain_coef:number,
+    finish_coef:number,
     premium_coef: number,
+    base_price_type: 1|2|3,
     tablePrice: MaybeUndefined<number>
 }
 
-const Test: FC<TestType> = ({coef, attributesPrices, boxMaterialCoef, premium_coef, tablePrice}) => {
+const Test: FC<TestType> = ({coef, attributesPrices, boxMaterialCoef, premium_coef, tablePrice, finish_coef, grain_coef, base_price_type}) => {
     return (
         <div style={{marginTop: '30px'}}>
             <h3>Extra prices</h3>
@@ -26,7 +29,10 @@ const Test: FC<TestType> = ({coef, attributesPrices, boxMaterialCoef, premium_co
             }
             <h3>Material coefs</h3>
             <div>Box material coef: {boxMaterialCoef}</div>
+            <div>Finish Material coef: {finish_coef}</div>
+            <div>Grain coef: {grain_coef}</div>
             <div>Premium coef: {premium_coef}</div>
+            <div>Price column: {base_price_type}</div>
             <div>Table Price: {tablePrice}</div>
         </div>
     );

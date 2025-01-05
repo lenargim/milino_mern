@@ -35,6 +35,9 @@ const Cabinet: FC<CabinetType> = ({
         box_material_finish_coef,
         drawer_brand,
         premium_coef,
+        grain_coef,
+        finish_coef,
+        base_price_type
     } = materialData
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
@@ -136,8 +139,11 @@ const Cabinet: FC<CabinetType> = ({
             <Test coef={coef}
                   attributesPrices={attributesPrices}
                   boxMaterialCoef={boxMaterialCoef}
+                  grain_coef={grain_coef}
+                  finish_coef={finish_coef}
                   premium_coef={premium_coef}
                   tablePrice={tablePrice}
+                  base_price_type={base_price_type}
             />
         </>
     )

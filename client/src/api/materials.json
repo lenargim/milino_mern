@@ -69,7 +69,7 @@
             },
             {
               "value": "Blanco HG",
-              "img": "Blanco.jpg"
+              "img": "Supermatt Blanco.jpg"
             },
             {
               "value": "Blanco Polar HG",
@@ -606,550 +606,6 @@
           ]
         },
         {
-          "value": "Wood Veneer",
-          "img": "Veneer.jpg",
-          "colors": [
-            {
-              "value": "Oak Desert (In Stock)",
-              "img": "veneer/Desert Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Ivory (In Stock)",
-              "img": "veneer/Ivory Oak 2.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Manhattan (In Stock)",
-              "img": "veneer/Manhattan Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Milk (In Stock)",
-              "img": "veneer/Milk Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Triba Pebble (In Stock)",
-              "img": "veneer/Pebble Triba.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Walnut Frozen (In Stock)",
-              "img": "veneer/Frozen Walnut.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Walnut Pure (In Stock)",
-              "img": "veneer/Pure Walnut.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Walnut Smoked (In Stock)",
-              "img": "veneer/Smoked Walnut.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Eucalyptus Shadow (Special Order)",
-              "img": "veneer/Shadow Eucalyptus.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Bondi (Special Order)",
-              "img": "veneer/Bondi Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Burley (Special Order)",
-              "img": "veneer/Burley Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Ivory Infinite (Special Order)",
-              "img": "veneer/Ivory Infinite Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Natural (Special Order)",
-              "img": "veneer/Natural Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Raven (Special Order)",
-              "img": "veneer/Raven Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Oak Sahara (Special Order)",
-              "img": "veneer/Sahara Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Sapele Terra (Special Order)",
-              "img": "veneer/Terra Sapele.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Triba Cinnamon (Special Order)",
-              "img": "veneer/Cinnamon Triba.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Walnut Stardust (Special Order)",
-              "img": "veneer/Stardust Walnut.jpg",
-              "isGrain": true
-            }
-          ]
-        },
-        {
-          "value": "Style Lite",
-          "img": "StyleLite.jpg",
-          "colors": [
-            {
-              "value": "Alabaster Gloss",
-              "img": "StyleLite/Alabaster.jpg"
-            },
-            {
-              "value": "Alabaster Matte",
-              "img": "StyleLite/Alabaster.jpg"
-            },
-            {
-              "value": "Arctic Gloss",
-              "img": "StyleLite/Arctic.jpg"
-            },
-            {
-              "value": "Arctic Matte",
-              "img": "StyleLite/Arctic.jpg"
-            },
-            {
-              "value": "Ash Gloss",
-              "img": "StyleLite/Ash.jpg"
-            },
-            {
-              "value": "Ash Matte",
-              "img": "StyleLite/Ash.jpg"
-            },
-            {
-              "value": "Atlantic Gloss",
-              "img": "StyleLite/Atlantic.jpg"
-            },
-            {
-              "value": "Braun Matte",
-              "img": "StyleLite/Braun.jpg"
-            },
-            {
-              "value": "Brilliant Pearl Gloss",
-              "img": "StyleLite/Brilliant-Pearl.jpg"
-            },
-            {
-              "value": "Calacatta Marble Gloss",
-              "img": "StyleLite/Calacatta.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Calacatta Marble Velvet",
-              "img": "StyleLite/Calacatta.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Carbon Gloss",
-              "img": "StyleLite/Carbon.jpg"
-            },
-            {
-              "value": "Carbon Matte",
-              "img": "StyleLite/Carbon.jpg"
-            },
-            {
-              "value": "Champagne Gloss",
-              "img": "StyleLite/Champagne.jpg"
-            },
-            {
-              "value": "Charcoal Gloss",
-              "img": "StyleLite/Charcoal.jpg"
-            },
-            {
-              "value": "Charcoal Matte",
-              "img": "StyleLite/Charcoal.jpg"
-            },
-            {
-              "value": "Dove Gloss",
-              "img": "StyleLite/Dove.jpg"
-            },
-            {
-              "value": "Dove Matte",
-              "img": "StyleLite/Dove.jpg"
-            },
-            {
-              "value": "Graphite Gloss",
-              "img": "StyleLite/Graphite.jpg"
-            },
-            {
-              "value": "Graphite Matte",
-              "img": "StyleLite/Graphite.jpg"
-            },
-            {
-              "value": "Jura Matte",
-              "img": "StyleLite/Jura.jpg"
-            },
-            {
-              "value": "Lavato-Oak Gloss",
-              "img": "StyleLite/Lavato-Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Lavato-Oak Velvet",
-              "img": "StyleLite/Lavato-Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Misty Mirra Gloss",
-              "img": "StyleLite/Misty-Mirra.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Mirror Gloss",
-              "img": "StyleLite/Mirror.jpg"
-            },
-            {
-              "value": "Mocha Gloss",
-              "img": "StyleLite/Mocha.jpg"
-            },
-            {
-              "value": "Mountain Matte",
-              "img": "StyleLite/mountain.jpg"
-            },
-            {
-              "value": "Oceanic Matte",
-              "img": "StyleLite/oceanic.jpg"
-            },
-            {
-              "value": "Pewter Gloss",
-              "img": "StyleLite/Pewter.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Rainforest Matte",
-              "img": "StyleLite/rainforest.jpg"
-            },
-            {
-              "value": "Riga-Birch Gloss",
-              "img": "StyleLite/Riga-Birch.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Riga-Birch Velvet",
-              "img": "StyleLite/Riga-Birch.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Ruby Gloss",
-              "img": "StyleLite/Ruby.jpg"
-            },
-            {
-              "value": "Sand Gloss",
-              "img": "StyleLite/Sand.jpg"
-            },
-            {
-              "value": "Shell Matte",
-              "img": "StyleLite/shell.jpg"
-            },
-            {
-              "value": "Sienna-Teak Gloss",
-              "img": "StyleLite/Sienna-Teak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Sienna-Teak Velvet",
-              "img": "StyleLite/Sienna-Teak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Silver Gloss",
-              "img": "StyleLite/Silver.jpg"
-            },
-            {
-              "value": "Slate Gloss",
-              "img": "StyleLite/Slate.jpg"
-            },
-            {
-              "value": "Slate Matte",
-              "img": "StyleLite/Slate.jpg"
-            },
-            {
-              "value": "Tierra Elm Gloss",
-              "img": "StyleLite/Tierra-Elm.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Tierra Elm Velvet",
-              "img": "StyleLite/Tierra-Elm.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Titanium Gloss",
-              "img": "StyleLite/Titanium.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Travertine Crosscut Velvet",
-              "img": "StyleLite/Travertine-Crosscut.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Travertine Veincut Velvet",
-              "img": "StyleLite/Travertine-Veincut.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Vintage Mira Gloss",
-              "img": "StyleLite/Vintage-Mira.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Wired Mercury Gloss",
-              "img": "StyleLite/Wired-Mercury.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Wired Mercury Velvet",
-              "img": "StyleLite/Wired-Mercury.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Wired Zinc Gloss",
-              "img": "StyleLite/Wired-Zinc.jpg",
-              "isGrain": true
-            }
-          ]
-        },
-        {
-          "value": "Cleaf",
-          "img": "cleaf.jpg",
-          "colors": [
-            {
-              "value": "Ares Concrete Bianco FB03",
-              "img": "ares_fb03_1.jpg"
-            },
-            {
-              "value": "Ares Concrete FB11",
-              "img": "ares_fb11_1.jpg"
-            },
-            {
-              "value": "Ares Dark Concrete UA49",
-              "img": "ares_ua49_1.jpg"
-            },
-            {
-              "value": "Ares Glauco FB49",
-              "img": "ares_fb49_1.jpg"
-            },
-            {
-              "value": "Ares Night UB02",
-              "img": "ares_ub02_1.jpg"
-            },
-            {
-              "value": "Ares Rame FB60",
-              "img": "ares_fb60_1.jpg"
-            },
-            {
-              "value": "Ares Valleta FB68",
-              "img": "ares_fb68_1.jpg"
-            },
-            {
-              "value": "Azimut Fresh Gray SO27",
-              "isGrain": true,
-              "img": "azimut_s027_1.jpg"
-            },
-            {
-              "value": "Azimut Lounge Brown SO28",
-              "isGrain": true,
-              "img": "azimut_s028_1.jpg"
-            },
-            {
-              "value": "Cheope Total White BO73",
-              "img": "cheope_b073_1.jpg"
-            },
-            {
-              "value": "Engadina Engadina SO61",
-              "isGrain": true,
-              "img": "engadina_s061_1.jpg"
-            },
-            {
-              "value": "Fronda Bardini S164",
-              "isGrain": true,
-              "img": "fronda_s164_1-1.jpg"
-            },
-            {
-              "value": "Idea Argento FB81",
-              "img": "idea_fb81_1.jpg"
-            },
-            {
-              "value": "Idea Ottone FB86",
-              "img": "idea_fb86_1.jpg"
-            },
-            {
-              "value": "Idea Zirconia FB08",
-              "img": "idea_fb08_1.jpg"
-            },
-            {
-              "value": "Jiometori Naoshima S191",
-              "isGrain": true,
-              "img": "jiometori_s191_1.jpg"
-            },
-            {
-              "value": "Jiometori Teshima S192",
-              "isGrain": true,
-              "img": "jiometori_s192_1.jpg"
-            },
-            {
-              "value": "Matrix Aspen Oak LM67",
-              "isGrain": true,
-              "img": "matrix_lm67_1.jpg"
-            },
-            {
-              "value": "Matrix Barn Oak LN27",
-              "isGrain": true,
-              "img": "matrix_ln27_1.jpg"
-            },
-            {
-              "value": "Matrix Bianco BO11",
-              "isGrain": true,
-              "img": "matrix_b011_1.jpg"
-            },
-            {
-              "value": "Matrix Carbone LM08",
-              "isGrain": true,
-              "img": "matrix_lm08_1.jpg"
-            },
-            {
-              "value": "Matrix City Oak LM69",
-              "isGrain": true,
-              "img": "matrix_lm69_1.jpg"
-            },
-            {
-              "value": "Matrix Stratos LM37",
-              "isGrain": true,
-              "img": "matrix_lm37_1.jpg"
-            },
-            {
-              "value": "Matrix Vineyard Oak LN30",
-              "isGrain": true,
-              "img": "matrix_ln30_1.jpg"
-            },
-            {
-              "value": "Mosaico Nero U129",
-              "img": "mosaico_u129_1.jpg"
-            },
-            {
-              "value": "Okobo Meguro S160",
-              "isGrain": true,
-              "img": "Okobo Meguro S160.jpg"
-            },
-            {
-              "value": "Okobo Nakano S162",
-              "isGrain": true,
-              "img": "Okobo Nakano S162.jpg"
-            },
-            {
-              "value": "Okobo Shibuya S161",
-              "isGrain": true,
-              "img": "Okobo Shibuya S161.jpg"
-            },
-            {
-              "value": "Okobo Taito S159",
-              "isGrain": true,
-              "img": "Okobo Taito S159.jpg"
-            },
-            {
-              "value": "Poro Noce Acerno LS14",
-              "isGrain": true,
-              "img": "poronoce_ls14_1.jpg"
-            },
-            {
-              "value": "Poro Noce Giffoni LS13",
-              "isGrain": true,
-              "img": "poronoce_ls13_1.jpg"
-            },
-            {
-              "value": "Primofiore Maya Bronze FA33",
-              "img": "primofiore_fa33_1.jpg"
-            },
-            {
-              "value": "Primofiore Nebia UB19",
-              "img": "primofiore_ub19_1.jpg"
-            },
-            {
-              "value": "Sable Ascari LR25",
-              "isGrain": true,
-              "img": "sable_lr25_1.jpg"
-            },
-            {
-              "value": "Sable Fittipaldi LR29",
-              "isGrain": true,
-              "img": "sable_lr29_1.jpg"
-            },
-            {
-              "value": "Sable Pecan LR27",
-              "isGrain": true,
-              "img": "sable_lr27_1.jpg"
-            },
-            {
-              "value": "Sherwood Brolio Oak LR09",
-              "isGrain": true,
-              "img": "sherwood_lr09_1.jpg"
-            },
-            {
-              "value": "Sherwood Gavi Oak LN66",
-              "isGrain": true,
-              "img": "sherwood_ln66_1.jpg"
-            },
-            {
-              "value": "Sherwood Peak District SO78",
-              "isGrain": true,
-              "img": "sherwood_s078_1.jpg"
-            },
-            {
-              "value": "Sherwood Toasted Espresso SO71",
-              "isGrain": true,
-              "img": "sherwood_s071_1.jpg"
-            },
-            {
-              "value": "Sherwood Tuscan Cypress SO72",
-              "isGrain": true,
-              "img": "sherwood_s072_1.jpg"
-            },
-            {
-              "value": "Sherwood Volterra Oak SO95",
-              "isGrain": true,
-              "img": "sherwood_s095_1.jpg"
-            },
-            {
-              "value": "Yosemite Burned SO12",
-              "isGrain": true,
-              "img": "yosemite_s012_1.jpg"
-            },
-            {
-              "value": "Yosemite Cypress Point SO13",
-              "isGrain": true,
-              "img": "yosemite_s013_1.jpg"
-            },
-            {
-              "value": "Yosemite Light Carbon SO15",
-              "isGrain": true,
-              "img": "yosemite_s015_1.jpg"
-            },
-            {
-              "value": "Yosemite Nero U129",
-              "isGrain": true,
-              "img": "yosemite_u129_1.jpg"
-            },
-            {
-              "value": "Yosemite Silver Sand SO11",
-              "isGrain": true,
-              "img": "yosemite_s011_1.jpg"
-            }
-          ]
-        },
-        {
           "value": "Milino",
           "img": "milino.jpg",
           "colors": [
@@ -1183,291 +639,31 @@
             {
               "value": "White Melamine",
               "img": "White-Melamine.jpg"
+            },
+            {
+              "value": "Brown Oak",
+              "img": "Brown Oak.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ivory Woodline",
+              "img": "Ivory Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte White",
+              "img": "Ultra Matte White.jpg"
             }
           ]
-        },
-        {
-          "value": "OneSkin",
-          "colors": [
-            {
-              "value": "Alentejo Elm HG",
-              "isGrain": true,
-              "img": "alentejo-elm-high-gloss.jpg"
-            },
-            {
-              "value": "Alentejo Elm SM",
-              "isGrain": true,
-              "img": "alentejo-elm-super-mate.jpg"
-            },
-            {
-              "value": "Arctic White HG",
-              "img": "arctic-white-high-gloss.jpg"
-            },
-            {
-              "value": "Black HG",
-              "img": "Black.jpg"
-            },
-            {
-              "value": "Black SM",
-              "img": "Supermatt Black.jpg"
-            },
-            {
-              "value": "Brown Cement HG",
-              "img": "brown-cement-high-gloss.jpg"
-            },
-            {
-              "value": "Brown Cement SM",
-              "img": "brown-cement-super-mate.jpg"
-            },
-            {
-              "value": "Calcio HG",
-              "img": "Calcio.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Calcio SM",
-              "img": "Calcio.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Carbon Oak HG",
-              "isGrain": true,
-              "img": "carbon-oak-high-gloss.jpg"
-            },
-            {
-              "value": "Carbon Oak SM",
-              "isGrain": true,
-              "img": "carbon-oak-super-mate.jpg"
-            },
-            {
-              "value": "Cashmere HG",
-              "img": "Cashmere.jpg"
-            },
-            {
-              "value": "Cashmere SM",
-              "img": "Supermatt Cashmere.jpg"
-            },
-            {
-              "value": "Copper HG",
-              "img": "Copper.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Copper SM",
-              "img": "Copper.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Denim Blue HG",
-              "img": "denim-blue.jpg"
-            },
-            {
-              "value": "Denim Blue SM",
-              "img": "denim-blue.jpg"
-            },
-            {
-              "value": "Fossil Oak HG",
-              "isGrain": true,
-              "img": "fossil-oak-high-gloss.jpg"
-            },
-            {
-              "value": "Fossil Oak SM",
-              "isGrain": true,
-              "img": "fossil-oak-super-mate.jpg"
-            },
-            {
-              "value": "Grey HG",
-              "img": "grey-high-gloss.jpg"
-            },
-            {
-              "value": "Grey SM",
-              "img": "grey-super-mate.jpg"
-            },
-            {
-              "value": "Grey Oak HG",
-              "isGrain": true,
-              "img": "grey-oak-high-gloss.jpg"
-            },
-            {
-              "value": "Grey Oak SM",
-              "isGrain": true,
-              "img": "grey-oak-super-mate.jpg"
-            },
-            {
-              "value": "Ivory Ash HG",
-              "isGrain": true,
-              "img": "ivory-ash-high-gloss.jpg"
-            },
-            {
-              "value": "Lava Grey HG",
-              "img": "lava-grey-high-gloss.jpg"
-            },
-            {
-              "value": "Lava Grey SM",
-              "img": "lava-grey-super-mate.jpg"
-            },
-            {
-              "value": "Light Grey HG",
-              "img": "light-grey-high-gloss.jpg"
-            },
-            {
-              "value": "Light Grey SM",
-              "img": "light-grey-super-mate.jpg"
-            },
-            {
-              "value": "Luna HG",
-              "img": "Luna.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Luna SM",
-              "img": "Luna.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Mineral Coffee HG",
-              "img": "mineral-coffee-high-gloss.jpg"
-            },
-            {
-              "value": "Mineral Coffee SM",
-              "img": "mineral-coffee-super-mate.jpg"
-            },
-            {
-              "value": "Moka Ash HG",
-              "isGrain": true,
-              "img": "moka-ash-high-gloss.jpg"
-            },
-            {
-              "value": "Moka Cement HG",
-              "isGrain": true,
-              "img": "moka-cement-high-gloss.jpg"
-            },
-            {
-              "value": "Moka Cement SM",
-              "isGrain": true,
-              "img": "moka-cement-super-mate.jpg"
-            },
-            {
-              "value": "Natural Cement HG",
-              "img": "natural-cement-high-gloss.jpg"
-            },
-            {
-              "value": "Natural Cement SM",
-              "img": "natural-cement-super-mate.jpg"
-            },
-            {
-              "value": "Natural Oak HG",
-              "img": "Natural Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Natural Oak SM",
-              "img": "Natural Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Old Oak HG",
-              "isGrain": true,
-              "img": "old-oak.jpg"
-            },
-            {
-              "value": "Old Oak SM",
-              "isGrain": true,
-              "img": "old-oak.jpg"
-            },
-            {
-              "value": "Oyster HG",
-              "img": "oyster-high-gloss.jpg"
-            },
-            {
-              "value": "Petroleo HG",
-              "img": "petroleo-gloss.jpg"
-            },
-            {
-              "value": "Petroleo SM",
-              "img": "petroleo-gloss.jpg"
-            },
-            {
-              "value": "Port Red HG",
-              "img": "port-red-gloss.jpg"
-            },
-            {
-              "value": "Port Red SM",
-              "img": "port-red-supermatte.jpg"
-            },
-            {
-              "value": "Sahara HG",
-              "img": "sahara-high-gloss.jpg"
-            },
-            {
-              "value": "Sahara SM",
-              "img": "sahara-super-mate.jpg"
-            },
-            {
-              "value": "Sunny White HG",
-              "img": "sunny-white-high-gloss.jpg"
-            },
-            {
-              "value": "Sunny White SM",
-              "img": "sunny-white-super-matte.jpg"
-            },
-            {
-              "value": "Terracota HG",
-              "img": "Terracota.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Terracota SM",
-              "img": "Terracota.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Tormenta HG",
-              "img": "Tormenta.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Tormenta SM",
-              "img": "Tormenta.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Tortora HG",
-              "img": "tortora-high-gloss.jpg"
-            },
-            {
-              "value": "Tortora SM",
-              "img": "tortora-super-mate.jpg"
-            },
-            {
-              "value": "Vision HG",
-              "img": "vision-high-gloss.jpg"
-            },
-            {
-              "value": "Vision SM",
-              "img": "vision-super-mate.jpg"
-            },
-            {
-              "value": "White Birch HG",
-              "isGrain": true,
-              "img": "white-birch-high-gloss.jpg"
-            },
-            {
-              "value": "White Birch SM",
-              "isGrain": true,
-              "img": "white-birch-super-mate.jpg"
-            },
-            {
-              "value": "White Concrete HG",
-              "img": "white-concrete-high-glossmainimage.jpg"
-            },
-            {
-              "value": "White Concrete SM",
-              "isGrain": true,
-              "img": "white-concrete-super-mate.jpg"
-            }
-          ],
-          "img": "OneSkin.jpg"
         },
         {
           "value": "Ultrapan PET",
@@ -1934,7 +1130,7 @@
             },
             {
               "value": "Blanco HG",
-              "img": "Blanco.jpg"
+              "img": "Supermatt Blanco.jpg"
             },
             {
               "value": "Blanco Polar HG",
@@ -3639,7 +2835,7 @@
             },
             {
               "value": "Blanco HG",
-              "img": "Blanco.jpg"
+              "img": "Supermatt Blanco.jpg"
             },
             {
               "value": "Blanco Polar HG",
@@ -4200,7 +3396,7 @@
             },
             {
               "value": "Blanco HG",
-              "img": "Blanco.jpg"
+              "img": "Supermatt Blanco.jpg"
             },
             {
               "value": "Blanco Polar HG",
@@ -4770,6 +3966,29 @@
             {
               "value": "White Melamine",
               "img": "White-Melamine.jpg"
+            },
+            {
+              "value": "Brown Oak",
+              "img": "Brown Oak.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ivory Woodline",
+              "img": "Ivory Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte White",
+              "img": "Ultra Matte White.jpg"
             }
           ]
         }
@@ -4821,6 +4040,26 @@
     {
       "value": "White Melamine",
       "img": "White Melamine.jpg"
+    },
+    {
+      "value": "Brown Oak",
+      "img": "Brown Oak.jpg"
+    },
+    {
+      "value": "Grey Woodline",
+      "img": "Grey Woodline.jpg"
+    },
+    {
+      "value": "Ivory Woodline",
+      "img": "Ivory Woodline.jpg"
+    },
+    {
+      "value": "Ultra Matte Grey",
+      "img": "Ultra Matte Grey.jpg"
+    },
+    {
+      "value": "Ultra Matte White",
+      "img": "Ultra Matte White.jpg"
     }
   ],
   "drawers": [
@@ -4937,14 +4176,6 @@
     {
       "value": "Syncron",
       "img": "syncron.jpg"
-    },
-    {
-      "value": "Cleaf",
-      "img": "cleaf.jpg"
-    },
-    {
-      "value": "OneSkin",
-      "img": "OneSkin.jpg"
     },
     {
       "value": "Ultrapan PET",

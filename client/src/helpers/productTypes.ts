@@ -139,7 +139,7 @@ export type materialDataType = {
     is_standard_cabinet: boolean,
     category: MaybeEmpty<RoomCategories>,
     base_price_type: pricesTypings,
-    base_coef: number,
+    finish_coef: number,
     grain_coef: number,
     premium_coef: number,
     box_material_coef: number,
