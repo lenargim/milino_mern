@@ -4,7 +4,6 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true
   },
   email: {
     type: String,
@@ -15,6 +14,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  is_active: {
+    type: Boolean,
+  },
+  is_super_user: {
+    type: Boolean,
   },
   passwordHash: {
     type: String,

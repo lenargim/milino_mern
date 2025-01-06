@@ -12,6 +12,8 @@ export interface SignUpType extends UserDataType {
 
 export interface UserType extends UserDataType {
     _id: string,
+    is_active: boolean,
+    is_super_user: boolean
 }
 
 export interface UserTypeResponse extends UserType {
@@ -35,4 +37,15 @@ export type OrderTypeApi = {
     order: OrderType[],
     total: number,
     createdAt: Date
+}
+
+export type AdminType = {
+    users: AdminUsersType[]
+}
+
+export type AdminUsersType = {
+    _id: string,
+    email: string,
+    name: string,
+    is_active: boolean
 }

@@ -48,7 +48,6 @@ import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
-import {useNavigate} from "react-router-dom";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

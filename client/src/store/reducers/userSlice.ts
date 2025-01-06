@@ -11,7 +11,9 @@ export const emptyUser = {
     _id: '',
     email: '',
     name: '',
-    phone: ''
+    phone: '',
+    is_active: false,
+    is_super_user: false
 }
 
 const initialState: UserState = {

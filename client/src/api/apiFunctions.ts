@@ -1,6 +1,6 @@
 import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
-import {AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
-import axios from "axios";
+import {AdminAPI, AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
+import axios, {AxiosError} from "axios";
 import {
     cornerTypes,
     hingeTypes,
@@ -14,11 +14,11 @@ import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
+import {emptyUser} from "../store/reducers/userSlice";
 
 
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
-        console.log(error)
         alert(error.response.data.message)
         if (error.status === 403 && error.response.data.action === 'logout') {
             logout()
@@ -26,17 +26,12 @@ export const alertError = (error: unknown) => {
     }
 }
 
-export const signUp = async (values: SignUpType) => {
+export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> => {
     try {
         const res = await AuthAPI.signUp(values);
-        localStorage.setItem('token', res.data.token);
-        return {
-            _id: res.data._id,
-            name: res.data.name,
-            email: res.data.email,
-            phone: res.data.phone
-        };
-
+        if (res.status === 200) {
+            return true
+        }
     } catch (error) {
         alertError(error)
     }
@@ -48,7 +43,6 @@ export const updateProfile = async (values: EditProfileType) => {
         const {token, ...user}: UserTypeResponse = res.data;
         localStorage.setItem('token', token);
         return user
-
     } catch (error) {
         alertError(error)
     }
@@ -62,9 +56,15 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
             _id: res.data._id,
             name: res.data.name,
             email: res.data.email,
-            phone: res.data.phone
+            phone: res.data.phone,
+            is_active: res.data.is_active,
+            is_super_user: res.data.is_super_user
         };
-    } catch (error) {
+    } catch (error: any) {
+        const status = (error as AxiosError).status
+        if (status === 403) {
+            return emptyUser
+        }
         alertError(error)
     }
 }
@@ -80,7 +80,9 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
             _id: res.data._id,
             name: res.data.name,
             email: res.data.email,
-            phone: res.data.phone
+            phone: res.data.phone,
+            is_active: res.data.is_active,
+            is_super_user: res.data.is_super_user
         };
     } catch (error) {
         alertError(error);
@@ -233,9 +235,27 @@ export const removeFromCartInRoomAPI = async (room: string, _id: string) => {
 }
 
 
-export const updateProductAmountAPI = async (room:string,_id: string, amount: number) => {
+export const updateProductAmountAPI = async (room: string, _id: string, amount: number) => {
     try {
         return (await cartAPI.updateAmount(room, _id, amount)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getAdminUsers = async () => {
+    try {
+        const res = AdminAPI.getUsers()
+        return (await res).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const adminUserToggleEnabled = async (_id:string, is_active:boolean) => {
+    try {
+        const res = AdminAPI.toggleUserEnabled(_id, is_active)
+        return (await res).data
     } catch (error) {
         alertError(error);
     }

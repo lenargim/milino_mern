@@ -115,3 +115,33 @@
   gap: 20px
   justify-content: center
   align-items: center
+
+.table
+  width: 100%
+  max-width: 800px
+  border: 1px solid #000
+  border-radius: 8px
+
+.tableHead, .tableRow
+  display: grid
+  grid-template-columns: 1fr 1fr 80px
+  gap: 15px
+
+.tableHead
+  font: 600 18px/1.2 $mainFont
+  padding: 10px
+  border-bottom: 1px solid #000
+
+.tableRow
+  padding: 5px 10px
+  &:nth-of-type(odd)
+    background-color: rgba(0, 0, 0, 0.1)
+
+.svgEnabled, .svgDisabled
+  width: 22px
+  height: 22px
+
+.svgEnabled
+  fill: green
+.svgDisabled
+  fill: palevioletred

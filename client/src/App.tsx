@@ -19,6 +19,7 @@ import RoomProduct from "./Components/Room/RoomProduct";
 import RoomCategory from "./Components/Room/RoomCategory";
 import RoomCustomPart from "./Components/Room/RoomCustomPart";
 import RoomCheckout from "./Components/Room/RoomCheckout";
+import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -67,6 +68,7 @@ function App() {
 
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
+                    <Route path="admin" element={<ProfileAdmin user={user}/>}/>
                     <Route path="rooms" element={<ProfileRooms/>}>
                         <Route path=":roomId" element={<ProfileRoom/>}>
                             <Route index element={<RoomCategory/>}/>

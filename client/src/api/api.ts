@@ -1,10 +1,9 @@
-import {EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
+import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 
 import axios from "axios";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
-import {OrderType} from "../helpers/productTypes";
 
 const instanceFormData = axios.create({
     baseURL: process.env.BASE_URL,
@@ -31,8 +30,8 @@ export const checkoutAPI = {
 }
 
 export const AuthAPI = {
-    signUp: (data:SignUpType) => instance.post<UserTypeResponse>('/api/auth/register', data),
-    logIn: (data:LogInType ) => instance.post('/api/auth/login', data),
+    signUp: (data:SignUpType) => instance.post('/api/auth/register', data),
+    logIn: (data:LogInType ) => instance.post<UserTypeResponse>('/api/auth/login', data),
     // refresh: () => instance.post('auth/jwt/refresh', null, {headers: getHeaders()}),
 }
 
@@ -54,4 +53,9 @@ export const cartAPI = {
     addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/api/cart/${roomId}`, cart,  {headers: getHeaders()}),
     updateAmount: ( room:string,_id:string, amount:number) => instance.patch<CartAPIResponse[]>(`/api/cart/${room}/${_id}`, {amount:amount},  {headers: getHeaders()}),
     remove: (room:string,_id:string) => instance.delete(`/api/cart/${room}/${_id}`,{headers: getHeaders()}),
+}
+
+export const AdminAPI = {
+    getUsers: () => instance.get<AdminUsersType[]>(`/api/admin/users`, {headers: getHeaders()}),
+    toggleUserEnabled: (_id:string, is_active:boolean) => instance.patch<AdminUsersType>(`/api/admin/user/${_id}`, {is_active}, {headers: getHeaders()}),
 }

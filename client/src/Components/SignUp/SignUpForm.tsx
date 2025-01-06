@@ -1,12 +1,12 @@
 import {Form, Formik} from 'formik';
-import React from 'react';
+import React, {FC, useState} from 'react';
 import {PhoneInput, TextInput} from "../../common/Form";
 import s from './../Login/login.module.sass'
 import {signUpSchema} from "./signUpSchema";
 import {signUp} from "../../api/apiFunctions";
 import {SignUpType} from "../../api/apiTypes";
-import {useDispatch} from "react-redux";
-import {setIsAuth, setUser} from "../../store/reducers/userSlice";
+import modalSt from "../Checkout/checkout.module.sass";
+import {useNavigate} from "react-router-dom";
 
 const initialValues: SignUpType = {
     name: '',
@@ -16,15 +16,19 @@ const initialValues: SignUpType = {
 }
 
 const SignUpForm = () => {
-    const dispatch = useDispatch()
+    const [userSuccessModalIsOpen, setUserSuccessModalIsOpen] = useState<boolean>(false)
+    const navigate = useNavigate()
     return (
         <Formik
             initialValues={initialValues}
             onSubmit={(e) => {
-                signUp(e).then(user => {
-                    if (user) {
-                        dispatch(setIsAuth(true))
-                        dispatch(setUser(user))
+                signUp(e).then(res => {
+                    if (res) {
+                        setUserSuccessModalIsOpen(true)
+                        setTimeout(() => {
+                            setUserSuccessModalIsOpen(false)
+                            navigate('/')
+                        }, 5000)
                     }
                 })
             }}
@@ -36,9 +40,22 @@ const SignUpForm = () => {
                 <PhoneInput type="text" name="phone" label="Phone number"/>
                 <TextInput type={"password"} label={'password'} name={'password'}/>
                 <button type="submit" className={['button yellow'].join(' ')}>Sign Up</button>
+                {userSuccessModalIsOpen && <UserWillBeActivated />}
             </Form>
         </Formik>
     );
 };
 
 export default SignUpForm;
+
+const UserWillBeActivated: FC = () => {
+    return (
+        <div className={modalSt.notificationWrap}>
+            <div className={modalSt.notification}>
+                User will be activated soon<br/>
+                Ask permission from Administrator<br/>
+                mail@milinocabinets.com
+            </div>
+        </div>
+    )
+}
