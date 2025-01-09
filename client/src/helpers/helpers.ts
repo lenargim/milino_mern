@@ -382,7 +382,7 @@ export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, f
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
-export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsDataNumber[]>): boolean => {
+export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
     if (!frameArr || doorType !== 'Micro Shaker') return false
     return !!doorFinishMaterial
 }

@@ -23,7 +23,7 @@ const RoomSchema = new mongoose.Schema({
     type: String,
   },
   door_frame_width: {
-    type: Number
+    type: String
   },
   door_color: {
     type: String

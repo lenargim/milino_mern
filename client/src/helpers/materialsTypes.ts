@@ -26,7 +26,7 @@ export interface drawerType extends materialsData{
 
 export interface doorType extends materialsData {
     finish: finishType[]
-    frame?: materialsDataNumber[],
+    frame?: materialsData[],
 }
 
 export interface finishType extends materialsData{

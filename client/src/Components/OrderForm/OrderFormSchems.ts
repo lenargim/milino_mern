@@ -22,10 +22,8 @@ export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
         .default(''),
     door_finish_material: Yup.string()
         .default(''),
-    door_frame_width: Yup.number()
-        .default(null)
-        .nullable()
-        .positive()
+    door_frame_width: Yup.string()
+        .default('')
         .when('door_type', {
             is: 'Micro Shaker',
             then: schema => schema.required('Please choose Frame width')

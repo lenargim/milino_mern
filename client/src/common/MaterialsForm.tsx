@@ -34,7 +34,7 @@ export type MaterialsFormType = {
     gola: string,
     door_type: string,
     door_finish_material: string,
-    door_frame_width: MaybeNull<number>,
+    door_frame_width: string,
     door_color: string,
     door_grain: string,
     box_material: string,
@@ -51,7 +51,7 @@ export const materialsFormInitial: MaterialsFormType = {
     gola: '',
     door_type: '',
     door_finish_material: '',
-    door_frame_width: null,
+    door_frame_width: '',
     door_color: '',
     door_grain: '',
     box_material: '',
@@ -92,7 +92,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         drawer_color,
         leather
     } = values;
-
     const isLeather = category === 'Leather Closet';
     const isStandardDoor = door_type === 'Standard Door';
     const hasGola = category === 'Kitchen' || category === 'Vanity';
@@ -102,7 +101,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const boxMaterialArr: materialsData[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr)
     const drawerTypesArr = drawers.find(el => el.value === drawer_brand)?.types;
     const drawerColorsArr = drawerTypesArr && drawerTypesArr.find(el => el.value === drawer_type)?.colors
-    const frameArr: materialsDataNumber[] = doors.find(el => el.value === door_type)?.frame ?? [];
+    const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
 
     const prevCategory = usePrevious(category);
@@ -116,7 +115,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
                 gola: '',
                 door_type: '',
                 door_finish_material: '',
-                door_frame_width: null,
+                door_frame_width: '',
                 door_color: '',
                 door_grain: '',
                 box_material: '',
@@ -196,6 +195,8 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             checkCartData(cart, values,dispatch);
         }
     }, [values]);
+
+    console.log(values)
 
     const showCategory = !!(!has_room_field || room_name);
     const showGola = isGolaShown(category, hasGola)

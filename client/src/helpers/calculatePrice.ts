@@ -450,25 +450,35 @@ export function getLedPrice(realWidth: number, realHeight: number, ledBorders: M
     return Math.round(sum)
 }
 
-
 export const getBasePriceType = (doorType: string, doorFinish: string, door_color:string): pricesTypings => {
-    if (!doorType || !doorFinish || doorFinish.includes('No Doors') || (doorType === 'Slab' && doorFinish.includes('Milino'))) return 1
-
-    if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) {
-        const colorType = getBoxMaterialType(door_color, door_color, false);
-        if (colorType === 3) return 1;
-        if (colorType === 4) return 2;
+    if (!doorType || !doorFinish || doorFinish.includes('No Doors')) return 1;
+    if (doorFinish === 'Milino') {
+        if (doorType === 'Slab') {
+            const colorType = getBoxMaterialType(door_color, door_color, false);
+            switch (colorType) {
+                case 4:
+                    return 2;
+                default:
+                    return 1
+            }
+        }
+        return 2;
     }
-
-    if (doorFinish.includes('Syncron') || doorFinish.includes('Milino')) return 2
+    if (doorFinish.includes('Syncron')) return 2
     return 3
 }
 
 export const getFinishCoef = (doorType: string, doorFinish: string, base_price_type: 1 | 2 | 3, door_color: string): number => {
-    if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) {
+    if (doorFinish === 'Milino') {
         const colorType = getBoxMaterialType(door_color, door_color, false);
-        if (colorType === 3) return 1.05;
-        if (colorType === 4) return 1;
+        if (doorType === 'Slab') {
+            switch (colorType) {
+                case 3:
+                    return 1.05;
+                default:
+                    return 1;
+            }
+        }
     }
     if (base_price_type === 1 || !doorType || !doorFinish || doorType === 'Micro Shaker' || doorType === 'Slab') return 1;
     if (doorType === 'Painted') return 1.05;
@@ -516,7 +526,6 @@ export const getBoxMaterialCoef = (isStandard: boolean, box_material_type: BoxMa
 
 export const getBoxMaterialFinishCoef = (doorFinish: string, doorType: string, is_standard_cabinet: boolean, door_color: string): number => {
     if (is_standard_cabinet) return 1;
-    // if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) {
     if (doorFinish === 'Milino') {
         const colorType = getBoxMaterialType(door_color, door_color, false);
         return getBoxMaterialCoef(is_standard_cabinet, colorType)

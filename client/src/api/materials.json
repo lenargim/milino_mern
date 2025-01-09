@@ -3226,6 +3226,66 @@
           ]
         },
         {
+          "value": "Milino",
+          "img": "milino.jpg",
+          "colors": [
+            {
+              "value": "Ash Melamine",
+              "img": "Ash-Melamine-1.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Beige Linen Melamine",
+              "img": "Beige-Linen-Melamine.jpg"
+            },
+            {
+              "value": "Blanco Wood Melamine",
+              "img": "Blanco-Wood-Melamine.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Grey Linen Melamine",
+              "img": "Gray-Linen-Melamine.jpg"
+            },
+            {
+              "value": "Grey Melamine",
+              "img": "Gray-Melamine.jpg"
+            },
+            {
+              "value": "Walnut Melamine",
+              "img": "Walnut-Melamine.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "White Melamine",
+              "img": "White-Melamine.jpg"
+            },
+            {
+              "value": "Brown Oak",
+              "img": "Brown Oak.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ivory Woodline",
+              "img": "Ivory Woodline.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte White",
+              "img": "Ultra Matte White.jpg"
+            }
+          ]
+        },
+        {
           "value": "Ultrapan PET",
           "img": "ultrapan.jpg",
           "colors": [
@@ -3332,15 +3392,15 @@
       ],
       "frame": [
         {
-          "value": 0.75,
+          "value": "0.75",
           "img": "frame0.75.jpg"
         },
         {
-          "value": 1,
+          "value": "1",
           "img": "frame1.jpg"
         },
         {
-          "value": 1.25,
+          "value": "1.25",
           "img": "frame1.25.jpg"
         }
       ]
