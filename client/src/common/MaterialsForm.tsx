@@ -76,6 +76,7 @@ const {
 const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<MaterialsFormType>();
+    console.log(values)
     console.log(errors)
     const {
         room_name,
