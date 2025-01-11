@@ -9,7 +9,7 @@ export type CabinetsMainType = {
 
 const CabinetsMain: FC<CabinetsMainType> = ({materials}) => {
     const {category, door_type, gola} = materials;
-    const isStandardCabinet = door_type === 'Standard Door'
+    const isStandardCabinet = door_type === 'Standard White Shaker'
     const noGola = !gola || gola === 'No Gola'
     if (!category) return <Navigate to={{pathname: '/'}}/>;
     return (

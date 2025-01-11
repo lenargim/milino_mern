@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 
 const initialValues: SignUpType = {
     name: '',
+    company: '',
     email: '',
     phone: '',
     password: ''
@@ -21,6 +22,7 @@ const SignUpForm = () => {
     return (
         <Formik
             initialValues={initialValues}
+            validationSchema={signUpSchema}
             onSubmit={(e) => {
                 signUp(e).then(res => {
                     if (res) {
@@ -32,13 +34,13 @@ const SignUpForm = () => {
                     }
                 })
             }}
-            validationSchema={signUpSchema}
         >
             <Form className={s.login} autoComplete="false">
                 <TextInput type={"text"} label={'Name'} name={'name'}/>
+                <TextInput type={"text"} label={'Company'} name={'company'}/>
                 <TextInput type={"email"} label={'Email'} name={'email'}/>
                 <PhoneInput type="text" name="phone" label="Phone number"/>
-                <TextInput type={"password"} label={'password'} name={'password'}/>
+                <TextInput type={"password"} label={'Password'} name={'password'}/>
                 <button type="submit" className={['button yellow'].join(' ')}>Sign Up</button>
                 {userSuccessModalIsOpen && <UserWillBeActivated />}
             </Form>
@@ -52,9 +54,8 @@ const UserWillBeActivated: FC = () => {
     return (
         <div className={modalSt.notificationWrap}>
             <div className={modalSt.notification}>
-                User will be activated soon<br/>
-                Ask permission from Administrator<br/>
-                mail@milinocabinets.com
+                Thank you for your submission!<br/>
+                We will contact you soon.
             </div>
         </div>
     )

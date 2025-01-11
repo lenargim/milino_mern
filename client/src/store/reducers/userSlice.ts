@@ -11,6 +11,7 @@ export const emptyUser = {
     _id: '',
     email: '',
     name: '',
+    company: '',
     phone: '',
     is_active: false,
     is_super_user: false

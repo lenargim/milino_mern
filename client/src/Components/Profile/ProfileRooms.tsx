@@ -38,8 +38,7 @@ const ProfileRooms: FC = () => {
                             {rooms.map(room => <NavLink key={room._id}
                                                         className={({isActive}) => isActive ? s.linkActive : ''}
                                                         to={`${room._id}`}>{room.room_name}</NavLink>)}
-                            <NavLink className={({isActive}) => isActive ? s.linkActive : ''} to="new">Add Process Order
-                                +</NavLink>
+                            <NavLink className={({isActive}) => isActive ? s.linkActive : ''} to="new">Add PO +</NavLink>
                         </nav>
                         <Outlet context={[rooms]}/>
                     </div>

@@ -42,7 +42,6 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                                                 room_id
                                             }) => {
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
-    const dispatch = useDispatch()
     const jpgCart = cart.map(el => {
         const {product_id, product_type, image_active_number} = el
         const product = product_type !== 'custom'
@@ -119,7 +118,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData);
                         if (serverResponse.status === 201) {
-                            setModal({open: true, status: 'Email was sended!\n\nThank you'})
+                            setModal({open: true, status: 'Email was sent.\\n\\nThank you!'})
                         } else {
                             alert('Email was not sent')
                         }
@@ -135,7 +134,8 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                         <h1>Checkout</h1>
                         <div className={s.block}>
                             {modal.open ? <EmailWasSended status={modal.status} setModal={setModal}/> : null}
-                            <TextInput type="text" name="company" label="Company name"/>
+                            <TextInput type="text" name="name" label="Name"/>
+                            <TextInput type="text" name="company" label="Company"/>
                             <TextInput type="text" name="project" label="Project name"/>
                             <TextInput type="email" name="email" label="E-mail"/>
                             <PhoneInput type="text" name="phone" label="Phone number"/>

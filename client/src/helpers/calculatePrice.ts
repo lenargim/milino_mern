@@ -298,7 +298,7 @@ export function getDoorPrice(square: number, doorPriceMultiplier: number): numbe
 }
 
 export function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
-    const isStandardCabinet = door_type === 'Standard Door'
+    const isStandardCabinet = door_type === 'Standard White Shaker'
     if (!qty) return 0;
 
     switch (drawerBrand) {
@@ -480,7 +480,7 @@ export const getFinishCoef = (doorType: string, doorFinish: string, base_price_t
             }
         }
     }
-    if (base_price_type === 1 || !doorType || !doorFinish || doorType === 'Micro Shaker' || doorType === 'Slab') return 1;
+    if (base_price_type === 1 || !doorType || !doorFinish || doorType === 'Micro Shaker' ) return 1;
     if (doorType === 'Painted') return 1.05;
     if (doorType === 'Slatted') return 1.03
     if (doorFinish === 'Stone') return 1.69
@@ -568,7 +568,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
         box_color
     } = materials;
 
-    const is_standard_cabinet = door_type === "Standard Door";
+    const is_standard_cabinet = door_type === "Standard White Shaker";
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
     const is_leather_closet = category === 'Leather Closet'
 

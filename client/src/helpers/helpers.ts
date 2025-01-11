@@ -373,12 +373,12 @@ export const isDoorTypeShown = (room: MaybeEmpty<RoomType>, gola: string, showGo
 }
 
 export const isDoorFinishShown = (room: MaybeEmpty<RoomType>, doorType: string, finishArr?: finishType[]): boolean => {
-    if (!room || doorType === 'Standard Door') return false
+    if (!room || doorType === 'Standard White Shaker') return false
     return !!(doorType && finishArr?.length)
 }
 
 export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
-    if (doorType === 'Standard Door') return true;
+    if (doorType === 'Standard White Shaker') return true;
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
@@ -415,7 +415,7 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
 
 export const getDoorTypeArr = (doors: doorType[], gola:string) => {
     const noGola = gola === '' || gola === 'No Gola'
-    return noGola ? doors : doors.filter(el => el.value !== 'Standard Door');;
+    return noGola ? doors : doors.filter(el => el.value !== 'Standard White Shaker');
 }
 
 export const getBoxMaterialArr = (category: MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {

@@ -2,6 +2,7 @@ import {OrderType} from "../helpers/productTypes";
 
 type UserDataType = {
     name: string,
+    company: string,
     email: string,
     phone: string,
 }

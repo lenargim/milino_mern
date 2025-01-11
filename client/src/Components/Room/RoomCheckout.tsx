@@ -14,7 +14,8 @@ const RoomCheckout: FC = () => {
     const user: UserType = useAppSelector(state => state.user.user)
 
     const initialValues: CheckoutType = {
-        company: user.name,
+        name: user.name,
+        company: user.company,
         email: user.email,
         project: roomData.room_name,
         phone: user.phone

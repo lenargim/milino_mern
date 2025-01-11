@@ -140,7 +140,8 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
         <Page orientation="landscape" style={s.page}>
             <Image style={s.logo} src={logo}/>
             <View>
-                <Text>Company name: {values.company}</Text>
+                <Text>Name: {values.name}</Text>
+                <Text>Company: {values.company}</Text>
                 <Text>Project: {values.project}</Text>
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>

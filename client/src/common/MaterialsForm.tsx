@@ -76,8 +76,6 @@ const {
 const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<MaterialsFormType>();
-    console.log(values)
-    console.log(errors)
     const {
         room_name,
         gola,
@@ -95,7 +93,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         leather
     } = values;
     const isLeather = category === 'Leather Closet';
-    const isStandardDoor = door_type === 'Standard Door';
+    const isStandardDoor = door_type === 'Standard White Shaker';
     const hasGola = category === 'Kitchen' || category === 'Vanity';
     const doorTypeArr = getDoorTypeArr(doors,gola);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
@@ -219,7 +217,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             {showDoorType && <DataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}
             {showDoorFinish &&
               <DataType data={finishArr} value={door_finish_material} name='door_finish_material'
-                        label="Door Finish Material"/>}
+                        label="Door Finish Material. Price increase from left to right"/>}
             {showDoorFrameWidth &&
               <DataType data={frameArr} value={door_frame_width ?? ''} name='door_frame_width'
                         label="Door Frame Width"/>}

@@ -40,6 +40,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
             <h1>Update Profile</h1>
             <Form className={s.block}>
                 <TextInput type={"text"} label={'Name'} name={'name'}/>
+                <TextInput type={"text"} label={'Company'} name={'company'}/>
                 <TextInput type={"email"} label={'Email'} name={'email'}/>
                 <PhoneInput type="text" label="Phone number" name={'phone'}/>
                 <TextInput type={"password"} label={'password'} name={'password'}/>

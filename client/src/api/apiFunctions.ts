@@ -55,6 +55,7 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
         return {
             _id: res.data._id,
             name: res.data.name,
+            company: res.data.company,
             email: res.data.email,
             phone: res.data.phone,
             is_active: res.data.is_active,
@@ -79,6 +80,7 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
         return {
             _id: res.data._id,
             name: res.data.name,
+            company: res.data.company,
             email: res.data.email,
             phone: res.data.phone,
             is_active: res.data.is_active,

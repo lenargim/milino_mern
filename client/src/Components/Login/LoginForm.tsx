@@ -52,9 +52,7 @@ const UserUnactivated: FC = () => {
     return (
         <div className={modalSt.notificationWrap}>
             <div className={modalSt.notification}>
-                User Is not yet activated<br/>
-                Ask permission from Administrator<br/>
-                mail@milinocabinets.com
+                Your account has not been activated.
             </div>
         </div>
     )

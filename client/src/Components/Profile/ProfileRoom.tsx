@@ -15,7 +15,6 @@ const ProfileRoom: FC = () => {
     const roomData = rooms?.find(room => room._id === roomId);
     const location = useLocation();
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (!roomData || !roomData.cart.length) {
             getOneRoom(roomId || '').then(data => {
@@ -26,7 +25,7 @@ const ProfileRoom: FC = () => {
             })
         }
         // !roomData && navigate('/profile');
-    }, []);
+    }, [roomId]);
 
     const path = location.pathname.slice(1);
     const [open, setOpen] = useState<boolean>(false);
@@ -45,8 +44,8 @@ const ProfileRoom: FC = () => {
                 {isBackToCabinetsShown ?
                     <NavLink to={""}>Back to cabinets</NavLink> : null}
                 {isCartShown ? <MiniCart length={cartLength} link="checkout"/> : null}
-                <NavLink to={'edit'} className="button small yellow">Edit Process Order</NavLink>
-                <button className="button red small" type="button" onClick={() => setOpen(true)}>Delete Process Order
+                <NavLink to={'edit'} className="button small yellow">Edit PO</NavLink>
+                <button className="button red small" type="button" onClick={() => setOpen(true)}>Delete PO
                 </button>
                 {open && <ApproveRemove _id={_id} setOpen={setOpen} room_name={room_name}/>}
             </div>

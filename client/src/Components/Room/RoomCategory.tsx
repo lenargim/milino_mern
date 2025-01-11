@@ -10,7 +10,7 @@ const RoomCategory: FC = () => {
     const [roomData] = useOutletContext<[RoomFront]>()
     const {_id, activeProductCategory: category, category: room, door_type, gola} = roomData;
     if (!room) return null;
-    const isStandardCabinet = door_type === 'Standard Door';
+    const isStandardCabinet = door_type === 'Standard White Shaker';
     const noGola = !gola || gola === 'No Gola'
 
     const {categories, defaultImg} = getSliderCategories(room, noGola, isStandardCabinet);

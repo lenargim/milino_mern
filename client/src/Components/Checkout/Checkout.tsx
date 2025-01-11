@@ -15,6 +15,7 @@ const Checkout = () => {
     if (!materials) return <Navigate to={{pathname: '/'}}/>;
 
     const initialValues: CheckoutType = {
+        name: '',
         company: '',
         email: '',
         project: '',

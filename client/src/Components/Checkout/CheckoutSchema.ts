@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 
 export const CheckoutSchema = Yup.object({
+    name: Yup.string()
+        .required('Please write down your name'),
     company: Yup.string()
         .required('Please write down your company name'),
     project: Yup.string()

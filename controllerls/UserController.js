@@ -25,6 +25,7 @@ export const register = async (req, res) => {
 
     const doc = new UserModel({
       name: req.body.name,
+      company: req.body.company,
       email: req.body.email,
       phone: req.body.phone,
       is_active: false,
@@ -47,7 +48,7 @@ export const register = async (req, res) => {
       from: env.EMAIL_USER,
       to: env.EMAIL_TO,
       subject: "Milino New User",
-      text: `User ${req.body.name} (${req.body.email}). Need to grand permission`,
+      text: `User ${req.body.name} (${req.body.email}).<br>Company name: ${req.body.company}<br>Need to grand permission`,
     };
 
     transporter.sendMail(mailOptions).then((trans) => {
@@ -147,6 +148,7 @@ export const patchMe = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
     const newData = {
       name: req.body.name,
+      company: req.body.company,
       email: req.body.email,
       phone: req.body.phone,
       passwordHash
