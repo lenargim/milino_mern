@@ -117,10 +117,13 @@ const CheckoutForm: FC<CheckoutFormType> = ({
 
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData);
-                        if (serverResponse.status === 201) {
-                            setModal({open: true, status: 'Email was sent.\\n\\nThank you!'})
-                        } else {
-                            alert('Email was not sent')
+                        console.log(serverResponse)
+                        if (serverResponse.data.type === 'send') {
+                            if (serverResponse.status === 201) {
+                                setModal({open: true, status: 'Email was sent. Thank you!'})
+                            } else {
+                                alert('Email was not sent')
+                            }
                         }
                     } catch (e) {
                         alert(e);

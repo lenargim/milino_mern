@@ -8,15 +8,19 @@ export const SendPDF = (req, res) => {
   const pdf = req.files.pdf[0];
   const json = req.files.json[0];
 
-  if (!pdf ) res.status(400).json({
+  if (!pdf) res.status(400).json({
     message: "No pdf in form"
   })
   if (!json) res.status(400).json({
     message: "No json in form"
   })
 
-  if (type === 'download') return res.status(200).send('PDF Download');
-  if (type === 'send') {
+  if (type === 'download') {
+    return res.status(200).json({
+      type,
+      msg: 'PDF Download'
+    });
+  } else if (type === 'send') {
     let transporter = nodemailer.createTransport({
       service: env.EMAIL_SERVICE,
       secure: env.EMAIL_SECURE,
@@ -47,7 +51,7 @@ export const SendPDF = (req, res) => {
 
     transporter.sendMail(mailOptions).then((trans) => {
       res.status(201);
-      res.json(trans);
+      res.json({...trans, type});
       res.end();
     }).catch((error) => {
       res.status(500);

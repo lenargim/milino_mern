@@ -48,7 +48,7 @@ export const register = async (req, res) => {
       from: env.EMAIL_USER,
       to: env.EMAIL_TO,
       subject: "Milino New User",
-      text: `User ${req.body.name} (${req.body.email}).<br>Company name: ${req.body.company}<br>Need to grand permission`,
+      text: `User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}<br>Need to grand permission`,
     };
 
     transporter.sendMail(mailOptions).then((trans) => {
