@@ -211,7 +211,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
 
     return (
         <Form className={s.roomForm}>
-            {has_room_field && <TextInput type={"text"} label={"Process Order Name"} name="room_name" autoFocus={true}/>}
+            {has_room_field && <TextInput type={"text"} label={"purchase order Name"} name="room_name" autoFocus={true}/>}
             {showCategory && <DataType data={categories} value={category ?? ''} name="category" label="Category"/>}
             {showGola && <DataType data={golaArr} value={gola ?? ''} name="gola" label="Gola"/>}
             {showDoorType && <DataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}

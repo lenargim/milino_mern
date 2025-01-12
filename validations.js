@@ -12,7 +12,7 @@ export const loginValidation = [
 ]
 
 export const roomCreateValidation = [
-  body('room_name', 'Process Order name min 2 symbols').isLength({min: 2})
+  body('room_name', 'purchase order name min 2 symbols').isLength({min: 2})
 ]
 
 

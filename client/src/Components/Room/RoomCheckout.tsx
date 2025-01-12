@@ -1,5 +1,4 @@
-import React, {FC} from 'react';
-import {CheckoutType} from "../../helpers/types";
+import React, {FC, useEffect, useState} from 'react';
 import {useOutletContext} from "react-router-dom";
 import {RoomTypeAPI} from "../../store/reducers/roomSlice";
 import CheckoutForm from "../Checkout/CheckoutForm";
@@ -11,15 +10,25 @@ const RoomCheckout: FC = () => {
     const {_id, cart, ...materials} = roomData
     const cartFront = getCartArrFront(cart, roomData)
     const total = getCartTotal(cartFront);
-    const user: UserType = useAppSelector(state => state.user.user)
 
-    const initialValues: CheckoutType = {
+    const user: UserType = useAppSelector(state => state.user.user);
+    const [initialValues, setInitialValues] = useState({
         name: user.name,
         company: user.company,
         email: user.email,
-        project: roomData.room_name,
-        phone: user.phone
-    }
+        phone: user.phone,
+        project: roomData.room_name
+    })
+    useEffect(() => {
+        setInitialValues({
+            ...initialValues,
+            name: user.name,
+            company: user.company,
+            email: user.email,
+            phone: user.phone
+        })
+    }, [user])
+
     return (
         <div>
             <CheckoutForm cart={cartFront} total={total} materials={materials} initialValues={initialValues} room_id={_id}/>

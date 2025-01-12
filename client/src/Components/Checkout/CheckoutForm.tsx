@@ -1,9 +1,9 @@
-import React, {Dispatch, FC, useRef, useState} from 'react';
+import React, {Dispatch, FC, useEffect, useRef, useState} from 'react';
 import {
     getCartItemImg,
     getCustomPartById,
     getMaterialStrings,
-    getProductById,
+    getProductById, useAppSelector,
 } from "../../helpers/helpers";
 import {Form, Formik, FormikProps} from 'formik';
 import {PhoneInput, TextInput} from "../../common/Form";
@@ -19,7 +19,6 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 import {MaybeNull, OrderType} from "../../helpers/productTypes";
 import {CartItemType} from "../../api/apiFunctions";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
@@ -30,7 +29,7 @@ type CheckoutFormType = {
     cart: CartItemType[],
     total: number,
     materials: MaterialsFormType,
-    initialValues: CheckoutType,
+    initialValues:CheckoutType,
     room_id?: string
 }
 
@@ -38,9 +37,10 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                                                 cart,
                                                 total,
                                                 materials,
-                                                initialValues,
-                                                room_id
+                                                room_id,
+                                                initialValues
                                             }) => {
+
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
     const jpgCart = cart.map(el => {
         const {product_id, product_type, image_active_number} = el
@@ -63,6 +63,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
         }
     }
     const materialStrings = getMaterialStrings(materials);
+    if (!initialValues.email) return null;
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
@@ -117,7 +118,6 @@ const CheckoutForm: FC<CheckoutFormType> = ({
 
                     try {
                         const serverResponse = await checkoutAPI.postEmail(formData);
-                        console.log(serverResponse)
                         if (serverResponse.data.type === 'send') {
                             if (serverResponse.status === 201) {
                                 setModal({open: true, status: 'Email was sent. Thank you!'})

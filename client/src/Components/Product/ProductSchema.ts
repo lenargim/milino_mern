@@ -66,10 +66,10 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-max",
-                        `Indent should be lower than Cabinet Depth`,
+                        `Indent should be lower than Depth`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
-                            const fullDepth = parent['Depth Number'] || parent['Custom Depth Number'];
+                            const fullDepth = parent['Depth'] || parent['Custom Depth'];
                             return numberVal < fullDepth
                         }
                     )

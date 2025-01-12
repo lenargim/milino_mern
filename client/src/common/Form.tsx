@@ -6,7 +6,6 @@ import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
 import {getFraction} from "../helpers/helpers";
 import { numericQuantity } from 'numeric-quantity';
-import {MaybeNull} from "../helpers/productTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -94,6 +93,8 @@ export const PhoneInput: FC<textInputInterface> = ({
         <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
             <Field name={name}>
                 {() => <Input
+                    international={false}
+                    countryselectprops={{ unicodeFlags: false }}
                     country="US"
                     onChange={(value) => {
                         helpers.setValue(value);

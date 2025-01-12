@@ -7,11 +7,11 @@ export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<MaterialsF
     return (
         Yup.object({
             room_name: Yup.string()
-                .required('Enter Process Order name')
+                .required('Enter purchase order name')
                 .notOneOf(reservedNames, 'Name should be unique')
                 .min(2, 'Min 2 symbols')
                 .default('')
-                .defined('Enter Process Order name'),
+                .defined('Enter purchase order name'),
             category: Yup.string()
                 .oneOf(roomCategories)
                 .defined()

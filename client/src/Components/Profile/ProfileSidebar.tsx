@@ -14,7 +14,7 @@ const ProfileSidebar = () => {
                 {user.is_super_user &&
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/admin">Admin</NavLink>
                 }
-                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">Process Orders</NavLink>
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">purchase orders</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
                 <button type="button" onClick={logout}>Log out</button>
             </aside>

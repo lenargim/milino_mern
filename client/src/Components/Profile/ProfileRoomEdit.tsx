@@ -31,7 +31,7 @@ const ProfileRoomEdit: FC = () => {
                         }
                     })
                 }}>
-            <MaterialsForm button="Edit Process Order" has_room_field={room.room_name !== null && true} />
+            <MaterialsForm button="Edit purchase order" has_room_field={room.room_name !== null && true} />
         </Formik>
     );
 };

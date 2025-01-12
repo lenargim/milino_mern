@@ -4,11 +4,8 @@ import {getFraction} from "../../helpers/helpers";
 import {CartItemType} from "../../api/apiFunctions";
 import Dimentions from "../../common/Dimentions";
 
-const CartItemProduct: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
+const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({product, dimentions}) => {
     const {
-        width,
-        depth,
-        height,
         middle_section,
         blind_width,
         hinge,
@@ -19,22 +16,23 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions:string }> = ({prod
         shelf_option,
         led_border,
         led_alignment,
-        led_indent
+        led_indent,
+        isStandard
     } = product
     return (
         <>
-            <Dimentions dimentions={dimentions}/>
+            <Dimentions dimentions={dimentions} isStandard={isStandard.dimensions}/>
             {blind_width ?
-                <div className={s.itemOption}>
+                <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom:''].join(' ')}>
                     <span>Blind Width:</span>
-                    <span>{getFraction(blind_width)}</span>
+                    <span>{getFraction(blind_width)}"</span>
                 </div>
                 : null}
 
             {middle_section ?
-                <div className={s.itemOption}>
+                <div className={[s.itemOption, !isStandard.middle ? s.itemOptionCustom:''].join(' ')}>
                     <span>Middle Section Height:</span>
-                    <span>{getFraction(middle_section)}</span>
+                    <span>{getFraction(middle_section)}"</span>
                 </div> : null
             }
             {hinge ?
@@ -43,7 +41,7 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions:string }> = ({prod
                     <span>{hinge}</span>
                 </div> : null}
             {led_border.length ?
-                <div className={s.itemOption}>
+                <div className={[s.itemOption, !isStandard.led ? s.itemOptionCustom:''].join(' ')}>
                     <span>LED:</span>
                     <span>{`${led_border.map(el => el)}. ${led_alignment} ${led_indent ? led_indent + '"' : ''}`}</span>
                 </div> : null
@@ -65,21 +63,21 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions:string }> = ({prod
                 <>
                     <div>Options:</div>
                     {options.includes('Glass Door') ?
-                        <div className={s.itemOption}>
+                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Door:</span>
                             <span>{door_option.join('|')}</span>
                         </div> : null
                     }
 
                     {options.includes('Glass Shelf') ?
-                        <div className={s.itemOption}>
+                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Shelf:</span>
                             <span>{shelf_option.join('|')}</span>
                         </div> : null
                     }
 
                     {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
-                        <div className={s.itemOption} key={index}>
+                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')} key={index}>
                             <span>{el}:</span>
                             <span>True</span>
                         </div>)}

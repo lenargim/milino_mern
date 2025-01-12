@@ -31,7 +31,7 @@ const ProfileRooms: FC = () => {
     return (
         <div className={s.rooms}>
             <div className={s.roomsMain}>
-                <h1 ref={scrollToRef}>Process Orders</h1>
+                <h1 ref={scrollToRef}>purchase orders</h1>
                 {rooms.length ?
                     <div>
                         <nav className={s.nav}>

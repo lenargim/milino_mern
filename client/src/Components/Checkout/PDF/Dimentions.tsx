@@ -3,10 +3,10 @@ import {getFraction} from "../../../helpers/helpers";
 import {Text, View} from "@react-pdf/renderer";
 import {s} from "../PDF";
 
-const Dimentions: FC<{ width: number | undefined, depth: number | undefined, height: number | undefined }> = ({
+const Dimentions: FC<{ width: number | undefined, depth: number | undefined, height: number | undefined,isStandard?: boolean }> = ({
                                                                                                                   width,
                                                                                                                   depth,
-                                                                                                                  height
+                                                                                                                  height, isStandard
                                                                                                               }) => {
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? `${getFraction(height)}"H` : '';
@@ -15,7 +15,7 @@ const Dimentions: FC<{ width: number | undefined, depth: number | undefined, hei
     return (
         <View>
             {widthPart || heightPart || depthPart ?
-                <View style={s.itemOption}>
+                <View style={!isStandard ? s.itemOptionCustom:s.itemOption}>
                     <Text>{dimentions}</Text>
                 </View> : null
             }

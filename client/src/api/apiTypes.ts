@@ -1,6 +1,6 @@
 import {OrderType} from "../helpers/productTypes";
 
-type UserDataType = {
+export type UserDataType = {
     name: string,
     company: string,
     email: string,

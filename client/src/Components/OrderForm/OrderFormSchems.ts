@@ -6,7 +6,7 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 export const OrderFormSchema: ObjectSchema<MaterialsFormType> = Yup.object({
     room_name: Yup.string()
         .default(null)
-        .defined('Enter Process Order name')
+        .defined('Enter purchase order name')
         .nullable(),
     category: Yup.string()
         .oneOf(roomCategories)

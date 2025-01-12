@@ -21,22 +21,22 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
         shelf_option,
         led_border,
         led_alignment,
-        led_indent
+        led_indent,
+        isStandard
     } = product;
 
     return (
         <View>
-            <Dimentions width={width} depth={depth} height={height}/>
-
+            <Dimentions width={width} depth={depth} height={height} isStandard={isStandard.dimensions}/>
             {blind_width ?
-                <View style={s.itemOption}>
-                    <Text>Blind Width: {getFraction(blind_width)}</Text>
+                <View style={!isStandard.blind ? s.itemOptionCustom:s.itemOption}>
+                    <Text>Blind Width: {getFraction(blind_width)}"</Text>
                 </View>
                 : null}
 
             {middle_section ?
-                <View style={s.itemOption}>
-                    <Text>Middle Section Height: {getFraction(middle_section)}</Text>
+                <View style={!isStandard.middle ? s.itemOptionCustom:s.itemOption}>
+                    <Text>Middle Section Height: {getFraction(middle_section)}"</Text>
                 </View> : null
             }
             {hinge ?
@@ -44,7 +44,7 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
                     <Text>Hinge opening: {hinge}</Text>
                 </View> : null}
             {led_border.length ?
-                <View style={s.itemOption}>
+                <View style={!isStandard.led ? s.itemOptionCustom:s.itemOption}>
                     <Text>LED: {`${led_border.map(el => el)}. ${led_alignment} ${led_indent ? led_indent + '"' : ''}`}</Text>
                 </View> : null
             }
@@ -62,19 +62,19 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
                 <View>
                     <View style={s.itemOption}>Options:</View>
                     {options.includes('Glass Door') ?
-                        <View style={s.itemOption}>
+                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
                             <Text>Glass Door: {door_option.join('|')}</Text>
                         </View> : null
                     }
 
                     {options.includes('Glass Shelf') ?
-                        <View style={s.itemOption}>
+                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
                             <Text>Glass Shelf: {shelf_option.join('|')}</Text>
                         </View> : null
                     }
 
                     {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
-                        <View style={s.itemOption} key={index}>
+                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption} key={index}>
                             <Text>{el}</Text>
                         </View>)}
                 </View> : null

@@ -40,7 +40,7 @@ const ProfileRoom: FC = () => {
     return (
         <div>
             <div className={s.roomRow}>
-                <span className={s.name}>Process Order: {room_name}</span>
+                <span className={s.name}>purchase order: {room_name}</span>
                 {isBackToCabinetsShown ?
                     <NavLink to={""}>Back to cabinets</NavLink> : null}
                 {isCartShown ? <MiniCart length={cartLength} link="checkout"/> : null}

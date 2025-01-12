@@ -156,7 +156,6 @@ export type CartAPI = {
     led_alignment: string,
     led_indent: string,
     leather: string,
-
     material?: string,
     glass_door?: string[],
     glass_shelf?: string,
@@ -181,7 +180,15 @@ export interface CartItemType extends CabinetItemType {
     room: MaybeNull<string>,
     subcategory: string,
     price: number,
-    isStandardSize: boolean,
+    isStandard: IsStandardOptionsType
+}
+
+export type IsStandardOptionsType = {
+    dimensions: boolean,
+    blind: boolean,
+    middle: boolean,
+    led: boolean,
+    options: boolean
 }
 
 export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) => {
@@ -191,7 +198,6 @@ export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) 
             room,
             subcategory,
             price,
-            isStandardSize,
             image_active_number,
             led_accessories,
             ...data

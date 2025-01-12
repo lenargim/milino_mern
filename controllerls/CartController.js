@@ -13,7 +13,7 @@ export const addToCart = async (req, res) => {
 
     if (!doc) {
       return res.status(404).json({
-        message: 'Process Order not found'
+        message: 'purchase order not found'
       })
     }
 

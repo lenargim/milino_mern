@@ -3,7 +3,7 @@ import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer
 import {CheckoutType} from "../../helpers/types";
 import {
     getCartItemImgPDF,
-    getCartTotal,
+    getCartTotal, getCustomCabinetString,
     getCustomPartById,
     getProductById
 } from "../../helpers/helpers";
@@ -116,6 +116,10 @@ export const s = StyleSheet.create({
     itemOption: {
         fontSize: '12px'
     },
+    itemOptionCustom: {
+        fontSize: '12px',
+        color: '#CB4141'
+    },
     blocks: {
         display: "flex",
         flexDirection: "column",
@@ -127,7 +131,7 @@ export const s = StyleSheet.create({
     },
     non: {
         fontSize: '14px',
-        color: 'red'
+        color: '#CB4141'
     }
 })
 
@@ -164,7 +168,7 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
                     <View style={s.th4}><Text>Product total</Text></View>
                 </View>
                 {cart.map((el, index) => {
-                    const {product_id, product_type, image_active_number, isStandardSize} = el;
+                    const {product_id, product_type, image_active_number, isStandard} = el;
                     const product = product_type !== 'custom'
                         ? getProductById(product_id, product_type === 'standard')
                         : getCustomPartById(product_id);
@@ -178,9 +182,9 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
                                 <Image src={img}/>
                             </View>
                             <View style={s.data}>
-                                <Text style={s.itemName}>{name}</Text>
-                                {/*<Text style={s.category}>{category}</Text>*/}
-                                {!isStandardSize && <Text style={s.non}>Non-standard size</Text>}
+                                <Text style={s.itemName}>
+                                    <Text>{name}</Text> {getCustomCabinetString(isStandard) && <Text style={s.non}>{getCustomCabinetString(isStandard)}</Text>}
+                                </Text>
                                 <CartItemOptions item={el}/>
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}
                             </View>

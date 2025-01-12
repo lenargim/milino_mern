@@ -20,4 +20,3 @@ const CheckoutCart: FC<{ cart: CartItemType[], total:number, room_id: MaybeUndef
 };
 
 export default CheckoutCart;
-

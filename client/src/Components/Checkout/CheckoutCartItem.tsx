@@ -1,7 +1,13 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
 import {updateProductAmount} from "../../store/reducers/generalSlice";
-import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
+import {
+    getCartItemImg,
+    getCustomCabinetString,
+    getCustomPartById,
+    getProductById,
+    useAppDispatch
+} from "../../helpers/helpers";
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import {CartItemType, updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Product/CartItemOptions";
@@ -16,7 +22,7 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
         amount,
         note,
         product_id,
-        isStandardSize,
+        isStandard,
         image_active_number,
         product_type
     } = el;
@@ -45,13 +51,12 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
             <div>
                 <div className={s.itemName}>
                     <span>{name}</span>
-                    {/*<span className={s.category}>{category}</span>*/}
-                    {!isStandardSize && <span className={s.non}>Non-standard size</span>}
+                    {getCustomCabinetString(isStandard) && <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
                 </div>
                 <div>
                     <CartItemOptions item={el}/>
                 </div>
-                {note ? <div className={s.note}>*{note}</div> : null}
+                {note && <div className={s.note}>*{note}</div>}
             </div>
             <div className={s.itemPrice}>{price}$</div>
             <div className={s.buttons}>

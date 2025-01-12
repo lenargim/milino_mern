@@ -31,7 +31,7 @@ import {
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
 import {ledAlignmentType} from "../Components/Product/LED";
-import {CabinetItemType, CartAPIResponse, CartItemType} from "../api/apiFunctions";
+import {CabinetItemType, CartAPIResponse, CartItemType, IsStandardOptionsType} from "../api/apiFunctions";
 import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
 import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
@@ -209,14 +209,51 @@ export const getLimit = (d: number[] | undefined): number => {
     return d ? d[0] : 0
 }
 
-export const getIsProductStandard = (productRange: productRangeType, width: number, height: number, depth: number): boolean => {
-    if (!productRange.widthRange.includes(width)) return false;
-    if (!productRange.heightRange.includes(height)) return false;
-    return productRange.depthRange.includes(depth);
+export const getIsProductStandard = (productRange: productRangeType, width: number, height: number, depth: number, blind_width: number, middle_section: number, options: string[], led_border: string[], product: ProductType): boolean => {
+    const {isAngle, isBlind, blindArr, middleSectionDefault, hasMiddleSection} = product;
+    return checkDimensionsStandard(productRange, width, height, depth, isAngle)
+        && checkBlindStandard(isBlind, blind_width, blindArr)
+        && checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
+        && checkOptionsSelected(options)
+        && checkLedSelected(led_border)
+}
+
+export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: AngleType): boolean => {
+    return checkWidthStandard(productRange, width)
+        && checkHeightStandard(productRange, height)
+        && checkDepthStandard(productRange, depth, isAngle)
+}
+
+export const checkWidthStandard = (productRange: productRangeType, width: number): boolean => {
+    return productRange.widthRange.includes(width)
+}
+export const checkHeightStandard = (productRange: productRangeType, height: number): boolean => {
+    return productRange.heightRange.includes(height)
+}
+export const checkDepthStandard = (productRange: productRangeType, depth: number, isAngle: AngleType): boolean => {
+    return !isAngle ? productRange.depthRange.includes(depth) : true;
+}
+export const checkBlindStandard = (isBlind: boolean, blind_width: number, blindArr?: number[]): boolean => {
+    if (!isBlind) return true;
+    return blindArr ? blindArr.includes(blind_width) : false;
+}
+export const checkMiddleSectionStandard = (hasMiddleSection: MaybeUndefined<true>, middleSectionDefault: MaybeUndefined<number>, middle_section: number): boolean => {
+    if (!hasMiddleSection) return true;
+    return middle_section === middleSectionDefault;
+}
+export const checkOptionsSelected = (options: string[]): boolean => {
+    return !options.length
+}
+export const checkLedSelected = (led: string[]): boolean => {
+    return !led.length
+}
+
+export const getCustomCabinetString = (isStandard: IsStandardOptionsType):string => {
+    return Object.values(isStandard).includes(false) ? 'Custom':'';
 }
 
 export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>, materialData: materialDataType): CartItemType => {
-    const {id, product_type, category} = product
+    const {id, product_type, category, isAngle, middleSectionDefault, hasMiddleSection, isBlind, blindArr} = product
     const {leather} = materialData
     const {
         'Width': width,
@@ -259,7 +296,13 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         subcategory: category,
         price,
         image_active_number,
-        isStandardSize: getIsProductStandard(productRange, realW, realH, realD),
+        isStandard: {
+            dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
+            blind: checkBlindStandard(isBlind, blindWidth || 0, blindArr),
+            led: checkLedSelected(ledBorders),
+            options: checkOptionsSelected(chosenOptions),
+            middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middleSection || 0)
+        },
         product_type: product_type,
         amount: 1,
         width: realW,
@@ -305,7 +348,13 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         subcategory: type,
         room: roomId || null,
         price,
-        isStandardSize: true,
+        isStandard: {
+            dimensions: true,
+            led: true,
+            blind: true,
+            middle: true,
+            options: true
+        },
         image_active_number: 1,
         product_id: id,
         product_type: "custom",
@@ -413,7 +462,7 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
         finishArr?.find(el => el.value === doorFinishMaterial)?.colors
 }
 
-export const getDoorTypeArr = (doors: doorType[], gola:string) => {
+export const getDoorTypeArr = (doors: doorType[], gola: string) => {
     const noGola = gola === '' || gola === 'No Gola'
     return noGola ? doors : doors.filter(el => el.value !== 'Standard White Shaker');
 }
@@ -509,25 +558,25 @@ export const getMaterialStrings = (materials: MaterialsFormType): MaterialString
     }
 }
 
-const materialsStringify = (materialsArr: (string|number|null)[]): string => {
+const materialsStringify = (materialsArr: (string | number | null)[]): string => {
     return materialsArr.filter(el => !!el).join(', ')
 }
 
 export const getSquare = (doorWidth: number, doorHeight: number): number => {
-    return +((doorWidth*doorHeight) / 144).toFixed(2)
+    return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number,blind_width:number, isAngle:AngleType,isWallCab:boolean):number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: AngleType, isWallCab: boolean): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
-    const blindCorner = isWallCab ? 13.5:24;
+    const blindCorner = isWallCab ? 13.5 : 24;
     const a = realWidth - blindCorner;
-    if (a <= 0) return +(Math.sqrt(2*Math.pow(realWidth, 2))).toFixed(2);
+    if (a <= 0) return +(Math.sqrt(2 * Math.pow(realWidth, 2))).toFixed(2);
     switch (isAngle) {
         case "flat":
-            return +(Math.sqrt(2*Math.pow(a, 2))).toFixed(2)
+            return +(Math.sqrt(2 * Math.pow(a, 2))).toFixed(2)
         case "corner":
-            return a*2;
+            return a * 2;
     }
     return 0
 }
@@ -577,7 +626,10 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
         depth,
         options,
         hinge,
-        product_type
+        product_type,
+        blind_width,
+        middle_section,
+        led_border
     } = item;
 
     const product = getProductById(product_id, product_type === 'standard')
@@ -587,7 +639,12 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
         widthDivider,
         attributes,
         customHeight,
-        customDepth
+        customDepth,
+        hasMiddleSection,
+        isAngle,
+        isBlind,
+        middleSectionDefault,
+        blindArr
     } = product
 
     const {
@@ -635,7 +692,14 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
         subcategory: category,
         price: totalPrice,
         image_active_number,
-        isStandardSize: getIsProductStandard(productRange, width, height, depth),
+        isStandard: {
+            dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
+            blind: checkBlindStandard(isBlind, blind_width, blindArr),
+            led: checkLedSelected(led_border),
+            options: checkOptionsSelected(options),
+            middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
+        },
+        // isStandardSize: getIsProductStandard(productRange, width, height, depth, blind_width, middle_section, options, led_border, product),
     }
 };
 
@@ -711,7 +775,13 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         _id: _id,
         subcategory: type,
         room: roomId,
-        isStandardSize: true,
+        isStandard: {
+            dimensions: true,
+            led: true,
+            blind: true,
+            middle: true,
+            options: true
+        },
         image_active_number: 1,
         product_id: product_id,
         product_type: "custom",
@@ -820,7 +890,7 @@ export const logout = () => {
 }
 
 
-export const formatDateToText = (dateApi:Date):string => {
+export const formatDateToText = (dateApi: Date): string => {
     const date = new Date(dateApi);
     const options: Intl.DateTimeFormatOptions = {
         weekday: 'long',

@@ -1,12 +1,5 @@
 import React, {FC} from "react";
-import CartItemProductExtra from "./CartItemProduct";
 import CartItemCustom from "./CartItemCustom";
-import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
-import CartItemPVCExtra from "./CartItemPVCExtra";
-import CartItemLEDExtra from "./CartItemLEDExtra";
-import CartItemDoorExtra from "./CartItemDoorExtra";
-import CartItemShelfExtra from "./CartItemShelfExtra";
-// import CartItemDoor from "./CartItemDoor";
 import {View} from "@react-pdf/renderer";
 import {CartItemType} from "../../../api/apiFunctions";
 import CartItemProduct from "./CartItemProduct";
