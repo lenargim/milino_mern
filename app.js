@@ -10,7 +10,8 @@ import {checkAuth, checkAdmin, handleValidationErrors} from './utils/index.js'
 import * as dotenv from 'dotenv';
 
 const env = dotenv.config().parsed;
-mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@cluster0.fwqst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+// mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@cluster0.fwqst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
   .then(() => console.log('DB is OK'))
   .catch((err) => console.log('DB error', err))
 const app = express();
