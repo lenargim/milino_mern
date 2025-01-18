@@ -7,7 +7,7 @@ import s from './login.module.sass'
 
 const Login = () => {
     return (
-        <div className="wrap">
+        <main className="wrap">
             <Header/>
             <div className={s.loginWrap}>
                 <h1 className="h1">Login</h1>
@@ -16,7 +16,7 @@ const Login = () => {
                 <NavLink to='/signup'>Sign Up here</NavLink> if you don't have account
                 </span>
             </div>
-        </div>
+        </main>
 
     );
 };

@@ -7,7 +7,7 @@ import {NavLink} from "react-router-dom";
 
 const SignUp = () => {
     return (
-        <div className="wrap">
+        <main className="wrap">
             <Header/>
             <div className={s.loginWrap}>
                 <h1 className="h1">SignUp</h1>
@@ -16,7 +16,7 @@ const SignUp = () => {
                 <NavLink to='/'>Back to Login</NavLink>
                 </span>
             </div>
-        </div>
+        </main>
 
     );
 };

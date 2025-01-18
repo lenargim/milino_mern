@@ -6,12 +6,12 @@ import ProfileSidebar from "./ProfileSidebar";
 
 const Profile: FC = () => {
     return (
-        <div className={s.profile}>
+        <main className={s.profile}>
             <ProfileSidebar/>
-            <main>
+            <div>
                 <Outlet/>
-            </main>
-        </div>
+            </div>
+        </main>
     );
 };
 

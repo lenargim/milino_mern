@@ -20,6 +20,7 @@ import RoomCategory from "./Components/Room/RoomCategory";
 import RoomCustomPart from "./Components/Room/RoomCustomPart";
 import RoomCheckout from "./Components/Room/RoomCheckout";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
+import Footer from "./common/Footer/Footer";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -83,6 +84,7 @@ function App() {
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
+            <Footer />
         </div>
     );
 }
