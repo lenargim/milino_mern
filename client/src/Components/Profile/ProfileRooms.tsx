@@ -1,4 +1,4 @@
-import React, {FC, MutableRefObject, useEffect, useRef} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import s from './profile.module.sass'
 import {NavLink, Outlet, useLocation} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
@@ -31,7 +31,7 @@ const ProfileRooms: FC = () => {
     return (
         <div className={s.rooms}>
             <div className={s.roomsMain}>
-                <h1 ref={scrollToRef}>purchase orders</h1>
+                <h1 ref={scrollToRef}>Purchase orders</h1>
                 {rooms.length ?
                     <div>
                         <nav className={s.nav}>

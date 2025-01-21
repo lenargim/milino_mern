@@ -18,13 +18,9 @@ const ProfileRoom: FC = () => {
     useEffect(() => {
         if (!roomData || !roomData.cart.length) {
             getOneRoom(roomId || '').then(data => {
-                // if (data) {
-                //     dispatch(setRoom(data));
-                // }
                 data ? dispatch(setRoom(data)) : navigate('/profile');
             })
         }
-        // !roomData && navigate('/profile');
     }, [roomId]);
 
     const path = location.pathname.slice(1);
