@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC, useState} from 'react';
-import {PhoneInput, TextInput} from "../../common/Form";
+import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import s from './../Login/login.module.sass'
 import {signUpSchema} from "./signUpSchema";
 import {signUp} from "../../api/apiFunctions";
@@ -13,7 +13,8 @@ const initialValues: SignUpType = {
     company: '',
     email: '',
     phone: '',
-    password: ''
+    password: '',
+    compare: '',
 }
 
 const SignUpForm = () => {
@@ -40,7 +41,8 @@ const SignUpForm = () => {
                 <TextInput type={"text"} label={'Company'} name={'company'}/>
                 <TextInput type={"email"} label={'Email'} name={'email'}/>
                 <PhoneInput type="text" name="phone" label="Phone number"/>
-                <TextInput type={"password"} label={'Password'} name={'password'}/>
+                <PasswordInput type={"password"} label={'Password'} name={'password'}/>
+                <PasswordInput type={"password"} label={'Confirm password'} name={'compare'}/>
                 <button type="submit" className={['button yellow'].join(' ')}>Sign Up</button>
                 {userSuccessModalIsOpen && <UserWillBeActivated />}
             </Form>

@@ -1,11 +1,13 @@
-import {FC, useEffect} from "react";
+import {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
 import {useField, ErrorMessage, Field} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
 import {getFraction} from "../helpers/helpers";
-import { numericQuantity } from 'numeric-quantity';
+import {numericQuantity} from 'numeric-quantity';
+import EyeOff from "../assets/img/Eye-Off";
+import EyeOn from "../assets/img/Eye-on";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -23,14 +25,24 @@ interface InputInterface {
 
 interface textInputInterface extends InputInterface {
     disabled?: boolean,
-    type: 'text' | 'number' | 'email' | 'password' | 'date',
+    type: 'text' | 'number' | 'email' | 'date',
     label: string,
-    [x:string]: any;
+
+    [x: string]: any;
+}
+
+
+interface PasswordInputInterface extends InputInterface {
+    type: 'text' | 'password',
+    label: string,
+
+    // eyed: boolean,
+    [x: string]: any;
 }
 
 interface RadioInterface extends InputInterface {
     img?: string,
-    value: string|number,
+    value: string | number,
     checked?: boolean,
 }
 
@@ -78,6 +90,40 @@ export const TextInput: FC<textInputInterface> = ({
     );
 };
 
+
+export const PasswordInput: FC<PasswordInputInterface> = ({
+                                                              className = '',
+                                                              name,
+                                                              label,
+                                                              ...props
+                                                          }) => {
+    const [field, meta, helpers] = useField(name);
+    const {error, touched} = meta;
+    const length = field?.value?.length ?? 0;
+    const [eyeIsOn, setEyeIsOn] = useState<boolean>(true)
+
+    function handleChange() {
+        setEyeIsOn(!eyeIsOn);
+    }
+
+    return (
+        <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
+            {<button tabIndex={-1} type="button" onClick={handleChange} className={styles.eye}>{eyeIsOn ? <EyeOff/> : <EyeOn/>}</button>}
+            <Field
+                {...props}
+                className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
+                type={eyeIsOn ? 'password' : 'text'}
+                name={name}
+                id={name}
+                onFocus={(e: any) => handleFocus(e.target)}
+                onBlur={(e: any) => handleBlur(e.target, helpers.setTouched)}
+            />
+            <label className={styles.label} htmlFor={name}>{label}</label>
+            <ErrorMessage name={name} component="div" className={styles.error}/>
+        </div>
+    );
+};
+
 export const PhoneInput: FC<textInputInterface> = ({
                                                        className = '',
                                                        name,
@@ -94,7 +140,7 @@ export const PhoneInput: FC<textInputInterface> = ({
             <Field name={name}>
                 {() => <Input
                     international={false}
-                    countryselectprops={{ unicodeFlags: false }}
+                    countryselectprops={{unicodeFlags: false}}
                     country="US"
                     onChange={(value) => {
                         helpers.setValue(value);
@@ -122,7 +168,7 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
         <div className={[className, styles.checkboxSelect].join(' ')}>
             <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
-                <img src={img} alt={value.toString()} />
+                <img src={img} alt={value.toString()}/>
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
@@ -141,7 +187,7 @@ export const RadioInputGrain: FC<RadioInterface> = ({name, value, className, img
             <Field type="radio" checked={checked} onChange={(e: any) => handleChange(e.target)} name={name}
                    value={value} id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
-                <img src={img} alt={value.toString()} />
+                <img src={img} alt={value.toString()}/>
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
@@ -211,16 +257,15 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
 }
 
 
-
 export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
-                                                                                                   name,
-                                                                                                   label
-                                                                                               }) => {
+                                                                             name,
+                                                                             label
+                                                                         }) => {
     const [field] = useField(name);
     const [fieldNumber, , helpers] = useField(name + ' Number');
-    const result = numericQuantity(field.value ) || '';
+    const result = numericQuantity(field.value) || '';
     useEffect(() => {
-        if ( fieldNumber.value !== result) helpers.setValue(result);
+        if (fieldNumber.value !== result) helpers.setValue(result);
     }, [result])
 
     return (

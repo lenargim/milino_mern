@@ -2,7 +2,7 @@ import {Form, Formik,} from 'formik';
 import React, {FC, useEffect, useState} from 'react';
 import {signUpSchema} from "../SignUp/signUpSchema";
 import s from './profile.module.sass'
-import {PhoneInput, TextInput} from "../../common/Form";
+import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import {EditProfileType, UserType} from "../../api/apiTypes";
 import {updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
@@ -43,7 +43,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
                 <TextInput type={"text"} label={'Company'} name={'company'}/>
                 <TextInput type={"email"} label={'Email'} name={'email'}/>
                 <PhoneInput type="text" label="Phone number" name={'phone'}/>
-                <TextInput type={"password"} label={'password'} name={'password'}/>
+                <PasswordInput type={"password"} label={'password'} name={'password'}/>
                 <button type="submit" className={['button yellow', isUpdated ? s.updated : ''].join(' ')}
                         disabled={isDisabled}>
                     {isUpdated ? 'Updated!' : 'Update'}

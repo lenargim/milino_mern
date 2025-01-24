@@ -10,5 +10,7 @@ export const signUpSchema = Yup.object().shape({
     .required('You should type your email'),
   phone: Yup.string()
     .required('Please write down your phone number'),
-  password: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols')
+  password: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols'),
+  compare: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols')
+    .oneOf([Yup.ref('password'), null], "Does not match password")
 })

@@ -1,7 +1,7 @@
 import {Form, Formik} from 'formik';
 import React, {FC, useState} from 'react';
 import {loginSchema} from "./loginSchema";
-import {TextInput} from "../../common/Form";
+import {PasswordInput, TextInput} from "../../common/Form";
 import s from './login.module.sass'
 import {logIn} from "../../api/apiFunctions";
 import {setIsAuth, setUser} from "../../store/reducers/userSlice";
@@ -38,7 +38,7 @@ const LoginForm = () => {
         >
             <Form className={s.login} autoComplete="false">
                 <TextInput type={"email"} label={'Email'} name={'email'}/>
-                <TextInput type={"password"} label={'password'} name={'password'}/>
+                <PasswordInput type={"password"} label={'password'} name={'password'}/>
                 <button type="submit" className={['button yellow'].join(' ')}>Log in</button>
                 {userErrorModalIsOpen && <UserUnactivated/>}
             </Form>

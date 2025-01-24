@@ -8,7 +8,8 @@ export type UserDataType = {
 }
 
 export interface SignUpType extends UserDataType {
-    password: string
+    password: string,
+    compare: string
 }
 
 export interface UserType extends UserDataType {
