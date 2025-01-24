@@ -16,7 +16,7 @@ const ProfileSidebar = () => {
                 }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">purchase orders</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
-                {/*<NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>*/}
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>
                 <button type="button" onClick={logout}>Log out</button>
             </aside>
         </div>

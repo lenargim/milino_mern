@@ -87,7 +87,7 @@ export const login = async (req, res) => {
 
     if (!isValidPass) {
       return res.status(401).json({
-        message: "Wrong email or password"
+        message: "Incorrect password"
       })
     }
 

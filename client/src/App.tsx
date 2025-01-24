@@ -22,7 +22,6 @@ import RoomCheckout from "./Components/Room/RoomCheckout";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
-import ProfileCatalogItem from "./Components/Profile/ProfileCatalogItem";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -84,7 +83,7 @@ function App() {
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
                     <Route path="catalog" element={<ProfileCatalog />}>
-                        <Route path=":catalogName" element={<ProfileCatalogItem/>}/>
+                        {/*<Route path=":catalogName" element={<ProfileCatalogItem/>}/>*/}
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
