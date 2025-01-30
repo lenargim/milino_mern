@@ -35,8 +35,6 @@ interface textInputInterface extends InputInterface {
 interface PasswordInputInterface extends InputInterface {
     type: 'text' | 'password',
     label: string,
-
-    // eyed: boolean,
     [x: string]: any;
 }
 

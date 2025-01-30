@@ -1,6 +1,6 @@
 import {Form, Formik,} from 'formik';
 import React, {FC, useEffect, useState} from 'react';
-import {signUpSchema} from "../SignUp/signUpSchema";
+import {SignUpSchema} from "../SignUp/signUpSchema";
 import s from './profile.module.sass'
 import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import {EditProfileType, UserType} from "../../api/apiTypes";
@@ -26,7 +26,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
     return (
         <Formik initialValues={initialValues}
                 innerRef={(formikActions) => (formikActions ? setValues(formikActions.values) : null)}
-                validationSchema={signUpSchema}
+                validationSchema={SignUpSchema}
                 onSubmit={(values) => {
                     updateProfile(values).then(user => {
                         if (user) {

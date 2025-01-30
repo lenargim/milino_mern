@@ -48,6 +48,7 @@ import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
+import {SignUpType} from "../api/apiTypes";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -901,4 +902,9 @@ export const formatDateToText = (dateApi: Date): string => {
         minute: 'numeric',
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+export const prepareEmailData = <T extends {email: string}>(e:T):T => {
+    const {email} = e
+    return {...e, email: email.toLowerCase()}
 }

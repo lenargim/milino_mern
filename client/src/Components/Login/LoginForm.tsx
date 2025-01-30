@@ -7,8 +7,10 @@ import {logIn} from "../../api/apiFunctions";
 import {setIsAuth, setUser} from "../../store/reducers/userSlice";
 import {useDispatch} from "react-redux";
 import modalSt from './../Checkout/checkout.module.sass'
+import {LogInType} from "../../api/apiTypes";
+import {prepareEmailData} from "../../helpers/helpers";
 
-const initialValues = {
+const initialValues:LogInType = {
     email: '',
     password: ''
 }
@@ -19,8 +21,8 @@ const LoginForm = () => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(e) => {
-                logIn(e).then(user => {
+            onSubmit={(e:LogInType) => {
+                logIn(prepareEmailData(e)).then(user => {
                     if (user) {
                         if (user.is_active) {
                             dispatch(setUser(user))

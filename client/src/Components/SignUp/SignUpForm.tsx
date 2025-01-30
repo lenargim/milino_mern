@@ -2,13 +2,14 @@ import {Form, Formik} from 'formik';
 import React, {FC, useState} from 'react';
 import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import s from './../Login/login.module.sass'
-import {signUpSchema} from "./signUpSchema";
+import {SignUpSchema} from "./signUpSchema";
 import {signUp} from "../../api/apiFunctions";
-import {SignUpType} from "../../api/apiTypes";
+import {SignUpFrontType} from "../../api/apiTypes";
 import modalSt from "../Checkout/checkout.module.sass";
 import {useNavigate} from "react-router-dom";
+import {prepareEmailData} from "../../helpers/helpers";
 
-const initialValues: SignUpType = {
+const initialValues: SignUpFrontType = {
     name: '',
     company: '',
     email: '',
@@ -23,9 +24,10 @@ const SignUpForm = () => {
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={signUpSchema}
-            onSubmit={(e) => {
-                signUp(e).then(res => {
+            validationSchema={SignUpSchema}
+            onSubmit={(e:SignUpFrontType) => {
+                const {compare, ...data} = e;
+                signUp(prepareEmailData(data)).then(res => {
                     if (res) {
                         setUserSuccessModalIsOpen(true)
                         setTimeout(() => {
