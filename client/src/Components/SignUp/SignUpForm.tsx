@@ -27,7 +27,7 @@ const SignUpForm = () => {
             validationSchema={SignUpSchema}
             onSubmit={(e:SignUpFrontType) => {
                 const {compare, ...data} = e;
-                signUp(prepareEmailData(data)).then(res => {
+                signUp(data).then(res => {
                     if (res) {
                         setUserSuccessModalIsOpen(true)
                         setTimeout(() => {

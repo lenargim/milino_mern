@@ -75,7 +75,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const user = await UserModel.findOne({email: req.body.email});
+    const user = await UserModel.findOne({email: new RegExp('^' + req.body.email + '$', 'i')});
     if (!user) {
       return res.status(401).json({
         message: "Wrong email or password"
