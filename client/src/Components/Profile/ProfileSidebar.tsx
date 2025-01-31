@@ -14,7 +14,8 @@ const ProfileSidebar = () => {
                 {user.is_super_user &&
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/admin">Admin</NavLink>
                 }
-                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">purchase orders</NavLink>
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/rooms">Purchase orders</NavLink>
+                <NavLink to="https://www.youtube.com/watch?v=5vztBTlkKIE&ab_channel=MilinoCabinets" target={"_blank"}>Tutorial</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>
                 <button type="button" onClick={logout}>Log out</button>
