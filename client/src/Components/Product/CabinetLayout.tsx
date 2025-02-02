@@ -71,15 +71,15 @@ const CabinetLayOut: FC<CabinetFormType> = ({
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
 
     const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
-    const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
-    const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
-    const depthExtra = getPriceForExtraDepth(initialPrice, coef);
+    // const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
+    // const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
+    // const depthExtra = getPriceForExtraDepth(initialPrice, coef);
 
     return (
         <Form>
             {!hasSolidWidth ?
                 <div className={s.block}>
-                    <h3>Width {widthExtra ? `+${widthExtra}$` : null}</h3>
+                    <h3>Width</h3>
                     <div className={s.options}>
                         {widthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                          name={'Width'}
@@ -99,7 +99,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                 </div> : null
             }
             <div className={s.block}>
-                <h3>Height {heightExtra ? `+${heightExtra}$` : null}</h3>
+                <h3>Height</h3>
                 <div className={s.options}>
                     {heightRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                       name={'Height'}
@@ -110,7 +110,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
             <div className={s.divider}>
                 {!isAngle ?
                     <div className={s.block}>
-                        <h3>Depth {depthExtra ? `+${depthExtra}$` : null}</h3>
+                        <h3>Depth</h3>
                         <div className={s.options}>
                             {depthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                              name={'Depth'}
