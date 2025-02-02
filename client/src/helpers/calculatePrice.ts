@@ -422,7 +422,7 @@ export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind:
 }
 
 
-export function getHingeArr(doorArr: number[], category: productCategory): string[] {
+export function getHingeArr(doorArr: number[], category: productCategory, product_id:number): string[] {
     const [left, right, double, singleDoor] = hingeArr;
     let arr: string[] = []
     switch (category) {
@@ -435,6 +435,11 @@ export function getHingeArr(doorArr: number[], category: productCategory): strin
             if (doorArr.length === 1 && doorArr[0] === 1) return [left, right];
             return [left, right, singleDoor];
         default:
+            // Exceptions
+            const productExceptionsArr:number[] = [5,6,7,42,43,44]
+            if (productExceptionsArr.includes(product_id)) return arr;
+
+            // Basic
             if (doorArr.includes(1)) arr.push(left, right);
             if (doorArr.includes(2)) arr.push(double)
             return arr

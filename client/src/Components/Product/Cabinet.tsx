@@ -35,9 +35,6 @@ const Cabinet: FC<CabinetType> = ({
         box_material_finish_coef,
         drawer_brand,
         premium_coef,
-        grain_coef,
-        finish_coef,
-        base_price_type
     } = materialData
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
@@ -80,7 +77,7 @@ const Cabinet: FC<CabinetType> = ({
     const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     const realMiddleSection = middleSectionNumber || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
-    const hingeArr = getHingeArr(doorArr || [], category);
+    const hingeArr = getHingeArr(doorArr || [], category, id);
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const boxMaterialCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
