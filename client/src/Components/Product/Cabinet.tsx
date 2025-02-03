@@ -14,7 +14,6 @@ import {
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";
 import {CabinetItemType} from "../../api/apiFunctions";
-import Test from "./TestStandart";
 
 const Cabinet: FC<CabinetType> = ({
                                       product,

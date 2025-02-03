@@ -9,14 +9,14 @@ export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
 
-export type hingeTypes = 'Left' | 'Right' | 'Double Door' | 'Single Door' | '';
-export type cornerTypes = 'Left' | 'Right' | '';
+export const cornerArr = ["Left", "Right",''] as const;
+export const hingeArr = ['Left', 'Right', 'Double Door', 'Single Door',''] as const;
+export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
-export const cornerArr: cornerTypes[] = ["Left", "Right"];
-export const hingeArr: hingeTypes[] = ['Left', 'Right', 'Double Door', 'Single Door'];
+export type cornerTypes = typeof cornerArr[number];
+export type hingeTypes = typeof hingeArr[number];
+export type RoomCategories = typeof roomCategories[number];
 
-export const roomCategories: RoomCategories[] = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"]
-export type RoomCategories = "Kitchen" | "Vanity" | "Build In Closet" | "Leather Closet"
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes = 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing';
 

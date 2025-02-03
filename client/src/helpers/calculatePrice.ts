@@ -422,7 +422,7 @@ export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind:
 }
 
 
-export function getHingeArr(doorArr: number[], category: productCategory, product_id:number): string[] {
+export function getHingeArr(doorArr: number[], category: productCategory, product_id: number): string[] {
     const [left, right, double, singleDoor] = hingeArr;
     let arr: string[] = []
     switch (category) {
@@ -431,12 +431,19 @@ export function getHingeArr(doorArr: number[], category: productCategory, produc
         case "Standard Tall Cabinets":
             if (doorArr[0] === 4) return [''];
             if (doorArr.includes(2) && doorArr.includes(4)) return [singleDoor, double]
-            if (doorArr[0] === 2) return [left, right, singleDoor];
+            if (doorArr[0] === 2) {
+                // Exceptions
+                const productExceptionsArr: number[] = [205,206,217,218]
+                if (productExceptionsArr.includes(product_id)) return [left, right];
+
+                // Basic
+                return [left, right, singleDoor];
+            }
             if (doorArr.length === 1 && doorArr[0] === 1) return [left, right];
             return [left, right, singleDoor];
         default:
             // Exceptions
-            const productExceptionsArr:number[] = [5,6,7,42,43,44]
+            const productExceptionsArr: number[] = [5, 6, 7, 42, 43, 44]
             if (productExceptionsArr.includes(product_id)) return arr;
 
             // Basic
@@ -455,7 +462,7 @@ export function getLedPrice(realWidth: number, realHeight: number, ledBorders: M
     return Math.round(sum)
 }
 
-export const getBasePriceType = (doorType: string, doorFinish: string, door_color:string): pricesTypings => {
+export const getBasePriceType = (doorType: string, doorFinish: string, door_color: string): pricesTypings => {
     if (!doorType || !doorFinish || doorFinish.includes('No Doors')) return 1;
     if (doorFinish === 'Milino') {
         if (doorType === 'Slab') {
@@ -485,7 +492,7 @@ export const getFinishCoef = (doorType: string, doorFinish: string, base_price_t
             }
         }
     }
-    if (base_price_type === 1 || !doorType || !doorFinish || doorType === 'Micro Shaker' ) return 1;
+    if (base_price_type === 1 || !doorType || !doorFinish || doorType === 'Micro Shaker') return 1;
     if (doorType === 'Painted') return 1.05;
     if (doorType === 'Slatted') return 1.03
     if (doorFinish === 'Stone') return 1.69

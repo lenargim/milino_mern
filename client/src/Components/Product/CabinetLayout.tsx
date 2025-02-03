@@ -42,7 +42,6 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 hingeArr,
                                                 tablePriceData,
                                                 allCoefs,
-                                                coef
                                             }) => {
     const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard, product_type} = product;
     const {values} = useFormikContext<productValuesType>();
