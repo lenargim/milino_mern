@@ -12,8 +12,8 @@ const Room: FC<{ room: RoomType, isStandardCabinet: boolean, noGola:boolean}> = 
         : ['Gola Base Cabinets', 'Gola Wall Cabinets', 'Gola Tall Cabinets', 'Custom Parts'];
     const StandardCats = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets']
     const vanityCat = noGola ?
-        ['Vanities', 'Custom Parts'] :
-        ['Gola Vanities', 'Custom Parts'];
+        ['Vanities', 'Floating Vanities', 'Custom Parts'] :
+        ['Gola Vanities', 'Gola Floating Vanities', 'Custom Parts'];
     const closetCats = ['Build In', 'Leather', 'Custom Parts'];
 
     if (!storageCat) {

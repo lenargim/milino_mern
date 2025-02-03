@@ -49,6 +49,10 @@
         "img": "Flatd_02.webp"
       },
       {
+        "name": "Floating Vanities",
+        "img": "Flatd_02.webp"
+      },
+      {
         "name": "Custom Parts",
         "img": "Flatd_05.webp"
       }
@@ -59,6 +63,10 @@
     "categories": [
       {
         "name": "Gola Vanities",
+        "img": "HL1-scaled.webp"
+      },
+      {
+        "name": "Gola Floating Vanities",
         "img": "HL1-scaled.webp"
       },
       {

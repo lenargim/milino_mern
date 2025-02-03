@@ -18,7 +18,7 @@ import cabinets from '../api/cabinets.json';
 import standardCabinets from '../api/standartProducts.json'
 import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
-import {colorType, doorType, finishType, materialsData, materialsDataNumber} from "./materialsTypes";
+import {colorType, doorType, finishType, materialsData} from "./materialsTypes";
 import {
     getAttributesProductPrices,
     getBlindArr, getCustomPartPrice,
@@ -113,14 +113,14 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
     }
 
     if (!product) return null;
-    const {category, isBlind} = product;
+    const {category, isBlind} = product as ProductType;
     const hasLedBlock = isHasLedBlock(category);
     const product_type = getProductApiType(product.category, isProductStandard)
     return {
         ...product,
         isProductStandard,
         hasLedBlock,
-        blindArr: isBlind ? getBlindArr(category) : undefined,
+        blindArr: isBlind ? getBlindArr(category, product.id) : undefined,
         product_type: product_type
     }
 }

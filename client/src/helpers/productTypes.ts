@@ -2,6 +2,7 @@ import {optionType} from "../common/SelectField";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
+
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 
@@ -9,8 +10,8 @@ export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
 
-export const cornerArr = ["Left", "Right",''] as const;
-export const hingeArr = ['Left', 'Right', 'Double Door', 'Single Door',''] as const;
+export const cornerArr = ["Left", "Right", ''] as const;
+export const hingeArr = ['Left', 'Right', 'Double Door', 'Single Door', ''] as const;
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
 export type cornerTypes = typeof cornerArr[number];
@@ -18,7 +19,16 @@ export type hingeTypes = typeof hingeArr[number];
 export type RoomCategories = typeof roomCategories[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
-export type CustomTypes = 'custom' | 'pvc' | 'glass-door' | 'glass-shelf' | 'led-accessories' | 'door-accessories' | 'standard-door' | 'standard-glass-door' | 'backing';
+export type CustomTypes =
+    'custom'
+    | 'pvc'
+    | 'glass-door'
+    | 'glass-shelf'
+    | 'led-accessories'
+    | 'door-accessories'
+    | 'standard-door'
+    | 'standard-glass-door'
+    | 'backing';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -30,17 +40,19 @@ export type kitchenCategories =
 export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
-    | 'Standard Tall Cabinets'
+    | 'Standard Tall Cabinets';
+
+export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Vanities' | 'Gola Floating Vanities';
+
 export type productCategory =
     kitchenCategories
     | StandardCategory
-    | 'Vanities'
-    | 'Gola Vanities'
+    | VanitiesCategory
     | 'Build In'
     | 'Leather'
     | 'Custom Parts'
 
-export type AngleType = false|'flat'|'corner';
+export type AngleType = false | 'flat' | 'corner';
 
 export type ProductType = {
     id: number,
@@ -243,12 +255,6 @@ export type CabinetType = {
     productRange: productRangeType,
     tablePriceData: pricePart[],
     sizeLimit: sizeLimitsType,
-}
-
-export type StandardMaterialDataType = {
-    category: string
-    boxMaterialCoef: number,
-    drawer: drawerInterface,
 }
 
 export type DepthRangeType = {

@@ -2493,6 +2493,7 @@
   {
     "id": 107,
     "legsHeight": 0,
+    "customDepth": 24,
     "isBlind": false,
     "isAngle": false,
     "name": "WRF Series",
@@ -2560,6 +2561,7 @@
   {
     "id": 108,
     "legsHeight": 0,
+    "customDepth": 24,
     "isBlind": false,
     "isAngle": false,
     "name": "WRFA Series",
@@ -4760,7 +4762,7 @@
     "isAngle": false,
     "name": "VF Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4812,7 +4814,7 @@
     "isAngle": false,
     "name": "VF2D Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4843,7 +4845,7 @@
     "isAngle": false,
     "name": "VF3D Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4874,7 +4876,7 @@
     "isAngle": false,
     "name": "VSF Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4915,7 +4917,7 @@
     "isAngle": false,
     "name": "VSFD Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4965,7 +4967,7 @@
     "isAngle": false,
     "name": "VSF2D Series",
     "room": "Vanity",
-    "category": "Vanities",
+    "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -4997,7 +4999,7 @@
     "isAngle": false,
     "name": "VPF Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5049,7 +5051,7 @@
     "isAngle": false,
     "name": "VPSF Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5090,7 +5092,7 @@
     "isAngle": false,
     "name": "VPSFD Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5131,7 +5133,7 @@
     "isAngle": false,
     "name": "VPSF2D Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5162,7 +5164,7 @@
     "isAngle": false,
     "name": "VPF2DI Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5202,7 +5204,7 @@
     "isAngle": false,
     "name": "VPF2D Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5233,7 +5235,7 @@
     "isAngle": false,
     "name": "VPSF1D Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {
@@ -5264,7 +5266,7 @@
     "isAngle": false,
     "name": "VPF1D Series",
     "room": "Vanity",
-    "category": "Gola Vanities",
+    "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": [
       {

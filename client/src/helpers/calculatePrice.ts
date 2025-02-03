@@ -38,6 +38,8 @@ export const getInitialPrice = (priceData: pricePart[], productRange: productRan
         case 'Base Cabinets':
         case "Vanities":
         case "Gola Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
         case "Custom Parts":
         case "Gola Base Cabinets":
         case "Leather":
@@ -63,6 +65,8 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
         case 'Base Cabinets':
         case "Vanities":
         case "Gola Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
         case "Gola Base Cabinets":
             // +1 to width cabinet
             const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
@@ -229,6 +233,8 @@ export function getType(width: number, height: number, widthDivider: number | un
         case 'Base Cabinets':
         case "Vanities":
         case "Gola Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
             if (widthDivider) return width <= widthDivider ? 1 : 2;
@@ -358,6 +364,8 @@ export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category:
         case 'Base Cabinets':
         case "Vanities":
         case "Gola Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
             return [34.5];
@@ -392,6 +400,8 @@ export function getDepthRange(priceData: pricePart[] | undefined, category: prod
             return [13];
         case "Vanities":
         case "Gola Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
             return [21];
         case "Build In":
             return [23]
@@ -406,8 +416,13 @@ type rangeType = {
     [key: string]: number
 }
 
-export function getBlindArr(category: string): number[] {
+export function getBlindArr(category: string, product_id:number): number[] {
     const range: rangeType = settings.blindRange;
+
+    //Wall corner Exceptions
+    const productExceptionsArr: number[] = [109,110,113,114];
+    if (productExceptionsArr.includes(product_id)) range[category] = 13;
+
     return range[category] ? [range[category], 0] : [0];
 
 }

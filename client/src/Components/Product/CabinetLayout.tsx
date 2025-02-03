@@ -20,11 +20,7 @@ import CornerBlock from "./CornerBlock";
 import {isShowBlindWidthBlock, isShowMiddleSectionBlock, productValuesType} from "../../helpers/helpers";
 import {
     coefType,
-    getInitialPrice, getPriceForExtraDepth,
-    getPriceForExtraHeight,
-    getPriceForExtraWidth
 } from "../../helpers/calculatePrice";
-
 
 export type CabinetFormType = {
     product: ProductType,
@@ -40,10 +36,8 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 productRange,
                                                 productPriceData,
                                                 hingeArr,
-                                                tablePriceData,
-                                                allCoefs,
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, category, isProductStandard, product_type} = product;
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type} = product;
     const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
@@ -69,7 +63,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
 
-    const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
+    // const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
     // const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
     // const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
     // const depthExtra = getPriceForExtraDepth(initialPrice, coef);

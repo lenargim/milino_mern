@@ -132,15 +132,6 @@ const Cabinet: FC<CabinetType> = ({
                            productPriceData={productPriceData} hingeArr={hingeArr}
                            allCoefs={allCoefs} coef={coef}
             />
-            {/*<Test coef={coef}*/}
-            {/*      attributesPrices={attributesPrices}*/}
-            {/*      boxMaterialCoef={boxMaterialCoef}*/}
-            {/*      grain_coef={grain_coef}*/}
-            {/*      finish_coef={finish_coef}*/}
-            {/*      premium_coef={premium_coef}*/}
-            {/*      tablePrice={tablePrice}*/}
-            {/*      base_price_type={base_price_type}*/}
-            {/*/>*/}
         </>
     )
 };
