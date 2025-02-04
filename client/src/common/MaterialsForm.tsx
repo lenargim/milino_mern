@@ -3,7 +3,7 @@ import {Form, useFormikContext} from "formik";
 import {
     getBoxMaterialArr,
     getDoorColorsArr,
-    getDoorTypeArr,
+    getDoorTypeArr, getDrawerArr,
     getGrainArr,
     isBoxColor,
     isBoxMaterial,
@@ -12,12 +12,12 @@ import {
     isDoorFrameWidth,
     isDoorGrain,
     isDoorTypeShown,
-    isDrawerBrand, isGolaShown,
+    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown,
     isLeatherType,
     useAppDispatch,
     usePrevious
 } from "../helpers/helpers";
-import {materialsData, materialsDataNumber, MaterialsType} from "../helpers/materialsTypes";
+import {materialsData, MaterialsType} from "../helpers/materialsTypes";
 import s from "../Components/Profile/profile.module.sass";
 import {TextInput} from "./Form";
 import DataType from "../Components/OrderForm/DataType";
@@ -99,8 +99,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     const boxMaterialArr: materialsData[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr)
-    const drawerTypesArr = drawers.find(el => el.value === drawer_brand)?.types;
-    const drawerColorsArr = drawerTypesArr && drawerTypesArr.find(el => el.value === drawer_type)?.colors
+    const {drawerBrandArr,drawerTypesArr,drawerColorsArr} = getDrawerArr(drawers,drawer_brand,drawer_type)
     const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
 
@@ -127,7 +126,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             })
         }
     }, [category])
-
 
     // Check is values are in array
     useEffect(() => {
@@ -196,7 +194,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         }
     }, [values]);
 
-
     const showCategory = !!(!has_room_field || room_name);
     const showGola = isGolaShown(category, hasGola)
     const showDoorType = isDoorTypeShown(category, gola, showGola)
@@ -207,6 +204,8 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const showBoxMaterial = isBoxMaterial(door_finish_material, door_color, box_material,boxMaterialArr,showDoorGrain, door_grain);
     const showBoxColor = isBoxColor(box_material,isLeather,boxMaterial)
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeather);
+    const showDrawerType = isDrawerType(drawer_brand, drawerTypesArr);
+    const showDrawerColor = isDrawerColor(drawer_type, drawerColorsArr);
     const showLeatherType = isLeatherType(drawer_color, isLeather, leatherTypeArr);
 
     return (
@@ -225,13 +224,10 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             {showDoorGrain && <DataType data={grainArr||[]} value={door_grain ?? ''} name="door_grain" label="Door Grain"/>}
             {showBoxMaterial &&
               <DataType data={boxMaterialArr} value={box_material} name="box_material" label="Box Material"/>}
-            {showBoxColor &&
-              <DataType data={boxMaterial} value={box_color} name="box_color" label="Box Color"/>}
-            {showDrawerBrand && <DataType data={drawers} value={drawer_brand} name="drawer_brand" label="Drawer" small={true}/>}
-            {drawer_brand && drawerTypesArr &&
-              <DataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type" small={true}/>}
-            {drawer_type && drawerColorsArr &&
-              <DataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color" small={true}/>}
+            {showBoxColor && <DataType data={boxMaterial} value={box_color} name="box_color" label="Box Color"/>}
+            {showDrawerBrand && <DataType data={drawerBrandArr} value={drawer_brand} name="drawer_brand" label="Drawer" small={true}/>}
+            {showDrawerType && <DataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type" small={true}/>}
+            {showDrawerColor && <DataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color" small={true}/>}
             {showLeatherType &&
               <DataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
             {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">{button}</button>}

@@ -57,7 +57,10 @@ export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<MaterialsF
                 .required('Please write down drawer type'),
             drawer_color: Yup.string()
                 .default('')
-                .required('Please write color'),
+                .when('drawer_type', {
+                    is: (val: string) => val !== 'Undermount',
+                    then: (schema => schema.required('Please write color'))
+                }),
             leather: Yup.string()
                 .default('')
                 .when('category', {

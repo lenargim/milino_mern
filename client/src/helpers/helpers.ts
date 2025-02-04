@@ -18,7 +18,7 @@ import cabinets from '../api/cabinets.json';
 import standardCabinets from '../api/standartProducts.json'
 import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
-import {colorType, doorType, finishType, materialsData} from "./materialsTypes";
+import {colorType, doorType, drawer, drawerType, finishType, materialsData} from "./materialsTypes";
 import {
     getAttributesProductPrices,
     getBlindArr, getCustomPartPrice,
@@ -249,8 +249,8 @@ export const checkLedSelected = (led: string[]): boolean => {
     return !led.length
 }
 
-export const getCustomCabinetString = (isStandard: IsStandardOptionsType):string => {
-    return Object.values(isStandard).includes(false) ? 'Custom':'';
+export const getCustomCabinetString = (isStandard: IsStandardOptionsType): string => {
+    return Object.values(isStandard).includes(false) ? 'Custom' : '';
 }
 
 export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>, materialData: materialDataType): CartItemType => {
@@ -453,14 +453,35 @@ export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial
 export const isDrawerBrand = (box_material: string, box_color: string, isLeather: boolean): boolean => {
     if (!box_material) return false;
     return !(isLeather && !box_color);
-
-
 }
+
+export const isDrawerType = (drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
+    return !(!drawer_brand|| !drawerTypesArr.length);
+}
+
+export const isDrawerColor = (drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
+    return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
+}
+
 export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boolean, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
     const finishArr: MaybeUndefined<finishType[]> = doors.find(el => el.value === doorType)?.finish;
     return isStandardDoor ?
         standardColors.colors as colorType[] :
         finishArr?.find(el => el.value === doorFinishMaterial)?.colors
+}
+
+
+export const getDrawerArr = (drawers: drawer[], drawer_brand: string, drawer_type: string): { drawerBrandArr: materialsData[], drawerTypesArr: materialsData[], drawerColorsArr: materialsData[] } => {
+    const drawerBrandArr = drawers.map(el => ({value: el.value, img: el.img})) as materialsData[];
+    const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
+    const drawerTypesArr = drawerTypesArrFilter && drawerTypesArrFilter.map(el => ({
+        value: el.value,
+        img: el.img
+    })) || [] as materialsData[];
+    const drawerColorsArr = drawerTypesArrFilter && drawerTypesArrFilter.find(el => el.value === drawer_type)?.colors || [] as materialsData[];
+    return {
+        drawerBrandArr, drawerTypesArr, drawerColorsArr
+    }
 }
 
 export const getDoorTypeArr = (doors: doorType[], gola: string) => {
@@ -904,7 +925,7 @@ export const formatDateToText = (dateApi: Date): string => {
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
-export const prepareEmailData = <T extends {email: string}>(e:T):T => {
+export const prepareEmailData = <T extends { email: string }>(e: T): T => {
     const {email} = e
     return {...e, email: email.toLowerCase()}
 }

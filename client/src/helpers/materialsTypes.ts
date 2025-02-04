@@ -1,5 +1,5 @@
 export type OrderFormSelectType = {
-    data: materialsData[]|materialsDataNumber[],
+    data: materialsData[],
     value: string|number,
     name: string,
     label?: string
@@ -11,10 +11,10 @@ export type materialsData = {
     img?: string
 }
 
-export type materialsDataNumber = {
-    value: number,
-    img?: string
-}
+// export type materialsDataNumber = {
+//     value: number,
+//     img?: string
+// }
 
 export interface drawer extends materialsData{
     types: drawerType[]
