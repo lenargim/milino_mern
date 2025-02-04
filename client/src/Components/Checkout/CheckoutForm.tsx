@@ -111,6 +111,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     const blob2 = await new Blob([JSON.stringify(dataToJSON)], {type: 'application/json'});
                     const JsonFile = new File([blob2], `${fileName}.txt`);
                     formData.append("json", JsonFile);
+                    formData.append("client_email", values.email);
 
                     if (buttonType) {
                         formData.append("buttonType", buttonType)

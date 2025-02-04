@@ -5,6 +5,7 @@ export const SendPDF = (req, res) => {
   const env = dotenv.config().parsed;
 
   const type = req.body.buttonType;
+  const client_email = req.body.client_email;
   const pdf = req.files.pdf[0];
   const json = req.files.json[0];
 
@@ -32,7 +33,7 @@ export const SendPDF = (req, res) => {
     })
     let mailOptions = {
       from: env.EMAIL_USER,
-      to: env.EMAIL_TO,
+      to: `${env.EMAIL_TO},${client_email}`,
       subject: "Milino New Order",
       text: '',
       attachments: [
