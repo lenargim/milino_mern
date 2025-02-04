@@ -11,7 +11,7 @@ export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right", ''] as const;
-export const hingeArr = ['Left', 'Right', 'Double Door', 'Single Door', ''] as const;
+export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
 export type cornerTypes = typeof cornerArr[number];

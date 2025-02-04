@@ -416,11 +416,11 @@ type rangeType = {
     [key: string]: number
 }
 
-export function getBlindArr(category: string, product_id:number): number[] {
+export function getBlindArr(category: string, product_id: number): number[] {
     const range: rangeType = settings.blindRange;
 
     //Wall corner Exceptions
-    const productExceptionsArr: number[] = [109,110,113,114];
+    const productExceptionsArr: number[] = [109, 110, 113, 114];
     if (productExceptionsArr.includes(product_id)) range[category] = 13;
 
     return range[category] ? [range[category], 0] : [0];
@@ -437,35 +437,34 @@ export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind:
 }
 
 
-export function getHingeArr(doorArr: number[], category: productCategory, product_id: number): string[] {
-    const [left, right, double, singleDoor] = hingeArr;
-    let arr: string[] = []
-    switch (category) {
-        case 'Tall Cabinets':
-        case 'Gola Tall Cabinets':
-        case "Standard Tall Cabinets":
-            if (doorArr[0] === 4) return [''];
-            if (doorArr.includes(2) && doorArr.includes(4)) return [singleDoor, double]
-            if (doorArr[0] === 2) {
-                // Exceptions
-                const productExceptionsArr: number[] = [205,206,217,218]
-                if (productExceptionsArr.includes(product_id)) return [left, right];
+export function getHingeArr(doorArr: number[], product_id: number): string[] {
+    const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
+    let arr: string[] = [];
+    const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108,208,211];
+    const tall_type_1: number[] = [201, 202, 203, 204, 214, 215];
+    const tall_type_2: number[] = [212, 213];
+    const tall_type_3: number[] = [205, 206, 217, 218];
+    const tall_type_4: number[] = [216,219,220];
 
-                // Basic
-                return [left, right, singleDoor];
-            }
-            if (doorArr.length === 1 && doorArr[0] === 1) return [left, right];
-            return [left, right, singleDoor];
-        default:
-            // Exceptions
-            const productExceptionsArr: number[] = [5, 6, 7, 42, 43, 44]
-            if (productExceptionsArr.includes(product_id)) return arr;
-
-            // Basic
-            if (doorArr.includes(1)) arr.push(left, right);
-            if (doorArr.includes(2)) arr.push(double)
-            return arr
+    if (no_hinge.includes(product_id)) return arr;
+    if (tall_type_1.includes(product_id)) {
+        if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
+        if (doorArr.includes(4)) arr.push(double,four)
+        return arr;
+    } else if (tall_type_2.includes(product_id)) {
+        return [left, right, double]
+    } else if (tall_type_3.includes(product_id)) {
+        return [left_2, right_2, single_left, single_right]
+    } else if (tall_type_4.includes(product_id)) {
+        return [left,right]
     }
+
+
+    // Basic
+    if (doorArr.includes(1)) arr.push(left, right);
+    if (doorArr.includes(2)) arr.push(double);
+    if (doorArr.includes(4) && !doorArr.includes(2)) arr.push(double,four)
+    return arr;
 }
 
 export function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUndefined<string[]>): number {

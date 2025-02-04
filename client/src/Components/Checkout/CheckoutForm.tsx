@@ -153,7 +153,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                             <button type="button"
                                     onClick={() => handleSubmit('send')}
                                     className={['button yellow', s.submit].join(' ')}
-                                    disabled={isSubmitting}>Send PDF To Email
+                                    disabled={isSubmitting}>Submit Order
                             </button>
                         </div>
                     </Form>

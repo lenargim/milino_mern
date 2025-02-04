@@ -1514,7 +1514,7 @@
       },
       {
         "type": 2,
-        "value": "GC/PBC_2.webp"
+        "value": "GC/PBS_2.webp"
       }
     ],
     "attributes": [
@@ -3878,7 +3878,7 @@
           {
             "type": 1,
             "value": 1,
-            "maxWidth": 24
+            "maxWidth": 27
           },
           {
             "type": 2,
