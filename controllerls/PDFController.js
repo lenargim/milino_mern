@@ -24,13 +24,9 @@ export const SendPDF = (req, res) => {
   } else if (type === 'send') {
     let transporter = nodemailer.createTransport({
       service: env.EMAIL_SERVICE,
+      host: env.EMAIL_HOST,
       secure: env.EMAIL_SECURE,
-      secureConnection: false,
-      debug: true,
-      tls: {
-        ciphers:'SSLv3'
-      },
-      requireTLS:true,
+      secureConnection: true,
       port: env.EMAIL_PORT,
       auth: {
         user: env.EMAIL_USER,
