@@ -25,12 +25,12 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
     const dispatch = useAppDispatch();
-    let {productId, category,roomId} = useParams();
-    if (!productId || !category || !materials) return <div>Product error</div>;
-    const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(category)
+    let {productId, category: catFromParam,roomId} = useParams();
+    if (!productId || !catFromParam || !materials) return <div>Product error</div>;
+    const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(catFromParam)
     let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
-    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id, hasMiddleSection, middleSectionDefault} = product;
+    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id, hasMiddleSection, middleSectionDefault, category} = product;
     const materialData = getMaterialData(materials)
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);

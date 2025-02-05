@@ -418,13 +418,11 @@ type rangeType = {
 
 export function getBlindArr(category: string, product_id: number): number[] {
     const range: rangeType = settings.blindRange;
-
     //Wall corner Exceptions
     const productExceptionsArr: number[] = [109, 110, 113, 114];
-    if (productExceptionsArr.includes(product_id)) range[category] = 13;
-
+    if (productExceptionsArr.includes(product_id)) return [13,0];
+    //
     return range[category] ? [range[category], 0] : [0];
-
 }
 
 export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind: boolean, isAngle: AngleType): number {
