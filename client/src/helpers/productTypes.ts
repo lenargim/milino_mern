@@ -42,7 +42,7 @@ export type StandardCategory =
     | 'Standard Wall Cabinets'
     | 'Standard Tall Cabinets';
 
-export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Vanities' | 'Gola Floating Vanities';
+export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
 
 export type productCategory =
     kitchenCategories

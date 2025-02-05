@@ -37,7 +37,6 @@ export const getInitialPrice = (priceData: pricePart[], productRange: productRan
     switch (category) {
         case 'Base Cabinets':
         case "Vanities":
-        case "Gola Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
         case "Custom Parts":
@@ -64,7 +63,6 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
     switch (category) {
         case 'Base Cabinets':
         case "Vanities":
-        case "Gola Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
@@ -232,7 +230,6 @@ export function getType(width: number, height: number, widthDivider: number | un
     switch (category) {
         case 'Base Cabinets':
         case "Vanities":
-        case "Gola Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
@@ -363,7 +360,6 @@ export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category:
     switch (category) {
         case 'Base Cabinets':
         case "Vanities":
-        case "Gola Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
@@ -399,7 +395,6 @@ export function getDepthRange(priceData: pricePart[] | undefined, category: prod
         case "Standard Wall Cabinets":
             return [13];
         case "Vanities":
-        case "Gola Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
             return [21];

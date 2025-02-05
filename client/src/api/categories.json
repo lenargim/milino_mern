@@ -53,6 +53,10 @@
         "img": "Flatd_02.webp"
       },
       {
+        "name": "Tall Cabinets",
+        "img": "Flatd_04.webp"
+      },
+      {
         "name": "Custom Parts",
         "img": "Flatd_05.webp"
       }
@@ -62,12 +66,12 @@
     "defaultImg": "HL0-scaled.webp",
     "categories": [
       {
-        "name": "Gola Vanities",
+        "name": "Gola Floating Vanities",
         "img": "HL1-scaled.webp"
       },
       {
-        "name": "Gola Floating Vanities",
-        "img": "HL1-scaled.webp"
+        "name": "Gola Tall Cabinets",
+        "img": "HL3-scaled.webp"
       },
       {
         "name": "Custom Parts",
