@@ -48,7 +48,6 @@ const RoomSchema = new mongoose.Schema({
   },
   drawer_color: {
     type: String,
-    required: true,
   },
   leather: {
     type: String
