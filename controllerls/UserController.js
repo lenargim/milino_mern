@@ -36,8 +36,10 @@ export const register = async (req, res) => {
     await doc.save();
 
     let transporter = nodemailer.createTransport({
-      service: env.EMAIL_SERVICE,
-      secure: env.EMAIL_SECURE,
+      // service: env.EMAIL_SERVICE,
+      // secure: env.EMAIL_SECURE,
+      host: env.EMAIL_HOST,
+      secureConnection: true,
       port: env.EMAIL_PORT,
       auth: {
         user: env.EMAIL_USER,

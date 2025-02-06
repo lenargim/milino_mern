@@ -536,7 +536,6 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const is_leather_closet = category === 'Leather Closet'
 
     const box_material_type = getBoxMaterialType(box_material, box_color, is_leather_closet);
-    console.log(is_standard_cabinet)
     const base_price_type = getBasePriceType(door_type, door_finish_material, door_color);
     const finish_coef = getFinishCoef(door_type, door_finish_material, base_price_type, door_color);
     const grain_coef = door_grain ? getGrainCoef(door_grain) : 1;
