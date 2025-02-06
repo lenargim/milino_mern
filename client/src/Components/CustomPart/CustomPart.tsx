@@ -152,9 +152,9 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             }}
         >
             <>
-                <CustomPartLeft product={customPart}/>
+                <CustomPartLeft product={customPart} materials={materials}/>
                 <div className={s.right}>
-                    {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst}/>}
+                    {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst} materials={materials}/>}
                     {type === 'led-accessories' && <LEDForm/>}
                     {type === 'door-accessories' && <DoorAccessoiresForm/>}
                     {(type === 'standard-door' || type === 'standard-glass-door') &&

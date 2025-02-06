@@ -8,11 +8,14 @@ import {
 } from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import {CustomPartFormValuesType} from "./CustomPart";
+import {getFinishColorCoefCustomPart, useAppSelector} from "../../helpers/helpers";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 export type CustomPartFormType = {
     product: CustomPart,
-    isDepthIsConst: boolean
+    isDepthIsConst: boolean,
+    materials: MaterialsFormType
 }
-const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) => {
+const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, materials}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
 
     const {
@@ -42,14 +45,16 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst}) =>
                 }
             }
         }
-        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material,profileNumber)).toFixed(1);
+        const finishColorCoef = getFinishColorCoefCustomPart(id,material,materials.door_color);
+        console.log(finishColorCoef)
+        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material,profileNumber)*finishColorCoef).toFixed(1);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
     }, [values])
 
     return (
-        <CustomPartLayout product={product} isDepthIsConst={isDepthIsConst} />
+        <CustomPartLayout product={product} isDepthIsConst={isDepthIsConst} materials={materials} />
     );
 };
 

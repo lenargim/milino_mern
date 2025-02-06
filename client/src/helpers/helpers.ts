@@ -743,7 +743,7 @@ const getLEDProductCartPrice = (values: LEDAccessoriesType): number => {
 }
 
 export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI | RoomFront): MaybeNull<CartItemType> => {
-    const {_id: roomId} = room
+    const {_id: roomId, door_color} = room
     const {
         product_id,
         width,
@@ -779,7 +779,8 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
             }
 
         }
-        price = +(getCustomPartPrice(product_id, width, height, depth, material, profileNumber)).toFixed(1);
+        const finishColorCoef = getFinishColorCoefCustomPart(product_id,material,door_color)
+        price = +(getCustomPartPrice(product_id, width, height, depth, material, profileNumber)*finishColorCoef).toFixed(1);
     }
 
     if (type === 'led-accessories' && led_accessories) {
@@ -832,6 +833,17 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         price: price
     }
     return cartData
+}
+
+export const getFinishColorCoefCustomPart = (id:number,material:MaybeUndefined<string>,door_color:string):number => {
+    // Choose Panels only
+    if (![900,901,903,905,906].includes(id)) return 1;
+    // Choose Material (In Product Page)
+    if (material !== 'Milino') return 1;
+    // Door Color from Materials page
+    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(door_color)) return 1.1;
+    if (door_color.includes('Ultra Matte')) return 1.2;
+    return 1;
 }
 
 export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {

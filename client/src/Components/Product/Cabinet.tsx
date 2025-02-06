@@ -129,7 +129,8 @@ const Cabinet: FC<CabinetType> = ({
         <>
             <CabinetLayout product={product} productRange={productRange}
                            tablePriceData={tablePriceData}
-                           productPriceData={productPriceData} hingeArr={hingeArr}
+                           productPriceData={productPriceData}
+                           hingeArr={hingeArr}
                            allCoefs={allCoefs} coef={coef}
             />
         </>

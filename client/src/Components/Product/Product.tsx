@@ -31,7 +31,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
     const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id, hasMiddleSection, middleSectionDefault, category} = product;
-    const materialData = getMaterialData(materials)
+    const materialData = getMaterialData(materials);
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);

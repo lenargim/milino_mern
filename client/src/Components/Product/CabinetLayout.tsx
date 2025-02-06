@@ -63,11 +63,6 @@ const CabinetLayOut: FC<CabinetFormType> = ({
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
 
-    // const initialPrice = getInitialPrice(tablePriceData, productRange, category, allCoefs);
-    // const widthExtra = getPriceForExtraWidth(initialPrice, tablePriceData, width, coef, allCoefs)
-    // const heightExtra = getPriceForExtraHeight(tablePriceData, initialPrice, width, height, allCoefs, coef)
-    // const depthExtra = getPriceForExtraDepth(initialPrice, coef);
-
     return (
         <Form>
             {!hasSolidWidth ?
