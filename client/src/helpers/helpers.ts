@@ -509,8 +509,9 @@ export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_
     }
 }
 
-export const isLeatherType = (drawerColor: string | undefined, isLeather: boolean, leatherTypeArr: materialsData[]): boolean => {
-    if (!leatherTypeArr.length || !drawerColor) return false
+export const isLeatherType = (drawerColor: string | undefined, drawerType: string | undefined, isLeather: boolean, leatherTypeArr: materialsData[]): boolean => {
+    if (!drawerType) return false;
+    if (!leatherTypeArr.length || (!drawerColor && drawerType !== 'Undermount')) return false
     return isLeather
 }
 

@@ -102,6 +102,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const {drawerBrandArr,drawerTypesArr,drawerColorsArr} = getDrawerArr(drawers,drawer_brand,drawer_type)
     const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
+    // console.log(errors)
 
     const prevCategory = usePrevious(category);
 
@@ -206,7 +207,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeather);
     const showDrawerType = isDrawerType(drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(drawer_type, drawerColorsArr);
-    const showLeatherType = isLeatherType(drawer_color, isLeather, leatherTypeArr);
+    const showLeatherType = isLeatherType(drawer_color, drawer_type,isLeather, leatherTypeArr);
 
     return (
         <Form className={s.roomForm}>
