@@ -15,7 +15,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
     const minDepth = !isAngle ? sizeLimit.depth[0] : sizeLimit.width[0];
     const maxDepth = !isAngle ? sizeLimit.depth[1] : sizeLimit.width[1];
 
-    const schemaStandard = Yup.object({
+    const schemaBasic = Yup.object({
         'Width': Yup.number().required(),
         isBlind: Yup.boolean(),
         'Blind Width': Yup.number()
@@ -80,11 +80,11 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
             .of(Yup.string()),
         'Door Profile': Yup.string()
             .when('Options', (options, field) =>
-                options[0].includes('Glass Door') ? field.required() : field
+                options[0].includes('Glass Door') && !isProductStandard ? field.required() : field
             ),
         'Door Glass Type': Yup.string()
             .when('Options', (options, field) =>
-                options[0].includes('Glass Door') ? field.required() : field
+                options[0].includes('Glass Door') && !isProductStandard ? field.required() : field
             ),
         'Door Glass Color': Yup.string()
             .when('Options', (options, field) =>
@@ -208,8 +208,8 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
     })
 
     if (!isProductStandard) {
-        return schemaStandard.concat(schemaExtended)
+        return schemaBasic.concat(schemaExtended)
     }
 
-    return schemaStandard;
+    return schemaBasic;
 }

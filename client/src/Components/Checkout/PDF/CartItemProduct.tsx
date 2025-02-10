@@ -63,13 +63,13 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
                     <View style={s.itemOption}>Options:</View>
                     {options.includes('Glass Door') ?
                         <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
-                            <Text>Glass Door: {door_option.join('|')}</Text>
+                            <Text>Glass Door: {door_option.filter(el => !!el).join(', ')}</Text>
                         </View> : null
                     }
 
                     {options.includes('Glass Shelf') ?
                         <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
-                            <Text>Glass Shelf: {shelf_option.join('|')}</Text>
+                            <Text>Glass Shelf: {shelf_option.filter(el => !!el).join(', ')}</Text>
                         </View> : null
                     }
 

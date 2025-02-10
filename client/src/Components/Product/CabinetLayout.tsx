@@ -21,6 +21,7 @@ import {isShowBlindWidthBlock, isShowMiddleSectionBlock, productValuesType} from
 import {
     coefType,
 } from "../../helpers/calculatePrice";
+import {CustomPartFormValuesType} from "../CustomPart/CustomPart";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -62,7 +63,8 @@ const CabinetLayOut: FC<CabinetFormType> = ({
 
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
-
+    // const {errors} = useFormikContext();
+    // console.log(errors)
     return (
         <Form>
             {!hasSolidWidth ?
@@ -122,7 +124,8 @@ const CabinetLayOut: FC<CabinetFormType> = ({
             <OptionsBlock filteredOptions={filteredOptions} chosenOptions={chosenOptions}
                           doorProfile={doorProfile} doorGlassType={doorGlassType}
                           doorGlassColor={doorGlassColor} shelfProfile={shelfProfile}
-                          shelfGlassType={shelfGlassType} shelfGlassColor={shelfGlassColor}/>
+                          shelfGlassType={shelfGlassType} shelfGlassColor={shelfGlassColor}
+                          isProductStandard={isProductStandard}/>
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>

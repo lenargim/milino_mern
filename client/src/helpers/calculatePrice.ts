@@ -151,17 +151,22 @@ export function addGlassShelfPrice(qty: number): number {
     return settings.fixPrices["Glass Shelf"] * qty || 0
 }
 
-export function addGlassDoorPrice(square: number = 0, profileVal: any): number {
-    const glassDoor = settings["Glass"];
-    const {Profile, priceType} = glassDoor
-    const profileData: profileItem | undefined = Profile.find(el => el.value === profileVal)
-    const glassDoorType = profileData && profileData?.glassDoorType;
-    const settingItem = (glassDoorType && priceType.find(el => el.id === glassDoorType)) || undefined
-    const minPrice = settingItem?.minPrice
-    const multiplier = settingItem?.multiplier
-    if (minPrice && multiplier) {
-        const price = square * multiplier;
-        return +(price > minPrice ? price : minPrice).toFixed(1)
+export function addGlassDoorPrice(square: number = 0, profileVal: any, is_standard: boolean): number {
+    if (!is_standard) {
+        const glassDoor = settings["Glass"];
+        const {Profile, priceType} = glassDoor
+        const profileData: MaybeUndefined<profileItem> = Profile.find(el => el.value === profileVal)
+        const glassDoorType = profileData && profileData?.glassDoorType;
+        const settingItem = (glassDoorType && priceType.find(el => el.id === glassDoorType)) || undefined
+        const minPrice = settingItem?.minPrice
+        const multiplier = settingItem?.multiplier
+        if (minPrice && multiplier) {
+            const price = square * multiplier;
+            return +(price > minPrice ? price : minPrice).toFixed(1)
+        }
+    } else {
+        console.log(square)
+        return +(square*10).toFixed(1)
     }
     return 0
 }
@@ -359,7 +364,7 @@ export function getBlindArr(category: string, product_id: number): number[] {
     const range: rangeType = settings.blindRange;
     //Wall corner Exceptions
     const productExceptionsArr: number[] = [109, 110, 113, 114];
-    if (productExceptionsArr.includes(product_id)) return [13,0];
+    if (productExceptionsArr.includes(product_id)) return [13, 0];
     //
     return range[category] ? [range[category], 0] : [0];
 }
@@ -377,30 +382,29 @@ export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind:
 export function getHingeArr(doorArr: number[], product_id: number): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
     let arr: string[] = [];
-    const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108,208,211];
+    const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211];
     const tall_type_1: number[] = [201, 202, 203, 204, 214, 215];
     const tall_type_2: number[] = [212, 213];
     const tall_type_3: number[] = [205, 206, 217, 218];
-    const tall_type_4: number[] = [216,219,220];
+    const tall_type_4: number[] = [216, 219, 220];
 
     if (no_hinge.includes(product_id)) return arr;
     if (tall_type_1.includes(product_id)) {
         if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
-        if (doorArr.includes(4)) arr.push(double,four)
+        if (doorArr.includes(4)) arr.push(double, four)
         return arr;
     } else if (tall_type_2.includes(product_id)) {
         return [left, right, double]
     } else if (tall_type_3.includes(product_id)) {
         return [left_2, right_2, single_left, single_right]
     } else if (tall_type_4.includes(product_id)) {
-        return [left,right]
+        return [left, right]
     }
-
 
     // Basic
     if (doorArr.includes(1)) arr.push(left, right);
     if (doorArr.includes(2)) arr.push(double);
-    if (doorArr.includes(4) && !doorArr.includes(2)) arr.push(double,four)
+    if (doorArr.includes(4) && !doorArr.includes(2)) arr.push(double, four)
     return arr;
 }
 
@@ -477,11 +481,13 @@ export const getBoxMaterialCoef = (box_material_type: BoxMaterialType): number =
         case 0:
         case 2:
             return 1;
-        case 1:
-        case 4:
-            return 1.2;
         case 3:
             return 1.1;
+        case 1:
+            return 1.15;
+        case 4:
+            return 1.2;
+
     }
     return 1;
 }
@@ -495,8 +501,10 @@ export const getBoxMaterialFinishCoef = (doorFinish: string, doorType: string, i
     return doorFinish === 'Syncron' ? 1.845 : 2.706
 }
 
-export const getDoorPriceMultiplier = (doorType: string, doorFinish: string, is_standard_cabinet:boolean): number => {
-    if (is_standard_cabinet) return 0;
+export const getDoorPriceMultiplier = (doorType: string, doorFinish: string, door_color: string, is_standard_cabinet: boolean): number => {
+    if (is_standard_cabinet) {
+        return door_color === 'Default White' ? 20 : 50
+    }
     if (doorType === 'Slab') return 0;
     if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) return 30
     if (doorType === 'Painted' || doorType === 'Slatted') return 37.8
@@ -543,7 +551,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
 
     const box_material_coef = getBoxMaterialCoef(box_material_type);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
-    const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material,is_standard_cabinet)
+    const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet)
     return {
         is_standard_cabinet,
         category,
@@ -886,16 +894,17 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight);
+    const hasGlassDoor = options.includes('Glass Door');
 
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
-        glassDoor: options.includes('Glass Door') ? addGlassDoorPrice(doorSquare, door_option[0]) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
         pvcPrice: !isProductStandard ? getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material) : 0,
         doorPrice: getDoorPrice(frontSquare, door_price_multiplier),
+        glassDoor: hasGlassDoor ? addGlassDoorPrice(frontSquare, door_option[0], isProductStandard) : 0,
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }

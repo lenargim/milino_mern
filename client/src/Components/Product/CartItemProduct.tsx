@@ -65,14 +65,14 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
                     {options.includes('Glass Door') ?
                         <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Door:</span>
-                            <span>{door_option.join('|')}</span>
+                            <span>{door_option.filter(el => !!el).join(', ')}</span>
                         </div> : null
                     }
 
                     {options.includes('Glass Shelf') ?
                         <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Shelf:</span>
-                            <span>{shelf_option.join('|')}</span>
+                            <span>{shelf_option.filter(el => !!el).join(', ')}</span>
                         </div> : null
                     }
 
