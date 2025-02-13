@@ -165,7 +165,6 @@ export function addGlassDoorPrice(square: number = 0, profileVal: any, is_standa
             return +(price > minPrice ? price : minPrice).toFixed(1)
         }
     } else {
-        console.log(square)
         return +(square*10).toFixed(1)
     }
     return 0
@@ -894,7 +893,6 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight);
-    console.log(frontSquare)
     const hasGlassDoor = options.includes('Glass Door');
 
     return {

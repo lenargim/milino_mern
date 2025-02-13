@@ -28,6 +28,7 @@ const Cabinet: FC<CabinetType> = ({
         widthDivider,
         category,
         isAngle,
+        isProductStandard
     } = product;
     const {
         box_material_coef,
@@ -35,6 +36,8 @@ const Cabinet: FC<CabinetType> = ({
         drawer_brand,
         premium_coef,
     } = materialData
+
+    console.log(isProductStandard)
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
@@ -80,7 +83,7 @@ const Cabinet: FC<CabinetType> = ({
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const boxMaterialCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    const allCoefs = boxMaterialCoef * premium_coef;
+    const allCoefs = !isProductStandard ?boxMaterialCoef * premium_coef : 1;
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
     const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
 
@@ -111,7 +114,6 @@ const Cabinet: FC<CabinetType> = ({
     const productCoef = 1 + (coef.width + coef.height + coef.depth)
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
     let attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-
     const totalPrice = startPrice ? +(startPrice * productCoef + attrPrice).toFixed(1) : 0;
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
