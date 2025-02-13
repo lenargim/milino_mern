@@ -503,7 +503,7 @@ export const getBoxMaterialFinishCoef = (doorFinish: string, doorType: string, i
 
 export const getDoorPriceMultiplier = (doorType: string, doorFinish: string, door_color: string, is_standard_cabinet: boolean): number => {
     if (is_standard_cabinet) {
-        return door_color === 'Default White' ? 20 : 50
+        return door_color === 'Default White' ? 0 : 30
     }
     if (doorType === 'Slab') return 0;
     if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) return 30
@@ -894,6 +894,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight);
+    console.log(frontSquare)
     const hasGlassDoor = options.includes('Glass Door');
 
     return {
