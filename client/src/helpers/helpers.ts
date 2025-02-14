@@ -48,7 +48,6 @@ import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
-import {SignUpType} from "../api/apiTypes";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -446,7 +445,7 @@ export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | un
     if (showDoorGrain && !door_grain) return false;
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
 }
-export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial: materialsData[]): boolean => {
+export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial: finishType[]): boolean => {
     return !!(isLeather && box_material && boxMaterial.length)
 }
 
@@ -497,9 +496,15 @@ export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather:boolea
     return arr;
 }
 
-export const getBoxMaterialArr = (category: MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {
+export const getBoxMaterialArr = <T,U>(category: MaybeEmpty<RoomCategories>, boxMaterial: T[], leatherBoxMaterialArr: U[] ): (T|U)[] => {
     if (!category) return [];
     return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
+}
+
+
+export const getBoxMaterialColorsArr = (isLeather:boolean, boxMaterialType:string, boxMaterialsArr:finishType[]): MaybeUndefined<colorType[]> => {
+    if (!isLeather) return undefined;
+    return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
 }
 
 export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {

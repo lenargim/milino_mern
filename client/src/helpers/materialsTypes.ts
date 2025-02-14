@@ -11,11 +11,6 @@ export type materialsData = {
     img?: string
 }
 
-// export type materialsDataNumber = {
-//     value: number,
-//     img?: string
-// }
-
 export interface drawer extends materialsData{
     types: drawerType[]
 }
