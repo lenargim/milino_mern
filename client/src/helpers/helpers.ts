@@ -484,9 +484,17 @@ export const getDrawerArr = (drawers: drawer[], drawer_brand: string, drawer_typ
     }
 }
 
-export const getDoorTypeArr = (doors: doorType[], gola: string) => {
+export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather:boolean):doorType[] => {
+    let arr = doors;
     const noGola = gola === '' || gola === 'No Gola'
-    return noGola ? doors : doors.filter(el => el.value !== 'Standard White Shaker');
+    if (!noGola) {
+        arr = arr.filter(el => el.value !== 'Standard White Shaker');
+    }
+    if (isLeather) {
+        const exceptions = ["No Doors","Three Piece Door","Finger Pull","Standard White Shaker"]
+        arr = arr.filter(el => !exceptions.includes(el.value));
+    }
+    return arr;
 }
 
 export const getBoxMaterialArr = (category: MaybeEmpty<RoomCategories>, boxMaterial: materialsData[], leatherBoxMaterialArr: materialsData[]): materialsData[] => {

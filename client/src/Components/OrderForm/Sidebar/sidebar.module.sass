@@ -6,17 +6,26 @@
     margin-bottom: 2em
 
 .sidebarContent
-  padding: 0 10px
   height: 100vh
-  display: flex
-  flex-direction: column
-  gap: 8px
+  position: sticky
+  top: 0
 
 .sidebarList
+  padding: 40px 10px 0
   width: 100%
-  height: calc(100% - 100px)
+  height: calc(100% - 70px)
   overflow-y: auto
-  padding: 15px 0 30px
+  //padding: 15px 0 30px
+  h3
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2)
+    z-index: 1
+    background-color: #fff
+    padding: 10px 10px
+    height: 40px
 
 .materials
   position: relative
@@ -150,13 +159,13 @@
 .total
   display: block
   width: 100%
-  height: 100px
-  padding: 30px 15px
+  height: 70px
+  padding: 25px 10px
   position: absolute
   bottom: 0
   right: 0
   text-align: right
-  font: 600 24px/1.2 $mainFont
+  font: 600 22px/1.2 $mainFont
   box-shadow: inset 0 4px 10px rgba(0,0,0,.2)
 
 .submit
