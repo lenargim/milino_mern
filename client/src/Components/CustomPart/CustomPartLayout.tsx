@@ -5,6 +5,8 @@ import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/For
 import GlassDoorBlock from "./GlassDoorBlock";
 import GlassShelfBlock from "./GlassShelfBlock";
 import {CustomPartFormType} from "./CustomPartCabinet";
+import {CustomPart} from "../../helpers/productTypes";
+import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export type CustomPartFormValuesType = {
     Width: string,
@@ -47,17 +49,20 @@ export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
     Note: string,
 }
 
-export const CustomPartLayout:FC<CustomPartFormType> = ({product, isDepthIsConst}) => {
+export type CustomPartLayout = {
+    product: CustomPart,
+    showDepthBlock: boolean,
+}
+
+export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock}) => {
     const {values} = useFormikContext<CustomPartFormValuesType>();
     const {
-        price
+        price,
     } = values
     const {materials_array, width, type} = product;
     const showHeightBlock = type !== 'pvc';
-    const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     const showGlassDoorBlock = type === 'glass-door'
     const showGlassShelfBlock = type === 'glass-shelf'
-
     return (
         <Form>
             {!width ?

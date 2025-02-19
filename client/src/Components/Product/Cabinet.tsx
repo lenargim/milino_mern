@@ -37,8 +37,6 @@ const Cabinet: FC<CabinetType> = ({
         premium_coef,
     } = materialData
 
-    console.log(isProductStandard)
-
     const {values, setFieldValue} = useFormikContext<productValuesType>();
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {

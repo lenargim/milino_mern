@@ -3,6 +3,8 @@ import UserModel from "../models/User.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import nodemailer from "nodemailer";
+import {getTransporterObject} from "../utils/helpers.js";
+
 const env = dotenv.config().parsed;
 
 export const register = async (req, res) => {
@@ -22,6 +24,12 @@ export const register = async (req, res) => {
         message: "Your email already in use"
       })
     }
+    const checkUserPhone = await UserModel.findOne({phone: req.body.phone});
+    if (checkUserPhone) {
+      return res.status(500).json({
+        message: "Your phone already in use"
+      })
+    }
 
     const doc = new UserModel({
       name: req.body.name,
@@ -35,22 +43,14 @@ export const register = async (req, res) => {
 
     await doc.save();
 
-    let transporter = nodemailer.createTransport({
-      // service: env.EMAIL_SERVICE,
-      // secure: env.EMAIL_SECURE,
-      host: env.EMAIL_HOST,
-      secureConnection: true,
-      port: env.EMAIL_PORT,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
-      },
-    })
+    // Different smtp access for DEV/PROD
+    let transporter = nodemailer.createTransport(getTransporterObject())
     let mailOptions = {
       from: env.EMAIL_USER,
       to: env.EMAIL_TO,
-      subject: "Milino New User",
-      text: `User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}<br>Need to grand permission`,
+      subject: "Order Form access request",
+      text: `User name: ${req.body.name} Email: ${req.body.email} Company: ${req.body.company} Phone: ${req.body.phone}`,
+      html: `<p>User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}</p>`,
     };
 
     transporter.sendMail(mailOptions).then((trans) => {

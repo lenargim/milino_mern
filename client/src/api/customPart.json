@@ -393,7 +393,7 @@
         }
       }
     ],
-    "depth": 0.75,
+    "depth": 0,
     "images": [
       {
         "type": 1,
@@ -406,7 +406,7 @@
     "product_type": "custom",
     "name": "Double Panel",
     "type": "custom",
-    "depth": 1.5,
+    "depth": 0,
     "materials_array": [
       {
         "name": "Milino",
@@ -1532,18 +1532,6 @@
     ]
   },
   {
-    "id": 919,
-    "product_type": "custom",
-    "name": "Standard Door",
-    "type": "standard-door",
-    "images": [
-      {
-        "type": 1,
-        "value": "Standard Shaker Door.webp"
-      }
-    ]
-  },
-  {
     "id": 920,
     "product_type": "custom",
     "name": "Glass Door",
@@ -1552,6 +1540,18 @@
       {
         "type": 1,
         "value": "Standard Shaker Glass Door.webp"
+      }
+    ]
+  },
+  {
+    "id": 919,
+    "product_type": "custom",
+    "name": "Standard Door",
+    "type": "standard-door",
+    "images": [
+      {
+        "type": 1,
+        "value": "Standard Shaker Door.webp"
       }
     ]
   }

@@ -1,11 +1,14 @@
 import nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
+import {getTransporterObject} from "../utils/helpers.js";
 
 export const SendPDF = (req, res) => {
   const env = dotenv.config().parsed;
 
   const type = req.body.buttonType;
   const client_email = req.body.client_email;
+  const client_name = req.body.client_name;
+  const client_room_name = req.body.client_room_name;
   const pdf = req.files.pdf[0];
   const json = req.files.json[0];
 
@@ -22,21 +25,12 @@ export const SendPDF = (req, res) => {
       msg: 'PDF Download'
     });
   } else if (type === 'send') {
-    let transporter = nodemailer.createTransport({
-      // service: env.EMAIL_SERVICE,
-      // secure: env.EMAIL_SECURE,
-      host: env.EMAIL_HOST,
-      secureConnection: true,
-      port: env.EMAIL_PORT,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
-      },
-    })
+    // Different smtp access for DEV/PROD
+    let transporter = nodemailer.createTransport(getTransporterObject())
     let mailOptions = {
       from: env.EMAIL_USER,
       to: `${env.EMAIL_TO},${client_email}`,
-      subject: "Milino New Order",
+      subject: `Order ${client_room_name} from ${client_name}`,
       text: '',
       attachments: [
         {
