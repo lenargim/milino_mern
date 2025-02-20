@@ -44,16 +44,16 @@
 .nav
   display: flex
   align-items: center
-  flex-wrap: nowrap
-  border: 2px solid $accentLight
-  border-radius: 5px
+  flex-wrap: wrap
+  gap: 2px 5px
   width: fit-content
   margin-bottom: 30px
   a
     padding: 10px 20px
     text-transform: uppercase
-    &:not(:last-of-type)
-      border-right: 2px solid $accentLight
+    border-radius: 5px
+    border: 2px solid $accentLight
+    white-space: nowrap
     &.linkActive
       background-color: $accentLight
       color: #fff
