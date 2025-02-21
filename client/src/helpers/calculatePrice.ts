@@ -53,33 +53,23 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
         case "Custom Parts":
             const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
             if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
-            if (width > maxData.width + 1 && maxData.height && height > maxData.height + 1) {
-                return maxData.price
-            }
-            if (width > maxData.width + 1) {
-                return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price;
-            }
-            if (maxData.height && height > maxData.height + 1) {
-                return priceData.find(el => (el.height === maxData.width) && (el.width && el.width + 1 >= width))?.price;
-            }
-            return undefined
+            if (!maxData.height) return undefined;
+            if (width > maxData.width && height > maxData.height) return maxData.price;
+            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price;
+            if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price;
+            return undefined;
         case "Leather":
-            const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
-            if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
-            if (width > maxData.width + 1 && maxData.depth && depth > maxData.depth + 1) {
-                return maxData.price
-            }
-            if (width > maxData.width + 1) {
-                return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price;
-            }
-            if (maxData.depth && depth > maxData.depth + 1) {
-                return priceData.find(el => (el.depth === maxData.width) && (el.width && el.width + 1 >= width))?.price;
-            }
             if (!priceData[0]?.depth) {
                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
                 if (widthTablePrice) return widthTablePrice;
-                if (width > maxData.width + 1) return maxData.price;
+                if (width > maxData.width) return maxData.price;
+                return undefined;
             }
+            const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
+            if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
+            if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
+            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price;
+            if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price;
             return undefined;
         case "Standard Base Cabinets":
         case "Standard Wall Cabinets":
@@ -165,7 +155,7 @@ export function addGlassDoorPrice(square: number = 0, profileVal: any, is_standa
             return +(price > minPrice ? price : minPrice).toFixed(1)
         }
     } else {
-        return +(square*10).toFixed(1)
+        return +(square * 10).toFixed(1)
     }
     return 0
 }
@@ -420,7 +410,7 @@ export const getBasePriceType = (doorType: string, doorFinish: string, door_colo
     if (!doorType || !doorFinish || doorFinish.includes('No Doors')) return 1;
     if (doorFinish === 'Milino') {
         if (doorType === 'Slab') {
-            const colorType = getBoxMaterialType(door_color, door_color, false,false);
+            const colorType = getBoxMaterialType(door_color, door_color, false, false);
             switch (colorType) {
                 case 4:
                     return 2;
@@ -436,7 +426,7 @@ export const getBasePriceType = (doorType: string, doorFinish: string, door_colo
 
 export const getFinishCoef = (doorType: string, doorFinish: string, base_price_type: 1 | 2 | 3, door_color: string): number => {
     if (doorFinish === 'Milino') {
-        const colorType = getBoxMaterialType(door_color, door_color, false,false);
+        const colorType = getBoxMaterialType(door_color, door_color, false, false);
         if (doorType === 'Slab') {
             switch (colorType) {
                 case 3:
@@ -460,7 +450,7 @@ export const getGrainCoef = (doorGrain: string): number => {
 }
 
 type BoxMaterialType = 0 | 1 | 2 | 3 | 4;
-export const getBoxMaterialType = (box_material: string, box_color: string, is_leather_closet: boolean, is_standard_cabinet:boolean): BoxMaterialType => {
+export const getBoxMaterialType = (box_material: string, box_color: string, is_leather_closet: boolean, is_standard_cabinet: boolean): BoxMaterialType => {
     if (!is_leather_closet) {
         if (box_material.includes('Plywood')) return is_standard_cabinet ? 3 : 1;
         if (box_material.includes('Melamine')) return 2;
@@ -494,7 +484,7 @@ export const getBoxMaterialCoef = (box_material_type: BoxMaterialType): number =
 export const getBoxMaterialFinishCoef = (doorFinish: string, doorType: string, is_standard_cabinet: boolean, door_color: string): number => {
     if (is_standard_cabinet) return 1;
     if (doorFinish === 'Milino') {
-        const colorType = getBoxMaterialType(door_color, door_color, false,false);
+        const colorType = getBoxMaterialType(door_color, door_color, false, false);
         return getBoxMaterialCoef(colorType)
     }
     return doorFinish === 'Syncron' ? 1.845 : 2.706
@@ -542,7 +532,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
     const is_leather_closet = category === 'Leather Closet'
 
-    const box_material_type = getBoxMaterialType(box_material, box_color, is_leather_closet,is_standard_cabinet);
+    const box_material_type = getBoxMaterialType(box_material, box_color, is_leather_closet, is_standard_cabinet);
     const base_price_type = getBasePriceType(door_type, door_finish_material, door_color);
     const finish_coef = getFinishCoef(door_type, door_finish_material, base_price_type, door_color);
     const grain_coef = door_grain ? getGrainCoef(door_grain) : 1;
