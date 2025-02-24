@@ -352,9 +352,11 @@ type rangeType = {
 export function getBlindArr(category: string, product_id: number): number[] {
     const range: rangeType = settings.blindRange;
     //Wall corner Exceptions
-    const productExceptionsArr: number[] = [109, 110, 113, 114];
-    if (productExceptionsArr.includes(product_id)) return [13, 0];
-    //
+    const wallProductExceptionsArr: number[] = [109, 110, 113, 114];
+    if (wallProductExceptionsArr.includes(product_id)) return [13, 0];
+    // Base Cabinet Exceptions
+    const baseProductExceptionsArr:number[] = [23,24,25,26,51,52];
+    if (baseProductExceptionsArr.includes(product_id)) return [24, 0];
     return range[category] ? [range[category], 0] : [0];
 }
 
@@ -371,11 +373,11 @@ export function getDoorWidth(realWidth: number, realBlindWidth: number, isBlind:
 export function getHingeArr(doorArr: number[], product_id: number): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
     let arr: string[] = [];
-    const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211];
+    const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211,216];
     const tall_type_1: number[] = [201, 202, 203, 204, 214, 215];
     const tall_type_2: number[] = [212, 213];
-    const tall_type_3: number[] = [205, 206, 217, 218];
-    const tall_type_4: number[] = [216, 219, 220];
+    const tall_type_3: number[] = [205, 206];
+    const tall_type_4: number[] = [217, 218,219, 220];
 
     if (no_hinge.includes(product_id)) return arr;
     if (tall_type_1.includes(product_id)) {
