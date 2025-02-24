@@ -12,7 +12,6 @@ const RoomCategory: FC = () => {
     if (!room) return null;
     const isStandardCabinet = door_type === 'Standard White Shaker';
     const noGola = !gola || gola === 'No Gola'
-
     const {categories, defaultImg} = getSliderCategories(room, noGola, isStandardCabinet);
     const currentCat = categories.find(cat => cat.name === category);
     return (
