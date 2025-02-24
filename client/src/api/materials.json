@@ -4298,12 +4298,12 @@
   ],
   "grain": [
     {
-      "value": "Horizontal",
-      "img": "Horizontal Grain.jpg"
-    },
-    {
       "value": "Vertical",
       "img": "Vertical Grain.jpg"
+    },
+    {
+      "value": "Horizontal",
+      "img": "Horizontal Grain.jpg"
     }
   ],
   "gola": [
