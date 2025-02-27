@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {extraStandardPricesType, MaybeUndefined} from "../../helpers/productTypes";
+import {MaybeUndefined} from "../../helpers/productTypes";
 import {AttributesPrices, coefType} from "../../helpers/calculatePrice";
 
 

@@ -39,9 +39,7 @@ const Cabinet: FC<CabinetType> = ({
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
-    const {
-        doorValues,
-    } = productPriceData;
+    const {doorValues} = productPriceData;
 
     const {
         ['Width']: width,
@@ -81,7 +79,7 @@ const Cabinet: FC<CabinetType> = ({
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const boxMaterialCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    const allCoefs = !isProductStandard ?boxMaterialCoef * premium_coef : 1;
+    const allCoefs = !isProductStandard ? boxMaterialCoef * premium_coef : 1;
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
     const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
     // console.log(tablePrice)

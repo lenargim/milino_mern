@@ -10,7 +10,7 @@ export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
 
-export const cornerArr = ["Left", "Right", ''] as const;
+export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
@@ -73,7 +73,7 @@ export type ProductType = {
     hasMiddleSection?: true,
     middleSectionDefault?: number,
     isCornerChoose: MaybeUndefined<true>,
-    doorSquare: number,
+    // doorSquare: number,
     widthDivider?: number,
     heightRange?: number,
     cartExtras: CartExtrasType,
@@ -261,43 +261,6 @@ export type DepthRangeType = {
     [key: string]: number,
 }
 
-export interface extraPricesType {
-    width?: number,
-    height?: number,
-    depth?: number,
-    ptoDoors: number,
-    ptoDrawers: number,
-    ptoTrashBins: number,
-    glassShelf: number,
-    glassDoor: number,
-    pvcPrice: number,
-    doorPrice: number,
-    drawerPrice: number,
-    ledPrice: number,
-    doorSquare: number,
-    frontSquare: number,
-    premiumCoef: number,
-    boxMaterialCoef: number,
-    tablePrice?: number
-    startPrice?: number
-}
-
-export interface extraStandardPricesType {
-    depth?: number,
-    ptoDoors: number,
-    ptoDrawers: number,
-    ptoTrashBins: number,
-    glassShelf: number,
-    glassDoor: number,
-    ledPrice: number,
-    doorSquare: number,
-    tablePrice?: number,
-    doorPrice: number,
-    drawerPrice: number,
-    boxMaterialCoef: number
-
-}
-
 export type productRangeType = {
     widthRange: number[],
     heightRange: number[],
@@ -357,7 +320,7 @@ export type OrderType = {
     depth: number,
     blind_width: number,
     middle_section: number,
-    corner: cornerTypes,
+    corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
     door_option: string[],

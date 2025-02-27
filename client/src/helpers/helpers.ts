@@ -157,7 +157,7 @@ type initialStandardValues = {
     'Custom Depth': string,
     'Doors': number,
     'Hinge opening': hingeTypes,
-    Corner: cornerTypes,
+    Corner: MaybeEmpty<cornerTypes>,
     Options: string[],
     'Profile': string,
     'Glass Type': string,
@@ -598,7 +598,12 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number): number => {
+export const getSquare = (doorWidth: number, doorHeight: number, product_id:number): number => {
+    // Height exceptions for leather closet
+    if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
+    if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
+    if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
+
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 

@@ -5817,9 +5817,7 @@
         ]
       }
     ],
-    "options": [
-      "Box from finish material"
-    ]
+    "options": []
   },
   {
     "id": 409,
@@ -5857,8 +5855,7 @@
       }
     ],
     "options": [
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -5888,8 +5885,7 @@
       }
     ],
     "options": [
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -5918,9 +5914,7 @@
         ]
       }
     ],
-    "options": [
-      "Box from finish material"
-    ]
+    "options": []
   },
   {
     "id": 412,
@@ -5958,8 +5952,7 @@
       }
     ],
     "options": [
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -5998,8 +5991,7 @@
       }
     ],
     "options": [
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -6039,8 +6031,7 @@
     ],
     "options": [
       "PTO for drawers",
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -6070,8 +6061,7 @@
       }
     ],
     "options": [
-      "PTO for drawers",
-      "Box from finish material"
+      "PTO for drawers"
     ]
   },
   {
@@ -6101,9 +6091,7 @@
         ]
       }
     ],
-    "options": [
-      "Box from finish material"
-    ]
+    "options": []
   },
   {
     "id": 417,
@@ -6133,8 +6121,7 @@
       }
     ],
     "options": [
-      "Glass Shelf",
-      "Box from finish material"
+      "Glass Shelf"
     ]
   },
   {
@@ -6164,8 +6151,6 @@
         ]
       }
     ],
-    "options": [
-      "Box from finish material"
-    ]
+    "options": []
   }
 ]

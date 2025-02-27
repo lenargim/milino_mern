@@ -3,7 +3,7 @@ import {AdminAPI, AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
 import axios, {AxiosError} from "axios";
 import {
     cornerTypes,
-    hingeTypes,
+    hingeTypes, MaybeEmpty,
     MaybeNull,
     MaybeUndefined,
     ProductApiType,
@@ -147,7 +147,7 @@ export type CartAPI = {
     depth: number,
     blind_width: number,
     middle_section: number,
-    corner: cornerTypes,
+    corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
     door_option: string[],
