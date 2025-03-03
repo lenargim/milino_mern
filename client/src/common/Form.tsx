@@ -220,6 +220,36 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
     )
 }
 
+
+export const ProductRadioInputStandardCustom: FC<ProductDimensionRadioCustomInterface> = ({
+                                                                                      name,
+                                                                                      value,
+                                                                                      className
+                                                                                  }) => {
+    const stringFieldName = name.replace(' Number', '')
+    const [, , helpers] = useField(name);
+    const [, , helpersString] = useField(stringFieldName);
+
+    function convert(input: HTMLInputElement): void {
+        helpers.setValue(+input.value)
+        helpersString.setValue(+input.value.toString());
+    }
+
+    return (
+        <div className={[className, styles.productRadio].join(' ')}>
+            <Field
+                onChange={(e: any) => convert(e.target)}
+                type="radio"
+                name={name}
+                value={value}
+                id={`${name}_${value}`}/>
+            <label htmlFor={`${name}_${value}`}
+                   className={styles.radioLabel}><span>{value}</span></label>
+        </div>
+    )
+}
+
+
 export const ProductRadioInput: FC<ProductRadioInterface> = ({name, value, className}) => {
 
     return (

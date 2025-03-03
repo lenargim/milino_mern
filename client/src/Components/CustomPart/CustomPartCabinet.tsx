@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import { useFormikContext} from 'formik';
 import CustomPartLayout from "./CustomPartLayout";
 import {
-    CustomPart,
+    CustomPartType,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -11,7 +11,7 @@ import {CustomPartFormValuesType} from "./CustomPart";
 import {getFinishColorCoefCustomPart, useAppSelector} from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 export type CustomPartFormType = {
-    product: CustomPart,
+    product: CustomPartType,
     materials: MaterialsFormType
     isDepthIsConst: boolean,
 }

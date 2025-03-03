@@ -12,7 +12,7 @@ import {
     sizeLimitsType, valueItemType
 } from "./productTypes";
 import settings from './../api/settings.json'
-import {getAttributes, getProductById, getSquare, getWidthToCalculateDoor} from "./helpers";
+import {getAttributes, getNewPriceFromPricePart, getProductById, getSquare, getWidthToCalculateDoor} from "./helpers";
 import {
     fillCart,
     productChangeMaterialType,
@@ -826,6 +826,13 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
         default:
             return 0
     }
+}
+
+
+export const getStandardPanelPrice = (id: number, width: number, height: number, depth: number, is_default_type: boolean): number => {
+    const priceData = getStandardPanelPriceRange(id);
+    const pricePart = priceData.find(el => el.width === width && el.height === height && el.depth === depth);
+    return getNewPriceFromPricePart(is_default_type, pricePart)
 }
 
 export const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {

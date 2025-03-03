@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPart} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
@@ -27,7 +27,7 @@ export type DoorType = {
 }
 
 
-const StandardDoorForm: FC<{ customPart: CustomPart }> = ({customPart}) => {
+const StandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
     const {type} = customPart;
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
     const {standard_door, price} = values

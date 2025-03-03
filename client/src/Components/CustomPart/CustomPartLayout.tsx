@@ -5,7 +5,7 @@ import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/For
 import GlassDoorBlock from "./GlassDoorBlock";
 import GlassShelfBlock from "./GlassShelfBlock";
 import {CustomPartFormType} from "./CustomPartCabinet";
-import {CustomPart} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export type CustomPartFormValuesType = {
@@ -50,7 +50,7 @@ export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
 }
 
 export type CustomPartLayout = {
-    product: CustomPart,
+    product: CustomPartType,
     showDepthBlock: boolean,
 }
 

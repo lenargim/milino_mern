@@ -57,7 +57,6 @@ function App() {
                 {/*<Route path="/cabinets/product/:category/:productId"*/}
                 {/*       element={<WithChosenMaterials outlet={<ProductWrap materials={materials}/>}/>}/>*/}
                 {/*<Route path="/cabinets/custom_part/:productId"*/}
-                {/*       element={<WithChosenMaterials outlet={<CustomPartWrap materials={materials}/>}/>}/>*/}
 
                 {/*<Route path="/checkout" element={<LoggedInRoute*/}
                 {/*    {...privateRouteProps}*/}

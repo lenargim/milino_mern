@@ -1,12 +1,12 @@
 import {Formik} from 'formik';
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {
     addToCartCustomPart,
     getCustomPartById, getInitialMaterialData,
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
-import {MaybeNull} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, materialsLimitsType, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {MaterialsFormType} from "../../common/MaterialsForm";
@@ -22,6 +22,7 @@ import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
 import DA from '../../api/doorAccessories.json'
 import StandardPanel from "./StandardPanel";
+import {getStandardPanelPriceRange} from "../../helpers/calculatePrice";
 
 
 type CustomPartFormType = {
@@ -98,28 +99,58 @@ const initialStandardDoor: DoorType = {
     }],
 }
 
+type InitialSizesType = {
+    initial_width: number,
+    initial_height: number,
+    initial_depth: number
+}
+
+const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, isStandardPanel: boolean, prod_id: number): InitialSizesType => {
+    if (isStandardPanel) {
+        const priceData = getStandardPanelPriceRange(prod_id);
+        return {
+            initial_width: priceData && priceData[0].width ? priceData[0].width : 0,
+            initial_height: priceData && priceData[0].height ? priceData[0].height : 0,
+            initial_depth: priceData && priceData[0].depth ? priceData[0].depth : 0
+        }
+    }
+
+    const {width, depth, limits} = customPart
+    const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
+    const w = width ?? getLimit(sizeLimitInitial.width);
+    const h = getLimit(sizeLimitInitial.height);
+    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
+    return {
+        initial_width: Math.ceil(w),
+        initial_height: Math.ceil(h),
+        initial_depth: Math.ceil(d)
+    }
+}
+
 const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     const dispatch = useAppDispatch();
-
     let {productId, roomId} = useParams();
     if (!productId || !materials) return <div>Custom part error</div>;
-    const customPart = getCustomPartById(+productId)
-    if (!customPart) return <Navigate to={{pathname: '/cabinets'}}/>;
-    const {limits, width, depth, type} = customPart;
-    const initialMaterialData = getInitialMaterialData(customPart, materials)
-    const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
+    const customPartProduct = getCustomPartById(+productId)
+    if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
+    const {depth, type, id} = customPartProduct;
+    const initialMaterialData = getInitialMaterialData(customPartProduct, materials)
     const isDepthIsConst = !!(initialMaterialData?.depth ?? depth)
-    const initialDepth = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
-
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
+    const isStandardPanel = ["standard-panel", "shape-panel"].includes(type);
+    const isDoorAccessories = ["door-accessories"].includes(type);
+
+    const initialSizes = getInitialSizes(customPartProduct, initialMaterialData, isStandardPanel, id);
+    const {initial_width, initial_height, initial_depth} = initialSizes
+
     const initialValues: CustomPartFormValuesType = {
-        'Width': Math.ceil(width ?? getLimit(sizeLimitInitial.width)).toString(),
-        'Height': Math.ceil(getLimit(sizeLimitInitial.height)).toString(),
-        'Depth': Math.ceil(initialDepth).toString(),
-        'Width Number': Math.ceil(width ?? getLimit(sizeLimitInitial.width)),
-        'Height Number': Math.ceil(getLimit(sizeLimitInitial.height)),
-        'Depth Number': Math.ceil(initialDepth),
-        'Material': initialMaterialData ? initialMaterialData.name : '',
+        'Width': initial_width.toString(),
+        'Height': initial_height.toString(),
+        'Depth': initial_depth.toString(),
+        'Width Number': initial_width,
+        'Height Number': initial_height,
+        'Depth Number': initial_depth,
+        'Material': initialMaterialData?.name || '',
         glass_door: [],
         glass_shelf: '',
         led_accessories: {
@@ -129,7 +160,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             dimmable_remote: 0,
             transformer: 0,
         },
-        door_accessories: initialDoorAccessoires,
+        door_accessories: isDoorAccessories ? initialDoorAccessoires : [],
         standard_door: initialStandardDoor,
         'Note': '',
         price: 0,
@@ -138,10 +169,10 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={getCustomPartSchema(customPart)}
+            validationSchema={getCustomPartSchema(customPartProduct)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                if (!customPart) return;
-                const cartData = addToCartCustomPart(values, customPart, undefined)
+                if (!customPartProduct) return;
+                const cartData = addToCartCustomPart(values, customPartProduct, undefined)
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
                         if (cart && roomId) dispatch(updateCartInRoom({cart: cart, _id: roomId}));
@@ -153,14 +184,15 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             }}
         >
             <>
-                <CustomPartLeft product={customPart} materials={materials}/>
+                <CustomPartLeft product={customPartProduct} materials={materials}/>
                 <div className={s.right}>
-                    {isCabinetLayout && <CustomPartCabinet product={customPart} isDepthIsConst={isDepthIsConst} materials={materials}/>}
+                    {isCabinetLayout && <CustomPartCabinet product={customPartProduct} isDepthIsConst={isDepthIsConst}
+                                                           materials={materials}/>}
                     {type === 'led-accessories' && <LEDForm/>}
-                    {type === 'door-accessories' && <DoorAccessoiresForm/>}
+                    {isDoorAccessories && <DoorAccessoiresForm/>}
                     {(type === 'standard-door' || type === 'standard-glass-door') &&
-                      <StandardDoorForm customPart={customPart}/>}
-                    {type === 'standard-panel' && <StandardPanel product={customPart} materials={materials} />}
+                    <StandardDoorForm customPart={customPartProduct}/>}
+                    {isStandardPanel && <StandardPanel product={customPartProduct} materials={materials}/>}
                 </div>
             </>
         </Formik>

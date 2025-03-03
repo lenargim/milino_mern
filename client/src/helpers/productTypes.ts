@@ -98,7 +98,7 @@ export type productPricesType = {
 }
 
 
-export type CustomPart = {
+export type CustomPartType = {
     id: number,
     name: string,
     type: CustomTypes,
@@ -195,6 +195,7 @@ export type pricePart = {
 export type pricePartStandardPanel = {
     width: number,
     height: number,
+    depth: number,
     price: number,
     painted_price: number
 }

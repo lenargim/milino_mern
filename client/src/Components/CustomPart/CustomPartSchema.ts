@@ -1,13 +1,9 @@
 import * as Yup from 'yup';
-import {CustomPart, materialsCustomPart, materialsLimitsType} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, materialsLimitsType} from "../../helpers/productTypes";
 import {string, tuple} from "yup";
 import { numericQuantity } from 'numeric-quantity';
 
-const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
-const patternthreedigisaftercomma = /^\d+(\.\d{0,3})?$/;
-
-
-export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
+export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
     const customSchema = Yup.object({
         'Width': Yup.string()
@@ -117,17 +113,6 @@ export function getCustomPartSchema(product: CustomPart): Yup.InferType<any> {
         case "door-accessories":
             return Yup.object({
                 price: Yup.number().required().positive(),
-                // doorAccessoiresType: Yup.object({
-                //     hingeHoleCustom: Yup.object().shape({
-                //         qty: Yup.number(),
-                //         label: Yup.string(),
-                //         title: Yup.string()
-                //             .when('qty', {
-                //                 is: (val: number) => val > 0,
-                //                 then: schema => schema.required('Enter custom hinge')
-                //             })
-                //     })
-                // })
             })
         case "standard-door":
         case "standard-glass-door":
