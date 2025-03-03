@@ -102,18 +102,18 @@ export function getStartPrice(customWidth: number, customHeight: number, customD
 }
 
 export function addWidthPriceCoef(width: number, maxWidth: number) {
-    return Math.ceil((width - maxWidth) / 3) / 10;
+    return Math.ceil((width - maxWidth-1) / 3) / 10;
 }
 
 export function addHeightPriceCoef(customHeight: number, maxHeight: number) {
-    return Math.ceil((customHeight - maxHeight) / 3) / 10
+    return Math.ceil((customHeight - maxHeight-1) / 3) / 10
 }
 
 export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: AngleType) {
     if (isAngle) return 0;
     const maxDepth = depthRangeData[depthRangeData.length - 1];
     if (customDepth > maxDepth) {
-        return Math.ceil((customDepth - maxDepth) / 3) / 10
+        return Math.ceil((customDepth - maxDepth-1) / 3) / 10
     }
     return 0
 }
