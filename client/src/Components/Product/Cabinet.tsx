@@ -121,6 +121,7 @@ const Cabinet: FC<CabinetType> = ({
             setFieldValue('image_active_number', newType)
         }
     }, [values])
+    console.log(`table price ${tablePrice}`)
     return (
         <>
             <CabinetLayout product={product} productRange={productRange}
