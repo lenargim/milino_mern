@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
-import {MaybeUndefined} from "../../helpers/productTypes";
-import {AttributesPrices, coefType} from "../../helpers/calculatePrice";
+import {AttributesPrices, MaybeUndefined} from "../../helpers/productTypes";
+import {coefType} from "../../helpers/calculatePrice";
+
 
 
 type TestType = {

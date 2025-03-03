@@ -1,9 +1,9 @@
-import React, {Dispatch, FC, useEffect, useRef, useState} from 'react';
+import React, {Dispatch, FC, useRef, useState} from 'react';
 import {
     getCartItemImg,
     getCustomPartById,
     getMaterialStrings,
-    getProductById, useAppSelector,
+    getProductById,
 } from "../../helpers/helpers";
 import {Form, Formik, FormikProps} from 'formik';
 import {PhoneInput, TextInput} from "../../common/Form";

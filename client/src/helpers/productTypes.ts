@@ -5,10 +5,16 @@ import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
+export type BoxMaterialType = 0 | 1 | 2 | 3 | 4;
 
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
+
+function notEmpty<TValue>(value: MaybeUndefined<TValue>): value is TValue {
+    return value !== null && value !== undefined;
+}
+
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
@@ -28,7 +34,8 @@ export type CustomTypes =
     | 'door-accessories'
     | 'standard-door'
     | 'standard-glass-door'
-    | 'backing';
+    | 'backing'
+    | 'standard-panel';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -73,7 +80,6 @@ export type ProductType = {
     hasMiddleSection?: true,
     middleSectionDefault?: number,
     isCornerChoose: MaybeUndefined<true>,
-    // doorSquare: number,
     widthDivider?: number,
     heightRange?: number,
     cartExtras: CartExtrasType,
@@ -163,7 +169,9 @@ export type materialDataType = {
     drawer_brand: string,
     drawer_type: string,
     drawer_color: string,
-    leather: string
+    leather: string,
+    is_leather_closet: boolean,
+    box_material: string
 }
 
 
@@ -182,6 +190,13 @@ export type pricePart = {
     height?: number,
     depth?: number,
     price: number
+}
+
+export type pricePartStandardPanel = {
+    width: number,
+    height: number,
+    price: number,
+    painted_price: number
 }
 
 export type priceItem = {
@@ -336,4 +351,16 @@ export type OrderType = {
     door_accessories?: DoorAccessoireAPIType[],
     standard_door?: DoorType
     note: string,
+}
+
+export type AttributesPrices = {
+    ptoDoors: number,
+    ptoDrawers: number,
+    glassShelf: number,
+    glassDoor: number,
+    ptoTrashBins: number,
+    ledPrice: number,
+    pvcPrice: number,
+    doorPrice: number,
+    drawerPrice: number,
 }

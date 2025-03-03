@@ -21,6 +21,7 @@ import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
 import DA from '../../api/doorAccessories.json'
+import StandardPanel from "./StandardPanel";
 
 
 type CustomPartFormType = {
@@ -134,7 +135,6 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
         price: 0,
     }
 
-
     return (
         <Formik
             initialValues={initialValues}
@@ -160,6 +160,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
                     {type === 'door-accessories' && <DoorAccessoiresForm/>}
                     {(type === 'standard-door' || type === 'standard-glass-door') &&
                       <StandardDoorForm customPart={customPart}/>}
+                    {type === 'standard-panel' && <StandardPanel product={customPart} materials={materials} />}
                 </div>
             </>
         </Formik>

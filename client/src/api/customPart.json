@@ -1554,5 +1554,17 @@
         "value": "Accessories.webp"
       }
     ]
+  },
+  {
+    "id": 921,
+    "product_type": "custom",
+    "name": "Standard Panel",
+    "type": "standard-panel",
+    "images": [
+      {
+        "type": 1,
+        "value": "Panel.webp"
+      }
+    ]
   }
 ]

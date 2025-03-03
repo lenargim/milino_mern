@@ -2433,5 +2433,88 @@
         "price": 596
       }
     ]
+  },
+  {
+    "id": 921,
+    "prices": [
+      {
+        "width": 3,
+        "height": 30,
+        "price": 16,
+        "painted_price": 35
+      },
+      {
+        "width": 3,
+        "height": 36,
+        "price": 18,
+        "painted_price": 41
+      },
+      {
+        "width": 3,
+        "height": 42,
+        "price": 21,
+        "painted_price": 47
+      },
+      {
+        "width": 6,
+        "height": 30,
+        "price": 29,
+        "painted_price": 67
+      },
+      {
+        "width": 6,
+        "height": 36,
+        "price": 34,
+        "painted_price": 79
+      },
+      {
+        "width": 6,
+        "height": 42,
+        "price": 40,
+        "painted_price": 93
+      },
+      {
+        "width": 14,
+        "height": 30,
+        "price": 50,
+        "painted_price": 138
+      },
+      {
+        "width": 14,
+        "height": 36,
+        "price": 60,
+        "painted_price": 165
+      },
+      {
+        "width": 14,
+        "height": 42,
+        "price": 70,
+        "painted_price": 192
+      },
+      {
+        "width": 25,
+        "height": 36,
+        "price": 90,
+        "painted_price": 278
+      },
+      {
+        "width": 25,
+        "height": 96,
+        "price": 133,
+        "painted_price": 633
+      },
+      {
+        "width": 36,
+        "height": 96,
+        "price": 150,
+        "painted_price": 870
+      },
+      {
+        "width": 48,
+        "height": 96,
+        "price": 215,
+        "painted_price": 1175
+      }
+    ]
   }
 ]

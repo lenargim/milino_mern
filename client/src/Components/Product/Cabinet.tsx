@@ -82,7 +82,6 @@ const Cabinet: FC<CabinetType> = ({
     const allCoefs = !isProductStandard ? boxMaterialCoef * premium_coef : 1;
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
     const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
-    // console.log(tablePrice)
     const cabinetItem: CabinetItemType = {
         product_id: id,
         product_type: product.product_type,
@@ -105,7 +104,6 @@ const Cabinet: FC<CabinetType> = ({
         material: '',
         leather: ''
     }
-
     const coef = getProductCoef(cabinetItem, tablePriceData, product);
     const productCoef = 1 + (coef.width + coef.height + coef.depth)
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
