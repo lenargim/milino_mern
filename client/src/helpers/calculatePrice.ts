@@ -906,6 +906,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         rolloutsQty,
     } = productPriceData;
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
+    const isLeather = category === 'Leather';
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_closet);
@@ -917,7 +918,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
-        pvcPrice: !isProductStandard ? getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material) : 0,
+        pvcPrice: (isProductStandard || isLeather) ? 0 : getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material),
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: hasGlassDoor ? addGlassDoorPrice(frontSquare, door_option[0], isProductStandard) : 0,
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
