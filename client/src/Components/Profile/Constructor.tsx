@@ -1,48 +1,48 @@
-import React, {FC, RefObject, useEffect, useRef} from 'react';
+import React, {FC, RefObject, useRef} from 'react';
 import {UserType} from "../../api/apiTypes";
 import {IFrameRenderer} from "../../common/IFrameRenderer";
-import {useIsIFrameLoaded} from "../../helpers/helpers";
 import {MaybeNull} from "../../helpers/productTypes";
-import {getConstructorCustomers} from "../../api/apiFunctions";
 
 
-const signIn = (token:MaybeNull<string>, frame:RefObject<HTMLIFrameElement>) => {
+const signIn = (token: MaybeNull<string>, frame: RefObject<HTMLIFrameElement>) => {
     if (!frame.current || !token) return null;
     frame.current.contentWindow?.postMessage(
-        { command: 'sign-in', payload: { token: token } },
-        'https://planner.prodboard.com');
+        {command: 'sign-in', payload: {token: token}},
+        process.env.REACT_APP_CONSTRUCTOR_URL);
 };
+
+const signOut = (frame: RefObject<HTMLIFrameElement>) => {
+    frame.current?.contentWindow?.postMessage(
+        {command: 'sign-out'},
+        process.env.REACT_APP_CONSTRUCTOR_URL);
+}
 
 const Constructor: FC<{ user: UserType }> = () => {
     const site_src = process.env.REACT_APP_CONSTRUCTOR_ENV;
-    // const token = process.env.REACT_APP_CONSTRUCTOR_TOKEN;
     const token = localStorage.getItem('constructor_token');
 
     const iframeRef = useRef<HTMLIFrameElement>(null);
-    const isIFrameLoaded = useIsIFrameLoaded(iframeRef);
-    if (isIFrameLoaded) {
-        getConstructorCustomers().then((customers) => {
-            console.log(customers)
-        })
-
-    }
-    const prodboardRef = useRef(null)
+    // const isIFrameLoaded = useIsIFrameLoaded(iframeRef);
+    // if (isIFrameLoaded) {
+    //     getConstructorCustomers().then((customers) => {
+    //         console.log(customers)
+    //     })
+    // }
+    // const prodboardRef = useRef(null)
     // useEffect(() => {
-        // prodboard(prodboardRef.current, {
-        //     company: "milino",
-        //     instance: "closet",
-        //     host: "https://milinocabinets.com",
-        //     environment: "https://planner.prodboard.com"
-        // });
+    // prodboard(prodboardRef.current, {
+    //     company: "milino",
+    //     instance: "closet",
+    //     host: "https://milinocabinets.com",
+    //     environment: "https://planner.prodboard.com"
+    // });
     // },[])
 
-    console.log(site_src)
-    console.log(token)
-    if (!site_src ) return null;
+    if (!site_src || iframeRef.current) return null;
     return (
         <div style={{height: '100%'}}>
-            {iframeRef.current && <button onClick={() => signIn(token, iframeRef)}>Sign in</button>}
-            {/*<iframe src={process.env.REACT_APP_CONSTRUCTOR_ENV} style={{width: '100%', height: '100%',padding:0,margin:0}} />*/}
+            {<button onClick={() => signIn(token, iframeRef)}>Sign in</button>}
+            {<button onClick={() => signOut(iframeRef)}>Sign Out</button>}
             <IFrameRenderer src={site_src} iframeRef={iframeRef}/>
 
             {/*<input id="token" type="text" placeholder="token" />*/}
