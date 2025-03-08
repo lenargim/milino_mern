@@ -3,18 +3,20 @@ import {UserType} from "../../api/apiTypes";
 import {IFrameRenderer} from "../../common/IFrameRenderer";
 import {MaybeNull} from "../../helpers/productTypes";
 
+const REACT_APP_CONSTRUCTOR_URL = process.env.REACT_APP_CONSTRUCTOR_URL || null
 
 const signIn = (token: MaybeNull<string>, frame: RefObject<HTMLIFrameElement>) => {
-    if (!frame.current || !token) return null;
+    if (!frame.current || !token || !REACT_APP_CONSTRUCTOR_URL) return null;
     frame.current.contentWindow?.postMessage(
         {command: 'sign-in', payload: {token: token}},
-        process.env.REACT_APP_CONSTRUCTOR_URL);
+        REACT_APP_CONSTRUCTOR_URL);
 };
 
 const signOut = (frame: RefObject<HTMLIFrameElement>) => {
+    if (!REACT_APP_CONSTRUCTOR_URL) return null;
     frame.current?.contentWindow?.postMessage(
         {command: 'sign-out'},
-        process.env.REACT_APP_CONSTRUCTOR_URL);
+        REACT_APP_CONSTRUCTOR_URL);
 }
 
 const Constructor: FC<{ user: UserType }> = () => {
