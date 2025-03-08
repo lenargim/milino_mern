@@ -10,8 +10,8 @@ const Constructor: FC<{ user: UserType }> = () => {
     }, [])
 
     return (
-        <div>
-
+        <div style={ {height: '100%'} }>
+            <iframe src={process.env.REACT_APP_CONSTRUCTOR_ENV} style={{width: '100%', height: '100%',padding:0,margin:0}} />
         </div>
     );
 };
