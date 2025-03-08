@@ -2,10 +2,11 @@ import React, {FC, RefObject, useEffect, useRef} from 'react';
 import {UserType} from "../../api/apiTypes";
 import {IFrameRenderer} from "../../common/IFrameRenderer";
 import {useIsIFrameLoaded} from "../../helpers/helpers";
+import {MaybeUndefined} from "../../helpers/productTypes";
 
 
-const signIn = (token:string, frame:RefObject<HTMLIFrameElement>) => {
-    if (!frame.current) return null;
+const signIn = (token:MaybeUndefined<string>, frame:RefObject<HTMLIFrameElement>) => {
+    if (!frame.current || !token) return null;
     frame.current.contentWindow?.postMessage(
         { command: 'sign-in', payload: { token: token } },
         'https://planner.prodboard.com');
@@ -34,7 +35,7 @@ const Constructor: FC<{ user: UserType }> = () => {
 
     console.log(site_src)
     console.log(token)
-    if (!site_src || !token) return null;
+    if (!site_src ) return null;
     return (
         <div style={{height: '100%'}}>
             {iframeRef.current && <button onClick={() => signIn(token, iframeRef)}>Sign in</button>}
