@@ -42,7 +42,7 @@ import {
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
-import {useEffect, useRef} from "react";
+import {RefObject, useEffect, useRef, useState} from "react";
 import standardColors from '../api/standardColors.json'
 import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
@@ -1008,3 +1008,17 @@ export function getNewPriceFromPricePart(is_price_type_default: boolean, pricePa
     if (!pricePart) return 0;
     return is_price_type_default ? pricePart.price : pricePart.painted_price;
 }
+
+export const useIsIFrameLoaded = (
+    iframeRef: RefObject<HTMLIFrameElement>
+): boolean => {
+    const [isIFrameLoaded, setIsIFrameLoaded] = useState<boolean>(false);
+    const iframeCurrent = iframeRef.current;
+    useEffect(() => {
+        iframeCurrent?.addEventListener('load', () => setIsIFrameLoaded(true));
+        return () => {
+            iframeCurrent?.removeEventListener('load', () => setIsIFrameLoaded(true));
+        };
+    }, [iframeCurrent]);
+    return isIFrameLoaded;
+};
