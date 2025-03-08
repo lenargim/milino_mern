@@ -23,11 +23,19 @@ const instance = axios.create({
 const constructor_instance = axios.create({
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer 59tyoO828vPAbyx1wZpvZwGW19C1QIDO`
     },
     baseURL: process.env.REACT_APP_CONSTRUCTOR_ENV,
     responseType: 'json',
 });
+
+const constructor_instance_account = axios.create({
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    baseURL: process.env.REACT_APP_CONSTRUCTOR_ACCOUNT_ENV,
+    responseType: 'json',
+});
+
 
 
 const getHeaders = () => ({
@@ -71,4 +79,5 @@ export const AdminAPI = {
 
 export const ConstructorAPI = {
     getCustomers: () => constructor_instance.get('customers'),
+    signIn: (token:string) => constructor_instance_account.post('sign-in', { token: token })
 }

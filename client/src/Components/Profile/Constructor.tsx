@@ -2,10 +2,11 @@ import React, {FC, RefObject, useEffect, useRef} from 'react';
 import {UserType} from "../../api/apiTypes";
 import {IFrameRenderer} from "../../common/IFrameRenderer";
 import {useIsIFrameLoaded} from "../../helpers/helpers";
-import {MaybeUndefined} from "../../helpers/productTypes";
+import {MaybeNull} from "../../helpers/productTypes";
+import {getConstructorCustomers} from "../../api/apiFunctions";
 
 
-const signIn = (token:MaybeUndefined<string>, frame:RefObject<HTMLIFrameElement>) => {
+const signIn = (token:MaybeNull<string>, frame:RefObject<HTMLIFrameElement>) => {
     if (!frame.current || !token) return null;
     frame.current.contentWindow?.postMessage(
         { command: 'sign-in', payload: { token: token } },
@@ -14,14 +15,16 @@ const signIn = (token:MaybeUndefined<string>, frame:RefObject<HTMLIFrameElement>
 
 const Constructor: FC<{ user: UserType }> = () => {
     const site_src = process.env.REACT_APP_CONSTRUCTOR_ENV;
-    const token = process.env.REACT_APP_CONSTRUCTOR_TOKEN;
+    // const token = process.env.REACT_APP_CONSTRUCTOR_TOKEN;
+    const token = localStorage.getItem('constructor_token');
 
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const isIFrameLoaded = useIsIFrameLoaded(iframeRef);
     if (isIFrameLoaded) {
-        // getConstructorCustomers().then((customers) => {
-        //     console.log(customers)
-        // })
+        getConstructorCustomers().then((customers) => {
+            console.log(customers)
+        })
+
     }
     const prodboardRef = useRef(null)
     // useEffect(() => {
