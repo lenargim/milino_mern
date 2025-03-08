@@ -1,5 +1,17 @@
 [
   {
+    "id": 921,
+    "product_type": "custom",
+    "name": "Standard Panel",
+    "type": "standard-panel",
+    "images": [
+      {
+        "type": 1,
+        "value": "Panel_Standard.webp"
+      }
+    ]
+  },
+  {
     "id": 919,
     "product_type": "custom",
     "name": "Standard Door",
@@ -1552,18 +1564,6 @@
       {
         "type": 1,
         "value": "Accessories.webp"
-      }
-    ]
-  },
-  {
-    "id": 921,
-    "product_type": "custom",
-    "name": "Standard Panel",
-    "type": "standard-panel",
-    "images": [
-      {
-        "type": 1,
-        "value": "Panel.webp"
       }
     ]
   }

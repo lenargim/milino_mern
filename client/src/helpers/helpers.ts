@@ -127,13 +127,10 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
 }
 
 export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
-    if (!isStandardCabinet) {
-        // filter standard shaker parts;
-        const exceptionIds = [919,920,921,922]
-        const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
-        return standardDoorCustomParts as customPartDataType[];
-    }
-    return customParts as customPartDataType[];
+    let exceptionIds:number[] = [];
+    exceptionIds = isStandardCabinet ? [910,913] : [919,920,921,922];
+    const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
+    return standardDoorCustomParts as customPartDataType[];
 }
 
 export const getCustomPartById = (id: number): MaybeNull<CustomPartType> => {
