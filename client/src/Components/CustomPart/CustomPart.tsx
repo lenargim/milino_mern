@@ -6,7 +6,7 @@ import {
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartType, materialsCustomPart, materialsLimitsType, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {MaterialsFormType} from "../../common/MaterialsForm";
@@ -21,8 +21,7 @@ import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
 import DA from '../../api/doorAccessories.json'
-import StandardPanel from "./StandardPanel";
-import {getStandardPanelPriceRange} from "../../helpers/calculatePrice";
+import StandardPanel, {PanelsFormType} from "./StandardPanel";
 
 
 type CustomPartFormType = {
@@ -84,7 +83,8 @@ export type CustomPartFormValuesType = {
     glass_shelf: string,
     led_accessories: LedAccessoriesFormType,
     door_accessories: DoorAccessoireType[],
-    standard_door: DoorType
+    standard_door: DoorType,
+    standard_panels: PanelsFormType,
 }
 
 const doorAccessoires = DA as DoorAccessoireFront[]
@@ -105,15 +105,13 @@ type InitialSizesType = {
     initial_depth: number
 }
 
-const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, isStandardPanel: boolean, prod_id: number): InitialSizesType => {
-    if (isStandardPanel) {
-        const priceData = getStandardPanelPriceRange(prod_id);
-        return {
-            initial_width: priceData && priceData[0].width ? priceData[0].width : 0,
-            initial_height: priceData && priceData[0].height ? priceData[0].height : 0,
-            initial_depth: priceData && priceData[0].depth ? priceData[0].depth : 0
-        }
-    }
+const initialStandardPanels:PanelsFormType = {
+    standard_panel: [],
+    shape_panel: [],
+    wtk: []
+}
+
+const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
 
     const {width, depth, limits} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
@@ -133,14 +131,14 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     if (!productId || !materials) return <div>Custom part error</div>;
     const customPartProduct = getCustomPartById(+productId)
     if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
-    const {depth, type, id} = customPartProduct;
+    const {depth, type} = customPartProduct;
     const initialMaterialData = getInitialMaterialData(customPartProduct, materials)
     const isDepthIsConst = !!(initialMaterialData?.depth ?? depth)
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
-    const isStandardPanel = ["standard-panel", "shape-panel"].includes(type);
+    const isStandardPanel = ["standard-panel"].includes(type);
     const isDoorAccessories = ["door-accessories"].includes(type);
 
-    const initialSizes = getInitialSizes(customPartProduct, initialMaterialData, isStandardPanel, id);
+    const initialSizes = getInitialSizes(customPartProduct, initialMaterialData);
     const {initial_width, initial_height, initial_depth} = initialSizes
 
     const initialValues: CustomPartFormValuesType = {
@@ -162,6 +160,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
         },
         door_accessories: isDoorAccessories ? initialDoorAccessoires : [],
         standard_door: initialStandardDoor,
+        standard_panels: initialStandardPanels,
         'Note': '',
         price: 0,
     }
@@ -171,7 +170,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(customPartProduct)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                if (!customPartProduct) return;
+                if (!customPartProduct || !values.price) return;
                 const cartData = addToCartCustomPart(values, customPartProduct, undefined)
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {

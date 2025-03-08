@@ -27,6 +27,6 @@ export const cartItemValidation = [
     .isIn(['Left', 'Right', ''])
     .withMessage("value is invalid"),
   body('options').isArray({max: 4})
-    .isIn(["PTO for doors", "Box from finish material", "Glass Door", "Glass Shelf"])
+    .isIn(["PTO for drawers","PTO for doors", "Box from finish material", "Glass Door", "Glass Shelf"])
     .withMessage("value is invalid"),
 ]

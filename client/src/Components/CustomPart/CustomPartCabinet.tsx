@@ -27,7 +27,7 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, mat
         price
     } = values
     const {id, materials_array, type, glass_door} = product;
-    const showDepthBlock = !!(type === 'custom' && !isDepthIsConst && depthNumber);
+    const showDepthBlock = !!(type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {
         const newDepth = materials_array?.find(el => el.name === material)?.depth;
         if (newDepth && depthNumber !== newDepth) setFieldValue('Depth Number', newDepth);

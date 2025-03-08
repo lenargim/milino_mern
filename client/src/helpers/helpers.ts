@@ -8,7 +8,7 @@ import {
     itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
     productRangeType, ProductType,
-    productTypings, RoomCategories, sizeLimitsType, valueItemType, pricePartStandardPanel
+    productTypings, RoomCategories, sizeLimitsType, valueItemType, pricePartStandardPanel, priceStandardPanel
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import {
@@ -18,13 +18,13 @@ import cabinets from '../api/cabinets.json';
 import standardCabinets from '../api/standartProducts.json'
 import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
-import {colorType, doorType, drawer, drawerType, finishType, materialsData} from "./materialsTypes";
+import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
     getAttributesProductPrices,
     getBlindArr, getCustomPartPrice,
     getDoorMinMaxValuesArr,
     getMaterialData, getProductCoef,
-    getProductDataToCalculatePrice, getProductPriceRange, getProductRange, getStandardPanelPrice,
+    getProductDataToCalculatePrice, getProductPriceRange, getProductRange,
     getStartPrice,
     getTablePrice,
     getType
@@ -48,6 +48,8 @@ import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
+import standardProductsPrices from "../api/standartProductsPrices.json";
+import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/StandardPanel";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -328,7 +330,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
     return cartData
 }
 
-export const addToCartCustomPart = (values: CustomPartFormValuesType, product: CustomPartType, roomId: MaybeUndefined<string>,) => {
+export const addToCartCustomPart = (values: CustomPartFormValuesType, product: CustomPartType, roomId: MaybeUndefined<string>) => {
     const {
         'Width Number': width,
         'Height Number': height,
@@ -340,7 +342,8 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         price,
         door_accessories,
         led_accessories,
-        standard_door
+        standard_door,
+        standard_panels
     } = values;
 
     const {id, type} = product;
@@ -395,6 +398,18 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         }
     }
 
+    if (type === 'standard-panel' && standard_panels) {
+        const {standard_panel, shape_panel, wtk} = standard_panels;
+        const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
+        const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
+        const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
+        cartData.standard_panels = {
+            standard_panel: standard_panel_api,
+            shape_panel: shape_panel_api,
+            wtk: wtk_api
+        }
+    }
+
     if (type === 'door-accessories') {
         cartData.door_accessories = door_accessories.filter(el => el.qty > 0)
     }
@@ -402,7 +417,6 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
     if (type === 'standard-door' || type === 'standard-glass-door') {
         cartData.standard_door = standard_door
     }
-
     return cartData
 }
 
@@ -782,14 +796,14 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         standard_door,
         glass_shelf,
         amount,
+        standard_panels
     } = item;
 
     const customPart = getCustomPartById(product_id);
     if (!customPart) return null;
-
     const {type, glass_door} = customPart;
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
-    const isStandardPanel = ["standard-panel", "shape-panel"].includes(type);
+    const isStandardPanel = ["standard-panel"].includes(type);
     let price: number = 0;
 
     if (isCabinetLayout) {
@@ -819,12 +833,16 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         price = getCustomPartStandardDoorPrice(standard_door, type)
     }
 
-
-    if (isStandardPanel) {
+    if (isStandardPanel && standard_panels) {
         const is_price_type_default = door_type === 'Standard White Shaker' && door_color === 'Default White';
-        price = getStandardPanelPrice(product_id, width, height, depth,is_price_type_default)
+        const apiPanelData = standardProductsPrices.find(el => el.id === product_id) as priceStandardPanel;
+        const standard_panels_front:PanelsFormType = {
+            standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
+            shape_panel: standard_panels.shape_panel.map(el => ({...el, _id: uuidv4()})),
+            wtk: standard_panels.wtk.map(el => ({...el, _id: uuidv4()})),
+        };
+        price = getStandardPanelsPrice(standard_panels_front,is_price_type_default,apiPanelData);
     }
-
     const cartData: CartItemType = {
         _id: _id,
         subcategory: type,
@@ -858,6 +876,7 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         led_accessories: led_accessories,
         door_accessories: door_accessories,
         standard_door: standard_door,
+        standard_panels: standard_panels,
         note: note,
         glass_door: glass_door_val,
         glass_shelf: glass_shelf,
@@ -923,6 +942,21 @@ export const usePrevious = (data: string) => {
     }, [data])
     return prev.current
 }
+
+export const useScript = (url:string) => {
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.async = true;
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, [url]);
+};
+
+export default useScript;
+
 
 export const getDimentionsRow = (width: number, height: number, depth: number): string => {
     const widthPart = width ? `${getFraction(width)}"W x` : '';

@@ -192,7 +192,15 @@ export type pricePart = {
     price: number
 }
 
+export type priceStandardPanel = {
+    id: number,
+    standard_panel: pricePartStandardPanel[],
+    shape_panel: pricePartStandardPanel[],
+    wtk: pricePartStandardPanel[]
+}
+
 export type pricePartStandardPanel = {
+    name: string,
     width: number,
     height: number,
     depth: number,

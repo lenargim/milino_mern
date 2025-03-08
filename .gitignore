@@ -6,3 +6,4 @@ client/build/
 .env
 /PDFs
 .DS_Store
+client/.env

@@ -1,5 +1,5 @@
 import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
-import {AdminAPI, AuthAPI, cartAPI, roomsAPI, usersAPI} from "./api";
+import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, roomsAPI, usersAPI} from "./api";
 import axios, {AxiosError} from "axios";
 import {
     cornerTypes,
@@ -15,6 +15,7 @@ import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
+import {PanelsFormType} from "../Components/CustomPart/StandardPanel";
 
 
 export const alertError = (error: unknown) => {
@@ -137,6 +138,14 @@ export const deleteRoomAPI = async (id: string) => {
     }
 }
 
+export type PanelsFormAPIType = {
+    standard_panel: PanelsFormPartAPIType[],
+    shape_panel: PanelsFormPartAPIType[],
+    wtk: PanelsFormPartAPIType[],
+}
+
+export type PanelsFormPartAPIType = {qty: number, name:string}
+
 
 export type CartAPI = {
     product_id: number,
@@ -162,7 +171,7 @@ export type CartAPI = {
     led_accessories?: LEDAccessoriesType,
     door_accessories?: DoorAccessoireAPIType[],
     standard_door?: DoorType
-
+    standard_panels?: PanelsFormAPIType,
     note: string,
 }
 
@@ -226,6 +235,7 @@ export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) 
         }
 
         let cartResponse: MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
+        console.log(cartAPIData)
         if (!cartResponse) return undefined;
         return cartResponse
     } catch (error) {
@@ -263,6 +273,15 @@ export const getAdminUsers = async () => {
 export const adminUserToggleEnabled = async (_id:string, is_active:boolean) => {
     try {
         const res = AdminAPI.toggleUserEnabled(_id, is_active)
+        return (await res).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getConstructorCustomers = async () => {
+    try {
+        const res = ConstructorAPI.getCustomers();
         return (await res).data
     } catch (error) {
         alertError(error);

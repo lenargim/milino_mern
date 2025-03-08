@@ -1566,17 +1566,5 @@
         "value": "Panel.webp"
       }
     ]
-  },
-  {
-    "id": 922,
-    "product_type": "custom",
-    "name": "L-shape Panel",
-    "type": "shape-panel",
-    "images": [
-      {
-        "type": 1,
-        "value": "L-Shape.webp"
-      }
-    ]
   }
 ]

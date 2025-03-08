@@ -3,7 +3,7 @@ import {
     attrItem, BoxMaterialType,
     hingeArr,
     materialDataType, MaybeNull, MaybeUndefined, priceItem,
-    pricePart, pricePartStandardPanel,
+    pricePart, pricePartStandardPanel, priceStandardPanel,
     pricesTypings,
     productCategory, productDataToCalculatePriceType,
     productRangeType, ProductType,
@@ -235,6 +235,8 @@ export function getDoorPrice(square: number, materialData: materialDataType): nu
         const doorPrice = chooseDoorPanelPrice(square, door_finish_material, door_type)
         const boxPanelDoorPrice = chooseDoorPanelPrice(square, box_material, door_type)
         const diff = doorPrice > boxPanelDoorPrice ? doorPrice - boxPanelDoorPrice : 0;
+        console.log(`doorPrice ${doorPrice}`)
+        console.log(`boxPanelDoorPrice ${boxPanelDoorPrice}`)
         console.log(`Leather closet door (panel) price: ${diff}`);
         return diff
     }
@@ -678,9 +680,13 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
     return data ? data.find(i => i.type === type)?.data : undefined
 }
 
-export const getStandardPanelPriceRange = (id: number): pricePartStandardPanel[] => {
-    return standardProductsPrices.find(el => el.id === id)?.prices as pricePartStandardPanel[];
-}
+// export const getStandardPanelPriceRange = (id: number): pricePartStandardPanel[] => {
+//     return standardProductsPrices.find(el => el.id === id)?.prices as pricePartStandardPanel[];
+// }
+
+// export const getStandardPanelData = (id: number): priceStandardPanel => {
+//     return standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
+// }
 
 export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, finishMaterial: MaybeUndefined<string>, profile: MaybeNull<number> = null): number => {
     const area = width * height / 144;
@@ -829,11 +835,11 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
 }
 
 
-export const getStandardPanelPrice = (id: number, width: number, height: number, depth: number, is_default_type: boolean): number => {
-    const priceData = getStandardPanelPriceRange(id);
-    const pricePart = priceData.find(el => el.width === width && el.height === height && el.depth === depth);
-    return getNewPriceFromPricePart(is_default_type, pricePart)
-}
+// export const getStandardPanelPrice = (id: number, width: number, height: number, depth: number, is_default_type: boolean): number => {
+//     const priceData = getStandardPanelPriceRange(id);
+//     const pricePart = priceData.find(el => el.width === width && el.height === height && el.depth === depth);
+//     return getNewPriceFromPricePart(is_default_type, pricePart)
+// }
 
 export const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     const val = attrArr.find(el => el.name === 'Adjustable Shelf')?.value;

@@ -8,9 +8,10 @@ import CartItemShelfExtra from "./CartItemShelfExtra";
 import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
 import Dimentions from "../../common/Dimentions";
+import CartItemPanel from "./CartItemPanel";
 
 const CartItemCustom: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
-    const {material, door_accessories, subcategory, led_accessories, standard_door} = product;
+    const {material, door_accessories, subcategory, led_accessories, standard_door, standard_panels, _id, product_id} = product;
     switch (subcategory) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product} dimentions={dimentions}/>
@@ -25,6 +26,9 @@ const CartItemCustom: FC<{ product: CartItemType, dimentions:string }> = ({produ
         case 'standard-door':
         case 'standard-glass-door':
             return <CartItemDoor standard_door={standard_door}/>
+        case 'standard-panel':
+            return <CartItemPanel standard_panels={standard_panels} prod_id={product_id} />
+
         default:
             return <>
                 <Dimentions dimentions={dimentions}/>

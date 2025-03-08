@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import s from './header.module.sass'
 import {getCartData, useAppDispatch, useAppSelector} from "../../helpers/helpers";
@@ -7,6 +7,7 @@ import logo from '../../assets/img/SiteLogo.jpg'
 import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import {FormikState} from 'formik';
 import {materialsFormInitial, MaterialsFormType} from "../MaterialsForm";
+import {ConstructorAPI} from "../../api/api";
 
 const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormType>>) => void }> = ({resetForm}) => {
     const navigate = useNavigate()
@@ -32,6 +33,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormTyp
         dispatch(setMaterials(null))
         dispatch(removeCart())
     }
+
     return (
         <header className={s.header}>
             <div className={s.left}>
@@ -51,7 +53,7 @@ const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormTyp
 
 export default Header;
 
-export const MiniCart: FC<{ length: number, link:string }> = ({length, link}) => {
+export const MiniCart: FC<{ length: number, link: string }> = ({length, link}) => {
     return (
         <NavLink to={link} className={s.cart}>
             <CartSVG classes={s.cart}/>

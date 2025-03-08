@@ -6,6 +6,7 @@ import s from './login.module.sass'
 
 
 const Login = () => {
+
     return (
         <main className="wrap">
             <Header/>

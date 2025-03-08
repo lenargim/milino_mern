@@ -26,7 +26,6 @@ export type DoorType = {
     color: string,
 }
 
-
 const StandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
     const {type} = customPart;
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();

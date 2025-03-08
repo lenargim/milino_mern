@@ -183,6 +183,26 @@ const RoomSchema = new mongoose.Schema({
         type: String,
       },
     },
+    standard_panels: {
+      standard_panel: [
+        {
+          qty: {type: Number},
+          name: {type: String}
+        }
+      ],
+      shape_panel: [
+        {
+          qty: {type: Number},
+          name: {type: String}
+        }
+      ],
+      wtk: [
+        {
+          qty: {type: Number},
+          name: {type: String}
+        }
+      ]
+    },
     note: {
       type: String,
     }

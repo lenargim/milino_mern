@@ -22,6 +22,7 @@ import RoomCheckout from "./Components/Room/RoomCheckout";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
+import Constructor from "./Components/Profile/Constructor";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -81,6 +82,7 @@ function App() {
                         <Route path="new" element={<RoomsNew/>}/>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
+                    <Route path="constructor" element={<Constructor user={user}/>}/>
                     <Route path="catalog" element={<ProfileCatalog />}>
                         {/*<Route path=":catalogName" element={<ProfileCatalogItem/>}/>*/}
                     </Route>
