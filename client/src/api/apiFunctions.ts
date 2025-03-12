@@ -1,6 +1,6 @@
 import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, roomsAPI, usersAPI} from "./api";
-import axios, {AxiosError} from "axios";
+import axios, {AxiosError, AxiosResponse} from "axios";
 import {
     cornerTypes,
     hingeTypes, MaybeEmpty,
@@ -16,6 +16,8 @@ import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
 import {PanelsFormType} from "../Components/CustomPart/StandardPanel";
+import {Customer} from "../helpers/constructorTypes";
+import {UserAccessData} from "../Components/Profile/ProfileAdmin";
 
 
 export const alertError = (error: unknown) => {
@@ -38,20 +40,21 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
     }
 }
 
-export const updateProfile = async (values: EditProfileType) => {
+export const updateProfile = async (values: EditProfileType):Promise<MaybeUndefined<UserType>> => {
     try {
-        const res = await usersAPI.patchMe(values);
-        const {token, ...user}: UserTypeResponse = res.data;
+        const res:AxiosResponse<UserTypeResponse> = await usersAPI.patchMe(values);
+        const {token, ...user} = res.data;
         localStorage.setItem('token', token);
-        return user
+        return user;
     } catch (error) {
         alertError(error)
     }
 }
 
+
 export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>> => {
     try {
-        const res = await AuthAPI.logIn(values);
+        const res:AxiosResponse<UserTypeResponse> = await AuthAPI.logIn(values);
         localStorage.setItem('token', res.data.token);
         return {
             _id: res.data._id,
@@ -60,7 +63,9 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
             email: res.data.email,
             phone: res.data.phone,
             is_active: res.data.is_active,
-            is_super_user: res.data.is_super_user
+            is_super_user: res.data.is_super_user,
+            is_signed_in_constructor: res.data.is_signed_in_constructor,
+            is_active_in_constructor: res.data.is_active_in_constructor
         };
     } catch (error: any) {
         const status = (error as AxiosError).status
@@ -85,7 +90,9 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
             email: res.data.email,
             phone: res.data.phone,
             is_active: res.data.is_active,
-            is_super_user: res.data.is_super_user
+            is_super_user: res.data.is_super_user,
+            is_signed_in_constructor: res.data.is_signed_in_constructor || false,
+            is_active_in_constructor: res.data.is_active_in_constructor || false
         };
     } catch (error) {
         alertError(error);
@@ -144,7 +151,7 @@ export type PanelsFormAPIType = {
     wtk: PanelsFormPartAPIType[],
 }
 
-export type PanelsFormPartAPIType = {qty: number, name:string}
+export type PanelsFormPartAPIType = { qty: number, name: string }
 
 
 export type CartAPI = {
@@ -270,9 +277,9 @@ export const getAdminUsers = async () => {
     }
 }
 
-export const adminUserToggleEnabled = async (_id:string, is_active:boolean) => {
+export const adminUserToggleEnabled = async (_id: string, data:UserAccessData) => {
     try {
-        const res = AdminAPI.toggleUserEnabled(_id, is_active)
+        const res = AdminAPI.toggleUserEnabled(_id, data)
         return (await res).data
     } catch (error) {
         alertError(error);
@@ -283,6 +290,63 @@ export const getConstructorCustomers = async () => {
     try {
         const res = ConstructorAPI.getCustomers();
         return (await res).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const constructorGetToken = async () => {
+    try {
+        const constructorRes = await ConstructorAPI.getToken();
+        if (constructorRes.status === 200) {
+            localStorage.setItem('constructor_token', constructorRes.data);
+            return true
+        }
+        return false
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const constructorSetCustomer = async (user:UserType) => {
+    try {
+        const {name, email, phone, _id} = user;
+        const customer: Customer = {
+            name: name,
+            email: email,
+            phone: phone,
+            margins: [],
+            identity: email,
+            identityProvider: 'own'
+        }
+        await ConstructorAPI.setCustomer(customer).then(() => {
+            patchUserSignedInConstructor(_id);
+        })
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getConstructorCustomer = async (id:string) => {
+    try {
+        const res = ConstructorAPI.getCustomer(id);
+        return (await res).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const patchUserSignedInConstructor = async (id:string) => {
+    try {
+        return (await usersAPI.constructorSave(id)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getCustomerToken = async (email:string) => {
+    try {
+        return (await ConstructorAPI.getCustomerToken(email)).data
     } catch (error) {
         alertError(error);
     }

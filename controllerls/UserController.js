@@ -150,7 +150,6 @@ export const patchMe = async (req, res) => {
     const newData = {
       name: req.body.name,
       company: req.body.company,
-      email: req.body.email,
       phone: req.body.phone,
       passwordHash
     }
@@ -170,6 +169,21 @@ export const patchMe = async (req, res) => {
       }
     )
     res.json({...userData, token});
+  } catch (e) {
+    res.status(403).json({
+      message: 'Cannot update'
+    })
+  }
+}
+
+export const constructorSave = async (req, res) => {
+  try {
+
+    const user = await UserModel.findOneAndUpdate({
+      _id: req.body._id
+    }, {is_signed_in_constructor: true}, {new: true});
+    const {passwordHash: hash, ...userData} = user._doc;
+    res.json(userData);
   } catch (e) {
     res.status(403).json({
       message: 'Cannot update'

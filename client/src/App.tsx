@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
 import {me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
-import {setIsAuth, setUser} from "./store/reducers/userSlice";
+import {setIsAuth, setUser, UserState} from "./store/reducers/userSlice";
 import PublicRote from "./common/PublicRoute";
 import ProfileMain from "./Components/Profile/ProfileMain";
 import ProfileEdit from "./Components/Profile/ProfileEdit";
@@ -22,12 +22,12 @@ import RoomCheckout from "./Components/Room/RoomCheckout";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
-import Constructor from "./Components/Profile/Constructor";
+import Constructor from "./Components/Constructor/Constructor";
 
 function App() {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const {isAuth, user} = useAppSelector(state => state.user);
+    const {isAuth, user} = useAppSelector<UserState>(state => state.user);
     const token = localStorage.getItem('token');
     const privateRouteProps: Omit<PrivateRouteProps, 'outlet'> = {
         isAuth,

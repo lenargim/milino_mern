@@ -55,26 +55,27 @@ const start = async () => {
 
     app.post('/api/email', CORS, upload.fields([{name: "pdf"}, {name: "json"}]), PDFController.SendPDF);
 
-    app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
+    app.post('/api/auth/register', CORS, registerValidation, handleValidationErrors, UserController.register)
     app.post('/api/auth/login', CORS, loginValidation, handleValidationErrors, UserController.login);
-    app.get('/api/users/me', checkAuth,CORS, UserController.getMe)
-    app.patch('/api/users/me',CORS, checkAuth, UserController.patchMe)
+    app.get('/api/users/me', checkAuth, CORS, UserController.getMe)
+    app.patch('/api/users/me', CORS, checkAuth, UserController.patchMe)
+    app.patch('/api/users/constructor', CORS, checkAuth, UserController.constructorSave)
 
-    app.post('/api/rooms',CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
-    app.get('/api/rooms/:id',CORS, checkAuth, RoomController.getOne)
-    app.get('/api/rooms',CORS, checkAuth, RoomController.getAll)
-    app.delete('/api/rooms/:id',CORS, checkAuth, RoomController.remove)
-    app.patch('/api/rooms/:id',CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
+    app.post('/api/rooms', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
+    app.get('/api/rooms/:id', CORS, checkAuth, RoomController.getOne)
+    app.get('/api/rooms', CORS, checkAuth, RoomController.getAll)
+    app.delete('/api/rooms/:id', CORS, checkAuth, RoomController.remove)
+    app.patch('/api/rooms/:id', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
 
-    app.post('/api/cart/:roomId',CORS, checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
-    app.delete('/api/cart/:roomId/:cartId',CORS, checkAuth, CartController.remove)
-    app.patch('/api/cart/:roomId/:cartId',CORS, checkAuth, CartController.update)
+    app.post('/api/cart/:roomId', CORS, checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
+    app.delete('/api/cart/:roomId/:cartId', CORS, checkAuth, CartController.remove)
+    app.patch('/api/cart/:roomId/:cartId', CORS, checkAuth, CartController.update)
 
-    app.post('/api/order/:roomId',CORS, checkAuth, OrderController.placeOrder)
+    app.post('/api/order/:roomId', CORS, checkAuth, OrderController.placeOrder)
 
 
-    app.get('/api/admin/users',CORS, checkAuth, checkAdmin, AdminController.getUsers)
-    app.patch('/api/admin/user/:userId',CORS, checkAuth, checkAdmin, AdminController.toggleUserEnabled)
+    app.get('/api/admin/users', CORS, checkAuth, checkAdmin, AdminController.getUsers)
+    app.patch('/api/admin/user/:userId', CORS, checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

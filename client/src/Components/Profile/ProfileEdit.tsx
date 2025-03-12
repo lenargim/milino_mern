@@ -4,51 +4,43 @@ import {SignUpSchema} from "../SignUp/signUpSchema";
 import s from './profile.module.sass'
 import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import {EditProfileType, UserType} from "../../api/apiTypes";
-import {updateProfile} from "../../api/apiFunctions";
+import {constructorSetCustomer, updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
 import {useAppDispatch} from "../../helpers/helpers";
+import ProfileEditForm from "./ProfileEditForm";
+import {ProfileEditSchema} from "./ProfileEditSchema";
 
 const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
-    const [isUpdated, setIsUpdated] = useState<boolean>(false);
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const dispatch = useAppDispatch();
-    const initialValues: EditProfileType = {...user, password: ''};
-    const [values, setValues] = useState<EditProfileType>(initialValues);
-    const {name, email, phone} = values
+    const getInitialValues = (user: UserType): EditProfileType => {
+        const {is_active, is_active_in_constructor, is_signed_in_constructor, is_super_user, email, ...userData} = user
+        return {...userData, password: '', compare: ''}
+    }
+    let initialValues = getInitialValues(user);
+
     useEffect(() => {
-        if (name === user.name && email === user.email && phone === user.phone) {
-            setIsDisabled(true)
-        } else {
-            setIsDisabled(false)
-        }
-        setIsUpdated(false)
-    },[name, email,phone])
+        initialValues = getInitialValues(user);
+    }, [user]);
+    if (!initialValues._id) return null;
     return (
         <Formik initialValues={initialValues}
-                innerRef={(formikActions) => (formikActions ? setValues(formikActions.values) : null)}
-                validationSchema={SignUpSchema}
-                onSubmit={(values) => {
+                validationSchema={ProfileEditSchema}
+                onSubmit={(values, {resetForm, setValues}) => {
                     updateProfile(values).then(user => {
                         if (user) {
-                            dispatch(setUser(user))
-                            setIsUpdated(true)
-                            setIsDisabled(true)
+                            dispatch(setUser(user));
+                            resetForm();
+                            setValues({...user, password: '', compare: ''});
+                            console.log(user);
+                            constructorSetCustomer(user).then(res => {
+                                console.log(res)
+                            });
                         }
                     })
                 }}>
             <div className={s.roomEdit}>
-            <h1>Update Profile</h1>
-            <Form className={s.block}>
-                <TextInput type={"text"} label={'Name'} name={'name'}/>
-                <TextInput type={"text"} label={'Company'} name={'company'}/>
-                <TextInput type={"email"} label={'Email'} name={'email'}/>
-                <PhoneInput type="text" label="Phone number" name={'phone'}/>
-                <PasswordInput type={"password"} label={'password'} name={'password'}/>
-                <button type="submit" className={['button yellow', isUpdated ? s.updated : ''].join(' ')}
-                        disabled={isDisabled}>
-                    {isUpdated ? 'Updated!' : 'Update'}
-                </button>
-            </Form>
+                <h1>Update Profile</h1>
+                <ProfileEditForm user={user}/>
             </div>
         </Formik>
     );

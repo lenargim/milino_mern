@@ -12,7 +12,9 @@ export const getUsers = async (req, res) => {
       _id: user._doc._id,
       email: user._doc.email,
       name: user._doc.name,
-      is_active: user._doc.is_active
+      is_active: user._doc.is_active,
+      is_signed_in_constructor: user._doc.is_signed_in_constructor || false,
+      is_active_in_constructor: user._doc.is_active_in_constructor || false
     }));
     res.status(200).json(users)
   } catch (err) {
@@ -25,8 +27,12 @@ export const getUsers = async (req, res) => {
 
 export const toggleUserEnabled = async (req, res) => {
   try {
+
     const doc = await UserModel.findByIdAndUpdate(req.params.userId, {
-      $set: {"is_active": req.body.is_active},
+      $set: {
+        "is_active": req.body.is_active,
+        "is_active_in_constructor": req.body.is_active_in_constructor
+      },
     }, {
       returnDocument: "after"
     })

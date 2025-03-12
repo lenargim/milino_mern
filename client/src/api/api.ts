@@ -3,6 +3,8 @@ import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import axios from "axios";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
+import {Customer} from "../helpers/constructorTypes";
+import {UserAccessData} from "../Components/Profile/ProfileAdmin";
 
 
 const instanceFormData = axios.create({
@@ -20,19 +22,11 @@ const instance = axios.create({
     responseType: 'json'
 });
 
-const constructor_instance = axios.create({
+const prodboard_instance = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    baseURL: process.env.REACT_APP_CONSTRUCTOR_ENV,
-    responseType: 'json',
-});
-
-const constructor_instance_account = axios.create({
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    baseURL: process.env.REACT_APP_CONSTRUCTOR_ACCOUNT_ENV,
+    baseURL: process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_URL,
     responseType: 'json',
 });
 
@@ -40,6 +34,10 @@ const constructor_instance_account = axios.create({
 
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`
+})
+
+const getConstructorHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem("constructor_token")}`
 })
 
 export const checkoutAPI = {
@@ -54,7 +52,8 @@ export const AuthAPI = {
 
 export const usersAPI = {
     me: () => instance.get('/users/me', {headers: getHeaders()}),
-    patchMe: (data:EditProfileType) => instance.patch<UserTypeResponse>('/users/me', data, {headers: getHeaders()})
+    patchMe: (data:EditProfileType) => instance.patch<UserTypeResponse>('/users/me', data, {headers: getHeaders()}),
+    constructorSave: (_id:string) => instance.patch<UserTypeResponse>(`/users/constructor`, {_id}, {headers: getHeaders()})
 }
 
 export const roomsAPI = {
@@ -74,10 +73,17 @@ export const cartAPI = {
 
 export const AdminAPI = {
     getUsers: () => instance.get<AdminUsersType[]>(`/admin/users`, {headers: getHeaders()}),
-    toggleUserEnabled: (_id:string, is_active:boolean) => instance.patch<AdminUsersType>(`/admin/user/${_id}`, {is_active}, {headers: getHeaders()}),
+    toggleUserEnabled: (_id:string, user_data:UserAccessData) => instance.patch<AdminUsersType>(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
 }
 
 export const ConstructorAPI = {
-    getCustomers: () => constructor_instance.get('customers'),
-    signIn: (token:string) => constructor_instance_account.post('sign-in', { token: token })
+    getToken: () => prodboard_instance.post('security/get-token', {
+        "company": process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
+        "privateKey": process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_PRIVATE
+    }),
+    setCustomer: (customer:Customer) => prodboard_instance.post('customers', customer, {headers: getConstructorHeaders()}),
+    getCustomers: () => prodboard_instance.get('customers'),
+    getCustomer: (id:string) => prodboard_instance.get(`customers/${id}`,{headers: getConstructorHeaders()}),
+    signIn: (token:string) => prodboard_instance.post('sign-in', { token: token }),
+    getCustomerToken: (email:string) => prodboard_instance.get(`customers/${email}/token`, {headers: getConstructorHeaders()})
 }

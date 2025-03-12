@@ -18,16 +18,22 @@ export interface SignUpFrontType extends SignUpType {
 export interface UserType extends UserDataType {
     _id: string,
     is_active: boolean,
-    is_super_user: boolean
+    is_super_user: boolean,
+    is_signed_in_constructor: boolean,
+    is_active_in_constructor: boolean
 }
 
 export interface UserTypeResponse extends UserType {
     token: string
 }
 
-export interface EditProfileType extends UserDataType {
+export interface EditProfileType {
     _id: string,
-    password: string
+    name: string,
+    company: string,
+    phone: string,
+    password: string,
+    compare: string,
 }
 
 export type LogInType = {
@@ -52,5 +58,6 @@ export type AdminUsersType = {
     _id: string,
     email: string,
     name: string,
-    is_active: boolean
+    is_active: boolean,
+    is_active_in_constructor: boolean
 }

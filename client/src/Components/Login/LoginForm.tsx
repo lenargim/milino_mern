@@ -3,7 +3,7 @@ import React, {FC, useState} from 'react';
 import {loginSchema} from "./loginSchema";
 import {PasswordInput, TextInput} from "../../common/Form";
 import s from './login.module.sass'
-import {logIn} from "../../api/apiFunctions";
+import {constructorGetToken, logIn} from "../../api/apiFunctions";
 import {setIsAuth, setUser} from "../../store/reducers/userSlice";
 import {useDispatch} from "react-redux";
 import modalSt from './../Checkout/checkout.module.sass'
@@ -25,7 +25,8 @@ const LoginForm = () => {
                     if (user) {
                         if (user.is_active) {
                             dispatch(setUser(user))
-                            dispatch(setIsAuth(true))
+                            dispatch(setIsAuth(true));
+                            constructorGetToken();
                         } else {
                             setUserErrorModalIsOpen(true)
                             setTimeout(() => {
