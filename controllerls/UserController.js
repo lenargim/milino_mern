@@ -21,7 +21,7 @@ export const register = async (req, res) => {
     const checkUserEmail = await UserModel.findOne({email: req.body.email});
     if (checkUserEmail) {
       return res.status(500).json({
-        message: "Your email already in use"
+        message: "Email already in use"
       })
     }
     const checkUserPhone = await UserModel.findOne({phone: req.body.phone});
@@ -37,6 +37,8 @@ export const register = async (req, res) => {
       email: req.body.email,
       phone: req.body.phone,
       is_active: false,
+      is_active_in_constructor: false,
+      constructor_id: req.body.email,
       is_super_user: false,
       passwordHash,
     })
@@ -53,20 +55,18 @@ export const register = async (req, res) => {
       html: `<p>User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}</p>`,
     };
 
-    transporter.sendMail(mailOptions).then((trans) => {
-      res.status(201);
-      res.json(trans);
-      res.end();
-    }).catch((error) => {
-      res.status(500);
-      res.json(error);
-      res.end();
+    transporter.sendMail(mailOptions, function (error) {
+      if (error) {
+        res.status(500).json({
+          message: 'User saved but email was not sent'
+        });
+      } else {
+        res.status(201).json({
+          message: "User saved"
+        })
+      }
+      return res.end();
     });
-
-
-    res.status(200).json({
-      message: "User is saved"
-    })
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -80,6 +80,7 @@ export const login = async (req, res) => {
     const user = await UserModel.findOne({email: new RegExp('^' + req.body.email + '$', 'i')});
     if (!user) {
       return res.status(401).json({
+        action: 'logout',
         message: "Wrong email or password"
       })
     }
@@ -88,12 +89,14 @@ export const login = async (req, res) => {
 
     if (!isValidPass) {
       return res.status(401).json({
+        action: 'logout',
         message: "Incorrect password"
       })
     }
 
     if (!user._doc.is_active) {
       return res.status(403).json({
+        action: 'logout',
         message: "User is not activated"
       })
     }
@@ -104,6 +107,7 @@ export const login = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
+      action: 'logout',
       message: "User not authorized"
     })
   }
@@ -114,11 +118,13 @@ export const getMe = async (req, res) => {
     const user = await UserModel.findById(req.userId);
     if (!user) {
       return res.status(404).json({
+        action: 'logout',
         message: "User not found"
       })
     }
     if (!user._doc.is_active) {
       return res.status(403).json({
+        action: 'logout',
         message: "User is not activated"
       })
     }
@@ -169,21 +175,6 @@ export const patchMe = async (req, res) => {
       }
     )
     res.json({...userData, token});
-  } catch (e) {
-    res.status(403).json({
-      message: 'Cannot update'
-    })
-  }
-}
-
-export const constructorSave = async (req, res) => {
-  try {
-
-    const user = await UserModel.findOneAndUpdate({
-      _id: req.body._id
-    }, {is_signed_in_constructor: true}, {new: true});
-    const {passwordHash: hash, ...userData} = user._doc;
-    res.json(userData);
   } catch (e) {
     res.status(403).json({
       message: 'Cannot update'

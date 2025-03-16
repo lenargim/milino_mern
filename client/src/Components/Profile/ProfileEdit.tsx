@@ -1,10 +1,8 @@
-import {Form, Formik,} from 'formik';
-import React, {FC, useEffect, useState} from 'react';
-import {SignUpSchema} from "../SignUp/signUpSchema";
+import {Formik} from 'formik';
+import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
-import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
 import {EditProfileType, UserType} from "../../api/apiTypes";
-import {constructorSetCustomer, updateProfile} from "../../api/apiFunctions";
+import {constructorLogin, constructorSetCustomer, updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
 import {useAppDispatch} from "../../helpers/helpers";
 import ProfileEditForm from "./ProfileEditForm";
@@ -13,7 +11,7 @@ import {ProfileEditSchema} from "./ProfileEditSchema";
 const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
     const dispatch = useAppDispatch();
     const getInitialValues = (user: UserType): EditProfileType => {
-        const {is_active, is_active_in_constructor, is_signed_in_constructor, is_super_user, email, ...userData} = user
+        const {is_active, is_active_in_constructor, is_super_user, email, ...userData} = user
         return {...userData, password: '', compare: ''}
     }
     let initialValues = getInitialValues(user);
@@ -31,10 +29,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
                             dispatch(setUser(user));
                             resetForm();
                             setValues({...user, password: '', compare: ''});
-                            console.log(user);
-                            constructorSetCustomer(user).then(res => {
-                                console.log(res)
-                            });
+                            constructorLogin(user)
                         }
                     })
                 }}>

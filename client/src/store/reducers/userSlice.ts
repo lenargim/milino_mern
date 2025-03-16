@@ -15,7 +15,6 @@ export const emptyUser = {
     phone: '',
     is_active: false,
     is_super_user: false,
-    is_signed_in_constructor: false,
     is_active_in_constructor: false
 }
 

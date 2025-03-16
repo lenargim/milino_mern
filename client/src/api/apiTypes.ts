@@ -19,7 +19,6 @@ export interface UserType extends UserDataType {
     _id: string,
     is_active: boolean,
     is_super_user: boolean,
-    is_signed_in_constructor: boolean,
     is_active_in_constructor: boolean
 }
 

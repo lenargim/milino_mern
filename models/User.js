@@ -20,11 +20,11 @@ const UserSchema = new mongoose.Schema({
   is_active: {
     type: Boolean,
   },
-  is_signed_in_constructor: {
-    type: Boolean,
-  },
   is_active_in_constructor: {
     type: Boolean,
+  },
+  constructor_id: {
+    type: String,
   },
   is_super_user: {
     type: Boolean,

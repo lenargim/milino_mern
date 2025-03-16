@@ -3,7 +3,8 @@ import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, roomsAPI, usersAPI} from "./
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {
     cornerTypes,
-    hingeTypes, MaybeEmpty,
+    hingeTypes,
+    MaybeEmpty,
     MaybeNull,
     MaybeUndefined,
     ProductApiType,
@@ -15,7 +16,6 @@ import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
-import {PanelsFormType} from "../Components/CustomPart/StandardPanel";
 import {Customer} from "../helpers/constructorTypes";
 import {UserAccessData} from "../Components/Profile/ProfileAdmin";
 
@@ -23,7 +23,7 @@ import {UserAccessData} from "../Components/Profile/ProfileAdmin";
 export const alertError = (error: unknown) => {
     if (axios.isAxiosError(error) && error.response) {
         alert(error.response.data.message)
-        if (error.status === 403 && error.response.data.action === 'logout') {
+        if (error.response.data.action === 'logout') {
             logout()
         }
     }
@@ -40,9 +40,9 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
     }
 }
 
-export const updateProfile = async (values: EditProfileType):Promise<MaybeUndefined<UserType>> => {
+export const updateProfile = async (values: EditProfileType): Promise<MaybeUndefined<UserType>> => {
     try {
-        const res:AxiosResponse<UserTypeResponse> = await usersAPI.patchMe(values);
+        const res: AxiosResponse<UserTypeResponse> = await usersAPI.patchMe(values);
         const {token, ...user} = res.data;
         localStorage.setItem('token', token);
         return user;
@@ -54,7 +54,7 @@ export const updateProfile = async (values: EditProfileType):Promise<MaybeUndefi
 
 export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>> => {
     try {
-        const res:AxiosResponse<UserTypeResponse> = await AuthAPI.logIn(values);
+        const res: AxiosResponse<UserTypeResponse> = await AuthAPI.logIn(values);
         localStorage.setItem('token', res.data.token);
         return {
             _id: res.data._id,
@@ -64,7 +64,6 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
             phone: res.data.phone,
             is_active: res.data.is_active,
             is_super_user: res.data.is_super_user,
-            is_signed_in_constructor: res.data.is_signed_in_constructor,
             is_active_in_constructor: res.data.is_active_in_constructor
         };
     } catch (error: any) {
@@ -79,10 +78,6 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
 export const me = async (): Promise<MaybeUndefined<UserType>> => {
     try {
         const res = await usersAPI.me();
-        if (res.status === 403) {
-            alert(res.data.message)
-            logout()
-        }
         return {
             _id: res.data._id,
             name: res.data.name,
@@ -91,7 +86,6 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
             phone: res.data.phone,
             is_active: res.data.is_active,
             is_super_user: res.data.is_super_user,
-            is_signed_in_constructor: res.data.is_signed_in_constructor || false,
             is_active_in_constructor: res.data.is_active_in_constructor || false
         };
     } catch (error) {
@@ -277,7 +271,7 @@ export const getAdminUsers = async () => {
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data:UserAccessData) => {
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData) => {
     try {
         const res = AdminAPI.toggleUserEnabled(_id, data)
         return (await res).data
@@ -295,58 +289,65 @@ export const getConstructorCustomers = async () => {
     }
 }
 
-export const constructorGetToken = async () => {
+export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {
     try {
-        const constructorRes = await ConstructorAPI.getToken();
-        if (constructorRes.status === 200) {
-            localStorage.setItem('constructor_token', constructorRes.data);
-            return true
-        }
-        return false
+        return (await ConstructorAPI.getToken()).data;
     } catch (error) {
         alertError(error);
     }
 }
 
-export const constructorSetCustomer = async (user:UserType) => {
+export const constructorSetCustomer = async (user: UserType) => {
     try {
-        const {name, email, phone, _id} = user;
-        const customer: Customer = {
+        const {name, email, phone} = user;
+        return (await ConstructorAPI.setCustomer({
             name: name,
             email: email,
             phone: phone,
             margins: [],
             identity: email,
             identityProvider: 'own'
+        })).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const constructorRegisteredCustomer = async (user: UserType): Promise<MaybeUndefined<Customer>> => {
+    try {
+        return (await ConstructorAPI.getCustomer(user.email)).data
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            if (error.response?.data?.code === 'entity-not-found') {
+                return await constructorSetCustomer(user);
+            }
         }
-        await ConstructorAPI.setCustomer(customer).then(() => {
-            patchUserSignedInConstructor(_id);
-        })
+        alertError(error);
+    }
+}
+
+export const getCustomerToken = async (user: UserType): Promise<MaybeUndefined<string>> => {
+    try {
+        if (localStorage.getItem("constructor_token")) {
+            return (await ConstructorAPI.getCustomerToken(user.email)).data
+        } else {
+            constructorLogin(user)
+        }
     } catch (error) {
         alertError(error);
     }
 }
 
-export const getConstructorCustomer = async (id:string) => {
+export const constructorLogin = async (user: UserType) => {
     try {
-        const res = ConstructorAPI.getCustomer(id);
-        return (await res).data
-    } catch (error) {
-        alertError(error);
-    }
-}
-
-export const patchUserSignedInConstructor = async (id:string) => {
-    try {
-        return (await usersAPI.constructorSave(id)).data
-    } catch (error) {
-        alertError(error);
-    }
-}
-
-export const getCustomerToken = async (email:string) => {
-    try {
-        return (await ConstructorAPI.getCustomerToken(email)).data
+        if (!user.is_active_in_constructor) return false;
+        const constructor_token = await constructorGetToken();
+        constructor_token && localStorage.setItem('constructor_token', constructor_token);
+        const constructorRegisteredUser = await constructorRegisteredCustomer(user);
+        if (constructorRegisteredUser && constructorRegisteredUser.identityProvider === 'own') {
+            const customer_token = await getCustomerToken(user)
+            customer_token && localStorage.setItem('customer_token', customer_token)
+        }
     } catch (error) {
         alertError(error);
     }

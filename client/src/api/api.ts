@@ -1,6 +1,6 @@
 import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
 import {Customer} from "../helpers/constructorTypes";
@@ -52,8 +52,7 @@ export const AuthAPI = {
 
 export const usersAPI = {
     me: () => instance.get('/users/me', {headers: getHeaders()}),
-    patchMe: (data:EditProfileType) => instance.patch<UserTypeResponse>('/users/me', data, {headers: getHeaders()}),
-    constructorSave: (_id:string) => instance.patch<UserTypeResponse>(`/users/constructor`, {_id}, {headers: getHeaders()})
+    patchMe: (data:EditProfileType) => instance.patch<UserTypeResponse>('/users/me', data, {headers: getHeaders()})
 }
 
 export const roomsAPI = {

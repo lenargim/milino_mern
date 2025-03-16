@@ -4,5 +4,5 @@ export type Customer = {
     "phone": string,
     "margins": [],
     "identity": string,
-    "identityProvider": 'own'
+    "identityProvider": 'own' | 'prodboard'
 }

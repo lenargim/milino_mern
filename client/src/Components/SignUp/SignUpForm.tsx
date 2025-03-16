@@ -7,7 +7,6 @@ import {signUp} from "../../api/apiFunctions";
 import {SignUpFrontType} from "../../api/apiTypes";
 import modalSt from "../Checkout/checkout.module.sass";
 import {useNavigate} from "react-router-dom";
-import {prepareEmailData} from "../../helpers/helpers";
 
 const initialValues: SignUpFrontType = {
     name: '',

@@ -13,7 +13,6 @@ export const getUsers = async (req, res) => {
       email: user._doc.email,
       name: user._doc.name,
       is_active: user._doc.is_active,
-      is_signed_in_constructor: user._doc.is_signed_in_constructor || false,
       is_active_in_constructor: user._doc.is_active_in_constructor || false
     }));
     res.status(200).json(users)

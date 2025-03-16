@@ -137,7 +137,7 @@ export const PhoneInput: FC<textInputInterface> = ({
         <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
             <Field name={name}>
                 {() => <Input
-                    international={false}
+                    // international={false}
                     countryselectprops={{unicodeFlags: false}}
                     country="US"
                     onChange={(value) => {

@@ -59,7 +59,6 @@ const start = async () => {
     app.post('/api/auth/login', CORS, loginValidation, handleValidationErrors, UserController.login);
     app.get('/api/users/me', checkAuth, CORS, UserController.getMe)
     app.patch('/api/users/me', CORS, checkAuth, UserController.patchMe)
-    app.patch('/api/users/constructor', CORS, checkAuth, UserController.constructorSave)
 
     app.post('/api/rooms', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
     app.get('/api/rooms/:id', CORS, checkAuth, RoomController.getOne)
