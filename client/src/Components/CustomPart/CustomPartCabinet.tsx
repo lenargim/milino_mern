@@ -14,8 +14,9 @@ export type CustomPartFormType = {
     product: CustomPartType,
     materials: MaterialsFormType
     isDepthIsConst: boolean,
+    isStandardCabinet:boolean
 }
-const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, materials}) => {
+const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
 
     const {
@@ -52,7 +53,7 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, mat
     }, [values])
 
     return (
-        <CustomPartLayout product={product} showDepthBlock={showDepthBlock}  />
+        <CustomPartLayout product={product} showDepthBlock={showDepthBlock} isStandardCabinet={isStandardCabinet}  />
     );
 };
 

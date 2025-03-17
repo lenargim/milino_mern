@@ -140,13 +140,24 @@ export const getCustomPartById = (id: number): MaybeNull<CustomPartType> => {
 }
 
 
-export const getInitialMaterialData = (custom: CustomPartType, materials: MaterialsFormType): MaybeNull<materialsCustomPart> => {
-    const {materials_array} = custom;
+export const getInitialMaterialData = (custom: CustomPartType, materials: MaterialsFormType,isStandardCabinet:boolean): MaybeNull<materialsCustomPart> => {
+    const {materials_array, id} = custom;
     const {door_finish_material, door_type} = materials
+    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
+    if (!filtered_materials_array) return null;
+    return filtered_materials_array.find(el => door_finish_material.includes(el.name))
+        ?? filtered_materials_array.find(el => door_type === el.name)
+        ?? filtered_materials_array[0];
+}
+
+export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<materialsCustomPart[]>, custom_part_id:number, is_standard:boolean):MaybeNull<materialsCustomPart[]> => {
     if (!materials_array) return null;
-    return materials_array.find(el => door_finish_material.includes(el.name))
-        ?? materials_array.find(el => door_type === el.name)
-        ?? materials_array[0];
+    // Standard shaker Catalog -> Custom parts exceptions for materials list(in detailed page)
+    const id_exceptions_arr:number[] = [903,905,901,900,906,907];
+    if (!is_standard || !id_exceptions_arr.includes(custom_part_id)) return materials_array;
+
+    const materials_filter_names:string[] = ['Ultrapan PET', 'Ultrapan Acrilic', 'Painted']
+    return materials_array.filter(el => materials_filter_names.includes(el.name))
 }
 
 type initialStandardValues = {

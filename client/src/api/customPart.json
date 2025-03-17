@@ -323,6 +323,7 @@
     "product_type": "custom",
     "name": "Panels",
     "type": "custom",
+    "depth": 0,
     "materials_array": [
       {
         "name": "Milino",
@@ -429,7 +430,6 @@
         }
       }
     ],
-    "depth": 0,
     "images": [
       {
         "type": 1,

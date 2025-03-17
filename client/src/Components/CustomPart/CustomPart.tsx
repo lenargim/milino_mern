@@ -131,9 +131,11 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     if (!productId || !materials) return <div>Custom part error</div>;
     const customPartProduct = getCustomPartById(+productId)
     if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
+    const isStandardCabinet = materials.door_type === 'Standard White Shaker';
     const {depth, type} = customPartProduct;
-    const initialMaterialData = getInitialMaterialData(customPartProduct, materials)
-    const isDepthIsConst = !!(initialMaterialData?.depth ?? depth)
+    const initialMaterialData = getInitialMaterialData(customPartProduct, materials,isStandardCabinet);
+    const depthApi = initialMaterialData?.depth ?? depth;
+    const isDepthIsConst = typeof depthApi === 'number'
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
     const isStandardPanel = ["standard-panel"].includes(type);
     const isDoorAccessories = ["door-accessories"].includes(type);
@@ -185,8 +187,11 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             <>
                 <CustomPartLeft product={customPartProduct} materials={materials}/>
                 <div className={s.right}>
-                    {isCabinetLayout && <CustomPartCabinet product={customPartProduct} isDepthIsConst={isDepthIsConst}
-                                                           materials={materials}/>}
+                    {isCabinetLayout && <CustomPartCabinet product={customPartProduct}
+                                                           isDepthIsConst={isDepthIsConst}
+                                                           materials={materials}
+                                                           isStandardCabinet={isStandardCabinet}
+                    />}
                     {type === 'led-accessories' && <LEDForm/>}
                     {isDoorAccessories && <DoorAccessoiresForm/>}
                     {(type === 'standard-door' || type === 'standard-glass-door') &&

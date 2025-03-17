@@ -7,6 +7,7 @@ import GlassShelfBlock from "./GlassShelfBlock";
 import {CustomPartFormType} from "./CustomPartCabinet";
 import {CustomPartType} from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
+import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 
 export type CustomPartFormValuesType = {
     Width: string,
@@ -52,14 +53,16 @@ export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
 export type CustomPartLayout = {
     product: CustomPartType,
     showDepthBlock: boolean,
+    isStandardCabinet:boolean
 }
 
-export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock}) => {
+export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, isStandardCabinet}) => {
     const {values} = useFormikContext<CustomPartFormValuesType>();
     const {
         price,
     } = values
-    const {materials_array, width, type} = product;
+    const {materials_array, width, type, id} = product;
+    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
     const showHeightBlock = type !== 'pvc';
     const showGlassDoorBlock = type === 'glass-door'
     const showGlassShelfBlock = type === 'glass-shelf'
@@ -90,11 +93,11 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock})
                 </div> : null
             }
 
-            {materials_array &&
+            {filtered_materials_array &&
               <div className={s.block}>
                 <h3>Material</h3>
                 <div className={s.options}>
-                    {materials_array.map((m, index) => <ProductRadioInput key={index}
+                    {filtered_materials_array.map((m, index) => <ProductRadioInput key={index}
                                                                           name={'Material'}
                                                                           value={m.name}/>)}
                 </div>

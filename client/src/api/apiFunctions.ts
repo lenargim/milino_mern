@@ -236,7 +236,6 @@ export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) 
         }
 
         let cartResponse: MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
-        console.log(cartAPIData)
         if (!cartResponse) return undefined;
         return cartResponse
     } catch (error) {
