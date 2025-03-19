@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {AttributesPrices, MaybeUndefined} from "../../helpers/productTypes";
+import {AttributesPrices, MaybeUndefined, pricesTypings} from "../../helpers/productTypes";
 import {coefType} from "../../helpers/calculatePrice";
 
 
@@ -11,7 +11,7 @@ type TestType = {
     grain_coef:number,
     finish_coef:number,
     premium_coef: number,
-    base_price_type: 1|2|3,
+    base_price_type: pricesTypings,
     tablePrice: MaybeUndefined<number>
 }
 
