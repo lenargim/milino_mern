@@ -5,7 +5,7 @@ import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
-export type BoxMaterialType = 0 | 1 | 2 | 3 | 4;
+export type BoxMaterialType = 1 | 2 | 3 | 4;
 
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
@@ -157,9 +157,8 @@ export type materialDataType = {
     is_standard_cabinet: boolean,
     category: MaybeEmpty<RoomCategories>,
     base_price_type: pricesTypings,
-    finish_coef: number,
+    material_coef: number,
     grain_coef: number,
-    premium_coef: number,
     box_material_coef: number,
     box_material_finish_coef: number,
     door_price_multiplier: number,

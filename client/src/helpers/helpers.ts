@@ -23,7 +23,7 @@ import {
     getAttributesProductPrices,
     getBlindArr, getCustomPartPrice,
     getDoorMinMaxValuesArr,
-    getMaterialData, getProductCoef,
+    getMaterialData, getMaterialsCoef, getProductCoef,
     getProductDataToCalculatePrice, getProductPriceRange, getProductRange,
     getStartPrice,
     getTablePrice,
@@ -718,9 +718,6 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
     const {
         is_standard_cabinet,
         drawer_brand,
-        premium_coef,
-        box_material_finish_coef,
-        box_material_coef,
         base_price_type
     } = materialData;
 
@@ -736,10 +733,9 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
     if (!sizeLimit) return null;
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
     const boxFromFinishMaterial = options.includes("Box from finish material");
-    const boxCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    const allCoefs = boxCoef * premium_coef;
+    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial)
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
-    const startPrice = getStartPrice(width, height, depth, allCoefs, sizeLimit, tablePrice);
+    const startPrice = getStartPrice(width, height, depth, materialsCoef, sizeLimit, tablePrice);
     const newType = getType(width, height, widthDivider, doors, category, attributes);
 
     const cabinet: CabinetItemType = {

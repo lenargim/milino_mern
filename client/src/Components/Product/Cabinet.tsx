@@ -3,7 +3,7 @@ import {CabinetType} from "../../helpers/productTypes";
 import {
     getAttributesProductPrices,
     getDoorMinMaxValuesArr,
-    getHingeArr,
+    getHingeArr, getMaterialsCoef,
     getProductCoef, getProductDataToCalculatePrice,
     getStartPrice, getTablePrice,
     getType
@@ -28,13 +28,9 @@ const Cabinet: FC<CabinetType> = ({
         widthDivider,
         category,
         isAngle,
-        isProductStandard
     } = product;
     const {
-        box_material_coef,
-        box_material_finish_coef,
         drawer_brand,
-        premium_coef,
     } = materialData
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
@@ -77,11 +73,10 @@ const Cabinet: FC<CabinetType> = ({
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], id);
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
+    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial)
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
-    const boxMaterialCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    const allCoefs = !isProductStandard ? boxMaterialCoef * premium_coef : 1;
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
-    const startPrice = getStartPrice(realWidth, realHeight, realDepth, allCoefs, sizeLimit, tablePrice);
+    const startPrice = getStartPrice(realWidth, realHeight, realDepth, materialsCoef, sizeLimit, tablePrice);
     const cabinetItem: CabinetItemType = {
         product_id: id,
         product_type: product.product_type,
@@ -124,11 +119,10 @@ const Cabinet: FC<CabinetType> = ({
     console.log(`table price ${tablePrice}`)
     return (
         <>
-            <CabinetLayout product={product} productRange={productRange}
-                           tablePriceData={tablePriceData}
+            <CabinetLayout product={product}
+                           productRange={productRange}
                            productPriceData={productPriceData}
                            hingeArr={hingeArr}
-                           allCoefs={allCoefs} coef={coef}
             />
         </>
     )

@@ -7,7 +7,6 @@ import {
 } from "../../common/Form";
 import s from './product.module.sass'
 import {
-    pricePart,
     productDataToCalculatePriceType,
     productRangeType,
     ProductType
@@ -18,19 +17,12 @@ import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
 import {isShowBlindWidthBlock, isShowMiddleSectionBlock, productValuesType} from "../../helpers/helpers";
-import {
-    coefType,
-} from "../../helpers/calculatePrice";
-import {CustomPartFormValuesType} from "../CustomPart/CustomPart";
 
 export type CabinetFormType = {
     product: ProductType,
     productRange: productRangeType,
     productPriceData: productDataToCalculatePriceType,
-    hingeArr: string[],
-    tablePriceData: pricePart[],
-    allCoefs: number,
-    coef: coefType
+    hingeArr: string[]
 }
 const CabinetLayOut: FC<CabinetFormType> = ({
                                                 product,
