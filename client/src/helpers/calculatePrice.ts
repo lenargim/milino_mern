@@ -248,7 +248,10 @@ function chooseDoorPanelPrice(square: number, material: string, door_type: strin
     switch (door_type) {
         case 'Slab':
             return getPanelPrice(square, material);
+        case 'Micro Shaker':
+            return getShakerPanelPrice(square, 'Micro Shaker');
         case 'Shaker':
+        case 'Painted':
             return getShakerPanelPrice(square, material);
         case 'Slatted':
             return getSlattedPanelPrice(square)
@@ -297,7 +300,12 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
             return square * 60 * 1.03;
         case "Stone":
             return square * 78 * 2;
-        case "Painted":
+        case 'Frame 3/4':
+        case 'Frame 1':
+        case 'Frame 1 1/2':
+        case 'Frame 2':
+        case 'Frame 2 1/2':
+        case 'Painted':
             return square * 78;
         case "Micro Shaker":
             return square * 60
@@ -665,11 +673,11 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
     const data = productPrices.find(el => el.id === id)?.prices as priceItem[];
     return data ? data.find(i => i.type === type)?.data : undefined
 }
-export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, finishMaterial: MaybeUndefined<string>, profile: MaybeNull<number> = null): number => {
+export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, material: MaybeUndefined<string>, profile: MaybeNull<number> = null): number => {
     const area = width * height / 144;
     switch (id) {
         case 900:
-            switch (finishMaterial) {
+            switch (material) {
                 case "Milino":
                     return (width * height * depth / 100) + 120;
                 case "Plywood":
@@ -692,7 +700,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             }
         case 901:
             const opetCabinetCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
-            switch (finishMaterial) {
+            switch (material) {
                 case "Milino":
                     return opetCabinetCoef * 20
                 case "Syncron":
@@ -712,9 +720,9 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                     return 0;
             }
         case 903:
-            return getPanelPrice(area, finishMaterial);
+            return getPanelPrice(area, material);
         case 905:
-            switch (finishMaterial) {
+            switch (material) {
                 case "Milino":
                     return area * 36;
                 case "Plywood":
@@ -737,7 +745,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             }
         case 906:
             const lSHapeArea = (width + depth) * height / 144
-            switch (finishMaterial) {
+            switch (material) {
                 case "Milino":
                     return lSHapeArea * 19;
                 case "Plywood":
@@ -760,7 +768,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             }
         case 907:
             const columnArea = (width * height + width * depth + height * depth) / 144 * 2 * 2.3;
-            switch (finishMaterial) {
+            switch (material) {
                 case "Milino":
                     return columnArea * 15.2;
                 case "Syncron":
@@ -782,15 +790,15 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
         case 909:
             return width * height / 144 * 4.6
         case 910:
-            return getShakerPanelPrice(area, finishMaterial)
+            return getShakerPanelPrice(area, material)
         case 911:
             let decorPrice = area > 4 ? area * 64 : 240;
-            return finishMaterial === 'Ultrapan Acrilic' ? decorPrice * 1.1 : decorPrice
+            return material === 'Ultrapan Acrilic' ? decorPrice * 1.1 : decorPrice
         case 912:
             return getSlattedPanelPrice(area);
         case 913:
             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
-            return finishMaterial === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
+            return material === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
         case 914:
             switch (profile) {
                 case 1021:
@@ -803,7 +811,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                     return 0;
             }
         case 915:
-            return finishMaterial === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+            return material === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
         case 916:
             return 170;
         default:
