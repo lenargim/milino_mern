@@ -8,7 +8,7 @@ import {
 } from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import {CustomPartFormValuesType} from "./CustomPart";
-import {getFinishColorCoefCustomPart, useAppSelector} from "../../helpers/helpers";
+import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 export type CustomPartFormType = {
     product: CustomPartType,
