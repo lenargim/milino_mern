@@ -156,7 +156,7 @@ export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<
     const id_exceptions_arr:number[] = [903,905,901,900,906,907];
     if (!is_standard || !id_exceptions_arr.includes(custom_part_id)) return materials_array;
 
-    const materials_filter_names:string[] = ['Ultrapan PET', 'Ultrapan Acrilic', 'Painted']
+    const materials_filter_names:string[] = ['Ultrapan PET', 'Painted']
     return materials_array.filter(el => materials_filter_names.includes(el.name))
 }
 

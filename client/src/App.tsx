@@ -23,6 +23,7 @@ import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
 import Constructor from "./Components/Constructor/Constructor";
+import Tutorial from "./Components/Profile/Tutorial";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -83,13 +84,13 @@ function App() {
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
                     <Route path="constructor" element={<Constructor user={user}/>}/>
-                    <Route path="catalog" element={<ProfileCatalog />}>
-                        {/*<Route path=":catalogName" element={<ProfileCatalogItem/>}/>*/}
+                    <Route path="catalog" element={<ProfileCatalog/>}/>
+                    <Route path="tutorial" element={<Tutorial/>}>
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
-            <Footer />
+            <Footer/>
         </div>
     );
 }
