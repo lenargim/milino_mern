@@ -237,8 +237,8 @@ export function getDoorPrice(square: number, materialData: materialDataType): nu
     if (is_leather_closet) {
         const oldPrice = chooseDoorPanelPrice(square, box_material, 'Slab')
         const newPrice = chooseDoorPanelPrice(square, door_finish_material, door_type)
-        console.log(`oldPrice: ${oldPrice}`);
-        console.log(`newPrice ${newPrice}`);
+        console.log(`old door Price: ${oldPrice}`);
+        console.log(`new door Price ${newPrice}`);
         return newPrice > oldPrice ? newPrice-oldPrice : 0;
     }
     return +(square * door_price_multiplier).toFixed(1);
@@ -246,13 +246,12 @@ export function getDoorPrice(square: number, materialData: materialDataType): nu
 
 function chooseDoorPanelPrice(square: number, material: string, door_type: string): number {
     switch (door_type) {
-        case 'Slab':
-            return getPanelPrice(square, material);
         case 'Micro Shaker':
             return getShakerPanelPrice(square, 'Micro Shaker');
         case 'Shaker':
+            return getShakerPanelPrice(square, 'Shaker');
         case 'Painted':
-            return getShakerPanelPrice(square, material);
+            return getShakerPanelPrice(square, 'Painted');
         case 'Slatted':
             return getSlattedPanelPrice(square)
         default:
@@ -300,11 +299,6 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
             return square * 60 * 1.03;
         case "Stone":
             return square * 78 * 2;
-        case 'Frame 3/4':
-        case 'Frame 1':
-        case 'Frame 1 1/2':
-        case 'Frame 2':
-        case 'Frame 2 1/2':
         case 'Painted':
             return square * 78;
         case "Micro Shaker":
