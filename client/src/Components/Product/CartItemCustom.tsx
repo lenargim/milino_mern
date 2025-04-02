@@ -11,7 +11,7 @@ import Dimentions from "../../common/Dimentions";
 import CartItemPanel from "./CartItemPanel";
 
 const CartItemCustom: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
-    const {material, door_accessories, subcategory, led_accessories, standard_door, standard_panels, _id, product_id} = product;
+    const {material, door_accessories, subcategory, led_accessories, standard_door, standard_panels, product_id} = product;
     switch (subcategory) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product} dimentions={dimentions}/>

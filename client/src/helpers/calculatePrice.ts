@@ -488,6 +488,7 @@ export const getBasePriceType = (materials: MaterialsFormType, is_leather_closet
         }
         return 2;
     }
+    if ((door_type === 'Micro Shaker' || door_type === 'Slatted') && door_finish_material === 'Syncron') return 3;
     if (door_finish_material === 'Syncron') return 2
     return 3
 }
@@ -614,6 +615,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const box_material_coef = getBoxMaterialCoef(box_material_type);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet);
+    console.log(`base_price_type ${base_price_type}`)
     return {
         is_standard_cabinet,
         category,

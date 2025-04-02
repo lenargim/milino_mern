@@ -9,16 +9,16 @@ const CartItemShelfExtra: FC<{ standard_door: MaybeUndefined<DoorType> }> = ({st
     const {color, doors: doorArr} = standard_door
     return (
         <View>
-            <View style={s.itemOption}>
-                <Text>Door Color: {color}</Text>
-            </View>
             {doorArr.map((el, index) => {
                 return (
                     <Text style={s.itemOption} key={index}>
-                        <Text>Size: {el.name}. Amount: {el.qty}</Text>
+                        <Text>Size: {el.width}x{el.height}. Amount: {el.qty}</Text>
                     </Text>
                 )
             })}
+            <Text style={s.itemOption}>
+                <Text>Door Color: {color}</Text>
+            </Text>
         </View>
     );
 };

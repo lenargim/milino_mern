@@ -46,7 +46,6 @@ const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoireAPIType[
                     </Text>
                 )}
             </View> : null}
-
         </View>
     );
 };

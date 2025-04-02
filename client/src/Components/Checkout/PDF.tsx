@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
+import {Page, Text, View, Document, StyleSheet, Image, Font} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
 import {
     getCartItemImgPDF,
@@ -11,6 +11,7 @@ import logo from './../../assets/img/black-logo.jpg'
 import {CartItemType} from "../../api/apiFunctions";
 import {MaterialStringsType} from "../../common/Materials";
 import CartItemOptions from "./PDF/CartItemOptions";
+
 
 export const s = StyleSheet.create({
     page: {
@@ -54,8 +55,9 @@ export const s = StyleSheet.create({
         width: '50vw'
     },
     itemName: {
-        fontSize: 19,
-        fontWeight: 'semibold'
+        fontSize: 16,
+        fontWeight: 'semibold',
+        paddingBottom: 10
     },
     category: {
         fontSize: 12,
@@ -75,7 +77,7 @@ export const s = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         fontSize: '18px',
-        fontWeight: 600,
+        fontWeight: 'semibold',
         lineHeight: 1.2,
         width: '10vw'
     },
@@ -114,10 +116,19 @@ export const s = StyleSheet.create({
         paddingRight: '5px'
     },
     itemOption: {
-        fontSize: '12px'
+        flexDirection: "row",
+        textAlign: 'left',
+        fontSize: 12
+    },
+    itemOptionBold: {
+        flexDirection: "row",
+        textAlign: 'left',
+        fontSize: 14,
+        fontWeight: 700,
+        paddingBottom: 3
     },
     itemOptionCustom: {
-        fontSize: '12px',
+        fontSize: 12,
         color: '#CB4141'
     },
     blocks: {

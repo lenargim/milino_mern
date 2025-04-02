@@ -9,7 +9,6 @@ const CartItemStandardDoor: FC<{ standard_door: MaybeUndefined<DoorType> }> = ({
     const {color, doors: doorArr} = standard_door
     return (
         <>
-
             {doorArr.map((el, index) => {
                 return (
                     <span className={s.itemOption} key={index}>

@@ -8,15 +8,17 @@ import CartItemPVCExtra from "./CartItemPVCExtra";
 import CartItemDoorExtra from "./CartItemDoorExtra";
 import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
+import CartItemPanel from "./CartItemPanel";
+import {s} from '../PDF'
 
 
-const CartItemCustom: FC<{ product: CartItemType }> = ({product}) => {
-    const {material, width, height, depth, door_accessories, subcategory, led_accessories, standard_door} = product;
+const CartItemCustom: FC<{ product: CartItemType, dimentions: string }> = ({product, dimentions}) => {
+    const {material, door_accessories, subcategory, led_accessories, standard_door, standard_panels, product_id} = product;
     switch (subcategory) {
         case 'glass-door':
-            return <View><CartItemGlassDoorExtra product={product}/></View>
+            return <View><CartItemGlassDoorExtra product={product} dimentions={dimentions}/></View>
         case 'glass-shelf':
-            return <View><CartItemShelfExtra product={product}/></View>
+            return <View><CartItemShelfExtra product={product} dimentions={dimentions}/></View>
         case 'pvc':
             return <View><CartItemPVCExtra product={product}/></View>
         case 'door-accessories':
@@ -26,13 +28,15 @@ const CartItemCustom: FC<{ product: CartItemType }> = ({product}) => {
         case 'standard-door':
         case 'standard-glass-door':
             return <View><CartItemDoor standard_door={standard_door}/></View>
+        case 'standard-panel':
+            return <View><CartItemPanel standard_panels={standard_panels} prod_id={product_id}/></View>
         default:
             return <View>
-                <Dimentions width={width} depth={depth} height={height}/>
+                <Dimentions dimentions={dimentions}/>
                 {material &&
-                  <View>
-                    <Text>Material: {material}</Text>
-                  </View>
+                <Text style={s.itemOption}>
+                  <Text>Material: {material}</Text>
+                </Text>
                 }
             </View>
     }

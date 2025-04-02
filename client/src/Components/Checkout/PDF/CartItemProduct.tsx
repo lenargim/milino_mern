@@ -6,11 +6,8 @@ import {getFraction} from "../../../helpers/helpers";
 import {s} from "../PDF";
 import {CartItemType} from "../../../api/apiFunctions";
 
-const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
+const CartItemProduct: FC<{ product: CartItemType,dimentions: string }> = ({product, dimentions}) => {
     const {
-        width,
-        depth,
-        height,
         middle_section,
         blind_width,
         hinge,
@@ -27,7 +24,7 @@ const CartItemProduct: FC<{ product: CartItemType }> = ({product}) => {
 
     return (
         <View>
-            <Dimentions width={width} depth={depth} height={height} isStandard={isStandard.dimensions}/>
+            <Dimentions dimentions={dimentions} isStandard={isStandard.dimensions}/>
             {blind_width ?
                 <View style={!isStandard.blind ? s.itemOptionCustom:s.itemOption}>
                     <Text>Blind Width: {getFraction(blind_width)}"</Text>
