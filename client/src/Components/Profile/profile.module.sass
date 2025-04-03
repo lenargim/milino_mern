@@ -130,20 +130,31 @@
 
 .table
   width: 100%
-  max-width: 900px
+  max-width: 1200px
   border: 1px solid #000
   border-radius: 8px
   margin-bottom: 10px
 
 .tableHead, .tableRow
   display: grid
-  grid-template-columns: 1fr 1fr 100px 100px
+  grid-template-columns: 100px 200px 200px 1fr 100px 100px
   gap: 15px
 
 .tableHead
-  font: 600 18px/1.2 $mainFont
   padding: 10px
   border-bottom: 1px solid #000
+  *
+    font: 600 18px/1.2 $mainFont
+
+.tableHeadButton
+  text-align: left
+  position: relative
+  &:after
+    position: absolute
+.asc:after
+  content: '\2191'
+.desc:after
+  content: '\2193'
 
 .tableRow
   padding: 5px 10px
@@ -158,3 +169,17 @@
   fill: green
 .svgDisabled
   fill: palevioletred
+
+.navigation
+  margin-top: 20px
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  gap: 10px
+  button
+    width: 30px
+    height: 30px
+    border-radius: 3px
+    font: 500 20px/1 $mainFont
+    color: $accentLight
+    border: 2px solid $accentLight

@@ -1,10 +1,11 @@
-import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
+import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import axios, {AxiosResponse} from "axios";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
 import {Customer} from "../helpers/constructorTypes";
-import {UserAccessData} from "../Components/Profile/ProfileAdmin";
+import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
+import {number} from "yup";
 
 
 const instanceFormData = axios.create({
@@ -71,7 +72,7 @@ export const cartAPI = {
 }
 
 export const AdminAPI = {
-    getUsers: () => instance.get<AdminUsersType[]>(`/admin/users`, {headers: getHeaders()}),
+    getUsers: (sort:SortAdminUsers,page:number) => instance.post(`/admin/users`, {sort,page}, {headers: getHeaders()}),
     toggleUserEnabled: (_id:string, user_data:UserAccessData) => instance.patch<AdminUsersType>(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
 }
 

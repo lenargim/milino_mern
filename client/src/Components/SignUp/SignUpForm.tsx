@@ -54,6 +54,7 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 const UserWillBeActivated: FC = () => {
+    console.log('in')
     return (
         <div className={modalSt.notificationWrap}>
             <div className={modalSt.notification}>

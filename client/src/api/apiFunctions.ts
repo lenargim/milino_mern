@@ -1,4 +1,4 @@
-import {EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
+import {AdminUsersRes, EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, roomsAPI, usersAPI} from "./api";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {
@@ -17,7 +17,8 @@ import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
-import {UserAccessData} from "../Components/Profile/ProfileAdmin";
+import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
+import {number} from "yup";
 
 
 export const alertError = (error: unknown) => {
@@ -32,7 +33,7 @@ export const alertError = (error: unknown) => {
 export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> => {
     try {
         const res = await AuthAPI.signUp(values);
-        if (res.status === 200) {
+        if (res.status === 201) {
             return true
         }
     } catch (error) {
@@ -261,10 +262,9 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async () => {
+export const getAdminUsers = async (sort:SortAdminUsers, page:number):Promise<MaybeUndefined<AdminUsersRes>> => {
     try {
-        const res = AdminAPI.getUsers()
-        return (await res).data
+        return (await AdminAPI.getUsers(sort, page)).data
     } catch (error) {
         alertError(error);
     }

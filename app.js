@@ -73,7 +73,7 @@ const start = async () => {
     app.post('/api/order/:roomId', CORS, checkAuth, OrderController.placeOrder)
 
 
-    app.get('/api/admin/users', CORS, checkAuth, checkAdmin, AdminController.getUsers)
+    app.post('/api/admin/users', CORS, checkAuth, checkAdmin, AdminController.getUsers)
     app.patch('/api/admin/user/:userId', CORS, checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
     if (env.NODE_ENV === 'production') {

@@ -1,4 +1,5 @@
 import {OrderType} from "../helpers/productTypes";
+import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
 
 export type UserDataType = {
     name: string,
@@ -49,12 +50,17 @@ export type OrderTypeApi = {
     createdAt: Date
 }
 
-export type AdminType = {
-    users: AdminUsersType[]
+export type AdminUsersRes = {
+    users: AdminUsersType[],
+    hasNextPage: boolean,
+    sort: SortAdminUsers,
+    page: number
 }
 
 export type AdminUsersType = {
     _id: string,
+    createdAt: Date,
+    company: string,
     email: string,
     name: string,
     is_active: boolean,

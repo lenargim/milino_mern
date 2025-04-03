@@ -1008,6 +1008,19 @@ export const formatDateToText = (dateApi: Date): string => {
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
+export const formatDateToTextShort = (dateApi: Date): string => {
+    const date = new Date(dateApi);
+    const options: Intl.DateTimeFormatOptions = {
+        year: '2-digit',
+        month: '2-digit',
+        day: '2-digit',
+        // hour: '2-digit',
+        // minute: '2-digit',
+        // hour12: false
+    };
+    return new Intl.DateTimeFormat('ru-RU', options).format(date);
+}
+
 export const prepareEmailData = <T extends { email: string }>(e: T): T => {
     const {email} = e
     return {...e, email: email.toLowerCase()}
