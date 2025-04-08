@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Page, Text, View, Document, StyleSheet, Image, Font} from '@react-pdf/renderer';
+import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
 import {
     getCartItemImgPDF,
@@ -116,8 +116,10 @@ export const s = StyleSheet.create({
         paddingRight: '5px'
     },
     itemOption: {
+        display: "flex",
         flexDirection: "row",
-        textAlign: 'left',
+        gap: '5px',
+        // textAlign: 'left',
         fontSize: 12
     },
     itemOptionBold: {

@@ -34,7 +34,7 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
 
             {middle_section ?
                 <div className={s.itemOption}>
-                    <span>Middle Section Height:</span>
+                    <span>Cutout Height:</span>
                     <span>{getFraction(middle_section)}</span>
                 </div> : null
             }

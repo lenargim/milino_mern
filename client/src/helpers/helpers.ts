@@ -964,9 +964,9 @@ export default useScript;
 
 export const getDimentionsRow = (width: number, height: number, depth: number): string => {
     const widthPart = width ? `${getFraction(width)}"W x` : '';
-    const heightPart = height ? `${getFraction(height)}"H` : '';
-    const depthPart = depth && depth > 1 ? `x ${getFraction(depth)}"D` : '';
-    return `${widthPart} ${heightPart} ${depthPart}`
+    const heightPart = height ? ` ${getFraction(height)}"H` : '';
+    const depthPart = depth && depth > 1 ? ` x ${getFraction(depth)}"D` : '';
+    return `${widthPart}${heightPart}${depthPart}`
 }
 
 

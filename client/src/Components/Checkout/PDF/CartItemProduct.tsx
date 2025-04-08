@@ -33,7 +33,7 @@ const CartItemProduct: FC<{ product: CartItemType,dimentions: string }> = ({prod
 
             {middle_section ?
                 <View style={!isStandard.middle ? s.itemOptionCustom:s.itemOption}>
-                    <Text>Middle Section Height: {getFraction(middle_section)}"</Text>
+                    <Text>Cutout Height: {getFraction(middle_section)}"</Text>
                 </View> : null
             }
             {hinge ?

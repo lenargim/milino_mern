@@ -26,10 +26,10 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                                 if (!item) return null;
                                 const dimentions = getDimentionsRow(item.width, item.height, item.depth);
                                 return (
-                                    <View key={index}><Text style={s.itemOption}>
+                                    <View key={index} style={s.itemOption}>
                                         <Text>{item.name}</Text>
                                         <Text>Size: {dimentions}. Amount: {el.qty}</Text>
-                                    </Text></View>)
+                                    </View>)
                             })
                             }
                         </View> : null
@@ -44,11 +44,10 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                                 if (!item) return null;
                                 const dimentions = getDimentionsRow(item.width, item.height, item.depth);
                                 return (
-                                    <View key={index}>
-                                        <Text style={s.itemOption}>
-                                            <Text>{item.name}</Text>
-                                            <Text>Size: {dimentions}. Amount: {el.qty}</Text>
-                                        </Text></View>)
+                                    <View key={index} style={s.itemOption}>
+                                        <Text>{item.name}</Text>
+                                        <Text>Size: {dimentions}. Amount: {el.qty}</Text>
+                                    </View>)
                             })
                             }
                         </View> : null
@@ -63,10 +62,10 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                                 if (!item) return null;
                                 const dimentions = getDimentionsRow(item.width, item.height, item.depth);
                                 return (
-                                    <View key={index}><Text style={s.itemOption}>
+                                    <View key={index} style={s.itemOption}>
                                         <Text>{item.name}</Text>
                                         <Text>Size: {dimentions}. Amount: {el.qty}</Text>
-                                    </Text></View>)
+                                    </View>)
                             })
                             }
                         </View> : null

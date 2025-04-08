@@ -197,7 +197,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-max",
-                        `Middle Section height should be lower than cabinet height`,
+                        `Cutout height should be lower than cabinet height`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
                             const fullHeight = parent['Height'] || parent['Custom Height'];

@@ -22,7 +22,6 @@ import {
 import settings from './../api/settings.json'
 import {
     getAttributes,
-    getFinishColorCoefCustomPart,
     getProductById,
     getSquare,
     getWidthToCalculateDoor
@@ -505,12 +504,12 @@ export const getMaterialCoef = (materials: MaterialsFormType, box_material_type:
             }
         }
     }
-    if (base_price_type === 1 || !door_type || !door_finish_material || door_type === 'Micro Shaker') return 1;
+    if (base_price_type === 1 || !door_type || !door_finish_material) return 1;
     if (door_type === 'Painted') return 1.05;
     if (door_type === 'Slatted') return 1.03
     if (door_finish_material === 'Stone') return 1.69
     if (door_finish_material === 'Zenit') return 1.03
-    if (door_finish_material === 'Ultrapan Acrylic') return 1.1
+    if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
     return 1
 }
 
@@ -615,7 +614,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const box_material_coef = getBoxMaterialCoef(box_material_type);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet);
-    console.log(`base_price_type ${base_price_type}`)
+    // console.log(`base_price_type ${base_price_type}`)
     return {
         is_standard_cabinet,
         category,

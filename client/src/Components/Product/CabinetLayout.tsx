@@ -103,7 +103,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                     : null}
                 {showMiddleSectionBlock &&
                   <div className={s.block}>
-                    <h3>Middle Section Height</h3>
+                    <h3>Cutout Height</h3>
                     <ProductInputCustom name={'Middle Section'}/>
                   </div>
                 }
