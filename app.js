@@ -57,7 +57,7 @@ const start = async () => {
 
     app.post('/api/auth/register', CORS, registerValidation, handleValidationErrors, UserController.register)
     app.post('/api/auth/login', CORS, loginValidation, handleValidationErrors, UserController.login);
-    app.get('/api/users/me', checkAuth, CORS, UserController.getMe)
+    app.get('/api/users/me', CORS, checkAuth, UserController.getMe)
     app.patch('/api/users/me', CORS, checkAuth, UserController.patchMe)
 
     app.post('/api/rooms', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
-import {useAppDispatch, useAppSelector} from "./helpers/helpers";
+import {logout, useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
 import {me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
@@ -35,17 +35,16 @@ function App() {
         token,
         authenticationPath: '/',
     };
-
     useEffect(() => {
-        token && me().then(user => {
-            if (user) {
-                dispatch(setUser(user))
-            } else {
-                dispatch(setIsAuth(false))
-                navigate('/')
-            }
-        });
-    }, [isAuth]);
+        if (!token) {
+            logout();
+            navigate('/');
+        } else {
+            me().then(user => {
+                user && dispatch(setUser(user));
+            });
+        }
+    }, []);
     return (
         <div className="app">
             <Routes>

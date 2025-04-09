@@ -22,10 +22,12 @@ import {number} from "yup";
 
 
 export const alertError = (error: unknown) => {
-    if (axios.isAxiosError(error) && error.response) {
-        alert(error.response.data.message)
-        if (error.response.data.action === 'logout') {
-            logout()
+    if (axios.isAxiosError(error)) {
+        if (error.response) {
+            alert(error.response.data.message)
+            if (error.response.data.action === 'logout') {
+                logout()
+            }
         }
     }
 }
@@ -79,6 +81,7 @@ export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>
 export const me = async (): Promise<MaybeUndefined<UserType>> => {
     try {
         const res = await usersAPI.me();
+        localStorage.setItem('token', res.data.token);
         return {
             _id: res.data._id,
             name: res.data.name,
@@ -90,6 +93,7 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
             is_active_in_constructor: res.data.is_active_in_constructor || false
         };
     } catch (error) {
+            console.log(error)
         alertError(error);
     }
 }
@@ -262,7 +266,7 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async (sort:SortAdminUsers, page:number):Promise<MaybeUndefined<AdminUsersRes>> => {
+export const getAdminUsers = async (sort: SortAdminUsers, page: number): Promise<MaybeUndefined<AdminUsersRes>> => {
     try {
         return (await AdminAPI.getUsers(sort, page)).data
     } catch (error) {
