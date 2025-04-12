@@ -119,7 +119,6 @@ export const s = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         gap: '5px',
-        // textAlign: 'left',
         fontSize: 12
     },
     itemOptionBold: {
@@ -162,6 +161,7 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
                 <Text>Project: {values.project}</Text>
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>
+                <Text>Delivery address: {values.delivery}</Text>
             </View>
             <View>
                 <Text>Category: {materialStrings.categoryString}</Text>

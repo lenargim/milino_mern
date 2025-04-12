@@ -610,11 +610,11 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const box_material_type = is_leather_closet ? getLeatherBoxMaterialType(box_color) : getBoxMaterialType(box_material, is_standard_cabinet);
     const base_price_type = getBasePriceType(materials, is_leather_closet);
     const material_coef = is_leather_closet ? getMaterialCoefLeather(materials, box_material_type) : getMaterialCoef(materials, box_material_type, base_price_type);
+    console.log(material_coef)
     const grain_coef = door_grain ? getGrainCoef(door_grain) : 1;
     const box_material_coef = getBoxMaterialCoef(box_material_type);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet);
-    // console.log(`base_price_type ${base_price_type}`)
     return {
         is_standard_cabinet,
         category,

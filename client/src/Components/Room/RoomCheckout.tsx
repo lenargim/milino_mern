@@ -3,7 +3,7 @@ import {useOutletContext} from "react-router-dom";
 import {RoomTypeAPI} from "../../store/reducers/roomSlice";
 import CheckoutForm from "../Checkout/CheckoutForm";
 import {getCartArrFront, getCartTotal, useAppSelector} from "../../helpers/helpers";
-import {UserType} from "../../api/apiTypes";
+import {UserType, UserTypeCheckout} from "../../api/apiTypes";
 
 const RoomCheckout: FC = () => {
     const [roomData] = useOutletContext<[RoomTypeAPI]>();
@@ -12,12 +12,13 @@ const RoomCheckout: FC = () => {
     const total = getCartTotal(cartFront);
 
     const user: UserType = useAppSelector(state => state.user.user);
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues, setInitialValues] = useState<UserTypeCheckout>({
         name: user.name,
         company: user.company,
         email: user.email,
         phone: user.phone,
-        project: roomData.room_name
+        project: roomData.room_name,
+        delivery: ''
     })
     useEffect(() => {
         setInitialValues({

@@ -27,6 +27,15 @@ export interface UserTypeResponse extends UserType {
     token: string
 }
 
+export interface UserTypeCheckout {
+    name: string,
+    company: string,
+    email: string,
+    phone: string,
+    project: string,
+    delivery: string
+}
+
 export interface EditProfileType {
     _id: string,
     name: string,

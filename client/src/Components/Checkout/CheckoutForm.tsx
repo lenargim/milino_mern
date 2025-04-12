@@ -29,7 +29,7 @@ type CheckoutFormType = {
     cart: CartItemType[],
     total: number,
     materials: MaterialsFormType,
-    initialValues:CheckoutType,
+    initialValues: CheckoutType,
     room_id?: string
 }
 
@@ -145,6 +145,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                             <TextInput type="text" name="project" label="Project name"/>
                             <TextInput type="email" name="email" label="E-mail"/>
                             <PhoneInput type="text" name="phone" label="Phone number"/>
+                            <TextInput type="text" name="delivery" label="Delivery address"/>
                         </div>
                         <CheckoutCart cart={cart} total={total} room_id={room_id}/>
                         <div className={s.buttonRow}>
