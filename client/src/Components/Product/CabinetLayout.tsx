@@ -30,7 +30,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 productPriceData,
                                                 hingeArr,
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type} = product;
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id} = product;
     const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
@@ -42,14 +42,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
         Height: height,
         Depth: depth,
         'Blind Width': blindWidth,
-        Options: chosenOptions,
         'LED alignment': ledAlignment,
-        ['Door Profile']: doorProfile,
-        ['Door Glass Type']: doorGlassType,
-        ['Door Glass Color']: doorGlassColor,
-        ['Shelf Profile']: shelfProfile,
-        ['Shelf Glass Type']: shelfGlassType,
-        ['Shelf Glass Color']: shelfGlassColor,
         price
     } = values;
 
@@ -113,11 +106,10 @@ const CabinetLayOut: FC<CabinetFormType> = ({
             <CornerBlock isCornerChoose={isCornerChoose}/>
 
             <LedBlock alignment={ledAlignment} hasLedBlock={hasLedBlock}/>
-            <OptionsBlock filteredOptions={filteredOptions} chosenOptions={chosenOptions}
-                          doorProfile={doorProfile} doorGlassType={doorGlassType}
-                          doorGlassColor={doorGlassColor} shelfProfile={shelfProfile}
-                          shelfGlassType={shelfGlassType} shelfGlassColor={shelfGlassColor}
-                          isProductStandard={isProductStandard}/>
+            <OptionsBlock filteredOptions={filteredOptions}
+                          isProductStandard={isProductStandard}
+                          id={id}
+            />
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>

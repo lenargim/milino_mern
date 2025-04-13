@@ -1,20 +1,14 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import s from "./product.module.sass";
 import SelectField from "../../common/SelectField";
-import {getSelectValfromVal} from "../../helpers/helpers";
+import {getSelectValfromVal, productValuesType} from "../../helpers/helpers";
 import {ProductOptionsInput} from "../../common/Form";
 import settings from "../../api/settings.json";
-import {Field} from "formik";
+import {Field, useFormikContext} from "formik";
 
 type OptionsBlockType = {
+    id: number,
     filteredOptions: string[],
-    chosenOptions: string[],
-    doorProfile: string,
-    doorGlassType: string,
-    doorGlassColor: string,
-    shelfProfile: string,
-    shelfGlassType: string,
-    shelfGlassColor: string,
     isProductStandard: boolean
 }
 
@@ -25,26 +19,76 @@ const {
     ['Glass Color']: glassColorSettings,
 } = glassSettings;
 
+const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: number, height: number): boolean => {
+    if (!isProductStandard) return true;
+    switch (id) {
+        case 101: {
+            const standardHeight: boolean = [30, 36, 42].includes(height);
+            if (!standardHeight) return false;
+            return [12, 15, 18, 21, 24, 30, 36, 42].includes(width);
+        }
+        case 102:
+        case 103: {
+            const standardHeight: boolean = [30, 36, 42].includes(height);
+            if (!standardHeight) return false;
+            return [30, 36, 42].includes(width);
+        }
+        case 104:
+        case 105: {
+            const standardHeight: boolean = [12, 15, 18, 21].includes(height);
+            if (!standardHeight) return false;
+            return [30, 36].includes(width);
+        }
+        case 106:
+        case 107: {
+            break;
+        }
+        case 111: {
+            const standardHeight: boolean = [30, 36, 42].includes(height);
+            if (!standardHeight) return false;
+            return [27, 30, 33, 36].includes(width);
+        }
+    }
+    return false
+}
+
+const removeGlassDoorFromOptions = (options:string[]):string[] => {
+    return options.splice(options.indexOf('Glass Door'),1);
+}
+
 const OptionsBlock: FC<OptionsBlockType> = ({
+                                                id,
                                                 filteredOptions,
-                                                chosenOptions,
-                                                doorProfile,
-                                                doorGlassType,
-                                                shelfGlassType,
-                                                doorGlassColor,
-                                                shelfProfile,
-                                                shelfGlassColor,
                                                 isProductStandard
                                             }) => {
-    // const glassDoorColorFiltered = glassColorSettings.filter(el => el.type === doorGlassType);
+    const {values, setFieldValue} = useFormikContext<productValuesType>();
+    const {
+        Options: chosenOptions,
+        ['Door Profile']: doorProfile,
+        ['Door Glass Type']: doorGlassType,
+        ['Door Glass Color']: doorGlassColor,
+        ['Shelf Profile']: shelfProfile,
+        ['Shelf Glass Type']: shelfGlassType,
+        ['Shelf Glass Color']: shelfGlassColor,
+        Width: width,
+        Height: height
+    } = values;
     const glassShelfColorFiltered = glassColorSettings.filter(el => el.type === shelfGlassType);
+    const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
+    const filteredOptionsFront = isEnabledGlassDoorOption ? filteredOptions : removeGlassDoorFromOptions(filteredOptions);
+    useEffect(() => {
+        if (!isEnabledGlassDoorOption) {
+            setFieldValue('Options', removeGlassDoorFromOptions(filteredOptions));
+            setFieldValue('Door Glass Color', '');
+        }
+    },[width,height])
     return (
         <>
-            {filteredOptions.length
+            {filteredOptionsFront.length
                 ? <div className={s.block}>
                     <h3>Options</h3>
                     <div className={s.options} role="group">
-                        {filteredOptions.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
+                        {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
                                                                                 value={w}/>)}
                     </div>
                 </div> : null
@@ -55,7 +99,8 @@ const OptionsBlock: FC<OptionsBlockType> = ({
               <div className={s.blockWrap}>
                   {isProductStandard
                       ? <StandardCabinetGlassDoorBlock doorGlassColor={doorGlassColor}/>
-                      : <CabinetGlassDoorBlock doorGlassColor={doorGlassColor} doorGlassType={doorGlassType} doorProfile={doorProfile}/>
+                      : <CabinetGlassDoorBlock doorGlassColor={doorGlassColor} doorGlassType={doorGlassType}
+                                               doorProfile={doorProfile}/>
                   }
               </div>
             </>}
@@ -116,7 +161,7 @@ const CabinetGlassDoorBlock: FC<{
 
 const StandardCabinetGlassDoorBlock: FC<{
     doorGlassColor: string
-}> = ({ doorGlassColor}) => {
+}> = ({doorGlassColor}) => {
     const doorGlassType = "Glass";
     const glassDoorColorFiltered = glassColorSettings.filter(el => el.type === doorGlassType);
     return (
