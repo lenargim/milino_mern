@@ -56,9 +56,17 @@
     }
   },
   {
-    "productIds": [104,105,106,107,108],
+    "productIds": [104,105,108],
     "limits": {
       "width": [20, 48],
+      "height": [12,60],
+      "depth": [9, 48]
+    }
+  },
+  {
+    "productIds": [106,107],
+    "limits": {
+      "width": [12,48],
       "height": [12,60],
       "depth": [9, 48]
     }

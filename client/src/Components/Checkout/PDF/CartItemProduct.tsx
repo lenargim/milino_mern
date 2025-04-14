@@ -59,7 +59,7 @@ const CartItemProduct: FC<{ product: CartItemType,dimentions: string }> = ({prod
 
                     {options.includes('Glass Shelf') ?
                         <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
-                            <Text>Glass Shelf: {shelf_option.filter(el => !!el).join(', ')}</Text>
+                            <Text>Glass Shelf: {shelf_option}</Text>
                         </View> : null
                     }
 

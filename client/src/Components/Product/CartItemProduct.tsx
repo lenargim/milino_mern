@@ -64,7 +64,7 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
                     {options.includes('Glass Shelf') ?
                         <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Shelf:</span>
-                            <span>{shelf_option.filter(el => !!el).join(', ')}</span>
+                            <span>{shelf_option}</span>
                         </div> : null
                     }
 

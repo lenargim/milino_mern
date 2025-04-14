@@ -67,7 +67,7 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
                     {options.includes('Glass Shelf') ?
                         <div className={s.itemOption}>
                             <span>Glass Shelf:</span>
-                            <span>{shelf_option.filter(el => !!el).join(', ')}</span>
+                            <span>{shelf_option}</span>
                         </div> : null
                     }
 

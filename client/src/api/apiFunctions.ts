@@ -165,7 +165,7 @@ export type CartAPI = {
     hinge: hingeTypes,
     options: string[],
     door_option: string[],
-    shelf_option: string[]
+    shelf_option: string
     led_border: string[],
     led_alignment: string,
     led_indent: string,

@@ -98,8 +98,7 @@ const RoomSchema = new mongoose.Schema({
       default: [],
     },
     shelf_option: {
-      type: Array,
-      default: [],
+      type: String,
     },
     led_border: {
       type: Array,

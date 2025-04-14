@@ -90,14 +90,6 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
             .when('Options', (options, field) =>
                 options[0].includes('Glass Door') ? field.required() : field
             ),
-        'Shelf Profile': Yup.string()
-            .when('Options', (options, field) =>
-                options[0].includes('Glass Shelf') ? field.required() : field
-            ),
-        'Shelf Glass Type': Yup.string()
-            .when('Options', (options, field) =>
-                options[0].includes('Glass Shelf') ? field.required() : field
-            ),
         'Shelf Glass Color': Yup.string()
             .when('Options', (options, field) =>
                 options[0].includes('Glass Shelf') ? field.required() : field

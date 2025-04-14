@@ -41,7 +41,9 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
         }
         case 106:
         case 107: {
-            break;
+            const standardHeight: boolean = [12, 15, 18].includes(height);
+            if (!standardHeight) return false;
+            return [12, 15, 18, 24, 30, 36].includes(width);
         }
         case 111: {
             const standardHeight: boolean = [30, 36, 42].includes(height);
@@ -52,8 +54,8 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
     return false
 }
 
-const removeGlassDoorFromOptions = (options:string[]):string[] => {
-    return options.splice(options.indexOf('Glass Door'),1);
+const removeGlassDoorFromOptions = (options: string[]): string[] => {
+    return options.splice(options.indexOf('Glass Door'), 1);
 }
 
 const OptionsBlock: FC<OptionsBlockType> = ({
@@ -67,13 +69,11 @@ const OptionsBlock: FC<OptionsBlockType> = ({
         ['Door Profile']: doorProfile,
         ['Door Glass Type']: doorGlassType,
         ['Door Glass Color']: doorGlassColor,
-        ['Shelf Profile']: shelfProfile,
-        ['Shelf Glass Type']: shelfGlassType,
         ['Shelf Glass Color']: shelfGlassColor,
         Width: width,
         Height: height
     } = values;
-    const glassShelfColorFiltered = glassColorSettings.filter(el => el.type === shelfGlassType);
+    const glassShelfColorFiltered = glassColorSettings.filter(el => el.type === 'Glass');
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
     const filteredOptionsFront = isEnabledGlassDoorOption ? filteredOptions : removeGlassDoorFromOptions(filteredOptions);
     useEffect(() => {
@@ -81,7 +81,7 @@ const OptionsBlock: FC<OptionsBlockType> = ({
             setFieldValue('Options', removeGlassDoorFromOptions(filteredOptions));
             setFieldValue('Door Glass Color', '');
         }
-    },[width,height])
+    }, [width, height])
     return (
         <>
             {filteredOptionsFront.length
@@ -89,7 +89,7 @@ const OptionsBlock: FC<OptionsBlockType> = ({
                     <h3>Options</h3>
                     <div className={s.options} role="group">
                         {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
-                                                                                value={w}/>)}
+                                                                                     value={w}/>)}
                     </div>
                 </div> : null
             }
@@ -109,16 +109,16 @@ const OptionsBlock: FC<OptionsBlockType> = ({
             <>
               <h3>Glass Shelf</h3>
               <div className={s.blockWrap}>
-                <div className={s.block}>
-                  <SelectField name="Shelf Profile"
-                               val={getSelectValfromVal(shelfProfile, profileSettings)}
-                               options={profileSettings}/>
-                </div>
-                <div className={s.block}>
-                  <SelectField name="Shelf Glass Type"
-                               val={getSelectValfromVal(shelfGlassType, glassTypeSettings)}
-                               options={glassTypeSettings}/>
-                </div>
+                {/*<div className={s.block}>*/}
+                {/*  <SelectField name="Shelf Profile"*/}
+                {/*               val={getSelectValfromVal(shelfProfile, profileSettings)}*/}
+                {/*               options={profileSettings}/>*/}
+                {/*</div>*/}
+                {/*<div className={s.block}>*/}
+                {/*  <SelectField name="Shelf Glass Type"*/}
+                {/*               val={getSelectValfromVal(shelfGlassType, glassTypeSettings)}*/}
+                {/*               options={glassTypeSettings}/>*/}
+                {/*</div>*/}
                 <div className={s.block}>
                   <SelectField name="Shelf Glass Color"
                                val={getSelectValfromVal(shelfGlassColor, glassShelfColorFiltered)}

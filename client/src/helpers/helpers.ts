@@ -196,8 +196,6 @@ export interface productValuesType extends initialStandardValues {
     'Door Profile': string,
     'Door Glass Type': string,
     'Door Glass Color': string,
-    'Shelf Profile': string,
-    'Shelf Glass Type': string,
     'Shelf Glass Color': string,
 }
 
@@ -206,8 +204,6 @@ export interface standardProductValuesType extends initialStandardValues {
     'Door Profile': string,
     'Door Glass Type': string,
     'Door Glass Color': string,
-    'Shelf Profile': string,
-    'Shelf Glass Type': string,
     'Shelf Glass Color': string,
 }
 
@@ -278,8 +274,6 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         'Door Profile': doorProfile,
         'Door Glass Type': doorGlassType,
         'Door Glass Color': doorGlassColor,
-        'Shelf Profile': shelfProfile,
-        'Shelf Glass Type': shelfGlassType,
         'Shelf Glass Color': shelfGlassColor,
         'Note': note,
         'LED borders': ledBorders,
@@ -325,7 +319,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         corner: corner,
         options: chosenOptions,
         door_option: [doorProfile, doorGlassType, doorGlassColor],
-        shelf_option: [shelfProfile, shelfGlassType, shelfGlassColor],
+        shelf_option: shelfGlassColor,
         led_border: ledBorders,
         led_alignment: ledAlignment,
         led_indent: ledIndent,
@@ -379,7 +373,7 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         corner: "",
         options: [],
         door_option: [],
-        shelf_option: [],
+        shelf_option: "",
         led_border: [],
         led_alignment: '',
         led_indent: '',
@@ -874,7 +868,7 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         corner: "",
         options: [],
         door_option: [],
-        shelf_option: [],
+        shelf_option: "",
         led_border: [],
         led_alignment: '',
         led_indent: '',

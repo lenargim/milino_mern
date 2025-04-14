@@ -73,8 +73,6 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'Door Profile': '',
         'Door Glass Type': '',
         'Door Glass Color': '',
-        'Shelf Profile': '',
-        'Shelf Glass Type': '',
         'Shelf Glass Color': '',
         image_active_number: 1,
         price: 0,
