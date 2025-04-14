@@ -169,7 +169,7 @@ export type CartAPI = {
     led_border: string[],
     led_alignment: string,
     led_indent: string,
-    leather: string,
+    // leather: string,
     material?: string,
     glass_door?: string[],
     glass_shelf?: string,

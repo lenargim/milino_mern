@@ -9,7 +9,6 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
         middle_section,
         blind_width,
         hinge,
-        leather,
         options,
         corner,
         door_option,
@@ -52,13 +51,6 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
                     <span>{corner}</span>
                 </div> : null
             }
-            {leather ?
-                <div className={s.itemOption}>
-                    <span>Leather:</span>
-                    <span>{leather}</span>
-                </div> : null
-            }
-
             {options.length ?
                 <>
                     <div>Options:</div>

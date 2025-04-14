@@ -12,7 +12,7 @@ import {
     isDoorFrameWidth,
     isDoorGrain,
     isDoorTypeShown,
-    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown,
+    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown, isLeatherNote,
     isLeatherType,
     useAppDispatch,
     usePrevious
@@ -42,7 +42,8 @@ export type MaterialsFormType = {
     drawer_brand: string,
     drawer_type: string,
     drawer_color: string,
-    leather: string
+    leather: string,
+    leather_note: string
 }
 
 export const materialsFormInitial: MaterialsFormType = {
@@ -59,7 +60,8 @@ export const materialsFormInitial: MaterialsFormType = {
     drawer_brand: '',
     drawer_type: '',
     drawer_color: '',
-    leather: ''
+    leather: '',
+    leather_note: ''
 }
 
 const {
@@ -68,7 +70,6 @@ const {
     doors,
     boxMaterial,
     drawers,
-    leatherBoxMaterial: leatherBoxMaterialArrOld,
     leatherType: leatherTypeArr,
     grain,
 }: MaterialsType = materials;
@@ -90,7 +91,8 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
         drawer_brand,
         drawer_type,
         drawer_color,
-        leather
+        leather,
+        leather_note
     } = values;
     const leatherBoxMaterialArr:MaybeUndefined<finishType[]> = materials.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
@@ -125,7 +127,8 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
                 drawer_brand: '',
                 drawer_type: '',
                 drawer_color: '',
-                leather: ''
+                leather: '',
+                leather_note: ''
             })
         }
     }, [category])
@@ -201,11 +204,23 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
                 }
         }
 
-        if (!hasGola && gola) setFieldValue('gola', '');
-        if (category && !grainArr && door_grain) setFieldValue('door_grain', '');
-        if (category && !isLeather && leather) setFieldValue('leather', '');
-        if (category && !isLeather && box_color) setFieldValue('box_color', '');
-        if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
+        // if (!hasGola && gola) setFieldValue('gola', '');
+        // if (category && !grainArr && door_grain) setFieldValue('door_grain', '');
+        // if (category && !isLeather && leather) setFieldValue('leather', '');
+        // if (category && !isLeather && box_color) setFieldValue('box_color', '');
+        // if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
+
+        if (category) {
+            if (!hasGola && gola) setFieldValue('gola', '');
+            if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
+            if (!grainArr && door_grain) setFieldValue('door_grain', '');
+            if (!isLeather) {
+                if (box_color) setFieldValue('box_color', '');
+                if (leather) setFieldValue('leather', '');
+                if (leather_note) setFieldValue('leather_note', '')
+            }
+            if (leather !== 'Other') setFieldValue('leather_note', '');
+        }
 
         if (cart.length) {
             checkCartData(cart, values,dispatch);
@@ -225,6 +240,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
     const showDrawerType = isDrawerType(drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(drawer_type, drawerColorsArr);
     const showLeatherType = isLeatherType(drawer_color, drawer_type,isLeather, leatherTypeArr);
+    const showLeatherNote = isLeatherNote(showLeatherType, leather)
 
     return (
         <Form className={s.roomForm}>
@@ -248,6 +264,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             {showDrawerColor && <DataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color" small={true}/>}
             {showLeatherType &&
               <DataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
+            {showLeatherNote && <TextInput type="text" value={leather_note} name="leather_note" label="Note"/>}
             {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">{button}</button>}
         </Form>
 

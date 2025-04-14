@@ -1,5 +1,4 @@
 import React, {FC} from "react";
-import {productExtraType} from "../../../store/reducers/generalSlice";
 import Dimentions from "./Dimentions";
 import {Text, View} from "@react-pdf/renderer";
 import {getFraction} from "../../../helpers/helpers";
@@ -11,7 +10,6 @@ const CartItemProduct: FC<{ product: CartItemType,dimentions: string }> = ({prod
         middle_section,
         blind_width,
         hinge,
-        leather,
         options,
         corner,
         door_option,
@@ -48,11 +46,6 @@ const CartItemProduct: FC<{ product: CartItemType,dimentions: string }> = ({prod
             {corner ?
                 <View style={s.itemOption}>
                     <Text>Corner: {corner}</Text>
-                </View> : null
-            }
-            {leather ?
-                <View style={s.itemOption}>
-                    <Text>Leather: {leather}</Text>
                 </View> : null
             }
             {options.length ?

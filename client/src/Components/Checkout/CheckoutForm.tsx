@@ -90,7 +90,6 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                         led_border: el.led_border,
                         led_alignment: el.led_alignment,
                         led_indent: el.led_indent,
-                        leather: el.leather,
                         material: el.material,
                         glass_door: el.glass_door,
                         glass_shelf: el.glass_shelf,

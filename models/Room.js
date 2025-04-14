@@ -52,6 +52,9 @@ const RoomSchema = new mongoose.Schema({
   leather: {
     type: String
   },
+  leather_note: {
+    type: String
+  },
   cart: [{
     product_id: {
       type: Number,
@@ -106,9 +109,6 @@ const RoomSchema = new mongoose.Schema({
       type: String,
     },
     led_indent: {
-      type: String,
-    },
-    leather: {
       type: String,
     },
     material: {

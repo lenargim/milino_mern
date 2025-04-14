@@ -12,7 +12,6 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         door_option,
         shelf_option,
         hinge,
-        leather,
         corner,
         height,
         depth,
@@ -55,13 +54,6 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
                     <span>{corner}</span>
                 </div> : null
             }
-            {leather ?
-                <div className={s.itemOption}>
-                    <span>Leather:</span>
-                    <span>{leather}</span>
-                </div> : null
-            }
-
             {options.length ?
                 <>
                     <div>Options:</div>

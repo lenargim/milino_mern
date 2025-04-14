@@ -85,7 +85,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
-                const cartData = addProductToCart(product, values, productRange,roomId,materialData);
+                const cartData = addProductToCart(product, values, productRange,roomId);
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
                         if (cart && roomId) dispatch(updateCartInRoom({cart, _id: roomId}));

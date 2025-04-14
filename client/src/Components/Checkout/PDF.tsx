@@ -168,7 +168,7 @@ const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: Mat
                 <Text>Door: {materialStrings.doorString}</Text>
                 <Text>Box Material: {materialStrings.boxString}</Text>
                 <Text>Drawer: {materialStrings.drawerString}</Text>
-                {materialStrings.leather ? <Text>Leather: {materialStrings.leather}</Text> : null}
+                {materialStrings.leatherString ? <Text>Leather: {materialStrings.leatherString}</Text> : null}
             </View>
         </Page>
         <Page orientation="landscape" style={s.page}>

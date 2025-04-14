@@ -97,7 +97,6 @@ const Cabinet: FC<CabinetType> = ({
         image_active_number: newType,
         note: note,
         material: '',
-        leather: ''
     }
     const coef = getProductCoef(cabinetItem, tablePriceData, product);
     const productCoef = 1 + (coef.width + coef.height + coef.depth)

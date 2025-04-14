@@ -264,9 +264,8 @@ export const getCustomCabinetString = (isStandard: IsStandardOptionsType): strin
     return Object.values(isStandard).includes(false) ? 'Custom' : '';
 }
 
-export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>, materialData: materialDataType): CartItemType => {
+export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: MaybeUndefined<string>): CartItemType => {
     const {id, product_type, category, isAngle, middleSectionDefault, hasMiddleSection, isBlind, blindArr} = product
-    const {leather} = materialData
     const {
         'Width': width,
         'Blind Width': blindWidth,
@@ -332,8 +331,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         led_indent: ledIndent,
         note: note,
         material: '',
-        room: roomId || null,
-        leather: leather
+        room: roomId || null
     }
     return cartData
 }
@@ -385,7 +383,6 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         led_border: [],
         led_alignment: '',
         led_indent: '',
-        leather: '',
         material: material,
         note: note,
         glass_door: glass_door,
@@ -552,6 +549,10 @@ export const isLeatherType = (drawerColor: string | undefined, drawerType: strin
     return isLeather
 }
 
+export const isLeatherNote = (showLeatherType:boolean, leather:string) => {
+    return showLeatherType && leather === 'Other';
+}
+
 export const checkDoors = (doors: number, doorArr: number[] | null, hingeOpening: string): number => {
     if (!doorArr && doors) return 0;
     if (doorArr?.length === 1 && doors !== doorArr[0]) return doorArr[0];
@@ -602,19 +603,21 @@ export const getMaterialStrings = (materials: MaterialsFormType): MaterialString
         drawer_brand,
         drawer_type,
         drawer_color,
-        leather
+        leather,
+        leather_note
     } = data;
 
     const categoryString = materialsStringify([category, gola])
     const doorString = materialsStringify([door_type, door_finish_material, door_color, door_grain, door_frame_width])
     const boxString = materialsStringify([box_material, box_color])
     const drawerString = materialsStringify([drawer_brand, drawer_type, drawer_color]);
+    const leatherString = materialsStringify([leather, leather_note]);
     return {
         categoryString,
         boxString,
         doorString,
         drawerString,
-        leather
+        leatherString
     }
 }
 
@@ -875,7 +878,6 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         led_border: [],
         led_alignment: '',
         led_indent: '',
-        leather: '',
         material: material,
         led_accessories: led_accessories,
         door_accessories: door_accessories,
@@ -1013,10 +1015,7 @@ export const formatDateToTextShort = (dateApi: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
         year: '2-digit',
         month: '2-digit',
-        day: '2-digit',
-        // hour: '2-digit',
-        // minute: '2-digit',
-        // hour12: false
+        day: '2-digit'
     };
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }

@@ -66,6 +66,15 @@ export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<MaterialsF
                 .when('category', {
                     is: 'Leather Closet',
                     then: schema => schema.required('Please choose Leather Type')
+                }),
+            leather_note: Yup.string()
+                .default('')
+                .when('leather', {
+                    is: 'Other',
+                    then: schema => schema
+                        .min(3, 'Minimum 3 symbols')
+                        .max(80, 'Too long note')
+                        .required('Leather Note is required')
                 })
         })
 

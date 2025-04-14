@@ -118,11 +118,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button
-                type="submit"
-                className={['button yellow'].join(' ')}
-            >Add to cart
-            </button>
+            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
         </Form>
     );
 };
