@@ -36,7 +36,6 @@ const Cabinet: FC<CabinetType> = ({
     const {values, setFieldValue} = useFormikContext<productValuesType>();
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
-
     const {
         ['Width']: width,
         ['Blind Width']: blindWidth,
@@ -62,7 +61,6 @@ const Cabinet: FC<CabinetType> = ({
         image_active_number,
         price: price,
     } = values;
-
     const realWidth = +width || +customWidthNumber || 0;
     const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
     const realHeight = +height || +customHeightNumber || 0;

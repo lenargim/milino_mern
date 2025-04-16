@@ -55,7 +55,7 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
 }
 
 const removeGlassDoorFromOptions = (options: string[]): string[] => {
-    return options.splice(options.indexOf('Glass Door'), 1);
+    return options.filter(el => el !== 'Glass Door')
 }
 
 const OptionsBlock: FC<OptionsBlockType> = ({
@@ -78,21 +78,21 @@ const OptionsBlock: FC<OptionsBlockType> = ({
     const filteredOptionsFront = isEnabledGlassDoorOption ? filteredOptions : removeGlassDoorFromOptions(filteredOptions);
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {
-            setFieldValue('Options', removeGlassDoorFromOptions(filteredOptions));
-            setFieldValue('Door Glass Color', '');
+            doorGlassColor && setFieldValue('Door Glass Color', '');
+            chosenOptions.includes('Glass Door') && setFieldValue('Options', removeGlassDoorFromOptions(chosenOptions));
         }
-    }, [width, height])
+    }, [width, height]);
     return (
         <>
-            {filteredOptionsFront.length
-                ? <div className={s.block}>
+            {filteredOptionsFront.length ?
+                <div className={s.block}>
                     <h3>Options</h3>
                     <div className={s.options} role="group">
                         {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
-                                                                                     value={w}/>)}
+                                                                                value={w}/>)}
                     </div>
-                </div> : null
-            }
+                </div>
+                : null}
             {chosenOptions.includes('Glass Door') &&
             <>
               <h3>Glass Door</h3>
@@ -109,16 +109,6 @@ const OptionsBlock: FC<OptionsBlockType> = ({
             <>
               <h3>Glass Shelf</h3>
               <div className={s.blockWrap}>
-                {/*<div className={s.block}>*/}
-                {/*  <SelectField name="Shelf Profile"*/}
-                {/*               val={getSelectValfromVal(shelfProfile, profileSettings)}*/}
-                {/*               options={profileSettings}/>*/}
-                {/*</div>*/}
-                {/*<div className={s.block}>*/}
-                {/*  <SelectField name="Shelf Glass Type"*/}
-                {/*               val={getSelectValfromVal(shelfGlassType, glassTypeSettings)}*/}
-                {/*               options={glassTypeSettings}/>*/}
-                {/*</div>*/}
                 <div className={s.block}>
                   <SelectField name="Shelf Glass Color"
                                val={getSelectValfromVal(shelfGlassColor, glassShelfColorFiltered)}

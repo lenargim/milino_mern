@@ -104,7 +104,6 @@ const CabinetLayOut: FC<CabinetFormType> = ({
 
             <HingeBlock hingeArr={hingeArr}/>
             <CornerBlock isCornerChoose={isCornerChoose}/>
-
             <LedBlock alignment={ledAlignment} hasLedBlock={hasLedBlock}/>
             <OptionsBlock filteredOptions={filteredOptions}
                           isProductStandard={isProductStandard}

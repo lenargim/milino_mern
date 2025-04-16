@@ -231,7 +231,8 @@ export function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = f
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
 
-export function getDoorPrice(square: number, materialData: materialDataType): number {
+export function getDoorPrice(square: number, materialData: materialDataType,isProductStandard:boolean): number {
+    if (isProductStandard) return 0;
     const {door_price_multiplier, is_leather_closet, door_finish_material, box_material, door_type, } = materialData;
     if (is_leather_closet) {
         const oldPrice = chooseDoorPanelPrice(square, box_material, 'Slab')
@@ -654,7 +655,6 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
     }, 0);
     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
-
     return {
         doorValues,
         drawersQty,
@@ -894,7 +894,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
         pvcPrice: (isProductStandard || is_leather_closet) ? 0 : getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material),
-        doorPrice: getDoorPrice(frontSquare, materialData),
+        doorPrice: getDoorPrice(frontSquare, materialData,isProductStandard),
         glassDoor: hasGlassDoor ? addGlassDoorPrice(frontSquare, door_option[0], isProductStandard) : 0,
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
