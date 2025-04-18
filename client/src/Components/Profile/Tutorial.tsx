@@ -16,7 +16,7 @@ const Tutorial = () => {
     return (
         <div style={{height: '100%'}}>
             <h1>Tutorial</h1>
-            <div ref={ref} style={{height: '100%'}}>
+            <div ref={ref} style={{maxHeight: '80vh', height: '100%'}}>
                 <iframe src="https://www.youtube.com/embed/5vztBTlkKIE?si=fcAn3go7pkIvze8A"
                         title="Milino Tutorial" frameBorder="0"
                         style={{aspectRatio: '16/9', width: '100%', maxWidth: `${width}px`}}

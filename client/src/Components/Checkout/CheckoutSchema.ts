@@ -19,5 +19,5 @@ export const CheckoutSchema = Yup.object({
         .required('Please write down your phone number'),
     delivery: Yup.string()
         .default("")
-        .required('Please write down your phone number')
+        .required('Please write down your delivery address')
 })

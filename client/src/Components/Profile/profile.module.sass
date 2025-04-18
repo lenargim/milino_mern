@@ -43,28 +43,26 @@
   gap: 2px 5px
   width: fit-content
   margin-bottom: 30px
-  a
+  input
+    position: absolute
+    opacity: 0
+    width: 0
+    height: 0
+  &>*
+    position: relative
+  .navItem
+    position: relative
     padding: 10px 20px
     text-transform: uppercase
     border-radius: 5px
     border: 2px solid $accentLight
     white-space: nowrap
+    cursor: pointer
     &.linkActive
       background-color: $accentLight
       color: #fff
-  .navItem
-    position: relative
-    &:not(:last-of-type)
-      border-right: 2px solid $accentLight
-    input
-      position: absolute
-      opacity: 0
-      width: 0
-      height: 0
     label
       display: block
-      padding: 10px 20px
-      text-transform: uppercase
       cursor: pointer
     &.linkActive label
       background-color: $accentLight

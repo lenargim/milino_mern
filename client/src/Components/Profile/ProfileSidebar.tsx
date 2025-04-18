@@ -22,7 +22,7 @@ const ProfileSidebar = () => {
                 {(is_active_in_constructor || is_super_user) &&
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/constructor">Constructor</NavLink>
                 }
-                {/*<NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>*/}
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>
                 <button type="button" onClick={logout}>Log out</button>
             </aside>
         </div>
