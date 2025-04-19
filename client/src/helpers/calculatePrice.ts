@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     attrItem,
-    BoxMaterialType,
+    BoxMaterialType, DoorColorType,
     hingeArr,
     materialDataType,
     MaybeNull,
@@ -231,15 +231,15 @@ export function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = f
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
 
-export function getDoorPrice(square: number, materialData: materialDataType,isProductStandard:boolean): number {
+export function getDoorPrice(square: number, materialData: materialDataType, isProductStandard: boolean): number {
     if (isProductStandard) return 0;
-    const {door_price_multiplier, is_leather_closet, door_finish_material, box_material, door_type, } = materialData;
+    const {door_price_multiplier, is_leather_closet, door_finish_material, box_material, door_type,} = materialData;
     if (is_leather_closet) {
         const oldPrice = chooseDoorPanelPrice(square, box_material, 'Slab')
         const newPrice = chooseDoorPanelPrice(square, door_finish_material, door_type)
         console.log(`old door Price: ${oldPrice}`);
         console.log(`new door Price ${newPrice}`);
-        return newPrice > oldPrice ? newPrice-oldPrice : 0;
+        return newPrice > oldPrice ? newPrice - oldPrice : 0;
     }
     return +(square * door_price_multiplier).toFixed(1);
 }
@@ -474,68 +474,89 @@ export const getBasePriceType = (materials: MaterialsFormType, is_leather_closet
         if (box_material === 'Milino') return 1;
         if (box_material === 'Syncron') return 2;
         return 3
-    }
-    if (!door_type || !door_finish_material || door_finish_material.includes('No Doors')) return 1;
-    if (door_finish_material === 'Milino') {
-        if (door_type === 'Slab') {
-            const colorType = getBoxMaterialType(door_color, false);
-            switch (colorType) {
-                case 4:
-                    return 2;
-                default:
-                    return 1
-            }
-        }
-        return 2;
-    }
-    if ((door_type === 'Micro Shaker' || door_type === 'Slatted') && door_finish_material === 'Syncron') return 3;
-    if (door_finish_material === 'Syncron') return 2
-    return 3
-}
-
-export const getMaterialCoef = (materials: MaterialsFormType, box_material_type: BoxMaterialType, base_price_type: pricesTypings): number => {
-    const {door_finish_material, door_type} = materials;
-    if (door_finish_material === 'Milino') {
-        if (door_type === 'Slab') {
-            switch (box_material_type) {
-                case 3:
-                    return 1.05;
-                default:
-                    return 1;
-            }
-        }
-    }
-    if (base_price_type === 1 || !door_type || !door_finish_material) return 1;
-    if (door_type === 'Painted') return 1.05;
-    if (door_type === 'Slatted') return 1.03
-    if (door_finish_material === 'Stone') return 1.69
-    if (door_finish_material === 'Zenit') return 1.03
-    if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
-    return 1
-}
-
-export const getMaterialCoefLeather = (materials: MaterialsFormType, box_material_type: BoxMaterialType): number => {
-    const {box_material} = materials;
-    if (box_material === 'Milino') {
-        switch (box_material_type) {
-            case 2:
+    } else {
+        switch (door_type) {
+            case 'Slab':
+                switch (door_finish_material) {
+                    case 'Milino':
+                        const colorType = getDoorColorType(door_color);
+                        if (colorType === 1 || colorType === 2) return 1;
+                        return 2;
+                    case 'Syncron':
+                        return 2;
+                }
+                break;
+            case 'No Doors':
                 return 1;
-            case 3:
+            case 'Shaker':
+            case 'Three Piece Door':
+            case 'Finger Pull':
+                if (door_finish_material === 'Syncron') return 2;
+                break;
+            case 'Micro Shaker':
+            case 'Slatted':
+                if (door_finish_material === 'Milino') return 2;
+                break;
+        }
+        return 3;
+    }
+}
+
+export const getMaterialCoef = (materials: MaterialsFormType, is_leather_closet: boolean): number => {
+    const {door_type, door_finish_material, door_color, box_material, box_color} = materials;
+
+    if (!is_leather_closet) {
+        switch (door_type) {
+            case 'Slab':
+                switch (door_finish_material) {
+                    case 'Milino':
+                        return getDoorColorType(door_color) === 2 ? 1.05 : 1;
+                    case 'Zenit':
+                        return 1.03;
+                    case 'Ultrapan Acrylic':
+                        return 1.1;
+                }
+                break;
+            case 'Finger Pull':
+                if (door_finish_material === 'Zenit') return 1.03;
+                break;
+            case 'Painted':
+                return 1.05;
+            case 'Micro Shaker':
+                if (door_finish_material === 'Zenit') return 1.03;
+                if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
+                break;
+            case 'Slatted':
+                return 1.03;
+        }
+    } else {
+        switch (box_material) {
+            case 'Milino': {
+                const boxColorType = getDoorColorType(box_color)
+                if (boxColorType === 2) return 1.1;
+                if (boxColorType === 3) return 1.2;
+                break;
+            }
+            case 'Zenit':
+                return 1.03;
+            case 'Ultrapan Acrylic':
                 return 1.1;
-            case 4:
-                return 1.2;
-            default:
-                return 1
         }
     }
-    if (box_material === 'Zenit') return 1.03;
-    if (box_material === 'Ultrapan Acrylic') return 1.1;
-    return 1;
+    return 1
 }
 
 export const getGrainCoef = (doorGrain: string): number => {
     return doorGrain === 'Horizontal' ? 1.1 : 1
 }
+
+export const getDoorColorType = (color: string): DoorColorType => {
+    if (color.includes('Melamine')) return 1;
+    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(color)) return 2;
+    if (color.includes('Ultra Matte')) return 3;
+    return 1
+};
+
 export const getBoxMaterialType = (box_material: string, is_standard_cabinet: boolean): BoxMaterialType => {
     if (box_material.includes('Plywood')) return is_standard_cabinet ? 3 : 1;
     if (box_material.includes('Melamine')) return 2;
@@ -610,9 +631,9 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
     const box_material_type = is_leather_closet ? getLeatherBoxMaterialType(box_color) : getBoxMaterialType(box_material, is_standard_cabinet);
     const base_price_type = getBasePriceType(materials, is_leather_closet);
-    const material_coef = is_leather_closet ? getMaterialCoefLeather(materials, box_material_type) : getMaterialCoef(materials, box_material_type, base_price_type);
-
-    const grain_coef = door_grain ? getGrainCoef(door_grain) : 1;
+    console.log(base_price_type)
+    const material_coef = getMaterialCoef(materials, is_leather_closet);
+    const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material_type);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet);
@@ -894,7 +915,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led_border),
         pvcPrice: (isProductStandard || is_leather_closet) ? 0 : getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material),
-        doorPrice: getDoorPrice(frontSquare, materialData,isProductStandard),
+        doorPrice: getDoorPrice(frontSquare, materialData, isProductStandard),
         glassDoor: hasGlassDoor ? addGlassDoorPrice(frontSquare, door_option[0], isProductStandard) : 0,
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }

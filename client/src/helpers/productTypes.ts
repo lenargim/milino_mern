@@ -6,6 +6,7 @@ import {DoorType} from "../Components/CustomPart/StandardDoorForm";
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 export type BoxMaterialType = 1 | 2 | 3 | 4;
+export type DoorColorType = 1 | 2 | 3;
 
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
