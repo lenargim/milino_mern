@@ -1,38 +1,18 @@
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
-import {CustomPartType} from "../../helpers/productTypes";
-import {useFormikContext} from "formik";
+import {
+    getColorsList,
+    getGlassTypeList,
+    getProfileList,
+    getSelectValfromVal
+} from "../../helpers/helpers";
+import SelectField from "../../common/SelectField";
 
-import {getSelectValfromVal} from "../../helpers/helpers";
-import SelectField, {optionType} from "../../common/SelectField";
-import {CustomPartFormValuesType} from "./CustomPart";
-
-
-function prepareToSelectField(arr: string[]): optionType[] {
-    return arr.map(el => ({
-            value: el,
-            label: el
-        })
-    )
-}
-
-const GlassDoorBlock: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values} = useFormikContext<CustomPartFormValuesType>();
-    const {glass_door} = product
-    if (!glass_door) return <>Glass Door error</>
-    const {
-        glass_door: [profile, type, color]
-    } = values
-    const {
-        Profile: door_profiles,
-        ...door_types_obj
-    } = glass_door;
-    const door_types = Object.keys(door_types_obj);
-    const door_colors:string[] = door_types_obj[`${type}` as keyof typeof door_types_obj] || [];
-
-
-    const doorTypesPrepared = prepareToSelectField(door_types)
-    const doorColorsPrepared = prepareToSelectField(door_colors)
+const GlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }> = ({is_custom, glass_door}) => {
+    const [profile, type, color] = glass_door;
+    const door_profiles = getProfileList(is_custom);
+    const door_types = getGlassTypeList();
+    const door_colors = getColorsList(type);
 
     return (
         <div className={s.blockWrap}>
@@ -45,23 +25,25 @@ const GlassDoorBlock: FC<{ product: CustomPartType }> = ({product}) => {
                                  options={door_profiles}/>
                 </div> : null}
 
-            {door_types.length ?
+            {door_types.length && profile ?
                 <div className={s.block}>
                     <h3>Door Type</h3>
-                    <SelectField label="Door Type" name="glass_door[1]"
-                                 val={getSelectValfromVal(type, doorTypesPrepared)}
-                                 options={doorTypesPrepared}/>
+                    <SelectField val={getSelectValfromVal(type, door_types)}
+                                 label="Door Type"
+                                 name="glass_door[1]"
+                                 options={door_types}/>
                 </div> : null}
 
             {door_colors.length && type ?
                 <div className={s.block}>
                     <h3>Door Color</h3>
                     <SelectField name="glass_door[2]"
-                                 val={getSelectValfromVal(color, doorColorsPrepared)}
-                                 options={doorColorsPrepared}
+                                 val={getSelectValfromVal(color, door_colors)}
+                                 options={door_colors}
                                  label="Door Color"
                     />
-                </div> : null}
+                </div>
+                : null}
         </div>
     );
 };

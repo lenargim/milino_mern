@@ -2,10 +2,11 @@ import * as Yup from 'yup';
 import settings from './../../api/settings.json'
 import {hingeArr, ProductType, sizeLimitsType} from "../../helpers/productTypes";
 import {ObjectSchema} from "yup";
-import { numericQuantity } from 'numeric-quantity';
+import {numericQuantity} from 'numeric-quantity';
+
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
-export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType): ObjectSchema<any> {
+export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
     const {isAngle, hasMiddleSection, isProductStandard} = product
     const blindDoorMinMax = settings.blindDoor;
     const minWidth = sizeLimit.width[0];
@@ -52,7 +53,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
         'LED borders': Yup.array()
             .of(Yup.string())
             .when('LED indent', {
-                is: (val:number) => val > 0,
+                is: (val: number) => val > 0,
                 then: (schema) => schema
                     .min(1, 'Choose LED Borders')
             }),
@@ -76,20 +77,45 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
 
             }),
         'Hinge opening': Yup.string().oneOf(hingeArr),
-        'Options': Yup.array()
-            .of(Yup.string()),
-        'Door Profile': Yup.string()
-            .when('Options', (options, field) =>
-                options[0].includes('Glass Door') && !isProductStandard ? field.required() : field
-            ),
-        'Door Glass Type': Yup.string()
-            .when('Options', (options, field) =>
-                options[0].includes('Glass Door') && !isProductStandard ? field.required() : field
-            ),
-        'Door Glass Color': Yup.string()
-            .when('Options', (options, field) =>
-                options[0].includes('Glass Door') ? field.required() : field
-            ),
+        Options: Yup.array().of(Yup.string()),
+        glass_door: Yup.lazy((value, context) => {
+            const options = context?.parent?.Options ?? [];
+
+            const requiredIf = (index: number) => {
+                if (!options.includes('Glass Door')) return Yup.string().notRequired();
+                if (isProductStandard) {
+                    if (index !== 2) return Yup.string().notRequired()
+                }
+                let msg;
+                switch (index) {
+                    case 0: {
+                        msg = 'Profile is required'
+                        break
+                    }
+                    case 1: {
+                        msg = 'Glass Type is required'
+                        break
+                    }
+                    case 2: {
+                        msg = 'Glass Color is required'
+                        break
+                    }
+                    default: {
+                        msg = `Glass Door ${index + 1} is required`
+                    }
+                }
+                return Yup.string().required(msg);
+
+            }
+            const defaultValue = Array.isArray(value) ? value : [];
+            const padded = [...defaultValue, '', '', ''].slice(0, 3);
+
+            return Yup.tuple([
+                requiredIf(0),
+                requiredIf(1),
+                requiredIf(2),
+            ]).transform(() => padded);
+        }),
         'Shelf Glass Color': Yup.string()
             .when('Options', (options, field) =>
                 options[0].includes('Glass Shelf') ? field.required() : field
@@ -100,7 +126,7 @@ export function getProductSchema(product:ProductType, sizeLimit:sizeLimitsType):
 
     const schemaExtended = Yup.object({
         'Custom Width': Yup.string()
-            .when('Width',{
+            .when('Width', {
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down width')

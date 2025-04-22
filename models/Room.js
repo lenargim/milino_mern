@@ -93,10 +93,6 @@ const RoomSchema = new mongoose.Schema({
       type: Array,
       default: [],
     },
-    door_option: {
-      type: Array,
-      default: [],
-    },
     shelf_option: {
       type: String,
     },

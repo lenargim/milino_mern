@@ -109,12 +109,6 @@ export type CustomPartType = {
     images: itemImg[],
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
-    glass_door?: {
-        Profile: optionType[]
-        Glass: string[],
-        Mirror: string[],
-        Colored: string[]
-    },
     glass_shelf?: string[],
 
 }
@@ -347,14 +341,12 @@ export type OrderType = {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
-    door_option: string[],
     shelf_option: string
     led_border: string[],
     led_alignment: string,
     led_indent: string,
-    // leather: string,
     material?: string,
-    glass_door?: string[],
+    glass_door: string[],
     glass_shelf?: string,
     led_accessories?: LEDAccessoriesType,
     door_accessories?: DoorAccessoireAPIType[],

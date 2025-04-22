@@ -9,7 +9,6 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         options,
         blind_width,
         width,
-        door_option,
         shelf_option,
         hinge,
         corner,
@@ -19,6 +18,7 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
         led_alignment,
         led_indent,
         middle_section,
+        glass_door
     } = item;
     const dimentions = getDimentionsRow(width, height, depth)
     return (
@@ -60,7 +60,7 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
                     {options.includes('Glass Door') ?
                         <div className={s.itemOption}>
                             <span>Glass Door:</span>
-                            <span>{door_option.filter(el => !!el).join(', ')}</span>
+                            <span>{glass_door.filter(el => !!el).join(', ')}</span>
                         </div> : null
                     }
 

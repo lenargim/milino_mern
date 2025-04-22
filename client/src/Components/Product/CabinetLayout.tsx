@@ -31,7 +31,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 hingeArr,
                                             }) => {
     const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id} = product;
-    const {values} = useFormikContext<productValuesType>();
+    const {values, setFieldTouched} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
     const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
     const heightRangeWithCustom = !isProductStandard ? heightRange.concat([0]) : heightRange;
@@ -45,6 +45,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
         'LED alignment': ledAlignment,
         price
     } = values;
+
 
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);

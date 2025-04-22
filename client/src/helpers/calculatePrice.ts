@@ -141,20 +141,16 @@ export function addGlassShelfPrice(qty: number): number {
     return settings.fixPrices["Glass Shelf"] * qty || 0
 }
 
-export function addGlassDoorPrice(square: number = 0, profileVal: any, is_standard: boolean): number {
-    if (is_standard) return +(square * 10).toFixed(1);
-    const glassDoor = settings["Glass"];
-    const {Profile, priceType} = glassDoor
-    const profileData: MaybeUndefined<profileItem> = Profile.find(el => el.value === profileVal)
-    const glassDoorType = profileData && profileData?.glassDoorType;
-    const settingItem = (glassDoorType && priceType.find(el => el.id === glassDoorType)) || undefined
-    const minPrice = settingItem?.minPrice
-    const multiplier = settingItem?.multiplier
-    if (minPrice && multiplier) {
-        const price = square * multiplier;
-        return +(price > minPrice ? price : minPrice).toFixed(1)
-    }
-    return 0
+export function addGlassDoorPrice(square: number, profileName: string, is_standard: boolean, hasGlassDoor: boolean): number {
+    if (!hasGlassDoor) return 0;
+    if (is_standard) return square * 10;
+
+    const profileType = settings.Glass.Profile.find(el => el.value === profileName)?.type;
+    const minPrice = settings.Glass.priceType.find(el => el.id === profileType)?.minPrice;
+    const multiplier = settings.Glass.priceType.find(el => el.id === profileType)?.multiplier;
+    if (!minPrice || !multiplier) return 0;
+    const p = square * multiplier;
+    return p > minPrice ? p : minPrice
 }
 
 export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: attrItem[]): productTypings {
@@ -547,7 +543,7 @@ export const getMaterialCoef = (materials: MaterialsFormType, is_leather_closet:
 }
 
 export const getGrainCoef = (doorGrain: string): number => {
-    return doorGrain === 'Horizontal' ? 1.1 : 1
+    return doorGrain === 'Vertical' ? 1 : 1.1
 }
 
 export const getDoorColorType = (color: string): DoorColorType => {
@@ -631,7 +627,6 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
     const box_material_type = is_leather_closet ? getLeatherBoxMaterialType(box_color) : getBoxMaterialType(box_material, is_standard_cabinet);
     const base_price_type = getBasePriceType(materials, is_leather_closet);
-    console.log(base_price_type)
     const material_coef = getMaterialCoef(materials, is_leather_closet);
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material_type);
@@ -689,8 +684,8 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
     const data = productPrices.find(el => el.id === id)?.prices as priceItem[];
     return data ? data.find(i => i.type === type)?.data : undefined
 }
-export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, material: MaybeUndefined<string>, profile: MaybeNull<number> = null): number => {
-    const area = width * height / 144;
+export const getCustomPartPrice = (id: number, width: number, height: number, depth: number, material: MaybeUndefined<string>, profile: string): number => {
+    const area = +(width * height / 144).toFixed(2);
     switch (id) {
         case 900:
             switch (material) {
@@ -816,16 +811,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
             return material === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
         case 914:
-            switch (profile) {
-                case 1021:
-                case 1040:
-                    return area * 100 > 300 ? area * 100 : 300
-                case 1022:
-                case 1042:
-                    return area * 120 > 300 ? area * 120 : 300
-                default:
-                    return 0;
-            }
+            return addGlassDoorPrice(area, profile, false, true)
         case 915:
             return material === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
         case 916:
@@ -878,7 +864,7 @@ export const getMaterialsCoef = (materialData: materialDataType, boxFromFinishMa
 export const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
     const {legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle, category, id} = product;
     const {
-        door_option,
+        glass_door,
         options,
         width,
         height,
@@ -916,7 +902,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         ledPrice: getLedPrice(width, height, led_border),
         pvcPrice: (isProductStandard || is_leather_closet) ? 0 : getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material),
         doorPrice: getDoorPrice(frontSquare, materialData, isProductStandard),
-        glassDoor: hasGlassDoor ? addGlassDoorPrice(frontSquare, door_option[0], isProductStandard) : 0,
+        glassDoor: addGlassDoorPrice(frontSquare, glass_door[0], isProductStandard, hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }

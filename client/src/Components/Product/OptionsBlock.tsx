@@ -1,23 +1,20 @@
 import React, {FC, useEffect} from 'react';
 import s from "./product.module.sass";
 import SelectField from "../../common/SelectField";
-import {getSelectValfromVal, productValuesType} from "../../helpers/helpers";
+import {
+    getColorsList,
+    getSelectValfromVal,
+    productValuesType
+} from "../../helpers/helpers";
 import {ProductOptionsInput} from "../../common/Form";
-import settings from "../../api/settings.json";
-import {Field, useFormikContext} from "formik";
+import {useFormikContext} from "formik";
+import GlassDoorBlock from "../CustomPart/GlassDoorBlock";
 
 type OptionsBlockType = {
     id: number,
     filteredOptions: string[],
     isProductStandard: boolean
 }
-
-const glassSettings = settings['Glass'];
-const {
-    ['Profile']: profileSettings,
-    ['Glass Type']: glassTypeSettings,
-    ['Glass Color']: glassColorSettings,
-} = glassSettings;
 
 const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: number, height: number): boolean => {
     if (!isProductStandard) return true;
@@ -34,7 +31,8 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
             return [30, 36, 42].includes(width);
         }
         case 104:
-        case 105: {
+        case 105:
+        case 108: {
             const standardHeight: boolean = [12, 15, 18, 21].includes(height);
             if (!standardHeight) return false;
             return [30, 36].includes(width);
@@ -66,21 +64,21 @@ const OptionsBlock: FC<OptionsBlockType> = ({
     const {values, setFieldValue} = useFormikContext<productValuesType>();
     const {
         Options: chosenOptions,
-        ['Door Profile']: doorProfile,
-        ['Door Glass Type']: doorGlassType,
-        ['Door Glass Color']: doorGlassColor,
+        glass_door,
         ['Shelf Glass Color']: shelfGlassColor,
         Width: width,
         Height: height
     } = values;
-    const glassShelfColorFiltered = glassColorSettings.filter(el => el.type === 'Glass');
+    const [, , glass_color] = glass_door
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
+    const shelfGlassList = getColorsList('Glass');
     const filteredOptionsFront = isEnabledGlassDoorOption ? filteredOptions : removeGlassDoorFromOptions(filteredOptions);
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {
-            doorGlassColor && setFieldValue('Door Glass Color', '');
+            glass_color && setFieldValue('Door Glass Color', '');
             chosenOptions.includes('Glass Door') && setFieldValue('Options', removeGlassDoorFromOptions(chosenOptions));
         }
+
     }, [width, height]);
     return (
         <>
@@ -89,20 +87,16 @@ const OptionsBlock: FC<OptionsBlockType> = ({
                     <h3>Options</h3>
                     <div className={s.options} role="group">
                         {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
-                                                                                value={w}/>)}
+                                                                                     value={w}/>)}
                     </div>
                 </div>
                 : null}
             {chosenOptions.includes('Glass Door') &&
             <>
-              <h3>Glass Door</h3>
-              <div className={s.blockWrap}>
-                  {isProductStandard
-                      ? <StandardCabinetGlassDoorBlock doorGlassColor={doorGlassColor}/>
-                      : <CabinetGlassDoorBlock doorGlassColor={doorGlassColor} doorGlassType={doorGlassType}
-                                               doorProfile={doorProfile}/>
-                  }
-              </div>
+                {isProductStandard ?
+                    <StandardCabinetGlassDoorBlock doorGlassColor={glass_color}/> :
+                    <GlassDoorBlock glass_door={glass_door} is_custom={false}/>
+                }
             </>}
 
             {chosenOptions.includes('Glass Shelf') &&
@@ -111,8 +105,8 @@ const OptionsBlock: FC<OptionsBlockType> = ({
               <div className={s.blockWrap}>
                 <div className={s.block}>
                   <SelectField name="Shelf Glass Color"
-                               val={getSelectValfromVal(shelfGlassColor, glassShelfColorFiltered)}
-                               options={glassShelfColorFiltered}/>
+                               val={getSelectValfromVal(shelfGlassColor, shelfGlassList)}
+                               options={shelfGlassList}/>
                 </div>
               </div>
             </>}
@@ -122,45 +116,21 @@ const OptionsBlock: FC<OptionsBlockType> = ({
 
 export default OptionsBlock;
 
-const CabinetGlassDoorBlock: FC<{
-    doorProfile: string,
-    doorGlassType: string,
-    doorGlassColor: string
-}> = ({doorProfile, doorGlassType, doorGlassColor}) => {
-    const glassDoorColorFiltered = glassColorSettings.filter(el => el.type === doorGlassType);
-    return (
-        <>
-            <div className={s.block}>
-                <SelectField name="Door Profile" val={getSelectValfromVal(doorProfile, profileSettings)}
-                             options={profileSettings}/>
-            </div>
-            <div className={s.block}>
-                <SelectField name="Door Glass Type"
-                             val={getSelectValfromVal(doorGlassType, glassTypeSettings)}
-                             options={glassTypeSettings}/>
-            </div>
-            <div className={s.block}>
-                <SelectField name="Door Glass Color"
-                             val={getSelectValfromVal(doorGlassColor, glassDoorColorFiltered)}
-                             options={glassDoorColorFiltered}/>
-            </div>
-        </>
-    )
-}
-
 
 const StandardCabinetGlassDoorBlock: FC<{
     doorGlassColor: string
 }> = ({doorGlassColor}) => {
-    const doorGlassType = "Glass";
-    const glassDoorColorFiltered = glassColorSettings.filter(el => el.type === doorGlassType);
+    const door_colors = getColorsList('Glass');
     return (
-        <>
+        <div className={s.blockWrap}>
             <div className={s.block}>
-                <SelectField name="Door Glass Color"
-                             val={getSelectValfromVal(doorGlassColor, glassDoorColorFiltered)}
-                             options={glassDoorColorFiltered}/>
+                <h3>Glass Door</h3>
+                <SelectField name="glass_door[2]"
+                             val={getSelectValfromVal(doorGlassColor, door_colors)}
+                             options={door_colors}
+                             label="Door Color"
+                />
             </div>
-        </>
+        </div>
     )
 }

@@ -69,12 +69,10 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'LED borders': [],
         'LED alignment': hasLedBlock ? 'Center' : '',
         'LED indent': '',
-        'Note': '',
-        'Door Profile': '',
-        'Door Glass Type': '',
-        'Door Glass Color': '',
+        glass_door: [],
         'Shelf Glass Color': '',
         image_active_number: 1,
+        'Note': '',
         price: 0,
     }
     return (

@@ -11,7 +11,7 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
         hinge,
         options,
         corner,
-        door_option,
+        glass_door,
         shelf_option,
         led_border,
         led_alignment,
@@ -57,7 +57,7 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
                     {options.includes('Glass Door') ?
                         <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Door:</span>
-                            <span>{door_option.filter(el => !!el).join(', ')}</span>
+                            <span>{glass_door.filter(el => !!el).join(', ')}</span>
                         </div> : null
                     }
 

@@ -27,26 +27,16 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, mat
         'Depth Number': depthNumber,
         price
     } = values
-    const {id, materials_array, type, glass_door} = product;
+    const {id, materials_array, type} = product;
     const showDepthBlock = !!(type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {
         const newDepth = materials_array?.find(el => el.name === material)?.depth;
         if (newDepth && depthNumber !== newDepth) setFieldValue('Depth Number', newDepth);
     }
     useEffect(() => {
-        let profileNumber:MaybeNull<number> = null;
         let newPrice;
-        if (type === "glass-door") {
-            if (glass_door) {
-                const {Profile: doorProfiles} = glass_door;
-                if (doorProfiles) {
-                    let profileCurrent:MaybeUndefined<string> = doorProfiles?.find(el => el.value === doorProfileVal)?.type;
-                    if (profileCurrent) profileNumber = +profileCurrent
-                }
-            }
-        }
         const finishColorCoef = getFinishColorCoefCustomPart(id,material,materials.door_color);
-        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material,profileNumber)*finishColorCoef).toFixed(1);
+        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material,doorProfileVal)*finishColorCoef).toFixed(1);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }

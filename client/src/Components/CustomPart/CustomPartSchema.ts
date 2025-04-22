@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
-import {CustomPartType, materialsCustomPart, materialsLimitsType} from "../../helpers/productTypes";
-import {string, tuple} from "yup";
-import { numericQuantity } from 'numeric-quantity';
+import {CustomPartType} from "../../helpers/productTypes";
+import {numericQuantity} from 'numeric-quantity';
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
@@ -92,11 +91,38 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             return customSchema
         case "glass-door":
             const glassDoorSchema = Yup.object({
-                glass_door: Yup.tuple([
-                    Yup.string(),
-                    Yup.string().required('Door Type required'),
-                    Yup.string().required('Door Color required'),
-                ]).required('Glass Door settings required'),
+                glass_door: Yup.lazy((value, context) => {
+                    const requiredIf = (index: number) => {
+                        let msg;
+                        switch (index) {
+                            case 0: {
+                                msg = 'Profile is required'
+                                break
+                            }
+                            case 1: {
+                                msg = 'Glass Type is required'
+                                break
+                            }
+                            case 2: {
+                                msg = 'Glass Color is required'
+                                break
+                            }
+                            default: {
+                                msg = `Glass Door ${index + 1} is required`
+                            }
+                        }
+                        return Yup.string().required(msg);
+                    }
+
+                    const defaultValue = Array.isArray(value) ? value : [];
+                    const padded = [...defaultValue, '', '', ''].slice(0, 3);
+
+                    return Yup.tuple([
+                        requiredIf(0),
+                        requiredIf(1),
+                        requiredIf(2),
+                    ]).transform(() => padded);
+                }),
             })
             return customSchema.concat(glassDoorSchema)
         case "glass-shelf":
@@ -105,7 +131,6 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             })
             return customSchema.concat(shelfDoorSchema)
         case "led-accessories":
-            // case "door-accessories":
             return Yup.object({
                 price: Yup.number().required().positive()
             })

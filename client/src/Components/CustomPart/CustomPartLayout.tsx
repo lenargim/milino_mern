@@ -4,9 +4,7 @@ import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import GlassDoorBlock from "./GlassDoorBlock";
 import GlassShelfBlock from "./GlassShelfBlock";
-import {CustomPartFormType} from "./CustomPartCabinet";
 import {CustomPartType} from "../../helpers/productTypes";
-import {MaterialsFormType} from "../../common/MaterialsForm";
 import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 
 export type CustomPartFormValuesType = {
@@ -60,6 +58,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
     const {values} = useFormikContext<CustomPartFormValuesType>();
     const {
         price,
+        glass_door
     } = values
     const {materials_array, width, type, id} = product;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
@@ -103,7 +102,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 </div>
               </div>
             }
-            {showGlassDoorBlock && <GlassDoorBlock product={product}/>}
+            {showGlassDoorBlock && <GlassDoorBlock glass_door={glass_door} is_custom={true}/>}
             {showGlassShelfBlock && <GlassShelfBlock product={product}/>}
 
             <div className={s.block}>

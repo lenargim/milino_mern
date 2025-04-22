@@ -85,7 +85,6 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                         corner: el.corner,
                         hinge: el.hinge,
                         options: el.options,
-                        door_option: el.door_option,
                         shelf_option: el.shelf_option,
                         led_border: el.led_border,
                         led_alignment: el.led_alignment,

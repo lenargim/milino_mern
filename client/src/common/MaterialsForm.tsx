@@ -204,12 +204,6 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
                 }
         }
 
-        // if (!hasGola && gola) setFieldValue('gola', '');
-        // if (category && !grainArr && door_grain) setFieldValue('door_grain', '');
-        // if (category && !isLeather && leather) setFieldValue('leather', '');
-        // if (category && !isLeather && box_color) setFieldValue('box_color', '');
-        // if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
-
         if (category) {
             if (!hasGola && gola) setFieldValue('gola', '');
             if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');

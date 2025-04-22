@@ -4146,16 +4146,16 @@
           "img": "Milino Legrabox.jpg",
           "colors": [
             {
-              "value": "LED",
-              "img": "Milino LED Legrabox.jpg"
-            },
-            {
               "value": "Gray",
               "img": "Milino Legrabox Gray.jpg"
             },
             {
               "value": "White",
               "img": "Milino Legrabox White.jpg"
+            },
+            {
+              "value": "LED",
+              "img": "Milino LED Legrabox.jpg"
             }
           ]
         },
@@ -4306,7 +4306,7 @@
       "img": "Vertical Grain.jpg"
     },
     {
-      "value": "Horizontal",
+      "value": "Horizontal (Upcharge)",
       "img": "Horizontal Grain.jpg"
     }
   ],

@@ -50,6 +50,7 @@ import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
 import standardProductsPrices from "../api/standartProductsPrices.json";
 import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/StandardPanel";
+import settings from "../api/settings.json";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -127,8 +128,8 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
 }
 
 export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
-    let exceptionIds:number[] = [];
-    exceptionIds = isStandardCabinet ? [910,913] : [919,920,921,922];
+    let exceptionIds: number[] = [];
+    exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921, 922];
     const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
     return standardDoorCustomParts as customPartDataType[];
 }
@@ -140,7 +141,7 @@ export const getCustomPartById = (id: number): MaybeNull<CustomPartType> => {
 }
 
 
-export const getInitialMaterialData = (custom: CustomPartType, materials: MaterialsFormType,isStandardCabinet:boolean): MaybeNull<materialsCustomPart> => {
+export const getInitialMaterialData = (custom: CustomPartType, materials: MaterialsFormType, isStandardCabinet: boolean): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
     const {door_finish_material, door_type} = materials
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
@@ -150,13 +151,13 @@ export const getInitialMaterialData = (custom: CustomPartType, materials: Materi
         ?? filtered_materials_array[0];
 }
 
-export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<materialsCustomPart[]>, custom_part_id:number, is_standard:boolean):MaybeNull<materialsCustomPart[]> => {
+export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<materialsCustomPart[]>, custom_part_id: number, is_standard: boolean): MaybeNull<materialsCustomPart[]> => {
     if (!materials_array) return null;
     // Standard shaker Catalog -> Custom parts exceptions for materials list(in detailed page)
-    const id_exceptions_arr:number[] = [903,905,901,900,906,907];
+    const id_exceptions_arr: number[] = [903, 905, 901, 900, 906, 907];
     if (!is_standard || !id_exceptions_arr.includes(custom_part_id)) return materials_array;
 
-    const materials_filter_names:string[] = ['Ultrapan PET', 'Painted']
+    const materials_filter_names: string[] = ['Ultrapan PET', 'Painted']
     return materials_array.filter(el => materials_filter_names.includes(el.name))
 }
 
@@ -193,17 +194,19 @@ export interface productValuesType extends initialStandardValues {
     'Custom Height Number': MaybeEmpty<number>,
     'Custom Depth Number': MaybeEmpty<number>,
     'Middle Section Number': MaybeEmpty<number>,
-    'Door Profile': string,
-    'Door Glass Type': string,
-    'Door Glass Color': string,
+    // 'Door Profile': string,
+    // 'Door Glass Type': string,
+    // 'Door Glass Color': string,
+    glass_door: string[],
     'Shelf Glass Color': string,
 }
 
 export interface standardProductValuesType extends initialStandardValues {
     'Custom Depth Number': MaybeEmpty<number>,
-    'Door Profile': string,
-    'Door Glass Type': string,
-    'Door Glass Color': string,
+    // 'Door Profile': string,
+    // 'Door Glass Type': string,
+    // 'Door Glass Color': string,
+    glass_door: string[]
     'Shelf Glass Color': string,
 }
 
@@ -271,9 +274,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         'Hinge opening': hinge,
         'Corner': corner,
         Options: chosenOptions,
-        'Door Profile': doorProfile,
-        'Door Glass Type': doorGlassType,
-        'Door Glass Color': doorGlassColor,
+        glass_door,
         'Shelf Glass Color': shelfGlassColor,
         'Note': note,
         'LED borders': ledBorders,
@@ -295,7 +296,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
     const realMiddle = middleSection || 0
     const realBlind = blindWidth || customBlindWidth || 0;
 
-    const cartData: CartItemType = {
+    return {
         _id: uuidv4(),
         product_id: id,
         subcategory: category,
@@ -318,7 +319,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         hinge: hinge,
         corner: corner,
         options: chosenOptions,
-        door_option: [doorProfile, doorGlassType, doorGlassColor],
+        glass_door: glass_door,
         shelf_option: shelfGlassColor,
         led_border: ledBorders,
         led_alignment: ledAlignment,
@@ -327,7 +328,6 @@ export const addProductToCart = (product: ProductType, values: productValuesType
         material: '',
         room: roomId || null
     }
-    return cartData
 }
 
 export const addToCartCustomPart = (values: CustomPartFormValuesType, product: CustomPartType, roomId: MaybeUndefined<string>) => {
@@ -372,7 +372,6 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         hinge: "",
         corner: "",
         options: [],
-        door_option: [],
         shelf_option: "",
         led_border: [],
         led_alignment: '',
@@ -470,7 +469,7 @@ export const isDrawerBrand = (box_material: string, box_color: string, isLeather
 }
 
 export const isDrawerType = (drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
-    return !(!drawer_brand|| !drawerTypesArr.length);
+    return !(!drawer_brand || !drawerTypesArr.length);
 }
 
 export const isDrawerColor = (drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
@@ -498,26 +497,26 @@ export const getDrawerArr = (drawers: drawer[], drawer_brand: string, drawer_typ
     }
 }
 
-export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather:boolean):doorType[] => {
+export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boolean): doorType[] => {
     let arr = doors;
     const noGola = gola === '' || gola === 'No Gola'
     if (!noGola) {
         arr = arr.filter(el => el.value !== 'Standard White Shaker');
     }
     if (isLeather) {
-        const exceptions = ["No Doors","Three Piece Door","Finger Pull","Standard White Shaker"]
+        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard White Shaker"]
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
 }
 
-export const getBoxMaterialArr = <T,U>(category: MaybeEmpty<RoomCategories>, boxMaterial: T[], leatherBoxMaterialArr: U[] ): (T|U)[] => {
+export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategories>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
     if (!category) return [];
     return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather:boolean, boxMaterialType:string, boxMaterialsArr:finishType[]): MaybeUndefined<colorType[]> => {
+export const getBoxMaterialColorsArr = (isLeather: boolean, boxMaterialType: string, boxMaterialsArr: finishType[]): MaybeUndefined<colorType[]> => {
     if (!isLeather) return undefined;
     return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
 }
@@ -529,9 +528,7 @@ export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_
         case true:
             return grain;
         case 1:
-            return grain.filter(el => el.value === 'Horizontal')
-        case 2:
-            return grain.filter(el => el.value === 'Vertical')
+            return grain.filter(el => el.value === 'Horizontal (Upcharge)')
         default:
             return null
     }
@@ -543,7 +540,7 @@ export const isLeatherType = (drawerColor: string | undefined, drawerType: strin
     return isLeather
 }
 
-export const isLeatherNote = (showLeatherType:boolean, leather:string) => {
+export const isLeatherNote = (showLeatherType: boolean, leather: string) => {
     return showLeatherType && leather === 'Other';
 }
 
@@ -619,7 +616,7 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number, product_id:number, is_leather_closet:boolean): number => {
+export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_closet: boolean): number => {
     if (is_leather_closet) {
         // Door exceptions for leather closet
         if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
@@ -802,25 +799,15 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
 
     const customPart = getCustomPartById(product_id);
     if (!customPart) return null;
-    const {type, glass_door} = customPart;
+    const {type} = customPart;
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
     const isStandardPanel = ["standard-panel"].includes(type);
     let price: number = 0;
 
     if (isCabinetLayout) {
-        let profileNumber: MaybeNull<number> = null;
-        if (type === "glass-door") {
-            if (!glass_door || !glass_door_val) return null;
-            const {Profile: doorProfiles} = glass_door;
-
-            if (doorProfiles) {
-                let profileCurrent: MaybeUndefined<string> = doorProfiles?.find(el => el.value === glass_door_val[0])?.type;
-                if (profileCurrent) profileNumber = +profileCurrent
-            }
-
-        }
-        const finishColorCoef = getFinishColorCoefCustomPart(product_id,material,door_color)
-        price = +(getCustomPartPrice(product_id, width, height, depth, material, profileNumber)*finishColorCoef).toFixed(1);
+        const finishColorCoef = getFinishColorCoefCustomPart(product_id, material, door_color);
+        const profileName = glass_door_val ? glass_door_val[0] : '';
+        price = +(getCustomPartPrice(product_id, width, height, depth, material, profileName) * finishColorCoef).toFixed(1);
     }
 
     if (type === 'led-accessories' && led_accessories) {
@@ -837,12 +824,12 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
     if (isStandardPanel && standard_panels) {
         const is_price_type_default = door_type === 'Standard White Shaker' && door_color === 'Default White';
         const apiPanelData = standardProductsPrices.find(el => el.id === product_id) as priceStandardPanel;
-        const standard_panels_front:PanelsFormType = {
+        const standard_panels_front: PanelsFormType = {
             standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
             shape_panel: standard_panels.shape_panel.map(el => ({...el, _id: uuidv4()})),
             wtk: standard_panels.wtk.map(el => ({...el, _id: uuidv4()})),
         };
-        price = getStandardPanelsPrice(standard_panels_front,is_price_type_default,apiPanelData);
+        price = getStandardPanelsPrice(standard_panels_front, is_price_type_default, apiPanelData);
     }
     const cartData: CartItemType = {
         _id: _id,
@@ -867,7 +854,6 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
         hinge: "",
         corner: "",
         options: [],
-        door_option: [],
         shelf_option: "",
         led_border: [],
         led_alignment: '',
@@ -885,9 +871,9 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
     return cartData
 }
 
-export const getFinishColorCoefCustomPart = (id:number,material:MaybeUndefined<string>,door_color:string):number => {
+export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, door_color: string): number => {
     // Choose Panels only
-    if (![900,901,903,905,906].includes(id)) return 1;
+    if (![900, 901, 903, 905, 906].includes(id)) return 1;
     // Choose Material (In Product Page)
     if (material !== 'Milino') return 1;
     // Door Color from Materials page
@@ -943,7 +929,7 @@ export const usePrevious = (data: string) => {
     return prev.current
 }
 
-export const useScript = (url:string) => {
+export const useScript = (url: string) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = url;
@@ -1037,3 +1023,35 @@ export const useIsIFrameLoaded = (
     }, [iframeCurrent]);
     return isIFrameLoaded;
 };
+
+
+export function prepareToSelectField(arr: string[]): optionType[] {
+    return arr.map(el => ({
+            value: el,
+            label: el
+        })
+    )
+}
+
+export const getProfileList = (is_custom: boolean): optionType[] => {
+    const profile = settings['Glass']['Profile'];
+    const profileFiltered = is_custom ? profile.filter(el => el.value !== 'Wood Shaker') : profile;
+    return prepareToSelectField(profileFiltered.map(el => el.value));
+}
+
+export const getGlassTypeList = (): optionType[] => {
+    return prepareToSelectField(['Glass', 'Mirror', 'Colored']);
+}
+
+export const getColorsList = (glassType: string): optionType[] => {
+    switch (glassType) {
+        case 'Glass':
+            return prepareToSelectField(settings.Glass.Glass);
+        case 'Mirror':
+            return prepareToSelectField(settings.Glass.Mirror);
+        case 'Colored':
+            return prepareToSelectField(settings.Glass.Colored);
+        default:
+            return []
+    }
+}

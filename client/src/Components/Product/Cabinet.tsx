@@ -34,6 +34,7 @@ const Cabinet: FC<CabinetType> = ({
     } = materialData
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
+
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
     const {
@@ -49,9 +50,7 @@ const Cabinet: FC<CabinetType> = ({
         Corner: corner,
         'Doors': doors,
         Options: chosenOptions,
-        ['Door Profile']: door_profile,
-        ['Door Glass Type']: door_glass_type,
-        ['Door Glass Color']: door_glass_color,
+        glass_door: [door_profile, door_glass_type, door_glass_color],
         ['Shelf Glass Color']: shelf_glass_color,
         ['Hinge opening']: hingeOpening,
         'LED borders': ledBorders,
@@ -85,7 +84,7 @@ const Cabinet: FC<CabinetType> = ({
         corner: corner,
         hinge: hingeOpening,
         options: chosenOptions,
-        door_option: [door_profile, door_glass_type, door_glass_color],
+        glass_door: [door_profile, door_glass_type, door_glass_color],
         shelf_option: shelf_glass_color,
         led_border: ledBorders,
         led_alignment: led_alignment,
@@ -109,6 +108,9 @@ const Cabinet: FC<CabinetType> = ({
         }
         if (newType !== image_active_number) {
             setFieldValue('image_active_number', newType)
+        }
+        if ((door_profile || door_glass_type || door_glass_color) && !chosenOptions.includes('Glass Door')) {
+            setFieldValue('glass_door', [])
         }
     }, [values])
     return (
