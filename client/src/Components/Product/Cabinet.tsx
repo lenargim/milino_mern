@@ -117,7 +117,7 @@ const Cabinet: FC<CabinetType> = ({
 
     useEffect(() => {
         if (isProductStandard) {
-        const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width)
+            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
             if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
         }
     }, [width])

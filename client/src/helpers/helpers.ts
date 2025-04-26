@@ -1059,8 +1059,26 @@ export const getColorsList = (glassType: string): optionType[] => {
 export const getHeightRange = (heightRange:number[],isProductStandard:boolean, width:number, tablePriceData:pricePart[], category: productCategory, customHeight: MaybeUndefined<number>) => {
     if (!isProductStandard) return heightRange.concat([0]);
     if (customHeight) return [customHeight];
-    const isHeightData = tablePriceData.find((el) => el.height)
-    if (isHeightData) return getHeightRangeBasedOnCurrentWidth(tablePriceData, width)
+    const isHeightData = tablePriceData.find((el) => el.height);
+    if (isHeightData) return getHeightRangeBasedOnCurrentWidth(tablePriceData, width,category)
+    return getCabinetHeightRangeBasedOnCategory(category)
+}
+
+export const getHeightRangeBasedOnCurrentWidth = (tablePriceData:pricePart[], width:number,category: productCategory):number[] => {
+    const isHeightData = tablePriceData.find((el) => el.height);
+    if (isHeightData) {
+        let arr: number[] = []
+        tablePriceData.forEach((el) => {
+            if (el.height && el.width === width) arr.push(el.height);
+            arr.sort((a, b) => a - b)
+        })
+        return [...new Set<number>(arr)];
+    }
+    return getCabinetHeightRangeBasedOnCategory(category)
+
+}
+
+export const getCabinetHeightRangeBasedOnCategory = (category:productCategory):number[] => {
     switch (category) {
         case 'Base Cabinets':
         case "Vanities":
@@ -1072,14 +1090,4 @@ export const getHeightRange = (heightRange:number[],isProductStandard:boolean, w
         default:
             return []
     }
-
-}
-
-export const getHeightRangeBasedOnCurrentWidth = (tablePriceData:pricePart[], width:number) => {
-    let arr: number[] = []
-    tablePriceData.forEach((el) => {
-        if (el.height && el.width === width) arr.push(el.height);
-        arr.sort((a, b) => a - b)
-    })
-    return [...new Set<number>(arr)];
 }

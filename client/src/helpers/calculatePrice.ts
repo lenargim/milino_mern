@@ -21,7 +21,7 @@ import {
 } from "./productTypes";
 import settings from './../api/settings.json'
 import {
-    getAttributes,
+    getAttributes, getCabinetHeightRangeBasedOnCategory,
     getProductById,
     getSquare,
     getWidthToCalculateDoor
@@ -363,17 +363,7 @@ export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category:
         })
         return [...new Set<number>(arr)];
     }
-    switch (category) {
-        case 'Base Cabinets':
-        case "Vanities":
-        case "Floating Vanities":
-        case "Gola Floating Vanities":
-        case "Gola Base Cabinets":
-        case "Standard Base Cabinets":
-            return [34.5];
-        default:
-            return []
-    }
+    return getCabinetHeightRangeBasedOnCategory(category)
 }
 
 export function getDepthRange(priceData: pricePart[] | undefined, category: productCategory, customDepth: number | undefined): number[] {
