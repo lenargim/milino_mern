@@ -244,8 +244,8 @@ function chooseDoorPanelPrice(square: number, material: string, door_type: strin
     switch (door_type) {
         case 'Micro Shaker':
             return getShakerPanelPrice(square, 'Micro Shaker');
-        case 'Shaker':
-            return getShakerPanelPrice(square, 'Shaker');
+        case 'Five piece shaker':
+            return getShakerPanelPrice(square, 'Five piece shaker');
         case 'Painted':
             return getShakerPanelPrice(square, 'Painted');
         case 'Slatted':
@@ -474,7 +474,7 @@ export const getBasePriceType = (materials: MaterialsFormType, is_leather_closet
                 break;
             case 'No Doors':
                 return 1;
-            case 'Shaker':
+            case 'Five piece shaker':
             case 'Three Piece Door':
             case 'Finger Pull':
                 if (door_finish_material === 'Syncron') return 2;
