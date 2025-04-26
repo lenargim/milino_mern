@@ -8,7 +8,7 @@ import {
     itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
     productRangeType, ProductType,
-    productTypings, RoomCategories, sizeLimitsType, valueItemType, pricePartStandardPanel, priceStandardPanel
+    productTypings, RoomCategories, sizeLimitsType, valueItemType, pricePartStandardPanel, priceStandardPanel, pricePart
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import {
@@ -1054,4 +1054,32 @@ export const getColorsList = (glassType: string): optionType[] => {
         default:
             return []
     }
+}
+
+export const getHeightRange = (heightRange:number[],isProductStandard:boolean, width:number, tablePriceData:pricePart[], category: productCategory, customHeight: MaybeUndefined<number>) => {
+    if (!isProductStandard) return heightRange.concat([0]);
+    if (customHeight) return [customHeight];
+    const isHeightData = tablePriceData.find((el) => el.height)
+    if (isHeightData) return getHeightRangeBasedOnCurrentWidth(tablePriceData, width)
+    switch (category) {
+        case 'Base Cabinets':
+        case "Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
+        case "Gola Base Cabinets":
+        case "Standard Base Cabinets":
+            return [34.5];
+        default:
+            return []
+    }
+
+}
+
+export const getHeightRangeBasedOnCurrentWidth = (tablePriceData:pricePart[], width:number) => {
+    let arr: number[] = []
+    tablePriceData.forEach((el) => {
+        if (el.height && el.width === width) arr.push(el.height);
+        arr.sort((a, b) => a - b)
+    })
+    return [...new Set<number>(arr)];
 }

@@ -37,9 +37,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(id))?.limits;
     const {widthRange, heightRange, depthRange} = productRange
-    if (!widthRange.length) return <div>Cannot find initial width</div>;
-    if (!sizeLimit) return <div>Cannot find size limit</div>;
-    if (!tablePriceData) return <div>No price table data</div>
+    if (!widthRange.length || !sizeLimit || !tablePriceData) return <div>Cannot find product data</div>;
     const middleSectionNumber = hasMiddleSection && middleSectionDefault ? middleSectionDefault : 0;
     const middleSection = hasMiddleSection && middleSectionDefault ? getFraction(middleSectionNumber) : '';
     const initialValues: productValuesType = {

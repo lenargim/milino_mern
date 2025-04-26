@@ -9,7 +9,7 @@ import {
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, productValuesType
+    checkDoors, getHeightRangeBasedOnCurrentWidth, productValuesType
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";
@@ -28,6 +28,7 @@ const Cabinet: FC<CabinetType> = ({
         widthDivider,
         category,
         isAngle,
+        isProductStandard
     } = product;
     const {
         drawer_brand,
@@ -112,13 +113,22 @@ const Cabinet: FC<CabinetType> = ({
         if ((door_profile || door_glass_type || door_glass_color) && !chosenOptions.includes('Glass Door')) {
             setFieldValue('glass_door', [])
         }
-    }, [values])
+    }, [values]);
+
+    useEffect(() => {
+        if (isProductStandard) {
+        const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width)
+            if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
+        }
+    }, [width])
+
     return (
         <>
             <CabinetLayout product={product}
                            productRange={productRange}
                            productPriceData={productPriceData}
                            hingeArr={hingeArr}
+                           tablePriceData={tablePriceData}
             />
         </>
     )

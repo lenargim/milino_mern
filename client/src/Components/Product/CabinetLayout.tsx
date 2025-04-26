@@ -7,6 +7,7 @@ import {
 } from "../../common/Form";
 import s from './product.module.sass'
 import {
+    pricePart,
     productDataToCalculatePriceType,
     productRangeType,
     ProductType
@@ -16,26 +17,31 @@ import LedBlock from "./LED";
 import OptionsBlock from "./OptionsBlock";
 import HingeBlock from "./HingeBlock";
 import CornerBlock from "./CornerBlock";
-import {isShowBlindWidthBlock, isShowMiddleSectionBlock, productValuesType} from "../../helpers/helpers";
+import {
+    getHeightRange,
+    isShowBlindWidthBlock,
+    isShowMiddleSectionBlock,
+    productValuesType
+} from "../../helpers/helpers";
 
 export type CabinetFormType = {
     product: ProductType,
     productRange: productRangeType,
     productPriceData: productDataToCalculatePriceType,
-    hingeArr: string[]
+    hingeArr: string[],
+    tablePriceData: pricePart[]
 }
 const CabinetLayOut: FC<CabinetFormType> = ({
                                                 product,
                                                 productRange,
                                                 productPriceData,
                                                 hingeArr,
+                                                tablePriceData
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id} = product;
-    const {values, setFieldTouched} = useFormikContext<productValuesType>();
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight} = product;
+    const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
-    const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
-    const heightRangeWithCustom = !isProductStandard ? heightRange.concat([0]) : heightRange;
-    const depthRangeWithCustom = depthRange.concat([0]);
+
     const {filteredOptions} = productPriceData;
     const {
         Width: width,
@@ -46,7 +52,9 @@ const CabinetLayOut: FC<CabinetFormType> = ({
         price
     } = values;
 
-
+    const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
+    const heightRangeWithCustom = getHeightRange(heightRange, isProductStandard, width, tablePriceData, category,customHeight)
+    const depthRangeWithCustom = depthRange.concat([0]);
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
     // const {errors} = useFormikContext();
