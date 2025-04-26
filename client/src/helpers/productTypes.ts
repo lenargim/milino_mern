@@ -152,7 +152,6 @@ export type materialDataType = {
     is_standard_cabinet: boolean,
     category: MaybeEmpty<RoomCategories>,
     base_price_type: pricesTypings,
-    material_coef: number,
     grain_coef: number,
     box_material_coef: number,
     box_material_finish_coef: number,
@@ -165,7 +164,8 @@ export type materialDataType = {
     drawer_color: string,
     leather: string,
     is_leather_closet: boolean,
-    box_material: string
+    box_material: string,
+    box_color: string
 }
 
 

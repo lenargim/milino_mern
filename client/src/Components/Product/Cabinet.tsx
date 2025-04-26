@@ -30,9 +30,7 @@ const Cabinet: FC<CabinetType> = ({
         isAngle,
         isProductStandard
     } = product;
-    const {
-        drawer_brand,
-    } = materialData
+    const {drawer_brand} = materialData
 
     const {values, setFieldValue} = useFormikContext<productValuesType>();
 
@@ -69,7 +67,7 @@ const Cabinet: FC<CabinetType> = ({
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], id);
     const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
-    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial)
+    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial);
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
     const startPrice = getStartPrice(realWidth, realHeight, realDepth, materialsCoef, sizeLimit, tablePrice);

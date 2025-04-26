@@ -15,7 +15,6 @@ import {
     productRangeType,
     ProductType,
     productTypings,
-    profileItem,
     sizeLimitsType,
     valueItemType
 } from "./productTypes";
@@ -229,30 +228,53 @@ export function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = f
 
 export function getDoorPrice(square: number, materialData: materialDataType, isProductStandard: boolean): number {
     if (isProductStandard) return 0;
-    const {door_price_multiplier, is_leather_closet, door_finish_material, box_material, door_type,} = materialData;
+    const {
+        door_price_multiplier,
+        is_leather_closet,
+        box_material,
+        box_color,
+    } = materialData;
     if (is_leather_closet) {
-        const oldPrice = chooseDoorPanelPrice(square, box_material, 'Slab')
-        const newPrice = chooseDoorPanelPrice(square, door_finish_material, door_type)
-        console.log(`old door Price: ${oldPrice}`);
-        console.log(`new door Price ${newPrice}`);
-        return newPrice > oldPrice ? newPrice - oldPrice : 0;
+        const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
+        console.log(`old ${square*oldMultiplier}. new ${door_price_multiplier*square}`)
+        return +(square*(door_price_multiplier - oldMultiplier)).toFixed(1);
     }
     return +(square * door_price_multiplier).toFixed(1);
 }
 
-function chooseDoorPanelPrice(square: number, material: string, door_type: string): number {
+function chooseDoorPanelMultiplier(door_type: string, material: string, color: string): number {
     switch (door_type) {
-        case 'Micro Shaker':
-            return getShakerPanelPrice(square, 'Micro Shaker');
-        case 'Five piece shaker':
-            return getShakerPanelPrice(square, 'Five piece shaker');
-        case 'Painted':
-            return getShakerPanelPrice(square, 'Painted');
-        case 'Slatted':
-            return getSlattedPanelPrice(square)
-        default:
-            return getPanelPrice(square, material);
+        case "Slab":
+            switch (material) {
+                case 'Milino': {
+                    const colorType = getDoorColorType(color);
+                    if (colorType === 1) return 8;
+                    if (colorType === 2) return 8.8;
+                    if (colorType === 3) return 9.6;
+                    break;
+                }
+                case "Syncron":
+                    return 18;
+                case 'Luxe':
+                case 'Ultrapan PET':
+                    return 24;
+                case "Zenit":
+                    return 24.72;
+                case "Ultrapan Acrylic":
+                    return 26.4;
+            }
+            break;
+        case "Five piece shaker":
+            if (material === "Syncron") return 48;
+            return 61.8;
+        case "Painted":
+            return 78;
+        case "Micro Shaker":
+            return 60;
+        case "Slatted":
+            return 48;
     }
+    return 0;
 }
 
 function getPanelPrice(square: number, door_finish_material: MaybeUndefined<string>): number {
@@ -267,12 +289,10 @@ function getPanelPrice(square: number, door_finish_material: MaybeUndefined<stri
         case "Luxe":
         case "Ultrapan PET":
             return square * k * 24;
-        case "Ultrapan Acrilic":
+        case "Ultrapan Acrylic":
             return square * k * 24 * 1.1;
         case "Zenit":
             return square * k * 24 * 1.03;
-        case "Stone":
-            return square * k * 31.2 * 2;
         case "Painted":
             return square * k * 31.2 * 1.3;
         default:
@@ -289,12 +309,10 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Luxe":
         case "Ultrapan PET":
             return square * 60;
-        case "Ultrapan Acrilic":
+        case "Ultrapan Acrylic":
             return square * 60 * 1.1;
         case "Zenit":
             return square * 60 * 1.03;
-        case "Stone":
-            return square * 78 * 2;
         case 'Painted':
             return square * 78;
         case "Micro Shaker":
@@ -533,7 +551,7 @@ export const getMaterialCoef = (materials: MaterialsFormType, is_leather_closet:
 }
 
 export const getGrainCoef = (doorGrain: string): number => {
-    return doorGrain === 'Vertical' ? 1 : 1.1
+    return !doorGrain || doorGrain === 'Vertical' ? 1 : 1.1
 }
 
 export const getDoorColorType = (color: string): DoorColorType => {
@@ -550,13 +568,7 @@ export const getBoxMaterialType = (box_material: string, is_standard_cabinet: bo
     if (box_material.includes('Ultra Matte')) return 4;
     return 1
 };
-export const getLeatherBoxMaterialType = (box_color: string): BoxMaterialType => {
-    if (box_color.includes('Plywood')) return 1;
-    if (box_color.includes('Melamine')) return 2;
-    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(box_color)) return 3;
-    if (box_color.includes('Ultra Matte')) return 4;
-    return 1
-};
+
 export const getBoxMaterialCoef = (box_material_type: BoxMaterialType): number => {
     switch (box_material_type) {
         case 2:
@@ -578,17 +590,32 @@ export const getBoxMaterialFinishCoef = (doorFinish: string, doorType: string, i
     }
     return doorFinish === 'Syncron' ? 1.845 : 2.706
 }
-export const getDoorPriceMultiplier = (doorType: string, doorFinish: string, door_color: string, is_standard_cabinet: boolean): number => {
+export const getDoorPriceMultiplier = (materials: MaterialsFormType, is_standard_cabinet: boolean, is_leather_closet: boolean): number => {
+    const {door_type, door_finish_material, door_color} = materials
     if (is_standard_cabinet) return door_color === 'Default White' ? 0 : 30;
-    if (doorType === 'Slab') return 0;
-    if (doorFinish === 'Milino' && (doorType === 'Micro Shaker' || doorType === 'Slatted')) return 30
-    if (doorType === 'Painted' || doorType === 'Slatted') return 37.8
-    if (doorType === 'Micro Shaker') return 36
-    if (doorType === 'No Doors') return -8
-    if (doorFinish === 'Syncron') return 30
-    if (doorFinish === 'Luxe') return 36
-    if (doorFinish === 'Zenit') return (36 * 1.03)
-    return 0
+    if (!is_leather_closet) {
+        switch (door_type) {
+            case "Slab":
+                return 0;
+            case "No Doors":
+                return -8;
+            case "Five piece shaker":
+            case "Three Piece Door":
+            case "Finger Pull":
+                if (door_finish_material === 'Syncron') return 30;
+                return 36;
+            case "Painted":
+                return 37.8;
+            case "Micro Shaker":
+                if (door_finish_material === 'Milino') return 30;
+                return 36;
+            case "Slatted":
+                if (door_finish_material === 'Milino') return 31.5;
+                return 37.8;
+        }
+        return 0;
+    }
+    return chooseDoorPanelMultiplier(door_type, door_finish_material, door_color);
 }
 export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category: productCategory, customHeight: MaybeUndefined<number>, customDepth: MaybeUndefined<number>): productRangeType => {
     return {
@@ -615,21 +642,19 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     const is_standard_cabinet = door_type === "Standard White Shaker";
     const is_leather_closet = category === 'Leather Closet'
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
-    const box_material_type = is_leather_closet ? getLeatherBoxMaterialType(box_color) : getBoxMaterialType(box_material, is_standard_cabinet);
     const base_price_type = getBasePriceType(materials, is_leather_closet);
-    const material_coef = getMaterialCoef(materials, is_leather_closet);
     const grain_coef = getGrainCoef(door_grain);
-    const box_material_coef = getBoxMaterialCoef(box_material_type);
+    const box_material_coef = getMaterialCoef(materials, is_leather_closet);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_type, is_standard_cabinet, door_color);
-    const door_price_multiplier = getDoorPriceMultiplier(door_type, door_finish_material, door_color, is_standard_cabinet);
+    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_closet);
     return {
         is_standard_cabinet,
         category,
         base_price_type,
-        material_coef,
         grain_coef,
         box_material_coef,
         box_material_finish_coef,
+        box_color,
         door_price_multiplier,
         is_acrylic,
         door_type,
@@ -643,10 +668,7 @@ export const getMaterialData = (materials: MaterialsFormType): materialDataType 
     }
 }
 export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
-    const {
-        attributes,
-        options,
-    } = product;
+    const {attributes, options} = product;
 
     const attrArr = getAttributes(attributes, image_active_number);
     const doorValues = attributes.find(el => el.name === 'Door')?.values;
@@ -688,12 +710,10 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                 case "Luxe":
                 case "Ultrapan PET":
                     return (width * height * depth / 20) + 120;
-                case "Ultrapan Acrilic":
+                case "Ultrapan Acrylic":
                     return ((width * height * depth / 20) + 120) * 1.1;
                 case "Zenit":
                     return ((width * height * depth / 20) + 120) * 1.03;
-                case "Stone":
-                    return ((width * height * depth / 20) + 120) * 1.3 * 2;
                 case "Painted":
                     return ((width * height * depth / 20) + 120) * 1.3 * 1.05;
                 default:
@@ -709,12 +729,10 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                 case "Luxe":
                 case "Ultrapan PET":
                     return opetCabinetCoef * 24
-                case "Ultrapan Acrilic":
+                case "Ultrapan Acrylic":
                     return opetCabinetCoef * 24 * 1.1
                 case "Zenit":
                     return opetCabinetCoef * 24 * 1.03
-                case "Stone":
-                    return opetCabinetCoef * 31.2 * 2
                 case "Painted":
                     return opetCabinetCoef * 31.2 * 1.05
                 default:
@@ -733,12 +751,10 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                 case "Luxe":
                 case "Ultrapan PET":
                     return area * 60;
-                case "Ultrapan Acrilic":
+                case "Ultrapan Acrylic":
                     return area * 60 * 1.1;
                 case "Zenit":
                     return area * 60 * 1.03;
-                case "Stone":
-                    return area * 78 * 2;
                 case "Painted":
                     return area * 78;
                 default:
@@ -756,12 +772,10 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                 case "Luxe":
                 case "Ultrapan PET":
                     return lSHapeArea * 58;
-                case "Ultrapan Acrilic":
+                case "Ultrapan Acrylic":
                     return lSHapeArea * 58 * 1.1;
                 case "Zenit":
                     return lSHapeArea * 58 * 1.03;
-                case "Stone":
-                    return lSHapeArea * 75.4 * 2;
                 case "Painted":
                     return lSHapeArea * 74.4;
                 default:
@@ -777,12 +791,10 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                 case "Luxe":
                 case "Ultrapan PET":
                     return columnArea * 18.4;
-                case "Ultrapan Acrilic":
+                case "Ultrapan Acrylic":
                     return columnArea * 18.4 * 1.1;
                 case "Zenit":
                     return columnArea * 18.4 * 1.03;
-                case "Stone":
-                    return columnArea * 23.92 * 2;
                 case "Painted":
                     return columnArea * 23.92;
                 default:
@@ -794,16 +806,16 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             return getShakerPanelPrice(area, material)
         case 911:
             let decorPrice = area > 4 ? area * 64 : 240;
-            return material === 'Ultrapan Acrilic' ? decorPrice * 1.1 : decorPrice
+            return material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
         case 912:
             return getSlattedPanelPrice(area);
         case 913:
             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
-            return material === 'Ultrapan Acrilic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
+            return material === 'Ultrapan Acrylic' ? shakerDoorPrice * 1.1 : shakerDoorPrice
         case 914:
             return addGlassDoorPrice(area, profile, false, true)
         case 915:
-            return material === 'Ultrapan Acrilic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+            return material === 'Ultrapan Acrylic' ? Math.ceil(width * 1.1) : Math.ceil(width);
         case 916:
             return 170;
         default:
@@ -846,10 +858,10 @@ export const checkCartData = (cart: CartItemType[], values: MaterialsFormType, d
         dispatch(updateCartAfterMaterialsChange({cart: updatedPriceCart, room: roomId})) :
         dispatch(fillCart(updatedPriceCart));
 }
-export const getMaterialsCoef = (materialData: materialDataType, boxFromFinishMaterial: boolean,): number => {
-    const {box_material_finish_coef, box_material_coef, is_standard_cabinet, material_coef, grain_coef} = materialData
+export const getMaterialsCoef = (materialData: materialDataType, boxFromFinishMaterial: boolean): number => {
+    const {box_material_coef, box_material_finish_coef, is_standard_cabinet, grain_coef} = materialData
     const boxCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    return !is_standard_cabinet ? +(boxCoef * material_coef * grain_coef).toFixed(3) : 1;
+    return !is_standard_cabinet ? +(boxCoef * grain_coef).toFixed(3) : 1;
 }
 export const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
     const {legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle, category, id} = product;
