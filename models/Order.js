@@ -157,7 +157,10 @@ const OrderSchema = new mongoose.Schema({
             qty: {type: Number},
             name: {type: String}
           }
-        ]
+        ],
+        crown_molding: {
+          type: Number,
+        }
       },
       note: {
         type: String,

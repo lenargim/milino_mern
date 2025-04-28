@@ -1,5 +1,9 @@
 import React, {FC, useEffect} from 'react';
-import {CustomPartType, pricePartStandardPanel, priceStandardPanel} from "../../helpers/productTypes";
+import {
+    CustomPartType,
+    pricePartStandardPanel,
+    priceStandardPanel
+} from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import standardProductsPrices from "../../api/standartProductsPrices.json";
 import s from "../Product/product.module.sass";
@@ -12,11 +16,13 @@ import Select, {OnChangeValue} from "react-select";
 import styles from "../../common/Form.module.sass";
 import {customStyles, optionType} from "../../common/SelectField";
 import {getDimentionsRow} from "../../helpers/helpers";
+import settings from '../../api/settings.json'
 
 export type PanelsFormType = {
     standard_panel: PanelType[],
     shape_panel: PanelType[],
-    wtk: PanelType[]
+    wtk: PanelType[],
+    crown_molding: number
 }
 
 export type PanelType = {
@@ -26,48 +32,57 @@ export type PanelType = {
 }
 
 type PanelTypeName = 'standard_panel' | 'shape_panel' | 'wtk';
+type MoldingTypeName = 'crown_molding';
 
-export const getStandardPanelsPrice = (standard_panels:PanelsFormType,is_price_type_default:boolean,apiPanelData:priceStandardPanel) => {
-    const {standard_panel, shape_panel, wtk} = standard_panels;
+export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price_type_default: boolean, apiPanelData: priceStandardPanel) => {
+    const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
     const standard_panel_price = standard_panel.reduce((acc, panel) => {
         const panelPriceData = apiPanelData.standard_panel.find(el => el.name === panel.name);
         if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default? panelPriceData.price: panelPriceData.painted_price)* panel.qty)
+        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
     }, 0);
 
     const shape_panel_price = shape_panel.reduce((acc, panel) => {
         const panelPriceData = apiPanelData.shape_panel.find(el => el.name === panel.name);
         if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default? panelPriceData.price: panelPriceData.painted_price)* panel.qty)
+        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
     }, 0);
 
     const wtk_price = wtk.reduce((acc, panel) => {
         const panelPriceData = apiPanelData.wtk.find(el => el.name === panel.name);
         if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default? panelPriceData.price: panelPriceData.painted_price)* panel.qty)
+        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
     }, 0);
 
-    return standard_panel_price + shape_panel_price + wtk_price;
+
+    const crown_molding_item_price:number = is_price_type_default ? settings.crown_molding_price[0] : settings.crown_molding_price[1]
+    const crown_price = crown_molding_item_price*crown_molding;
+
+    return standard_panel_price + shape_panel_price + wtk_price + crown_price;
 }
 
 const StandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType }> = ({product, materials}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
     const {price, standard_panels} = values;
-    const {standard_panel, shape_panel, wtk} = standard_panels
+    const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
     const {id} = product;
     const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
     const {door_type, door_color} = materials
     const is_price_type_default = door_type === 'Standard White Shaker' && door_color === 'Default White';
-    const addPanel = (panelType: PanelTypeName, panels:PanelType[]) => {
+    const addPanel = (panelType: PanelTypeName, panels: PanelType[]) => {
         setFieldValue(`standard_panels.${panelType}`, [...panels, {
             _id: uuidv4(),
             qty: 1,
             name: apiPanelData[panelType][0].name,
         }])
+    };
+
+    const addMolding = (moldingName:MoldingTypeName) => {
+        setFieldValue(`standard_panels.${moldingName}`, 1)
     }
 
     useEffect(() => {
-        const newPrice = getStandardPanelsPrice(standard_panels,is_price_type_default,apiPanelData)
+        const newPrice = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
@@ -85,7 +100,7 @@ const StandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType 
                     />)
                     : null}
                 <button type="button" className={['button yellow small'].join(' ')}
-                        onClick={() => addPanel('standard_panel',standard_panel)}>+
+                        onClick={() => addPanel('standard_panel', standard_panel)}>+
                     Add Standard panel
                 </button>
             </div>
@@ -100,7 +115,7 @@ const StandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType 
                     />)
                     : null}
                 <button type="button" className={['button yellow small'].join(' ')}
-                        onClick={() => addPanel('shape_panel',shape_panel)}>+
+                        onClick={() => addPanel('shape_panel', shape_panel)}>+
                     Add L-shape panel
                 </button>
             </div>
@@ -115,10 +130,18 @@ const StandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType 
                     />)
                     : null}
                 <button type="button" className={['button yellow small'].join(' ')}
-                        onClick={() => addPanel('wtk',wtk)}>+
+                        onClick={() => addPanel('wtk', wtk)}>+
                     Add WTK
                 </button>
             </div>
+            <div className={s.block}>
+                <h3>Crown Molding</h3>
+                {crown_molding ?
+                    <CrownMolding molding_type="crown_molding"/> :
+                    <button type="button" className={['button yellow small'].join(' ')}
+                            onClick={() => addMolding('crown_molding')}>+ Add Molding</button>}
+            </div>
+
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>
             </div>
@@ -133,14 +156,19 @@ const StandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType 
 
 export default StandardPanel;
 
-const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown:pricePartStandardPanel[] }> = ({panel, panel_type,dropdown}) => {
-    const [{value}, , {setValue}] = useField<PanelType[]>(`standard_panels.${panel_type}`)
+const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown: pricePartStandardPanel[] }> = ({
+                                                                                                                panel,
+                                                                                                                panel_type,
+                                                                                                                dropdown
+                                                                                                            }) => {
+    const [{value}, _, {setValue}] = useField<PanelType[]>(`standard_panels.${panel_type}`)
     const {qty, _id, name} = panel;
 
     const item = dropdown.find(apiEL => apiEL.name === name);
     if (!item) return null;
     const dimentions = getDimentionsRow(item.width, item.height, item.depth);
-    function getOptions(dropdown:pricePartStandardPanel[]):PanelType[] {
+
+    function getOptions(dropdown: pricePartStandardPanel[]): PanelType[] {
         return dropdown.map(el => ({
             name: el.name,
             qty, _id
@@ -153,8 +181,8 @@ const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown:pric
         setValue(newArr)
     };
 
-    const changeAmount = (type: changeAmountType, _id:string) => {
-        const newValue:PanelType[] = value.map(el => {
+    const changeAmount = (type: changeAmountType, _id: string) => {
+        const newValue: PanelType[] = value.map(el => {
             if (_id === el._id) return {...el, qty: type === 'minus' ? panel.qty - 1 : panel.qty + 1}
             return el
         });
@@ -170,11 +198,36 @@ const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown:pric
             {dimentions}
             <div className={s.row}>×
                 <div className={s.buttons}>
-                    <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus',_id)}
+                    <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus', _id)}
                             type={"button"}>-
                     </button>
                     {qty}
-                    <button value="plus" onClick={() => changeAmount('plus',_id)} type={"button"}>+</button>
+                    <button value="plus" onClick={() => changeAmount('plus', _id)} type={"button"}>+</button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+const CrownMolding: FC<{ molding_type: MoldingTypeName }> = ({molding_type}) => {
+    const [{value}, _, {setValue}] = useField<number>(`standard_panels.${molding_type}`)
+
+    const changeAmount = (type: changeAmountType) => {
+        setValue(type === 'minus' ? value - 1 : value + 1)
+    }
+
+    return (
+        <div className={s.row}>
+            <button onClick={() => setValue(0)} className={s.close} type={"button"}>×</button>
+            <span>Crown Molding</span>
+            <div className={s.row}>×
+                <div className={s.buttons}>
+                    <button value="minus" disabled={value <= 1} onClick={() => changeAmount('minus')}
+                            type={"button"}>-
+                    </button>
+                    {value}
+                    <button value="plus" onClick={() => changeAmount('plus')} type={"button"}>+</button>
                 </div>
             </div>
         </div>
@@ -187,11 +240,12 @@ type SelectFieldType = {
     val: PanelType,
     options: PanelType[]
 }
-const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) => {
+const SelectField: FC<SelectFieldType> = ({options, name, val, label = name,}) => {
     const [field, meta, {setValue}] = useField<PanelType[]>(name);
     const {error, touched} = meta;
-    function onChange (value: OnChangeValue<optionType, false>) {
-        const newValue:PanelType[] = field.value.map(el => {
+
+    function onChange(value: OnChangeValue<optionType, false>) {
+        const newValue: PanelType[] = field.value.map(el => {
             if (value && value.type === el._id) return {_id: el._id, qty: el.qty, name: value.value}
             return el
         });
@@ -203,7 +257,7 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) 
             className={[styles.row, styles.select, field.value && styles.active, error && touched ? 'error' : ''].join(' ')}>
             {touched && error ? <div className={styles.error}>{error}</div> : ''}
 
-            <Select options={options.map(el => ({value: el.name, label: el.name, type: el._id}) )}
+            <Select options={options.map(el => ({value: el.name, label: el.name, type: el._id}))}
                     onChange={onChange}
                     placeholder={label}
                     styles={customStyles}

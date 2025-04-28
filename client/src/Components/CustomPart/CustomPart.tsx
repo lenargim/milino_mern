@@ -108,7 +108,8 @@ type InitialSizesType = {
 const initialStandardPanels:PanelsFormType = {
     standard_panel: [],
     shape_panel: [],
-    wtk: []
+    wtk: [],
+    crown_molding: 0
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {

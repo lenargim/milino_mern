@@ -135,7 +135,7 @@ export const s = StyleSheet.create({
     blocks: {
         display: "flex",
         flexDirection: "column",
-        gap: '5px',
+        gap: '10px',
     },
     h2: {
         fontSize: '14px',

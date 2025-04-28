@@ -13,7 +13,7 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                                                                                                     }) => {
         const apiPanelData = standardProductsPrices.find(el => el.id === prod_id) as priceStandardPanel;
         if (!standard_panels || !apiPanelData) return null;
-        const {standard_panel, shape_panel, wtk} = standard_panels;
+        const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
         const {standard_panel: standard_panelAPI, shape_panel: shape_panelAPI, wtk: wtkAPI} = apiPanelData
         return (
             <View style={s.blocks}>
@@ -68,6 +68,14 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                                     </View>)
                             })
                             }
+                        </View> : null
+                    }
+                </View>
+                <View>
+                    {crown_molding ?
+                        <View>
+                            <Text style={s.itemOptionBold}>Crown Molding:</Text>
+                            <Text style={s.itemOption}>Amount: {crown_molding}</Text>
                         </View> : null
                     }
                 </View>

@@ -1,5 +1,4 @@
 import RoomModel from "../models/Room.js";
-import CartModel from '../models/Cart.js'
 
 export const create = async (req, res) => {
   try {
@@ -21,7 +20,6 @@ export const create = async (req, res) => {
     })
   }
 }
-
 
 export const getOne = async (req, res) => {
   try {
@@ -101,6 +99,88 @@ export const updateRoom = async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: 'Cannot update purchase order'
+    })
+  }
+}
+
+
+export const addToCart = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+
+    const doc = await RoomModel.findByIdAndUpdate(roomId, {
+        $push: {cart: {...req.body}}
+      },
+      {
+        returnDocument: "after",
+      });
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'purchase order not found'
+      })
+    }
+
+
+    res.json(doc.cart);
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot create Cart'
+    })
+  }
+}
+
+export const removeFromCart = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+    const cartId = req.params.cartId;
+    const doc = await RoomModel.findByIdAndUpdate(roomId, {
+      $pull: {cart: {_id: cartId}}
+    }, {
+      returnDocument: "after",
+    })
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Cart Item not found'
+      })
+    }
+    return res.json(doc.cart);
+
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot remove cart item'
+    })
+  }
+}
+
+export const updateCart = async (req, res) => {
+  try {
+    const roomId = req.params.roomId;
+    const cartId = req.params.cartId;
+
+    const doc = await RoomModel.findByIdAndUpdate(roomId,
+      {
+        $set: {"cart.$[cartId].amount": req.body.amount},
+      }, {
+        returnDocument: "after",
+        arrayFilters: [{
+          "cartId._id": cartId
+        }]
+      })
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Cart Item not found'
+      })
+    }
+    return res.json(doc.cart);
+
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot update Cart'
     })
   }
 }

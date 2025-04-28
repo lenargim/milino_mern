@@ -8,7 +8,6 @@ import {
   UserController,
   PDFController,
   RoomController,
-  CartController,
   OrderController,
   AdminController
 } from './controllerls/index.js';
@@ -66,12 +65,11 @@ const start = async () => {
     app.delete('/api/rooms/:id', CORS, checkAuth, RoomController.remove)
     app.patch('/api/rooms/:id', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
 
-    app.post('/api/cart/:roomId', CORS, checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart)
-    app.delete('/api/cart/:roomId/:cartId', CORS, checkAuth, CartController.remove)
-    app.patch('/api/cart/:roomId/:cartId', CORS, checkAuth, CartController.update)
+    app.post('/api/cart/:roomId', CORS, checkAuth, cartItemValidation, handleValidationErrors, RoomController.addToCart)
+    app.delete('/api/cart/:roomId/:cartId', CORS, checkAuth, RoomController.removeFromCart)
+    app.patch('/api/cart/:roomId/:cartId', CORS, checkAuth, RoomController.updateCart)
 
     app.post('/api/order/:roomId', CORS, checkAuth, OrderController.placeOrder)
-
 
     app.post('/api/admin/users', CORS, checkAuth, checkAdmin, AdminController.getUsers)
     app.patch('/api/admin/user/:userId', CORS, checkAuth, checkAdmin, AdminController.toggleUserEnabled)

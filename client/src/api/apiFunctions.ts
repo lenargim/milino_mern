@@ -147,6 +147,7 @@ export type PanelsFormAPIType = {
     standard_panel: PanelsFormPartAPIType[],
     shape_panel: PanelsFormPartAPIType[],
     wtk: PanelsFormPartAPIType[],
+    crown_molding: number
 }
 
 export type PanelsFormPartAPIType = { qty: number, name: string }

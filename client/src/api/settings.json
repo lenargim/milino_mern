@@ -398,5 +398,6 @@
     {"width": 42, "height": 15, "value": "42x15"},
     {"width": 42, "height": 18, "value": "42x18"},
     {"width": 42, "height": 21, "value": "42x21"}
-  ]
+  ],
+  "crown_molding_price": [100,250]
 }

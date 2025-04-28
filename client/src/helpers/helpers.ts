@@ -397,14 +397,15 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
     }
 
     if (type === 'standard-panel' && standard_panels) {
-        const {standard_panel, shape_panel, wtk} = standard_panels;
+        const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
         const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
         const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
         const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
         cartData.standard_panels = {
             standard_panel: standard_panel_api,
             shape_panel: shape_panel_api,
-            wtk: wtk_api
+            wtk: wtk_api,
+            crown_molding
         }
     }
 
@@ -828,6 +829,7 @@ export const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI |
             standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
             shape_panel: standard_panels.shape_panel.map(el => ({...el, _id: uuidv4()})),
             wtk: standard_panels.wtk.map(el => ({...el, _id: uuidv4()})),
+            crown_molding: standard_panels.crown_molding
         };
         price = getStandardPanelsPrice(standard_panels_front, is_price_type_default, apiPanelData);
     }
