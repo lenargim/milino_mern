@@ -5,7 +5,7 @@ import Fraction from "fraction.js";
 import {
     AngleType,
     attrItem, cornerTypes, CustomPartType, customPartDataType, hingeTypes,
-    itemImg, materialDataType, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
+    itemImg, materialsCustomPart, MaybeEmpty, MaybeNull, MaybeUndefined, ProductApiType,
     productCategory,
     productRangeType, ProductType,
     productTypings, RoomCategories, sizeLimitsType, valueItemType, pricePartStandardPanel, priceStandardPanel, pricePart
@@ -20,13 +20,11 @@ import customParts from '../api/customPart.json';
 import {RoomType} from "./categoriesTypes";
 import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
-    getAttributesProductPrices,
+    calculateProduct,
     getBlindArr, getCustomPartPrice,
     getDoorMinMaxValuesArr,
-    getMaterialData, getMaterialsCoef, getProductCoef,
+    getMaterialData,
     getProductDataToCalculatePrice, getProductPriceRange, getProductRange,
-    getStartPrice,
-    getTablePrice,
     getType
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
@@ -723,28 +721,16 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
     const {doorValues} = productPriceData;
     const doorArr = getDoorMinMaxValuesArr(width, doorValues);
     const doors = checkDoors(0, doorArr, hinge)
-
     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
     if (!sizeLimit) return null;
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
-    const boxFromFinishMaterial = options.includes("Box from finish material");
-    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial)
-    const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
-    const startPrice = getStartPrice(width, height, depth, materialsCoef, sizeLimit, tablePrice);
     const newType = getType(width, height, widthDivider, doors, category, attributes);
-
-    const cabinet: CabinetItemType = {
+    const cabinetItem: CabinetItemType = {
         ...item,
         image_active_number: newType,
     }
-
+    const totalPrice = calculateProduct(cabinetItem,materialData,tablePriceData,sizeLimit,product)
     const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
-
-    const coef = getProductCoef(cabinet, tablePriceData, product)
-    const productCoef = 1 + (coef.width + coef.height + coef.depth)
-    const attributesPrices = getAttributesProductPrices(cabinet, product, materialData);
-    const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    const totalPrice = startPrice ? +(startPrice * productCoef + attrPrice).toFixed(1) : 0;
 
     return {
         ...item,
@@ -757,8 +743,7 @@ export const getCartItemProduct = (item: CartAPIResponse, room: RoomTypeAPI | Ro
             led: checkLedSelected(led_border),
             options: checkOptionsSelected(options),
             middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
-        },
-        // isStandardSize: getIsProductStandard(productRange, width, height, depth, blind_width, middle_section, options, led_border, product),
+        }
     }
 };
 

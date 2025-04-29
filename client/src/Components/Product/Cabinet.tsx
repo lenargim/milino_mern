@@ -1,11 +1,10 @@
 import React, {FC, useEffect} from 'react';
 import {CabinetType} from "../../helpers/productTypes";
 import {
-    getAttributesProductPrices,
+    calculateProduct,
     getDoorMinMaxValuesArr,
-    getHingeArr, getMaterialsCoef,
-    getProductCoef, getProductDataToCalculatePrice,
-    getStartPrice, getTablePrice,
+    getHingeArr,
+    getProductDataToCalculatePrice,
     getType
 } from "../../helpers/calculatePrice";
 import {
@@ -28,12 +27,11 @@ const Cabinet: FC<CabinetType> = ({
         widthDivider,
         category,
         isAngle,
-        isProductStandard
+        isProductStandard,
+        product_type
     } = product;
     const {drawer_brand} = materialData
-
     const {values, setFieldValue} = useFormikContext<productValuesType>();
-
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
     const {
@@ -66,14 +64,10 @@ const Cabinet: FC<CabinetType> = ({
     const realMiddleSection = middleSectionNumber || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], id);
-    const boxFromFinishMaterial = chosenOptions.includes("Box from finish material");
-    const materialsCoef = getMaterialsCoef(materialData, boxFromFinishMaterial);
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
-    const tablePrice = getTablePrice(realWidth, realHeight, realDepth, tablePriceData, category);
-    const startPrice = getStartPrice(realWidth, realHeight, realDepth, materialsCoef, sizeLimit, tablePrice);
     const cabinetItem: CabinetItemType = {
         product_id: id,
-        product_type: product.product_type,
+        product_type: product_type,
         amount: 1,
         width: realWidth,
         height: realHeight,
@@ -91,12 +85,9 @@ const Cabinet: FC<CabinetType> = ({
         image_active_number: newType,
         note: note,
         material: '',
-    }
-    const coef = getProductCoef(cabinetItem, tablePriceData, product);
-    const productCoef = 1 + (coef.width + coef.height + coef.depth)
-    const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
-    let attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    const totalPrice = startPrice ? +(startPrice * productCoef + attrPrice).toFixed(1) : 0;
+    };
+    const totalPrice = calculateProduct(cabinetItem,materialData,tablePriceData,sizeLimit,product)
+
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)
