@@ -1,5 +1,5 @@
-import React, {FC, useEffect} from 'react';
-import {CabinetType} from "../../helpers/productTypes";
+import React, {FC, useEffect, useState} from 'react';
+import {CabinetType, productDataToCalculatePriceType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr,
@@ -57,6 +57,29 @@ const Cabinet: FC<CabinetType> = ({
         image_active_number,
         price: price,
     } = values;
+    useEffect(() => {
+        if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
+        const doorNum = checkDoors(+doors, doorArr, hingeOpening)
+        if (doors !== doorNum) setFieldValue('Doors', doorNum);
+        if (doors && !hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
+        if (price !== totalPrice) {
+            setFieldValue('price', totalPrice)
+        }
+        if (newType !== image_active_number) {
+            setFieldValue('image_active_number', newType);
+
+        }
+        if ((door_profile || door_glass_type || door_glass_color) && !chosenOptions.includes('Glass Door')) {
+            setFieldValue('glass_door', [])
+        }
+    }, [values]);
+    useEffect(() => {
+        if (isProductStandard) {
+            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
+            if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
+        }
+    }, [width]);
+
     const realWidth = +width || +customWidthNumber || 0;
     const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
     const realHeight = +height || +customHeightNumber || 0;
@@ -86,40 +109,14 @@ const Cabinet: FC<CabinetType> = ({
         note: note,
         material: '',
     };
-    const totalPrice = calculateProduct(cabinetItem,materialData,tablePriceData,sizeLimit,product)
-
-    useEffect(() => {
-        if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
-        const doorNum = checkDoors(+doors, doorArr, hingeOpening)
-        if (doors !== doorNum) setFieldValue('Doors', doorNum);
-        if (doors && !hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
-        if (price !== totalPrice) {
-            setFieldValue('price', totalPrice)
-        }
-        if (newType !== image_active_number) {
-            setFieldValue('image_active_number', newType)
-        }
-        if ((door_profile || door_glass_type || door_glass_color) && !chosenOptions.includes('Glass Door')) {
-            setFieldValue('glass_door', [])
-        }
-    }, [values]);
-
-    useEffect(() => {
-        if (isProductStandard) {
-            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
-            if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
-        }
-    }, [width])
-
+    const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
     return (
-        <>
-            <CabinetLayout product={product}
-                           productRange={productRange}
-                           productPriceData={productPriceData}
-                           hingeArr={hingeArr}
-                           tablePriceData={tablePriceData}
-            />
-        </>
+        <CabinetLayout product={product}
+                       productRange={productRange}
+                       productPriceData={productPriceData}
+                       hingeArr={hingeArr}
+                       tablePriceData={tablePriceData}
+        />
     )
 };
 

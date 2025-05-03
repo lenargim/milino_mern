@@ -2241,6 +2241,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2303,6 +2304,7 @@
     ],
     "options": [
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2397,6 +2399,10 @@
       {
         "type": 1,
         "value": "WC/WBA.webp"
+      },
+      {
+        "type": 2,
+        "value": "WC/WBA.webp"
       }
     ],
     "attributes": [
@@ -2405,6 +2411,10 @@
         "values": [
           {
             "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
             "value": 1
           }
         ]
@@ -2415,6 +2425,25 @@
           {
             "type": 1,
             "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1,
+            "minHeight": 18
           }
         ]
       }
@@ -2422,6 +2451,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2485,6 +2515,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2553,6 +2584,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2621,6 +2653,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2685,6 +2718,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2749,6 +2783,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2798,6 +2833,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2836,7 +2872,9 @@
         ]
       }
     ],
-    "options": []
+    "options": [
+      "Glass Shelf"
+    ]
   },
   {
     "id": 113,
@@ -2899,6 +2937,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -2963,6 +3002,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3047,6 +3087,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3109,6 +3150,7 @@
     ],
     "options": [
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3149,6 +3191,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3198,6 +3241,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3236,7 +3280,9 @@
         ]
       }
     ],
-    "options": []
+    "options": [
+      "Glass Shelf"
+    ]
   },
   {
     "id": 201,

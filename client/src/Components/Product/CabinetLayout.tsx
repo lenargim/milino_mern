@@ -38,7 +38,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
                                                 hingeArr,
                                                 tablePriceData
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight} = product;
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight, attributes} = product;
     const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
 
@@ -117,6 +117,7 @@ const CabinetLayOut: FC<CabinetFormType> = ({
             <OptionsBlock filteredOptions={filteredOptions}
                           isProductStandard={isProductStandard}
                           id={id}
+                          attributes={attributes}
             />
 
             <div className={s.block}>

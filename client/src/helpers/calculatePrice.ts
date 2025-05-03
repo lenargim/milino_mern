@@ -838,7 +838,7 @@ export const checkCartData = (cart: CartItemType[], values: MaterialsFormType, d
 
 
 export const calculateProduct = (cabinetItem: CabinetItemType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
-    const {product_id, width, height, depth, options} = cabinetItem;
+    const {product_id, width, height, depth, options, image_active_number} = cabinetItem;
     const {category} = product;
     const boxFromFinishMaterial = options.includes("Box from finish material");
     const overall_coef = getOverallCoef(materialData, boxFromFinishMaterial, product_id)
@@ -847,8 +847,8 @@ export const calculateProduct = (cabinetItem: CabinetItemType, materialData: mat
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    console.log(materialData)
-    console.log(`overall_coef ${overall_coef}`)
+    // console.log(materialData)
+    // console.log(`overall_coef ${overall_coef}`)
     return +(startPrice * size_coef + attrPrice).toFixed(1);
 }
 
@@ -882,7 +882,7 @@ export const getAttributesProductPrices = (cart: CabinetItemType, product: Produ
         door_type,
         is_leather_closet
     } = materialData
-    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
+    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand,image_active_number);
     const {
         drawersQty,
         shelfsQty,

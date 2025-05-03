@@ -25,12 +25,23 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
     const dispatch = useAppDispatch();
-    let {productId, category: catFromParam,roomId} = useParams();
+    let {productId, category: catFromParam, roomId} = useParams();
     if (!productId || !catFromParam || !materials) return <div>Product error</div>;
     const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(catFromParam)
     let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
-    const {isBlind, isCornerChoose, customHeight, customDepth, hasLedBlock, blindArr, id, hasMiddleSection, middleSectionDefault, category} = product;
+    const {
+        isBlind,
+        isCornerChoose,
+        customHeight,
+        customDepth,
+        hasLedBlock,
+        blindArr,
+        id,
+        hasMiddleSection,
+        middleSectionDefault,
+        category
+    } = product;
     const materialData = getMaterialData(materials);
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
@@ -43,7 +54,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     const initialValues: productValuesType = {
         'Width': widthRange[0],
         isBlind: isBlind,
-        'Blind Width': blindArr ? blindArr[0]:'',
+        'Blind Width': blindArr ? blindArr[0] : '',
         'Height': heightRange[0],
         'Depth': depthRange[0],
         'Custom Width': '',
@@ -79,7 +90,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
-                const cartData = addProductToCart(product, values, productRange,roomId);
+                const cartData = addProductToCart(product, values, productRange, roomId);
                 if (roomId) {
                     addToCartInRoomAPI(cartData, roomId).then(cart => {
                         if (cart && roomId) dispatch(updateCartInRoom({cart, _id: roomId}));
