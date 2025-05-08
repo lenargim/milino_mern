@@ -117,9 +117,12 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     const h = height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height);
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
     return {
-        initial_width: Math.ceil(w),
-        initial_height: Math.ceil(h),
-        initial_depth: Math.ceil(d)
+        // initial_width: Math.ceil(w),
+        // initial_height: Math.ceil(h),
+        // initial_depth: Math.ceil(d)
+        initial_width: w,
+        initial_height: h,
+        initial_depth: d
     }
 }
 

@@ -196,7 +196,7 @@ export const getProductById = (id: number, isProductStandard: boolean): MaybeNul
 
 export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
     let exceptionIds: number[] = [];
-    exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921, 922];
+    exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921];
     const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
     return standardDoorCustomParts as customPartDataType[];
 }
@@ -764,7 +764,7 @@ const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI | RoomFr
 
     const customPart = getCustomPartById(product_id);
     if (!customPart) return null;
-    const {type} = customPart;
+    const {type, standard_price} = customPart;
     const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
     const isStandardPanel = ["standard-panel"].includes(type);
     let price: number = 0;
@@ -796,6 +796,9 @@ const getCartItemCustomPart = (item: CartAPIResponse, room: RoomTypeAPI | RoomFr
             crown_molding: standard_panels.crown_molding
         };
         price = getStandardPanelsPrice(standard_panels_front, is_price_type_default, apiPanelData);
+    }
+    if (type === "plastic_toe" && standard_price) {
+        price = standard_price
     }
     const cartData: CartItemType = {
         _id: _id,

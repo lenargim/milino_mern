@@ -7,9 +7,8 @@ import {CustomPartType} from "../../helpers/productTypes";
 
 const PlasticToe: FC<{ product: CustomPartType }> = ({product}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
-    const {price, } = values;
+    const {price } = values;
     const {height_range} = product;
-
     useEffect(() => {
         const newPrice = 91;
         if (price !== newPrice) setFieldValue('price', newPrice);

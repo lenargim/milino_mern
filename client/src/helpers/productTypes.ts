@@ -107,11 +107,12 @@ export type CustomPartType = {
     product_type: 'custom',
     width?: number,
     depth?: number,
-    height_range?: number[]
+    height_range?: number[],
     images: itemImg[],
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
     glass_shelf?: string[],
+    standard_price?: number
 
 }
 
