@@ -1,22 +1,19 @@
 import React, {FC, useEffect} from 'react';
-import { useFormikContext} from 'formik';
+import {useFormikContext} from 'formik';
 import CustomPartLayout from "./CustomPartLayout";
-import {
-    CustomPartType,
-    MaybeNull,
-    MaybeUndefined
-} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import {CustomPartFormValuesType} from "./CustomPart";
 import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
 import {MaterialsFormType} from "../../common/MaterialsForm";
-export type CustomPartFormType = {
+
+type CustomPartCabinet = {
     product: CustomPartType,
     materials: MaterialsFormType
     isDepthIsConst: boolean,
-    isStandardCabinet:boolean
+    isStandardCabinet: boolean
 }
-const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
+const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
 
     const {
@@ -28,22 +25,22 @@ const CustomPartCabinet: FC<CustomPartFormType> = ({product, isDepthIsConst, mat
         price
     } = values
     const {id, materials_array, type} = product;
-    const showDepthBlock = !!(type === 'custom' && !isDepthIsConst);
+    const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {
         const newDepth = materials_array?.find(el => el.name === material)?.depth;
         if (newDepth && depthNumber !== newDepth) setFieldValue('Depth Number', newDepth);
     }
     useEffect(() => {
         let newPrice;
-        const finishColorCoef = getFinishColorCoefCustomPart(id,material,materials.door_color);
-        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material,doorProfileVal)*finishColorCoef).toFixed(1);
+        const finishColorCoef = getFinishColorCoefCustomPart(id, material, materials.door_color);
+        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material, doorProfileVal) * finishColorCoef).toFixed(1);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
     }, [values])
 
     return (
-        <CustomPartLayout product={product} showDepthBlock={showDepthBlock} isStandardCabinet={isStandardCabinet}  />
+        <CustomPartLayout product={product} showDepthBlock={showDepthBlock} isStandardCabinet={isStandardCabinet}/>
     );
 };
 

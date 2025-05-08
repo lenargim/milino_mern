@@ -2,6 +2,7 @@ import {optionType} from "../common/SelectField";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
+import {ledAlignmentType} from "../Components/Product/LED";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -35,7 +36,8 @@ export type CustomTypes =
     | 'standard-door'
     | 'standard-glass-door'
     | 'backing'
-    | 'standard-panel';
+    | 'standard-panel'
+    | 'plastic_toe';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -105,6 +107,7 @@ export type CustomPartType = {
     product_type: 'custom',
     width?: number,
     depth?: number,
+    height_range?: number[]
     images: itemImg[],
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
@@ -364,4 +367,44 @@ export type AttributesPrices = {
     pvcPrice: number,
     doorPrice: number,
     drawerPrice: number,
+}
+
+type initialStandardValues = {
+    Width: number,
+    isBlind: boolean,
+    "Blind Width": MaybeEmpty<number>,
+    Height: number,
+    Depth: number,
+    'Custom Depth': string,
+    'Doors': number,
+    'Hinge opening': hingeTypes,
+    Corner: MaybeEmpty<cornerTypes>,
+    Options: string[],
+    'Profile': string,
+    'Glass Type': string,
+    'Glass Color': string,
+    'Glass Shelf': string,
+    'Middle Section': string,
+    'LED borders': string[],
+    'LED alignment': MaybeEmpty<ledAlignmentType>,
+    'LED indent': string,
+    'Note': string,
+    price: number,
+    image_active_number: productTypings
+}
+
+export interface productValuesType extends initialStandardValues {
+    "Custom Width": MaybeEmpty<number>,
+    'Custom Blind Width': MaybeEmpty<number>,
+    'Custom Height': MaybeEmpty<number>,
+    "Custom Width Number": MaybeEmpty<number>,
+    'Custom Blind Width Number': MaybeEmpty<number>,
+    'Custom Height Number': MaybeEmpty<number>,
+    'Custom Depth Number': MaybeEmpty<number>,
+    'Middle Section Number': MaybeEmpty<number>,
+    // 'Door Profile': string,
+    // 'Door Glass Type': string,
+    // 'Door Glass Color': string,
+    glass_door: string[],
+    'Shelf Glass Color': string,
 }

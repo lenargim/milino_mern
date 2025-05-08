@@ -1,14 +1,13 @@
-import React, {FC, useEffect, useState} from 'react';
-import {CabinetType, productDataToCalculatePriceType} from "../../helpers/productTypes";
+import React, {FC, useEffect} from 'react';
+import {CabinetType, productValuesType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr,
-    getHingeArr,
     getProductDataToCalculatePrice,
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getHeightRangeBasedOnCurrentWidth, productValuesType
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";

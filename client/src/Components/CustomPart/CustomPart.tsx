@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {
     addToCartCustomPart,
     getCustomPartById, getInitialMaterialData,
@@ -11,18 +11,15 @@ import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import {Navigate, useParams} from "react-router-dom";
-import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLeft from "./CustomPartLeft";
 import {addToCart} from "../../store/reducers/generalSlice";
-import LEDForm from "./LEDForm";
-import DoorAccessoiresForm from "./DoorAccessoiresForm";
-import StandardDoorForm, {DoorType} from "./StandardDoorForm";
+import {DoorType} from "./StandardDoorForm";
 import {addToCartInRoomAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
 import DA from '../../api/doorAccessories.json'
-import StandardPanel, {PanelsFormType} from "./StandardPanel";
-
+import {PanelsFormType} from "./StandardPanel";
+import CustomPartRight from "./CustomPartRight";
 
 type CustomPartFormType = {
     materials: MaybeNull<MaterialsFormType>
@@ -105,7 +102,7 @@ type InitialSizesType = {
     initial_depth: number
 }
 
-const initialStandardPanels:PanelsFormType = {
+const initialStandardPanels: PanelsFormType = {
     standard_panel: [],
     shape_panel: [],
     wtk: [],
@@ -114,10 +111,10 @@ const initialStandardPanels:PanelsFormType = {
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
 
-    const {width, depth, limits} = customPart
+    const {width, depth, limits, height_range} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
     const w = width ?? getLimit(sizeLimitInitial.width);
-    const h = getLimit(sizeLimitInitial.height);
+    const h = height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height);
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
     return {
         initial_width: Math.ceil(w),
@@ -133,17 +130,10 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
     const customPartProduct = getCustomPartById(+productId)
     if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
     const isStandardCabinet = materials.door_type === 'Standard White Shaker';
-    const {depth, type} = customPartProduct;
-    const initialMaterialData = getInitialMaterialData(customPartProduct, materials,isStandardCabinet);
-    const depthApi = initialMaterialData?.depth ?? depth;
-    const isDepthIsConst = typeof depthApi === 'number'
-    const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type)
-    const isStandardPanel = ["standard-panel"].includes(type);
-    const isDoorAccessories = ["door-accessories"].includes(type);
-
+    const initialMaterialData = getInitialMaterialData(customPartProduct, materials, isStandardCabinet);
     const initialSizes = getInitialSizes(customPartProduct, initialMaterialData);
     const {initial_width, initial_height, initial_depth} = initialSizes
-
+    const isDoorAccessories = ["door-accessories"].includes(customPartProduct.type);
     const initialValues: CustomPartFormValuesType = {
         'Width': initial_width.toString(),
         'Height': initial_height.toString(),
@@ -161,6 +151,7 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             dimmable_remote: 0,
             transformer: 0,
         },
+        // write function
         door_accessories: isDoorAccessories ? initialDoorAccessoires : [],
         standard_door: initialStandardDoor,
         standard_panels: initialStandardPanels,
@@ -188,16 +179,9 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             <>
                 <CustomPartLeft product={customPartProduct} materials={materials}/>
                 <div className={s.right}>
-                    {isCabinetLayout && <CustomPartCabinet product={customPartProduct}
-                                                           isDepthIsConst={isDepthIsConst}
-                                                           materials={materials}
-                                                           isStandardCabinet={isStandardCabinet}
-                    />}
-                    {type === 'led-accessories' && <LEDForm/>}
-                    {isDoorAccessories && <DoorAccessoiresForm/>}
-                    {(type === 'standard-door' || type === 'standard-glass-door') &&
-                    <StandardDoorForm customPart={customPartProduct}/>}
-                    {isStandardPanel && <StandardPanel product={customPartProduct} materials={materials}/>}
+                    <CustomPartRight customPartProduct={customPartProduct}
+                                     initialMaterialData={initialMaterialData}
+                                     materials={materials}/>
                 </div>
             </>
         </Formik>

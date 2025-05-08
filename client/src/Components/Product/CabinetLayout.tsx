@@ -10,7 +10,7 @@ import {
     pricePart,
     productDataToCalculatePriceType,
     productRangeType,
-    ProductType
+    ProductType, productValuesType
 } from "../../helpers/productTypes";
 
 import LedBlock from "./LED";
@@ -20,8 +20,7 @@ import CornerBlock from "./CornerBlock";
 import {
     getHeightRange,
     isShowBlindWidthBlock,
-    isShowMiddleSectionBlock,
-    productValuesType
+    isShowMiddleSectionBlock
 } from "../../helpers/helpers";
 
 export type CabinetFormType = {

@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import s from "./product.module.sass";
-import {getImg, getImgSize, getProductImage, productValuesType} from "../../helpers/helpers";
+import {getImg, getImgSize, getProductImage} from "../../helpers/helpers";
 import {AtrrsList} from "../Cabinets/List";
-import {ProductType} from "../../helpers/productTypes";
+import {ProductType, productValuesType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import Materials from "../../common/Materials";

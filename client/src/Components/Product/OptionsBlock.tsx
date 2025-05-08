@@ -4,13 +4,12 @@ import SelectField from "../../common/SelectField";
 import {
     getAttributes,
     getColorsList,
-    getSelectValfromVal,
-    productValuesType
+    getSelectValfromVal
 } from "../../helpers/helpers";
 import {ProductOptionsInput} from "../../common/Form";
 import {useFormikContext} from "formik";
 import GlassDoorBlock from "../CustomPart/GlassDoorBlock";
-import {attrItem} from "../../helpers/productTypes";
+import {attrItem, productValuesType} from "../../helpers/productTypes";
 
 type OptionsBlockType = {
     id: number,

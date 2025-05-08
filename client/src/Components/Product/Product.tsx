@@ -3,11 +3,11 @@ import s from './product.module.sass'
 import {useParams} from "react-router-dom";
 import {
     addProductToCart, getFraction,
-    getProductById, productValuesType, useAppDispatch,
+    getProductById, useAppDispatch,
 } from "../../helpers/helpers";
 import {
     MaybeNull, MaybeUndefined,
-    productCategory, sizeLimitsType
+    productCategory, productValuesType, sizeLimitsType
 } from "../../helpers/productTypes";
 import Cabinet from "./Cabinet";
 import {Formik} from 'formik';

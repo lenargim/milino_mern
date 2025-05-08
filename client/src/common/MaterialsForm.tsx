@@ -216,9 +216,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
             if (leather !== 'Other') setFieldValue('leather_note', '');
         }
 
-        if (cart.length) {
-            checkCartData(cart, values,dispatch);
-        }
+        if (cart.length) checkCartData(cart, values,dispatch);
     }, [values]);
 
     const showCategory = !!(!has_room_field || room_name);

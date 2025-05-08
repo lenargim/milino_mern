@@ -2872,9 +2872,7 @@
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 113,
@@ -3191,7 +3189,6 @@
     "options": [
       "PTO for doors",
       "Glass Door",
-      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3366,6 +3363,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3434,6 +3432,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3502,6 +3501,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3570,6 +3570,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3638,6 +3639,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3706,6 +3708,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3758,6 +3761,7 @@
       "PTO for doors",
       "PTO for drawers",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3827,6 +3831,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3894,6 +3899,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -3974,6 +3980,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4002,6 +4009,15 @@
         ]
       },
       {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      },
+      {
         "name": "Pullout Organizer",
         "values": [
           {
@@ -4014,6 +4030,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4099,6 +4116,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4167,6 +4185,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4216,6 +4235,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4270,6 +4290,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4322,6 +4343,7 @@
       "PTO for doors",
       "PTO for drawers",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4390,6 +4412,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4458,6 +4481,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4507,6 +4531,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
@@ -4556,6 +4581,7 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Glass Shelf",
       "Box from finish material"
     ]
   },
