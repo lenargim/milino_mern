@@ -4,7 +4,7 @@ import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
 import {logout, useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
-import {me} from "./api/apiFunctions";
+import {isTokenValid, me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
 import {setIsAuth, setUser, UserState} from "./store/reducers/userSlice";
 import PublicRote from "./common/PublicRoute";
@@ -40,9 +40,16 @@ function App() {
             logout();
             navigate('/');
         } else {
-            me().then(user => {
-                user && dispatch(setUser(user));
-            });
+            const isValid = isTokenValid(token);
+            if (!isValid || !user._id) {
+                me().then(user => {
+                    if (user) {
+                        dispatch(setUser(user));
+                    } else {
+                        logout();
+                    }
+                });
+            }
         }
     }, []);
     return (

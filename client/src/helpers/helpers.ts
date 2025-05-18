@@ -912,6 +912,7 @@ export const getSliderCategories = (room: RoomType, noGola: boolean, isStandardC
 }
 
 export const logout = () => {
+    localStorage.removeItem('category')
     localStorage.removeItem('token')
     localStorage.removeItem('constructor_token')
     localStorage.removeItem('customer_token')

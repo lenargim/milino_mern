@@ -77,7 +77,7 @@ export const AdminAPI = {
 }
 
 export const ConstructorAPI = {
-    getToken: () => prodboard_instance.post('security/get-token', {
+    getToken: ():Promise<AxiosResponse<string>> => prodboard_instance.post('security/get-token', {
         "company": process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
         "privateKey": process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_PRIVATE
     }),

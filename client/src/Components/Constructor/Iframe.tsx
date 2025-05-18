@@ -3,7 +3,7 @@ import {MaybeNull} from "../../helpers/productTypes";
 import {UserType} from "../../api/apiTypes";
 import {constructorLogin} from "../../api/apiFunctions";
 
-const Iframe: FC<{ user: UserType }> = ({user}) => {
+const Iframe: FC<{ user: UserType,isConstructorSigned:boolean }> = ({user, isConstructorSigned}) => {
     const frame_src = process.env.REACT_APP_CONSTRUCTOR_ENV;
     const api_url = process.env.REACT_APP_CONSTRUCTOR_URL;
     const iframeRef = useRef<MaybeNull<HTMLIFrameElement>>(null);
@@ -12,13 +12,10 @@ const Iframe: FC<{ user: UserType }> = ({user}) => {
 
     const signIn = (frame: RefObject<HTMLIFrameElement>, api_url: string) => {
         if (!frame.current) return null;
-        if (customer_token) {
-            frame.current.contentWindow?.postMessage(
-                {command: 'sign-in', payload: {token: customer_token}},
-                api_url);
-        } else {
-            constructorLogin(user)
-        }
+        frame.current.contentWindow?.postMessage({
+            command: 'sign-in',
+            payload: {token: customer_token}
+        }, api_url);
     };
 
     useEffect(() => {
@@ -28,10 +25,9 @@ const Iframe: FC<{ user: UserType }> = ({user}) => {
         };
     }, [iframeRef]);
 
-
     useEffect(() => {
-        if (isIFrameLoaded && api_url) signIn(iframeRef, api_url);
-    }, [isIFrameLoaded,customer_token])
+        if (isIFrameLoaded && isConstructorSigned && api_url) signIn(iframeRef, api_url);
+    }, [isIFrameLoaded])
 
     return (
         <iframe

@@ -18,6 +18,7 @@ import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
+import {jwtDecode} from "jwt-decode"
 
 
 export const alertError = (error: unknown) => {
@@ -92,7 +93,7 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
             is_active_in_constructor: res.data.is_active_in_constructor || false
         };
     } catch (error) {
-            console.log(error)
+        console.log(error)
         alertError(error);
     }
 }
@@ -292,7 +293,13 @@ export const getConstructorCustomers = async () => {
 
 export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {
     try {
-        return (await ConstructorAPI.getToken()).data;
+        const token = localStorage.getItem('constructor_token');
+        if (token && isTokenValid(token)) return token;
+        const res = await ConstructorAPI.getToken();
+        if (res.status === 200) {
+            localStorage.setItem('constructor_token', res.data);
+            return res.data;
+        }
     } catch (error) {
         alertError(error);
     }
@@ -327,29 +334,42 @@ export const constructorRegisteredCustomer = async (user: UserType): Promise<May
     }
 }
 
-export const getCustomerToken = async (user: UserType): Promise<MaybeUndefined<string>> => {
+export const constructorGetCustomerToken = async (user: UserType): Promise<MaybeUndefined<string>> => {
     try {
-        if (localStorage.getItem("constructor_token")) {
-            return (await ConstructorAPI.getCustomerToken(user.email)).data
-        } else {
-            constructorLogin(user)
+        const token = localStorage.getItem('customer_token');
+        if (token && isTokenValid(token)) return token;
+        const res = await ConstructorAPI.getCustomerToken(user.email)
+        if (res.status === 200) {
+            localStorage.setItem('customer_token', res.data);
+            return res.data;
         }
     } catch (error) {
         alertError(error);
     }
 }
 
-export const constructorLogin = async (user: UserType) => {
+export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<string>> => {
     try {
-        if (!user.is_active_in_constructor) return false;
+        if (!user.is_active_in_constructor) return undefined;
         const constructor_token = await constructorGetToken();
-        constructor_token && localStorage.setItem('constructor_token', constructor_token);
-        const constructorRegisteredUser = await constructorRegisteredCustomer(user);
-        if (constructorRegisteredUser && constructorRegisteredUser.identityProvider === 'own') {
-            const customer_token = await getCustomerToken(user)
-            customer_token && localStorage.setItem('customer_token', customer_token)
+        if (constructor_token) {
+            const customer = await constructorRegisteredCustomer(user)
+            if (customer && customer.identityProvider === 'own') {
+                const customer_token = await constructorGetCustomerToken(user);
+                if (customer_token) return customer_token;
+            }
         }
+        return undefined;
     } catch (error) {
         alertError(error);
     }
+}
+
+export const isTokenValid = (token: MaybeNull<string> = ''): boolean => {
+    if (!token) return false;
+    const decodedToken = jwtDecode(token);
+    const {exp} = decodedToken;
+    const currentDate = new Date().getUTCDate();
+    const expDate = exp ? exp : 0;
+    return expDate > currentDate / 1000;
 }

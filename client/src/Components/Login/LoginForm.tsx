@@ -26,7 +26,6 @@ const LoginForm = () => {
                         if (user.is_active) {
                             dispatch(setUser(user))
                             dispatch(setIsAuth(true));
-                            constructorLogin(user)
                         } else {
                             setUserErrorModalIsOpen(true)
                             setTimeout(() => {
