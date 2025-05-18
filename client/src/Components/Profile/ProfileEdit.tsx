@@ -2,7 +2,7 @@ import {Formik} from 'formik';
 import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
 import {EditProfileType, UserType} from "../../api/apiTypes";
-import {constructorLogin, constructorSetCustomer, updateProfile} from "../../api/apiFunctions";
+import {constructorLogin, updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
 import {useAppDispatch} from "../../helpers/helpers";
 import ProfileEditForm from "./ProfileEditForm";

@@ -13,7 +13,6 @@ const Constructor: FC<{ user: UserType }> = ({user}) => {
 
     useEffect(() => {
         constructorLogin(user).then(customer_token => {
-
             customer_token && setIsConstructorSigned(true)
         })
     }, [])
