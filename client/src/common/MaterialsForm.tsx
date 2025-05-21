@@ -29,7 +29,8 @@ import {CartItemType} from "../api/apiFunctions";
 import {checkCartData} from "../helpers/calculatePrice";
 
 export type MaterialsFormType = {
-    room_name: MaybeNull<string>,
+    // room_name: MaybeNull<string>,
+    room_name: string,
     category: MaybeEmpty<RoomType>,
     gola: string,
     door_type: string,
@@ -236,7 +237,7 @@ const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?:
 
     return (
         <Form className={s.roomForm}>
-            {has_room_field && <TextInput type={"text"} label={"purchase order Name"} name="room_name" autoFocus={true}/>}
+            {has_room_field && <TextInput type={"text"} label={"New Room Name"} name="room_name" autoFocus={true}/>}
             {showCategory && <DataType data={categories} value={category ?? ''} name="category" label="Category"/>}
             {showGola && <DataType data={golaArr} value={gola ?? ''} name="gola" label="Gola"/>}
             {showDoorType && <DataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}

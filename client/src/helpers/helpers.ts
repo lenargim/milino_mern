@@ -20,7 +20,6 @@ import {
     RoomCategories,
     sizeLimitsType,
     valueItemType,
-    pricePartStandardPanel,
     priceStandardPanel,
     pricePart,
     hingeArr, productValuesType
@@ -42,7 +41,6 @@ import {
     getType
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
-import {ledAlignmentType} from "../Components/Product/LED";
 import {CabinetItemType, CartAPIResponse, CartItemType, IsStandardOptionsType} from "../api/apiFunctions";
 import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
@@ -54,7 +52,7 @@ import {
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
-import {RefObject, useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {catInfoType} from "../Components/Cabinets/Slider";
 import categoriesData from "../api/categories.json";
@@ -64,8 +62,9 @@ import standardProductsPrices from "../api/standartProductsPrices.json";
 import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/StandardPanel";
 import settings from "../api/settings.json";
 
-export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch
+// export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 
 export const getImg = (folder: string, img: string = ''): string => {
     if (!folder || !img) return noImg;
@@ -997,10 +996,17 @@ export const getCabinetHeightRangeBasedOnCategory = (category:productCategory):n
     }
 }
 
+export function textToLink(text:string) {
+    // Transliterate using Intl (works well for many non-Latin scripts)
+    const transliterated = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-
-
-
+    // Convert to lowercase and replace non-alphanumeric characters with hyphens
+    return transliterated
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanum with hyphen
+        .replace(/^-+|-+$/g, '')     // Remove leading/trailing hyphens
+        .replace(/-+/g, '-');        // Replace multiple hyphens with one
+}
 
 
 
@@ -1010,13 +1016,13 @@ export const getInitialMaterials = (): MaterialsFormType => {
     return storageMaterials ? JSON.parse(storageMaterials) as MaterialsFormType : materialsFormInitial;
 }
 
-export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {
-    const materialsString = localStorage.getItem('materials');
-    if (!materialsString) return null;
-    const materials: MaterialsFormType = JSON.parse(materialsString);
-    materials.room_name = null;
-    return materials
-}
+// export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {
+//     const materialsString = localStorage.getItem('materials');
+//     if (!materialsString) return null;
+//     const materials: MaterialsFormType = JSON.parse(materialsString);
+//     materials.room_name = null;
+//     return materials
+// }
 
 export const useScript = (url: string) => {
     useEffect(() => {

@@ -1,11 +1,12 @@
-import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
+import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import axios, {AxiosResponse} from "axios";
 import {CartAPI, CartAPIResponse} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
-import {number} from "yup";
+import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
+import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 
 
 const instanceFormData = axios.create({
@@ -57,8 +58,8 @@ export const usersAPI = {
 }
 
 export const roomsAPI = {
-    getOne: (roomId:string) => instance.get<RoomTypeAPI>(`/rooms/${roomId}`, {headers: getHeaders()}),
-    getAll: () => instance.get<RoomTypeAPI[]>('/rooms', {headers: getHeaders()}),
+    getRooms: (purchase_order_id:string):Promise<AxiosResponse<RoomTypeAPI[]>> => instance.get(`/rooms/${purchase_order_id}`, {headers: getHeaders()}),
+    getOne: (roomId:string) => instance.get<RoomTypeAPI>(`/room/${roomId}`, {headers: getHeaders()}),
     createRoom: (room:MaterialsFormType) => instance.post<RoomTypeAPI>('/rooms', room,{headers: getHeaders()} ),
     editRoom: (room:MaterialsFormType, id:string) => instance.patch<RoomTypeAPI>(`/rooms/${id}`, room,{headers: getHeaders()} ),
     deleteRoom: (id:string) => instance.delete<RoomTypeAPI>(`/rooms/${id}`,{headers: getHeaders()} ),
@@ -86,4 +87,13 @@ export const ConstructorAPI = {
     getCustomer: (id:string) => prodboard_instance.get(`customers/${id}`,{headers: getConstructorHeaders()}),
     signIn: (token:string) => prodboard_instance.post('sign-in', { token: token }),
     getCustomerToken: (email:string) => prodboard_instance.get(`customers/${email}/token`, {headers: getConstructorHeaders()})
+}
+
+
+export const PurchaseOrdersAPI = {
+    getAll: (user_id:string):Promise<AxiosResponse<PurchaseOrderType[]>> => instance.get(`po/${user_id}`, {headers: getHeaders()}),
+    createPO: (purchase_order:PONewType):Promise<AxiosResponse<PurchaseOrderType>> => instance.post('/po', purchase_order,{headers: getHeaders()} ),
+    // getOne: (roomId:string) => instance.get<RoomTypeAPI>(`/rooms/${roomId}`, {headers: getHeaders()}),
+    // editRoom: (room:MaterialsFormType, id:string) => instance.patch<RoomTypeAPI>(`/rooms/${id}`, room,{headers: getHeaders()} ),
+    // deleteRoom: (id:string) => instance.delete<RoomTypeAPI>(`/rooms/${id}`,{headers: getHeaders()} ),
 }

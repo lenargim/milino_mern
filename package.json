@@ -19,6 +19,7 @@
   "dependencies": {
     "@uiw/react-iframe": "^1.0.3",
     "bcrypt": "^5.1.1",
+    "caniuse-lite": "^1.0.30001718",
     "config": "^3.3.12",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

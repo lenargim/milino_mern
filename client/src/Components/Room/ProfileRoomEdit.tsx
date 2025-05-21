@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {FC, useEffect} from 'react';
-import {RoomSchema} from "../Room/RoomSchems";
+import {RoomSchema} from "./RoomSchems";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {editRoomAPI} from "../../api/apiFunctions";

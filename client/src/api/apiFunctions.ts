@@ -1,5 +1,5 @@
 import {AdminUsersRes, EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
-import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, roomsAPI, usersAPI} from "./api";
+import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {
     cornerTypes,
@@ -19,6 +19,7 @@ import {emptyUser} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
+import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 
 
 export const alertError = (error: unknown) => {
@@ -99,10 +100,9 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
 }
 
 
-export const getAllRooms = async () => {
+export const getAllRooms = async (purchase_order_id:string) => {
     try {
-        const response = (await roomsAPI.getAll()).data;
-        return response;
+        return (await roomsAPI.getRooms(purchase_order_id)).data;
     } catch (error) {
         alertError(error);
     }
@@ -372,4 +372,21 @@ export const isTokenValid = (token: MaybeNull<string> = ''): boolean => {
     const currentDate = new Date().getUTCDate();
     const expDate = exp ? exp : 0;
     return expDate > currentDate / 1000;
+}
+
+
+export const getAllPOs = async (user_id:string) => {
+    try {
+        return (await PurchaseOrdersAPI.getAll(user_id)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const createPO = async (purchase_order: PONewType) => {
+    try {
+        return (await PurchaseOrdersAPI.createPO(purchase_order)).data;
+    } catch (error) {
+        alertError(error);
+    }
 }

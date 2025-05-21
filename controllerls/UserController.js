@@ -102,7 +102,7 @@ export const login = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = jwt.sign({_id: user._id}, env.BACKEND_SECRET_KEY, {expiresIn: '12h'});
+    const token = getNewToken(user);
     res.status(200).json({...userData, token});
   } catch (err) {
     console.log(err);
@@ -130,7 +130,7 @@ export const getMe = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = jwt.sign({_id: user._id}, env.BACKEND_SECRET_KEY, {expiresIn: '12h'});
+    const token = getNewToken(user);
 
     res.json({...userData, token});
   } catch (e) {
@@ -138,6 +138,10 @@ export const getMe = async (req, res) => {
       message: 'Cannot auth'
     })
   }
+}
+
+const getNewToken = (user) => {
+  return jwt.sign({_id: user._id}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
 }
 
 export const patchMe = async (req, res) => {
@@ -156,16 +160,7 @@ export const patchMe = async (req, res) => {
     }, newData, {new: true});
 
     const {passwordHash: hash, ...userData} = user._doc;
-
-    const token = jwt.sign(
-      {
-        _id: req.body._id
-      },
-      env.BACKEND_SECRET_KEY,
-      {
-        expiresIn: '30d'
-      }
-    )
+    const token = getNewToken(user);
     res.json({...userData, token});
   } catch (e) {
     res.status(403).json({

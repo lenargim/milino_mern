@@ -38,30 +38,6 @@ export const getOne = async (req, res) => {
   }
 }
 
-export const getAll = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const rooms = await RoomModel.find({user: userId});
-    if (!rooms) {
-      return res.status(404).json({
-        message: 'Rooms not found'
-      })
-    }
-
-    const data = rooms.map(room => {
-      const {_doc} = room
-      const {cart, ...rest} = _doc;
-      return rest;
-    })
-
-    res.json(data)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get rooms'
-    })
-  }
-}
-
 export const remove = async (req, res) => {
   try {
     const roomId = req.params.id;

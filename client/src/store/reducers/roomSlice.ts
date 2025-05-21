@@ -9,13 +9,13 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 
 export interface RoomTypeAPI extends MaterialsFormType {
     _id: string,
-    room_name: string,
+    purchase_order_id: string,
     cart: CartAPIResponse[]
 }
 
 export interface RoomFront extends MaterialsFormType {
     _id: string,
-    room_name: string,
+    purchase_order_id: string,
     productPage: MaybeNull<ProductType>,
     activeProductCategory: MaybeEmpty<productCategory>,
     cart: CartItemType[]

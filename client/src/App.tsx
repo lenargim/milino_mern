@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
@@ -6,14 +6,14 @@ import {logout, useAppDispatch, useAppSelector} from "./helpers/helpers";
 import PrivateRoute, {PrivateRouteProps} from "./common/PrivateRoute";
 import {isTokenValid, me} from "./api/apiFunctions";
 import Profile from "./Components/Profile/Profile";
-import {setIsAuth, setUser, UserState} from "./store/reducers/userSlice";
+import {setUser, UserState} from "./store/reducers/userSlice";
 import PublicRote from "./common/PublicRoute";
 import ProfileMain from "./Components/Profile/ProfileMain";
 import ProfileEdit from "./Components/Profile/ProfileEdit";
-import ProfileRooms from "./Components/Profile/ProfileRooms";
-import ProfileRoom from "./Components/Profile/ProfileRoom";
+import ProfileRooms from "./Components/Room/ProfileRooms";
+import ProfileRoom from "./Components/Room/ProfileRoom";
 import NotFound from "./Components/NotFound/NotFound";
-import ProfileRoomEdit from "./Components/Profile/ProfileRoomEdit";
+import ProfileRoomEdit from "./Components/Room/ProfileRoomEdit";
 import RoomsNew from "./Components/Room/RoomsNew";
 import RoomProduct from "./Components/Room/RoomProduct";
 import RoomCategory from "./Components/Room/RoomCategory";
@@ -24,6 +24,9 @@ import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
 import Constructor from "./Components/Constructor/Constructor";
 import Tutorial from "./Components/Profile/Tutorial";
+import PurchaseOrder from "./Components/PurchaseOrder/PurchaseOrder";
+import PurchaseOrderNew from "./Components/PurchaseOrder/PurchaseOrderNew";
+import PurchaseOrderItem from "./Components/PurchaseOrder/PurchaseOrderItem";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -78,15 +81,20 @@ function App() {
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
                     <Route path="admin" element={<ProfileAdmin user={user}/>}/>
-                    <Route path="rooms" element={<ProfileRooms/>}>
-                        <Route path=":roomId" element={<ProfileRoom/>}>
-                            <Route index element={<RoomCategory/>}/>
-                            <Route path="edit" element={<ProfileRoomEdit/>}/>
-                            <Route path="product/:category/:productId" element={<RoomProduct/>}/>
-                            <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
-                            <Route path="checkout" element={<RoomCheckout/>}/>
+                    <Route path="purchase" element={<PurchaseOrder/>}>
+                        <Route path="new" element={<PurchaseOrderNew/>}/>
+                        <Route path=":name" element={<PurchaseOrderItem/>}>
+                            {/*<Route path="rooms" element={<ProfileRooms/>}>*/}
+                                <Route path=":roomId" element={<ProfileRoom/>}>
+                                    <Route index element={<RoomCategory/>}/>
+                                    <Route path="edit" element={<ProfileRoomEdit/>}/>
+                                    <Route path="product/:category/:productId" element={<RoomProduct/>}/>
+                                    <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
+                                    <Route path="checkout" element={<RoomCheckout/>}/>
+                                </Route>
+                                <Route path="new" element={<RoomsNew/>}/>
+                            {/*</Route>*/}
                         </Route>
-                        <Route path="new" element={<RoomsNew/>}/>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
                     <Route path="constructor" element={<Constructor user={user}/>}/>

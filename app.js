@@ -9,12 +9,12 @@ import {
   PDFController,
   RoomController,
   OrderController,
-  AdminController
+  AdminController,
+  PurchaseOrderController
 } from './controllerls/index.js';
-import {registerValidation, loginValidation, roomCreateValidation, cartItemValidation} from './validations.js'
+import {registerValidation, loginValidation, roomCreateValidation, cartItemValidation, POCreateValidation} from './validations.js'
 import {checkAuth, checkAdmin, handleValidationErrors} from './utils/index.js'
 import * as dotenv from 'dotenv';
-
 const env = dotenv.config().parsed;
 
 mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
@@ -59,9 +59,13 @@ const start = async () => {
     app.get('/api/users/me', CORS, checkAuth, UserController.getMe)
     app.patch('/api/users/me', CORS, checkAuth, UserController.patchMe)
 
+    app.get('/api/po/:userId', CORS, checkAuth, PurchaseOrderController.getAllPO)
+    app.post('/api/po', CORS, checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.create)
+
+
+    app.get('/api/rooms/:id', CORS, checkAuth, PurchaseOrderController.getPORooms)
     app.post('/api/rooms', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
-    app.get('/api/rooms/:id', CORS, checkAuth, RoomController.getOne)
-    app.get('/api/rooms', CORS, checkAuth, RoomController.getAll)
+    app.get('/api/room/:id', CORS, checkAuth, RoomController.getOne)
     app.delete('/api/rooms/:id', CORS, checkAuth, RoomController.remove)
     app.patch('/api/rooms/:id', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
 
@@ -85,6 +89,7 @@ const start = async () => {
     console.log(e)
   }
 }
+
 
 start()
 

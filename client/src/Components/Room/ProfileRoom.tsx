@@ -1,11 +1,11 @@
 import React, {FC, useEffect, useState} from 'react';
 import {NavLink, Outlet, useLocation, useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {useAppDispatch} from "../../helpers/helpers";
-import s from './profile.module.sass'
+import s from '../Profile/profile.module.sass'
 import {deleteRoomAPI, getOneRoom} from "../../api/apiFunctions";
 import {deleteRoom, RoomTypeAPI, setRoom} from "../../store/reducers/roomSlice";
 import {MiniCart} from "../../common/Header/Header";
-import checkoutStyle from './../Checkout/checkout.module.sass'
+import checkoutStyle from '../Checkout/checkout.module.sass'
 import {useDispatch} from "react-redux";
 
 const ProfileRoom: FC = () => {

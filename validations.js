@@ -1,18 +1,22 @@
 import {body} from "express-validator";
 
 export const registerValidation = [
-  body('name', 'Name length min 2 symbols').isLength({min: 2}),
+  body('name', 'Name length should has minimum 2 symbols').isLength({min: 2}),
   body('email', 'Wrong format').isEmail(),
-  body('password', 'Password length min 5 symbols').isLength({min: 5}),
+  body('password', 'Password length should has minimum 5 symbols').isLength({min: 5}),
 ]
 
 export const loginValidation = [
   body('email', 'Wrong format').isEmail(),
-  body('password', 'Password length min 5 symbols').isLength({min: 5}),
+  body('password', 'Password length should has minimum 5 symbols').isLength({min: 5}),
 ]
 
 export const roomCreateValidation = [
-  body('room_name', 'purchase order name min 2 symbols').isLength({min: 2})
+  body('room_name', 'Room name should has minimum 2 symbols').isLength({min: 2})
+]
+
+export const POCreateValidation = [
+  body('name', 'Purchase order name should has minimum 2 symbols').isLength({min: 2})
 ]
 
 
