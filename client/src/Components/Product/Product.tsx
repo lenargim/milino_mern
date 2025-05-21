@@ -18,15 +18,14 @@ import {
 import sizes from "../../api/sizes.json";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
-import {addToCart} from "../../store/reducers/generalSlice";
-import {addToCartInRoomAPI} from "../../api/apiFunctions";
+import {addToCartAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 
 const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
     const dispatch = useAppDispatch();
     let {productId, category: catFromParam, roomId} = useParams();
-    if (!productId || !catFromParam || !materials) return <div>Product error</div>;
+    if (!productId || !catFromParam || !materials || !roomId) return <div>Product error</div>;
     const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(catFromParam)
     let product = getProductById(+productId, isProductStandard);
     if (!product) return <div>Product error</div>;
@@ -79,7 +78,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'LED alignment': hasLedBlock ? 'Center' : '',
         'LED indent': '',
         glass_door: [],
-        'Shelf Glass Color': '',
+        glass_shelf: '',
         image_active_number: 1,
         'Note': '',
         price: 0,
@@ -89,15 +88,11 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             initialValues={initialValues}
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
-                if (!product) return;
+                if (!product || !roomId) return;
                 const cartData = addProductToCart(product, values, productRange, roomId);
-                if (roomId) {
-                    addToCartInRoomAPI(cartData, roomId).then(cart => {
-                        if (cart && roomId) dispatch(updateCartInRoom({cart, _id: roomId}));
-                    })
-                } else {
-                    dispatch(addToCart(cartData))
-                }
+                addToCartAPI(cartData).then(cart => {
+                    cart && dispatch(updateCartInRoom({cart}));
+                })
                 resetForm();
             }}
         >

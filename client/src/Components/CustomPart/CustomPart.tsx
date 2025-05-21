@@ -12,9 +12,8 @@ import s from "../Product/product.module.sass";
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import {Navigate, useParams} from "react-router-dom";
 import CustomPartLeft from "./CustomPartLeft";
-import {addToCart} from "../../store/reducers/generalSlice";
 import {DoorType} from "./StandardDoorForm";
-import {addToCartInRoomAPI} from "../../api/apiFunctions";
+import {addToCartAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./GolaProfile";
 import DA from '../../api/doorAccessories.json'
@@ -39,29 +38,29 @@ export type LedAccessoriesFormType = {
         color: colorOption,
         qty: number,
     }[],
-    door_sensor: number,
-    dimmable_remote: number,
-    transformer: number,
+    led_door_sensor: number,
+    led_dimmable_remote: number,
+    led_transformer: number,
 }
 
-type FilterAccessoire = 'aventos' | 'hinge' | 'PTO' | 'servo';
+type FilterAccessory = 'aventos' | 'hinge' | 'PTO' | 'servo';
 
-export type DoorAccessoireFront = {
+export type DoorAccessoryFront = {
     id: number,
     value: string,
     label: string,
-    filter: FilterAccessoire,
+    filter: FilterAccessory,
     price: number
 }
 
-export type DoorAccessoireAPIType = {
+export type DoorAccessoryAPIType = {
     value: string,
     qty: number
 }
 
-export interface DoorAccessoireType extends DoorAccessoireAPIType {
+export interface DoorAccessoryType extends DoorAccessoryAPIType {
     id: number,
-    filter: FilterAccessoire,
+    filter: FilterAccessory,
     label: string,
     price: number
 }
@@ -79,13 +78,13 @@ export type CustomPartFormValuesType = {
     glass_door: string[],
     glass_shelf: string,
     led_accessories: LedAccessoriesFormType,
-    door_accessories: DoorAccessoireType[],
+    door_accessories: DoorAccessoryType[],
     standard_door: DoorType,
     standard_panels: PanelsFormType,
 }
 
-const doorAccessoires = DA as DoorAccessoireFront[]
-const initialDoorAccessoires: DoorAccessoireType[] = doorAccessoires.map(el => ({...el, qty: 0}))
+const doorAccessories = DA as DoorAccessoryFront[]
+const initialDoorAccessories: DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}))
 const initialStandardDoor: DoorType = {
     color: '',
     doors: [{
@@ -117,9 +116,6 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     const h = height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height);
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
     return {
-        // initial_width: Math.ceil(w),
-        // initial_height: Math.ceil(h),
-        // initial_depth: Math.ceil(d)
         initial_width: w,
         initial_height: h,
         initial_depth: d
@@ -150,12 +146,12 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
         led_accessories: {
             led_alum_profiles: [],
             led_gola_profiles: [],
-            door_sensor: 0,
-            dimmable_remote: 0,
-            transformer: 0,
+            led_door_sensor: 0,
+            led_dimmable_remote: 0,
+            led_transformer: 0,
         },
         // write function
-        door_accessories: isDoorAccessories ? initialDoorAccessoires : [],
+        door_accessories: isDoorAccessories ? initialDoorAccessories : [],
         standard_door: initialStandardDoor,
         standard_panels: initialStandardPanels,
         'Note': '',
@@ -167,15 +163,11 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(customPartProduct)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                if (!customPartProduct || !values.price) return;
-                const cartData = addToCartCustomPart(values, customPartProduct, undefined)
-                if (roomId) {
-                    addToCartInRoomAPI(cartData, roomId).then(cart => {
-                        if (cart && roomId) dispatch(updateCartInRoom({cart: cart, _id: roomId}));
-                    })
-                } else {
-                    dispatch(addToCart(cartData))
-                }
+                if (!customPartProduct || !values.price || !roomId) return;
+                const cartData = addToCartCustomPart(values, customPartProduct, roomId)
+                addToCartAPI(cartData).then(cart => {
+                    if (cart && roomId) dispatch(updateCartInRoom({cart}));
+                })
                 resetForm();
             }}
         >

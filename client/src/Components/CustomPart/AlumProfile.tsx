@@ -4,7 +4,7 @@ import {changeAmountType} from "../OrderForm/Sidebar/Sidebar"
 import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
 
-export type alProfileType = {
+export type AlProfileType = {
     _id: string,
     length: number,
     qty: number
@@ -18,7 +18,7 @@ export type alProfileFormType = {
 }
 
 const AlumProfile: FC<{ profile: alProfileFormType, index: number }> = ({profile, index}) => {
-    const [{value}, , {setValue}] = useField<alProfileType[]>('led_accessories.led_alum_profiles')
+    const [{value}, , {setValue}] = useField<AlProfileType[]>('led_accessories.led_alum_profiles')
     const {qty, _id} = profile;
 
     const deleteAlItem = (_id: string) => {

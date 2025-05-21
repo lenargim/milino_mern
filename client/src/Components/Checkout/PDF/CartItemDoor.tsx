@@ -1,15 +1,13 @@
 import React, {FC} from "react";
-import {DoorType} from "../../CustomPart/StandardDoorForm";
 import {Text, View} from '@react-pdf/renderer';
-import {MaybeUndefined} from "../../../helpers/productTypes";
 import {s} from '../PDF'
+import {StandardDoorAPIType} from "../../../api/apiFunctions";
 
-const CartItemShelfExtra: FC<{ standard_door: MaybeUndefined<DoorType> }> = ({standard_door}) => {
-    if (!standard_door) return null;
-    const {color, doors: doorArr} = standard_door
+const CartItemShelfExtra: FC<{ standard_door: StandardDoorAPIType }> = ({standard_door}) => {
+    const {color, doors} = standard_door;
     return (
         <View>
-            {doorArr.map((el, index) => {
+            {doors.map((el, index) => {
                 return (
                     <Text style={s.itemOption} key={index}>
                         <Text>Size: {el.width}x{el.height}. Amount: {el.qty}</Text>

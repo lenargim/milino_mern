@@ -25,7 +25,7 @@ import {RoomType} from "../helpers/categoriesTypes";
 
 import materials from "../api/materials.json";
 import {MaybeEmpty, MaybeNull, MaybeUndefined} from "../helpers/productTypes";
-import {CartItemType} from "../api/apiFunctions";
+import {CartItemFrontType} from "../api/apiFunctions";
 import {checkCartData} from "../helpers/calculatePrice";
 
 export type MaterialsFormType = {
@@ -75,7 +75,7 @@ const {
     grain,
 }: MaterialsType = materials;
 
-const MaterialsForm: FC<{ button: string, cart?: CartItemType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
+const MaterialsForm: FC<{ button: string, cart?: CartItemFrontType[],has_room_field?: boolean }> = ({button,cart = [], has_room_field = false}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<MaterialsFormType>();
     const {

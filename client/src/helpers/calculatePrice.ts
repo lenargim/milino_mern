@@ -3,7 +3,6 @@ import {
     AttributesPrices,
     attrItem,
     DoorColorType,
-    hingeArr,
     materialDataType,
     MaybeNull,
     MaybeUndefined,
@@ -30,7 +29,7 @@ import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
 import {MaterialsFormType} from "../common/MaterialsForm";
-import {CabinetItemType, CartItemType} from "../api/apiFunctions";
+import {CartAPIImagedType, CartItemFrontType} from "../api/apiFunctions";
 import {UnknownAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
 import {updateCartAfterMaterialsChange} from "../store/reducers/roomSlice";
@@ -765,8 +764,8 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
 const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name === 'Adjustable Shelf')?.value ?? 0;
 }
-export const checkCartData = (cart: CartItemType[], values: MaterialsFormType, dispatch: Dispatch<UnknownAction>) => {
-    const roomId = cart[0].room;
+export const checkCartData = (cart: CartItemFrontType[], values: MaterialsFormType, dispatch: Dispatch<UnknownAction>) => {
+    const roomId = cart[0].room_id;
     const updatedPriceCart = cart.map(cartItem => {
         const {product_id, product_type} = cartItem;
         const product = getProductById(product_id, product_type === 'standard');
@@ -791,7 +790,7 @@ export const checkCartData = (cart: CartItemType[], values: MaterialsFormType, d
         dispatch(fillCart(updatedPriceCart));
 }
 
-export const calculateProduct = (cabinetItem: CabinetItemType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
+export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {product_id, width, height, depth, options} = cabinetItem;
     const {category} = product;
     const boxFromFinishMaterial = options.includes("Box from finish material");
@@ -814,17 +813,17 @@ const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: b
     const boxCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
     return !is_standard_cabinet ? +(boxCoef * materials_coef * grain_coef).toFixed(3) : 1;
 }
-const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType, materialData: materialDataType): AttributesPrices => {
+const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
     const {legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle, category, id} = product;
     const {
-        glass_door,
         options,
         width,
         height,
-        led_border,
         blind_width,
         image_active_number,
         middle_section,
+        led,
+        glass
     } = cart;
     const {
         is_acrylic,
@@ -852,14 +851,14 @@ const getAttributesProductPrices = (cart: CabinetItemType, product: ProductType,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led_border),
+        ledPrice: getLedPrice(width, height, led.border),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,isProductStandard,is_leather_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, isProductStandard),
-        glassDoor: addGlassDoorPrice(frontSquare, glass_door[0], isProductStandard, hasGlassDoor),
+        glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], isProductStandard, hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }
-const getSizeCoef = (cartItem: CabinetItemType, tablePriceData: pricePart[], product: ProductType): number => {
+const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {
     const {category, isAngle, customHeight, customDepth} = product
     const {width, height, depth} = cartItem
     const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);

@@ -1,15 +1,15 @@
 import React, {FC} from "react";
 import {Text, View} from '@react-pdf/renderer';
-import {CartItemType} from "../../../api/apiFunctions";
+import {CartItemFrontType} from "../../../api/apiFunctions";
 import {s} from '../PDF'
-import Dimentions from "./Dimentions";
+import Dimensions from "./Dimentions";
 
-const CartItemShelfExtra: FC<{ product: CartItemType,dimentions: string }> = ({product, dimentions}) => {
-    const {glass_shelf} = product
+const CartItemShelfExtra: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
+    const {glass: {shelf: glass_shelf}} = product
     if (!glass_shelf) return null;
     return (
         <>
-            <Dimentions dimentions={dimentions}/>
+            <Dimensions dimensions={dimensions}/>
             <View style={s.itemOption}>
                 <Text>Glass Color: {glass_shelf}</Text>
             </View>

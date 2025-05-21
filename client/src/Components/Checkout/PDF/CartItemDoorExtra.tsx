@@ -1,13 +1,13 @@
 import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
-import {MaybeUndefined} from "../../../helpers/productTypes";
 import {s} from '../PDF'
-import {DoorAccessoireAPIType} from "../../CustomPart/CustomPart";
 import {splitFrontDoorAccessories} from "../../Product/CartItemDoorExtra";
+import {CustomAccessoriesType} from "../../../api/apiFunctions";
 
-const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoireAPIType[]> }> = ({accessories}) => {
-    if (!accessories) return null;
-    const front = splitFrontDoorAccessories(accessories);
+const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
+    const {door} = accessories;
+    if (!door) return null;
+    const front = splitFrontDoorAccessories(door);
     const {aventos, PTO, hinge, servo} = front;
     return (
         <View style={s.blocks}>

@@ -16,8 +16,8 @@ import PDF from "./PDF";
 import {saveAs} from "file-saver";
 import {checkoutAPI} from "../../api/api";
 import {MaterialsFormType} from "../../common/MaterialsForm";
-import {MaybeNull, OrderType} from "../../helpers/productTypes";
-import {CartItemType} from "../../api/apiFunctions";
+import {MaybeNull} from "../../helpers/productTypes";
+import {CartItemFrontType, OrderAPIType} from "../../api/apiFunctions";
 import {useNavigate} from "react-router-dom";
 
 export type buttonType = 'download' | 'send';
@@ -26,7 +26,7 @@ type modalType = {
     status: string
 }
 type CheckoutFormType = {
-    cart: CartItemType[],
+    cart: CartItemFrontType[],
     total: number,
     materials: MaterialsFormType,
     initialValues: CheckoutType,
@@ -73,30 +73,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
                     const blob = await pdf(<PDF values={values} materialStrings={materialStrings}
                                                 cart={jpgCart}/>).toBlob();
-                    const order: OrderType[] = cart.map(el => ({
-                        product_id: el.product_id,
-                        price: el.price,
-                        amount: el.amount,
-                        width: el.width,
-                        height: el.height,
-                        depth: el.depth,
-                        blind_width: el.blind_width,
-                        middle_section: el.middle_section,
-                        corner: el.corner,
-                        hinge: el.hinge,
-                        options: el.options,
-                        shelf_option: el.shelf_option,
-                        led_border: el.led_border,
-                        led_alignment: el.led_alignment,
-                        led_indent: el.led_indent,
-                        material: el.material,
-                        glass_door: el.glass_door,
-                        glass_shelf: el.glass_shelf,
-                        led_accessories: el.led_accessories,
-                        door_accessories: el.door_accessories,
-                        standard_door: el.standard_door,
-                        note: el.note,
-                    }))
+                    const order: OrderAPIType[] = cart;
                     const dataToJSON = {
                         date: date,
                         contact: values,

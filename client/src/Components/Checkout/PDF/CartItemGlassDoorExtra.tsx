@@ -1,15 +1,17 @@
 import React, {FC} from "react";
-import {Text, View} from '@react-pdf/renderer';
+import {Text} from '@react-pdf/renderer';
 import {s} from '../PDF'
-import {CartItemType} from "../../../api/apiFunctions";
-import Dimentions from "./Dimentions";
+import {CartItemFrontType} from "../../../api/apiFunctions";
+import Dimensions from "./Dimentions";
 
-const CartItemGlassDoorExtra: FC<{ product: CartItemType, dimentions: string }> = ({product, dimentions}) => {
-    const {glass_door, material} = product
+const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
+    const {glass: {door: glass_door}, custom} = product;
+    if (!custom) return null;
+    const {material} = custom
     if (!glass_door) return null;
     return (
         <>
-            <Dimentions dimentions={dimentions}/>
+            <Dimensions dimensions={dimensions}/>
             {material &&
             <Text style={s.itemOption}>
               <Text>Material:</Text><Text>{material}</Text>

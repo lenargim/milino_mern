@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
-// import {HingeType} from "./DoorAccessoiresForm";
+// import {HingeType} from "./DoorAccessoriesForm";
 
 const patterntwodigisaftercomma = /^\d+(\.\d{0,2})?$/;
 
-export const doorAccessoiresSchema = Yup.object().shape({
+export const doorAccessoriesSchema = Yup.object().shape({
     hingeHoleCustom: Yup.object().shape({
         qty: Yup.number(),
         label: Yup.string(),

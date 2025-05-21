@@ -2,11 +2,11 @@ import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import {useField} from "formik";
-import {DoorAccessoireType} from "./CustomPart";
+import {DoorAccessoryType} from "./CustomPart";
 
 
-const NumberPartArrayItem: FC<{el: DoorAccessoireType}> = ({el}) => {
-    const [{value}, , {setValue}] = useField<DoorAccessoireType>(`door_accessories[${el.id}]`)
+const NumberPartArrayItem: FC<{el: DoorAccessoryType}> = ({el}) => {
+    const [{value}, , {setValue}] = useField<DoorAccessoryType>(`door_accessories[${el.id}]`)
     const {qty, label} = value
     const changeAmount = (type: changeAmountType) => {
         const newQty = type === 'minus' ? qty - 1 : qty + 1;

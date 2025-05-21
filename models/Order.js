@@ -101,13 +101,13 @@ const OrderSchema = new mongoose.Schema({
             },
           }
         ],
-        door_sensor: {
+        led_door_sensor: {
           type: Number,
         },
-        dimmable_remote: {
+        led_dimmable_remote: {
           type: Number,
         },
-        transformer: {
+        led_transformer: {
           type: Number,
         },
       },

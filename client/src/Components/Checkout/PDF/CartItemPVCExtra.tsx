@@ -1,12 +1,13 @@
 import React, {FC} from "react";
 import {Text} from '@react-pdf/renderer';
-import {CartItemType} from "../../../api/apiFunctions";
+import {CartItemFrontType} from "../../../api/apiFunctions";
 import {s} from '../PDF'
 import {getFraction} from "../../../helpers/helpers";
 
-const CartItemPvcExtra: FC<{ product: CartItemType }> = ({product}) => {
-    const {material, width} = product;
-
+const CartItemPvcExtra: FC<{ product: CartItemFrontType }> = ({product}) => {
+    const {custom, width} = product;
+    if (!custom) return null;
+    const {material} = custom
     return (
         <>
             {<Text style={s.itemOption}>

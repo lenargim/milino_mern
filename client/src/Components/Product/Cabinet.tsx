@@ -11,7 +11,7 @@ import {
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import CabinetLayout from "./CabinetLayout";
-import {CabinetItemType} from "../../api/apiFunctions";
+import {CartAPIImagedType} from "../../api/apiFunctions";
 
 const Cabinet: FC<CabinetType> = ({
                                       product,
@@ -47,7 +47,7 @@ const Cabinet: FC<CabinetType> = ({
         'Doors': doors,
         Options: chosenOptions,
         glass_door: [door_profile, door_glass_type, door_glass_color],
-        ['Shelf Glass Color']: shelf_glass_color,
+        glass_shelf: shelf_glass_color,
         ['Hinge opening']: hingeOpening,
         'LED borders': ledBorders,
         ['LED alignment']: led_alignment,
@@ -87,7 +87,9 @@ const Cabinet: FC<CabinetType> = ({
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const hingeArr = getHingeArr(doorArr || [], id);
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
-    const cabinetItem: CabinetItemType = {
+    const cabinetItem: CartAPIImagedType = {
+        _id: '',
+        room_id: '',
         product_id: id,
         product_type: product_type,
         amount: 1,
@@ -99,14 +101,17 @@ const Cabinet: FC<CabinetType> = ({
         corner: corner,
         hinge: hingeOpening,
         options: chosenOptions,
-        glass_door: [door_profile, door_glass_type, door_glass_color],
-        shelf_option: shelf_glass_color,
-        led_border: ledBorders,
-        led_alignment: led_alignment,
-        led_indent: led_indent,
+        glass: {
+            door: [door_profile, door_glass_type, door_glass_color],
+            shelf: shelf_glass_color,
+        },
+        led: {
+            border: ledBorders,
+            alignment: led_alignment,
+            indent: led_indent
+        },
         image_active_number: newType,
         note: note,
-        material: '',
     };
     const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
     return (

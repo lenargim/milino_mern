@@ -7,7 +7,7 @@ import {
     productTypings
 } from "../../helpers/productTypes";
 import {MaterialsFormType} from "../../common/MaterialsForm";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 
 
 
@@ -15,7 +15,7 @@ interface GeneralState {
     materials: MaybeNull<MaterialsFormType>,
     product: MaybeNull<ProductType>,
     customPart: customPartDataType | null,
-    cart: CartItemType[]
+    cart: CartItemFrontType[]
 }
 
 export type glassDoorExtraType = {
@@ -65,7 +65,7 @@ export type customPartExtraType = {
     material?: string,
 }
 
-export interface productChangeMaterialType extends CartItemType {
+export interface productChangeMaterialType extends CartItemFrontType {
     width: number,
     height: number,
     depth: number,
@@ -117,11 +117,11 @@ export const generalSlice = createSlice({
         setCustomPart: (state, action: PayloadAction<MaybeNull<customPartDataType>>) => {
             state.customPart = action.payload
         },
-        addToCart: (state, action: PayloadAction<CartItemType>) => {
-            state.cart = [...state.cart, {...action.payload}];
-            localStorage.setItem('cart', JSON.stringify(state.cart));
-        },
-        fillCart: (state, action: PayloadAction<CartItemType[]>) => {
+        // addToCart: (state, action: PayloadAction<CartItemFrontType>) => {
+        //     state.cart = [...state.cart, {...action.payload}];
+        //     localStorage.setItem('cart', JSON.stringify(state.cart));
+        // },
+        fillCart: (state, action: PayloadAction<CartItemFrontType[]>) => {
             state.cart = action.payload;
         },
         updateCartItemPrice: (state, action: PayloadAction<{_id:string, price:number}>) => {
@@ -153,7 +153,7 @@ export const generalSlice = createSlice({
 export const {
     setMaterials,
     setCustomPart,
-    addToCart,
+    // addToCart,
     deleteItemFromCart,
     removeCart,
     fillCart,

@@ -1,7 +1,7 @@
 import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse} from "./apiTypes";
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import axios, {AxiosResponse} from "axios";
-import {CartAPI, CartAPIResponse} from "./apiFunctions";
+import {CartAPI} from "./apiFunctions";
 import {MaterialsFormType} from "../common/MaterialsForm";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
@@ -66,10 +66,10 @@ export const roomsAPI = {
 }
 
 export const cartAPI = {
-    getCart: (roomId:string) => instance.get<CartAPIResponse[]>(`/cart/${roomId}`, {headers: getHeaders()}),
-    addToCart: (cart:CartAPI, roomId:string) => instance.post<CartAPIResponse[]>(`/cart/${roomId}`, cart,  {headers: getHeaders()}),
-    updateAmount: ( room:string,_id:string, amount:number) => instance.patch<CartAPIResponse[]>(`/cart/${room}/${_id}`, {amount:amount},  {headers: getHeaders()}),
-    remove: (room:string,_id:string) => instance.delete(`/cart/${room}/${_id}`,{headers: getHeaders()}),
+    getCart: (roomId:string) => instance.get<CartAPI[]>(`/cart/${roomId}`, {headers: getHeaders()}),
+    addToCart: (cart:CartAPI):Promise<AxiosResponse<CartAPI[]>> => instance.post(`/cart/${cart.room_id}`, cart,  {headers: getHeaders()}),
+    updateAmount: ( room:string,_id:string, amount:number) => instance.patch<CartAPI[]>(`/cart/${room}/${_id}`, {amount:amount},  {headers: getHeaders()}),
+    remove: (room:string,_id:string):Promise<AxiosResponse<CartAPI[]>> => instance.delete(`/cart/${room}/${_id}`,{headers: getHeaders()}),
 }
 
 export const AdminAPI = {

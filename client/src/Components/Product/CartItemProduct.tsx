@@ -1,26 +1,26 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 import Dimentions from "../../common/Dimentions";
 
-const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({product, dimentions}) => {
+const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {
         middle_section,
         blind_width,
         hinge,
         options,
         corner,
-        glass_door,
-        shelf_option,
-        led_border,
-        led_alignment,
-        led_indent,
+        led,
+        glass,
         isStandard
-    } = product
+    } = product;
+    const {indent:led_indent, alignment:led_alignment, border:led_border} = led;
+    const {door:glass_door, shelf:glass_shelf} = glass
+
     return (
         <>
-            <Dimentions dimentions={dimentions} isStandard={isStandard.dimensions}/>
+            <Dimentions dimensions={dimensions} isStandard={isStandard.dimensions}/>
             {blind_width ?
                 <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom:''].join(' ')}>
                     <span>Blind Width:</span>
@@ -64,7 +64,7 @@ const CartItemProduct: FC<{ product: CartItemType, dimentions: string }> = ({pro
                     {options.includes('Glass Shelf') ?
                         <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
                             <span>Glass Shelf:</span>
-                            <span>{shelf_option}</span>
+                            <span>{glass_shelf}</span>
                         </div> : null
                     }
 

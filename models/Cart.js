@@ -5,68 +5,73 @@ const CartSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room'
   },
-  cart: [{
-    product_id: {
-      type: Number,
-      required: true,
-    },
-    product_type: {
-      type: String,
-      required: true,
-    },
-    amount: {
-      type: Number,
-      required: true,
-    },
-    width: {
-      type: Number,
-    },
-    height: {
-      type: Number,
-    },
-    depth: {
-      type: Number,
-    },
-    blind_width: {
-      type: Number,
-    },
-    middle_section: {
-      type: Number,
-    },
-    corner: {
-      type: String,
-    },
-    hinge: {
-      type: String,
-    },
-    options: {
+  product_id: {
+    type: Number,
+    required: true,
+  },
+  product_type: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  width: {
+    type: Number,
+  },
+  height: {
+    type: Number,
+  },
+  depth: {
+    type: Number,
+  },
+  blind_width: {
+    type: Number,
+  },
+  middle_section: {
+    type: Number,
+  },
+  corner: {
+    type: String,
+  },
+  hinge: {
+    type: String,
+  },
+  options: {
+    type: Array,
+    default: [],
+  },
+  // shelf_option: {
+  //   type: String,
+  // },
+  glass: {
+    door: {
       type: Array,
       default: [],
     },
-    shelf_option: {
+    shelf: {
       type: String,
     },
-    led_border: {
+  },
+  led: {
+    border: {
       type: Array,
       default: [],
     },
-    led_alignment: {
+    alignment: {
       type: String,
     },
-    led_indent: {
+    indent: {
       type: String,
     },
+  },
+
+  custom: {
     material: {
       type: String,
     },
-    glass_door: {
-      type: Array,
-      default: [],
-    },
-    glass_shelf: {
-      type: String,
-    },
-    led_accessories: {
+    accessories: {
       led_alum_profiles: [
         {
           length: {
@@ -90,26 +95,26 @@ const CartSchema = new mongoose.Schema({
           },
         }
       ],
-      door_sensor: {
+      led_door_sensor: {
         type: Number,
       },
-      dimmable_remote: {
+      led_dimmable_remote: {
         type: Number,
       },
-      transformer: {
+      led_transformer: {
         type: Number,
       },
-    },
-    door_accessories: [
-      {
-        value: {
-          type: String,
-        },
-        qty: {
-          type: Number,
+      door: [
+        {
+          value: {
+            type: String,
+          },
+          qty: {
+            type: Number,
+          }
         }
-      }
-    ],
+      ],
+    },
     standard_door: {
       doors: [
         {
@@ -151,10 +156,11 @@ const CartSchema = new mongoose.Schema({
         type: Number,
       }
     },
-    note: {
-      type: String,
-    }
-  }]
+  },
+
+  note: {
+    type: String,
+  }
 })
 
 export default mongoose.model('Cart', CartSchema);

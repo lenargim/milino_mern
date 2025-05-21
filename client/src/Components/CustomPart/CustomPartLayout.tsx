@@ -34,7 +34,7 @@ export type hingeHoleCustomType = {
     price: 6
 }
 
-export type DoorAccessoiresType = {
+export type DoorAccessoriesType = {
     aventos: HingeType[],
     door_hinge: number,
     hinge_holes: number,
@@ -43,7 +43,7 @@ export type DoorAccessoiresType = {
 
 }
 
-export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
+export interface DoorAccessoriesValuesType extends DoorAccessoriesType {
     price: number,
     Note: string,
 }

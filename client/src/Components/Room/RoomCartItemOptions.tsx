@@ -1,29 +1,28 @@
 import React, {FC} from 'react';
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {getDimentionsRow, getFraction} from "../../helpers/helpers";
+import {getdimensionsRow, getFraction} from "../../helpers/helpers";
 import Dimentions from "../../common/Dimentions";
 
-const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
+const RoomCartItemOptions: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {
         options,
         blind_width,
         width,
-        shelf_option,
         hinge,
         corner,
         height,
         depth,
-        led_border,
-        led_alignment,
-        led_indent,
         middle_section,
-        glass_door
+        glass,
+        led
     } = item;
-    const dimentions = getDimentionsRow(width, height, depth)
+    const {indent, alignment, border} = led;
+    const {door:glass_door, shelf:glass_shelf} = glass;
+    const dimensions = getdimensionsRow(width, height, depth)
     return (
         <>
-            <Dimentions dimentions={dimentions}/>
+            <Dimentions dimensions={dimensions}/>
             {blind_width ?
                 <div className={s.itemOption}>
                     <span>Blind Width:</span>
@@ -42,10 +41,10 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
                     <span>Hinge opening:</span>
                     <span>{hinge}</span>
                 </div> : null}
-            {led_border.length ?
+            {border.length ?
                 <div className={s.itemOption}>
                     <span>LED:</span>
-                    <span>{`${led_border.map(el => el)}. ${led_alignment} ${led_indent ? led_indent + '"' : ''}`}</span>
+                    <span>{`${border.map(el => el)}. ${alignment} ${indent ? indent + '"' : ''}`}</span>
                 </div> : null
             }
             {corner ?
@@ -67,7 +66,7 @@ const RoomCartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
                     {options.includes('Glass Shelf') ?
                         <div className={s.itemOption}>
                             <span>Glass Shelf:</span>
-                            <span>{shelf_option}</span>
+                            <span>{glass_shelf}</span>
                         </div> : null
                     }
 

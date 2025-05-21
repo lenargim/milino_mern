@@ -1,12 +1,14 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {MaybeUndefined} from "../../helpers/productTypes";
-import {DoorAccessoireAPIType, DoorAccessoireType} from "../CustomPart/CustomPart";
+import {DoorAccessoryAPIType, DoorAccessoryType} from "../CustomPart/CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
+import {CustomAccessoriesType} from "../../api/apiFunctions";
 
-const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoireAPIType[]> }> = ({accessories}) => {
-    if (!accessories) return null;
-    const front = splitFrontDoorAccessories(accessories);
+const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
+    const {door} = accessories;
+    if (!door) return null;
+    const front = splitFrontDoorAccessories(door);
     const {aventos, PTO, hinge, servo} = front;
     return (
         <>
@@ -53,12 +55,12 @@ const CartItemDoorExtra: FC<{ accessories: MaybeUndefined<DoorAccessoireAPIType[
 export default CartItemDoorExtra
 
 type AccessoriesSplittedType = {
-    aventos: DoorAccessoireType[],
-    hinge: DoorAccessoireType[],
-    PTO: DoorAccessoireType[],
-    servo: DoorAccessoireType[]
+    aventos: DoorAccessoryType[],
+    hinge: DoorAccessoryType[],
+    PTO: DoorAccessoryType[],
+    servo: DoorAccessoryType[]
 }
-export const splitFrontDoorAccessories = (accessories: DoorAccessoireAPIType[]): AccessoriesSplittedType => {
+export const splitFrontDoorAccessories = (accessories: DoorAccessoryAPIType[]): AccessoriesSplittedType => {
     const frontAccessories = accessories.map(el => (convertDoorAccessories(el)))
     return {
         aventos: frontAccessories.filter(el => el.filter === 'aventos'),

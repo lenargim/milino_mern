@@ -3,10 +3,10 @@ import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/prod
 import {MaterialsFormType} from "../../common/MaterialsForm";
 import CustomPartCabinet from "./CustomPartCabinet";
 import LEDForm from "./LEDForm";
-import DoorAccessoiresForm from "./DoorAccessoiresForm";
 import StandardDoorForm from "./StandardDoorForm";
 import StandardPanel from "./StandardPanel";
 import PlasticToe from "./PlasticToe";
+import DoorAccessoriesForm from "./DoorAccessoiresForm";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -37,7 +37,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
         case "led-accessories":
             return <LEDForm/>
         case "door-accessories":
-            return <DoorAccessoiresForm/>
+            return <DoorAccessoriesForm/>
         case "standard-door":
         case "standard-glass-door":
             return <StandardDoorForm customPart={customPartProduct}/>

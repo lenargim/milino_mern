@@ -1,37 +1,43 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 import CartItemDoorExtra from "./CartItemDoorExtra";
 import CartItemPVCExtra from "./CartItemPVCExtra";
 import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
 import CartItemShelfExtra from "./CartItemShelfExtra";
 import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
-import Dimentions from "../../common/Dimentions";
 import CartItemPanel from "./CartItemPanel";
+import Dimentions from "../../common/Dimentions";
 
-const CartItemCustom: FC<{ product: CartItemType, dimentions:string }> = ({product, dimentions}) => {
-    const {material, door_accessories, subcategory, led_accessories, standard_door, standard_panels, product_id} = product;
+const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
+    const {subcategory, product_id, custom} = product;
+    if (!custom) return null;
+    const {accessories, standard_door, standard_panels, material} = custom;
     switch (subcategory) {
         case 'glass-door':
-            return <CartItemGlassDoorExtra product={product} dimentions={dimentions}/>
+            return <CartItemGlassDoorExtra product={product} dimensions={dimensions}/>
         case 'glass-shelf':
-            return <CartItemShelfExtra product={product} dimentions={dimentions}/>
+            return <CartItemShelfExtra product={product} dimensions={dimensions}/>
         case 'pvc':
-            return <CartItemPVCExtra productExtra={product}/>
+            return <CartItemPVCExtra product={product}/>
         case 'door-accessories':
-            return <CartItemDoorExtra accessories={door_accessories}/>
+            if (!accessories) return null;
+            return <CartItemDoorExtra accessories={accessories}/>
         case 'led-accessories':
-            return <CartItemLEDExtra accessories={led_accessories}/>
+            if (!accessories) return null;
+            return <CartItemLEDExtra accessories={accessories}/>
         case 'standard-door':
         case 'standard-glass-door':
+            if (!standard_door) return null;
             return <CartItemDoor standard_door={standard_door}/>
         case 'standard-panel':
+            if (!standard_panels) return null;
             return <CartItemPanel standard_panels={standard_panels} prod_id={product_id} />
 
         default:
             return <>
-                <Dimentions dimentions={dimentions}/>
+                <Dimentions dimensions={dimensions}/>
                 {material &&
                   <div className={s.itemOption}>
                     <span>Material:</span>

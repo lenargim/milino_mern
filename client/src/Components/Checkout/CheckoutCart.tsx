@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import CheckoutCartItem from "./CheckoutCartItem";
 import s from './checkout.module.sass'
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CheckoutCart: FC<{ cart: CartItemType[], total:number, room_id: MaybeUndefined<string> }> = ({cart, total, room_id}) => {
+const CheckoutCart: FC<{ cart: CartItemFrontType[], total:number, room_id: MaybeUndefined<string> }> = ({cart, total, room_id}) => {
     return (
         <div className={s.cart}>
             <h2 className={s.cartTitle}>Cart</h2>

@@ -3,15 +3,15 @@ import {MaybeUndefined} from "../../../helpers/productTypes";
 import {LEDAccessoriesType} from "../../CustomPart/LEDForm";
 import {s} from '../PDF'
 import {Text, View} from "@react-pdf/renderer";
+import {CustomAccessoriesType} from "../../../api/apiFunctions";
 
-const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> = ({accessories}) => {
-    if (!accessories) return null;
+const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     const {
         led_alum_profiles,
         led_gola_profiles,
-        door_sensor,
-        dimmable_remote,
-        transformer
+        led_door_sensor,
+        led_dimmable_remote,
+        led_transformer
     } = accessories
     return (
         <>
@@ -31,19 +31,19 @@ const CartItemLedExtra: FC<{ accessories: MaybeUndefined<LEDAccessoriesType> }> 
                     )}</Text>
                 </View>
                 : null}
-            {door_sensor ?
+            {led_door_sensor ?
                 <View style={s.itemOption}>
-                    <Text>Door Sensor: {door_sensor}</Text>
+                    <Text>Door Sensor: {led_door_sensor}</Text>
                 </View>
                 : null}
-            {dimmable_remote ?
+            {led_dimmable_remote ?
                 <View style={s.itemOption}>
-                    <Text>Dimmable Remote: {dimmable_remote}</Text>
+                    <Text>Dimmable Remote: {led_dimmable_remote}</Text>
                 </View>
                 : null}
-            {transformer ?
+            {led_transformer ?
                 <View style={s.itemOption}>
-                    <Text>Transformer: {transformer}</Text>
+                    <Text>Transformer: {led_transformer}</Text>
                 </View>
                 : null}
 

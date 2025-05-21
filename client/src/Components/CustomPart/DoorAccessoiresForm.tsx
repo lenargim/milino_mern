@@ -3,11 +3,11 @@ import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import NumberPartArrayItem from "./NumberPartArrayItem";
-import {CustomPartFormValuesType, DoorAccessoireAPIType} from "./CustomPart";
+import {CustomPartFormValuesType, DoorAccessoryAPIType} from "./CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
 
 
-const DoorAccessoiresForm: FC = () => {
+const DoorAccessoriesForm: FC = () => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
     const {door_accessories, price} = values;
     const aventos = door_accessories.filter(el => el.filter === 'aventos');
@@ -56,10 +56,10 @@ const DoorAccessoiresForm: FC = () => {
     );
 };
 
-export default DoorAccessoiresForm;
+export default DoorAccessoriesForm;
 
 
-export const addToCartAccessories = (values: DoorAccessoireAPIType[]): number => {
+export const addToCartAccessories = (values: DoorAccessoryAPIType[]): number => {
     const frontAccessories = values.map(el => (convertDoorAccessories(el)))
     return +(frontAccessories.reduce((acc, item) => acc + (item.price * item.qty), 0)).toFixed(1)
 }

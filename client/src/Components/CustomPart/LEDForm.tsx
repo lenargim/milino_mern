@@ -3,21 +3,13 @@ import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {v4 as uuidv4} from "uuid";
-import AlumProfile, {alProfileType} from "./AlumProfile";
-import GolaProfile, {golaProfileType} from "./GolaProfile";
+import AlumProfile from "./AlumProfile";
+import GolaProfile from "./GolaProfile";
 import NumberPart from "./NumberPart";
 import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
+import {CustomAccessoriesType} from "../../api/apiFunctions";
 
-
-
-export type LEDAccessoriesType = {
-    led_alum_profiles: alProfileType[],
-    led_gola_profiles: golaProfileType[],
-    door_sensor: number,
-    dimmable_remote: number,
-    transformer: number,
-}
-
+export type LEDAccessoriesType = Exclude<CustomAccessoriesType, 'door'>
 
 const LEDForm: FC = () => {
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
@@ -84,9 +76,9 @@ const LEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <NumberPart el={'led_accessories.door_sensor'} label='Door sensor'/>
-                <NumberPart el={'led_accessories.dimmable_remote'} label="Dimmable Remote"/>
-                <NumberPart el={'led_accessories.transformer'} label="Transformer"/>
+                <NumberPart el={'led_accessories.led_door_sensor'} label='Door sensor'/>
+                <NumberPart el={'led_accessories.led_dimmable_remote'} label="Dimmable Remote"/>
+                <NumberPart el={'led_accessories.led_transformer'} label="Transformer"/>
             </div>
 
             <div className={s.block}>
@@ -108,15 +100,15 @@ export const getLEDProductPrice = (values: LedAccessoriesFormType): number => {
     const {
         led_alum_profiles,
         led_gola_profiles,
-        door_sensor,
-        dimmable_remote,
-        transformer,
+        led_door_sensor,
+        led_dimmable_remote,
+        led_transformer,
     } = values;
     const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 2.55 * profile.qty), 0);
     const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 5.5 * profile.qty), 0);
-    const dimRemotePrice = dimmable_remote * 100;
-    const doorSensorPrice = door_sensor * 150;
-    const transformerPrice = transformer * 50;
+    const dimRemotePrice = led_dimmable_remote * 100;
+    const doorSensorPrice = led_door_sensor * 150;
+    const transformerPrice = led_transformer * 50;
 
     return +(alumProfPrice + golaProfPrice + dimRemotePrice + doorSensorPrice + transformerPrice).toFixed(1)
 }

@@ -1,19 +1,19 @@
 import React, {FC} from "react";
 import CartItemCustom from "./CartItemCustom";
 import {View} from "@react-pdf/renderer";
-import {CartItemType} from "../../../api/apiFunctions";
+import {CartItemFrontType} from "../../../api/apiFunctions";
 import CartItemProduct from "./CartItemProduct";
-import {getDimentionsRow} from "../../../helpers/helpers";
+import {getdimensionsRow} from "../../../helpers/helpers";
 
-const CartItemOptions: FC<{ item: CartItemType }> = ({item}) => {
+const CartItemOptions: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {product_type, width, height, depth} = item;
-    const dimentions = getDimentionsRow(width, height, depth);
+    const dimensions = getdimensionsRow(width, height, depth);
     switch (product_type) {
         case "cabinet":
         case "standard":
-            return <View><CartItemProduct product={item} dimentions={dimentions}/></View>
+            return <View><CartItemProduct product={item} dimensions={dimensions}/></View>
         default:
-            return <View><CartItemCustom product={item} dimentions={dimentions}/></View>
+            return <View><CartItemCustom product={item} dimensions={dimensions}/></View>
     }
 }
 

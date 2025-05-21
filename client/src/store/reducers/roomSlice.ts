@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helpers/productTypes";
-import {CartAPIResponse, CartItemType} from "../../api/apiFunctions";
+import {CartAPI, CartItemFrontType} from "../../api/apiFunctions";
 import {
     getCartArrFront,
     getRoomFront,
@@ -10,7 +10,7 @@ import {MaterialsFormType} from "../../common/MaterialsForm";
 export interface RoomTypeAPI extends MaterialsFormType {
     _id: string,
     purchase_order_id: string,
-    cart: CartAPIResponse[]
+    cart: CartAPI[]
 }
 
 export interface RoomFront extends MaterialsFormType {
@@ -18,7 +18,7 @@ export interface RoomFront extends MaterialsFormType {
     purchase_order_id: string,
     productPage: MaybeNull<ProductType>,
     activeProductCategory: MaybeEmpty<productCategory>,
-    cart: CartItemType[]
+    cart: CartItemFrontType[]
 }
 
 interface RoomsState {
@@ -64,15 +64,16 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPIResponse[], _id: string }>) => {
+        updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPI[] }>) => {
             state.rooms = state.rooms.map(room => {
-                return room._id === action.payload._id ? {
+                const room_id = action.payload.cart[0].room_id;
+                return room._id === room_id ? {
                     ...room,
                     cart: getCartArrFront(action.payload.cart, room)
                 } : room;
             })
         },
-        updateCartAfterMaterialsChange: (state, action: PayloadAction<{ room: string, cart: CartItemType[] }>) => {
+        updateCartAfterMaterialsChange: (state, action: PayloadAction<{ room: string, cart: CartItemFrontType[] }>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload.room ?
                     {...room, cart: action.payload.cart}

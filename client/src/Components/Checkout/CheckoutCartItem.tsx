@@ -9,12 +9,12 @@ import {
     useAppDispatch
 } from "../../helpers/helpers";
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
-import {CartItemType, updateProductAmountAPI} from "../../api/apiFunctions";
+import {CartItemFrontType, updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Product/CartItemOptions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
+const CheckoutCartItem: FC<{ el: CartItemFrontType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
     const dispatch = useAppDispatch()
     const {
         _id,
@@ -37,7 +37,7 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
         if (room_id) {
             updateProductAmountAPI(room_id,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
                 if (cart) {
-                    if (cart) dispatch(updateCartInRoom({cart: cart,_id:room_id}))
+                    if (cart) dispatch(updateCartInRoom({cart}))
                 }
             })
         } else {

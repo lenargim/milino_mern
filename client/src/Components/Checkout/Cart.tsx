@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import s from './../OrderForm/Sidebar/sidebar.module.sass'
 import CartItem from "../Product/CartItem";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 
-const Cart: FC<{ cart: CartItemType[], cartTotal: number }> = ({cart, cartTotal}) => {
+const Cart: FC<{ cart: CartItemFrontType[], cartTotal: number }> = ({cart, cartTotal}) => {
     return (
         <div className={[s.sidebar].join(' ')}>
             <div className={s.sidebarContent}>

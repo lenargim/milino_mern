@@ -1,15 +1,15 @@
 import React, {FC} from "react";
-import {Text, View} from "@react-pdf/renderer";
+import {Text} from "@react-pdf/renderer";
 import {s} from "../PDF";
 
-const Dimentions: FC<{dimentions:string, isStandard?: boolean }> = ({dimentions, isStandard}) => {
+const Dimensions: FC<{dimensions:string, isStandard?: boolean }> = ({dimensions, isStandard}) => {
     const styling = isStandard ? s.itemOptionCustom : s.itemOption;
     return (
         <>
-            {dimentions ?
+            {dimensions ?
                 <Text style={styling}>
                     <Text>Dimensions:</Text>
-                    <Text>{dimentions}</Text>
+                    <Text>{dimensions}</Text>
                 </Text> : null
             }
         </>
@@ -17,4 +17,4 @@ const Dimentions: FC<{dimentions:string, isStandard?: boolean }> = ({dimentions,
 }
 
 
-export default Dimentions
+export default Dimensions

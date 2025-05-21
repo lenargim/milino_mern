@@ -13,13 +13,16 @@ import {
 import {MaterialsFormType} from "../common/MaterialsForm";
 import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
 import {DoorType} from "../Components/CustomPart/StandardDoorForm";
-import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryAPIType, DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
+import {AlProfileType} from "../Components/CustomPart/AlumProfile";
+import {golaProfileType} from "../Components/CustomPart/GolaProfile";
+import {PanelsFormType} from "../Components/CustomPart/StandardPanel";
 
 
 export const alertError = (error: unknown) => {
@@ -100,7 +103,7 @@ export const me = async (): Promise<MaybeUndefined<UserType>> => {
 }
 
 
-export const getAllRooms = async (purchase_order_id:string) => {
+export const getAllRooms = async (purchase_order_id: string) => {
     try {
         return (await roomsAPI.getRooms(purchase_order_id)).data;
     } catch (error) {
@@ -153,8 +156,18 @@ export type PanelsFormAPIType = {
 
 export type PanelsFormPartAPIType = { qty: number, name: string }
 
+export type CustomAccessoriesType = {
+    led_alum_profiles: AlProfileType[],
+    led_gola_profiles: golaProfileType[],
+    led_door_sensor: number,
+    led_dimmable_remote: number,
+    led_transformer: number,
+    door?: DoorAccessoryAPIType[],
+}
 
 export type CartAPI = {
+    _id: string,
+    room_id: string,
     product_id: number,
     product_type: ProductApiType,
     amount: number,
@@ -166,32 +179,43 @@ export type CartAPI = {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
-    shelf_option: string
-    led_border: string[],
-    led_alignment: string,
-    led_indent: string,
-    material?: string,
-    glass_door: string[],
-    glass_shelf?: string,
-    led_accessories?: LEDAccessoriesType,
-    door_accessories?: DoorAccessoireAPIType[],
-    standard_door?: DoorType
-    standard_panels?: PanelsFormAPIType,
+    // shelf_option: string,
+    glass: {
+        door: string[],
+        shelf: string,
+    },
+    led: {
+        border: string[],
+        alignment: string,
+        indent: string,
+    },
+    custom?: {
+        material?: string,
+        accessories?: CustomAccessoriesType,
+        standard_door?: StandardDoorAPIType,
+        standard_panels?: PanelsFormAPIType,
+    },
     note: string,
 }
 
-export interface CartAPIResponse extends CartAPI {
-    _id: string,
-    room: string,
+export type OrderAPIType = Exclude<CartAPI, 'room_id'>
+
+export type StandardDoorAPIType = {
+    color: string,
+    doors: StandardDoorItemAPIType[]
 }
 
-export interface CabinetItemType extends CartAPI {
+export type StandardDoorItemAPIType = {
+    width: number,
+    height: number,
+    qty: number
+}
+
+export interface CartAPIImagedType extends CartAPI {
     image_active_number: productTypings,
 }
 
-export interface CartItemType extends CabinetItemType {
-    _id: string,
-    room: MaybeNull<string>,
+export interface CartItemFrontType extends CartAPIImagedType {
     subcategory: string,
     price: number,
     isStandard: IsStandardOptionsType
@@ -205,43 +229,41 @@ export type IsStandardOptionsType = {
     options: boolean
 }
 
-export const addToCartInRoomAPI = async (product: CartItemType, roomId: string) => {
+export const addToCartAPI = async (product: CartAPI) => {
     try {
-        const {
-            _id,
-            room,
-            subcategory,
-            price,
-            image_active_number,
-            led_accessories,
-            ...data
-        } = product
-        let cartAPIData: any = {...data};
-        if (subcategory === 'led-accessories' && led_accessories) {
-            const {led_gola_profiles, led_alum_profiles, door_sensor, dimmable_remote, transformer} = led_accessories
-            cartAPIData = {
-                ...cartAPIData,
-                led_accessories: {
-                    ...cartAPIData.led_accessories,
-                    led_alum_profiles: led_alum_profiles.map(el => ({
-                        length: el.length,
-                        qty: el.qty
-                    })),
-                    led_gola_profiles: led_gola_profiles.map(el => ({
-                        length: el.length,
-                        qty: el.qty,
-                        color: el.color
-                    })),
-                    door_sensor: door_sensor,
-                    dimmable_remote: dimmable_remote,
-                    transformer: transformer
-                },
-            }
-        }
-
-        let cartResponse: MaybeUndefined<CartAPIResponse[]> = (await cartAPI.addToCart(cartAPIData, roomId))?.data;
-        if (!cartResponse) return undefined;
-        return cartResponse
+        // const {
+        //     _id,
+        //     room_id,
+        //     room,
+        //     subcategory,
+        //     price,
+        //     image_active_number,
+        //     led_accessories,
+        //     ...data
+        // } = product
+        // let cartAPIData: any = {...data};
+        // if (subcategory === 'led-accessories' && led_accessories) {
+        //     const {led_gola_profiles, led_alum_profiles, led_door_sensor, led_dimmable_remote, led_transformer} = led_accessories
+        //     cartAPIData = {
+        //         ...cartAPIData,
+        //         led_accessories: {
+        //             ...cartAPIData.led_accessories,
+        //             led_alum_profiles: led_alum_profiles.map(el => ({
+        //                 length: el.length,
+        //                 qty: el.qty
+        //             })),
+        //             led_gola_profiles: led_gola_profiles.map(el => ({
+        //                 length: el.length,
+        //                 qty: el.qty,
+        //                 color: el.color
+        //             })),
+        //             led_door_sensor: led_door_sensor,
+        //             led_dimmable_remote: led_dimmable_remote,
+        //             led_transformer: led_transformer
+        //         },
+        //     }
+        // }
+        return (await cartAPI.addToCart(product)).data;
     } catch (error) {
         alertError(error);
     }
@@ -375,7 +397,7 @@ export const isTokenValid = (token: MaybeNull<string> = ''): boolean => {
 }
 
 
-export const getAllPOs = async (user_id:string) => {
+export const getAllPOs = async (user_id: string) => {
     try {
         return (await PurchaseOrdersAPI.getAll(user_id)).data
     } catch (error) {

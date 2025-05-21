@@ -8,7 +8,7 @@ import {
     getProductById
 } from "../../helpers/helpers";
 import logo from './../../assets/img/black-logo.jpg'
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 import {MaterialStringsType} from "../../common/Materials";
 import CartItemOptions from "./PDF/CartItemOptions";
 
@@ -147,7 +147,7 @@ export const s = StyleSheet.create({
     }
 })
 
-const PDF: FC<{ values: CheckoutType, cart: CartItemType[], materialStrings: MaterialStringsType }> = ({
+const PDF: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
                                                                                                            values,
                                                                                                            cart,
                                                                                                            materialStrings

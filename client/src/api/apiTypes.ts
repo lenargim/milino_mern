@@ -1,5 +1,5 @@
-import {OrderType} from "../helpers/productTypes";
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
+import {OrderAPIType} from "./apiFunctions";
 
 export type UserDataType = {
     name: string,
@@ -54,7 +54,7 @@ export type OrderTypeApi = {
     user: string,
     room_id: string,
     room_name: string,
-    order: OrderType[],
+    order: OrderAPIType[],
     total: number,
     createdAt: Date
 }

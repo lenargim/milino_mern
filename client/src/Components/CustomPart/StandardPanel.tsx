@@ -15,7 +15,7 @@ import {v4 as uuidv4} from "uuid";
 import Select, {OnChangeValue} from "react-select";
 import styles from "../../common/Form.module.sass";
 import {customStyles, optionType} from "../../common/SelectField";
-import {getDimentionsRow} from "../../helpers/helpers";
+import {getdimensionsRow} from "../../helpers/helpers";
 import settings from '../../api/settings.json'
 
 export type PanelsFormType = {
@@ -30,6 +30,15 @@ export type PanelType = {
     qty: number,
     name: string,
 }
+
+export type PanelsFormAPIType = {
+    standard_panel: PanelAPIType[],
+    shape_panel: PanelAPIType[],
+    wtk: PanelAPIType[],
+    crown_molding: number
+}
+
+export type PanelAPIType = Exclude<PanelType, '_id'>
 
 type PanelTypeName = 'standard_panel' | 'shape_panel' | 'wtk';
 type MoldingTypeName = 'crown_molding';
@@ -166,7 +175,7 @@ const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown: pri
 
     const item = dropdown.find(apiEL => apiEL.name === name);
     if (!item) return null;
-    const dimentions = getDimentionsRow(item.width, item.height, item.depth);
+    const dimensions = getdimensionsRow(item.width, item.height, item.depth);
 
     function getOptions(dropdown: pricePartStandardPanel[]): PanelType[] {
         return dropdown.map(el => ({
@@ -195,7 +204,7 @@ const PanelItem: FC<{ panel: PanelType, panel_type: PanelTypeName, dropdown: pri
                          name={`standard_panels.${panel_type}`}
                          val={panel}
                          options={dropdownOptions}/>
-            {dimentions}
+            {dimensions}
             <div className={s.row}>×
                 <div className={s.buttons}>
                     <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus', _id)}

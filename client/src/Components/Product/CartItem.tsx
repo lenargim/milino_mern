@@ -9,9 +9,9 @@ import {
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
 import CartItemOptions from "./CartItemOptions";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 
-export const CartItem: FC<{ item: CartItemType, isCheckout?: boolean }> = ({item, isCheckout = false}) => {
+export const CartItem: FC<{ item: CartItemFrontType, isCheckout?: boolean }> = ({item, isCheckout = false}) => {
     const {
         price,
         amount,

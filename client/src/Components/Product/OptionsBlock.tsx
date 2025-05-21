@@ -79,7 +79,7 @@ const OptionsBlock: FC<OptionsBlockType> = ({
     const {
         Options: chosenOptions,
         glass_door,
-        ['Shelf Glass Color']: shelfGlassColor,
+        glass_shelf: shelfGlassColor,
         Width: width,
         Height: height,
         image_active_number

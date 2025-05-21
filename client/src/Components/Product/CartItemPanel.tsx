@@ -3,7 +3,7 @@ import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {MaybeUndefined, priceStandardPanel} from "../../helpers/productTypes";
 import {PanelsFormAPIType} from "../../api/apiFunctions";
 import standardProductsPrices from "../../api/standartProductsPrices.json";
-import {getDimentionsRow} from "../../helpers/helpers";
+import {getdimensionsRow} from "../../helpers/helpers";
 
 const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, prod_id: number }> = ({
                                                                                                         standard_panels,
@@ -21,11 +21,11 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                     {standard_panel.map((el, index) => {
                         const item = standard_panelAPI.find(apiEL => apiEL.name === el.name);
                         if (!item) return null;
-                        const dimentions = getDimentionsRow(item.width, item.height, item.depth);
+                        const dimensions = getdimensionsRow(item.width, item.height, item.depth);
                         return (
                             <div key={index}><span className={s.itemOption}>
                     <span>{item.name}</span>
-                    <span>Size: {dimentions}. Amount: {el.qty}</span>
+                    <span>Size: {dimensions}. Amount: {el.qty}</span>
                     </span></div>)
                     })
                     }
@@ -37,11 +37,11 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                     {shape_panel.map((el, index) => {
                         const item = shape_panelAPI.find(apiEL => apiEL.name === el.name);
                         if (!item) return null;
-                        const dimentions = getDimentionsRow(item.width, item.height, item.depth);
+                        const dimensions = getdimensionsRow(item.width, item.height, item.depth);
                         return (
                             <div key={index}><span className={s.itemOption}>
                     <span>{item.name}</span>
-                    <span>Size: {dimentions}. Amount: {el.qty}</span>
+                    <span>Size: {dimensions}. Amount: {el.qty}</span>
                     </span></div>)
                     })
                     }
@@ -53,11 +53,11 @@ const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, pr
                     {wtk.map((el, index) => {
                         const item = wtkAPI.find(apiEL => apiEL.name === el.name);
                         if (!item) return null;
-                        const dimentions = getDimentionsRow(item.width, item.height, item.depth);
+                        const dimensions = getdimensionsRow(item.width, item.height, item.depth);
                         return (
                             <div key={index}><span className={s.itemOption}>
                     <span>{item.name}</span>
-                    <span>Size: {dimentions}. Amount: {el.qty}</span>
+                    <span>Size: {dimensions}. Amount: {el.qty}</span>
                     </span></div>)
                     })
                     }

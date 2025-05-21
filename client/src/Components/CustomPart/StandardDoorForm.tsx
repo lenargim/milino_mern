@@ -12,6 +12,7 @@ import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormValuesType} from "./CustomPart";
+import {StandardDoorAPIType} from "../../api/apiFunctions";
 
 
 type Door = {
@@ -87,7 +88,7 @@ const StandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
 
 export default StandardDoorForm;
 
-export const getCustomPartStandardDoorPrice = (values: DoorType, name: string): number => {
+export const getCustomPartStandardDoorPrice = (values: StandardDoorAPIType, name: string): number => {
     const {doors: doorsArr, color} = values;
     const glassPrice: number = name !== 'standard-door' ? 10 : 0;
     const colorPrice: number = color !== 'White' ? 30 : 0;

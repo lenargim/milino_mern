@@ -3,11 +3,11 @@ import MaterialsForm, {MaterialsFormType} from "../../common/MaterialsForm";
 import {useFormikContext} from "formik";
 import Header from "../../common/Header/Header";
 import {useAppSelector} from "../../helpers/helpers";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 
 const Main:FC = () => {
     const {resetForm} = useFormikContext<MaterialsFormType>();
-    const cart = useAppSelector<CartItemType[]>(state => state.general.cart)
+    const cart = useAppSelector<CartItemFrontType[]>(state => state.general.cart)
     return (
         <main id="main" className="main">
             <div className="container">

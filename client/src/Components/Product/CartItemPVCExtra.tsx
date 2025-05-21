@@ -1,11 +1,12 @@
 import React, {FC} from 'react';
 import s from "../OrderForm/Sidebar/sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import {CartItemType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../api/apiFunctions";
 
-const CartItemPvcExtra:FC<{productExtra: CartItemType}> = ({productExtra}) => {
-    const {material, width} = productExtra;
-
+const CartItemPvcExtra:FC<{product: CartItemFrontType}> = ({product}) => {
+    const {custom, width} = product;
+    if (!custom) return null;
+    const {material} = custom
     return (
         <>
             {<div className={s.itemOption}>
