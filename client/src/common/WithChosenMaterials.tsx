@@ -1,6 +1,6 @@
 import {Navigate} from "react-router-dom";
 import {MaybeNull} from "../helpers/productTypes";
-import {MaterialsFormType} from "./MaterialsForm";
+import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 
 export type WithChosenMaterialsProps = {
     outlet: JSX.Element,

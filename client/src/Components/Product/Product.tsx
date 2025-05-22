@@ -9,7 +9,7 @@ import {
     MaybeNull, MaybeUndefined,
     productCategory, productValuesType, sizeLimitsType
 } from "../../helpers/productTypes";
-import Cabinet from "./Cabinet";
+import ProductCabinet from "./ProductCabinet";
 import {Formik} from 'formik';
 import {
     getMaterialData, getProductPriceRange,
@@ -20,7 +20,7 @@ import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
 import {addToCartAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 
 const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
     const dispatch = useAppDispatch();
@@ -99,11 +99,11 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             <>
                 <ProductLeft product={product} materials={materials}/>
                 <div className={s.right}>
-                    <Cabinet product={product}
-                             materialData={materialData}
-                             productRange={productRange}
-                             tablePriceData={tablePriceData}
-                             sizeLimit={sizeLimit}
+                    <ProductCabinet product={product}
+                                    materialData={materialData}
+                                    productRange={productRange}
+                                    tablePriceData={tablePriceData}
+                                    sizeLimit={sizeLimit}
                     />
                 </div>
             </>

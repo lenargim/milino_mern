@@ -3,7 +3,7 @@ import Select, {OnChangeValue, StylesConfig} from "react-select";
 import {ErrorMessage, useField} from "formik";
 import styles from "./Form.module.sass";
 import {MaybeNull} from "../helpers/productTypes";
-import {PanelType} from "../Components/CustomPart/StandardPanel";
+import {PanelType} from "../Components/CustomPart/CustomPartStandardPanel";
 
 export type optionType = {
     value: string,

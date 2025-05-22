@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import CustomPartCabinet from "./CustomPartCabinet";
-import LEDForm from "./LEDForm";
-import StandardDoorForm from "./StandardDoorForm";
-import StandardPanel from "./StandardPanel";
-import PlasticToe from "./PlasticToe";
-import DoorAccessoriesForm from "./DoorAccessoiresForm";
+import CustomPartLEDForm from "./CustomPartLEDForm";
+import CustomPartStandardDoorForm from "./CustomPartStandardDoorForm";
+import CustomPartStandardPanel from "./CustomPartStandardPanel";
+import CustomPartPlasticToe from "./CustomPartPlasticToe";
+import DoorAccessoriesForm from "./CustomPartDoorAccessoiresForm";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -35,16 +35,16 @@ const CustomPartRight: FC<CustomPartRight> = ({
                                       isStandardCabinet={isStandardCabinet}
             />
         case "led-accessories":
-            return <LEDForm/>
+            return <CustomPartLEDForm/>
         case "door-accessories":
             return <DoorAccessoriesForm/>
         case "standard-door":
         case "standard-glass-door":
-            return <StandardDoorForm customPart={customPartProduct}/>
+            return <CustomPartStandardDoorForm customPart={customPartProduct}/>
         case "standard-panel":
-            return <StandardPanel product={customPartProduct} materials={materials}/>
+            return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
         case "plastic_toe":
-            return <PlasticToe product={customPartProduct} />
+            return <CustomPartPlasticToe product={customPartProduct} />
     }
 };
 

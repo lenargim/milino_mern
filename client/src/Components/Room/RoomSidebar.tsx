@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import s from "../OrderForm/Sidebar/sidebar.module.sass";
+import s from "../Sidebar/sidebar.module.sass";
 import {useParams} from "react-router-dom";
 import {getCartTotal, useAppSelector, usePrevious} from "../../helpers/helpers";
 import RoomCartItem from "./RoomCartItem";

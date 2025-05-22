@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import s from "../Components/OrderForm/Sidebar/sidebar.module.sass";
-import {MaterialsFormType} from "./MaterialsForm";
+import s from "../Components/Sidebar/sidebar.module.sass";
+import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 import {getMaterialStrings} from "../helpers/helpers";
 
 

@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import CustomPart from "../CustomPart/CustomPart";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "./RoomMaterialsForm";
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {RoomFront} from "../../store/reducers/roomSlice";
 import s from '../Profile/profile.module.sass'

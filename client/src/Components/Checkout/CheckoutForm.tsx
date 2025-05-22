@@ -1,69 +1,70 @@
-import React, {Dispatch, FC, useRef, useState} from 'react';
+import React, {Dispatch, FC, useEffect, useRef, useState} from 'react';
+import {useNavigate, useOutletContext} from "react-router-dom";
+import {RoomTypeAPI} from "../../store/reducers/roomSlice";
 import {
-    getCartItemImg,
-    getCustomPartById,
+    checkoutCartItemWithImg,
+    getCartArrFront,
+    getCartTotal,
     getMaterialStrings,
-    getProductById,
+    useAppSelector
 } from "../../helpers/helpers";
-import {Form, Formik, FormikProps} from 'formik';
-import {PhoneInput, TextInput} from "../../common/Form";
-import s from './checkout.module.sass'
+import {UserType, UserTypeCheckout} from "../../api/apiTypes";
 import {CheckoutSchema} from "./CheckoutSchema";
-import {CheckoutType} from "../../helpers/types";
-import CheckoutCart from "./CheckoutCart";
-import {pdf} from '@react-pdf/renderer';
-import PDF from "./PDF";
-import {saveAs} from "file-saver";
+import {pdf} from "@react-pdf/renderer";
+import PDFOrder from "../PDFOrder/PDFOrder";
+import {OrderAPIType} from "../../api/apiFunctions";
 import {checkoutAPI} from "../../api/api";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {saveAs} from "file-saver";
+import {Form, Formik, FormikProps} from "formik";
+import s from "./checkout.module.sass";
+import {PhoneInput, TextInput} from "../../common/Form";
+import CheckoutCart from "./CheckoutCart";
+import {CheckoutType} from "../../helpers/types";
 import {MaybeNull} from "../../helpers/productTypes";
-import {CartItemFrontType, OrderAPIType} from "../../api/apiFunctions";
-import {useNavigate} from "react-router-dom";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
     open: boolean,
     status: string
 }
-type CheckoutFormType = {
-    cart: CartItemFrontType[],
-    total: number,
-    materials: MaterialsFormType,
-    initialValues: CheckoutType,
-    room_id?: string
-}
 
-const CheckoutForm: FC<CheckoutFormType> = ({
-                                                cart,
-                                                total,
-                                                materials,
-                                                room_id,
-                                                initialValues
-                                            }) => {
-
-    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
-    const jpgCart = cart.map(el => {
-        const {product_id, product_type, image_active_number} = el
-        const product = product_type !== 'custom'
-            ? getProductById(product_id, product_type === 'standard')
-            : getCustomPartById(product_id);
-
-        if (product) {
-            const img = getCartItemImg(product, image_active_number)
-            return ({...el, img: img.replace('webp', 'jpg')})
-        }
-        return el
-    })
+const CheckoutForm: FC = () => {
     const formRef = useRef<FormikProps<CheckoutType>>(null);
-    const [modal, setModal] = useState<modalType>({open: false, status: ''});
     const handleSubmit = async (type: buttonType) => {
         if (formRef.current) {
             setButtonType(type)
             formRef.current.handleSubmit();
         }
     }
+    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
+    const [roomData] = useOutletContext<[RoomTypeAPI]>();
+    const {_id, cart, ...materials} = roomData;
+    const navigate = useNavigate();
+    const cartFront = getCartArrFront(cart, roomData)
+    const total = getCartTotal(cartFront);
+    const user: UserType = useAppSelector(state => state.user.user);
+    const [initialValues, setInitialValues] = useState<UserTypeCheckout>({
+        name: user.name,
+        company: user.company,
+        email: user.email,
+        phone: user.phone,
+        project: roomData.room_name,
+        delivery: ''
+    })
+    useEffect(() => {
+        setInitialValues({
+            ...initialValues,
+            name: user.name,
+            company: user.company,
+            email: user.email,
+            phone: user.phone
+        })
+    }, [user])
+    if (!cart.length) navigate(-1);
+    const [modal, setModal] = useState<modalType>({open: false, status: ''});
     const materialStrings = getMaterialStrings(materials);
     if (!initialValues.email) return null;
+    const cartWithJPG = checkoutCartItemWithImg(cartFront);
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
@@ -71,8 +72,8 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                 onSubmit={async (values, {resetForm}) => {
                     const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
                     const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
-                    const blob = await pdf(<PDF values={values} materialStrings={materialStrings}
-                                                cart={jpgCart}/>).toBlob();
+                    const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
+                                                     cart={cartWithJPG}/>).toBlob();
                     const order: OrderAPIType[] = cart;
                     const dataToJSON = {
                         date: date,
@@ -114,7 +115,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                     <Form className={[s.form].join(' ')}>
                         <h1>Checkout</h1>
                         <div className={s.block}>
-                            {modal.open ? <EmailWasSended status={modal.status} setModal={setModal}/> : null}
+                            {modal.open ? <EmailWasSent status={modal.status} setModal={setModal}/> : null}
                             <TextInput type="text" name="name" label="Name"/>
                             <TextInput type="text" name="company" label="Company"/>
                             <TextInput type="text" name="project" label="Project name"/>
@@ -122,7 +123,7 @@ const CheckoutForm: FC<CheckoutFormType> = ({
                             <PhoneInput type="text" name="phone" label="Phone number"/>
                             <TextInput type="text" name="delivery" label="Delivery address"/>
                         </div>
-                        <CheckoutCart cart={cart} total={total} room_id={room_id}/>
+                        <CheckoutCart cart={cartFront} total={total}/>
                         <div className={s.buttonRow}>
                             <button type="button"
                                     onClick={() => handleSubmit('download')}
@@ -144,12 +145,12 @@ const CheckoutForm: FC<CheckoutFormType> = ({
 
 export default CheckoutForm;
 
-type EmailWasSendedType = {
+type EmailWasSentType = {
     status: string,
     setModal: Dispatch<modalType>
 }
 
-const EmailWasSended: FC<EmailWasSendedType> = ({status, setModal}) => {
+const EmailWasSent: FC<EmailWasSentType> = ({status, setModal}) => {
     const navigate = useNavigate();
     setTimeout(() => {
         setModal({open: false, status: ''})

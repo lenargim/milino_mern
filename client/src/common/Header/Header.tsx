@@ -6,7 +6,7 @@ import CartSVG from "../../assets/img/cart";
 import logo from '../../assets/img/SiteLogo.jpg'
 import {removeCart, setMaterials} from "../../store/reducers/generalSlice";
 import {FormikState} from 'formik';
-import {materialsFormInitial, MaterialsFormType} from "../MaterialsForm";
+import {materialsFormInitial, MaterialsFormType} from "../../Components/Room/RoomMaterialsForm";
 import {ConstructorAPI} from "../../api/api";
 
 const Header: FC<{ resetForm?: (nextState?: Partial<FormikState<MaterialsFormType>>) => void }> = ({resetForm}) => {

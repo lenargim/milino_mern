@@ -1,5 +1,5 @@
 import {optionType} from "../common/SelectField";
-import {ledAlignmentType} from "../Components/Product/LED";
+import {ledAlignmentType} from "../Components/Product/ProductLED";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3

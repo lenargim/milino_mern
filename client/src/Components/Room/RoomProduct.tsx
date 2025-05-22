@@ -3,7 +3,7 @@ import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {RoomFront} from "../../store/reducers/roomSlice";
 import Product from "../Product/Product";
 import s from '../Profile/profile.module.sass'
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "./RoomMaterialsForm";
 
 const RoomProduct = () => {
     const navigate = useNavigate()

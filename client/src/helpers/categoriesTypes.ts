@@ -22,3 +22,12 @@ export type SliderType = {
     isStandardCabinet: boolean,
     noGola: boolean
 }
+
+export type catItem = {
+    name: productCategory,
+    img: string
+}
+export type catInfoType = {
+    defaultImg: string,
+    categories: catItem[]
+}

@@ -10,9 +10,9 @@ import {
     ProductApiType,
     productTypings
 } from "../helpers/productTypes";
-import {MaterialsFormType} from "../common/MaterialsForm";
-import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
-import {DoorType} from "../Components/CustomPart/StandardDoorForm";
+import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
+import {LEDAccessoriesType} from "../Components/CustomPart/CustomPartLEDForm";
+import {DoorType} from "../Components/CustomPart/CustomPartStandardDoorForm";
 import {DoorAccessoryAPIType, DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {logout} from "../helpers/helpers";
 import {emptyUser} from "../store/reducers/userSlice";
@@ -20,9 +20,9 @@ import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
-import {AlProfileType} from "../Components/CustomPart/AlumProfile";
-import {golaProfileType} from "../Components/CustomPart/GolaProfile";
-import {PanelsFormType} from "../Components/CustomPart/StandardPanel";
+import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
+import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
+import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 
 
 export const alertError = (error: unknown) => {

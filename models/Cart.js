@@ -66,7 +66,6 @@ const CartSchema = new mongoose.Schema({
       type: String,
     },
   },
-
   custom: {
     material: {
       type: String,
@@ -157,7 +156,6 @@ const CartSchema = new mongoose.Schema({
       }
     },
   },
-
   note: {
     type: String,
   }

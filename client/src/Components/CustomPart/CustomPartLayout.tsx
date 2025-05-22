@@ -2,8 +2,8 @@ import {Form, useFormikContext} from 'formik';
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
-import GlassDoorBlock from "./GlassDoorBlock";
-import GlassShelfBlock from "./GlassShelfBlock";
+import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
+import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import {CustomPartType} from "../../helpers/productTypes";
 import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 
@@ -102,8 +102,8 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 </div>
               </div>
             }
-            {showGlassDoorBlock && <GlassDoorBlock glass_door={glass_door} is_custom={true}/>}
-            {showGlassShelfBlock && <GlassShelfBlock product={product}/>}
+            {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true}/>}
+            {showGlassShelfBlock && <CustomPartGlassShelfBlock product={product}/>}
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>

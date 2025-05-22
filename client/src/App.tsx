@@ -10,20 +10,19 @@ import {setUser, UserState} from "./store/reducers/userSlice";
 import PublicRote from "./common/PublicRoute";
 import ProfileMain from "./Components/Profile/ProfileMain";
 import ProfileEdit from "./Components/Profile/ProfileEdit";
-import ProfileRooms from "./Components/Room/ProfileRooms";
-import ProfileRoom from "./Components/Room/ProfileRoom";
+import Room from "./Components/Room/Room";
 import NotFound from "./Components/NotFound/NotFound";
-import ProfileRoomEdit from "./Components/Room/ProfileRoomEdit";
-import RoomsNew from "./Components/Room/RoomsNew";
+import RoomEdit from "./Components/Room/RoomEdit";
+import RoomNew from "./Components/Room/RoomNew";
 import RoomProduct from "./Components/Room/RoomProduct";
 import RoomCategory from "./Components/Room/RoomCategory";
 import RoomCustomPart from "./Components/Room/RoomCustomPart";
-import RoomCheckout from "./Components/Room/RoomCheckout";
+import CheckoutForm from "./Components/Checkout/CheckoutForm";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
 import ProfileCatalog from "./Components/Profile/ProfileCatalog";
 import Constructor from "./Components/Constructor/Constructor";
-import Tutorial from "./Components/Profile/Tutorial";
+import ProfileTutorial from "./Components/Profile/ProfileTutorial";
 import PurchaseOrder from "./Components/PurchaseOrder/PurchaseOrder";
 import PurchaseOrderNew from "./Components/PurchaseOrder/PurchaseOrderNew";
 import PurchaseOrderItem from "./Components/PurchaseOrder/PurchaseOrderItem";
@@ -58,48 +57,28 @@ function App() {
     return (
         <div className="app">
             <Routes>
-                {/*<Route path='/' element={<LoggedInRoute {...privateRouteProps} authenticationPath="/profile" outlet={<OrderForm/>}/>}/>*/}
-                {/*<Route path="cabinets"*/}
-                {/*       element={<LoggedInRoute*/}
-                {/*           {...privateRouteProps}*/}
-                {/*           authenticationPath="/profile"*/}
-                {/*           outlet={<WithChosenMaterials*/}
-                {/*               outlet={<Cabinets/>}/>}/>}/>*/}
-                {/*<Route path="/cabinets/product/:category/:productId"*/}
-                {/*       element={<WithChosenMaterials outlet={<ProductWrap materials={materials}/>}/>}/>*/}
-                {/*<Route path="/cabinets/custom_part/:productId"*/}
-
-                {/*<Route path="/checkout" element={<LoggedInRoute*/}
-                {/*    {...privateRouteProps}*/}
-                {/*    authenticationPath="/profile"*/}
-                {/*    outlet={<WithChosenMaterials*/}
-                {/*        outlet={<Checkout/>}/>}/>}/>*/}
-
                 <Route path="/" element={<PublicRote isAuth={isAuth} outlet={<Login/>}/>}/>
                 <Route path="/signup" element={<PublicRote isAuth={isAuth} outlet={<SignUp/>}/>}/>
-
                 <Route path='/profile' element={<PrivateRoute {...privateRouteProps} outlet={<Profile/>}/>}>
                     <Route index element={<ProfileMain user={user}/>}/>
                     <Route path="admin" element={<ProfileAdmin user={user}/>}/>
                     <Route path="purchase" element={<PurchaseOrder/>}>
                         <Route path="new" element={<PurchaseOrderNew/>}/>
                         <Route path=":name" element={<PurchaseOrderItem/>}>
-                            {/*<Route path="rooms" element={<ProfileRooms/>}>*/}
-                                <Route path=":roomId" element={<ProfileRoom/>}>
-                                    <Route index element={<RoomCategory/>}/>
-                                    <Route path="edit" element={<ProfileRoomEdit/>}/>
-                                    <Route path="product/:category/:productId" element={<RoomProduct/>}/>
-                                    <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
-                                    <Route path="checkout" element={<RoomCheckout/>}/>
-                                </Route>
-                                <Route path="new" element={<RoomsNew/>}/>
-                            {/*</Route>*/}
+                            <Route path=":roomId" element={<Room/>}>
+                                <Route index element={<RoomCategory/>}/>
+                                <Route path="edit" element={<RoomEdit/>}/>
+                                <Route path="product/:category/:productId" element={<RoomProduct/>}/>
+                                <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
+                                <Route path="checkout" element={<CheckoutForm/>}/>
+                            </Route>
+                            <Route path="new" element={<RoomNew/>}/>
                         </Route>
                     </Route>
                     <Route path="edit" element={<ProfileEdit user={user}/>}/>
                     <Route path="constructor" element={<Constructor user={user}/>}/>
                     <Route path="catalog" element={<ProfileCatalog/>}/>
-                    <Route path="tutorial" element={<Tutorial/>}>
+                    <Route path="tutorial" element={<ProfileTutorial/>}>
                     </Route>
                 </Route>
                 <Route path="*" element={<NotFound/>}/>

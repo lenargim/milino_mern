@@ -54,8 +54,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     const maxHeight = sizeLimit.height && sizeLimit.height[1] || 999;
                     return numberVal <= maxHeight;
                 }
-            )
-        ,
+            ),
         'Depth': Yup.string()
             .required('Please wright down depth')
             .test('min',
@@ -134,7 +133,6 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             return Yup.object({
                 price: Yup.number().required().positive()
             })
-
         case "door-accessories":
             return Yup.object({
                 price: Yup.number().required().positive(),

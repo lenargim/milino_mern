@@ -5,7 +5,7 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import {CustomPartFormValuesType} from "./CustomPart";
 import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 
 type CustomPartCabinet = {
     product: CustomPartType,

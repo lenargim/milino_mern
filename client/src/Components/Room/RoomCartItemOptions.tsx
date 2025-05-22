@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {CartItemFrontType} from "../../api/apiFunctions";
-import s from "../OrderForm/Sidebar/sidebar.module.sass";
+import s from "../Sidebar/sidebar.module.sass";
 import {getdimensionsRow, getFraction} from "../../helpers/helpers";
 import Dimentions from "../../common/Dimentions";
 

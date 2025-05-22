@@ -28,7 +28,7 @@ import {fillCart, productChangeMaterialType,} from "../store/reducers/generalSli
 import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
-import {MaterialsFormType} from "../common/MaterialsForm";
+import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 import {CartAPIImagedType, CartItemFrontType} from "../api/apiFunctions";
 import {UnknownAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
@@ -800,8 +800,6 @@ export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: m
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
-    // console.log(materialData)
-    // console.log(`overall_coef ${overall_coef}`)
     return +(startPrice * size_coef + attrPrice).toFixed(1);
 }
 

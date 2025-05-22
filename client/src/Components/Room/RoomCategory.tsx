@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
-import List from "../Cabinets/List";
+import RoomProductsList from "./RoomProductsList";
 import {getImg, getSliderCategories, useAppDispatch} from "../../helpers/helpers";
-import s from "../Cabinets/cabinets.module.sass";
+import s from "./room.module.sass";
 import {RoomFront, roomSetActiveCategory} from "../../store/reducers/roomSlice";
 import {useOutletContext} from "react-router-dom";
 
@@ -31,7 +31,7 @@ const RoomCategory: FC = () => {
                     </div>
                 </div>
             </form>
-            {category && <List category={category} room={room} isStandardCabinet={isStandardCabinet}/>}
+            {category && <RoomProductsList category={category} room={room} isStandardCabinet={isStandardCabinet}/>}
         </>
     )
 };

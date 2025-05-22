@@ -5,7 +5,7 @@ import {
     getCartArrFront,
     getRoomFront,
 } from "../../helpers/helpers";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../../Components/Room/RoomMaterialsForm";
 
 export interface RoomTypeAPI extends MaterialsFormType {
     _id: string,

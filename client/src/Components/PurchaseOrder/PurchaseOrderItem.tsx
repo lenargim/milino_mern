@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileRooms from "../Room/ProfileRooms";
+import PurchaseOrderRooms from "./PurchaseOrderRooms";
 import {useParams} from "react-router-dom";
 import {textToLink, useAppSelector} from "../../helpers/helpers";
 import {PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
@@ -11,7 +11,7 @@ const PurchaseOrderItem = () => {
     const item:MaybeUndefined<PurchaseOrderType> = purchase_orders.find(el => textToLink(el.name) === name);
     if (!item) return null;
     return (
-        <ProfileRooms purchase_order={item}/>
+        <PurchaseOrderRooms purchase_order={item}/>
     );
 };
 

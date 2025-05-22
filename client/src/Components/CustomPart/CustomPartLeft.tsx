@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {getImg} from "../../helpers/helpers";
 import {CustomPartType} from "../../helpers/productTypes";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import Materials from "../../common/Materials";
 
 const CustomPartLeft:FC<{product:CustomPartType, materials:MaterialsFormType}> = ({product, materials}) => {

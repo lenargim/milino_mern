@@ -50,24 +50,22 @@ import {
 } from "../api/apiFunctions";
 import {RoomFront, RoomTypeAPI} from "../store/reducers/roomSlice";
 import sizes from "../api/sizes.json";
-import {materialsFormInitial, MaterialsFormType} from "../common/MaterialsForm";
+import {materialsFormInitial, MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 import {MaterialStringsType} from "../common/Materials";
 import {
     CustomPartFormValuesType, DoorAccessoryAPIType, DoorAccessoryFront, DoorAccessoryType,
 } from "../Components/CustomPart/CustomPart";
-import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
-import {addToCartAccessories} from "../Components/CustomPart/DoorAccessoiresForm";
-import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/StandardDoorForm";
+import {addToCartAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
+import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/CustomPartStandardDoorForm";
 import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
-import {catInfoType} from "../Components/Cabinets/Slider";
+import {catInfoType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {emptyUser, setIsAuth, setUser} from "../store/reducers/userSlice";
 import standardProductsPrices from "../api/standartProductsPrices.json";
-import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/StandardPanel";
+import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import settings from "../api/settings.json";
-import {AlProfileType} from "../Components/CustomPart/AlumProfile";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -973,7 +971,7 @@ export const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('constructor_token')
     localStorage.removeItem('customer_token')
-    store.dispatch(setUser(emptyUser))
+    store.dispatch(setUser(emptyUser));
     store.dispatch(setIsAuth(false))
 }
 
@@ -1066,35 +1064,17 @@ export function textToLink(text: string) {
         .replace(/-+/g, '-');        // Replace multiple hyphens with one
 }
 
+export const checkoutCartItemWithImg = (cart:CartItemFrontType[]) => {
+    return cart.map(el => {
+        const {product_id, product_type, image_active_number} = el
+        const product = product_type !== 'custom'
+            ? getProductById(product_id, product_type === 'standard')
+            : getCustomPartById(product_id);
 
-export const getInitialMaterials = (): MaterialsFormType => {
-    const storageMaterials = localStorage.getItem('materials');
-    return storageMaterials ? JSON.parse(storageMaterials) as MaterialsFormType : materialsFormInitial;
-}
-
-// export const getStorageMaterials = (): MaybeNull<MaterialsFormType> => {
-//     const materialsString = localStorage.getItem('materials');
-//     if (!materialsString) return null;
-//     const materials: MaterialsFormType = JSON.parse(materialsString);
-//     materials.room_name = null;
-//     return materials
-// }
-
-export const useScript = (url: string) => {
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.async = true;
-        document.body.appendChild(script);
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, [url]);
-};
-
-export default useScript;
-
-export const prepareEmailData = <T extends { email: string }>(e: T): T => {
-    const {email} = e
-    return {...e, email: email.toLowerCase()}
+        if (product) {
+            const img = getCartItemImg(product, image_active_number)
+            return ({...el, img: img.replace('webp', 'jpg')})
+        }
+        return el
+    })
 }

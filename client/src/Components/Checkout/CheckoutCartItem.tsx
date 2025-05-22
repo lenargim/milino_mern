@@ -8,16 +8,16 @@ import {
     getProductById,
     useAppDispatch
 } from "../../helpers/helpers";
-import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
+import {changeAmountType} from "../Sidebar/Sidebar";
 import {CartItemFrontType, updateProductAmountAPI} from "../../api/apiFunctions";
-import CartItemOptions from "../Product/CartItemOptions";
+import CartItemOptions from "../Sidebar/CartItemOptions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CheckoutCartItem: FC<{ el: CartItemFrontType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
+const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
     const {
         _id,
+        room_id,
         price,
         amount,
         note,

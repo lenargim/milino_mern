@@ -6,7 +6,7 @@ import {
     ProductType,
     productTypings
 } from "../../helpers/productTypes";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../../Components/Room/RoomMaterialsForm";
 import {CartItemFrontType} from "../../api/apiFunctions";
 
 

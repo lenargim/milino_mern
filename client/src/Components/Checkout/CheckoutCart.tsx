@@ -2,9 +2,8 @@ import React, {FC} from 'react';
 import CheckoutCartItem from "./CheckoutCartItem";
 import s from './checkout.module.sass'
 import {CartItemFrontType} from "../../api/apiFunctions";
-import {MaybeUndefined} from "../../helpers/productTypes";
 
-const CheckoutCart: FC<{ cart: CartItemFrontType[], total:number, room_id: MaybeUndefined<string> }> = ({cart, total, room_id}) => {
+const CheckoutCart: FC<{ cart: CartItemFrontType[], total: number }> = ({cart, total}) => {
     return (
         <div className={s.cart}>
             <h2 className={s.cartTitle}>Cart</h2>
@@ -12,7 +11,7 @@ const CheckoutCart: FC<{ cart: CartItemFrontType[], total:number, room_id: Maybe
                 <div className={s.header}>
                     <span>Image</span><span>Description</span><span>Price</span><span>Qty</span><span>Product total</span>
                 </div>
-                {cart.map(el => <CheckoutCartItem key={el._id} el={el} room_id={room_id}/>)}
+                {cart.map(el => <CheckoutCartItem key={el._id} el={el}/>)}
             </div>
             <div className={s.total}>Total price:{total}$</div>
         </div>

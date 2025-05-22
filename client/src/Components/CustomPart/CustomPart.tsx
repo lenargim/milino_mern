@@ -9,15 +9,15 @@ import {
 import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import {Navigate, useParams} from "react-router-dom";
 import CustomPartLeft from "./CustomPartLeft";
-import {DoorType} from "./StandardDoorForm";
+import {DoorType} from "./CustomPartStandardDoorForm";
 import {addToCartAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {colorOption} from "./GolaProfile";
+import {colorOption} from "./CustomPartGolaProfile";
 import DA from '../../api/doorAccessories.json'
-import {PanelsFormType} from "./StandardPanel";
+import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 
 type CustomPartFormType = {

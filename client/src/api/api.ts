@@ -2,7 +2,7 @@ import {AdminUsersType, EditProfileType, LogInType, SignUpType, UserTypeResponse
 import {RoomTypeAPI} from "../store/reducers/roomSlice";
 import axios, {AxiosResponse} from "axios";
 import {CartAPI} from "./apiFunctions";
-import {MaterialsFormType} from "../common/MaterialsForm";
+import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";

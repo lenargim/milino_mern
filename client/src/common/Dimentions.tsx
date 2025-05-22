@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import s from "../Components/OrderForm/Sidebar/sidebar.module.sass";
+import s from "../Components/Sidebar/sidebar.module.sass";
 
 
 const dimensions:FC<{dimensions:string, isStandard?: boolean}> = ({dimensions, isStandard = true}) => {

@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import s from "./product.module.sass";
 import {getImg, getImgSize, getProductImage} from "../../helpers/helpers";
-import {AtrrsList} from "../Cabinets/List";
 import {ProductType, productValuesType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import Materials from "../../common/Materials";
+import {ProductAttributes} from "./ProductAttributes";
 
 const ProductLeft:FC<{product:ProductType, materials:MaterialsFormType}> = ({product, materials}) => {
     const {images, category, name, attributes} = product;
@@ -18,7 +18,7 @@ const ProductLeft:FC<{product:ProductType, materials:MaterialsFormType}> = ({pro
             <div className={[s.img, s[imgSize]].join(' ')}><img src={getImg('products', img)}
                                                                 alt={name}/>
             </div>
-            <AtrrsList attributes={attributes} type={image_active_number}/>
+            <ProductAttributes attributes={attributes} type={image_active_number}/>
             <Materials materials={materials}/>
         </div>
     );

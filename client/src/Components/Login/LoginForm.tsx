@@ -3,7 +3,7 @@ import React, {FC, useState} from 'react';
 import {loginSchema} from "./loginSchema";
 import {PasswordInput, TextInput} from "../../common/Form";
 import s from './login.module.sass'
-import {constructorGetToken, constructorLogin, logIn} from "../../api/apiFunctions";
+import {logIn} from "../../api/apiFunctions";
 import {setIsAuth, setUser} from "../../store/reducers/userSlice";
 import {useDispatch} from "react-redux";
 import modalSt from './../Checkout/checkout.module.sass'

@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
+import {changeAmountType} from "../Sidebar/Sidebar";
 import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
-import s from "../OrderForm/Sidebar/sidebar.module.sass";
+import s from "../Sidebar/sidebar.module.sass";
 import {CartItemFrontType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
 import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import CartItemOptions from "../Product/CartItemOptions";
+import CartItemOptions from "../Sidebar/CartItemOptions";
 
 const RoomCartItem: FC<{ item: CartItemFrontType, room:string }> = ({item, room}) => {
     const dispatch = useAppDispatch()
