@@ -1,9 +1,8 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {MaybeUndefined} from "../../helpers/productTypes";
 import {DoorAccessoryAPIType, DoorAccessoryType} from "../CustomPart/CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
-import {CustomAccessoriesType} from "../../api/apiFunctions";
+import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     const {door} = accessories;

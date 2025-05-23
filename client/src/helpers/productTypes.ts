@@ -9,11 +9,6 @@ export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
 
-function notEmpty<TValue>(value: MaybeUndefined<TValue>): value is TValue {
-    return value !== null && value !== undefined;
-}
-
-
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;

@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
 import {s} from './PDFOrder'
 import {splitFrontDoorAccessories} from "../Sidebar/CartItemDoorExtra";
-import {CustomAccessoriesType} from "../../api/apiFunctions";
+import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     const {door} = accessories;

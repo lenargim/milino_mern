@@ -1,12 +1,11 @@
 import React, {FC} from 'react';
 import s from './product.module.sass'
-import {useParams} from "react-router-dom";
 import {
-    addProductToCart, getFraction,
+    addProductToCart, findIsProductStandardByCategory, getFraction,
     getProductById, useAppDispatch,
 } from "../../helpers/helpers";
 import {
-    MaybeNull, MaybeUndefined,
+    MaybeUndefined,
     productCategory, productValuesType, sizeLimitsType
 } from "../../helpers/productTypes";
 import ProductCabinet from "./ProductCabinet";
@@ -19,15 +18,18 @@ import sizes from "../../api/sizes.json";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
 import {addToCartAPI} from "../../api/apiFunctions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {setCart} from "../../store/reducers/cartSlice";
 
-const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
+const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_id: number, activeProductCategory: productCategory }> = ({
+                                                                                                                                            materials,
+                                                                                                                                            room_id,
+                                                                                                                                            product_id,
+                                                                                                                                            activeProductCategory
+                                                                                                                                        }) => {
     const dispatch = useAppDispatch();
-    let {productId, category: catFromParam, roomId} = useParams();
-    if (!productId || !catFromParam || !materials || !roomId) return <div>Product error</div>;
-    const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(catFromParam)
-    let product = getProductById(+productId, isProductStandard);
+    const isProductStandard = findIsProductStandardByCategory(activeProductCategory);
+    let product = getProductById(product_id, isProductStandard);
     if (!product) return <div>Product error</div>;
     const {
         isBlind,
@@ -88,10 +90,10 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
             initialValues={initialValues}
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={(values: productValuesType, {resetForm}) => {
-                if (!product || !roomId) return;
-                const cartData = addProductToCart(product, values, productRange, roomId);
+                if (!product) return;
+                const cartData = addProductToCart(product, values, productRange, room_id);
                 addToCartAPI(cartData).then(cart => {
-                    cart && dispatch(updateCartInRoom({cart}));
+                    cart && dispatch(setCart(cart));
                 })
                 resetForm();
             }}

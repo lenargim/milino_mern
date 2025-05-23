@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import {CartItemFrontType} from "../../api/apiFunctions";
 import Dimentions from "../../common/Dimentions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {

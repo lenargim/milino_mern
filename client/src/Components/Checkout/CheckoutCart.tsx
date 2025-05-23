@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import CheckoutCartItem from "./CheckoutCartItem";
 import s from './checkout.module.sass'
-import {CartItemFrontType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CheckoutCart: FC<{ cart: CartItemFrontType[], total: number }> = ({cart, total}) => {
     return (

@@ -1,9 +1,7 @@
 import React, {Dispatch, FC, useEffect, useRef, useState} from 'react';
 import {useNavigate, useOutletContext} from "react-router-dom";
-import {RoomTypeAPI} from "../../store/reducers/roomSlice";
 import {
     checkoutCartItemWithImg,
-    getCartArrFront,
     getCartTotal,
     getMaterialStrings,
     useAppSelector
@@ -12,7 +10,6 @@ import {UserType, UserTypeCheckout} from "../../api/apiTypes";
 import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
-import {OrderAPIType} from "../../api/apiFunctions";
 import {checkoutAPI} from "../../api/api";
 import {saveAs} from "file-saver";
 import {Form, Formik, FormikProps} from "formik";
@@ -21,6 +18,9 @@ import {PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
 import {CheckoutType} from "../../helpers/types";
 import {MaybeNull} from "../../helpers/productTypes";
+import {RoomType} from "../../helpers/roomTypes";
+import {CartState} from "../../store/reducers/cartSlice";
+import {CartInOrderType} from "../../helpers/cartTypes";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
@@ -37,18 +37,19 @@ const CheckoutForm: FC = () => {
         }
     }
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
-    const [roomData] = useOutletContext<[RoomTypeAPI]>();
-    const {_id, cart, ...materials} = roomData;
+    const [room] = useOutletContext<[RoomType]>();
+    const {_id, purchase_order_id, ...materials} = room;
+    const {cart_items} = useAppSelector<CartState>(state => state.cart)
     const navigate = useNavigate();
-    const cartFront = getCartArrFront(cart, roomData)
-    const total = getCartTotal(cartFront);
+    const total = getCartTotal(cart_items);
     const user: UserType = useAppSelector(state => state.user.user);
+    const [modal, setModal] = useState<modalType>({open: false, status: ''});
     const [initialValues, setInitialValues] = useState<UserTypeCheckout>({
         name: user.name,
         company: user.company,
         email: user.email,
         phone: user.phone,
-        project: roomData.room_name,
+        project: room.room_name,
         delivery: ''
     })
     useEffect(() => {
@@ -60,11 +61,13 @@ const CheckoutForm: FC = () => {
             phone: user.phone
         })
     }, [user])
-    if (!cart.length) navigate(-1);
-    const [modal, setModal] = useState<modalType>({open: false, status: ''});
+    if (!cart_items || !cart_items.length) {
+        navigate(-1);
+        return null;
+    }
     const materialStrings = getMaterialStrings(materials);
     if (!initialValues.email) return null;
-    const cartWithJPG = checkoutCartItemWithImg(cartFront);
+    const cartWithJPG = checkoutCartItemWithImg(cart_items);
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
@@ -74,7 +77,7 @@ const CheckoutForm: FC = () => {
                     const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
                     const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
                                                      cart={cartWithJPG}/>).toBlob();
-                    const order: OrderAPIType[] = cart;
+                    const order: CartInOrderType[] = cart_items;
                     const dataToJSON = {
                         date: date,
                         contact: values,
@@ -123,7 +126,7 @@ const CheckoutForm: FC = () => {
                             <PhoneInput type="text" name="phone" label="Phone number"/>
                             <TextInput type="text" name="delivery" label="Delivery address"/>
                         </div>
-                        <CheckoutCart cart={cartFront} total={total}/>
+                        <CheckoutCart cart={cart_items} total={total}/>
                         <div className={s.buttonRow}>
                             <button type="button"
                                     onClick={() => handleSubmit('download')}

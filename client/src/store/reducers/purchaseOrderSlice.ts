@@ -15,7 +15,7 @@ const initialState: PurchaseOrdersState = {
     activePO: ''
 }
 
-export const purchase_order = createSlice({
+const purchase_order_slice = createSlice({
     name: 'purchase_order',
     initialState,
     reducers: {
@@ -47,6 +47,6 @@ export const {
     setPOs,
     // getPOs,
     editPO
-} = purchase_order.actions
+} = purchase_order_slice.actions
 
-export default purchase_order.reducer
+export default purchase_order_slice.reducer

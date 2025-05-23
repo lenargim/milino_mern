@@ -50,7 +50,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
         return ''
     }
     return (
-        <div className={s.roomsMain}>
+        <div>
             <h1>Enable Users</h1>
             <div className={s.table}>
                 <div className={s.tableHead}>

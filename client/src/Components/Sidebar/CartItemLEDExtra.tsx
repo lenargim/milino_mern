@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {CustomAccessoriesType} from "../../api/apiFunctions";
+import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     if (!accessories) return null;

@@ -19,20 +19,18 @@ import {
 } from "./productTypes";
 import settings from './../api/settings.json'
 import {
+    findIsProductCustomByCategory,
     getAttributes, getCabinetHeightRangeBasedOnCategory,
     getProductById,
     getSquare,
     getWidthToCalculateDoor
 } from "./helpers";
-import {fillCart, productChangeMaterialType,} from "../store/reducers/generalSlice";
+import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
-import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
-import {CartAPIImagedType, CartItemFrontType} from "../api/apiFunctions";
-import {UnknownAction} from "@reduxjs/toolkit";
-import {Dispatch} from "react";
-import {updateCartAfterMaterialsChange} from "../store/reducers/roomSlice";
+import {RoomMaterialsFormType} from "./roomTypes";
+import {CartAPIImagedType, CartItemFrontType} from "./cartTypes";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], category: productCategory): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -423,7 +421,7 @@ function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUnd
     return Math.round(sum)
 }
 
-const getBasePriceType = (materials: MaterialsFormType, is_leather_closet: boolean): pricesTypings => {
+const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: boolean): pricesTypings => {
     const {door_type, door_color, door_finish_material, box_material} = materials;
     if (is_leather_closet) {
         if (box_material === 'Milino') return 1;
@@ -457,7 +455,7 @@ const getBasePriceType = (materials: MaterialsFormType, is_leather_closet: boole
     }
 }
 
-const getMaterialCoef = (materials: MaterialsFormType, is_leather_closet: boolean): number => {
+const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color, box_material, box_color} = materials;
 
     if (!is_leather_closet) {
@@ -527,7 +525,7 @@ const getBoxMaterialFinishCoef = (doorFinish: string, is_standard_cabinet: boole
     }
     return doorFinish === 'Syncron' ? 1.845 : 2.706
 }
-const getDoorPriceMultiplier = (materials: MaterialsFormType, is_standard_cabinet: boolean, is_leather_closet: boolean): number => {
+const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_cabinet: boolean, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color} = materials
     if (is_standard_cabinet) return door_color === 'Default White' ? 0 : 30;
     if (!is_leather_closet) {
@@ -561,7 +559,7 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
         depthRange: getDepthRange(priceData, category, customDepth)
     }
 }
-export const getMaterialData = (materials: MaterialsFormType): materialDataType => {
+export const getMaterialData = (materials: RoomMaterialsFormType): materialDataType => {
     const {
         box_material,
         door_type,
@@ -764,30 +762,22 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
 const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name === 'Adjustable Shelf')?.value ?? 0;
 }
-export const checkCartData = (cart: CartItemFrontType[], values: MaterialsFormType, dispatch: Dispatch<UnknownAction>) => {
-    const roomId = cart[0].room_id;
-    const updatedPriceCart = cart.map(cartItem => {
+export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType):CartItemFrontType[] => {
+    return cart.map(cartItem => {
         const {product_id, product_type} = cartItem;
         const product = getProductById(product_id, product_type === 'standard');
         if (!product) return cartItem;
         const {category} = product
-        if (category === 'Custom Parts') return cartItem;
-        const materialData = getMaterialData(values)
-        const {
-            is_standard_cabinet,
-            base_price_type
-        } = materialData;
-
+        if (findIsProductCustomByCategory(category)) return cartItem;
+        const materialData = getMaterialData(materials)
+        const {is_standard_cabinet, base_price_type} = materialData;
         const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
         if (!tablePriceData) return cartItem;
         const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
         if (!sizeLimit) return cartItem;
         const totalPrice = calculateProduct(cartItem, materialData, tablePriceData, sizeLimit, product);
-        return {...cartItem, price:totalPrice};
+        return {...cartItem,  price:totalPrice};
     });
-    roomId ?
-        dispatch(updateCartAfterMaterialsChange({cart: updatedPriceCart, room: roomId})) :
-        dispatch(fillCart(updatedPriceCart));
 }
 
 export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {

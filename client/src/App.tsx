@@ -16,7 +16,6 @@ import RoomEdit from "./Components/Room/RoomEdit";
 import RoomNew from "./Components/Room/RoomNew";
 import RoomProduct from "./Components/Room/RoomProduct";
 import RoomCategory from "./Components/Room/RoomCategory";
-import RoomCustomPart from "./Components/Room/RoomCustomPart";
 import CheckoutForm from "./Components/Checkout/CheckoutForm";
 import ProfileAdmin from "./Components/Profile/ProfileAdmin";
 import Footer from "./common/Footer/Footer";
@@ -65,11 +64,10 @@ function App() {
                     <Route path="purchase" element={<PurchaseOrder/>}>
                         <Route path="new" element={<PurchaseOrderNew/>}/>
                         <Route path=":name" element={<PurchaseOrderItem/>}>
-                            <Route path=":roomId" element={<Room/>}>
+                            <Route path=":room_id" element={<Room/>}>
                                 <Route index element={<RoomCategory/>}/>
                                 <Route path="edit" element={<RoomEdit/>}/>
-                                <Route path="product/:category/:productId" element={<RoomProduct/>}/>
-                                <Route path="custom_part/:productId" element={<RoomCustomPart/>}/>
+                                <Route path="product/:productId" element={<RoomProduct/>}/>
                                 <Route path="checkout" element={<CheckoutForm/>}/>
                             </Route>
                             <Route path="new" element={<RoomNew/>}/>

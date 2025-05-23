@@ -10,8 +10,8 @@ import {
     checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
-import {CartAPIImagedType} from "../../api/apiFunctions";
 import ProductLayout from "./ProductLayout";
+import {CartAPIImagedType} from "../../helpers/cartTypes";
 
 const ProductCabinet: FC<CabinetType> = ({
                                       product,
@@ -110,6 +110,7 @@ const ProductCabinet: FC<CabinetType> = ({
             alignment: led_alignment,
             indent: led_indent
         },
+        custom: undefined,
         image_active_number: newType,
         note: note,
     };

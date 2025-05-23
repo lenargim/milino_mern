@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 import {roomCategories} from "../../helpers/productTypes";
 import {ObjectSchema} from "yup";
-import {MaterialsFormType} from "./RoomMaterialsForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
-export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<MaterialsFormType> => {
+export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<RoomMaterialsFormType> => {
     return (
         Yup.object({
             room_name: Yup.string()

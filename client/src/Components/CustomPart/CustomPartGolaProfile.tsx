@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {useField} from "formik";
-import {changeAmountType} from "../Sidebar/Sidebar";
+import {changeAmountType} from "../../helpers/cartTypes";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
 import Select, {OnChangeValue, StylesConfig} from "react-select";

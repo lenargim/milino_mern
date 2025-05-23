@@ -1,37 +1,39 @@
 import React, {FC, useEffect, useState} from 'react';
 import {NavLink, Outlet, useLocation, useNavigate, useOutletContext, useParams} from "react-router-dom";
-import {useAppDispatch} from "../../helpers/helpers";
+import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import s from '../Profile/profile.module.sass'
-import {deleteRoomAPI, getOneRoom} from "../../api/apiFunctions";
-import {deleteRoom, RoomTypeAPI, setRoom} from "../../store/reducers/roomSlice";
-import {MiniCart} from "../../common/Header/Header";
+import {deleteRoomAPI, getCartAPI} from "../../api/apiFunctions";
+import {deleteRoom} from "../../store/reducers/roomSlice";
 import checkoutStyle from '../Checkout/checkout.module.sass'
 import {useDispatch} from "react-redux";
+import {RoomType} from "../../helpers/roomTypes";
+import {MiniCart} from "../../common/MiniCart";
+import {CartState, setCart} from "../../store/reducers/cartSlice";
 
 const Room: FC = () => {
     const {room_id} = useParams();
-    const [rooms] = useOutletContext<[RoomTypeAPI[]]>();
     const navigate = useNavigate();
-    const roomData = rooms?.find(room => room._id === room_id);
+    const [open, setOpen] = useState<boolean>(false);
     const location = useLocation();
     const dispatch = useDispatch();
+    const path = location.pathname.slice(1);
+    const [rooms] = useOutletContext<[RoomType[]]>();
+    const room = rooms.find(room => room._id === room_id);
+    const {cart_items} = useAppSelector<CartState>(state => state.cart);
+
     useEffect(() => {
-        if (!roomData || !roomData.cart.length) {
-            getOneRoom(room_id || '').then(data => {
-                data ? dispatch(setRoom(data)) : navigate('/profile');
-            })
-        }
+        room_id && getCartAPI(room_id).then(cart_res => {
+            room && cart_res && dispatch(setCart(cart_res))
+        })
+        if (!room_id) navigate('/profile');
     }, [room_id]);
 
-    const path = location.pathname.slice(1);
-    const [open, setOpen] = useState<boolean>(false);
-
-    if (!roomData) return null;
-    const {_id, room_name, category} = roomData;
+    if (!room) return null;
+    const {_id, room_name, category} = room;
     if (!category) return null;
     const isBackToCabinetsShown = path !== `profile/rooms/${room_id}`;
-    const {cart} = roomData
-    const cartLength = cart.length
+
+    const cartLength = cart_items?.length
     const isCartShown = cartLength && !path.includes('/checkout');
     return (
         <div>
@@ -45,7 +47,7 @@ const Room: FC = () => {
                 </button>
                 {open && <ApproveRemove _id={_id} setOpen={setOpen} room_name={room_name}/>}
             </div>
-            <Outlet context={[roomData]}/>
+            <Outlet context={[room]}/>
         </div>
     );
 };

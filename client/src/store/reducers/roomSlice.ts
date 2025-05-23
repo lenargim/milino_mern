@@ -1,59 +1,50 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {MaybeEmpty, MaybeNull, productCategory, ProductType,} from "../../helpers/productTypes";
-import {CartAPI, CartItemFrontType} from "../../api/apiFunctions";
-import {
-    getCartArrFront,
-    getRoomFront,
-} from "../../helpers/helpers";
-import {MaterialsFormType} from "../../Components/Room/RoomMaterialsForm";
+import {productCategory} from "../../helpers/productTypes";
+import {RoomFront, RoomType} from "../../helpers/roomTypes";
+import {convertRoomAPIToFront} from "../../helpers/helpers";
 
-export interface RoomTypeAPI extends MaterialsFormType {
-    _id: string,
-    purchase_order_id: string,
-    cart: CartAPI[]
-}
-
-export interface RoomFront extends MaterialsFormType {
-    _id: string,
-    purchase_order_id: string,
-    productPage: MaybeNull<ProductType>,
-    activeProductCategory: MaybeEmpty<productCategory>,
-    cart: CartItemFrontType[]
-}
-
-interface RoomsState {
+export interface RoomsState {
     rooms: RoomFront[],
+    // loading: boolean;
+    // error: MaybeNull<string>;
 }
 
 const initialState: RoomsState = {
-    rooms: []
+    rooms: [],
+    // loading: false,
+    // error: null
 }
+
+// export const fetchRooms = createAsyncThunk<
+//     RoomType[],           // Return type
+//     {_id:string},           // Argument type (the _id)
+//     { state: RoomsState }
+//     >(
+//     'room/fetchRooms', getRooms(_id)
+// );
 
 export const roomSlice = createSlice({
     name: 'room',
     initialState,
     reducers: {
-        getRooms: (state, action: PayloadAction<RoomTypeAPI[]>) => {
-            state.rooms = action.payload.map(room => {
-                return getRoomFront(room)
-            })
+        setRooms: (state, action: PayloadAction<RoomType[]>) => {
+            state.rooms = action.payload.map(room => convertRoomAPIToFront(room))
         },
-        addRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
-            state.rooms.push(getRoomFront(action.payload))
+        addRoom: (state, action: PayloadAction<RoomType>) => {
+            state.rooms.push(convertRoomAPIToFront(action.payload))
         },
-        setRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
+        // setRooms: (state, action: PayloadAction<RoomType[]>) => {
+        //     state.rooms = state.rooms.map(room => {
+        //         return room._id === action.payload._id ? {...getRoomFront(action.payload)} : room;
+        //     })
+        // },
+        editRoom: (state, action: PayloadAction<RoomType>) => {
+            const editable_roo = action.payload
             state.rooms = state.rooms.map(room => {
-                return room._id === action.payload._id ? {...getRoomFront(action.payload)} : room;
+                return room._id === editable_roo._id ? convertRoomAPIToFront(editable_roo) : room;
             })
         },
-        editRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
-            state.rooms = state.rooms.map(room => {
-                return room._id === action.payload._id ?
-                    {...getRoomFront(action.payload)}
-                    : room;
-            })
-        },
-        deleteRoom: (state, action: PayloadAction<RoomTypeAPI>) => {
+        deleteRoom: (state, action: PayloadAction<RoomType>) => {
             state.rooms = state.rooms.filter(room => room._id !== action.payload._id);
         },
         roomSetActiveCategory: (state, action: PayloadAction<{ _id: string, category: productCategory }>) => {
@@ -64,34 +55,39 @@ export const roomSlice = createSlice({
                 } : room;
             })
         },
-        updateCartInRoom: (state, action: PayloadAction<{ cart: CartAPI[] }>) => {
-            state.rooms = state.rooms.map(room => {
-                const room_id = action.payload.cart[0].room_id;
-                return room._id === room_id ? {
-                    ...room,
-                    cart: getCartArrFront(action.payload.cart, room)
-                } : room;
-            })
-        },
-        updateCartAfterMaterialsChange: (state, action: PayloadAction<{ room: string, cart: CartItemFrontType[] }>) => {
-            state.rooms = state.rooms.map(room => {
-                return room._id === action.payload.room ?
-                    {...room, cart: action.payload.cart}
-                    : room;
-            })
-        }
-    }
+        // updateCartInRoom: (state, action: PayloadAction<CartAPI[]>) => {
+        //     state.rooms = state.rooms.map(room => {
+        //         const room_id = action.payload.cart[0].room_id;
+        //         return room._id === room_id ? {
+        //             ...room,
+        //             cart: useGetCartArrFront(action.payload.cart, room)
+        //         } : room;
+        //     })
+        // },
+    },
+    // extraReducers: (builder) => {
+    //     builder
+    //         .addCase(fetchRooms.pending, (state) => {
+    //             state.loading = true;
+    //             state.error = null;
+    //         })
+    //         .addCase(fetchRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
+    //             state.loading = false;
+    //             state.rooms = action.payload;
+    //         })
+    //         .addCase(fetchRooms.rejected, (state, action) => {
+    //             state.loading = false;
+    //             state.error = action.error.message || 'Failed to fetch rooms';
+    //         });
+    // },
 })
 
 export const {
     addRoom,
-    setRoom,
-    getRooms,
+    setRooms,
     editRoom,
     deleteRoom,
-    roomSetActiveCategory,
-    updateCartInRoom,
-    updateCartAfterMaterialsChange
+    roomSetActiveCategory
 } = roomSlice.actions
 
 export default roomSlice.reducer

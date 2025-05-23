@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
 import {MaybeUndefined, priceStandardPanel} from "../../helpers/productTypes";
-import {PanelsFormAPIType} from "../../api/apiFunctions";
 import standardProductsPrices from "../../api/standartProductsPrices.json";
 import {getdimensionsRow} from "../../helpers/helpers";
+import {PanelsFormAPIType} from "../../helpers/cartTypes";
 
 const CartItemPanel: FC<{ standard_panels: MaybeUndefined<PanelsFormAPIType>, prod_id: number }> = ({
                                                                                                         standard_panels,

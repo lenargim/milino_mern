@@ -16,7 +16,6 @@ const ProfileSidebar = () => {
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/admin">Admin</NavLink>
                 }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/purchase">Purchase orders</NavLink>
-                {/*<NavLink to="https://www.youtube.com/watch?v=5vztBTlkKIE&ab_channel=MilinoCabinets" target={"_blank"}>Tutorial</NavLink>*/}
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/tutorial">Tutorial</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
                 {(is_active_in_constructor || is_super_user) &&

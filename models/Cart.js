@@ -42,9 +42,6 @@ const CartSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
-  // shelf_option: {
-  //   type: String,
-  // },
   glass: {
     door: {
       type: Array,

@@ -34,7 +34,7 @@ const PurchaseOrder = () => {
 
     return (
         <div className={s.rooms}>
-            <div className={s.roomsMain}>
+            <div>
                 <h1 ref={scrollToRef}>Purchase orders</h1>
                 <nav className={s.nav}>
                     {purchase_orders.length

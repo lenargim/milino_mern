@@ -1,5 +1,5 @@
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
-import {OrderAPIType} from "./apiFunctions";
+import {CartInOrderType} from "../helpers/cartTypes";
 
 export type UserDataType = {
     name: string,
@@ -50,11 +50,13 @@ export type LogInType = {
     password: string
 }
 
-export type OrderTypeApi = {
+export type OrderTypeAPI = {
     user: string,
     room_id: string,
     room_name: string,
-    order: OrderAPIType[],
+    purchase_order_id: string,
+    purchase_order_name: string,
+    cart: CartInOrderType[],
     total: number,
     createdAt: Date
 }

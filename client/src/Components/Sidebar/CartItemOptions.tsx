@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {CartItemFrontType} from "../../api/apiFunctions";
 import CartItemProduct from "./CartItemProduct";
 import CartItemCustom from "./CartItemCustom";
 import {getdimensionsRow} from "../../helpers/helpers";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemOptions:FC<{item: CartItemFrontType}> = ({item}) => {
     const {

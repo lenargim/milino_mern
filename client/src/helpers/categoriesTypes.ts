@@ -1,33 +1,43 @@
 import {MaybeEmpty, productCategory} from "./productTypes";
+import {RoomCategoriesType} from "./roomTypes";
 
 export type category = {
     name: string,
     img: string
 }
 
-export type RoomType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet';
-
-export type roomType = {
-    defaultImg: string,
-    categories: category[]
-}
-
-
 export type setCategoryType = (value: productCategory) => void;
 
 export type SliderType = {
     category: MaybeEmpty<productCategory>,
     setCategory: setCategoryType,
-    room: RoomType,
+    room: RoomCategoriesType,
     isStandardCabinet: boolean,
     noGola: boolean
 }
 
-export type catItem = {
+export type CatItem = {
     name: productCategory,
     img: string
 }
-export type catInfoType = {
-    defaultImg: string,
-    categories: catItem[]
+// export type catInfoType = {
+//     defaultImg: string,
+//     categories: CatItem[]
+// }
+
+
+export type SliderCategoriesType = {
+    "Kitchen": SliderCategoriesItemType,
+    "Kitchen Gola": SliderCategoriesItemType,
+    "Vanity": SliderCategoriesItemType,
+    "Vanity Gola": SliderCategoriesItemType,
+    "Build In Closet": SliderCategoriesItemType,
+    "Leather Closet": SliderCategoriesItemType,
+    "Standard Door": SliderCategoriesItemType
+
+}
+
+export type SliderCategoriesItemType = {
+    "defaultImg": string,
+    categories: CatItem[]
 }

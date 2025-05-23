@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {DoorType} from "../CustomPart/CustomPartStandardDoorForm";
-import {MaybeUndefined} from "../../helpers/productTypes";
-import {StandardDoorAPIType} from "../../api/apiFunctions";
-
+import {StandardDoorAPIType} from "../../helpers/cartTypes";
 
 const CartItemStandardDoor: FC<{ standard_door: StandardDoorAPIType }> = ({standard_door}) => {
     const {color, doors} = standard_door;

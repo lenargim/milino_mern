@@ -6,8 +6,8 @@ import {v4 as uuidv4} from "uuid";
 import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
 import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
-import {CustomAccessoriesType} from "../../api/apiFunctions";
 import LEDNumberPart from "./CustomPartNumberPart";
+import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 export type LEDAccessoriesType = Exclude<CustomAccessoriesType, 'door'>
 

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
-import {changeAmountType} from "../Sidebar/Sidebar";
+import {changeAmountType} from "../../helpers/cartTypes";
 import {useField} from "formik";
 import {DoorAccessoryType} from "./CustomPart";
 

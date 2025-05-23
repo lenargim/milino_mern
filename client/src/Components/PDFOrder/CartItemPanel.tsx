@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import {priceStandardPanel} from "../../helpers/productTypes";
-import {PanelsFormAPIType} from "../../api/apiFunctions";
 import standardProductsPrices from "../../api/standartProductsPrices.json";
 import {getdimensionsRow} from "../../helpers/helpers";
 import {View, Text} from "@react-pdf/renderer";
 import {s} from './PDFOrder'
+import {PanelsFormAPIType} from "../../helpers/cartTypes";
 
 
 const CartItemPanel: FC<{ standard_panels: PanelsFormAPIType, prod_id: number }> = ({

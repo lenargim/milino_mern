@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import {Text, View} from '@react-pdf/renderer';
-import {CartItemFrontType} from "../../api/apiFunctions";
 import {s} from './PDFOrder'
 import Dimensions from "./Dimentions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemShelfExtra: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
     const {glass: {shelf: glass_shelf}} = product

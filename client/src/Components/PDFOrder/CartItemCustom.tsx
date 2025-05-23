@@ -1,6 +1,5 @@
 import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
-import {CartItemFrontType} from "../../api/apiFunctions";
 import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
 import CartItemShelfExtra from "./CartItemShelfExtra";
 import CartItemPVCExtra from "./CartItemPVCExtra";
@@ -10,6 +9,7 @@ import CartItemDoor from "./CartItemDoor";
 import CartItemPanel from "./CartItemPanel";
 import {s} from './PDFOrder'
 import Dimensions from "./Dimentions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {

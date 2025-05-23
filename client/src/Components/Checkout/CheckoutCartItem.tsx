@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
-import {updateProductAmount} from "../../store/reducers/generalSlice";
 import {
     getCartItemImg,
     getCustomCabinetString,
@@ -8,10 +7,11 @@ import {
     getProductById,
     useAppDispatch
 } from "../../helpers/helpers";
-import {changeAmountType} from "../Sidebar/Sidebar";
-import {CartItemFrontType, updateProductAmountAPI} from "../../api/apiFunctions";
+import {changeAmountType} from "../../helpers/cartTypes";
+import {updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Sidebar/CartItemOptions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
+import {CartItemFrontType} from "../../helpers/cartTypes";
+import {setCart} from "../../store/reducers/cartSlice";
 
 const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
@@ -34,15 +34,9 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const img = getCartItemImg(product, image_active_number)
 
     function changeAmount(type: changeAmountType) {
-        if (room_id) {
-            updateProductAmountAPI(room_id,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-                if (cart) {
-                    if (cart) dispatch(updateCartInRoom({cart}))
-                }
-            })
-        } else {
-            dispatch(updateProductAmount({_id, amount: type === 'minus' ? amount - 1 : amount + 1}))
-        }
+        updateProductAmountAPI(room_id, _id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
+            cart && dispatch(setCart(cart))
+        })
     }
 
     return (
@@ -51,7 +45,8 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
             <div>
                 <div className={s.itemName}>
                     <span>{name}</span>
-                    {getCustomCabinetString(isStandard) && <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
+                    {getCustomCabinetString(isStandard) &&
+                    <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
                 </div>
                 <div>
                     <CartItemOptions item={el}/>

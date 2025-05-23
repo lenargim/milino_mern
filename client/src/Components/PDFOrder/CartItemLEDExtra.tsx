@@ -1,9 +1,7 @@
 import React, {FC} from "react";
-import {MaybeUndefined} from "../../helpers/productTypes";
-import {LEDAccessoriesType} from "../CustomPart/CustomPartLEDForm";
 import {s} from './PDFOrder'
 import {Text, View} from "@react-pdf/renderer";
-import {CustomAccessoriesType} from "../../api/apiFunctions";
+import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     const {

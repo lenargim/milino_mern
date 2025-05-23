@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import s from "../Components/Sidebar/sidebar.module.sass";
-import {MaterialsFormType} from "../Components/Room/RoomMaterialsForm";
 import {getMaterialStrings} from "../helpers/helpers";
-
+import {RoomMaterialsFormType} from "../helpers/roomTypes";
 
 export type MaterialStringsType = {
     categoryString: string,
@@ -12,7 +11,7 @@ export type MaterialStringsType = {
     leatherString: string
 }
 
-const Materials: FC<{ materials: MaterialsFormType }> = ({materials}) => {
+const Materials: FC<{ materials: RoomMaterialsFormType }> = ({materials}) => {
     const materialStrings = getMaterialStrings(materials);
     const {drawerString, doorString, boxString, leatherString, categoryString} = materialStrings
 

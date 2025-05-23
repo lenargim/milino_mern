@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import {CartItemFrontType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemPvcExtra:FC<{product: CartItemFrontType}> = ({product}) => {
     const {custom, width} = product;

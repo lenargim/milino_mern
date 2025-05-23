@@ -8,9 +8,9 @@ import {
     getProductById
 } from "../../helpers/helpers";
 import logo from '../../assets/img/black-logo.jpg'
-import {CartItemFrontType} from "../../api/apiFunctions";
 import {MaterialStringsType} from "../../common/Materials";
 import CartItemOptions from "./CartItemOptions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 
 export const s = StyleSheet.create({

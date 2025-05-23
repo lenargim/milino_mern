@@ -1,17 +1,17 @@
 import React, {FC} from 'react';
 import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLEDForm from "./CustomPartLEDForm";
 import CustomPartStandardDoorForm from "./CustomPartStandardDoorForm";
 import CustomPartStandardPanel from "./CustomPartStandardPanel";
 import CustomPartPlasticToe from "./CustomPartPlasticToe";
 import DoorAccessoriesForm from "./CustomPartDoorAccessoiresForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
     initialMaterialData: MaybeNull<materialsCustomPart>,
-    materials: MaterialsFormType
+    materials: RoomMaterialsFormType
 }
 
 const CustomPartRight: FC<CustomPartRight> = ({

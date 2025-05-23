@@ -3,35 +3,34 @@ import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
 import RoomProductsList from "./RoomProductsList";
 import {getImg, getSliderCategories, useAppDispatch} from "../../helpers/helpers";
 import s from "./room.module.sass";
-import {RoomFront, roomSetActiveCategory} from "../../store/reducers/roomSlice";
+import {roomSetActiveCategory} from "../../store/reducers/roomSlice";
 import {useOutletContext} from "react-router-dom";
+import {RoomFront} from "../../helpers/roomTypes";
 
 const RoomCategory: FC = () => {
-    const [roomData] = useOutletContext<[RoomFront]>()
-    const {_id, activeProductCategory: category, category: room, door_type, gola} = roomData;
+    const [room] = useOutletContext<[RoomFront]>()
     if (!room) return null;
-    const isStandardCabinet = door_type === 'Standard White Shaker';
-    const noGola = !gola || gola === 'No Gola'
-    const {categories, defaultImg} = getSliderCategories(room, noGola, isStandardCabinet);
-    const currentCat = categories.find(cat => cat.name === category);
+    const {_id, activeProductCategory: category_active, door_type} = room;
+    const {categories, defaultImg} = getSliderCategories(room);
+    const currentCat = categories.find(cat => cat.name === category_active);
     return (
         <>
             <form>
                 <div>
                     <div className={s.img}>
-                        <img src={getImg('categories', currentCat ? currentCat.img : defaultImg)} alt={room}/>
+                        <img src={getImg('categories', currentCat?.img ?? defaultImg)} alt={category_active}/>
                     </div>
                     <div className={s.category}>
                         {categories.map(el => <CategoryItem key={el.name}
                                                             name={el.name}
-                                                            current={category}
+                                                            current={category_active}
                                                             _id={_id}
                         />)
                         }
                     </div>
                 </div>
             </form>
-            {category && <RoomProductsList category={category} room={room} isStandardCabinet={isStandardCabinet}/>}
+            {category_active && <RoomProductsList category={category_active} room={room} isStandardCabinet={door_type === 'Standard White Shaker'}/>}
         </>
     )
 };

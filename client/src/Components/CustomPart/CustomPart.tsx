@@ -6,23 +6,19 @@ import {
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull, productCategory} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
-import {Navigate, useParams} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import CustomPartLeft from "./CustomPartLeft";
 import {DoorType} from "./CustomPartStandardDoorForm";
 import {addToCartAPI} from "../../api/apiFunctions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
 import {colorOption} from "./CustomPartGolaProfile";
 import DA from '../../api/doorAccessories.json'
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
-
-type CustomPartFormType = {
-    materials: MaybeNull<MaterialsFormType>
-}
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {setCart} from "../../store/reducers/cartSlice";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
@@ -122,11 +118,9 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     }
 }
 
-const CustomPart: FC<CustomPartFormType> = ({materials}) => {
+const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product_id: number}> = ({materials, room_id, product_id}) => {
     const dispatch = useAppDispatch();
-    let {productId, roomId} = useParams();
-    if (!productId || !materials) return <div>Custom part error</div>;
-    const customPartProduct = getCustomPartById(+productId)
+    const customPartProduct = getCustomPartById(product_id)
     if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
     const isStandardCabinet = materials.door_type === 'Standard White Shaker';
     const initialMaterialData = getInitialMaterialData(customPartProduct, materials, isStandardCabinet);
@@ -163,10 +157,10 @@ const CustomPart: FC<CustomPartFormType> = ({materials}) => {
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(customPartProduct)}
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
-                if (!customPartProduct || !values.price || !roomId) return;
-                const cartData = addToCartCustomPart(values, customPartProduct, roomId)
+                if (!customPartProduct || !values.price) return;
+                const cartData = addToCartCustomPart(values, customPartProduct, room_id)
                 addToCartAPI(cartData).then(cart => {
-                    if (cart && roomId) dispatch(updateCartInRoom({cart}));
+                    if (cart) dispatch(setCart(cart));
                 })
                 resetForm();
             }}

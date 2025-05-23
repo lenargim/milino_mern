@@ -3,7 +3,6 @@ import Select, {OnChangeValue, StylesConfig} from "react-select";
 import {ErrorMessage, useField} from "formik";
 import styles from "./Form.module.sass";
 import {MaybeNull} from "../helpers/productTypes";
-import {PanelType} from "../Components/CustomPart/CustomPartStandardPanel";
 
 export type optionType = {
     value: string,
@@ -92,7 +91,7 @@ export const customStyles: StylesConfig<optionType, false> = {
 const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) => {
     const [field, meta, {setValue}] = useField(name);
     const {error, touched} = meta;
-    function onChange <T>(value: OnChangeValue<optionType, false>) {
+    function onChange (value: OnChangeValue<optionType, false>) {
         if (value) setValue(value.value);
     }
 
@@ -100,7 +99,7 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) 
         if (field.value && !val) {
             setValue('')
         }
-    }, [val])
+    }, [val,setValue,field.value])
 
     return (
         <div

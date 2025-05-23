@@ -12,8 +12,8 @@ import {
     productCategory, ProductType,
     productTypings
 } from "../../helpers/productTypes";
-import {RoomType} from "../../helpers/categoriesTypes";
 import {ProductAttributes} from "../Product/ProductAttributes";
+import {RoomType} from "../../helpers/roomTypes";
 
 const RoomProductsList: FC<{ category: productCategory, room: RoomType, isStandardCabinet: boolean }> = ({
                                                                                                  category,

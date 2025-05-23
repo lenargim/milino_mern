@@ -5,11 +5,11 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import {CustomPartFormValuesType} from "./CustomPart";
 import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 type CustomPartCabinet = {
     product: CustomPartType,
-    materials: MaterialsFormType
+    materials: RoomMaterialsFormType
     isDepthIsConst: boolean,
     isStandardCabinet: boolean
 }

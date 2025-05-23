@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import CartItemCustom from "./CartItemCustom";
 import {View} from "@react-pdf/renderer";
-import {CartItemFrontType} from "../../api/apiFunctions";
 import CartItemProduct from "./CartItemProduct";
 import {getdimensionsRow} from "../../helpers/helpers";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemOptions: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {product_type, width, height, depth} = item;

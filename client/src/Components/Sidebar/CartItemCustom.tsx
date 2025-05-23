@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {CartItemFrontType} from "../../api/apiFunctions";
 import CartItemDoorExtra from "./CartItemDoorExtra";
 import CartItemPVCExtra from "./CartItemPVCExtra";
 import CartItemGlassDoorExtra from "./CartItemGlassDoorExtra";
@@ -9,6 +8,7 @@ import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
 import CartItemPanel from "./CartItemPanel";
 import Dimentions from "../../common/Dimentions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
     const {subcategory, product_id, custom} = product;

@@ -3,11 +3,11 @@ import s from "./product.module.sass";
 import {getImg, getImgSize, getProductImage} from "../../helpers/helpers";
 import {ProductType, productValuesType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import Materials from "../../common/Materials";
 import {ProductAttributes} from "./ProductAttributes";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
-const ProductLeft:FC<{product:ProductType, materials:MaterialsFormType}> = ({product, materials}) => {
+const ProductLeft:FC<{product:ProductType, materials:RoomMaterialsFormType}> = ({product, materials}) => {
     const {images, category, name, attributes} = product;
     const {values: {image_active_number}} = useFormikContext<productValuesType>();
     const img = getProductImage(images, image_active_number);

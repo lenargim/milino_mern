@@ -1,10 +1,11 @@
 import React, {FC} from 'react';
-import {changeAmountType} from "../Sidebar/Sidebar";
+import {changeAmountType} from "../../helpers/cartTypes";
 import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
 import s from "../Sidebar/sidebar.module.sass";
-import {CartItemFrontType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
+import {removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Sidebar/CartItemOptions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
+import {setCart} from "../../store/reducers/cartSlice";
 
 const RoomCartItem: FC<{ item: CartItemFrontType, room:string }> = ({item, room}) => {
     const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ const RoomCartItem: FC<{ item: CartItemFrontType, room:string }> = ({item, room}
     const img = getCartItemImg(productAPI, image_active_number)
     function changeAmount(type: changeAmountType) {
         updateProductAmountAPI(room,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-            cart && dispatch(updateCartInRoom({cart}))
+            cart && dispatch(setCart(cart))
         })
     }
 
@@ -25,7 +26,7 @@ const RoomCartItem: FC<{ item: CartItemFrontType, room:string }> = ({item, room}
         <div className={s.cartItem} data-uuid={_id}>
             <div className={s.cartItemTop}>
                 <button onClick={() => removeFromCartInRoomAPI(room,_id).then(cart => {
-                    cart && dispatch(updateCartInRoom({cart}))
+                    cart && dispatch(setCart(cart))
                 })} className={s.itemClose}
                         type={"button"}>×
                 </button>

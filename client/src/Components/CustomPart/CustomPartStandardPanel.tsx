@@ -4,19 +4,19 @@ import {
     pricePartStandardPanel,
     priceStandardPanel
 } from "../../helpers/productTypes";
-import {MaterialsFormType} from "../Room/RoomMaterialsForm";
 import standardProductsPrices from "../../api/standartProductsPrices.json";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {Form, useField, useFormikContext} from "formik";
 import {CustomPartFormValuesType} from "./CustomPart";
-import {changeAmountType} from "../Sidebar/Sidebar";
+import {changeAmountType} from "../../helpers/cartTypes";
 import {v4 as uuidv4} from "uuid";
 import Select, {OnChangeValue} from "react-select";
 import styles from "../../common/Form.module.sass";
 import {customStyles, optionType} from "../../common/SelectField";
 import {getdimensionsRow} from "../../helpers/helpers";
 import settings from '../../api/settings.json'
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 export type PanelsFormType = {
     standard_panel: PanelType[],
@@ -70,7 +70,7 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price
     return standard_panel_price + shape_panel_price + wtk_price + crown_price;
 }
 
-const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: MaterialsFormType }> = ({product, materials}) => {
+const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
     const {price, standard_panels} = values;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels

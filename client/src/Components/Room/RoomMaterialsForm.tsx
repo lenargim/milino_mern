@@ -1,9 +1,10 @@
 import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from "formik";
 import {
+    findHasGolaByCategory,
     getBoxMaterialArr, getBoxMaterialColorsArr,
     getDoorColorsArr,
-    getDoorTypeArr, getDrawerArr,
+    getDoorTypeArr, getDrawerBrandArr, getDrawerColorArr, getDrawerTypeArr,
     getGrainArr,
     isBoxColor,
     isBoxMaterial,
@@ -14,39 +15,30 @@ import {
     isDoorTypeShown,
     isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown, isLeatherNote,
     isLeatherType,
-    useAppDispatch,
+    useAppDispatch, useAppSelector,
     usePrevious
 } from "../../helpers/helpers";
 import {colorType, finishType, materialsData, MaterialsType} from "../../helpers/materialsTypes";
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
 import RoomMaterialsDataType from "./RoomMaterialsDataType";
-import {RoomType} from "../../helpers/categoriesTypes";
-import materials from "../../api/materials.json";
-import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
-import {CartItemFrontType} from "../../api/apiFunctions";
-import {checkCartData} from "../../helpers/calculatePrice";
+import materialsAPI from "../../api/materials.json";
+import {MaybeUndefined} from "../../helpers/productTypes";
+import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {CartState, updateCartAfterMaterialsChange} from "../../store/reducers/cartSlice";
 
-export type MaterialsFormType = {
-    // room_name: MaybeNull<string>,
-    room_name: string,
-    category: MaybeEmpty<RoomType>,
-    gola: string,
-    door_type: string,
-    door_finish_material: string,
-    door_frame_width: string,
-    door_color: string,
-    door_grain: string,
-    box_material: string,
-    box_color: string,
-    drawer_brand: string,
-    drawer_type: string,
-    drawer_color: string,
-    leather: string,
-    leather_note: string
-}
+const {
+    categories,
+    gola: golaArr,
+    doors,
+    boxMaterial,
+    drawers,
+    leatherType: leatherTypeArr,
+    grain,
+}: MaterialsType = materialsAPI;
 
-export const materialsFormInitial: MaterialsFormType = {
+export const materialsFormInitial: RoomMaterialsFormType = {
     room_name: '',
     category: '',
     gola: '',
@@ -64,19 +56,9 @@ export const materialsFormInitial: MaterialsFormType = {
     leather_note: ''
 }
 
-const {
-    categories,
-    gola: golaArr,
-    doors,
-    boxMaterial,
-    drawers,
-    leatherType: leatherTypeArr,
-    grain,
-}: MaterialsType = materials;
-
-const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({button,cart = []}) => {
+const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
-    const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<MaterialsFormType>();
+    const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<RoomMaterialsFormType>();
     const {
         room_name,
         gola,
@@ -94,23 +76,27 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
         leather,
         leather_note
     } = values;
-    const leatherBoxMaterialArr:MaybeUndefined<finishType[]> = materials.doors.find(el => el.value === 'Slab')?.finish
+    const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
+    const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
     const isStandardDoor = door_type === 'Standard White Shaker';
-    const hasGola = category === 'Kitchen' || category === 'Vanity';
-    const doorTypeArr = getDoorTypeArr(doors,gola,isLeather);
+    const hasGola = findHasGolaByCategory(category);
+    const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
-    const boxMaterialArr: finishType[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr||[])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather,box_material, boxMaterialArr) ?? [];
-    const {drawerBrandArr,drawerTypesArr,drawerColorsArr} = getDrawerArr(drawers,drawer_brand,drawer_type)
+    const boxMaterialArr: finishType[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr || [])
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, box_material, boxMaterialArr) ?? [];
+    const drawerBrandArr = getDrawerBrandArr(drawers);
+    const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
+    const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)
     const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
     const prevCategory = usePrevious(category);
+    const {cart_items} = useAppSelector<CartState>(state => state.cart)
 
     useEffect(() => {
         const isLeather = category === 'Leather Closet';
-        if ( category && prevCategory && category !== prevCategory && ((isLeather && prevCategory !== 'Leather Closet') || (!isLeather && prevCategory === 'Leather Closet'))) {
+        if (category && prevCategory && category !== prevCategory && ((isLeather && prevCategory !== 'Leather Closet') || (!isLeather && prevCategory === 'Leather Closet'))) {
             setValues({
                 room_name,
                 category,
@@ -158,7 +144,6 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
                     setFieldValue('door_color', '');
                 }
         }
-
         switch (boxMaterialColor?.length) {
             case 1:
                 setFieldValue('box_color', boxMaterialColor[0].value);
@@ -172,11 +157,9 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
                     setFieldValue('box_color', '');
                 }
         }
-
         if (category && box_material && !boxMaterialArr.some(el => el.value == box_material)) {
             setFieldValue('box_material', '');
         }
-
         switch (drawerTypesArr?.length) {
             case 1:
                 setFieldValue('drawer_type', drawerTypesArr[0].value);
@@ -201,7 +184,6 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
                     setFieldValue('drawer_color', '');
                 }
         }
-
         if (category) {
             if (!hasGola && gola) setFieldValue('gola', '');
             if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
@@ -214,7 +196,10 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
             if (leather !== 'Other') setFieldValue('leather_note', '');
         }
 
-        if (cart.length) checkCartData(cart, values,dispatch);
+        if (!isRoomNew && cart_items?.length) {
+            const newCart = calculateCartPriceAfterMaterialsChange(cart_items, values);
+            dispatch(updateCartAfterMaterialsChange(newCart))
+        }
     }, [values]);
 
     const showCategory = !!room_name;
@@ -224,38 +209,50 @@ const RoomMaterialsForm: FC<{ button: string, cart?: CartItemFrontType[]}> = ({b
     const showDoorColor = isDoorColorShown(door_type, door_finish_material, finishArr, colorArr);
     const showDoorFrameWidth = isDoorFrameWidth(door_type, door_finish_material, frameArr);
     const showDoorGrain = isDoorGrain(door_finish_material, grainArr);
-    const showBoxMaterial = isBoxMaterial(door_finish_material, door_color, box_material,boxMaterialArr,showDoorGrain, door_grain);
-    const showBoxColor = isBoxColor(box_material,isLeather,boxMaterialArr)
+    const showBoxMaterial = isBoxMaterial(door_finish_material, door_color, box_material, boxMaterialArr, showDoorGrain, door_grain);
+    const showBoxColor = isBoxColor(box_material, isLeather, boxMaterialArr)
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeather);
     const showDrawerType = isDrawerType(drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(drawer_type, drawerColorsArr);
-    const showLeatherType = isLeatherType(drawer_color, drawer_type,isLeather, leatherTypeArr);
+    const showLeatherType = isLeatherType(drawer_color, drawer_type, isLeather, leatherTypeArr);
     const showLeatherNote = isLeatherNote(showLeatherType, leather)
 
     return (
         <Form className={s.roomForm}>
             <TextInput type={"text"} label={"New Room Name"} name="room_name" autoFocus={true}/>
-            {showCategory && <RoomMaterialsDataType data={categories} value={category ?? ''} name="category" label="Category"/>}
+            {showCategory &&
+            <RoomMaterialsDataType data={categories} value={category ?? ''} name="category" label="Category"/>}
             {showGola && <RoomMaterialsDataType data={golaArr} value={gola ?? ''} name="gola" label="Gola"/>}
-            {showDoorType && <RoomMaterialsDataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}
+            {showDoorType &&
+            <RoomMaterialsDataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}
             {showDoorFinish &&
-              <RoomMaterialsDataType data={finishArr} value={door_finish_material} name='door_finish_material'
-                                     label="Door Finish Material. Price increase from left to right"/>}
+            <RoomMaterialsDataType data={finishArr} value={door_finish_material} name='door_finish_material'
+                                   label="Door Finish Material. Price increase from left to right"/>}
             {showDoorFrameWidth &&
-              <RoomMaterialsDataType data={frameArr} value={door_frame_width ?? ''} name='door_frame_width'
-                                     label="Door Frame Width"/>}
-            {showDoorColor && <RoomMaterialsDataType data={colorArr} value={door_color ?? ''} name="door_color" label="Door Color"/>}
-            {showDoorGrain && <RoomMaterialsDataType data={grainArr||[]} value={door_grain ?? ''} name="door_grain" label="Door Grain"/>}
+            <RoomMaterialsDataType data={frameArr} value={door_frame_width ?? ''} name='door_frame_width'
+                                   label="Door Frame Width"/>}
+            {showDoorColor &&
+            <RoomMaterialsDataType data={colorArr} value={door_color ?? ''} name="door_color" label="Door Color"/>}
+            {showDoorGrain && <RoomMaterialsDataType data={grainArr || []} value={door_grain ?? ''} name="door_grain"
+                                                     label="Door Grain"/>}
             {showBoxMaterial &&
-              <RoomMaterialsDataType data={boxMaterialArr} value={box_material} name="box_material" label="Box Material"/>}
-            {showBoxColor && <RoomMaterialsDataType data={boxMaterialColor} value={box_color} name="box_color" label="Box Color"/>}
-            {showDrawerBrand && <RoomMaterialsDataType data={drawerBrandArr} value={drawer_brand} name="drawer_brand" label="Drawer" small={true}/>}
-            {showDrawerType && <RoomMaterialsDataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type" small={true}/>}
-            {showDrawerColor && <RoomMaterialsDataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color" small={true}/>}
+            <RoomMaterialsDataType data={boxMaterialArr} value={box_material} name="box_material"
+                                   label="Box Material"/>}
+            {showBoxColor &&
+            <RoomMaterialsDataType data={boxMaterialColor} value={box_color} name="box_color" label="Box Color"/>}
+            {showDrawerBrand &&
+            <RoomMaterialsDataType data={drawerBrandArr} value={drawer_brand} name="drawer_brand" label="Drawer"
+                                   small={true}/>}
+            {showDrawerType &&
+            <RoomMaterialsDataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type"
+                                   small={true}/>}
+            {showDrawerColor &&
+            <RoomMaterialsDataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color"
+                                   small={true}/>}
             {showLeatherType &&
-              <RoomMaterialsDataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
+            <RoomMaterialsDataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
             {showLeatherNote && <TextInput type="text" value={leather_note} name="leather_note" label="Note"/>}
-            {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">{button}</button>}
+            {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">{submitText}</button>}
         </Form>
 
     )

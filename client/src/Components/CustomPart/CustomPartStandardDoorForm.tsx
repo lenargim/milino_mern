@@ -7,12 +7,12 @@ import {
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {CustomPartType} from "../../helpers/productTypes";
-import {changeAmountType} from "../Sidebar/Sidebar";
+import {changeAmountType} from "../../helpers/cartTypes";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormValuesType} from "./CustomPart";
-import {StandardDoorAPIType} from "../../api/apiFunctions";
+import {StandardDoorAPIType} from "../../helpers/cartTypes";
 
 
 type Door = {

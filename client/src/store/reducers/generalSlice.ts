@@ -2,21 +2,17 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
     AngleType,
     attrItem, CartExtrasType, cornerTypes,
-    customPartDataType, hingeTypes, MaybeNull,
-    ProductType,
+    hingeTypes,
     productTypings
 } from "../../helpers/productTypes";
-import {MaterialsFormType} from "../../Components/Room/RoomMaterialsForm";
-import {CartItemFrontType} from "../../api/apiFunctions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
-
-
-interface GeneralState {
-    materials: MaybeNull<MaterialsFormType>,
-    product: MaybeNull<ProductType>,
-    customPart: customPartDataType | null,
-    cart: CartItemFrontType[]
-}
+// interface GeneralState {
+//     materials: MaybeNull<MaterialsFormType>,
+//     product: MaybeNull<ProductType>,
+//     customPart: customPartDataType | null,
+//     cart: CartItemFrontType[]
+// }
 
 export type glassDoorExtraType = {
     material?: string,
@@ -90,75 +86,75 @@ export interface productChangeMaterialType extends CartItemFrontType {
 //     boxFromFinishMaterial: false
 // }
 
-const initialState: GeneralState = {
-    materials: null,
-    product: null,
-    customPart: null,
-    cart: [],
-}
+// const initialState: GeneralState = {
+//     materials: null,
+//     product: null,
+//     customPart: null,
+//     cart: [],
+// }
 
 // type updateProductType = {
 //     type: productTypings,
 //     price: number,
 //     cartExtras:CartExtrasType
 // }
-type updateProductAmountType = {
-    _id: string,
-    amount: number,
-}
+// type updateProductAmountType = {
+//     _id: string,
+//     amount: number,
+// }
 
-export const generalSlice = createSlice({
-    name: 'general',
-    initialState,
-    reducers: {
-        setMaterials: (state, action: PayloadAction<MaybeNull<MaterialsFormType>>) => {
-            state.materials = action.payload
-        },
-        setCustomPart: (state, action: PayloadAction<MaybeNull<customPartDataType>>) => {
-            state.customPart = action.payload
-        },
-        // addToCart: (state, action: PayloadAction<CartItemFrontType>) => {
-        //     state.cart = [...state.cart, {...action.payload}];
-        //     localStorage.setItem('cart', JSON.stringify(state.cart));
-        // },
-        fillCart: (state, action: PayloadAction<CartItemFrontType[]>) => {
-            state.cart = action.payload;
-        },
-        updateCartItemPrice: (state, action: PayloadAction<{_id:string, price:number}>) => {
-            const cartItem = state.cart.find(item => item._id === action.payload._id);
-            if (cartItem) {
-                cartItem.price = action.payload.price;
-                const foundIndex = state.cart.findIndex(x => x._id === cartItem._id);
-                state.cart[foundIndex] = cartItem;
-            }
-        },
-        deleteItemFromCart: (state, action: PayloadAction<string>) => {
-            state.cart = state.cart.filter(item => item._id !== action.payload);
-            localStorage.setItem('cart', JSON.stringify(state.cart));
-        },
-        removeCart: (state) => {
-            state.cart = [];
-            localStorage.removeItem('cart');
-        },
-        updateProductAmount: (state, action: PayloadAction<updateProductAmountType>) => {
-            const product = state.cart.find(el => el._id === action.payload._id);
-            if (product) {
-                product.amount = action.payload.amount
-                localStorage.setItem('cart', JSON.stringify(state.cart));
-            }
-        }
-    }
-})
+// export const generalSlice = createSlice({
+//     name: 'general',
+//     initialState,
+// reducers: {
+// setMaterials: (state, action: PayloadAction<MaybeNull<MaterialsFormType>>) => {
+//     state.materials = action.payload
+// },
+// setCustomPart: (state, action: PayloadAction<MaybeNull<customPartDataType>>) => {
+//     state.customPart = action.payload
+// },
+// addToCart: (state, action: PayloadAction<CartItemFrontType>) => {
+//     state.cart = [...state.cart, {...action.payload}];
+//     localStorage.setItem('cart', JSON.stringify(state.cart));
+// },
+// fillCart: (state, action: PayloadAction<CartItemFrontType[]>) => {
+//     state.cart = action.payload;
+// },
+// updateCartItemPrice: (state, action: PayloadAction<{_id:string, price:number}>) => {
+//     const cartItem = state.cart.find(item => item._id === action.payload._id);
+//     if (cartItem) {
+//         cartItem.price = action.payload.price;
+//         const foundIndex = state.cart.findIndex(x => x._id === cartItem._id);
+//         state.cart[foundIndex] = cartItem;
+//     }
+// },
+// deleteItemFromCart: (state, action: PayloadAction<string>) => {
+//     state.cart = state.cart.filter(item => item._id !== action.payload);
+//     localStorage.setItem('cart', JSON.stringify(state.cart));
+// },
+// removeCart: (state) => {
+//     state.cart = [];
+//     localStorage.removeItem('cart');
+// },
+// updateProductAmount: (state, action: PayloadAction<updateProductAmountType>) => {
+//     const product = state.cart.find(el => el._id === action.payload._id);
+//     if (product) {
+//         product.amount = action.payload.amount
+//         localStorage.setItem('cart', JSON.stringify(state.cart));
+//     }
+// }
+// }
+// })
 
-export const {
-    setMaterials,
-    setCustomPart,
-    // addToCart,
-    deleteItemFromCart,
-    removeCart,
-    fillCart,
-    updateProductAmount,
-    updateCartItemPrice
-} = generalSlice.actions
-
-export default generalSlice.reducer
+// export const {
+//     setMaterials,
+//     setCustomPart,
+//     // addToCart,
+//     deleteItemFromCart,
+//     removeCart,
+//     fillCart,
+//     updateProductAmount,
+//     updateCartItemPrice
+// } = generalSlice.actions
+//
+// export default generalSlice.reducer

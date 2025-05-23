@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import {Text} from '@react-pdf/renderer';
-import {CartItemFrontType} from "../../api/apiFunctions";
 import {s} from './PDFOrder'
 import {getFraction} from "../../helpers/helpers";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemPvcExtra: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {custom, width} = product;
