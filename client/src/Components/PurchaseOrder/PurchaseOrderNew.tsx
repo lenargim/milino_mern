@@ -6,26 +6,28 @@ import {useNavigate, useOutletContext} from "react-router-dom";
 import {addPO, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
 import {PONewSchema} from "./PurchaseOrderNewSchema";
 import {createPO} from "../../api/apiFunctions";
-import {useAppDispatch} from "../../helpers/helpers";
+import {getUniqueNames, useAppDispatch} from "../../helpers/helpers";
+import PurchaseOrderForm from "./PurchaseOrderForm";
 
-export type PONewFormType = {
+export type POFormType = {
     name: string
 }
 
-export interface PONewType extends PONewFormType {
+export interface PONewType extends POFormType {
     user_id: string
 }
 
-const PurchaseOrderNew:FC = () => {
-    const {user_id, purchase_orders} = useOutletContext<{user_id:string, purchase_orders: PurchaseOrderType[]}>();
-    const initialValues:PONewFormType = {
+const PurchaseOrderNew: FC = () => {
+    const {user_id, purchase_orders} = useOutletContext<{ user_id: string, purchase_orders: PurchaseOrderType[] }>();
+    const initialValues: POFormType = {
         name: ""
     };
-    const uniqueNames = purchase_orders.map(el => el.name);
+    const uniqueNames = getUniqueNames(purchase_orders);
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     return (
         <Formik
+            validationSchema={PONewSchema(uniqueNames)}
             validateOnMount={true}
             initialValues={initialValues}
             onSubmit={(values) => {
@@ -37,18 +39,8 @@ const PurchaseOrderNew:FC = () => {
                     navigate('/profile/purchase')
                 })
             }}
-            validationSchema={PONewSchema(uniqueNames)}
         >
-            {({isSubmitting, isValid}) => {
-                return (
-                    <Form>
-                        <div className={s.block}>
-                            <TextInput type={"text"} label={"New Purchase Order Name"} name="name" autoFocus={true}/>
-                        </div>
-                        {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">Create PO Name</button>}
-                    </Form>
-                )
-            }}
+            <PurchaseOrderForm isNew={true}/>
         </Formik>
     );
 };

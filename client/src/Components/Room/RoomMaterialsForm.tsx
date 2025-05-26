@@ -39,7 +39,7 @@ const {
 }: MaterialsType = materialsAPI;
 
 export const materialsFormInitial: RoomMaterialsFormType = {
-    room_name: '',
+    name: '',
     category: '',
     gola: '',
     door_type: '',
@@ -60,7 +60,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<RoomMaterialsFormType>();
     const {
-        room_name,
+        name,
         gola,
         category,
         door_type,
@@ -77,6 +77,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
         leather_note
     } = values;
     const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
+    const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
     const isStandardDoor = door_type === 'Standard White Shaker';
@@ -98,7 +99,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
         const isLeather = category === 'Leather Closet';
         if (category && prevCategory && category !== prevCategory && ((isLeather && prevCategory !== 'Leather Closet') || (!isLeather && prevCategory === 'Leather Closet'))) {
             setValues({
-                room_name,
+                name,
                 category,
                 gola: '',
                 door_type: '',
@@ -202,7 +203,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
         }
     }, [values]);
 
-    const showCategory = !!room_name;
+    const showCategory = !!name;
     const showGola = isGolaShown(category, hasGola)
     const showDoorType = isDoorTypeShown(category, gola, showGola)
     const showDoorFinish = isDoorFinishShown(category, door_type, finishArr);
@@ -219,7 +220,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
 
     return (
         <Form className={s.roomForm}>
-            <TextInput type={"text"} label={"New Room Name"} name="room_name" autoFocus={true}/>
+            <TextInput type={"text"} label={roomNameText} name="name" autoFocus={true}/>
             {showCategory &&
             <RoomMaterialsDataType data={categories} value={category ?? ''} name="category" label="Category"/>}
             {showGola && <RoomMaterialsDataType data={golaArr} value={gola ?? ''} name="gola" label="Gola"/>}

@@ -4,7 +4,7 @@ import {category} from "./categoriesTypes";
 export type RoomCategoriesType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet';
 
 export type RoomMaterialsFormType = {
-    room_name: string,
+    name: string,
     category: MaybeEmpty<RoomCategoriesType>,
     gola: string,
     door_type: string,
@@ -21,10 +21,13 @@ export type RoomMaterialsFormType = {
     leather_note: string
 }
 
-export interface RoomType extends RoomMaterialsFormType {
-    _id: string,
+export interface RoomNewType extends RoomMaterialsFormType {
     purchase_order_id: string,
     category: RoomCategoriesType,
+}
+
+export interface RoomType extends RoomNewType {
+    _id: string,
 }
 
 // export interface RoomTypeAPI extends RoomMaterialsFormType {

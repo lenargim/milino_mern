@@ -1,16 +1,22 @@
-import {Navigate} from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from "../helpers/helpers";
+import {loadUser} from "../store/reducers/userSlice";
+import Loading from "./Loading";
 
-export type PrivateRouteProps = {
-    isAuth: boolean;
-    authenticationPath: string;
-    outlet: JSX.Element;
-    token: string | null
+const PrivateRoute = () => {
+    const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user.user);
+    const loading = useAppSelector(state => state.user.loading);
+
+    useEffect(() => {
+        dispatch(loadUser());
+    }, [dispatch]);
+
+    if (loading) return <Loading />;
+    if (!user) return <Navigate to="/" />;
+
+    return <Outlet />;
 };
 
-export default function PrivateRoute({isAuth, authenticationPath, outlet, token}: PrivateRouteProps) {
-    if(isAuth || token) {
-        return outlet;
-    } else {
-        return <Navigate to={{ pathname: authenticationPath }} />;
-    }
-};
+export default PrivateRoute;

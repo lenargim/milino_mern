@@ -40,16 +40,16 @@ const CheckoutForm: FC = () => {
     const [room] = useOutletContext<[RoomType]>();
     const {_id, purchase_order_id, ...materials} = room;
     const {cart_items} = useAppSelector<CartState>(state => state.cart)
+    const user = useAppSelector(state => state.user.user)!
     const navigate = useNavigate();
     const total = getCartTotal(cart_items);
-    const user: UserType = useAppSelector(state => state.user.user);
     const [modal, setModal] = useState<modalType>({open: false, status: ''});
     const [initialValues, setInitialValues] = useState<UserTypeCheckout>({
         name: user.name,
         company: user.company,
         email: user.email,
         phone: user.phone,
-        project: room.room_name,
+        project: room.name,
         delivery: ''
     })
     useEffect(() => {

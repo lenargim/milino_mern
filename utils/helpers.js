@@ -22,3 +22,8 @@ export const getTransporterObject = () => {
       },
     }
 }
+
+
+export const isCookieSecure = () => {
+  return env.NODE_ENV === 'production'
+}

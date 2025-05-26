@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const RoomSchema = new mongoose.Schema({
-  room_name: {
+  name: {
     type: String,
     required: true,
   },
@@ -54,7 +54,10 @@ const RoomSchema = new mongoose.Schema({
   },
   leather_note: {
     type: String
+  },
+  is_deleted: {
+    type: Boolean
   }
-})
+},{timestamps: true})
 
 export default mongoose.model('Room', RoomSchema);

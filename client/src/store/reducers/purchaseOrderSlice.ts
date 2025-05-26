@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-type PurchaseOrdersState = {
+export type PurchaseOrdersState = {
     purchase_orders: PurchaseOrderType[],
     activePO: string
 }

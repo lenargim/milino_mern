@@ -1,19 +1,24 @@
 import React, {FC} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {RoomSchema} from "./RoomSchems";
 import {createRoomAPI} from "../../api/apiFunctions";
-import {addRoom} from "../../store/reducers/roomSlice";
+import {addRoom, RoomsState} from "../../store/reducers/roomSlice";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
-import {useAppSelector} from "../../helpers/helpers";
+import {getUniqueNames, useAppSelector} from "../../helpers/helpers";
 import RoomMaterialsForm, {materialsFormInitial} from "./RoomMaterialsForm";
-import {RoomMaterialsFormType, RoomType} from "../../helpers/roomTypes";
+import {RoomMaterialsFormType, RoomNewType} from "../../helpers/roomTypes";
+import {PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
+
+
 
 const RoomNew: FC = () => {
+    const {purchase_order_name} = useParams()
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {rooms} = useAppSelector(state => state.room);
-    const uniqueNames = rooms.map(el => el.room_name);
+    const {rooms} = useAppSelector<RoomsState>(state => state.room);
+    const {_id} = useOutletContext<PurchaseOrderType>()
+    const uniqueNames = getUniqueNames(rooms);
     return (
         <Formik initialValues={materialsFormInitial}
                 validationSchema={RoomSchema(uniqueNames)}
@@ -21,17 +26,16 @@ const RoomNew: FC = () => {
                 onSubmit={(values:RoomMaterialsFormType, {setSubmitting}) => {
                     setSubmitting(true);
                     if (!values.category) return;
-                    const preparedToAPIRoom:RoomType = {
+                    const preparedToAPIRoom:RoomNewType = {
                         ...values,
-                        _id: '',
-                        purchase_order_id: rooms[0].purchase_order_id,
+                        purchase_order_id: _id,
                         category: values.category
                     }
                     createRoomAPI(preparedToAPIRoom).then(room => {
                         setSubmitting(false)
                         if (room) {
                             dispatch(addRoom(room))
-                            navigate(`/profile/rooms/${room._id}`);
+                            navigate(`/profile/purchase/${purchase_order_name}/rooms/${room.name}`);
                         }
                     })
                 }}>

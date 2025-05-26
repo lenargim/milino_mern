@@ -1,30 +1,44 @@
-import {AdminUsersRes, EditProfileType, LogInType, SignUpType, UserType, UserTypeResponse} from "./apiTypes";
+import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosError} from "axios";
 import {
-    MaybeNull,
     MaybeUndefined,
 } from "../helpers/productTypes";
-import {logout} from "../helpers/helpers";
-import {emptyUser} from "../store/reducers/userSlice";
+import {emptyUser, logout} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
-import {RoomType} from "../helpers/roomTypes";
+import {RoomNewType, RoomType} from "../helpers/roomTypes";
 import {CartAPI} from "../helpers/cartTypes";
+import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
+import {store} from "../store/store";
 
 
-export const alertError = (error: unknown) => {
-    if (axios.isAxiosError(error)) {
-        if (error.response) {
-            alert(error.response.data.message)
-            if (error.response.data.action === 'logout') {
-                logout()
+export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === 401) {
+        try {
+            const newToken = await refreshTokenAPI();
+            if (newToken) {
+                localStorage.setItem('token', newToken);
+                // Retry original request
+                if (retryCallback) {
+                    return await retryCallback();
+                }
+            } else {
+                throw new Error('Refresh token failed');
             }
+        } catch (refreshErr) {
+            store.dispatch(logout());
+            window.location.href = '/';
         }
+    } else {
+        console.error('API Error:', axiosError.message);
+        alert(axiosError.message);
     }
-}
+};
 
 export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> => {
     try {
@@ -33,131 +47,109 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
             return true
         }
     } catch (error) {
-        alertError(error)
+        return await alertError(error, () => signUp(values));
     }
 }
 
-export const updateProfile = async (values: EditProfileType): Promise<MaybeUndefined<UserType>> => {
+export const updateProfile = async (values: EditProfileType):Promise<MaybeUndefined<UserType>> => {
     try {
-        const res: AxiosResponse<UserTypeResponse> = await usersAPI.patchMe(values);
-        const {token, ...user} = res.data;
+        return (await usersAPI.patchMe(values)).data;
+    } catch (error) {
+        return await alertError(error, () => updateProfile(values));
+    }
+}
+
+
+export const logIn = async (values: LogInType) => {
+    try {
+        const data = (await AuthAPI.logIn(values)).data;
+        const {token, ...user} = data;
         localStorage.setItem('token', token);
-        return user;
-    } catch (error) {
-        alertError(error)
-    }
-}
-
-
-export const logIn = async (values: LogInType): Promise<MaybeUndefined<UserType>> => {
-    try {
-        const res: AxiosResponse<UserTypeResponse> = await AuthAPI.logIn(values);
-        localStorage.setItem('token', res.data.token);
-        return {
-            _id: res.data._id,
-            name: res.data.name,
-            company: res.data.company,
-            email: res.data.email,
-            phone: res.data.phone,
-            is_active: res.data.is_active,
-            is_super_user: res.data.is_super_user,
-            is_active_in_constructor: res.data.is_active_in_constructor
-        };
+        return user as UserType;
     } catch (error: any) {
-        const status = (error as AxiosError).status
-        if (status === 403) {
-            return emptyUser
-        }
-        alertError(error)
+        return alertError(error)
     }
 }
 
-export const me = async (): Promise<MaybeUndefined<UserType>> => {
+export const meAPI = async () => {
     try {
-        const res = await usersAPI.me();
-        localStorage.setItem('token', res.data.token);
-        return {
-            _id: res.data._id,
-            name: res.data.name,
-            company: res.data.company,
-            email: res.data.email,
-            phone: res.data.phone,
-            is_active: res.data.is_active,
-            is_super_user: res.data.is_super_user,
-            is_active_in_constructor: res.data.is_active_in_constructor || false
-        };
+        return (await usersAPI.me()).data;
     } catch (error) {
-        console.log(error)
-        alertError(error);
+        return alertError(error);
+    }
+}
+
+export const refreshTokenAPI = async () => {
+    try {
+        return (await usersAPI.refreshToken()).data
+    } catch (error) {
+        return alertError(error);
     }
 }
 
 
-export const getRooms = async (purchase_order_id: string) => {
+export const getRooms = async (purchase_order_id: string):Promise<MaybeUndefined<RoomType[]>> => {
     try {
         return (await roomsAPI.getRooms(purchase_order_id)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => getRooms(purchase_order_id));
     }
 }
 
-export const createRoomAPI = async (room: RoomType) => {
+export const createRoomAPI = async (room: RoomNewType):Promise<MaybeUndefined<RoomType>> => {
     try {
-        const res = await roomsAPI.createRoom(room);
-        return res.data;
+        return (await roomsAPI.createRoom(room)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => createRoomAPI(room));
     }
 }
 
-export const editRoomAPI = async (room: RoomType) => {
+export const deleteRoomAPI = async (purchase_order_id:string, room_id: string):Promise<MaybeUndefined<RoomType[]>> => {
+    try {
+        return (await roomsAPI.deleteRoom(purchase_order_id, room_id)).data;
+    } catch (error) {
+        return await alertError(error, () => deleteRoomAPI(purchase_order_id, room_id));
+    }
+}
+
+export const editRoomAPI = async (room: RoomType):Promise<MaybeUndefined<RoomType>> => {
     try {
         return (await roomsAPI.editRoom(room)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => editRoomAPI(room));
     }
 }
 
-export const deleteRoomAPI = async (id: string) => {
-    try {
-        const res = await roomsAPI.deleteRoom(id);
-        return res.data;
-    } catch (error) {
-        alertError(error);
-    }
-}
-
-export const getCartAPI = async (room_id: string) => {
+export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPI[]>> => {
     try {
         return (await cartAPI.getCart(room_id)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => getCartAPI(room_id));
     }
 }
 
-export const addToCartAPI = async (product: CartAPI) => {
+export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<CartAPI[]>> => {
     try {
         return (await cartAPI.addToCart(product)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => addToCartAPI(product));
     }
 }
 
-export const removeFromCartInRoomAPI = async (room: string, _id: string) => {
+export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise<MaybeUndefined<CartAPI[]>> => {
     try {
-        const cartResponse = await cartAPI.remove(room, _id);
-        return cartResponse.data
+        return (await cartAPI.remove(room, _id)).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => removeFromCartInRoomAPI(room, _id));
     }
 }
 
 
-export const updateProductAmountAPI = async (room: string, _id: string, amount: number) => {
+export const updateProductAmountAPI = async (room: string, _id: string, amount: number):Promise<MaybeUndefined<CartAPI[]>> => {
     try {
         return (await cartAPI.updateAmount(room, _id, amount)).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => updateProductAmountAPI(room, _id, amount));
     }
 }
 
@@ -165,25 +157,23 @@ export const getAdminUsers = async (sort: SortAdminUsers, page: number): Promise
     try {
         return (await AdminAPI.getUsers(sort, page)).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => getAdminUsers(sort, page));
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data: UserAccessData) => {
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData):Promise<MaybeUndefined<AdminUsersType>> => {
     try {
-        const res = AdminAPI.toggleUserEnabled(_id, data)
-        return (await res).data
+        return (await AdminAPI.toggleUserEnabled(_id, data)).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => adminUserToggleEnabled(_id, data));
     }
 }
 
 export const getConstructorCustomers = async () => {
     try {
-        const res = ConstructorAPI.getCustomers();
-        return (await res).data
+        return (await ConstructorAPI.getCustomers()).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, getConstructorCustomers);
     }
 }
 
@@ -197,11 +187,11 @@ export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => 
             return res.data;
         }
     } catch (error) {
-        alertError(error);
+        return await alertError(error, constructorGetToken);
     }
 }
 
-export const constructorSetCustomer = async (user: UserType) => {
+export const constructorSetCustomer = async (user: UserType):Promise<any> => {
     try {
         const {name, email, phone} = user;
         return (await ConstructorAPI.setCustomer({
@@ -213,7 +203,7 @@ export const constructorSetCustomer = async (user: UserType) => {
             identityProvider: 'own'
         })).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => constructorSetCustomer(user));
     }
 }
 
@@ -226,7 +216,7 @@ export const constructorRegisteredCustomer = async (user: UserType): Promise<May
                 return await constructorSetCustomer(user);
             }
         }
-        alertError(error);
+        return await alertError(error, () => constructorRegisteredCustomer(user));
     }
 }
 
@@ -240,7 +230,7 @@ export const constructorGetCustomerToken = async (user: UserType): Promise<Maybe
             return res.data;
         }
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => constructorGetCustomerToken(user));
     }
 }
 
@@ -257,12 +247,11 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
         }
         return undefined;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => constructorLogin(user));
     }
 }
 
-export const isTokenValid = (token: MaybeNull<string> = ''): boolean => {
-    if (!token) return false;
+export const isTokenValid = (token: string): boolean => {
     const decodedToken = jwtDecode(token);
     const {exp} = decodedToken;
     const currentDate = new Date().getUTCDate();
@@ -271,18 +260,34 @@ export const isTokenValid = (token: MaybeNull<string> = ''): boolean => {
 }
 
 
-export const getAllPOs = async (user_id: string) => {
+export const getAllPOs = async (user_id: string):Promise<MaybeUndefined<PurchaseOrderType[]>> => {
     try {
         return (await PurchaseOrdersAPI.getAll(user_id)).data
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => getAllPOs(user_id));
     }
 }
 
-export const createPO = async (purchase_order: PONewType) => {
+export const createPO = async (purchase_order: PONewType):Promise<MaybeUndefined<PurchaseOrderType>> => {
     try {
         return (await PurchaseOrdersAPI.createPO(purchase_order)).data;
     } catch (error) {
-        alertError(error);
+        return await alertError(error, () => createPO(purchase_order));
+    }
+}
+
+export const deletePO = async (user_id:string,purchase_order_id: string):Promise<MaybeUndefined<PurchaseOrderType[]>> => {
+    try {
+        return (await PurchaseOrdersAPI.deletePO(user_id,purchase_order_id)).data
+    } catch (error) {
+        return await alertError(error, () => deletePO(user_id, purchase_order_id));
+    }
+}
+
+export const editPOAPI = async (purchase_order: PurchaseOrderType):Promise<MaybeUndefined<PurchaseOrderType>> => {
+    try {
+        return (await PurchaseOrdersAPI.editPO(purchase_order)).data
+    } catch (error) {
+        return await alertError(error, () => editPOAPI(purchase_order));
     }
 }

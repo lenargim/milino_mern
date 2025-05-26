@@ -1,19 +1,48 @@
 import RoomModel from "../models/Room.js";
 
+
+export const getRooms = async (req, res) => {
+  try {
+    const rooms = await RoomModel.find({purchase_order_id: req.params.id, is_deleted: false});
+    if (!rooms) {
+      return res.status(404).json({
+        message: 'Rooms not found'
+      })
+    }
+    res.json(rooms)
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot get Rooms'
+    })
+  }
+}
+
 export const create = async (req, res) => {
   try {
+
     const doc = new RoomModel({
       ...req.body,
-      user: req.userId,
-      cart: []
+      is_deleted: false
     })
 
-    const post = await doc.save()
-      .catch(err => {
-        console.log(err)
-      });
+    // Проверяем, есть ли в бд PO с таким именем (без учета регистра и из неудаленных);
+    const Room = await RoomModel.findOne({
+      name: { $regex: `^${req.body.name}$`, $options: 'i' },
+      is_deleted: false
+    }).exec();
 
-    res.json(post);
+    if (Room) {
+      console.log('1')
+      res.status(409).json({ message: 'Room name occupied' });
+    } else {
+      console.log('2')
+      const post = await doc.save()
+        .catch(err => {
+          console.log(err)
+        });
+      console.log('3')
+      res.status(201).json(post);
+    }
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create room'
@@ -21,64 +50,46 @@ export const create = async (req, res) => {
   }
 }
 
-export const getOne = async (req, res) => {
+export const remove = async (req, res, next) => {
   try {
-    const roomId = req.params.id;
-    const doc = await RoomModel.findOne({_id: roomId});
-    if (!doc) {
-      return res.status(404).json({
-        message: 'purchase order not found'
-      })
-    }
-    res.json(doc)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get purchase order'
-    })
-  }
-}
-
-export const remove = async (req, res) => {
-  try {
-    const roomId = req.params.id;
-    RoomModel.findByIdAndDelete(roomId).then((roomRes) => {
+    RoomModel.findByIdAndUpdate(req.body.room_id,
+      {is_deleted: true},
+      {returnDocument: "after"},
+    ).then((roomRes) => {
+      req.params.id = req.body.purchase_order_id;
       if (!roomRes) {
         return res.status(404).json({
-          message: 'purchase order not found'
+          message: 'Room not found'
         })
       }
-      return res.json(roomRes);
     });
+    next();
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot get purchase order'
+      message: 'Cannot get Room'
     })
   }
 }
 
 export const updateRoom = async (req, res) => {
   try {
-    const roomId = req.params.id;
-    await RoomModel.findByIdAndUpdate(roomId, {
-      ...req.body
-    }, {
-      returnDocument: "after",
-    }).then(doc => {
+    await RoomModel.findByIdAndUpdate(req.params.id,
+      {...req.body},
+      {returnDocument: "after"}
+    ).then(doc => {
       if (!doc) {
         return res.status(404).json({
-          message: 'purchase order not found'
+          message: 'Room not found'
         })
       }
       return res.json(doc);
     });
-
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot update purchase order'
+      message: 'Cannot update Room'
     })
   }
 }
-
 
 export const addToCart = async (req, res) => {
   try {
@@ -93,7 +104,7 @@ export const addToCart = async (req, res) => {
 
     if (!doc) {
       return res.status(404).json({
-        message: 'purchase order not found'
+        message: 'Room not found'
       })
     }
 

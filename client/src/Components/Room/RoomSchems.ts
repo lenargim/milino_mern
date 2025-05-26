@@ -3,15 +3,17 @@ import {roomCategories} from "../../helpers/productTypes";
 import {ObjectSchema} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
-export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<RoomMaterialsFormType> => {
+export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
         Yup.object({
-            room_name: Yup.string()
+            name: Yup.string()
                 .required('Enter purchase order name')
-                .notOneOf(reservedNames, 'Name should be unique')
+                .test("Unique", "Name should be unique", (value) => {
+                    if (!value) return false;
+                    return !reservedNames.includes(value.trim().toLowerCase())
+                })
                 .min(2, 'Min 2 symbols')
-                .default('')
-                .defined('Enter purchase order name'),
+                .defined('Enter Room name'),
             category: Yup.string()
                 .oneOf(roomCategories)
                 .defined()
@@ -19,7 +21,7 @@ export const RoomSchema = (reservedNames: string[] = []):ObjectSchema<RoomMateri
             gola: Yup.string()
                 .default('')
                 .when('category', {
-                    is: (val:string) => val === 'Kitchen' || val === 'Vanity',
+                    is: (val: string) => val === 'Kitchen' || val === 'Vanity',
                     then: (schema => schema.required('Please choose gola type'))
                 }),
             door_type: Yup.string()

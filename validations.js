@@ -12,7 +12,7 @@ export const loginValidation = [
 ]
 
 export const roomCreateValidation = [
-  body('room_name', 'Room name should has minimum 2 symbols').isLength({min: 2})
+  body('name', 'Room name should has minimum 2 symbols').isLength({min: 2})
 ]
 
 export const POCreateValidation = [

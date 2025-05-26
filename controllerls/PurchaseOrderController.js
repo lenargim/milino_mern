@@ -1,16 +1,55 @@
 import PurchaseOrder from "../models/PurchaseOrder.js";
-import RoomModel from "../models/Room.js";
+
+export const getAllPO = async (req, res) => {
+  try {
+    const PurchaseOrders = await PurchaseOrder.find({user_id: req.params.userId, is_deleted: false});
+    if (!PurchaseOrders) {
+      return res.status(404).json({
+        message: 'Purchase orders not found'
+      })
+    }
+    // const {is_deleted, ...data} = PurchaseOrders;
+    const data = PurchaseOrders.map(po => {
+      return {
+        _id: po._id,
+        name: po.name,
+        user_id: po.user_id
+      }
+    })
+    res.status(200).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot get Purchase orders'
+    })
+  }
+}
 
 export const create = async (req, res) => {
   try {
     const doc = new PurchaseOrder({
-      ...req.body
+      ...req.body,
+      is_deleted: false
     })
-    const post = await doc.save()
-      .catch(err => {
-        console.log(err)
-      });
-    res.json(post);
+    // Проверяем, есть ли в бд PO с таким именем (без учета регистра);
+    const PO = await PurchaseOrder.findOne({
+      name: { $regex: `^${req.body.name}$`, $options: 'i' },
+      is_deleted: false
+    }).exec();
+    if (PO) {
+      res.status(409).json({ message: 'Purchase order name occupied' });
+    } else {
+      const post = await doc.save()
+        .catch(err => {
+          console.log(err)
+        });
+
+      const data = {
+        _id: post._id,
+        name: post.name,
+        user_id: post.user_id
+      }
+      res.status(201).json(data);
+    }
   } catch (e) {
     res.status(500).json({
       message: 'Cannot create Process Order'
@@ -18,103 +57,48 @@ export const create = async (req, res) => {
   }
 }
 
-export const getOne = async (req, res) => {
+export const remove = async (req, res, next) => {
   try {
-    const name = req.params.name;
-    const doc = await PurchaseOrder.findOne({name: name});
-    if (!doc) {
-      return res.status(404).json({
-        message: 'Process order not found'
-      })
-    }
-    res.json(doc)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get Process order'
-    })
-  }
-}
-
-export const getAllPO = async (req, res) => {
-  try {
-    const PurchaseOrders = await PurchaseOrder.find({user_id: req.params.userId});
-
-    if (!PurchaseOrders) {
-      return res.status(404).json({
-        message: 'Purchase orders not found'
-      })
-    }
-    res.json(PurchaseOrders)
-
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get Purchase orders'
-    })
-  }
-}
-
-export const remove = async (req, res) => {
-  try {
-    const PurchaseOrderId = req.params.id;
-    PurchaseOrder.findByIdAndDelete(PurchaseOrderId).then((resPO) => {
+    await PurchaseOrder.findByIdAndUpdate(req.body.purchase_order_id,
+      {is_deleted: true},
+      {returnDocument: "after"},
+    ).then((resPO) => {
+      req.params.userId = req.body.user_id;
       if (!resPO) {
         return res.status(404).json({
           message: 'Purchase orders not found'
         })
       }
-      return res.json(resPO);
     });
+    next();
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot get Purchase orders'
+      message: 'Cannot remove Purchase order'
     })
   }
 }
 
-export const updatePO = async (req, res) => {
+export const update = async (req, res) => {
   try {
-    const PurchaseOrderId = req.params.id;
-    await PurchaseOrder.findByIdAndUpdate(PurchaseOrderId, {
-      ...req.body
-    }, {
-      returnDocument: "after",
-    }).then(doc => {
+    await PurchaseOrder.findByIdAndUpdate(req.params.id,
+      {...req.body},
+      {returnDocument: "after"}
+    ).then(doc => {
       if (!doc) {
         return res.status(404).json({
-          message: 'Purchase orders not found'
+          message: 'Purchase order not found'
         })
       }
-      return res.json(doc);
+      const data = {
+        _id: doc._id,
+        name: doc.name,
+        user_id: doc.user_id
+      }
+      return res.status(200).json(data);
     });
-
   } catch (e) {
     res.status(500).json({
-      message: 'Cannot update Purchase orders'
-    })
-  }
-}
-
-
-export const getPORooms = async (req, res) => {
-  try {
-    const po_id = req.params.id;
-    const rooms = await RoomModel.find({purchase_order_id: po_id});
-    if (!rooms) {
-      return res.status(404).json({
-        message: 'Rooms not found'
-      })
-    }
-
-    const data = rooms.map(room => {
-      const {_doc} = room
-      const {cart, ...rest} = _doc;
-      return rest;
-    })
-
-    res.json(data)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot get rooms'
+      message: 'Cannot update Purchase order'
     })
   }
 }

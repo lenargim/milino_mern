@@ -1,5 +1,6 @@
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
 import {CartInOrderType} from "../helpers/cartTypes";
+import {MaybeNull} from "../helpers/productTypes";
 
 export type UserDataType = {
     name: string,
@@ -23,7 +24,7 @@ export interface UserType extends UserDataType {
     is_active_in_constructor: boolean
 }
 
-export interface UserTypeResponse extends UserType {
+export interface UserAndTokenType extends UserType {
     token: string
 }
 
@@ -53,7 +54,7 @@ export type LogInType = {
 export type OrderTypeAPI = {
     user: string,
     room_id: string,
-    room_name: string,
+    name: string,
     purchase_order_id: string,
     purchase_order_name: string,
     cart: CartInOrderType[],

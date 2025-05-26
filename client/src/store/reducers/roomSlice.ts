@@ -33,11 +33,6 @@ export const roomSlice = createSlice({
         addRoom: (state, action: PayloadAction<RoomType>) => {
             state.rooms.push(convertRoomAPIToFront(action.payload))
         },
-        // setRooms: (state, action: PayloadAction<RoomType[]>) => {
-        //     state.rooms = state.rooms.map(room => {
-        //         return room._id === action.payload._id ? {...getRoomFront(action.payload)} : room;
-        //     })
-        // },
         editRoom: (state, action: PayloadAction<RoomType>) => {
             const editable_roo = action.payload
             state.rooms = state.rooms.map(room => {
@@ -54,16 +49,7 @@ export const roomSlice = createSlice({
                     activeProductCategory: action.payload.category
                 } : room;
             })
-        },
-        // updateCartInRoom: (state, action: PayloadAction<CartAPI[]>) => {
-        //     state.rooms = state.rooms.map(room => {
-        //         const room_id = action.payload.cart[0].room_id;
-        //         return room._id === room_id ? {
-        //             ...room,
-        //             cart: useGetCartArrFront(action.payload.cart, room)
-        //         } : room;
-        //     })
-        // },
+        }
     },
     // extraReducers: (builder) => {
     //     builder

@@ -1,17 +1,16 @@
-import React from 'react';
-import PurchaseOrderRooms from "./PurchaseOrderRooms";
-import {useParams} from "react-router-dom";
+import React, {FC} from 'react';
+import {useParams, Outlet} from "react-router-dom";
 import {textToLink, useAppSelector} from "../../helpers/helpers";
-import {PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
-import {MaybeUndefined} from "../../helpers/productTypes";
+import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 
-const PurchaseOrderItem = () => {
-    let { name } = useParams();
-    const {purchase_orders} = useAppSelector(state => state.purchase_order);
-    const item:MaybeUndefined<PurchaseOrderType> = purchase_orders.find(el => textToLink(el.name) === name);
-    if (!item) return null;
+const PurchaseOrderItem: FC = () => {
+    const {purchase_order_name} = useParams();
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
+    const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
+
+    if (!purchase_order) return null;
     return (
-        <PurchaseOrderRooms purchase_order={item}/>
+        <Outlet context={purchase_order} />
     );
 };
 

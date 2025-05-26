@@ -4,6 +4,7 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import path from 'path';
 import {fileURLToPath} from 'url';
+import cookieParser from 'cookie-parser';
 import {
   UserController,
   PDFController,
@@ -12,9 +13,16 @@ import {
   AdminController,
   PurchaseOrderController
 } from './controllerls/index.js';
-import {registerValidation, loginValidation, roomCreateValidation, cartItemValidation, POCreateValidation} from './validations.js'
+import {
+  registerValidation,
+  loginValidation,
+  roomCreateValidation,
+  cartItemValidation,
+  POCreateValidation
+} from './validations.js'
 import {checkAuth, checkAdmin, handleValidationErrors} from './utils/index.js'
 import * as dotenv from 'dotenv';
+
 const env = dotenv.config().parsed;
 
 mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
@@ -27,17 +35,20 @@ const __dirname = path.dirname(__filename);
 
 const PORT = env.PORT || 5000;
 const corsOptions = {
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}
-const CORS = cors(corsOptions);
+  origin: 'http://localhost:3000', // <-- React app origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
-app.options('*', cors())
+// app.options('*', cors())
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(__dirname));
+app.use(cookieParser());
+
+const CORS = cors(corsOptions);
+app.use(CORS);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -54,29 +65,34 @@ const start = async () => {
 
     app.post('/api/email', CORS, upload.fields([{name: "pdf"}, {name: "json"}]), PDFController.SendPDF);
 
-    app.post('/api/auth/register', CORS, registerValidation, handleValidationErrors, UserController.register)
-    app.post('/api/auth/login', CORS, loginValidation, handleValidationErrors, UserController.login);
-    app.get('/api/users/me', CORS, checkAuth, UserController.getMe)
-    app.patch('/api/users/me', CORS, checkAuth, UserController.patchMe)
+    // Auth
+    app.post('/api/auth/register',  registerValidation, handleValidationErrors, UserController.register)
+    app.post('/api/auth/login',  loginValidation, handleValidationErrors, UserController.login);
+    app.get('/api/users/me',  checkAuth, UserController.getMe)
+    app.patch('/api/users/me',  checkAuth, UserController.patchMe)
+    app.post('/api/users/refresh',  UserController.refresh)
 
-    app.get('/api/po/:userId', CORS, checkAuth, PurchaseOrderController.getAllPO)
-    app.post('/api/po', CORS, checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.create)
+    // Purchase Order
+    app.get('/api/po/:userId',  checkAuth, PurchaseOrderController.getAllPO)
+    app.post('/api/po',  checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.create)
+    app.patch('/api/po/delete',  checkAuth, PurchaseOrderController.remove, PurchaseOrderController.getAllPO)
+    app.patch('/api/po/:id',  checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.update)
 
+    // Room
+    app.get('/api/rooms/:id',  checkAuth, RoomController.getRooms)
+    app.post('/api/rooms',  checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
+    app.patch('/api/rooms/delete',  checkAuth, RoomController.remove, RoomController.getRooms)
+    app.patch('/api/rooms/:id',  checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
 
-    app.get('/api/rooms/:id', CORS, checkAuth, PurchaseOrderController.getPORooms)
-    app.post('/api/rooms', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
-    app.get('/api/room/:id', CORS, checkAuth, RoomController.getOne)
-    app.delete('/api/rooms/:id', CORS, checkAuth, RoomController.remove)
-    app.patch('/api/rooms/:id', CORS, checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
+    // Cart
+    app.post('/api/cart/:roomId',  checkAuth, cartItemValidation, handleValidationErrors, RoomController.addToCart)
+    app.delete('/api/cart/:roomId/:cartId',  checkAuth, RoomController.removeFromCart)
+    app.patch('/api/cart/:roomId/:cartId',  checkAuth, RoomController.updateCart)
 
-    app.post('/api/cart/:roomId', CORS, checkAuth, cartItemValidation, handleValidationErrors, RoomController.addToCart)
-    app.delete('/api/cart/:roomId/:cartId', CORS, checkAuth, RoomController.removeFromCart)
-    app.patch('/api/cart/:roomId/:cartId', CORS, checkAuth, RoomController.updateCart)
+    app.post('/api/order/:roomId',  checkAuth, OrderController.placeOrder)
 
-    app.post('/api/order/:roomId', CORS, checkAuth, OrderController.placeOrder)
-
-    app.post('/api/admin/users', CORS, checkAuth, checkAdmin, AdminController.getUsers)
-    app.patch('/api/admin/user/:userId', CORS, checkAuth, checkAdmin, AdminController.toggleUserEnabled)
+    app.post('/api/admin/users',  checkAuth, checkAdmin, AdminController.getUsers)
+    app.patch('/api/admin/user/:userId',  checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
     if (env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));

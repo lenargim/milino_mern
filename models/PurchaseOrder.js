@@ -9,7 +9,10 @@ const PurchaseOrderSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  is_deleted: {
+    type: Boolean
   }
-})
+},{timestamps: true})
 
 export default mongoose.model('PurchaseOrders', PurchaseOrderSchema);

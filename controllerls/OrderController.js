@@ -18,7 +18,7 @@ export const placeOrder = async (req, res) => {
       ...req.body,
       user: user_id,
       room_id: roomId,
-      room_name: room._doc.room_name,
+      name: room._doc.room_name,
     })
 
     await doc.save()

@@ -7,7 +7,6 @@ const MyPDFViewer: FC<{ link: string }> = ({link}) => {
 
     useLayoutEffect(() => {
         if (ref.current) {
-            console.log('s')
             const w: number = ref.current.offsetWidth;
             const h: number = ref.current.offsetHeight;
             const maxWidth = Math.min((w - 100), (16 / 9 * h - 150));

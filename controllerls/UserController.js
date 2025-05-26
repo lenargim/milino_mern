@@ -3,9 +3,15 @@ import UserModel from "../models/User.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import nodemailer from "nodemailer";
-import {getTransporterObject} from "../utils/helpers.js";
+import {getTransporterObject, isCookieSecure} from "../utils/helpers.js";
 
 const env = dotenv.config().parsed;
+
+function generateTokens(userId) {
+  const accessToken = jwt.sign({ _id: userId }, env.BACKEND_SECRET_KEY, { expiresIn: env.BACKEND_SECRET_KEY_EXPIRES });
+  const refreshToken = jwt.sign({ _id: userId }, env.BACKEND_REFRESH_KEY, { expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES });
+  return { accessToken, refreshToken };
+}
 
 export const register = async (req, res) => {
   try {
@@ -80,7 +86,6 @@ export const login = async (req, res) => {
     const user = await UserModel.findOne({email: new RegExp('^' + req.body.email + '$', 'i')});
     if (!user) {
       return res.status(401).json({
-        action: 'logout',
         message: "Wrong email or password"
       })
     }
@@ -89,25 +94,31 @@ export const login = async (req, res) => {
 
     if (!isValidPass) {
       return res.status(401).json({
-        action: 'logout',
         message: "Incorrect password"
       })
     }
 
     if (!user._doc.is_active) {
       return res.status(403).json({
-        action: 'logout',
         message: "User is not activated"
       })
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = getNewToken(user);
-    res.status(200).json({...userData, token});
+    const { accessToken, refreshToken } = generateTokens(user._id);
+
+    res.status(200)
+      .cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        // sameSite: 'Strict',
+        secure: isCookieSecure(), // set true in production with HTTPS
+        // maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 2 * 60 * 1000 // 2 min
+      })
+      .json({...userData, token:accessToken});
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      action: 'logout',
       message: "User not authorized"
     })
   }
@@ -118,30 +129,23 @@ export const getMe = async (req, res) => {
     const user = await UserModel.findById(req.userId);
     if (!user) {
       return res.status(404).json({
-        action: 'logout',
         message: "User not found"
       })
     }
     if (!user._doc.is_active) {
       return res.status(403).json({
-        action: 'logout',
         message: "User is not activated"
       })
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = getNewToken(user);
 
-    res.json({...userData, token});
+    res.json(userData);
   } catch (e) {
     res.status(403).json({
       message: 'Cannot auth'
     })
   }
-}
-
-const getNewToken = (user) => {
-  return jwt.sign({_id: user._id}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
 }
 
 export const patchMe = async (req, res) => {
@@ -160,11 +164,24 @@ export const patchMe = async (req, res) => {
     }, newData, {new: true});
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const token = getNewToken(user);
-    res.json({...userData, token});
+
+    res.json(userData);
   } catch (e) {
     res.status(403).json({
       message: 'Cannot update'
     })
+  }
+}
+
+export const refresh = async (req, res) => {
+  const token = req.cookies.refreshToken;
+  if (!token) return res.sendStatus(401).json({message: "No refresh token"});
+
+  try {
+    const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
+    const { accessToken } = generateTokens(decoded.id);
+    res.json(accessToken);
+  } catch {
+    res.sendStatus(403);
   }
 }
