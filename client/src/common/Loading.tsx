@@ -4,7 +4,12 @@ const Loading = () => {
     return (
         <main className="wrap">
             <div className="loading">
-                <div>Loading...</div>
+                <div className="loading-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </main>
     );
