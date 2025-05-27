@@ -1,35 +1,54 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {productCategory} from "../../helpers/productTypes";
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {MaybeNull, MaybeUndefined, productCategory} from "../../helpers/productTypes";
 import {RoomFront, RoomType} from "../../helpers/roomTypes";
-import {convertRoomAPIToFront} from "../../helpers/helpers";
+import {convertRoomAPIToFront, me} from "../../helpers/helpers";
+import {roomsAPI} from "../../api/api";
+import {withRetry} from "../../utils/withRetry";
 
 export interface RoomsState {
     rooms: RoomFront[],
-    // loading: boolean;
-    // error: MaybeNull<string>;
+    loading: boolean;
+    error: MaybeNull<string>;
 }
 
 const initialState: RoomsState = {
     rooms: [],
-    // loading: false,
-    // error: null
+    loading: false,
+    error: null
 }
 
-// export const fetchRooms = createAsyncThunk<
-//     RoomType[],           // Return type
-//     {_id:string},           // Argument type (the _id)
-//     { state: RoomsState }
-//     >(
-//     'room/fetchRooms', getRooms(_id)
-// );
+
+// export const fetchRooms = createAsyncThunk(
+//     'room/fetchRooms',
+//     async (_id: string, thunkAPI) => {
+//         const response = await roomsAPI.getRooms(_id)
+//         return response.data
+//     },
+// )
+
+export const fetchRooms = createAsyncThunk<
+    RoomType[], // ✅ This is now correct
+    { _id: string }
+    >(
+    'room/fetchRooms',
+    async ({ _id }, thunkAPI) => {
+        return await withRetry(
+            roomsAPI.getRooms,
+            [_id],
+            'Unable to fetch rooms',
+            thunkAPI
+        );
+    }
+);
+
 
 export const roomSlice = createSlice({
     name: 'room',
     initialState,
     reducers: {
-        setRooms: (state, action: PayloadAction<RoomType[]>) => {
-            state.rooms = action.payload.map(room => convertRoomAPIToFront(room))
-        },
+        // setRooms: (state, action: PayloadAction<RoomType[]>) => {
+        //     state.rooms = action.payload.map(room => convertRoomAPIToFront(room))
+        // },
         addRoom: (state, action: PayloadAction<RoomType>) => {
             state.rooms.push(convertRoomAPIToFront(action.payload))
         },
@@ -51,26 +70,26 @@ export const roomSlice = createSlice({
             })
         }
     },
-    // extraReducers: (builder) => {
-    //     builder
-    //         .addCase(fetchRooms.pending, (state) => {
-    //             state.loading = true;
-    //             state.error = null;
-    //         })
-    //         .addCase(fetchRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
-    //             state.loading = false;
-    //             state.rooms = action.payload;
-    //         })
-    //         .addCase(fetchRooms.rejected, (state, action) => {
-    //             state.loading = false;
-    //             state.error = action.error.message || 'Failed to fetch rooms';
-    //         });
-    // },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchRooms.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchRooms.fulfilled, (state, action) => {
+                console.log(action.payload)
+                state.rooms = action.payload.map(room => convertRoomAPIToFront(room));
+                state.loading = false;
+            })
+            .addCase(fetchRooms.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
+    },
 })
 
 export const {
     addRoom,
-    setRooms,
     editRoom,
     deleteRoom,
     roomSetActiveCategory

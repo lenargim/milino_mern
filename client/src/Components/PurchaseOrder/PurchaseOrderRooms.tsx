@@ -3,16 +3,17 @@ import s from '../Profile/profile.module.sass'
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomNew from '../Room/RoomNew';
-import {PurchaseOrdersState, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
-import {deleteRoomAPI, getRooms} from "../../api/apiFunctions";
-import {RoomsState, setRooms} from "../../store/reducers/roomSlice";
+import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
+import {deleteRoomAPI} from "../../api/apiFunctions";
+import {fetchRooms, RoomsState} from "../../store/reducers/roomSlice";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import checkoutStyle from "../Checkout/checkout.module.sass";
+import Loading from "../../common/Loading";
 
 const PurchaseOrderRooms: FC = () => {
     const {purchase_order_name} = useParams();
-    const {rooms} = useAppSelector<RoomsState>(state => state.room);
+    const {rooms, loading} = useAppSelector<RoomsState>(state => state.room);
     const dispatch = useAppDispatch();
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
 
@@ -20,11 +21,10 @@ const PurchaseOrderRooms: FC = () => {
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
 
     useEffect(() => {
-        purchase_order && getRooms(purchase_order._id).then(data => {
-            data && dispatch(setRooms(data));
-        })
+        purchase_order && dispatch(fetchRooms({_id: purchase_order._id}))
     }, [purchase_order]);
     if (!purchase_order) return null;
+    if (loading) return <Loading />
     return (
         <>
             <h2>Rooms</h2>
@@ -76,13 +76,13 @@ const ApproveRemoveRoom: FC<{ room: RoomFront, purchase_name: string, setWarning
                     <h3>Delete "{name}" room?</h3>
                     <div className={s.approvalRemoveButonset}>
                         <button className="button red small" onClick={() => {
-                            deleteRoomAPI(purchase_order_id, _id).then(room_res => {
-                                setWarningModal(null)
-                                if (room_res) {
-                                    dispatch(setRooms(room_res));
-                                    navigate(`/profile/purchase/${purchase_name}`);
-                                }
-                            })
+                            // deleteRoomAPI(purchase_order_id, _id).then(room_res => {
+                            //     setWarningModal(null)
+                            //     if (room_res) {
+                            //         dispatch(setRooms(room_res));
+                            //         navigate(`/profile/purchase/${purchase_name}`);
+                            //     }
+                            // })
                         }}>Yes
                         </button>
                         <button className="button green small" onClick={() => setWarningModal(null)}>No</button>

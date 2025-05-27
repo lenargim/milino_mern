@@ -88,13 +88,13 @@ export const refreshTokenAPI = async () => {
 }
 
 
-export const getRooms = async (purchase_order_id: string):Promise<MaybeUndefined<RoomType[]>> => {
-    try {
-        return (await roomsAPI.getRooms(purchase_order_id)).data;
-    } catch (error) {
-        return await alertError(error, () => getRooms(purchase_order_id));
-    }
-}
+// export const getRooms = async (purchase_order_id: string):Promise<MaybeUndefined<RoomType[]>> => {
+//     try {
+//         return (await roomsAPI.getRooms(purchase_order_id)).data;
+//     } catch (error) {
+//         return await alertError(error, () => getRooms(purchase_order_id));
+//     }
+// }
 
 export const createRoomAPI = async (room: RoomNewType):Promise<MaybeUndefined<RoomType>> => {
     try {

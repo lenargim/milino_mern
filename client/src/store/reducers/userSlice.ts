@@ -22,7 +22,7 @@ export const emptyUser:UserType = {
 
 export const loadUser = createAsyncThunk<MaybeNull<UserType>>(
     'user/loadUser',
-    async (_, thunkAPI) => {
+    async (_) => {
         const token = localStorage.getItem('token');
         const user = await me(token);
         return user; // if null, reducers can handle clearing the state
