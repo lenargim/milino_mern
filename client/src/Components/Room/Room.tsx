@@ -15,6 +15,7 @@ const Room: FC = () => {
     const path = location.pathname.slice(1);
     const {rooms} = useAppSelector<RoomsState>(state => state.room)
     const room = rooms.find(room => textToLink(room.name) === room_name);
+    console.log(room)
     const {cart_items} = useAppSelector<CartState>(state => state.cart);
     useEffect(() => {
         if (!room_name) navigate('/profile');

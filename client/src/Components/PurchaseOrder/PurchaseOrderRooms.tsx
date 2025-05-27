@@ -4,8 +4,7 @@ import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomNew from '../Room/RoomNew';
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
-import {deleteRoomAPI} from "../../api/apiFunctions";
-import {fetchRooms, RoomsState} from "../../store/reducers/roomSlice";
+import {fetchRooms, removeRoom, RoomsState} from "../../store/reducers/roomSlice";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import checkoutStyle from "../Checkout/checkout.module.sass";
@@ -19,6 +18,7 @@ const PurchaseOrderRooms: FC = () => {
 
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
+    console.log(purchase_order)
 
     useEffect(() => {
         purchase_order && dispatch(fetchRooms({_id: purchase_order._id}))
@@ -69,21 +69,24 @@ const ApproveRemoveRoom: FC<{ room: RoomFront, purchase_name: string, setWarning
     const {_id, purchase_order_id, name} = room
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+
+    const handleDelete = async () => {
+        try {
+            setWarningModal(null);
+            await dispatch(removeRoom({ purchase_order_id, _id })).unwrap();
+            navigate(`/profile/purchase/${textToLink(purchase_name)}/rooms`);
+        } catch (error) {
+            console.error('Failed to delete room:', error);
+        }
+    };
     return (
         <div className={checkoutStyle.notificationWrap}>
             <div className={checkoutStyle.notification}>
                 <div className={s.approvalRemove}>
                     <h3>Delete "{name}" room?</h3>
                     <div className={s.approvalRemoveButonset}>
-                        <button className="button red small" onClick={() => {
-                            // deleteRoomAPI(purchase_order_id, _id).then(room_res => {
-                            //     setWarningModal(null)
-                            //     if (room_res) {
-                            //         dispatch(setRooms(room_res));
-                            //         navigate(`/profile/purchase/${purchase_name}`);
-                            //     }
-                            // })
-                        }}>Yes
+                        <button className="button red small" onClick={handleDelete}>Yes
                         </button>
                         <button className="button green small" onClick={() => setWarningModal(null)}>No</button>
                     </div>

@@ -63,14 +63,14 @@ export const remove = async (req, res, next) => {
       {is_deleted: true},
       {returnDocument: "after"},
     ).then((resPO) => {
-      req.params.userId = req.body.user_id;
       if (!resPO) {
         return res.status(404).json({
           message: 'Purchase orders not found'
         })
       }
+      req.params.userId = req.body.user_id;
+      next();
     });
-    next();
   } catch (e) {
     res.status(500).json({
       message: 'Cannot remove Purchase order'

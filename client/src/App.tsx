@@ -44,8 +44,8 @@ function App() {
                                 <Route path="edit" element={<PurchaseOrderEdit/>}/>
                                 <Route path="rooms" element={<PurchaseOrderRooms/>}>
                                     <Route path=":room_name" element={<Room/>}>
-                                        <Route index element={<RoomCategory/>}/>
                                         <Route path="edit" element={<RoomEdit/>}/>
+                                        <Route index element={<RoomCategory/>}/>
                                         <Route path="product/:productId" element={<RoomProduct/>}/>
                                         <Route path="checkout" element={<CheckoutForm/>}/>
                                     </Route>

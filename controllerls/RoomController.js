@@ -56,14 +56,14 @@ export const remove = async (req, res, next) => {
       {is_deleted: true},
       {returnDocument: "after"},
     ).then((roomRes) => {
-      req.params.id = req.body.purchase_order_id;
       if (!roomRes) {
         return res.status(404).json({
           message: 'Room not found'
         })
       }
+      req.params.id = req.body.purchase_order_id;
+      next();
     });
-    next();
   } catch (e) {
     res.status(500).json({
       message: 'Cannot get Room'
