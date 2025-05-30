@@ -5,7 +5,7 @@ import {createRoomAPI} from "../../api/apiFunctions";
 import {addRoom, RoomsState} from "../../store/reducers/roomSlice";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
-import {getUniqueNames, useAppSelector} from "../../helpers/helpers";
+import {getUniqueNames, textToLink, useAppSelector} from "../../helpers/helpers";
 import RoomMaterialsForm, {materialsFormInitial} from "./RoomMaterialsForm";
 import {RoomMaterialsFormType, RoomNewType} from "../../helpers/roomTypes";
 import {PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
@@ -35,7 +35,7 @@ const RoomNew: FC = () => {
                         setSubmitting(false)
                         if (room) {
                             dispatch(addRoom(room))
-                            navigate(`/profile/purchase/${purchase_order_name}/rooms/${room.name}`);
+                            navigate(`/profile/purchase/${purchase_order_name}/rooms/${textToLink(room.name)}`);
                         }
                     })
                 }}>

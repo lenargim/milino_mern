@@ -4,7 +4,7 @@ import {NavLink, useNavigate, useParams, Outlet} from "react-router-dom";
 import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomNew from '../Room/RoomNew';
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
-import {fetchRooms, removeRoom, RoomsState} from "../../store/reducers/roomSlice";
+import {fetchRooms, removeRoom, RoomsState, setActiveRoom} from "../../store/reducers/roomSlice";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import checkoutStyle from "../Checkout/checkout.module.sass";
@@ -12,16 +12,20 @@ import Loading from "../../common/Loading";
 
 const PurchaseOrderRooms: FC = () => {
     const {purchase_order_name} = useParams();
-    const {rooms, loading_rooms} = useAppSelector<RoomsState>(state => state.room);
     const dispatch = useAppDispatch();
+    const {purchase_orders, active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
+    const {rooms, loading_rooms, active_room} = useAppSelector<RoomsState>(state => state.room);
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
-
-    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
 
     useEffect(() => {
         purchase_order && dispatch(fetchRooms({_id: purchase_order._id}))
     }, [purchase_order,dispatch]);
+
+    useEffect(() => {
+        active_room && dispatch(setActiveRoom(''));
+    },[active_po])
+
     if (!purchase_order) return null;
     if (loading_rooms) return <Loading />
     return (
