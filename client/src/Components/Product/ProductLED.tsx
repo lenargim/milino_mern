@@ -1,22 +1,40 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import s from "./product.module.sass";
 import {ProductCheckboxInput, ProductInputCustom} from "../../common/Form";
 import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
-import {MaybeEmpty} from "../../helpers/productTypes";
+import {MaybeEmpty, productValuesType} from "../../helpers/productTypes";
+import {useFormikContext} from "formik";
+import {retry} from "@reduxjs/toolkit/query";
 
 export type borderType = 'Sides' | 'Top' | 'Bottom';
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 export type ledType = {
-    alignment: MaybeEmpty<ledAlignmentType>,
     hasLedBlock: boolean
-    error?: string
 }
-const ProductLED: FC<ledType> = ({alignment, error, hasLedBlock}) => {
-    if (!hasLedBlock) return null;
+const ProductLED: FC<ledType> = ({hasLedBlock}) => {
+    const {values, setFieldValue, errors} = useFormikContext<productValuesType>();
+    const {
+        'LED borders': ledBorders,
+        'LED alignment': ledAlignment,
+        'LED indent': ledIndent
+    } = values;
     const borderOptions = ['Sides', 'Top', 'Bottom']
     const alignmentOpt: optionType[] = alignmentOptions.map(el => ({value: el, label: el}));
+    const isIndentShown = isShowIndent(ledAlignment, ledBorders);
 
+    useEffect(() => {
+        const isIndentShown = isShowIndent(ledAlignment, ledBorders);
+        if (ledBorders.length && !ledAlignment) {
+            setFieldValue('LED alignment', 'Center');
+        }
+        if (!ledBorders.length && ledAlignment) {
+            setFieldValue('LED alignment', '');
+            setFieldValue('LED indent', '');
+        }
+        if (!isIndentShown && ledIndent) setFieldValue('LED indent', '');
+    }, [ledBorders, ledAlignment, ledIndent])
+    if (!hasLedBlock) return null;
     return (
         <div className={s.block}>
             <h3>LED</h3>
@@ -26,17 +44,19 @@ const ProductLED: FC<ledType> = ({alignment, error, hasLedBlock}) => {
                                                                            inputIndex={index}
                                                                            name={'LED borders'}
                                                                            value={b}/>)}
-                    {error ? <div>{error}</div> : null}
-
                 </div>
-                <SelectField name="LED alignment" val={{value: alignment, label: alignment}}
-                             options={alignmentOpt}/>
-                {alignment !== 'Center' ?
-                    <ProductInputCustom name={'LED indent'} label="Indent"/>
-                    : null}
+                {ledBorders.length ? <SelectField name="LED alignment" val={{value: ledAlignment, label: ledAlignment}}
+                                                  options={alignmentOpt}/> : null}
+                {isIndentShown ? <ProductInputCustom name={'LED indent'} label="Indent"/> : null}
             </div>
         </div>
     );
 };
 
 export default ProductLED;
+
+
+const isShowIndent = (ledAlignment:MaybeEmpty<ledAlignmentType>, ledBorders:string[]):boolean => {
+    if (!ledBorders.length) return false;
+    return !!(ledAlignment && ledAlignment !== 'Center')
+}
