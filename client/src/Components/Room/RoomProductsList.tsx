@@ -53,7 +53,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
 
 
     return (
-        <NavLink to={`product/${category}/${id}`} className={s.item}
+        <NavLink to={`product/${id}`} className={s.item}
         >
             <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
             <div>

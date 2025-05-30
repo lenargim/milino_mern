@@ -20,7 +20,7 @@ const RoomProduct: FC = () => {
     const materials: RoomMaterialsFormType = {...rest};
 
     if (!productId || !activeProductCategory) {
-        navigate(`..`);
+        navigate(`/profile/purchase/`);
         return null;
     }
     const isCustomPart = findIsProductCustomByCategory(activeProductCategory);

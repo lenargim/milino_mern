@@ -59,7 +59,14 @@ import DA from '../api/doorAccessories.json'
 import standardProductsPrices from "../api/standartProductsPrices.json";
 import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import settings from "../api/settings.json";
-import {CartAPI, CartAPIImagedType, CartItemFrontType, CustomAccessoriesType, IsStandardOptionsType} from "./cartTypes";
+import {
+    CartAPI,
+    CartAPIImagedType,
+    CartItemFrontType,
+    CartNewType,
+    CustomAccessoriesType,
+    IsStandardOptionsType
+} from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {isTokenValid, meAPI, refreshTokenAPI} from "../api/apiFunctions";
@@ -282,7 +289,7 @@ export const getCustomCabinetString = (isStandard: IsStandardOptionsType): strin
     return Object.values(isStandard).includes(false) ? 'Custom' : '';
 }
 
-export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: string): CartAPI => {
+export const addProductToCart = (product: ProductType, values: productValuesType, productRange: productRangeType, roomId: string): CartNewType => {
     const {id, product_type} = product
     const {
         'Width': width,
@@ -314,7 +321,6 @@ export const addProductToCart = (product: ProductType, values: productValuesType
     const realBlind = blindWidth || customBlindWidth || 0;
 
     return {
-        _id: uuidv4(),
         room_id: roomId,
         product_id: id,
         product_type: product_type,
@@ -699,9 +705,7 @@ export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, 
 }
 
 /// ?
-export const convertCartAPIToFront = (cart: CartAPI[]): CartItemFrontType[] => {
-    const rooms: RoomFront[] = store.getState().room.rooms;
-    const room = rooms.find(el => el._id === cart[0].room_id);
+export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomFront>): CartItemFrontType[] => {
     if (!room) return []
     const CartFrontItems = cart.map(cart_item => {
         return cart_item.product_type === 'custom' ? getCartItemCustomPart(cart_item, room) : getCartItemProduct(cart_item, room)

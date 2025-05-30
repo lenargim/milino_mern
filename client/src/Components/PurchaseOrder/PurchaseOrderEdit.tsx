@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Formik} from "formik";
 import {useNavigate, useParams} from "react-router-dom";
 import {PONewSchema} from "./PurchaseOrderNewSchema";
-import {getUniqueNames, textToLink, useAppSelector} from "../../helpers/helpers";
+import {getUniqueNames, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import PurchaseOrderForm from "./PurchaseOrderForm";
 import {editPOAPI} from "../../api/apiFunctions";
 import {editPO, PurchaseOrdersState, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
@@ -12,7 +12,7 @@ const PurchaseOrderEdit: FC = () => {
     const {purchase_order_name} = useParams();
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const uniqueNames = getUniqueNames(purchase_orders);
     if (!purchase_order_name) {

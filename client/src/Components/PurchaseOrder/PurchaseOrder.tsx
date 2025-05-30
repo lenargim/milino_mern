@@ -31,7 +31,7 @@ const PurchaseOrder: FC = () => {
 
     if (!_id) return null;
     return (
-        <div className={s.rooms}>
+        <div className={s.purchaseOrder}>
             {warningModal ? <ApproveRemovePO po={warningModal} setWarningModal={setWarningModal}/> : null}
             <div>
                 <h1 ref={scrollToRef}>Purchase orders</h1>

@@ -96,10 +96,15 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
             chosenOptions.includes('Glass Door') && setFieldValue('Options', removeOptionFromOptions(chosenOptions, 'Glass Door'));
         }
         if (!isEnableGlassShelfOption) {
-            shelfGlassColor && setFieldValue('Shelf Glass Color', '');
+            shelfGlassColor && setFieldValue('glass_shelf', '');
             chosenOptions.includes('Glass Shelf') && setFieldValue('Options', removeOptionFromOptions(chosenOptions, 'Glass Shelf'));
         }
     }, [width, height]);
+
+    useEffect(() => {
+        if (!chosenOptions.includes('Glass Shelf') && shelfGlassColor) setFieldValue('glass_shelf', '');
+        if (!chosenOptions.includes('Glass Door') && glass_door) setFieldValue('glass_door', []);
+    }, [chosenOptions])
     return (
         <>
             {filteredOptionsFront.length ?
@@ -124,7 +129,8 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
               <h3>Glass Shelf</h3>
               <div className={s.blockWrap}>
                 <div className={s.block}>
-                  <SelectField name="Shelf Glass Color"
+                  <SelectField label="Shelf Glass Color"
+                               name="glass_shelf"
                                val={getSelectValfromVal(shelfGlassColor, shelfGlassList)}
                                options={shelfGlassList}/>
                 </div>

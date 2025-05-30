@@ -18,7 +18,7 @@ import DA from '../../api/doorAccessories.json'
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {setCart} from "../../store/reducers/cartSlice";
+import {addProduct, fetchCart} from "../../store/reducers/roomSlice";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
@@ -159,9 +159,10 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
                 if (!customPartProduct || !values.price) return;
                 const cartData = addToCartCustomPart(values, customPartProduct, room_id)
-                addToCartAPI(cartData).then(cart => {
-                    if (cart) dispatch(setCart(cart));
-                })
+                // addToCartAPI(cartData).then(cart => {
+                //     if (cart) dispatch(setCart(cart));
+                // })
+                dispatch(addProduct({product: cartData}));
                 resetForm();
             }}
         >

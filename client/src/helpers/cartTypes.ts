@@ -3,8 +3,7 @@ import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {DoorAccessoryAPIType} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
 
-export type CartAPI = {
-    _id: string,
+export type CartNewType = {
     room_id: string,
     product_id: number,
     product_type: ProductApiType,
@@ -28,6 +27,15 @@ export type CartAPI = {
     },
     custom: MaybeUndefined<CartCustomType>,
     note: string,
+}
+
+export interface CartAPI extends CartNewType {
+    _id: string,
+}
+
+export interface CartAPIResponse extends CartAPI {
+    cart: CartAPI[],
+    room_id: string
 }
 
 export interface CartAPIImagedType extends CartAPI {

@@ -6,7 +6,7 @@ import {useNavigate, useOutletContext} from "react-router-dom";
 import {addPO, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
 import {PONewSchema} from "./PurchaseOrderNewSchema";
 import {createPO} from "../../api/apiFunctions";
-import {getUniqueNames, useAppDispatch} from "../../helpers/helpers";
+import {getUniqueNames, textToLink, useAppDispatch} from "../../helpers/helpers";
 import PurchaseOrderForm from "./PurchaseOrderForm";
 
 export type POFormType = {
@@ -34,9 +34,11 @@ const PurchaseOrderNew: FC = () => {
                 createPO({
                     name: values.name,
                     user_id
-                }).then(purchase_order => {
-                    purchase_order && dispatch(addPO(purchase_order));
-                    navigate('/profile/purchase')
+                }).then(async purchase_order => {
+                    if (purchase_order) {
+                        await dispatch(addPO(purchase_order));
+                        navigate(`/profile/purchase/${textToLink(purchase_order.name)}/rooms`)
+                    }
                 })
             }}
         >

@@ -5,13 +5,12 @@ import {
     getCustomCabinetString,
     getCustomPartById,
     getProductById,
-    useAppDispatch
+    useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
 import {changeAmountType} from "../../helpers/cartTypes";
-import {updateProductAmountAPI} from "../../api/apiFunctions";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import {setCart} from "../../store/reducers/cartSlice";
+import {RoomsState, setCart, updateCartAmount} from "../../store/reducers/roomSlice";
 
 const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
@@ -26,17 +25,19 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
         image_active_number,
         product_type
     } = el;
+    const {rooms} = useAppSelector<RoomsState>(state => state.room);
+    const room = rooms.find(el => el._id === room_id );
+    if (!room) return null;
     const product = product_type !== 'custom'
         ? getProductById(product_id, product_type === 'standard')
         : getCustomPartById(product_id);
     if (!product) return null;
     const {name} = product;
-    const img = getCartItemImg(product, image_active_number)
+    const img = getCartItemImg(product, image_active_number);
+
 
     function changeAmount(type: changeAmountType) {
-        updateProductAmountAPI(room_id, _id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-            cart && dispatch(setCart(cart))
-        })
+        dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
 
     return (

@@ -398,9 +398,5 @@ export interface productValuesType extends initialStandardValues {
     'Middle Section Number': MaybeEmpty<number>,
     glass_door: string[],
     glass_shelf: string
-    // 'Door Profile': string,
-    // 'Door Glass Type': string,
-    // 'Door Glass Color': string,
-    // 'Shelf Glass Color': string,
 
 }

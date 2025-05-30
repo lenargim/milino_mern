@@ -17,9 +17,8 @@ import {
 import sizes from "../../api/sizes.json";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
-import {addToCartAPI} from "../../api/apiFunctions";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {setCart} from "../../store/reducers/cartSlice";
+import {addProduct} from "../../store/reducers/roomSlice";
 
 const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_id: number, activeProductCategory: productCategory }> = ({
                                                                                                                                             materials,
@@ -92,9 +91,10 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
                 const cartData = addProductToCart(product, values, productRange, room_id);
-                addToCartAPI(cartData).then(cart => {
-                    cart && dispatch(setCart(cart));
-                })
+                // addToCartAPI(cartData).then(cart => {
+                //     cart && dispatch(setCart(cart));
+                // })
+                dispatch(addProduct({product: cartData}));
                 resetForm();
             }}
         >

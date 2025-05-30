@@ -37,6 +37,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                                                 tablePriceData
                                             }) => {
     const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight, attributes} = product;
+    console.log(isCornerChoose)
     const {values} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
 

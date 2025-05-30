@@ -6,7 +6,7 @@ import {
     getMaterialStrings,
     useAppSelector
 } from "../../helpers/helpers";
-import {UserType, UserTypeCheckout} from "../../api/apiTypes";
+import {UserTypeCheckout} from "../../api/apiTypes";
 import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
@@ -19,8 +19,8 @@ import CheckoutCart from "./CheckoutCart";
 import {CheckoutType} from "../../helpers/types";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomType} from "../../helpers/roomTypes";
-import {CartState} from "../../store/reducers/cartSlice";
 import {CartInOrderType} from "../../helpers/cartTypes";
+import {RoomsState} from "../../store/reducers/roomSlice";
 
 export type buttonType = 'download' | 'send';
 type modalType = {
@@ -39,8 +39,8 @@ const CheckoutForm: FC = () => {
     const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
     const [room] = useOutletContext<[RoomType]>();
     const {_id, purchase_order_id, ...materials} = room;
-    const {cart_items} = useAppSelector<CartState>(state => state.cart)
     const user = useAppSelector(state => state.user.user)!
+    const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
     const navigate = useNavigate();
     const total = getCartTotal(cart_items);
     const [modal, setModal] = useState<modalType>({open: false, status: ''});

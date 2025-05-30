@@ -156,6 +156,6 @@ const CartSchema = new mongoose.Schema({
   note: {
     type: String,
   }
-},{timestamps: true})
+})
 
 export default mongoose.model('Cart', CartSchema);

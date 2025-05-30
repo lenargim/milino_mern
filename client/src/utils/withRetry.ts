@@ -9,7 +9,7 @@ export const withRetry = async <T, Args extends any[]>(
 ): Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>> => {
     try {
         const response = await apiCall(...args);
-        return response.data; // ✅ Return just the data
+        return response.data;
     } catch (error) {
         const result = await alertError(error, () => apiCall(...args).then(r => r.data));
         if (result) return result;

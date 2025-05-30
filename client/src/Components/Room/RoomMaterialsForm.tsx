@@ -26,7 +26,7 @@ import materialsAPI from "../../api/materials.json";
 import {MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {CartState, updateCartAfterMaterialsChange} from "../../store/reducers/cartSlice";
+import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
 
 const {
     categories,
@@ -93,7 +93,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const frameArr: materialsData[] = doors.find(el => el.value === door_type)?.frame ?? [];
     const grainArr = getGrainArr(grain, colorArr, door_color)
     const prevCategory = usePrevious(category);
-    const {cart_items} = useAppSelector<CartState>(state => state.cart)
+    const {cart_items} = useAppSelector<RoomsState>(state => state.room)
 
     useEffect(() => {
         const isLeather = category === 'Leather Closet';

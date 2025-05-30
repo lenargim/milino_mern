@@ -11,7 +11,8 @@ import {
   RoomController,
   OrderController,
   AdminController,
-  PurchaseOrderController
+  PurchaseOrderController,
+  CartController
 } from './controllerls/index.js';
 import {
   registerValidation,
@@ -82,12 +83,13 @@ const start = async () => {
     app.get('/api/rooms/:id',  checkAuth, RoomController.getRooms)
     app.post('/api/rooms',  checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
     app.patch('/api/rooms/delete',  checkAuth, RoomController.remove, RoomController.getRooms)
-    app.patch('/api/rooms/:id',  checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom)
+    app.patch('/api/rooms/:id',  checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom, RoomController.getRooms)
 
     // Cart
-    app.post('/api/cart/:roomId',  checkAuth, cartItemValidation, handleValidationErrors, RoomController.addToCart)
-    app.delete('/api/cart/:roomId/:cartId',  checkAuth, RoomController.removeFromCart)
-    app.patch('/api/cart/:roomId/:cartId',  checkAuth, RoomController.updateCart)
+    app.get('/api/cart/:id',  checkAuth, CartController.getCart)
+    app.post('/api/cart',  checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart, CartController.getCart)
+    app.delete('/api/cart/:roomId/:cartId',  checkAuth, CartController.removeFromCart, CartController.getCart)
+    app.patch('/api/cart/:roomId/:cartId',  checkAuth, CartController.updateCart,CartController.getCart)
 
     app.post('/api/order/:roomId',  checkAuth, OrderController.placeOrder)
 

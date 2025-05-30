@@ -10,7 +10,7 @@ import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomType} from "../helpers/roomTypes";
-import {CartAPI} from "../helpers/cartTypes";
+import {CartAPI, CartAPIResponse} from "../helpers/cartTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {store} from "../store/store";
 
@@ -112,15 +112,15 @@ export const deleteRoomAPI = async (purchase_order_id:string, room_id: string):P
     }
 }
 
-export const editRoomAPI = async (room: RoomType):Promise<MaybeUndefined<RoomType>> => {
-    try {
-        return (await roomsAPI.editRoom(room)).data;
-    } catch (error) {
-        return await alertError(error, () => editRoomAPI(room));
-    }
-}
+// export const editRoomAPI = async (room: RoomType):Promise<MaybeUndefined<RoomType>> => {
+//     try {
+//         return (await roomsAPI.editRoom(room)).data;
+//     } catch (error) {
+//         return await alertError(error, () => editRoomAPI(room));
+//     }
+// }
 
-export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPI[]>> => {
+export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.getCart(room_id)).data;
     } catch (error) {
@@ -128,7 +128,7 @@ export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPI
     }
 }
 
-export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<CartAPI[]>> => {
+export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.addToCart(product)).data;
     } catch (error) {
@@ -136,7 +136,7 @@ export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<Cart
     }
 }
 
-export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise<MaybeUndefined<CartAPI[]>> => {
+export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.remove(room, _id)).data
     } catch (error) {
@@ -145,7 +145,7 @@ export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise
 }
 
 
-export const updateProductAmountAPI = async (room: string, _id: string, amount: number):Promise<MaybeUndefined<CartAPI[]>> => {
+export const updateProductAmountAPI = async (room: string, _id: string, amount: number):Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.updateAmount(room, _id, amount)).data
     } catch (error) {

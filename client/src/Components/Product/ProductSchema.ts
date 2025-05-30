@@ -116,9 +116,9 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 requiredIf(2),
             ]).transform(() => padded);
         }),
-        'Shelf Glass Color': Yup.string()
+        glass_shelf: Yup.string()
             .when('Options', (options, field) =>
-                options[0].includes('Glass Shelf') ? field.required() : field
+                options[0].includes('Glass Shelf') ? field.required('Glass Shelf is required') : field
             ),
         'Note': Yup.string(),
         price: Yup.number().required().positive()

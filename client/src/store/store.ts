@@ -3,7 +3,6 @@ import userSlice from "./reducers/userSlice";
 import roomSlice from "./reducers/roomSlice";
 import adminSlice from "./reducers/adminSlice";
 import POSlice from "./reducers/purchaseOrderSlice"
-import cartSlice from "./reducers/cartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ export const store = configureStore({
     room: roomSlice,
     admin: adminSlice,
     purchase_order: POSlice,
-    cart: cartSlice
   }
 })
 

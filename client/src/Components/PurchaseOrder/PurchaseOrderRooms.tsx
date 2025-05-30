@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import s from '../Profile/profile.module.sass'
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useParams, Outlet} from "react-router-dom";
 import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomNew from '../Room/RoomNew';
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
@@ -12,19 +12,18 @@ import Loading from "../../common/Loading";
 
 const PurchaseOrderRooms: FC = () => {
     const {purchase_order_name} = useParams();
-    const {rooms, loading} = useAppSelector<RoomsState>(state => state.room);
+    const {rooms, loading_rooms} = useAppSelector<RoomsState>(state => state.room);
     const dispatch = useAppDispatch();
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
 
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
-    console.log(purchase_order)
 
     useEffect(() => {
         purchase_order && dispatch(fetchRooms({_id: purchase_order._id}))
-    }, [purchase_order]);
+    }, [purchase_order,dispatch]);
     if (!purchase_order) return null;
-    if (loading) return <Loading />
+    if (loading_rooms) return <Loading />
     return (
         <>
             <h2>Rooms</h2>
@@ -40,6 +39,7 @@ const PurchaseOrderRooms: FC = () => {
                                                        purchase_name={purchase_order.name}/> : null}
                 </div>
                 : <RoomNew/>}
+            <Outlet />
         </>
     );
 };

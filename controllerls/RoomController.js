@@ -9,7 +9,11 @@ export const getRooms = async (req, res) => {
         message: 'Rooms not found'
       })
     }
-    res.json(rooms)
+    const frontData = rooms.map(el => {
+      const {is_deleted, ...front} = el._doc;
+      return front
+    })
+    res.json(frontData)
   } catch (e) {
     res.status(500).json({
       message: 'Cannot get Rooms'
@@ -32,15 +36,12 @@ export const create = async (req, res) => {
     }).exec();
 
     if (Room) {
-      console.log('1')
       res.status(409).json({ message: 'Room name occupied' });
     } else {
-      console.log('2')
       const post = await doc.save()
         .catch(err => {
           console.log(err)
         });
-      console.log('3')
       res.status(201).json(post);
     }
   } catch (e) {
@@ -71,103 +72,24 @@ export const remove = async (req, res, next) => {
   }
 }
 
-export const updateRoom = async (req, res) => {
+export const updateRoom = async (req, res, next) => {
   try {
     await RoomModel.findByIdAndUpdate(req.params.id,
       {...req.body},
       {returnDocument: "after"}
-    ).then(doc => {
-      if (!doc) {
+    ).then(roomRes => {
+      if (!roomRes) {
         return res.status(404).json({
-          message: 'Room not found'
+          message: 'Room not updated'
         })
       }
-      return res.json(doc);
+      req.params.id = req.body.purchase_order_id;
+      console.log(req.params.id)
+      next()
     });
   } catch (e) {
     res.status(500).json({
       message: 'Cannot update Room'
-    })
-  }
-}
-
-export const addToCart = async (req, res) => {
-  try {
-    const roomId = req.params.roomId;
-
-    const doc = await RoomModel.findByIdAndUpdate(roomId, {
-        $push: {cart: {...req.body}}
-      },
-      {
-        returnDocument: "after",
-      });
-
-    if (!doc) {
-      return res.status(404).json({
-        message: 'Room not found'
-      })
-    }
-
-
-    res.json(doc.cart);
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot create Cart'
-    })
-  }
-}
-
-export const removeFromCart = async (req, res) => {
-  try {
-    const roomId = req.params.roomId;
-    const cartId = req.params.cartId;
-    const doc = await RoomModel.findByIdAndUpdate(roomId, {
-      $pull: {cart: {_id: cartId}}
-    }, {
-      returnDocument: "after",
-    })
-
-    if (!doc) {
-      return res.status(404).json({
-        message: 'Cart Item not found'
-      })
-    }
-    return res.json(doc.cart);
-
-
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot remove cart item'
-    })
-  }
-}
-
-export const updateCart = async (req, res) => {
-  try {
-    const roomId = req.params.roomId;
-    const cartId = req.params.cartId;
-
-    const doc = await RoomModel.findByIdAndUpdate(roomId,
-      {
-        $set: {"cart.$[cartId].amount": req.body.amount},
-      }, {
-        returnDocument: "after",
-        arrayFilters: [{
-          "cartId._id": cartId
-        }]
-      })
-
-    if (!doc) {
-      return res.status(404).json({
-        message: 'Cart Item not found'
-      })
-    }
-    return res.json(doc.cart);
-
-
-  } catch (e) {
-    res.status(500).json({
-      message: 'Cannot update Cart'
     })
   }
 }
