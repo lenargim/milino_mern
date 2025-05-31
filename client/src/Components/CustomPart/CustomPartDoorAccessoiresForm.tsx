@@ -5,10 +5,9 @@ import {TextInput} from "../../common/Form";
 import {CustomPartFormValuesType, DoorAccessoryAPIType} from "./CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
 import CustomPartDoorAccessoryNumberPart from "./CustomPartDoorAccessoryNumberPart";
-import CustomPartSubmit from "./CustomPartSubmit";
 
 const DoorAccessoriesForm: FC = () => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
     const {door_accessories, price} = values;
     const aventos = door_accessories.filter(el => el.filter === 'aventos');
     const hinge = door_accessories.filter(el => el.filter === 'hinge');
@@ -51,7 +50,7 @@ const DoorAccessoriesForm: FC = () => {
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

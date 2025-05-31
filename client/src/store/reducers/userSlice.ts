@@ -9,23 +9,12 @@ export interface UserState {
     orders: OrderTypeAPI[]
 }
 
-export const emptyUser:UserType = {
-    _id: '',
-    email: '',
-    name: '',
-    company: '',
-    phone: '',
-    is_active: false,
-    is_super_user: false,
-    is_active_in_constructor: false
-}
-
 export const loadUser = createAsyncThunk<MaybeNull<UserType>>(
     'user/loadUser',
     async (_) => {
         const token = localStorage.getItem('token');
         const user = await me(token);
-        return user; // if null, reducers can handle clearing the state
+        return user;
     }
 );
 

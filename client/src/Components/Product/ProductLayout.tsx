@@ -37,8 +37,9 @@ const ProductLayout: FC<CabinetFormType> = ({
                                                 tablePriceData
                                             }) => {
     const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight, attributes} = product;
-    const {values} = useFormikContext<productValuesType>();
+    const {values, isSubmitting} = useFormikContext<productValuesType>();
     const {widthRange, heightRange, depthRange} = productRange;
+
 
     const {filteredOptions} = productPriceData;
     const {
@@ -122,7 +123,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

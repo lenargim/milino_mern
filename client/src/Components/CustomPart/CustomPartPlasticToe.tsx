@@ -6,7 +6,7 @@ import {CustomPartFormValuesType} from "./CustomPart";
 import {CustomPartType} from "../../helpers/productTypes";
 
 const CustomPartPlasticToe: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
     const {price } = values;
     const {height_range} = product;
     useEffect(() => {
@@ -30,7 +30,7 @@ const CustomPartPlasticToe: FC<{ product: CustomPartType }> = ({product}) => {
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

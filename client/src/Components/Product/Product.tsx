@@ -88,11 +88,13 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
         <Formik
             initialValues={initialValues}
             validationSchema={getProductSchema(product, sizeLimit)}
-            onSubmit={(values: productValuesType, {resetForm}) => {
+            onSubmit={async (values: productValuesType, {resetForm, setSubmitting}) => {
                 if (!product) return;
+                setSubmitting(true)
                 const cartData = addProductToCart(product, values, productRange, room_id);
-                dispatch(addProduct({product: cartData}));
+                await dispatch(addProduct({product: cartData}));
                 resetForm();
+                setSubmitting(false)
             }}
         >
             <>

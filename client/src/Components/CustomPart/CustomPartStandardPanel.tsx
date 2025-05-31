@@ -71,7 +71,7 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price
 }
 
 const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
     const {price, standard_panels} = values;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
     const {id} = product;
@@ -158,7 +158,7 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to Cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

@@ -30,7 +30,7 @@ export type DoorType = {
 
 const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
     const {type} = customPart;
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
     const {standard_door, price} = values
     const {doors, color} = standard_door
 
@@ -81,7 +81,7 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

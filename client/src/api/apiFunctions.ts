@@ -4,7 +4,7 @@ import axios, {AxiosError} from "axios";
 import {
     MaybeUndefined,
 } from "../helpers/productTypes";
-import {emptyUser, logout} from "../store/reducers/userSlice";
+import {logout} from "../store/reducers/userSlice";
 import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
@@ -17,7 +17,6 @@ import {store} from "../store/store";
 
 export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
     const axiosError = error as AxiosError;
-
     if (axiosError.response?.status === 401) {
         try {
             const newToken = await refreshTokenAPI();
@@ -32,10 +31,15 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
             }
         } catch (refreshErr) {
             store.dispatch(logout());
-            window.location.href = '/';
         }
+    } else if (axiosError.response?.status === 403) {
+        const data:any = axiosError?.response.data;
+        if (data) {
+            const msg = data?.message ?? axiosError.message;
+            alert(msg);
+        }
+        store.dispatch(logout());
     } else {
-        console.error('API Error:', axiosError.message);
         alert(axiosError.message);
     }
 };
@@ -71,14 +75,6 @@ export const logIn = async (values: LogInType) => {
     }
 }
 
-export const meAPI = async () => {
-    try {
-        return (await usersAPI.me()).data;
-    } catch (error) {
-        return alertError(error);
-    }
-}
-
 export const refreshTokenAPI = async () => {
     try {
         return (await usersAPI.refreshToken()).data
@@ -86,15 +82,6 @@ export const refreshTokenAPI = async () => {
         return alertError(error);
     }
 }
-
-
-// export const getRooms = async (purchase_order_id: string):Promise<MaybeUndefined<RoomType[]>> => {
-//     try {
-//         return (await roomsAPI.getRooms(purchase_order_id)).data;
-//     } catch (error) {
-//         return await alertError(error, () => getRooms(purchase_order_id));
-//     }
-// }
 
 export const createRoomAPI = async (room: RoomNewType):Promise<MaybeUndefined<RoomType>> => {
     try {

@@ -12,7 +12,7 @@ import {CustomAccessoriesType} from "../../helpers/cartTypes";
 export type LEDAccessoriesType = Exclude<CustomAccessoriesType, 'door'>
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
 
@@ -88,7 +88,7 @@ const CustomPartLEDForm: FC = () => {
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
         </Form>
     );
 };

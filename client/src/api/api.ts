@@ -39,65 +39,6 @@ const prodboard_instance = axios.create({
     responseType: 'json',
 });
 
-//
-// instance.interceptors.response.use(
-//     res => res,
-//     async (error: AxiosError) => {
-//         const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
-//         // If token expired
-//         if (
-//             error.response?.status === 401 &&
-//             !originalRequest._retry
-//         ) {
-//             originalRequest._retry = true;
-//             // Queue retry if already refreshing
-//             if (isRefreshing) {
-//                 return new Promise((resolve, reject) => {
-//                     failedQueue.push((newToken: string | null) => {
-//                         if (newToken) {
-//                             originalRequest.headers = {
-//                                 ...originalRequest.headers,
-//                                 Authorization: `Bearer ${newToken}`
-//                             };
-//                             resolve(instance(originalRequest));
-//                         } else {
-//                             reject(error);
-//                         }
-//                     });
-//                 });
-//             }
-//             // Start refresh
-//             isRefreshing = true;
-//             try {
-//                 const newToken = await refreshTokenAPI();
-//                 if (!newToken) throw new Error('Refresh failed');
-//                 localStorage.setItem('token', newToken);
-//                 // Retry all queued requests
-//                 failedQueue.forEach(cb => cb(newToken));
-//                 failedQueue = [];
-//                 originalRequest.headers = {
-//                     ...originalRequest.headers,
-//                     Authorization: `Bearer ${newToken}`
-//                 };
-//                 return instance(originalRequest);
-//             } catch (refreshError) {
-//                 // Clear queue and logout
-//                 failedQueue.forEach(cb => cb(null));
-//                 failedQueue = [];
-//                 localStorage.removeItem('token');
-//                 store.dispatch(logout());
-//                 window.location.href = '/';
-//                 return Promise.reject(refreshError);
-//             } finally {
-//                 isRefreshing = false;
-//             }
-//         }
-//         return Promise.reject(error);
-//     }
-// );
-
-
-
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem("token")}`
 })

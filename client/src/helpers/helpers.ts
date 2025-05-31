@@ -69,8 +69,8 @@ import {
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
-import {isTokenValid, meAPI, refreshTokenAPI} from "../api/apiFunctions";
-import {UserType} from "../api/apiTypes";
+import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
+import {usersAPI} from "../api/api";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -975,15 +975,6 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
     }
 }
 
-// export const logout = () => {
-//     localStorage.removeItem('category')
-//     localStorage.removeItem('token')
-//     localStorage.removeItem('constructor_token')
-//     localStorage.removeItem('customer_token')
-//     store.dispatch(setUser(emptyUser));
-//     store.dispatch(setIsAuth(false))
-// }
-
 export const formatDateToTextShort = (dateApi: Date): string => {
     const date = new Date(dateApi);
     const options: Intl.DateTimeFormatOptions = {
@@ -1100,27 +1091,23 @@ export const findHasGolaByCategory = (category: string): boolean => {
     return ['Kitchen', 'Vanity'].includes(category)
 }
 
-export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderType[]|RoomFront[], exclude?:string):string[] => {
+export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderType[] | RoomFront[], exclude?: string): string[] => {
     const converted = array_of_objects_with_name_field.map(el => {
         return el.name.trim().toLowerCase()
     });
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const me = async (token:MaybeNull<string>) => {
+export const me = async (token: MaybeNull<string>) => {
     if (!token) return null;
     if (!isTokenValid(token)) {
-        console.log('inside isTokenValid')
         token = await refreshTokenAPI() || null;
         if (!token) return null;
         localStorage.setItem('token', token);
     }
     try {
-        const user = await meAPI();
-        if (!user) return null;
-        return user;
-    } catch (err) {
-        console.error('Error in me():', err);
-        return null;
+        return (await usersAPI.me()).data;
+    } catch (error) {
+        return alertError(error);
     }
 }

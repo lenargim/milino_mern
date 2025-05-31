@@ -154,11 +154,13 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product
         <Formik
             initialValues={initialValues}
             validationSchema={getCustomPartSchema(customPartProduct)}
-            onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
+            onSubmit={async (values: CustomPartFormValuesType, {resetForm, setSubmitting}) => {
                 if (!customPartProduct || !values.price) return;
+                setSubmitting(true)
                 const cartData = addToCartCustomPart(values, customPartProduct, room_id)
-                dispatch(addProduct({product: cartData}));
+                await dispatch(addProduct({product: cartData}));
                 resetForm();
+                setSubmitting(false)
             }}
         >
             <>

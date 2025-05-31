@@ -113,7 +113,6 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            {/*<button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>*/}
             <CustomPartSubmit />
         </Form>
     );
