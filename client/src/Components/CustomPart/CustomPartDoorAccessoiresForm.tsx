@@ -5,6 +5,7 @@ import {TextInput} from "../../common/Form";
 import {CustomPartFormValuesType, DoorAccessoryAPIType} from "./CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
 import CustomPartDoorAccessoryNumberPart from "./CustomPartDoorAccessoryNumberPart";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 const DoorAccessoriesForm: FC = () => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();

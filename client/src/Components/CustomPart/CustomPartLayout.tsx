@@ -6,6 +6,7 @@ import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
 import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import {CustomPartType} from "../../helpers/productTypes";
 import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 export type CustomPartFormValuesType = {
     Width: string,
@@ -112,7 +113,8 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            {/*<button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>*/}
+            <CustomPartSubmit />
         </Form>
     );
 };

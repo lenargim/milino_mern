@@ -91,9 +91,6 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
             onSubmit={(values: productValuesType, {resetForm}) => {
                 if (!product) return;
                 const cartData = addProductToCart(product, values, productRange, room_id);
-                // addToCartAPI(cartData).then(cart => {
-                //     cart && dispatch(setCart(cart));
-                // })
                 dispatch(addProduct({product: cartData}));
                 resetForm();
             }}

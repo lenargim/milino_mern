@@ -13,6 +13,7 @@ import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormValuesType} from "./CustomPart";
 import {StandardDoorAPIType} from "../../helpers/cartTypes";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 
 type Door = {
@@ -45,7 +46,6 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
             setFieldValue('price', newPrice)
         }
     }, [standard_door, doors, color, doorSizesArr])
-
     return (
         <Form className={s.accessories}>
             <div className={s.block}>

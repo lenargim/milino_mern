@@ -99,13 +99,13 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) 
         if (field.value && !val) {
             setValue('')
         }
-    }, [val,setValue,field.value])
+    }, [val,setValue,field.value]);
+
 
     return (
         <div
             className={[styles.row, styles.select, field.value && styles.active, error && touched ? 'error' : ''].join(' ')}>
-            {error ? <div className={styles.error}>{error}</div> : ''}
-            <ErrorMessage name={name} />
+            {error && touched ? <div className={styles.error}>{error}</div> : ''}
             <Select options={options}
                     onChange={onChange}
                     placeholder={label}

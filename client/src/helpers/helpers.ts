@@ -358,7 +358,7 @@ export const addProductToCart = (product: ProductType, values: productValuesType
     }
 }
 
-export const addToCartCustomPart = (values: CustomPartFormValuesType, product: CustomPartType, roomId: string): CartAPI => {
+export const addToCartCustomPart = (values: CustomPartFormValuesType, product: CustomPartType, roomId: string): CartNewType => {
     const {
         'Width Number': width,
         'Height Number': height,
@@ -373,7 +373,7 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         standard_panels,
     } = values;
 
-    const {id} = product;
+    const {id, product_type} = product;
     const {
         led_alum_profiles,
         led_gola_profiles,
@@ -402,10 +402,9 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
     const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
 
     return {
-        _id: uuidv4(),
         room_id: roomId,
         product_id: id,
-        product_type: "custom",
+        product_type: product_type,
         amount: 1,
         width: width,
         height: height,

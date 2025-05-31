@@ -3,7 +3,6 @@ import settings from './../../api/settings.json'
 import {hingeArr, ProductType, sizeLimitsType} from "../../helpers/productTypes";
 import {ObjectSchema} from "yup";
 import {numericQuantity} from 'numeric-quantity';
-import {borderType} from "./ProductLED";
 
 export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
@@ -54,11 +53,6 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             }),
         'LED borders': Yup.array()
             .of(Yup.string().oneOf(borderOptions, 'Error')),
-        // .when('LED indent', {
-        //     is: (val: number) => val > 0,
-        //     then: (schema) => schema
-        //         .min(1, 'Choose LED Borders')
-        // }),
         'LED alignment': Yup.string()
             .when('LED borders', {
                 is: (val: string[]) => val.length,

@@ -6,19 +6,18 @@ import {
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartType, materialsCustomPart, MaybeNull, productCategory} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import {Navigate} from "react-router-dom";
 import CustomPartLeft from "./CustomPartLeft";
 import {DoorType} from "./CustomPartStandardDoorForm";
-import {addToCartAPI} from "../../api/apiFunctions";
 import {colorOption} from "./CustomPartGolaProfile";
 import DA from '../../api/doorAccessories.json'
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {addProduct, fetchCart} from "../../store/reducers/roomSlice";
+import {addProduct} from "../../store/reducers/roomSlice";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
@@ -135,7 +134,7 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product
         'Height Number': initial_height,
         'Depth Number': initial_depth,
         'Material': initialMaterialData?.name || '',
-        glass_door: [],
+        glass_door: ['', '', ''],
         glass_shelf: '',
         led_accessories: {
             led_alum_profiles: [],
@@ -159,9 +158,6 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product
             onSubmit={(values: CustomPartFormValuesType, {resetForm}) => {
                 if (!customPartProduct || !values.price) return;
                 const cartData = addToCartCustomPart(values, customPartProduct, room_id)
-                // addToCartAPI(cartData).then(cart => {
-                //     if (cart) dispatch(setCart(cart));
-                // })
                 dispatch(addProduct({product: cartData}));
                 resetForm();
             }}

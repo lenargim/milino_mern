@@ -4,6 +4,10 @@ import {numericQuantity} from 'numeric-quantity';
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
+    const showHeightBlock = type !== 'pvc';
+    const showGlassDoorBlock = type === 'glass-door'
+    const showGlassShelfBlock = type === 'glass-shelf'
+
     const customSchema = Yup.object({
         'Width': Yup.string()
             .required('Please wright down width')
