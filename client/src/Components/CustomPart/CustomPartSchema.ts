@@ -145,10 +145,19 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
         case "standard-glass-door":
             return Yup.object({
                 standard_door: Yup.object().shape({
-                    doors: Yup.array().of(Yup.object().shape({
-                        name: Yup.string(),
-                        qty: Yup.number().integer().positive()
-                    })).min(1),
+                    doors: Yup.array()
+                        .of(Yup.object().shape({
+                            name: Yup.string(),
+                            qty: Yup.number().integer().positive()
+                        }))
+                        .default([])
+                        .test({
+                            message: 'Choose at least one door',
+                            test: doors => {
+                                return !!(doors.length && doors[0].name);
+
+                            },
+                        }),
                     color: Yup.string().required('Choose Color')
                 }),
                 price: Yup.number().required().positive(),

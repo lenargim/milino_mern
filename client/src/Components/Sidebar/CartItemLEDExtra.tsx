@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
 import {CustomAccessoriesType} from "../../helpers/cartTypes";
+import {getFraction} from "../../helpers/helpers";
 
 const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
     if (!accessories) return null;
@@ -17,7 +18,7 @@ const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessori
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
                     <span>{led_alum_profiles.map(profile =>
-                        <span className={s.profileItem} key={profile._id}>{profile.length}'' x {profile.qty}</span>
+                        <span className={s.profileItem} key={profile._id}>{getFraction(profile.length)}'' x {profile.qty}</span>
                     )}</span>
                 </div>
                 : null}
@@ -26,7 +27,7 @@ const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessori
                     <span>LED Gola Profiles:</span>
                     <span>{led_gola_profiles.map(profile =>
                         <span className={s.profileItem}
-                              key={profile._id}>{profile.length}'' x {profile.qty} - {profile.color}</span>
+                              key={profile._id}>{getFraction(profile.length)}'' x {profile.qty} - {profile.color}</span>
                     )}</span>
                 </div>
                 : null}

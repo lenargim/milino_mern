@@ -104,7 +104,6 @@ const initialStandardPanels: PanelsFormType = {
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-
     const {width, depth, limits, height_range} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
     const w = width ?? getLimit(sizeLimitInitial.width);
@@ -120,7 +119,7 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
 const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product_id: number}> = ({materials, room_id, product_id}) => {
     const dispatch = useAppDispatch();
     const customPartProduct = getCustomPartById(product_id)
-    if (!customPartProduct) return <Navigate to={{pathname: '/cabinets'}}/>;
+    if (!customPartProduct) return <Navigate to={{pathname: '/profile'}}/>;
     const isStandardCabinet = materials.door_type === 'Standard White Shaker';
     const initialMaterialData = getInitialMaterialData(customPartProduct, materials, isStandardCabinet);
     const initialSizes = getInitialSizes(customPartProduct, initialMaterialData);

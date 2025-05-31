@@ -45,7 +45,7 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
-    }, [standard_door, doors, color, doorSizesArr])
+    }, [standard_door, doors, color, doorSizesArr]);
     return (
         <Form className={s.accessories}>
             <div className={s.block}>

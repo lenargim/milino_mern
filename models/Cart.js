@@ -70,6 +70,9 @@ const CartSchema = new mongoose.Schema({
     accessories: {
       led_alum_profiles: [
         {
+          _id: {
+            type: String
+          },
           length: {
             type: Number,
           },
@@ -80,6 +83,9 @@ const CartSchema = new mongoose.Schema({
       ],
       led_gola_profiles: [
         {
+          _id: {
+            type: String
+          },
           length: {
             type: Number,
           },
