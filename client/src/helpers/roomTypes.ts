@@ -30,17 +30,6 @@ export interface RoomType extends RoomNewType {
     _id: string,
 }
 
-// export interface RoomTypeAPI extends RoomMaterialsFormType {
-//     _id: string,
-//     purchase_order_id: string,
-//     cart: CartAPI[]
-// }
-
 export interface RoomFront extends RoomType {
     activeProductCategory: MaybeEmpty<productCategory>,
 }
-
-// export type roomType = {
-//     defaultImg: string,
-//     categories: category[]
-// }

@@ -8,7 +8,6 @@ import CustomPart from "../CustomPart/CustomPart";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
 const RoomProduct: FC = () => {
-    const navigate = useNavigate()
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
     const [room] = useOutletContext<[RoomFront]>()
     const {
@@ -19,17 +18,13 @@ const RoomProduct: FC = () => {
     } = room;
     const materials: RoomMaterialsFormType = {...rest};
 
-    if (!productId || !activeProductCategory) {
-        navigate(`/profile/purchase/`);
-        return null;
-    }
-    const isCustomPart = findIsProductCustomByCategory(activeProductCategory);
+    if (!productId) return null;
+    const isCustomPart = findIsProductCustomByCategory(activeProductCategory );
 
     return (
         <div className={s.product}>{
             !isCustomPart
-                ? <Product materials={materials} room_id={_id} product_id={+productId}
-                           activeProductCategory={activeProductCategory}/>
+                ? <Product materials={materials} room_id={_id} product_id={+productId}/>
                 : <CustomPart materials={materials} room_id={_id} product_id={+productId}/>
         }
         </div>

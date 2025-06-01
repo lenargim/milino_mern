@@ -1033,12 +1033,12 @@ export const checkoutCartItemWithImg = (cart: CartItemFrontType[]) => {
     })
 }
 
-export const findIsProductStandardByCategory = (category: productCategory): boolean => {
-    return ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(category)
+export const findIsProductStandard = (materials:RoomMaterialsFormType): boolean => {
+    return materials.door_type === 'Standard White Shaker'
 }
 
-export const findIsProductCustomByCategory = (category: productCategory): boolean => {
-    return ['Custom Parts'].includes(category)
+export const findIsProductCustomByCategory = (activeProductCategory: MaybeEmpty<productCategory>): boolean => {
+    return ['Custom Parts'].includes(activeProductCategory);
 }
 
 export const findHasGolaByCategory = (category: string): boolean => {

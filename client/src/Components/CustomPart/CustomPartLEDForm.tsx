@@ -21,7 +21,6 @@ const CustomPartLEDForm: FC = () => {
             setFieldValue('price', newPrice)
         }
     }, [values, newPrice])
-    console.log(errors)
     return (
         <Form className={s.accessories}>
             <div className={s.block}>

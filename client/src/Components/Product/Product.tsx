@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import s from './product.module.sass'
 import {
-    addProductToCart, findIsProductStandardByCategory, getFraction,
+    addProductToCart, findIsProductStandard, getFraction,
     getProductById, useAppDispatch,
 } from "../../helpers/helpers";
 import {
@@ -20,14 +20,13 @@ import {getProductSchema} from "./ProductSchema";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct} from "../../store/reducers/roomSlice";
 
-const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_id: number, activeProductCategory: productCategory }> = ({
-                                                                                                                                            materials,
-                                                                                                                                            room_id,
-                                                                                                                                            product_id,
-                                                                                                                                            activeProductCategory
-                                                                                                                                        }) => {
+const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_id: number }> = ({
+                                                                                                    materials,
+                                                                                                    room_id,
+                                                                                                    product_id
+                                                                                                }) => {
     const dispatch = useAppDispatch();
-    const isProductStandard = findIsProductStandardByCategory(activeProductCategory);
+    const isProductStandard = findIsProductStandard(materials);
     let product = getProductById(product_id, isProductStandard);
     if (!product) return <div>Product error</div>;
     const {
