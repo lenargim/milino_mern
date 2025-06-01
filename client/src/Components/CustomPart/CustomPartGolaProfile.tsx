@@ -1,52 +1,47 @@
 import React, {FC} from "react";
-import {useField} from "formik";
+import {FieldArrayRenderProps, useField} from "formik";
 import {changeAmountType} from "../../helpers/cartTypes";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
 import Select, {OnChangeValue, StylesConfig} from "react-select";
 import styles from "../../common/Form.module.sass";
+import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 export type colorOption = 'Black' | 'White';
 
 export type golaProfileType = {
-    _id: string,
     length: number,
-    color:  colorOption,
+    color: colorOption,
     qty: number,
 }
 
 export type golaProfileFormType = {
-    _id: string,
     length: string,
     ['length Number']: number,
-    color:  colorOption,
+    color: colorOption,
     qty: number,
 }
-const colorsArr:colorOption[] = ['Black', 'White']
+export const colorsArr: colorOption[] = ['Black', 'White']
 
-const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number }> = ({profile, index}) => {
-    const [{value}, , {setValue}] = useField<golaProfileType[]>('led_accessories.led_gola_profiles')
-    const {qty, _id} = profile;
-
-    const deleteItem = (_id: string) => {
-        const newArr = value.filter(profile => profile._id !== _id)
-        setValue(newArr)
-    };
+const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number, arrayHelpers: FieldArrayRenderProps }> = ({
+                                                                                                                             profile,
+                                                                                                                             index,
+                                                                                                                             arrayHelpers
+                                                                                                                         }) => {
+    const {remove, replace} = arrayHelpers
+    const {qty} = profile;
     const changeAmount = (type: changeAmountType) => {
-        const profile = value[index];
-        profile.qty = type === 'minus' ? profile.qty - 1 : profile.qty + 1;
-        value.splice(index, 1, profile)
-        setValue(value)
-
+        const newQty = type === 'minus' ? profile.qty - 1 : profile.qty + 1;
+        replace(index, {...profile, qty: newQty})
     }
 
     return (
         <div className={s.row}>
-            <button onClick={() => deleteItem(_id)} className={s.close} type={"button"}>×</button>
+            <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length"
                                 name={`[led_accessories.led_gola_profiles].${index}.length`}/>
-            <div className={s.row}>
-                ×
+            <ColorField options={colorsArr} name={`[led_accessories.led_gola_profiles].${index}.color`}/>
+            <div className={s.row}>×
                 <div className={s.buttons}>
                     <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')}
                             type={"button"}>-
@@ -54,7 +49,6 @@ const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number }>
                     {qty}
                     <button value="plus" onClick={() => changeAmount('plus')} type={"button"}>+</button>
                 </div>
-                <ColorField options={colorsArr} name={`[led_accessories.led_gola_profiles].${index}.color`} />
             </div>
         </div>
     )
@@ -63,7 +57,7 @@ const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number }>
 export default CustomPartGolaProfile
 
 
-const ColorField:FC<{options:colorOption[], name:string}> = ({options, name}) => {
+const ColorField: FC<{ options: colorOption[], name: string }> = ({options, name}) => {
     const [field, meta, {setValue}] = useField(name);
     const {error, touched} = meta;
 

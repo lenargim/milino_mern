@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
-import {useField, ErrorMessage, Field} from "formik";
+import {useField, ErrorMessage, Field, getIn} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
@@ -8,6 +8,7 @@ import {getFraction} from "../helpers/helpers";
 import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
+import NestedErrorMessage from "./ErrorForNestedFields";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -313,7 +314,10 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
                 id={name}
                 readOnly={true}
             />
-            <ErrorMessage name={name} component="div" className={styles.error}/>
+            <div className={styles.error}>
+                <ErrorMessage name={name} component="span"/>
+                <NestedErrorMessage name={fieldNumber.name} />
+            </div>
         </div>
     )
 }
@@ -330,4 +334,3 @@ export const ProductOptionsInput: FC<ProductOptionsRadioInterface> = ({name, cla
         </div>
     )
 }
-

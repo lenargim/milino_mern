@@ -21,13 +21,11 @@ import {addProduct} from "../../store/reducers/roomSlice";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
-        _id: string,
         length: string,
         ['length Number']: number,
         qty: number
     }[],
     led_gola_profiles: {
-        _id: string,
         length: string,
         ['length Number']: number,
         color: colorOption,

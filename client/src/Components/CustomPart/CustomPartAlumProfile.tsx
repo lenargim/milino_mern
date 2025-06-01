@@ -1,45 +1,42 @@
 import React, {FC} from "react";
-import {useField} from "formik";
+import {FieldArrayRenderProps} from "formik";
 import {changeAmountType} from "../../helpers/cartTypes";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
+import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 export type AlProfileType = {
-    _id: string,
+    // _id: string,
     length: number,
     qty: number
 }
 
 export type alProfileFormType = {
-    _id: string,
+    // _id: string,
     length: string,
     ['length Number']: number,
     qty: number
 }
 
-const CustomPartAlumProfile: FC<{ profile: alProfileFormType, index: number }> = ({profile, index}) => {
-    const [{value}, , {setValue}] = useField<AlProfileType[]>('led_accessories.led_alum_profiles')
-    const {qty, _id} = profile;
-
-    const deleteAlItem = (_id: string) => {
-        const newArr = value.filter(profile => profile._id !== _id)
-        setValue(newArr)
-    };
+const CustomPartAlumProfile: FC<{ profile: alProfileFormType, index: number, arrayHelpers: FieldArrayRenderProps }> = ({
+                                                                                                                           profile,
+                                                                                                                           index,
+                                                                                                                           arrayHelpers
+                                                                                                                       }) => {
+    const {remove, replace} = arrayHelpers;
+    const {qty} = profile
 
     const changeAmount = (type: changeAmountType) => {
-        const profile = value[index];
-        profile.qty = type === 'minus' ? profile.qty - 1 : profile.qty + 1;
-        value.splice(index, 1, profile)
-        setValue(value)
+        const newQty = type === 'minus' ? qty - 1 : qty + 1;
+        replace(index, {...profile, qty: newQty})
     }
     return (
         <div className={s.row}>
-            <button onClick={() => deleteAlItem(_id)} className={s.close} type={"button"}>×</button>
+            <button className={s.close} onClick={() => remove(index)}>×</button>
             <ProductInputCustom label="Length" name={`[led_accessories.led_alum_profiles].${index}.length`}/>
             <div className={s.row}>×
                 <div className={s.buttons}>
-                    <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')}
-                            type={"button"}>-
+                    <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')} type={"button"}>-
                     </button>
                     {qty}
                     <button value="plus" onClick={() => changeAmount('plus')} type={"button"}>+</button>

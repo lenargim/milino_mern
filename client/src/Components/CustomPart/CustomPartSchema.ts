@@ -1,12 +1,10 @@
 import * as Yup from 'yup';
 import {CustomPartType} from "../../helpers/productTypes";
 import {numericQuantity} from 'numeric-quantity';
+import {colorsArr} from "./CustomPartGolaProfile";
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
-    const showHeightBlock = type !== 'pvc';
-    const showGlassDoorBlock = type === 'glass-door'
-    const showGlassShelfBlock = type === 'glass-shelf'
 
     const customSchema = Yup.object({
         'Width': Yup.string()
@@ -135,6 +133,23 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             return customSchema.concat(shelfDoorSchema)
         case "led-accessories":
             return Yup.object({
+                led_accessories: Yup.object().shape({
+                    led_alum_profiles: Yup.array().of(
+                            Yup.object().shape({
+                                length: Yup.string().required('Set length'),
+                                ['length Number']: Yup.number().positive('Must be positive number').default(0),
+                                qty: Yup.number().positive()
+                            })
+                        ),
+                    led_gola_profiles: Yup.array().of(
+                        Yup.object().shape({
+                            length: Yup.string().required('Set length'),
+                            ['length Number']: Yup.number().positive('Must be positive number').default(0),
+                            color: Yup.string().oneOf(colorsArr),
+                            qty: Yup.number().positive()
+                        })
+                    ),
+                }),
                 price: Yup.number().required().positive()
             })
         case "door-accessories":

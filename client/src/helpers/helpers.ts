@@ -383,13 +383,11 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
     } = led_accessories;
 
     const led_alum_profiles_api = led_alum_profiles.map(el => ({
-        _id: el._id,
         length: el["length Number"],
         qty: el.qty
     }));
 
     const led_gola_profiles_api = led_gola_profiles.map(el => ({
-        _id: el._id,
         length: el["length Number"],
         qty: el.qty,
         color: el.color
@@ -456,50 +454,6 @@ export const addToCartCustomPart = (values: CustomPartFormValuesType, product: C
         // },
         // image_active_number: 1,
     }
-
-    // switch (type) {
-    // case "led-accessories": {
-    // cartData.custom?.accessories = {
-    //     led_alum_profiles: led_alum_profiles.map(el => ({
-    //         length: el["length Number"],
-    //         qty: el.qty,
-    //         _id: el._id
-    //     })),
-    //     led_gola_profiles: led_gola_profiles.map(el => ({
-    //         length: el["length Number"],
-    //         qty: el.qty,
-    //         color: el.color,
-    //         _id: el._id
-    //     })),
-    //     led_transformer,
-    //     led_door_sensor,
-    //     led_dimmable_remote,
-    // };
-    // break;
-    // }
-    // case "standard-panel": {
-    //     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-    //     const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
-    //     const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
-    //     const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
-    //     cartData.standard_panels = {
-    //         standard_panel: standard_panel_api,
-    //         shape_panel: shape_panel_api,
-    //         wtk: wtk_api,
-    //         crown_molding
-    //     };
-    //     break;
-    // }
-    // case "door-accessories": {
-    //     cartData.door_accessories = door_accessories.filter(el => el.qty > 0);
-    //     break;
-    // }
-    // case "standard-door":
-    // case "standard-glass-door": {
-    //     cartData.standard_door = standard_door;
-    //     break;
-    // }
-    // }
 }
 
 const isHasLedBlock = (category: productCategory): boolean => {

@@ -1,8 +1,7 @@
-import {Form, useFormikContext} from 'formik';
+import {Form, FieldArray, useFormikContext} from 'formik';
 import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {v4 as uuidv4} from "uuid";
 import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
 import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
@@ -12,7 +11,7 @@ import {CustomAccessoriesType} from "../../helpers/cartTypes";
 export type LEDAccessoriesType = Exclude<CustomAccessoriesType, 'door'>
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting, errors} = useFormikContext<CustomPartFormValuesType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
 
@@ -22,56 +21,41 @@ const CustomPartLEDForm: FC = () => {
             setFieldValue('price', newPrice)
         }
     }, [values, newPrice])
-
-    const addProfile = (field: string) => {
-        switch (field) {
-            case 'led_alum_profiles':
-                setFieldValue('led_accessories.led_alum_profiles', [...led_alum_profiles, {
-                    _id: uuidv4(),
-                    length: '',
-                    qty: 1
-                }])
-                break;
-            case 'led_gola_profiles':
-                setFieldValue('led_accessories.led_gola_profiles', [...led_gola_profiles, {
-                    _id: uuidv4(),
-                    length: '',
-                    color: 'Black',
-                    qty: 1
-                }])
-                break;
-        }
-    }
-
+    console.log(errors)
     return (
         <Form className={s.accessories}>
             <div className={s.block}>
                 <h3>LED Aluminum Profile</h3>
-                {led_alum_profiles.length
-                    ? led_alum_profiles.map((profile, index) => <CustomPartAlumProfile
-                        key={profile._id}
-                        profile={profile}
-                        index={index}
-                    />)
-                    : null}
-                <button type="button" className={['button yellow small'].join(' ')}
-                        onClick={() => addProfile('led_alum_profiles')}>+
-                    Aluminum Profile
-                </button>
+                <FieldArray name="led_accessories.led_alum_profiles" render={(arrayHelpers) => (
+                    <>
+                        {led_alum_profiles.map((profile, index) => (<CustomPartAlumProfile profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
+                        <button type="button" className={['button yellow small'].join(' ')}
+                                onClick={() => arrayHelpers.push({
+                                    length: '',
+                                    qty: 1
+                                })}>+
+                            Aluminum Profile
+                        </button>
+                    </>
+                )}
+                />
             </div>
             <div className={s.block}>
                 <h3>LED Gola Profile</h3>
-                {led_gola_profiles.length
-                    ? led_gola_profiles.map((profile, index) => <CustomPartGolaProfile
-                        profile={profile}
-                        index={index}
-                        key={profile._id}
-                    />)
-                    : null}
-                <button type="button" className={['button yellow small'].join(' ')}
-                        onClick={() => addProfile('led_gola_profiles')}>+
-                    Gola Profile
-                </button>
+                <FieldArray name="led_accessories.led_gola_profiles" render={arrayHelpers => (
+                    <>
+                        {led_gola_profiles.map((profile, index) => (<CustomPartGolaProfile profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
+                        <button type="button" className={['button yellow small'].join(' ')}
+                                onClick={() => arrayHelpers.push({
+                                    length: '',
+                                    color: 'Black',
+                                    qty: 1
+                                })}>+
+                            Gola Profile
+                        </button>
+                    </>
+                )}
+                />
             </div>
 
             <div className={s.block}>
@@ -80,7 +64,6 @@ const CustomPartLEDForm: FC = () => {
                 <LEDNumberPart el={'led_accessories.led_dimmable_remote'} label="Dimmable Remote"/>
                 <LEDNumberPart el={'led_accessories.led_transformer'} label="Transformer"/>
             </div>
-
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>
             </div>

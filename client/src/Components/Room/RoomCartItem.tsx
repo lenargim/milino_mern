@@ -18,9 +18,6 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {name} = productAPI
     const img = getCartItemImg(productAPI, image_active_number);
     function changeAmount(type: changeAmountType) {
-        // updateProductAmountAPI(room,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-        //     cart && dispatch(setCart(cart))
-        // })
         dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
 

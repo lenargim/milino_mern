@@ -17,17 +17,17 @@ const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessori
             {led_alum_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
-                    <span>{led_alum_profiles.map(profile =>
-                        <span className={s.profileItem} key={profile._id}>{getFraction(profile.length)}'' x {profile.qty}</span>
+                    <span>{led_alum_profiles.map((profile, index) =>
+                        <span className={s.profileItem} key={index}>{getFraction(profile.length)}'' x {profile.qty}</span>
                     )}</span>
                 </div>
                 : null}
             {led_gola_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Gola Profiles:</span>
-                    <span>{led_gola_profiles.map(profile =>
+                    <span>{led_gola_profiles.map((profile, index) =>
                         <span className={s.profileItem}
-                              key={profile._id}>{getFraction(profile.length)}'' x {profile.qty} - {profile.color}</span>
+                              key={index}>{getFraction(profile.length)}'' x {profile.qty} - {profile.color}</span>
                     )}</span>
                 </div>
                 : null}

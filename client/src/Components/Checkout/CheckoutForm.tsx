@@ -131,7 +131,12 @@ const CheckoutForm: FC = () => {
                             <button type="button"
                                     onClick={() => handleSubmit('download')}
                                     className={['button yellow', s.submit].join(' ')}
-                                    disabled={isSubmitting}>Download PDF
+                                    disabled={isSubmitting}>PO PDF
+                            </button>
+                            <button type="button"
+                                    onClick={() => handleSubmit('download')}
+                                    className={['button yellow', s.submit].join(' ')}
+                                    disabled={isSubmitting}>Room PDF
                             </button>
                             <button type="button"
                                     onClick={() => handleSubmit('send')}
