@@ -1,13 +1,14 @@
 import React, {FC} from 'react';
 import s from "../Sidebar/sidebar.module.sass";
-import {getCartTotal, textToLink, useAppSelector} from "../../helpers/helpers";
+import {getCartTotal, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomCartItem from "./RoomCartItem";
-import {RoomsState} from "../../store/reducers/roomSlice";
+import {removeAllFromCart, RoomsState} from "../../store/reducers/roomSlice";
 import {MiniCart} from "../../common/MiniCart";
 import {NavLink} from "react-router-dom";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 
 const RoomSidebar: FC = () => {
+    const dispatch = useAppDispatch()
     const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const {cart_items, rooms, active_room} = useAppSelector<RoomsState>(state => state.room)
     if (!cart_items || !cart_items.length) return null;
@@ -19,7 +20,7 @@ const RoomSidebar: FC = () => {
         <aside className={s.sidebar}>
             <div className={s.sidebarContent}>
                 <div className={s.sidebarList}>
-                    <h3>Cart</h3>
+                    <h3 className={s.sidebarTitle}>Cart <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button></h3>
                     {cart_items.map((item, key) => {
                         return (
                             <RoomCartItem item={item} key={key}/>

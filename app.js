@@ -88,6 +88,7 @@ const start = async () => {
     // Cart
     app.get('/api/cart/:id',  checkAuth, CartController.getCart)
     app.post('/api/cart',  checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart, CartController.getCart)
+    app.delete('/api/cart/all/:roomId',  checkAuth, CartController.removeAllFromCart, CartController.getCart)
     app.delete('/api/cart/:roomId/:cartId',  checkAuth, CartController.removeFromCart, CartController.getCart)
     app.patch('/api/cart/:roomId/:cartId',  checkAuth, CartController.updateCart,CartController.getCart)
 

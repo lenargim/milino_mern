@@ -59,6 +59,26 @@ export const removeFromCart = async (req, res, next) => {
   }
 }
 
+export const removeAllFromCart = async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    const doc = await CartModel.deleteMany({room_id: roomId});
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Room not found'
+      })
+    }
+    req.params.id = roomId;
+    next()
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot remove cart'
+    })
+  }
+}
+
 export const updateCart = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;

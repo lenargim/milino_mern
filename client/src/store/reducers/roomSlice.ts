@@ -106,6 +106,19 @@ export const removeFromCart = createAsyncThunk<CartAPIResponse,
     }
 )
 
+export const removeAllFromCart = createAsyncThunk<CartAPIResponse,
+    { room_id: string }>(
+    'room/fetchCart',
+    async ({room_id},thunkAPI) => {
+        return await withRetry(
+            cartAPI.removeAll,
+            [room_id],
+            'Unable to update cart',
+            thunkAPI
+        );
+    }
+)
+
 export const addProduct = createAsyncThunk<CartAPIResponse,
     { product: CartNewType }>(
     'room/fetchCart',
@@ -124,21 +137,9 @@ export const roomSlice = createSlice({
     name: 'room',
     initialState,
     reducers: {
-        // setRooms: (state, action: PayloadAction<RoomType[]>) => {
-        //     state.rooms = action.payload.map(room => convertRoomAPIToFront(room))
-        // },
         addRoom: (state, action: PayloadAction<RoomType>) => {
             state.rooms.push(convertRoomAPIToFront(action.payload))
         },
-        // editRoom: (state, action: PayloadAction<RoomType>) => {
-        //     const editable_roo = action.payload
-        //     state.rooms = state.rooms.map(room => {
-        //         return room._id === editable_roo._id ? convertRoomAPIToFront(editable_roo) : room;
-        //     })
-        // },
-        // deleteRoom: (state, action: PayloadAction<RoomType>) => {
-        //     state.rooms = state.rooms.filter(room => room._id !== action.payload._id);
-        // },
         roomSetActiveCategory: (state, action: PayloadAction<{ _id: string, category: productCategory }>) => {
             state.rooms = state.rooms.map(room => {
                 return room._id === action.payload._id ? {
@@ -194,7 +195,6 @@ export const roomSlice = createSlice({
 
 export const {
     addRoom,
-    // editRoom,
     setCart,
     updateCartAfterMaterialsChange,
     roomSetActiveCategory,
