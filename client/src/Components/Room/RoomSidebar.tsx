@@ -20,7 +20,7 @@ const RoomSidebar: FC = () => {
         <aside className={s.sidebar}>
             <div className={s.sidebarContent}>
                 <div className={s.sidebarList}>
-                    <h3 className={s.sidebarTitle}>Cart <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button></h3>
+                    <h3 className={s.sidebarTitle}>Cart ({cart_items.length})<button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button></h3>
                     {cart_items.map((item, key) => {
                         return (
                             <RoomCartItem item={item} key={key}/>

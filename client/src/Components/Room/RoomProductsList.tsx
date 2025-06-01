@@ -4,8 +4,7 @@ import {NavLink} from "react-router-dom";
 import {
     getCustomParts,
     getImg, getImgSize,
-    getProductImage,
-    getProductsByCategory
+    getProductImage, getProductsByCategory
 } from "../../helpers/helpers";
 import {
     customPartDataType,
@@ -30,7 +29,7 @@ const RoomProductsList: FC<{ category: productCategory, room: RoomType, isStanda
                     </div> : <div>Sorry, there are no custom parts yet</div>
             );
         default:
-            const products = getProductsByCategory(room, category, isStandardCabinet);
+            const products = getProductsByCategory(category, isStandardCabinet);
             return (
                 products.length ?
                     <div className={s.list}>

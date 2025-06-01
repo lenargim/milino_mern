@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../../helpers/cartTypes";
-import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {getCartItemImg, getProductById, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import s from "../Sidebar/sidebar.module.sass";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
@@ -11,9 +11,7 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const dispatch = useAppDispatch();
     const {loading_cart_items} = useAppSelector<RoomsState>(state => state.room);
     const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item
-    const productAPI = product_type !== 'custom'
-        ? getProductById(product_id, product_type === 'standard')
-        : getCustomPartById(product_id);
+    const productAPI = getProductById(product_id, product_type === 'standard');
     if (!productAPI) return null;
     const {name} = productAPI
     const img = getCartItemImg(productAPI, image_active_number);

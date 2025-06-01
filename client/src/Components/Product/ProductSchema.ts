@@ -8,7 +8,7 @@ export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
-    const {isAngle, hasMiddleSection, isProductStandard} = product
+    const {isAngle, hasMiddleSection, product_type} = product
     const blindDoorMinMax = settings.blindDoor;
     const minWidth = sizeLimit.width[0];
     const maxWidth = sizeLimit.width[1];
@@ -86,7 +86,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
 
             const requiredIf = (index: number) => {
                 if (!options.includes('Glass Door')) return Yup.string().notRequired();
-                if (isProductStandard) {
+                if (product_type === "standard") {
                     if (index !== 2) return Yup.string().notRequired()
                 }
                 let msg;
@@ -228,9 +228,6 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             }),
     })
 
-    if (!isProductStandard) {
-        return schemaBasic.concat(schemaExtended)
-    }
-
-    return schemaBasic;
+    if (product_type === "standard") return schemaBasic;
+    return schemaBasic.concat(schemaExtended);
 }

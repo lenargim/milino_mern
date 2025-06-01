@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {
     getColorsList,
@@ -7,18 +7,13 @@ import {
     getSelectValfromVal
 } from "../../helpers/helpers";
 import SelectField from "../../common/SelectField";
-import {useFormikContext} from "formik";
-import {CustomPartFormValuesType} from "./CustomPart";
+import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }> = ({is_custom, glass_door}) => {
     const [profile, type, color] = glass_door;
     const door_profiles = getProfileList(is_custom);
     const door_types = getGlassTypeList();
     const door_colors = getColorsList(type);
-    // const {values, setFieldValue, errors, touched, setFieldTouched} = useFormikContext<CustomPartFormValuesType>();
-    // useEffect(() => {
-    //
-    // }, [values.glass_door])
     return (
         <div className={s.blockWrap}>
             {door_profiles?.length ?
@@ -27,7 +22,8 @@ const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }>
                     <SelectField label="Profile"
                                  name="glass_door[0]"
                                  val={getSelectValfromVal(profile, door_profiles)}
-                                 options={door_profiles}/>
+                                 options={door_profiles}
+                    />
                 </div> : null}
 
             {door_types.length && profile ?

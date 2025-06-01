@@ -4,7 +4,6 @@ import {CheckoutType} from "../../helpers/types";
 import {
     getCartItemImgPDF,
     getCartTotal, getCustomCabinetString,
-    getCustomPartById,
     getProductById
 } from "../../helpers/helpers";
 import logo from '../../assets/img/black-logo.jpg'
@@ -148,10 +147,10 @@ export const s = StyleSheet.create({
 })
 
 const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
-                                                                                                           values,
-                                                                                                           cart,
-                                                                                                           materialStrings
-                                                                                                       }) => (
+                                                                                                                     values,
+                                                                                                                     cart,
+                                                                                                                     materialStrings
+                                                                                                                 }) => (
     <Document language="en">
         <Page orientation="landscape" style={s.page}>
             <Image style={s.logo} src={logo}/>
@@ -182,9 +181,7 @@ const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialSt
                 </View>
                 {cart.map((el, index) => {
                     const {product_id, product_type, image_active_number, isStandard} = el;
-                    const product = product_type !== 'custom'
-                        ? getProductById(product_id, product_type === 'standard')
-                        : getCustomPartById(product_id);
+                    const product = getProductById(product_id, product_type === 'standard');
                     if (!product) return;
                     const {name} = product;
                     const img = getCartItemImgPDF(product, image_active_number);
@@ -196,7 +193,8 @@ const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialSt
                             </View>
                             <View style={s.data}>
                                 <Text style={s.itemName}>
-                                    <Text>{name}</Text> {getCustomCabinetString(isStandard) && <Text style={s.non}>{getCustomCabinetString(isStandard)}</Text>}
+                                    <Text>{name}</Text> {getCustomCabinetString(isStandard) &&
+                                <Text style={s.non}>{getCustomCabinetString(isStandard)}</Text>}
                                 </Text>
                                 <CartItemOptions item={el}/>
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}

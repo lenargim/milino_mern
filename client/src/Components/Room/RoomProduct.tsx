@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
-import {useNavigate, useOutletContext, useParams} from "react-router-dom";
+import {useOutletContext, useParams} from "react-router-dom";
 import Product from "../Product/Product";
 import s from '../Profile/profile.module.sass'
 import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {findIsProductCustomByCategory} from "../../helpers/helpers";
+import {findIsProductStandard, getProductById} from "../../helpers/helpers";
 import CustomPart from "../CustomPart/CustomPart";
-import {MaybeUndefined} from "../../helpers/productTypes";
+import {CustomPartType, MaybeUndefined, ProductType} from "../../helpers/productTypes";
 
 const RoomProduct: FC = () => {
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
@@ -18,14 +18,14 @@ const RoomProduct: FC = () => {
     } = room;
     const materials: RoomMaterialsFormType = {...rest};
 
-    if (!productId) return null;
-    const isCustomPart = findIsProductCustomByCategory(activeProductCategory );
-
+    const isProductStandard = findIsProductStandard(materials);
+    const product_or_custom = getProductById(Number(productId), isProductStandard);
+    if (!product_or_custom) return <div>Product error</div>;
     return (
         <div className={s.product}>{
-            !isCustomPart
-                ? <Product materials={materials} room_id={_id} product_id={+productId}/>
-                : <CustomPart materials={materials} room_id={_id} product_id={+productId}/>
+            product_or_custom.product_type === 'custom'
+                ? <CustomPart materials={materials} room_id={_id} custom_part={product_or_custom as CustomPartType}/>
+                : <Product materials={materials} room_id={_id} product={product_or_custom as ProductType}/>
         }
         </div>
 

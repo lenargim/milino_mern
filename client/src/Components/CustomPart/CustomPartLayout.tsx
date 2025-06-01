@@ -8,7 +8,7 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 import CustomPartSubmit from "./CustomPartSubmit";
 
-export type CustomPartFormValuesType = {
+export type CustomPartFormType = {
     Width: string,
     Height: string,
     Depth: string,
@@ -56,7 +56,7 @@ export type CustomPartLayout = {
 }
 
 export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, isStandardCabinet}) => {
-    const {values} = useFormikContext<CustomPartFormValuesType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {
         price,
         glass_door

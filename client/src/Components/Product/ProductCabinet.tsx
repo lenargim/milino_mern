@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {CabinetType, productValuesType} from "../../helpers/productTypes";
+import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr,
@@ -26,11 +26,11 @@ const ProductCabinet: FC<CabinetType> = ({
         widthDivider,
         category,
         isAngle,
-        isProductStandard,
         product_type
     } = product;
     const {drawer_brand} = materialData
-    const {values, setFieldValue} = useFormikContext<productValuesType>();
+    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
+    console.log(errors)
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
     const {
@@ -73,12 +73,11 @@ const ProductCabinet: FC<CabinetType> = ({
         }
     }, [values]);
     useEffect(() => {
-        if (isProductStandard) {
+        if (product.product_type === 'standard') {
             const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
             if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
         }
     }, [width]);
-
     const realWidth = +width || +customWidthNumber || 0;
     const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
     const realHeight = +height || +customHeightNumber || 0;

@@ -19,7 +19,6 @@ import {
 } from "./productTypes";
 import settings from './../api/settings.json'
 import {
-    findIsProductCustomByCategory,
     getAttributes, getCabinetHeightRangeBasedOnCategory,
     getProductById,
     getSquare,
@@ -606,7 +605,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType): materialDataT
 }
 export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {attributes, options} = product;
-
     const attrArr = getAttributes(attributes, image_active_number);
     const doorValues = attributes.find(el => el.name === 'Door')?.values;
 
@@ -765,10 +763,10 @@ const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
 export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType):CartItemFrontType[] => {
     return cart.map(cartItem => {
         const {product_id, product_type} = cartItem;
-        const product = getProductById(product_id, product_type === 'standard');
-        if (!product) return cartItem;
-        const {category} = product
-        if (findIsProductCustomByCategory(category)) return cartItem;
+        const product_or_custom = getProductById(product_id, product_type === 'standard');
+        if (!product_or_custom) return cartItem;
+        if (product_type === 'custom') return cartItem;
+        const product = product_or_custom as unknown as ProductType;
         const materialData = getMaterialData(materials)
         const {is_standard_cabinet, base_price_type} = materialData;
         const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
@@ -802,7 +800,7 @@ const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: b
     return !is_standard_cabinet ? +(boxCoef * materials_coef * grain_coef).toFixed(3) : 1;
 }
 const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {legsHeight, attributes, isProductStandard, horizontal_line = 2, isAngle, category, id} = product;
+    const {legsHeight, attributes, horizontal_line = 2, isAngle, category, id, product_type} = product;
     const {
         options,
         width,
@@ -840,9 +838,9 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led.border),
-        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,isProductStandard,is_leather_closet),
-        doorPrice: getDoorPrice(frontSquare, materialData, isProductStandard),
-        glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], isProductStandard, hasGlassDoor),
+        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard",is_leather_closet),
+        doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
+        glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }

@@ -9,7 +9,7 @@ import {
 import {ProductOptionsInput} from "../../common/Form";
 import {useFormikContext} from "formik";
 import CustomPartGlassDoorBlock from "../CustomPart/CustomPartGlassDoorBlock";
-import {attrItem, productValuesType} from "../../helpers/productTypes";
+import {attrItem, ProductFormType} from "../../helpers/productTypes";
 
 type OptionsBlockType = {
     id: number,
@@ -75,7 +75,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
                                                 isProductStandard,
                                                 attributes
                                             }) => {
-    const {values, setFieldValue} = useFormikContext<productValuesType>();
+    const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {
         Options: chosenOptions,
         glass_door,

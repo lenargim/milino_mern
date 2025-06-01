@@ -3,7 +3,7 @@ import s from "./product.module.sass";
 import {ProductCheckboxInput, ProductInputCustom} from "../../common/Form";
 import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
-import {MaybeEmpty, productValuesType} from "../../helpers/productTypes";
+import {MaybeEmpty, ProductFormType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
 import {retry} from "@reduxjs/toolkit/query";
 
@@ -13,7 +13,7 @@ export type ledType = {
     hasLedBlock: boolean
 }
 const ProductLED: FC<ledType> = ({hasLedBlock}) => {
-    const {values, setFieldValue, errors} = useFormikContext<productValuesType>();
+    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
     const {
         'LED borders': ledBorders,
         'LED alignment': ledAlignment,

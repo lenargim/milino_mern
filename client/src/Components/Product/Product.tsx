@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import s from './product.module.sass'
 import {
-    addProductToCart, findIsProductStandard, getFraction,
-    getProductById, useAppDispatch,
+    addProductToCart, getFraction,
+    useAppDispatch,
 } from "../../helpers/helpers";
 import {
     MaybeUndefined,
-    productCategory, productValuesType, sizeLimitsType
+    productCategory, ProductFormType, ProductType, sizeLimitsType
 } from "../../helpers/productTypes";
 import ProductCabinet from "./ProductCabinet";
 import {Formik} from 'formik';
@@ -20,15 +20,12 @@ import {getProductSchema} from "./ProductSchema";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct} from "../../store/reducers/roomSlice";
 
-const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_id: number }> = ({
-                                                                                                    materials,
-                                                                                                    room_id,
-                                                                                                    product_id
-                                                                                                }) => {
+const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product: ProductType }> = ({
+                                                                                                      materials,
+                                                                                                      room_id,
+                                                                                                      product
+                                                                                                  }) => {
     const dispatch = useAppDispatch();
-    const isProductStandard = findIsProductStandard(materials);
-    let product = getProductById(product_id, isProductStandard);
-    if (!product) return <div>Product error</div>;
     const {
         isBlind,
         isCornerChoose,
@@ -50,7 +47,7 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
     if (!widthRange.length || !sizeLimit || !tablePriceData) return <div>Cannot find product data</div>;
     const middleSectionNumber = hasMiddleSection && middleSectionDefault ? middleSectionDefault : 0;
     const middleSection = hasMiddleSection && middleSectionDefault ? getFraction(middleSectionNumber) : '';
-    const initialValues: productValuesType = {
+    const initialValues: ProductFormType = {
         'Width': widthRange[0],
         isBlind: isBlind,
         'Blind Width': blindArr ? blindArr[0] : '',
@@ -77,7 +74,7 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
         'LED borders': [],
         'LED alignment': hasLedBlock ? 'Center' : '',
         'LED indent': '',
-        glass_door: [],
+        glass_door: ['', '', ''],
         glass_shelf: '',
         image_active_number: 1,
         'Note': '',
@@ -87,7 +84,7 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product_i
         <Formik
             initialValues={initialValues}
             validationSchema={getProductSchema(product, sizeLimit)}
-            onSubmit={async (values: productValuesType, {resetForm, setSubmitting}) => {
+            onSubmit={async (values: ProductFormType, {resetForm, setSubmitting}) => {
                 if (!product) return;
                 setSubmitting(true)
                 const cartData = addProductToCart(product, values, productRange, room_id);

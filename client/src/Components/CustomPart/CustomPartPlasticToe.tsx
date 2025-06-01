@@ -2,11 +2,11 @@ import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from "formik";
 import s from "../Product/product.module.sass";
 import {ProductRadioInputCustom, TextInput} from "../../common/Form";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import {CustomPartType} from "../../helpers/productTypes";
 
 const CustomPartPlasticToe: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {price } = values;
     const {height_range} = product;
     useEffect(() => {

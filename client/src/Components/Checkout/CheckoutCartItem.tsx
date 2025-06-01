@@ -3,14 +3,13 @@ import s from './checkout.module.sass'
 import {
     getCartItemImg,
     getCustomCabinetString,
-    getCustomPartById,
     getProductById,
     useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
 import {changeAmountType} from "../../helpers/cartTypes";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import {RoomsState, setCart, updateCartAmount} from "../../store/reducers/roomSlice";
+import {RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
 
 const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
@@ -28,9 +27,7 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const {rooms} = useAppSelector<RoomsState>(state => state.room);
     const room = rooms.find(el => el._id === room_id );
     if (!room) return null;
-    const product = product_type !== 'custom'
-        ? getProductById(product_id, product_type === 'standard')
-        : getCustomPartById(product_id);
+    const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
     const {name} = product;
     const img = getCartItemImg(product, image_active_number);

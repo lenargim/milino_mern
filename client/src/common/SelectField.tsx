@@ -3,6 +3,7 @@ import Select, {OnChangeValue, StylesConfig} from "react-select";
 import {ErrorMessage, useField} from "formik";
 import styles from "./Form.module.sass";
 import {MaybeNull} from "../helpers/productTypes";
+import ErrorForNestedFields from "./ErrorForNestedFields";
 
 export type optionType = {
     value: string,
@@ -88,10 +89,11 @@ export const customStyles: StylesConfig<optionType, false> = {
 
 }
 
-const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) => {
-    const [field, meta, {setValue}] = useField(name);
+const SelectField: FC<SelectFieldType> = ({options, name, val, label = name,}) => {
+    const [field, meta, {setValue, setTouched}] = useField(name);
     const {error, touched} = meta;
-    function onChange (value: OnChangeValue<optionType, false>) {
+
+    function onChange(value: OnChangeValue<optionType, false>) {
         if (value) setValue(value.value);
     }
 
@@ -99,9 +101,7 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name, }) 
         if (field.value && !val) {
             setValue('')
         }
-    }, [val,setValue,field.value]);
-
-
+    }, [val, setValue, field.value]);
     return (
         <div
             className={[styles.row, styles.select, field.value && styles.active, error && touched ? 'error' : ''].join(' ')}>

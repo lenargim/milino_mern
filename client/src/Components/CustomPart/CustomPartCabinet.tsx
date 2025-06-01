@@ -3,7 +3,7 @@ import {useFormikContext} from 'formik';
 import CustomPartLayout from "./CustomPartLayout";
 import {CustomPartType} from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
@@ -14,7 +14,7 @@ type CustomPartCabinet = {
     isStandardCabinet: boolean
 }
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
-    const {values, setFieldValue, errors, touched} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, errors, touched} = useFormikContext<CustomPartFormType>();
     const {
         Material: material,
         glass_door: [doorProfileVal],

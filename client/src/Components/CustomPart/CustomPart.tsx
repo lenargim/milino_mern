@@ -1,15 +1,14 @@
 import {Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartCustomPart,
-    getCustomPartById, getInitialMaterialData,
+    addToCartCustomPart, findIsProductStandard,
+    getInitialMaterialData,
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
 import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
-import {Navigate} from "react-router-dom";
 import CustomPartLeft from "./CustomPartLeft";
 import {DoorType} from "./CustomPartStandardDoorForm";
 import {colorOption} from "./CustomPartGolaProfile";
@@ -58,7 +57,7 @@ export interface DoorAccessoryType extends DoorAccessoryAPIType {
     price: number
 }
 
-export type CustomPartFormValuesType = {
+export type CustomPartFormType = {
     Width: string,
     Height: string,
     Depth: string,
@@ -114,16 +113,15 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     }
 }
 
-const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product_id: number}> = ({materials, room_id, product_id}) => {
+const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, custom_part: CustomPartType}> = ({materials, room_id, custom_part}) => {
     const dispatch = useAppDispatch();
-    const customPartProduct = getCustomPartById(product_id)
-    if (!customPartProduct) return <Navigate to={{pathname: '/profile'}}/>;
-    const isStandardCabinet = materials.door_type === 'Standard White Shaker';
-    const initialMaterialData = getInitialMaterialData(customPartProduct, materials, isStandardCabinet);
-    const initialSizes = getInitialSizes(customPartProduct, initialMaterialData);
+
+    const isStandardCabinet = findIsProductStandard(materials);
+    const initialMaterialData = getInitialMaterialData(custom_part, materials, isStandardCabinet);
+    const initialSizes = getInitialSizes(custom_part, initialMaterialData);
     const {initial_width, initial_height, initial_depth} = initialSizes
-    const isDoorAccessories = ["door-accessories"].includes(customPartProduct.type);
-    const initialValues: CustomPartFormValuesType = {
+    const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
+    const initialValues: CustomPartFormType = {
         'Width': initial_width.toString(),
         'Height': initial_height.toString(),
         'Depth': initial_depth.toString(),
@@ -151,20 +149,20 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, product
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={getCustomPartSchema(customPartProduct)}
-            onSubmit={async (values: CustomPartFormValuesType, {resetForm, setSubmitting}) => {
-                if (!customPartProduct || !values.price) return;
+            validationSchema={getCustomPartSchema(custom_part)}
+            onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
+                if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, customPartProduct, room_id)
+                const cartData = addToCartCustomPart(values, custom_part, room_id)
                 await dispatch(addProduct({product: cartData}));
                 resetForm();
                 setSubmitting(false)
             }}
         >
             <>
-                <CustomPartLeft product={customPartProduct} materials={materials}/>
+                <CustomPartLeft product={custom_part} materials={materials}/>
                 <div className={s.right}>
-                    <CustomPartRight customPartProduct={customPartProduct}
+                    <CustomPartRight customPartProduct={custom_part}
                                      initialMaterialData={initialMaterialData}
                                      materials={materials}/>
                 </div>

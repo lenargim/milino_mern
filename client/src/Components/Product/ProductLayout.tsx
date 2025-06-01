@@ -10,7 +10,7 @@ import {
     pricePart,
     productDataToCalculatePriceType,
     productRangeType,
-    ProductType, productValuesType
+    ProductType, ProductFormType
 } from "../../helpers/productTypes";
 import ProductOptionsBlock from "./ProductOptionsBlock";
 import ProductHingeBlock from "./ProductHingeBlock";
@@ -36,8 +36,8 @@ const ProductLayout: FC<CabinetFormType> = ({
                                                 hingeArr,
                                                 tablePriceData
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, isProductStandard, product_type, id, category, customHeight, attributes} = product;
-    const {values, isSubmitting} = useFormikContext<productValuesType>();
+    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, product_type, id, category, customHeight, attributes} = product;
+    const {values, isSubmitting} = useFormikContext<ProductFormType>();
     const {widthRange, heightRange, depthRange} = productRange;
 
 
@@ -50,11 +50,11 @@ const ProductLayout: FC<CabinetFormType> = ({
         price
     } = values;
 
-    const widthRangeWithCustom = !isProductStandard ?widthRange.concat([0]) : widthRange;
-    const heightRangeWithCustom = getHeightRange(heightRange, isProductStandard, width, tablePriceData, category,customHeight)
+    const widthRangeWithCustom = product_type === "standard" ? widthRange :widthRange.concat([0]);
+    const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category,customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
-    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,isProductStandard);
+    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,product_type === "standard");
     return (
         <Form>
             {!hasSolidWidth ?
@@ -111,7 +111,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
             <ProductLED hasLedBlock={hasLedBlock}/>
             <ProductOptionsBlock filteredOptions={filteredOptions}
-                                 isProductStandard={isProductStandard}
+                                 isProductStandard={product_type === "standard"}
                                  id={id}
                                  attributes={attributes}
             />

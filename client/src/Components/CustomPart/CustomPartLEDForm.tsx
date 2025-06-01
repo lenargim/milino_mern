@@ -4,14 +4,14 @@ import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
-import {CustomPartFormValuesType, LedAccessoriesFormType} from "./CustomPart";
+import {CustomPartFormType, LedAccessoriesFormType} from "./CustomPart";
 import LEDNumberPart from "./CustomPartNumberPart";
 import {CustomAccessoriesType} from "../../helpers/cartTypes";
 
 export type LEDAccessoriesType = Exclude<CustomAccessoriesType, 'door'>
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue, isSubmitting, errors} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting, errors} = useFormikContext<CustomPartFormType>();
     const {led_accessories, price} = values;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
 

@@ -4,7 +4,7 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
 import {getSelectValfromVal} from "../../helpers/helpers";
 import SelectField, {optionType} from "../../common/SelectField";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 
 
 function prepareToSelectField(arr: string[]): optionType[] {
@@ -16,7 +16,7 @@ function prepareToSelectField(arr: string[]): optionType[] {
 }
 
 const CustomPartGlassShelfBlock: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values} = useFormikContext<CustomPartFormValuesType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {glass_shelf} = product
     if (!glass_shelf) return <>Glass Door error</>
     const {

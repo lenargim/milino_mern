@@ -8,7 +8,7 @@ import standardProductsPrices from "../../api/standartProductsPrices.json";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import {Form, useField, useFormikContext} from "formik";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {v4 as uuidv4} from "uuid";
 import Select, {OnChangeValue} from "react-select";
@@ -71,7 +71,7 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price
 }
 
 const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {price, standard_panels} = values;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
     const {id} = product;

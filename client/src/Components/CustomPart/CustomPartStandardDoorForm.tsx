@@ -11,7 +11,7 @@ import {changeAmountType} from "../../helpers/cartTypes";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import {StandardDoorAPIType} from "../../helpers/cartTypes";
 import CustomPartSubmit from "./CustomPartSubmit";
 
@@ -30,7 +30,7 @@ export type DoorType = {
 
 const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
     const {type} = customPart;
-    const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormValuesType>();
+    const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {standard_door, price} = values
     const {doors, color} = standard_door
 
