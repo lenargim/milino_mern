@@ -62,7 +62,7 @@ import {
     CartAPI,
     CartAPIImagedType,
     CartItemFrontType,
-    CartNewType,
+    CartNewType, CartOrder,
     CustomAccessoriesType,
     IsStandardOptionsType
 } from "./cartTypes";
@@ -70,6 +70,7 @@ import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomType} from "./
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
+import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -999,7 +1000,8 @@ export function textToLink(text: string) {
         .replace(/-+/g, '-');        // Replace multiple hyphens with one
 }
 
-export const checkoutCartItemWithImg = (cart: CartItemFrontType[]) => {
+export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) => {
+    if (!cart) return [];
     return cart.map(el => {
         const {product_id, product_type, image_active_number} = el
         const product = getProductById(product_id, product_type === 'standard');
@@ -1036,4 +1038,25 @@ export const me = async (token: MaybeNull<string>) => {
     } catch (error) {
         return alertError(error);
     }
+}
+
+export const createOrderFormData = async (blob: Blob, values: CheckoutFormValues, cart_orders: CartOrder[], materials: RoomMaterialsFormType, fileName: string, date: string): Promise<FormData> => {
+    const dataToJSON = {
+        date,
+        contact: values,
+        materials,
+        order: cart_orders
+    };
+    const formData = new FormData();
+    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
+    const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
+    const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
+
+    formData.append("pdf", pdfFile);
+    formData.append("json", jsonFile);
+    formData.append("client_email", values.email);
+    formData.append("client_name", values.name);
+    formData.append("client_purchase_order", values.purchase_order);
+    formData.append("client_room_name", values.room_name);
+    return formData
 }

@@ -9,6 +9,29 @@
   justify-content: space-between
   gap: 1em
   margin-bottom: 2em
+  z-index: 1
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2)
+  background-color: #fff
+  padding: 10px 10px
+  height: 40px
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  h3
+    position: relative
+
+  span
+    position: absolute
+    right: -1.8em
+    top: 3px
+    width: 17px
+    height: 17px
+    background: $accentLight
+    color: #000
+    font: 500 12px/17px $mainFont
+    text-align: center
+    border-radius: 50%
   button
     text-decoration: underline
     font-size: 13px
@@ -24,16 +47,7 @@
   width: 100%
   height: calc(100% - 60px)
   overflow-y: auto
-  h3
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2)
-    z-index: 1
-    background-color: #fff
-    padding: 10px 10px
-    height: 40px
+
 
 .materials
   position: relative

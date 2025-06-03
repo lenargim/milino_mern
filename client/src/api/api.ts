@@ -48,7 +48,7 @@ const getConstructorHeaders = () => ({
 })
 
 export const checkoutAPI = {
-    postEmail: (form: FormData) => instanceFormData.post('/email', form)
+    postEmail: (form: FormData, company:string) => instanceFormData.post(`/email/${company}`, form)
 }
 
 export const AuthAPI = {

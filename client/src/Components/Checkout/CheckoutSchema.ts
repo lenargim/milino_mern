@@ -7,9 +7,12 @@ export const CheckoutSchema = Yup.object({
     company: Yup.string()
         .default("")
         .required('Please write down your company name'),
-    project: Yup.string()
+    purchase_order: Yup.string()
         .default("")
-        .required('Please write down your project name'),
+        .required('Please write down your PO name'),
+    room_name: Yup.string()
+        .default("")
+        .required('Please write down your room name'),
     email: Yup.string()
         .default("")
         .email('E-mail is not valid')

@@ -157,7 +157,8 @@ const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialSt
             <View>
                 <Text>Name: {values.name}</Text>
                 <Text>Company: {values.company}</Text>
-                <Text>Project: {values.project}</Text>
+                <Text>Purchase order: {values.purchase_order}</Text>
+                <Text>Room name: {values.room_name}</Text>
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>
                 <Text>Delivery address: {values.delivery}</Text>

@@ -9,7 +9,7 @@ const PurchaseOrderItem: FC = () => {
     const dispatch = useAppDispatch();
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
     useEffect(() => {
-        purchase_order_name && dispatch(setActivePO(purchase_order_name))
+        purchase_order && purchase_order_name && dispatch(setActivePO(purchase_order.name))
     }, [dispatch, purchase_order_name]);
 
     if (!purchase_order) return null;

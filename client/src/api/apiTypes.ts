@@ -1,6 +1,5 @@
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
-import {CartInOrderType} from "../helpers/cartTypes";
-import {MaybeNull} from "../helpers/productTypes";
+import {CartOrder} from "../helpers/cartTypes";
 
 export type UserDataType = {
     name: string,
@@ -33,7 +32,7 @@ export interface UserTypeCheckout {
     company: string,
     email: string,
     phone: string,
-    project: string,
+    room_name: string,
     delivery: string
 }
 
@@ -57,7 +56,7 @@ export type OrderTypeAPI = {
     name: string,
     purchase_order_id: string,
     purchase_order_name: string,
-    cart: CartInOrderType[],
+    cart: CartOrder[],
     total: number,
     createdAt: Date
 }

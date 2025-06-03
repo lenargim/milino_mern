@@ -1,146 +1,126 @@
-import React, {Dispatch, FC, useEffect, useRef, useState} from 'react';
+import React, {Dispatch, FC, useRef, useState} from 'react';
 import {useNavigate, useOutletContext} from "react-router-dom";
 import {
-    checkoutCartItemWithImg,
+    checkoutCartItemWithImg, createOrderFormData,
     getCartTotal,
-    getMaterialStrings,
+    getMaterialStrings, textToLink,
     useAppSelector
 } from "../../helpers/helpers";
-import {UserTypeCheckout} from "../../api/apiTypes";
 import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
-import {checkoutAPI} from "../../api/api";
 import {saveAs} from "file-saver";
-import {Form, Formik, FormikProps} from "formik";
+import {Form, Formik} from "formik";
 import s from "./checkout.module.sass";
 import {PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
-import {CheckoutType} from "../../helpers/types";
 import {MaybeNull} from "../../helpers/productTypes";
-import {RoomType} from "../../helpers/roomTypes";
-import {CartInOrderType} from "../../helpers/cartTypes";
+import {RoomFront} from "../../helpers/roomTypes";
 import {RoomsState} from "../../store/reducers/roomSlice";
+import {UserState} from "../../store/reducers/userSlice";
+import {sendOrder} from "../../api/apiFunctions";
+import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
+import {CartOrder} from "../../helpers/cartTypes";
 
-export type buttonType = 'download' | 'send';
-type modalType = {
-    open: boolean,
-    status: string
+type ButtonType = 'purchase' | 'room' | 'send';
+export type CheckoutFormValues = {
+    name: string,
+    company: string,
+    email: string,
+    phone: string,
+    purchase_order: string,
+    room_name: string,
+    delivery: string
 }
-
 const CheckoutForm: FC = () => {
-    const formRef = useRef<FormikProps<CheckoutType>>(null);
-    const handleSubmit = async (type: buttonType) => {
-        if (formRef.current) {
-            setButtonType(type)
-            formRef.current.handleSubmit();
+    const navigate = useNavigate();
+    const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const handleButtonClick = (type: ButtonType) => {
+        clickedButtonRef.current = type;
+    }
+    const handleSubmit = async (values: CheckoutFormValues) => {
+        const button_type = clickedButtonRef.current;
+        if (!button_type || !cart_items) return;
+        const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
+        const fileName = `${textToLink(values.purchase_order)}.${date}`;
+        const cartWithJPG = checkoutCartItemWithImg(cart_items);
+        const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
+                                         cart={cartWithJPG}/>).toBlob();
+        const cart_orders:CartOrder[] = cart_items.map((el) => {
+            const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
+            return cart_order_item;
+        })
+        const formData = await createOrderFormData(blob, values, cart_orders, materials, fileName, date);
+        switch (button_type) {
+            case "purchase": {
+
+                break;
+            }
+            case "room": {
+                saveAs(blob, `${fileName}.pdf`);
+                break;
+            }
+            case "send": {
+                const res = await sendOrder(formData, textToLink(company));
+                if (res && res.status === 201) setIsModalOpen(true);
+                break;
+            }
         }
     }
-    const [buttonType, setButtonType] = useState<MaybeNull<buttonType>>(null);
-    const [room] = useOutletContext<[RoomType]>();
-    const {_id, purchase_order_id, ...materials} = room;
-    const user = useAppSelector(state => state.user.user)!
+    const [room] = useOutletContext<[RoomFront]>();
+    const {user} = useAppSelector<UserState>(state => state.user)!
+    const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
-    const navigate = useNavigate();
+    const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
     const total = getCartTotal(cart_items);
-    const [modal, setModal] = useState<modalType>({open: false, status: ''});
-    const [initialValues, setInitialValues] = useState<UserTypeCheckout>({
-        name: user.name,
-        company: user.company,
-        email: user.email,
-        phone: user.phone,
-        project: room.name,
-        delivery: ''
-    })
-    useEffect(() => {
-        setInitialValues({
-            ...initialValues,
-            name: user.name,
-            company: user.company,
-            email: user.email,
-            phone: user.phone
-        })
-    }, [user])
-    if (!cart_items || !cart_items.length) {
-        navigate(-1);
-        return null;
-    }
     const materialStrings = getMaterialStrings(materials);
-    if (!initialValues.email) return null;
-    const cartWithJPG = checkoutCartItemWithImg(cart_items);
+    if (!user || !active_po || !cart_items) return null;
+    const {name, company, email, phone} = user;
+    if (!cart_items.length) navigate(-1);
+    const initialValues: CheckoutFormValues = {
+        name,
+        company,
+        email,
+        phone,
+        purchase_order: active_po,
+        room_name: room.name,
+        delivery: ''
+    };
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
-                innerRef={formRef}
-                onSubmit={async (values, {resetForm}) => {
-                    const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
-                    const fileName = `Milino Order ${date}(${values.company} ${values.project})`;
-                    const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
-                                                     cart={cartWithJPG}/>).toBlob();
-                    const order: CartInOrderType[] = cart_items;
-                    const dataToJSON = {
-                        date: date,
-                        contact: values,
-                        materials,
-                        order
-                    };
-                    const formData = new FormData();
-                    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
-                    formData.append("pdf", pdfFile);
-                    const blob2 = await new Blob([JSON.stringify(dataToJSON)], {type: 'application/json'});
-                    const JsonFile = new File([blob2], `${fileName}.txt`);
-                    formData.append("json", JsonFile);
-                    formData.append("client_email", values.email);
-                    formData.append("client_name", values.name);
-                    formData.append("client_room_name", values.project);
-
-                    if (buttonType) {
-                        formData.append("buttonType", buttonType)
-                    }
-
-                    try {
-                        const serverResponse = await checkoutAPI.postEmail(formData);
-                        if (serverResponse.data.type === 'send') {
-                            if (serverResponse.status === 201) {
-                                setModal({open: true, status: 'Email was sent. Thank you!'})
-                            } else {
-                                alert('Email was not sent')
-                            }
-                        }
-                    } catch (e) {
-                        alert(e);
-                    }
-                    if (buttonType === 'download') saveAs(blob, `${fileName}.pdf`);
-                }}
+                onSubmit={handleSubmit}
         >
             {({isSubmitting}) => {
                 return (
                     <Form className={[s.form].join(' ')}>
                         <h1>Checkout</h1>
                         <div className={s.block}>
-                            {modal.open ? <EmailWasSent status={modal.status} setModal={setModal}/> : null}
+                            {isModalOpen ? <EmailWasSent setIsModalOpen={setIsModalOpen}/> : null}
                             <TextInput type="text" name="name" label="Name"/>
                             <TextInput type="text" name="company" label="Company"/>
-                            <TextInput type="text" name="project" label="Project name"/>
+                            <TextInput type="text" name="purchase_order" label="PO name"/>
+                            <TextInput type="text" name="room_name" label="Room name"/>
                             <TextInput type="email" name="email" label="E-mail"/>
                             <PhoneInput type="text" name="phone" label="Phone number"/>
                             <TextInput type="text" name="delivery" label="Delivery address"/>
                         </div>
                         <CheckoutCart cart={cart_items} total={total}/>
                         <div className={s.buttonRow}>
-                            <button type="button"
-                                    onClick={() => handleSubmit('download')}
-                                    className={['button yellow', s.submit].join(' ')}
-                                    disabled={isSubmitting}>PO PDF
+                            <button type="submit"
+                                    onClick={() => handleButtonClick('purchase')}
+                                    className={['button yellow'].join(' ')}
+                                    disabled={isSubmitting}>Purchase PDF
                             </button>
-                            <button type="button"
-                                    onClick={() => handleSubmit('download')}
-                                    className={['button yellow', s.submit].join(' ')}
+                            <button type="submit"
+                                    onClick={() => handleButtonClick('room')}
+                                    className={['button yellow'].join(' ')}
                                     disabled={isSubmitting}>Room PDF
                             </button>
-                            <button type="button"
-                                    onClick={() => handleSubmit('send')}
-                                    className={['button yellow', s.submit].join(' ')}
+                            <button type="submit"
+                                    onClick={() => handleButtonClick('send')}
+                                    className={['button yellow'].join(' ')}
                                     disabled={isSubmitting}>Submit Order
                             </button>
                         </div>
@@ -153,23 +133,15 @@ const CheckoutForm: FC = () => {
 
 export default CheckoutForm;
 
-type EmailWasSentType = {
-    status: string,
-    setModal: Dispatch<modalType>
-}
-
-const EmailWasSent: FC<EmailWasSentType> = ({status, setModal}) => {
+const EmailWasSent: FC<{ setIsModalOpen: Dispatch<boolean> }> = ({setIsModalOpen}) => {
     const navigate = useNavigate();
     setTimeout(() => {
-        setModal({open: false, status: ''})
-        navigate(`/profile/rooms`)
+        setIsModalOpen(false)
+        navigate(`/profile/purchase`)
     }, 4000)
-
     return (
         <div className={s.notificationWrap}>
-            <div className={s.notification}>
-                {status}
-            </div>
+            <div className={s.notification}>Email was sent. Thank you!</div>
         </div>
     )
 }

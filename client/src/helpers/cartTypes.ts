@@ -42,14 +42,37 @@ export interface CartAPIImagedType extends CartAPI {
     image_active_number: productTypings,
 }
 
+export interface CartOrder {
+    product_type: ProductApiType,
+    amount: number,
+    width: number,
+    height: number,
+    depth: number,
+    blind_width: number,
+    middle_section: number,
+    corner: MaybeEmpty<cornerTypes>,
+    hinge: hingeTypes,
+    options: string[],
+    glass: {
+        door: string[],
+        shelf: string,
+    },
+    led: {
+        border: string[],
+        alignment: string,
+        indent: string,
+    },
+    custom: MaybeUndefined<CartCustomType>,
+    note: string,
+    price: number
+}
+
 // is standard or customized product (size led, options)
 export interface CartItemFrontType extends CartAPIImagedType {
     subcategory: string,
     isStandard: IsStandardOptionsType
     price: number,
 }
-
-export type CartInOrderType = Exclude<CartAPI, 'room_id'>;
 
 export type CartCustomType = {
     material?: string,

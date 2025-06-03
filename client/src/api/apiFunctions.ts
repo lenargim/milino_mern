@@ -1,6 +1,6 @@
 import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
-import {AdminAPI, AuthAPI, cartAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
-import axios, {AxiosError} from "axios";
+import {AdminAPI, AuthAPI, cartAPI, checkoutAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
+import axios, {AxiosError, AxiosResponse} from "axios";
 import {
     MaybeUndefined,
 } from "../helpers/productTypes";
@@ -276,5 +276,13 @@ export const editPOAPI = async (purchase_order: PurchaseOrderType):Promise<Maybe
         return (await PurchaseOrdersAPI.editPO(purchase_order)).data
     } catch (error) {
         return await alertError(error, () => editPOAPI(purchase_order));
+    }
+}
+
+export const sendOrder = async (formData:FormData, company:string):Promise<AxiosResponse> => {
+    try {
+        return await checkoutAPI.postEmail(formData, company)
+    } catch (error) {
+        return await alertError(error, () => sendOrder(formData, company));
     }
 }
