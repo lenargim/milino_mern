@@ -10,7 +10,7 @@ import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
 import {saveAs} from "file-saver";
-import {Form, Formik} from "formik";
+import {Form, Formik, FormikProps} from "formik";
 import s from "./checkout.module.sass";
 import {PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
@@ -36,9 +36,6 @@ const CheckoutForm: FC = () => {
     const navigate = useNavigate();
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const handleButtonClick = (type: ButtonType) => {
-        clickedButtonRef.current = type;
-    }
     const handleSubmit = async (values: CheckoutFormValues) => {
         const button_type = clickedButtonRef.current;
         if (!button_type || !cart_items) return;
@@ -47,7 +44,7 @@ const CheckoutForm: FC = () => {
         const cartWithJPG = checkoutCartItemWithImg(cart_items);
         const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
                                          cart={cartWithJPG}/>).toBlob();
-        const cart_orders:CartOrder[] = cart_items.map((el) => {
+        const cart_orders: CartOrder[] = cart_items.map((el) => {
             const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
             return cart_order_item;
         })
@@ -68,6 +65,7 @@ const CheckoutForm: FC = () => {
             }
         }
     }
+
     const [room] = useOutletContext<[RoomFront]>();
     const {user} = useAppSelector<UserState>(state => state.user)!
     const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
@@ -92,7 +90,25 @@ const CheckoutForm: FC = () => {
                 validationSchema={CheckoutSchema}
                 onSubmit={handleSubmit}
         >
-            {({isSubmitting}) => {
+            {(formik: FormikProps<CheckoutFormValues>) => {
+                const {values, isSubmitting} = formik;
+                const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
+                    e.preventDefault();
+                    const errors = await formik.validateForm();
+                    const hasErrors = Object.keys(errors).length > 0;
+                    clickedButtonRef.current = buttonType;
+
+                    if (hasErrors) {
+                        const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormValues;
+                        const errorElement = document.getElementsByName(firstErrorField)[0];
+                        if (errorElement) {
+                            errorElement.scrollIntoView({behavior: "smooth", block: "center"});
+                            (errorElement as HTMLElement).focus();
+                        }
+                    } else {
+                        await handleSubmit(values)
+                    }
+                };
                 return (
                     <Form className={[s.form].join(' ')}>
                         <h1>Checkout</h1>
@@ -109,17 +125,17 @@ const CheckoutForm: FC = () => {
                         <CheckoutCart cart={cart_items} total={total}/>
                         <div className={s.buttonRow}>
                             <button type="submit"
-                                    onClick={() => handleButtonClick('purchase')}
+                                    onClick={(e) => customSubmitHandler(e, 'purchase')}
                                     className={['button yellow'].join(' ')}
                                     disabled={isSubmitting}>Purchase PDF
                             </button>
                             <button type="submit"
-                                    onClick={() => handleButtonClick('room')}
+                                    onClick={(e) => customSubmitHandler(e, 'room')}
                                     className={['button yellow'].join(' ')}
                                     disabled={isSubmitting}>Room PDF
                             </button>
                             <button type="submit"
-                                    onClick={() => handleButtonClick('send')}
+                                    onClick={(e) => customSubmitHandler(e, 'send')}
                                     className={['button yellow'].join(' ')}
                                     disabled={isSubmitting}>Submit Order
                             </button>
