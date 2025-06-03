@@ -10,8 +10,8 @@ import checkoutStyle from "../Checkout/checkout.module.sass";
 
 const PurchaseOrder: FC = () => {
     const location = useLocation();
-    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const user = useAppSelector(state => state.user.user)!
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const {_id} = user;
     const dispatch = useAppDispatch();
     const scrollToRef = useRef<MaybeNull<HTMLDivElement>>(null);
@@ -45,7 +45,7 @@ const PurchaseOrder: FC = () => {
                 </nav>
                 <Outlet context={{user_id: _id, purchase_orders}}/>
             </div>
-            <RoomSidebar/>
+            <RoomSidebar />
         </div>
     );
 };

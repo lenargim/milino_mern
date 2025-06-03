@@ -7,11 +7,12 @@ const Room: FC = () => {
     const {room_name} = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const {rooms} = useAppSelector<RoomsState>(state => state.room);
+    const {rooms, cart_items} = useAppSelector<RoomsState>(state => state.room);
     const room = rooms.find(room => textToLink(room.name) === room_name);
 
+
     useEffect(() => {
-        room_name && dispatch(setActiveRoom(room_name))
+        room && room_name && dispatch(setActiveRoom(room.name))
     }, [dispatch, room_name]);
 
     useEffect(() => {

@@ -29,8 +29,7 @@ const ProductCabinet: FC<CabinetType> = ({
         product_type
     } = product;
     const {drawer_brand} = materialData
-    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
-    console.log(errors)
+    const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
     const {
