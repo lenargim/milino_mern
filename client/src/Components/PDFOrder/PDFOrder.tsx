@@ -58,6 +58,9 @@ export const s = StyleSheet.create({
         fontWeight: 'semibold',
         paddingBottom: 10
     },
+    categoryBlock: {
+        marginBottom: '25px'
+    },
     category: {
         fontSize: 12,
         fontWeight: "normal",
@@ -135,6 +138,11 @@ export const s = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         gap: '10px',
+    },
+    h1: {
+        fontSize: '20px',
+        fontWeight: 700,
+        marginBottom: '25px',
     },
     h2: {
         fontSize: '14px',

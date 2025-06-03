@@ -18,9 +18,10 @@ import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import {RoomsState} from "../../store/reducers/roomSlice";
 import {UserState} from "../../store/reducers/userSlice";
-import {sendOrder} from "../../api/apiFunctions";
+import {getPurchaseRoomsOrder, sendOrder} from "../../api/apiFunctions";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 import {CartOrder} from "../../helpers/cartTypes";
+import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 
 type ButtonType = 'purchase' | 'room' | 'send';
 export type CheckoutFormValues = {
@@ -36,6 +37,12 @@ const CheckoutForm: FC = () => {
     const navigate = useNavigate();
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [room] = useOutletContext<[RoomFront]>();
+    const {user} = useAppSelector<UserState>(state => state.user)!
+    const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
+    const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
+    const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
+
     const handleSubmit = async (values: CheckoutFormValues) => {
         const button_type = clickedButtonRef.current;
         if (!button_type || !cart_items) return;
@@ -51,7 +58,10 @@ const CheckoutForm: FC = () => {
         const formData = await createOrderFormData(blob, values, cart_orders, materials, fileName, date);
         switch (button_type) {
             case "purchase": {
-
+                const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
+                if (!po_rooms_api) return;
+                const po_rooms_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api} />).toBlob();
+                saveAs(po_rooms_blob, `${fileName}.pdf`);
                 break;
             }
             case "room": {
@@ -66,11 +76,6 @@ const CheckoutForm: FC = () => {
         }
     }
 
-    const [room] = useOutletContext<[RoomFront]>();
-    const {user} = useAppSelector<UserState>(state => state.user)!
-    const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
-    const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
-    const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
     const total = getCartTotal(cart_items);
     const materialStrings = getMaterialStrings(materials);
     if (!user || !active_po || !cart_items) return null;
@@ -91,7 +96,7 @@ const CheckoutForm: FC = () => {
                 onSubmit={handleSubmit}
         >
             {(formik: FormikProps<CheckoutFormValues>) => {
-                const {values, isSubmitting} = formik;
+                const {values, isSubmitting, setTouched} = formik;
                 const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
                     e.preventDefault();
                     const errors = await formik.validateForm();
@@ -102,6 +107,15 @@ const CheckoutForm: FC = () => {
                         const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormValues;
                         const errorElement = document.getElementsByName(firstErrorField)[0];
                         if (errorElement) {
+                            setTouched({
+                                name: true,
+                                company: true,
+                                email: true,
+                                phone: true,
+                                purchase_order: true,
+                                room_name: true,
+                                delivery: true
+                            }, true)
                             errorElement.scrollIntoView({behavior: "smooth", block: "center"});
                             (errorElement as HTMLElement).focus();
                         }

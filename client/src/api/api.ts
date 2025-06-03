@@ -1,6 +1,5 @@
 import {
     AdminUsersRes,
-    AdminUsersType,
     EditProfileType,
     LogInType,
     SignUpType,
@@ -12,8 +11,8 @@ import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
-import {RoomNewType, RoomType} from "../helpers/roomTypes";
-import {CartAPI, CartAPIResponse, CartNewType} from "../helpers/cartTypes";
+import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
+import {CartAPIResponse, CartNewType} from "../helpers/cartTypes";
 
 const instanceFormData = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -48,44 +47,51 @@ const getConstructorHeaders = () => ({
 })
 
 export const checkoutAPI = {
-    postEmail: (form: FormData, company:string) => instanceFormData.post(`/email/${company}`, form)
+    postEmail: (form: FormData, company: string) => instanceFormData.post(`/email/${company}`, form),
+    getCheckoutRooms: (purchase_id: string): Promise<AxiosResponse<RoomOrderType[]>> => instance.get(`/email/pdf/${purchase_id}`, {headers: getHeaders()}),
 }
 
 export const AuthAPI = {
     signUp: (data: SignUpType) => instance.post('/auth/register', data),
-    logIn: (data: LogInType):Promise<AxiosResponse<UserAndTokenType>> => instance.post('auth/login', data),
+    logIn: (data: LogInType): Promise<AxiosResponse<UserAndTokenType>> => instance.post('auth/login', data),
 }
 
 export const usersAPI = {
-    me: ():Promise<AxiosResponse<UserType>> => instance.get('/users/me', {headers: getHeaders()}),
-    patchMe: (data: EditProfileType):Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/me', data, {headers: getHeaders()}),
-    refreshToken: ():Promise<AxiosResponse<string>> => instance.post('/users/refresh',)
+    me: (): Promise<AxiosResponse<UserType>> => instance.get('/users/me', {headers: getHeaders()}),
+    patchMe: (data: EditProfileType): Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/me', data, {headers: getHeaders()}),
+    refreshToken: (): Promise<AxiosResponse<string>> => instance.post('/users/refresh',)
 }
 
 export const PurchaseOrdersAPI = {
     getAll: (user_id: string): Promise<AxiosResponse<PurchaseOrderType[]>> => instance.get(`/po/${user_id}`, {headers: getHeaders()}),
     createPO: (purchase_order: PONewType): Promise<AxiosResponse<PurchaseOrderType>> => instance.post('/po', purchase_order, {headers: getHeaders()}),
-    deletePO: (user_id:string,purchase_order_id:string): Promise<AxiosResponse<PurchaseOrderType[]>> => instance.patch(`/po/delete`, {user_id, purchase_order_id},{headers: getHeaders()} ),
-    editPO: (purchase_order: PurchaseOrderType):Promise<AxiosResponse<PurchaseOrderType>> => instance.patch(`/po/${purchase_order._id}`, purchase_order, {headers: getHeaders()}),
+    deletePO: (user_id: string, purchase_order_id: string): Promise<AxiosResponse<PurchaseOrderType[]>> => instance.patch(`/po/delete`, {
+        user_id,
+        purchase_order_id
+    }, {headers: getHeaders()}),
+    editPO: (purchase_order: PurchaseOrderType): Promise<AxiosResponse<PurchaseOrderType>> => instance.patch(`/po/${purchase_order._id}`, purchase_order, {headers: getHeaders()}),
 }
 
 export const roomsAPI = {
     getRooms: (purchase_order_id: string): Promise<AxiosResponse<RoomType[]>> => instance.get(`/rooms/${purchase_order_id}`, {headers: getHeaders()}),
     createRoom: (room: RoomNewType): Promise<AxiosResponse<RoomType>> => instance.post('/rooms', room, {headers: getHeaders()}),
-    deleteRoom: (purchase_order_id:string,room_id: string): Promise<AxiosResponse<RoomType[]>> => instance.patch(`/rooms/delete`, {purchase_order_id,room_id}, {headers: getHeaders()}),
+    deleteRoom: (purchase_order_id: string, room_id: string): Promise<AxiosResponse<RoomType[]>> => instance.patch(`/rooms/delete`, {
+        purchase_order_id,
+        room_id
+    }, {headers: getHeaders()}),
     editRoom: (room: RoomType): Promise<AxiosResponse<RoomType[]>> => instance.patch(`/rooms/${room._id}`, room, {headers: getHeaders()}),
 }
 
 export const cartAPI = {
     getCart: (roomId: string): Promise<AxiosResponse<CartAPIResponse>> => instance.get(`/cart/${roomId}`, {headers: getHeaders()}),
     addToCart: (cart: CartNewType): Promise<AxiosResponse<CartAPIResponse>> => instance.post(`/cart`, cart, {headers: getHeaders()}),
-    removeAll: (room_id:string):Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/all/${room_id}`, {headers: getHeaders()}),
+    removeAll: (room_id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/all/${room_id}`, {headers: getHeaders()}),
     remove: (room_id: string, _id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/${room_id}/${_id}`, {headers: getHeaders()}),
     updateAmount: (room_id: string, _id: string, amount: number): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart/${room_id}/${_id}`, {amount: amount}, {headers: getHeaders()}),
 }
 
 export const AdminAPI = {
-    getUsers: (sort: SortAdminUsers, page: number):Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
+    getUsers: (sort: SortAdminUsers, page: number): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
         sort,
         page
     }, {headers: getHeaders()}),

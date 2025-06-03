@@ -9,7 +9,7 @@ import {Customer} from "../helpers/constructorTypes";
 import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin";
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
-import {RoomNewType, RoomType} from "../helpers/roomTypes";
+import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
 import {CartAPI, CartAPIResponse} from "../helpers/cartTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {store} from "../store/store";
@@ -284,5 +284,13 @@ export const sendOrder = async (formData:FormData, company:string):Promise<Axios
         return await checkoutAPI.postEmail(formData, company)
     } catch (error) {
         return await alertError(error, () => sendOrder(formData, company));
+    }
+}
+
+export const getPurchaseRoomsOrder = async (purchase_id:string):Promise<MaybeUndefined<RoomOrderType[]>> => {
+    try {
+        return (await checkoutAPI.getCheckoutRooms(purchase_id)).data
+    } catch (error) {
+        return await alertError(error, () => getPurchaseRoomsOrder(purchase_id));
     }
 }

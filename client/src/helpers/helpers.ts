@@ -666,7 +666,7 @@ export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, 
 }
 
 /// ?
-export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomFront>): CartItemFrontType[] => {
+export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomMaterialsFormType>): CartItemFrontType[] => {
     if (!room) return []
     const CartFrontItems = cart.map(cart_item => {
         return getCartItemProduct(cart_item, room);
@@ -682,7 +682,7 @@ export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
     }
 }
 
-const getCartItemProduct = (item: CartAPI, room: RoomFront): MaybeNull<CartItemFrontType> => {
+const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNull<CartItemFrontType> => {
     const {door_type, door_color} = room
     const materialData = getMaterialData(room);
     const {

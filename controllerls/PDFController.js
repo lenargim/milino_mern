@@ -1,18 +1,8 @@
 import nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
 import {getTransporterObject} from "../utils/helpers.js";
-import fs from 'fs';
-import path from 'path';
-import {fileURLToPath} from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// const folderPath = path.join(__dirname, '../PDFs');
-// if (!fs.existsSync(folderPath)) {
-//   fs.mkdirSync(folderPath, {recursive: true});
-// }
-
+import RoomModel from "../models/Room.js";
+import * as mongoose from "mongoose";
 export const SendPDF = (req, res) => {
   try {
     const env = dotenv.config().parsed;
@@ -62,5 +52,46 @@ export const SendPDF = (req, res) => {
   } catch (error) {
     console.error("Unexpected error:", error);
     res.status(500).json({message: "Internal server error", error});
+  }
+}
+
+export const getPurchaseOrder = async (req, res) => {
+  try {
+    const orderRooms = await RoomModel.aggregate([
+      {
+        $match: {
+          purchase_order_id: new mongoose.Types.ObjectId(req.params.id),
+          is_deleted: false
+        }
+      },
+      {
+        $lookup: {
+          from: "carts",                // collection name in MongoDB (must match the name exactly)
+          localField: "_id",
+          foreignField: "room_id",
+          as: "carts"
+        }
+      },
+      {
+        $match: {
+          "carts.0": { $exists: true }  // ensures at least one cart entry exists
+        }
+      }
+    ]);
+
+    if (!orderRooms) {
+      return res.status(404).json({
+        message: 'Rooms not found'
+      })
+    }
+    const frontData = orderRooms.map(el => {
+      const {is_deleted, ...front} = el;
+      return front
+    })
+    res.status(200).json(frontData)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Cannot get Rooms'
+    })
   }
 }

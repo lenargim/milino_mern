@@ -25,7 +25,6 @@ import * as dotenv from 'dotenv';
 import {upload} from "./utils/helpers.js";
 
 const env = dotenv.config().parsed;
-
 mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
   .then(() => console.log('DB is OK'))
   .catch((err) => console.log('DB error', err))
@@ -59,6 +58,7 @@ const start = async () => {
       {name: 'pdf', maxCount: 1},
       {name: 'json', maxCount: 1}
     ]), PDFController.SendPDF);
+    app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder)
 
     // Auth
     app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
@@ -102,7 +102,6 @@ const start = async () => {
     console.log(e)
   }
 }
-
 
 start()
 

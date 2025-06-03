@@ -1,5 +1,5 @@
 import {MaybeEmpty, MaybeNull, productCategory} from "./productTypes";
-import {category} from "./categoriesTypes";
+import {CartAPI} from "./cartTypes";
 
 export type RoomCategoriesType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet';
 
@@ -32,4 +32,8 @@ export interface RoomType extends RoomNewType {
 
 export interface RoomFront extends RoomType {
     activeProductCategory: MaybeEmpty<productCategory>,
+}
+
+export interface RoomOrderType extends RoomType {
+    carts: CartAPI[]
 }
