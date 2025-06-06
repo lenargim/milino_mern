@@ -352,17 +352,6 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         },
         note: note,
         custom: undefined
-
-        // subcategory: category,
-        // price,
-        // image_active_number,
-        // isStandard: {
-        //     dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
-        //     blind: checkBlindStandard(isBlind, blindWidth || 0, blindArr),
-        //     led: checkLedSelected(ledBorders),
-        //     options: checkOptionsSelected(chosenOptions),
-        //     middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middleSection || 0)
-        // },
     }
 }
 

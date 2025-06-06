@@ -43,6 +43,7 @@ function App() {
                             <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
                                 <Route path="edit" element={<PurchaseOrderEdit/>}/>
                                 <Route path="rooms" element={<PurchaseOrderRooms/>}>
+                                    <Route path="new" element={<RoomNew/>}/>
                                     <Route path=":room_name" element={<Room/>}>
                                         <Route path="edit" element={<RoomEdit/>}/>
                                         <Route index element={<RoomCategory/>}/>
@@ -50,7 +51,6 @@ function App() {
                                         <Route path="checkout" element={<CheckoutForm/>}/>
                                     </Route>
                                 </Route>
-                                <Route path="new" element={<RoomNew/>}/>
                             </Route>
                         </Route>
                         <Route path="edit" element={<ProfileEdit/>}/>

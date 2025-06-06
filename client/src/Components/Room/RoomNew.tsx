@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {getUniqueNames, textToLink, useAppSelector} from "../../helpers/helpers";
 import RoomMaterialsForm, {materialsFormInitial} from "./RoomMaterialsForm";
 import {RoomMaterialsFormType, RoomNewType} from "../../helpers/roomTypes";
-import {PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
+import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 
 
 
@@ -17,18 +17,20 @@ const RoomNew: FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {rooms} = useAppSelector<RoomsState>(state => state.room);
-    const {_id} = useOutletContext<PurchaseOrderType>()
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
+    const purchase_order_id = purchase_orders.find(el => textToLink(el.name) === purchase_order_name)?._id
+    if (!purchase_order_id) return null;
     const uniqueNames = getUniqueNames(rooms);
     return (
         <Formik initialValues={materialsFormInitial}
                 validationSchema={RoomSchema(uniqueNames)}
                 validateOnMount
                 onSubmit={(values:RoomMaterialsFormType, {setSubmitting}) => {
+                    if (!purchase_order_id || !values.category) return;
                     setSubmitting(true);
-                    if (!values.category) return;
                     const preparedToAPIRoom:RoomNewType = {
                         ...values,
-                        purchase_order_id: _id,
+                        purchase_order_id,
                         category: values.category
                     }
                     createRoomAPI(preparedToAPIRoom).then(room => {
