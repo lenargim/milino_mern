@@ -31,7 +31,7 @@ const Room: FC = () => {
     return (
         <div className={s.roomMain}>
             {showBackButton
-                ? <button className={s.back} type="button" tabIndex={-1} onClick={() => navigate(cabinetLink)}>Back to Cabinet</button>
+                ? <button className={s.back} type="button" tabIndex={-1} onClick={() => navigate(cabinetLink)}>Back to Cabinets</button>
                 : null
             }
             <Outlet context={[room]}/>

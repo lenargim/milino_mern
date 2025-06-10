@@ -31,6 +31,7 @@ export const create = async (req, res) => {
 
     // Проверяем, есть ли в бд PO с таким именем (без учета регистра и из неудаленных);
     const Room = await RoomModel.findOne({
+      purchase_order_id: req.body.purchase_order_id,
       name: { $regex: `^${req.body.name}$`, $options: 'i' },
       is_deleted: false
     }).exec();
