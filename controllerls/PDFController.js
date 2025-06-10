@@ -85,10 +85,48 @@ export const getPurchaseOrder = async (req, res) => {
       })
     }
     const frontData = orderRooms.map(el => {
-      const {is_deleted, ...front} = el;
+      const {is_deleted, updatedAt, ...front} = el;
       return front
     })
     res.status(200).json(frontData)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Cannot get Rooms'
+    })
+  }
+}
+
+export const getPurchaseOrderAmount = async (req, res) => {
+  try {
+    const orderRooms = await RoomModel.aggregate([
+      {
+        $match: {
+          purchase_order_id: new mongoose.Types.ObjectId(req.params.id),
+          is_deleted: false
+        }
+      },
+      {
+        $lookup: {
+          from: "carts",                // collection name in MongoDB (must match the name exactly)
+          localField: "_id",
+          foreignField: "room_id",
+          as: "carts"
+        }
+      },
+      {
+        $match: {
+          "carts.0": { $exists: true }  // ensures at least one cart entry exists
+        }
+      }
+    ]);
+
+    if (!orderRooms) {
+      return res.status(404).json({
+        message: 'Rooms not found'
+      })
+    }
+
+    res.status(200).json(orderRooms.length)
   } catch (error) {
     res.status(500).json({
       message: 'Cannot get Rooms'

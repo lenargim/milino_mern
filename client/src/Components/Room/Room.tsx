@@ -1,15 +1,16 @@
 import React, {FC, useEffect} from 'react';
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {fetchCart, RoomsState, setActiveRoom} from "../../store/reducers/roomSlice";
+import s from './room.module.sass'
 
 const Room: FC = () => {
-    const {room_name} = useParams();
+    const {room_name, purchase_order_name} = useParams();
     const navigate = useNavigate();
+    const location = useLocation()
     const dispatch = useAppDispatch();
-    const {rooms, cart_items} = useAppSelector<RoomsState>(state => state.room);
+    const {rooms} = useAppSelector<RoomsState>(state => state.room);
     const room = rooms.find(room => textToLink(room.name) === room_name);
-
 
     useEffect(() => {
         room && room_name && dispatch(setActiveRoom(room.name))
@@ -19,10 +20,20 @@ const Room: FC = () => {
         room?._id && dispatch(fetchCart({ _id: room._id }));
     }, [room?._id, dispatch]);
 
-    if (!room_name) navigate('/profile');
-    if (!room) return null;
+    if (!purchase_order_name) {
+        navigate('/profile'); return null;
+    }
+    if (!room_name || !room) {
+        navigate(`/profile/${textToLink(purchase_order_name)}/rooms`); return null;
+    }
+    const cabinetLink = `/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`;
+    const showBackButton = location.pathname !== cabinetLink;
     return (
-        <div>
+        <div className={s.roomMain}>
+            {showBackButton
+                ? <button className={s.back} type="button" tabIndex={-1} onClick={() => navigate(cabinetLink)}>Back to Cabinet</button>
+                : null
+            }
             <Outlet context={[room]}/>
         </div>
     );

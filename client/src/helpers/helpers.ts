@@ -66,11 +66,13 @@ import {
     CustomAccessoriesType,
     IsStandardOptionsType
 } from "./cartTypes";
-import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomType} from "./roomTypes";
+import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
+import {pdf} from "@react-pdf/renderer";
+import PDFPurchaseOrder from "../Components/PDFOrder/PDFPurchaseOrder";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -1029,15 +1031,26 @@ export const me = async (token: MaybeNull<string>) => {
     }
 }
 
-export const createOrderFormData = async (blob: Blob, values: CheckoutFormValues, cart_orders: CartOrder[], materials: RoomMaterialsFormType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api:RoomOrderType[], po_blob:Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
+    const rooms = po_rooms_api.map(room => {
+        const {_id, purchase_order_id, carts, ...materials} = room;
+        const cartFront = convertCartAPIToFront(carts, materials);
+        const cart_orders: CartOrder[] = cartFront.map((el) => {
+            const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
+            return cart_order_item;
+        })
+        return {
+            materials,
+            orders: cart_orders
+        }
+    })
     const dataToJSON = {
         date,
         contact: values,
-        materials,
-        order: cart_orders
+        rooms
     };
     const formData = new FormData();
-    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
+    const pdfFile = new File([po_blob], `${fileName}.pdf`, {type: "application/pdf"});
     const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
     const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
 

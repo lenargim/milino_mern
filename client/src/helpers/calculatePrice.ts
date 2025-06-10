@@ -510,7 +510,7 @@ const getDoorColorType = (color: string): DoorColorType => {
 };
 
 const getBoxMaterialCoef = (box_material: string, is_standard_cabinet: boolean): number => {
-    if (is_standard_cabinet) return box_material.includes('Plywood') ? 1.1 : 1;
+    if (is_standard_cabinet) return box_material.includes('Plywood') ? 1.15 : 1;
     if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(box_material)) return 1.1;
     if (box_material.includes('Plywood') || box_material.includes('Ultra Matte')) return 1.2;
     return 1;

@@ -287,6 +287,14 @@ export const sendOrder = async (formData:FormData, company:string):Promise<Axios
     }
 }
 
+export const getPurchaseRoomsOrderAmount = async (purchase_id:string):Promise<MaybeUndefined<number>> => {
+    try {
+        return (await checkoutAPI.getCheckoutRoomsAmount(purchase_id)).data
+    } catch (error) {
+        return await alertError(error, () => getPurchaseRoomsOrderAmount(purchase_id));
+    }
+}
+
 export const getPurchaseRoomsOrder = async (purchase_id:string):Promise<MaybeUndefined<RoomOrderType[]>> => {
     try {
         return (await checkoutAPI.getCheckoutRooms(purchase_id)).data

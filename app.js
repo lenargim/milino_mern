@@ -59,6 +59,7 @@ const start = async () => {
       {name: 'json', maxCount: 1}
     ]), PDFController.SendPDF);
     app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder)
+    app.get('/api/email/pdf/amount/:id', checkAuth, PDFController.getPurchaseOrderAmount)
 
     // Auth
     app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)

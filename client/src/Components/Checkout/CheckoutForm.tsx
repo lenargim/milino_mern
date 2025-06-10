@@ -10,7 +10,7 @@ import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
 import {saveAs} from "file-saver";
-import {Form, Formik, FormikProps} from "formik";
+import {Form, Formik} from "formik";
 import s from "./checkout.module.sass";
 import {PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
@@ -20,10 +20,10 @@ import {RoomsState} from "../../store/reducers/roomSlice";
 import {UserState} from "../../store/reducers/userSlice";
 import {getPurchaseRoomsOrder, sendOrder} from "../../api/apiFunctions";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
-import {CartOrder} from "../../helpers/cartTypes";
 import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
+import CheckoutButtonRow from "./CheckoutButtonRow";
 
-type ButtonType = 'purchase' | 'room' | 'send';
+export type ButtonType = 'purchase' | 'room' | 'send';
 export type CheckoutFormValues = {
     name: string,
     company: string,
@@ -48,29 +48,36 @@ const CheckoutForm: FC = () => {
         if (!button_type || !cart_items) return;
         const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
         const fileName = `${textToLink(values.purchase_order)}.${date}`;
-        const cartWithJPG = checkoutCartItemWithImg(cart_items);
-        const blob = await pdf(<PDFOrder values={values} materialStrings={materialStrings}
-                                         cart={cartWithJPG}/>).toBlob();
-        const cart_orders: CartOrder[] = cart_items.map((el) => {
-            const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
-            return cart_order_item;
-        })
-        const formData = await createOrderFormData(blob, values, cart_orders, materials, fileName, date);
+
+
+        // const cart_orders: CartOrder[] = cart_items.map((el) => {
+        //     const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
+        //     return cart_order_item;
+        // })
+
         switch (button_type) {
             case "purchase": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
-                const po_rooms_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api} />).toBlob();
-                saveAs(po_rooms_blob, `${fileName}.pdf`);
+                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
+                saveAs(po_blob, `${fileName}.pdf`);
                 break;
             }
             case "room": {
-                saveAs(blob, `${fileName}.pdf`);
+                const cartWithJPG = checkoutCartItemWithImg(cart_items);
+                const room_blob = await pdf(<PDFOrder values={values}
+                                                      materialStrings={materialStrings}
+                                                      cart={cartWithJPG}/>).toBlob();
+                saveAs(room_blob, `${fileName}.pdf`);
                 break;
             }
             case "send": {
-                const res = await sendOrder(formData, textToLink(company));
-                if (res && res.status === 201) setIsModalOpen(true);
+                const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
+                if (!po_rooms_api) return;
+                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
+                const POFormData = await createOrderFormData(po_rooms_api, po_blob, values, fileName, date);
+                const res = await sendOrder(POFormData, textToLink(company));
+                if (res.status === 201) setIsModalOpen(true);
                 break;
             }
         }
@@ -95,68 +102,22 @@ const CheckoutForm: FC = () => {
                 validationSchema={CheckoutSchema}
                 onSubmit={handleSubmit}
         >
-            {(formik: FormikProps<CheckoutFormValues>) => {
-                const {values, isSubmitting, setTouched} = formik;
-                const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
-                    e.preventDefault();
-                    const errors = await formik.validateForm();
-                    const hasErrors = Object.keys(errors).length > 0;
-                    clickedButtonRef.current = buttonType;
-
-                    if (hasErrors) {
-                        const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormValues;
-                        const errorElement = document.getElementsByName(firstErrorField)[0];
-                        if (errorElement) {
-                            setTouched({
-                                name: true,
-                                company: true,
-                                email: true,
-                                phone: true,
-                                purchase_order: true,
-                                room_name: true,
-                                delivery: true
-                            }, true)
-                            errorElement.scrollIntoView({behavior: "smooth", block: "center"});
-                            (errorElement as HTMLElement).focus();
-                        }
-                    } else {
-                        await handleSubmit(values)
-                    }
-                };
-                return (
-                    <Form className={[s.form].join(' ')}>
-                        <h1>Checkout</h1>
-                        <div className={s.block}>
-                            {isModalOpen ? <EmailWasSent setIsModalOpen={setIsModalOpen}/> : null}
-                            <TextInput type="text" name="name" label="Name"/>
-                            <TextInput type="text" name="company" label="Company"/>
-                            <TextInput type="text" name="purchase_order" label="PO name"/>
-                            <TextInput type="text" name="room_name" label="Room name"/>
-                            <TextInput type="email" name="email" label="E-mail"/>
-                            <PhoneInput type="text" name="phone" label="Phone number"/>
-                            <TextInput type="text" name="delivery" label="Delivery address"/>
-                        </div>
-                        <CheckoutCart cart={cart_items} total={total}/>
-                        <div className={s.buttonRow}>
-                            <button type="submit"
-                                    onClick={(e) => customSubmitHandler(e, 'purchase')}
-                                    className={['button yellow'].join(' ')}
-                                    disabled={isSubmitting}>Purchase PDF
-                            </button>
-                            <button type="submit"
-                                    onClick={(e) => customSubmitHandler(e, 'room')}
-                                    className={['button yellow'].join(' ')}
-                                    disabled={isSubmitting}>Room PDF
-                            </button>
-                            <button type="submit"
-                                    onClick={(e) => customSubmitHandler(e, 'send')}
-                                    className={['button yellow'].join(' ')}
-                                    disabled={isSubmitting}>Submit Order
-                            </button>
-                        </div>
-                    </Form>
-                )
-            }}
+            <Form className={[s.form].join(' ')}>
+                <h1>Checkout</h1>
+                <div className={s.block}>
+                    {isModalOpen ? <EmailWasSent setIsModalOpen={setIsModalOpen}/> : null}
+                    <TextInput type="text" name="name" label="Name"/>
+                    <TextInput type="text" name="company" label="Company"/>
+                    <TextInput type="text" name="purchase_order" label="PO name"/>
+                    <TextInput type="text" name="room_name" label="Room name"/>
+                    <TextInput type="email" name="email" label="E-mail"/>
+                    <PhoneInput type="text" name="phone" label="Phone number"/>
+                    <TextInput type="text" name="delivery" label="Delivery address"/>
+                </div>
+                <CheckoutCart cart={cart_items} total={total}/>
+                <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}
+                                   purchase_order_id={purchase_order_id}/>
+            </Form>
         </Formik>
     );
 };

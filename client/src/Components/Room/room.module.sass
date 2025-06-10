@@ -181,3 +181,23 @@
 
 .typeItemSmall
   width: calc(20% - 60px/5)
+
+.roomMain
+  position: relative
+
+.back
+  top: 20px
+  position: sticky
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  gap: .2em
+  transition: all .3s ease
+  opacity: .3
+  z-index: 2
+  &:hover
+    opacity: 1
+  &::before
+    content: '\2190'
+    width: 1em
+    height: 1em

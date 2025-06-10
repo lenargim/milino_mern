@@ -64,7 +64,7 @@ export interface CartOrder {
     },
     custom: MaybeUndefined<CartCustomType>,
     note: string,
-    price: number
+    // price: number
 }
 
 // is standard or customized product (size led, options)

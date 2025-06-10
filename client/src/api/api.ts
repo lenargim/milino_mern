@@ -49,6 +49,7 @@ const getConstructorHeaders = () => ({
 export const checkoutAPI = {
     postEmail: (form: FormData, company: string) => instanceFormData.post(`/email/${company}`, form),
     getCheckoutRooms: (purchase_id: string): Promise<AxiosResponse<RoomOrderType[]>> => instance.get(`/email/pdf/${purchase_id}`, {headers: getHeaders()}),
+    getCheckoutRoomsAmount: (purchase_id: string): Promise<AxiosResponse<number>> => instance.get(`/email/pdf/amount/${purchase_id}`, {headers: getHeaders()}),
 }
 
 export const AuthAPI = {
