@@ -107,9 +107,7 @@ export function addHeightPriceCoef(customHeight: number, maxHeight: number) {
 export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: AngleType) {
     if (isAngle) return 0;
     const maxDepth = depthRangeData[depthRangeData.length - 1];
-    if (customDepth > maxDepth) {
-        return Math.ceil((customDepth - maxDepth - 1) / 3) / 10
-    }
+    if (customDepth > maxDepth) return Math.ceil((customDepth - maxDepth - 1) / 3) / 10;
     return 0
 }
 

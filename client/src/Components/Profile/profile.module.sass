@@ -73,6 +73,28 @@
     &.linkActive label
       background-color: $accentLight
       color: #fff
+.pagination
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  flex-wrap: wrap
+  gap: 5px 10px
+  margin-top: 20px
+  .paginationItem
+    display: block
+    position: relative
+    padding: 5px 10px
+    text-transform: uppercase
+    border-radius: 5px
+    border: 2px solid $accentLight
+    white-space: nowrap
+    cursor: pointer
+    font: 500 14px/1.2$mainFont
+    transition: transform .15s
+    &:hover
+      transform: scale(1.05)
+    &:disabled
+      border-color: $grey
 .linkWrap
   display: block
   position: relative

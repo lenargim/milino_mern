@@ -1,4 +1,4 @@
-import {AppDispatch, RootState, store} from "../store/store";
+import {AppDispatch, RootState} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import Fraction from "fraction.js";
@@ -72,7 +72,6 @@ import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
-import PDFPurchaseOrder from "../Components/PDFOrder/PDFPurchaseOrder";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -206,12 +205,10 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
 export const getProductsByCategory = (category: productCategory, isStandardCabinet: boolean): ProductType[] => {
     const products = cabinets as ProductType[];
     if (isStandardCabinet) {
-        return products.filter(el => el.category === category && el.product_type === "standard")
-    } else {
-        return products.filter(el => el.product_type !== "standard" && el.category === category)
+        return products.filter(el => el.category === category && el.product_type === "standard");
     }
+    return products.filter(el => el.category === category && el.product_type !== "standard");
 }
-
 
 export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
     let exceptionIds: number[] = [];
@@ -219,12 +216,6 @@ export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): cust
     const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
     return standardDoorCustomParts as customPartDataType[];
 }
-
-// export const getCustomPartById = (id: number): MaybeNull<CustomPartType> => {
-//     const arr = customParts as CustomPartType[];
-//     const product = arr.find(part => +part.id === id);
-//     return product ? product : null;
-// }
 
 export const getInitialMaterialData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardCabinet: boolean): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
@@ -442,16 +433,6 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
             }
         },
         note: note
-        // subcategory: type,
-        // price,
-        // isStandard: {
-        //     dimensions: true,
-        //     led: true,
-        //     blind: true,
-        //     middle: true,
-        //     options: true
-        // },
-        // image_active_number: 1,
     }
 }
 
@@ -656,7 +637,6 @@ export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, 
     return 0
 }
 
-/// ?
 export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomMaterialsFormType>): CartItemFrontType[] => {
     if (!room) return []
     const CartFrontItems = cart.map(cart_item => {
@@ -832,11 +812,6 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     return 1;
 }
 
-// const getProductApiType = (category: productCategory, isProductStandard: boolean): ProductApiType => {
-//     if (category === 'Custom Parts') return 'custom'
-//     return isProductStandard ? 'standard' : 'cabinet'
-// }
-
 export const getCartItemImg = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
     const {product_type, images} = product;
     if (product_type === 'custom') {
@@ -916,8 +891,7 @@ export function prepareToSelectField(arr: string[]): optionType[] {
     return arr.map(el => ({
             value: el,
             label: el
-        })
-    )
+        }))
 }
 
 export const getProfileList = (is_custom: boolean): optionType[] => {

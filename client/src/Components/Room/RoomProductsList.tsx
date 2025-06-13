@@ -22,21 +22,20 @@ const RoomProductsList: FC<{ category: productCategory, room: RoomType, isStanda
     switch (category) {
         case "Custom Parts":
             const customParts = getCustomParts(room, isStandardCabinet);
+            if (!customParts.length) return <div>Sorry, there are no custom parts yet</div>;
             return (
-                customParts.length ?
-                    <div className={s.list}>
-                        {customParts.map((el, index) => <Part key={index} product={el}/>)}
-                    </div> : <div>Sorry, there are no custom parts yet</div>
-            );
+                <div className={s.list}>
+                    {customParts.map((el, index) => <Part key={index} product={el}/>)}
+                </div>
+            )
         default:
             const products = getProductsByCategory(category, isStandardCabinet);
+            if (!products.length) return <div>Sorry, there are no products yet</div>;
             return (
-                products.length ?
-                    <div className={s.list}>
-                        {products.map((el, index) => <Item key={index} product={el}/>)}
-                    </div>
-                    : <div>Sorry, there are no products yet</div>
-            );
+                <div className={s.list}>
+                    {products.map((el, index) => <Item key={index} product={el}/>)}
+                </div>
+            )
 
     }
 };
