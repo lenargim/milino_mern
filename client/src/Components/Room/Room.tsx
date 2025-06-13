@@ -13,6 +13,11 @@ const Room: FC = () => {
     const room = rooms.find(room => textToLink(room.name) === room_name);
 
     useEffect(() => {
+        if (!purchase_order_name) navigate('/profile');
+        if (!room_name && purchase_order_name) navigate(`/profile/${textToLink(purchase_order_name)}/rooms`);
+    }, [room_name, purchase_order_name])
+
+    useEffect(() => {
         room && room_name && dispatch(setActiveRoom(room.name))
     }, [dispatch, room_name]);
 
@@ -20,12 +25,7 @@ const Room: FC = () => {
         room?._id && dispatch(fetchCart({ _id: room._id }));
     }, [room?._id, dispatch]);
 
-    if (!purchase_order_name) {
-        navigate('/profile'); return null;
-    }
-    if (!room_name || !room) {
-        navigate(`/profile/${textToLink(purchase_order_name)}/rooms`); return null;
-    }
+    if (!room_name || !purchase_order_name || !room) return null;
     const cabinetLink = `/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`;
     const showBackButton = location.pathname !== cabinetLink;
     return (

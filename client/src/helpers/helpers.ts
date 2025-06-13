@@ -674,13 +674,7 @@ export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
 }
 
 const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNull<CartItemFrontType> => {
-    const {door_type, door_color} = room
-    const materialData = getMaterialData(room);
-    const {
-        is_standard_cabinet,
-        drawer_brand,
-        base_price_type,
-    } = materialData;
+    const {door_type, door_color} = room;
     const {
         product_id,
         width,
@@ -695,6 +689,12 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         glass,
         custom,
     } = item;
+    const materialData = getMaterialData(room, product_id);
+    const {
+        is_standard_cabinet,
+        drawer_brand,
+        base_price_type,
+    } = materialData;
 
     const product_or_custom = getProductById(product_id, product_type === 'standard')
     if (!product_or_custom) return null;

@@ -509,20 +509,48 @@ const getDoorColorType = (color: string): DoorColorType => {
     return 1
 };
 
-const getBoxMaterialCoef = (box_material: string, is_standard_cabinet: boolean): number => {
-    if (is_standard_cabinet) return box_material.includes('Plywood') ? 1.15 : 1;
-    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(box_material)) return 1.1;
-    if (box_material.includes('Plywood') || box_material.includes('Ultra Matte')) return 1.2;
-    return 1;
+const getBoxMaterialCoef = (box_material: string, product_id:number): number => {
+    // Exceptions
+    const noCoefExceptionsArr: number[] = [35];
+    if (noCoefExceptionsArr.includes(product_id)) return 1;
+
+    switch (box_material) {
+        case "Natural Plywood":
+        case "White Plywood":
+        case "Gray Plywood":
+            return 1.15
+        case "Gray Melamine":
+        case "Ash Melamine":
+        case "Beige Linen Melamine":
+        case "Blanco Wood Melamine":
+        case "Gray Linen Melamine":
+        case "Walnut Melamine":
+        case "White Melamine":
+            return 1
+        case "Brown Oak":
+        case "Grey Woodline":
+        case "Ivory Woodline":
+            return 1.1
+        case "Ultra Matte Grey":
+        case "Ultra Matte White":
+            return 1.2
+        default:
+            return 1
+    }
 }
 
-const getBoxMaterialFinishCoef = (doorFinish: string, is_standard_cabinet: boolean, box_material: string): number => {
-    if (is_standard_cabinet) return 1;
-    if (doorFinish === 'Milino') {
-        if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(box_material)) return 1.1;
-        if (box_material.includes('Ultra Matte')) return 1.2;
+const getBoxMaterialFinishCoef = (door_finish_material:string, door_color:string): number => {
+    switch (door_finish_material) {
+        case "Milino":
+            const colorType = getDoorColorType(door_color);
+            if (colorType === 1) return 2.706;
+            if (colorType === 2) return 1.1;
+            return 1.2
+        case "Syncron":
+            return 1.845
+        default:
+            return 2.706
     }
-    return doorFinish === 'Syncron' ? 1.845 : 2.706
 }
 const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_cabinet: boolean, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color} = materials
@@ -558,12 +586,13 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
         depthRange: getDepthRange(priceData, category, customDepth)
     }
 }
-export const getMaterialData = (materials: RoomMaterialsFormType): materialDataType => {
+export const getMaterialData = (materials: RoomMaterialsFormType, product_id:number): materialDataType => {
     const {
         box_material,
         door_type,
         door_grain,
         door_finish_material,
+        door_color,
         category,
         drawer_brand,
         drawer_type,
@@ -571,15 +600,15 @@ export const getMaterialData = (materials: RoomMaterialsFormType): materialDataT
         leather,
         box_color
     } = materials;
-
     const is_standard_cabinet = door_type === "Standard White Shaker";
     const is_leather_closet = category === 'Leather Closet'
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
+
     const base_price_type = getBasePriceType(materials, is_leather_closet);
     const materials_coef = getMaterialCoef(materials, is_leather_closet);
     const grain_coef = getGrainCoef(door_grain);
-    const box_material_coef = getBoxMaterialCoef(box_material, is_standard_cabinet);
-    const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, is_standard_cabinet, box_material);
+    const box_material_coef = getBoxMaterialCoef(box_material, product_id);
+    const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_closet);
 
     return {
@@ -767,7 +796,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
         if (!product_or_custom) return cartItem;
         if (product_type === 'custom') return cartItem;
         const product = product_or_custom as unknown as ProductType;
-        const materialData = getMaterialData(materials)
+        const materialData = getMaterialData(materials, product_id)
         const {is_standard_cabinet, base_price_type} = materialData;
         const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
         if (!tablePriceData) return cartItem;
@@ -779,10 +808,10 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 }
 
 export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
-    const {product_id, width, height, depth, options} = cabinetItem;
+    const {width, height, depth, options} = cabinetItem;
     const {category} = product;
     const boxFromFinishMaterial = options.includes("Box from finish material");
-    const overall_coef = getOverallCoef(materialData, boxFromFinishMaterial, product_id)
+    const overall_coef = getOverallCoef(materialData, boxFromFinishMaterial)
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, category);
     const startPrice = getStartPrice(width, height, depth, overall_coef, sizeLimit, tablePrice);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
@@ -791,14 +820,15 @@ export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: m
     return +(startPrice * size_coef + attrPrice).toFixed(1);
 }
 
-const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: boolean, product_id: number): number => {
-    const {box_material_coef, box_material_finish_coef, is_standard_cabinet, grain_coef, materials_coef} = materialData;
-    // Exceptions
-    const noCoefExceptionsArr: number[] = [35];
-    if (noCoefExceptionsArr.includes(product_id)) return 1;
+const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: boolean): number => {
+    const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
+    console.log(`box_material_coef ${box_material_coef}`)
+    console.log(`grain_coef ${grain_coef}`)
+    console.log(`materials_coef ${materials_coef}`)
     const boxCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
-    return !is_standard_cabinet ? +(boxCoef * materials_coef * grain_coef).toFixed(3) : 1;
+    return +(boxCoef * materials_coef * grain_coef).toFixed(3);
 }
+
 const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
     const {legsHeight, attributes, horizontal_line = 2, isAngle, category, id, product_type} = product;
     const {

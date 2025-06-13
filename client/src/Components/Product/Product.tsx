@@ -38,7 +38,7 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product: 
         middleSectionDefault,
         category
     } = product;
-    const materialData = getMaterialData(materials);
+    const materialData = getMaterialData(materials, id);
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
