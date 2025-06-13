@@ -620,6 +620,9 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
         if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
         return 0;
     }
+    // Exceptions
+    const noDoorsArr:number[] = [28];
+    if (noDoorsArr.includes(product_id)) return 0;
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
