@@ -6,6 +6,7 @@ export type UserDataType = {
     company: string,
     email: string,
     phone: string,
+    website: string
 }
 
 export interface SignUpType extends UserDataType {

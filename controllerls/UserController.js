@@ -8,9 +8,9 @@ import {getTransporterObject, isCookieSecure} from "../utils/helpers.js";
 const env = dotenv.config().parsed;
 
 function generateTokens(userId) {
-  const accessToken = jwt.sign({ _id: userId }, env.BACKEND_SECRET_KEY, { expiresIn: env.BACKEND_SECRET_KEY_EXPIRES });
-  const refreshToken = jwt.sign({ _id: userId }, env.BACKEND_REFRESH_KEY, { expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES });
-  return { accessToken, refreshToken };
+  const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
+  const refreshToken = jwt.sign({_id: userId}, env.BACKEND_REFRESH_KEY, {expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES});
+  return {accessToken, refreshToken};
 }
 
 export const register = async (req, res) => {
@@ -42,6 +42,7 @@ export const register = async (req, res) => {
       company: req.body.company,
       email: req.body.email,
       phone: req.body.phone,
+      website: req.body.website,
       is_active: false,
       is_active_in_constructor: false,
       constructor_id: req.body.email,
@@ -89,7 +90,6 @@ export const login = async (req, res) => {
         message: "Wrong email or password"
       })
     }
-
     const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
 
     if (!isValidPass) {
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const { accessToken, refreshToken } = generateTokens(user._id);
+    const {accessToken, refreshToken} = generateTokens(user._id);
 
     res.status(200)
       .cookie('refreshToken', refreshToken, {
@@ -115,7 +115,7 @@ export const login = async (req, res) => {
         // maxAge: 7 * 24 * 60 * 60 * 1000
         maxAge: 2 * 60 * 1000 // 2 min
       })
-      .json({...userData, token:accessToken});
+      .json({...userData, token: accessToken});
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -127,7 +127,6 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = await UserModel.findById(req.userId);
-
     if (!user) {
       return res.status(404).json({
         message: "User not found"
@@ -154,18 +153,23 @@ export const patchMe = async (req, res) => {
     const password = req.body.password;
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
-    const newData = {
+    const user = await UserModel.findByIdAndUpdate(req.userId, {
       name: req.body.name,
       company: req.body.company,
       phone: req.body.phone,
+      website: req.body.website,
       passwordHash
+    }, {
+      new: true
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      })
     }
-    const user = await UserModel.findOneAndUpdate({
-      _id: req.body._id
-    }, newData, {new: true});
 
     const {passwordHash: hash, ...userData} = user._doc;
-
     res.json(userData);
   } catch (e) {
     res.status(403).json({
@@ -176,11 +180,11 @@ export const patchMe = async (req, res) => {
 
 export const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
-  if (!token) return res.sendStatus(401).json({message: "No refresh token"});
+  if (!token) return res.sendStatus(401).json({message: "No refresh token", type: 'token'});
 
   try {
     const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
-    const { accessToken } = generateTokens(decoded.id);
+    const {accessToken} = generateTokens(decoded.id);
     res.json(accessToken);
   } catch {
     res.sendStatus(403);

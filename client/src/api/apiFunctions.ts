@@ -17,7 +17,10 @@ import {store} from "../store/store";
 
 export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
     const axiosError = error as AxiosError;
-    if (axiosError.response?.status === 401) {
+    if (!axiosError.response) throw new Error('Response Error');
+    const status = axiosError.response.status;
+    const response_data: any = axiosError.response.data;
+    if (status === 401 && response_data.type === 'token') {
         try {
             const newToken = await refreshTokenAPI();
             if (newToken) {
@@ -32,13 +35,8 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
         } catch (refreshErr) {
             store.dispatch(logout());
         }
-    } else if (axiosError.response?.status === 403) {
-        const data:any = axiosError?.response.data;
-        if (data) {
-            const msg = data?.message ?? axiosError.message;
-            alert(msg);
-        }
-        store.dispatch(logout());
+    } else if (response_data.message) {
+        alert(response_data.message);
     } else {
         alert(axiosError.message);
     }
@@ -55,7 +53,7 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
     }
 }
 
-export const updateProfile = async (values: EditProfileType):Promise<MaybeUndefined<UserType>> => {
+export const updateProfile = async (values: EditProfileType): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await usersAPI.patchMe(values)).data;
     } catch (error) {
@@ -71,7 +69,7 @@ export const logIn = async (values: LogInType) => {
         localStorage.setItem('token', token);
         return user as UserType;
     } catch (error: any) {
-        return alertError(error)
+        alertError(error)
     }
 }
 
@@ -83,7 +81,7 @@ export const refreshTokenAPI = async () => {
     }
 }
 
-export const createRoomAPI = async (room: RoomNewType):Promise<MaybeUndefined<RoomType>> => {
+export const createRoomAPI = async (room: RoomNewType): Promise<MaybeUndefined<RoomType>> => {
     try {
         return (await roomsAPI.createRoom(room)).data;
     } catch (error) {
@@ -91,7 +89,7 @@ export const createRoomAPI = async (room: RoomNewType):Promise<MaybeUndefined<Ro
     }
 }
 
-export const deleteRoomAPI = async (purchase_order_id:string, room_id: string):Promise<MaybeUndefined<RoomType[]>> => {
+export const deleteRoomAPI = async (purchase_order_id: string, room_id: string): Promise<MaybeUndefined<RoomType[]>> => {
     try {
         return (await roomsAPI.deleteRoom(purchase_order_id, room_id)).data;
     } catch (error) {
@@ -107,7 +105,7 @@ export const deleteRoomAPI = async (purchase_order_id:string, room_id: string):P
 //     }
 // }
 
-export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
+export const getCartAPI = async (room_id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.getCart(room_id)).data;
     } catch (error) {
@@ -115,7 +113,7 @@ export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPI
     }
 }
 
-export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<CartAPIResponse>> => {
+export const addToCartAPI = async (product: CartAPI): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.addToCart(product)).data;
     } catch (error) {
@@ -123,7 +121,7 @@ export const addToCartAPI = async (product: CartAPI):Promise<MaybeUndefined<Cart
     }
 }
 
-export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
+export const removeFromCartInRoomAPI = async (room: string, _id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.remove(room, _id)).data
     } catch (error) {
@@ -132,7 +130,7 @@ export const removeFromCartInRoomAPI = async (room: string, _id: string):Promise
 }
 
 
-export const updateProductAmountAPI = async (room: string, _id: string, amount: number):Promise<MaybeUndefined<CartAPIResponse>> => {
+export const updateProductAmountAPI = async (room: string, _id: string, amount: number): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.updateAmount(room, _id, amount)).data
     } catch (error) {
@@ -148,7 +146,7 @@ export const getAdminUsers = async (sort: SortAdminUsers, page: number): Promise
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data: UserAccessData):Promise<MaybeUndefined<AdminUsersType>> => {
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<AdminUsersType>> => {
     try {
         return (await AdminAPI.toggleUserEnabled(_id, data)).data
     } catch (error) {
@@ -178,7 +176,7 @@ export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => 
     }
 }
 
-export const constructorSetCustomer = async (user: UserType):Promise<any> => {
+export const constructorSetCustomer = async (user: UserType): Promise<any> => {
     try {
         const {name, email, phone} = user;
         return (await ConstructorAPI.setCustomer({
@@ -247,7 +245,7 @@ export const isTokenValid = (token: string): boolean => {
 }
 
 
-export const getAllPOs = async (user_id: string):Promise<MaybeUndefined<PurchaseOrderType[]>> => {
+export const getAllPOs = async (user_id: string): Promise<MaybeUndefined<PurchaseOrderType[]>> => {
     try {
         return (await PurchaseOrdersAPI.getAll(user_id)).data
     } catch (error) {
@@ -255,7 +253,7 @@ export const getAllPOs = async (user_id: string):Promise<MaybeUndefined<Purchase
     }
 }
 
-export const createPO = async (purchase_order: PONewType):Promise<MaybeUndefined<PurchaseOrderType>> => {
+export const createPO = async (purchase_order: PONewType): Promise<MaybeUndefined<PurchaseOrderType>> => {
     try {
         return (await PurchaseOrdersAPI.createPO(purchase_order)).data;
     } catch (error) {
@@ -263,15 +261,15 @@ export const createPO = async (purchase_order: PONewType):Promise<MaybeUndefined
     }
 }
 
-export const deletePO = async (user_id:string,purchase_order_id: string):Promise<MaybeUndefined<PurchaseOrderType[]>> => {
+export const deletePO = async (user_id: string, purchase_order_id: string): Promise<MaybeUndefined<PurchaseOrderType[]>> => {
     try {
-        return (await PurchaseOrdersAPI.deletePO(user_id,purchase_order_id)).data
+        return (await PurchaseOrdersAPI.deletePO(user_id, purchase_order_id)).data
     } catch (error) {
         return await alertError(error, () => deletePO(user_id, purchase_order_id));
     }
 }
 
-export const editPOAPI = async (purchase_order: PurchaseOrderType):Promise<MaybeUndefined<PurchaseOrderType>> => {
+export const editPOAPI = async (purchase_order: PurchaseOrderType): Promise<MaybeUndefined<PurchaseOrderType>> => {
     try {
         return (await PurchaseOrdersAPI.editPO(purchase_order)).data
     } catch (error) {
@@ -279,7 +277,7 @@ export const editPOAPI = async (purchase_order: PurchaseOrderType):Promise<Maybe
     }
 }
 
-export const sendOrder = async (formData:FormData, company:string):Promise<AxiosResponse> => {
+export const sendOrder = async (formData: FormData, company: string): Promise<AxiosResponse> => {
     try {
         return await checkoutAPI.postEmail(formData, company)
     } catch (error) {
@@ -287,7 +285,7 @@ export const sendOrder = async (formData:FormData, company:string):Promise<Axios
     }
 }
 
-export const getPurchaseRoomsOrderAmount = async (purchase_id:string):Promise<MaybeUndefined<number>> => {
+export const getPurchaseRoomsOrderAmount = async (purchase_id: string): Promise<MaybeUndefined<number>> => {
     try {
         return (await checkoutAPI.getCheckoutRoomsAmount(purchase_id)).data
     } catch (error) {
@@ -295,7 +293,7 @@ export const getPurchaseRoomsOrderAmount = async (purchase_id:string):Promise<Ma
     }
 }
 
-export const getPurchaseRoomsOrder = async (purchase_id:string):Promise<MaybeUndefined<RoomOrderType[]>> => {
+export const getPurchaseRoomsOrder = async (purchase_id: string): Promise<MaybeUndefined<RoomOrderType[]>> => {
     try {
         return (await checkoutAPI.getCheckoutRooms(purchase_id)).data
     } catch (error) {

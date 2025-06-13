@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+import {urlRegex} from "../../helpers/helpers";
+
 
 export const ProfileEditSchema = Yup.object().shape({
     name: Yup.string()
@@ -9,5 +11,6 @@ export const ProfileEditSchema = Yup.object().shape({
         .required('Please write down your phone number'),
     password: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols'),
     compare: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols')
-        .oneOf([Yup.ref('password')], "Does not match password")
+        .oneOf([Yup.ref('password')], "Does not match password"),
+    website: Yup.string().matches(urlRegex, 'Please provide correct link')
 })

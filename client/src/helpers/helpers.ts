@@ -73,6 +73,7 @@ import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
 
+export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
 

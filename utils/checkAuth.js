@@ -12,7 +12,7 @@ export default (req, res, next) => {
   }
   jwt.verify(token, env.BACKEND_SECRET_KEY, function (err, decoded) {
     if (err) {
-      return res.status(401)
+      return res.status(401).json({type: 'token'})
     }
     req.userId = decoded._id;
     next();
