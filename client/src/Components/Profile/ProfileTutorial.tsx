@@ -1,6 +1,18 @@
 import React, {useLayoutEffect, useRef, useState} from 'react';
 import {MaybeNull} from "../../helpers/productTypes";
 
+// const links = [
+//     {
+//         name: 'Order Form Tutorial',
+//         type: 'link',
+//         url: 'https://www.youtube.com/embed/5vztBTlkKIE?si=fcAn3go7pkIvze8A'
+//     },
+//     {
+//         name: 'Constructor Tutorial',
+//         type: 'folder',
+//     }
+// ]
+
 const ProfileTutorial = () => {
     const ref = useRef<MaybeNull<HTMLDivElement>>(null);
     const [width, setWidth] = useState<MaybeNull<number>>(0);
@@ -16,6 +28,7 @@ const ProfileTutorial = () => {
     return (
         <div style={{height: '100%'}}>
             <h1>Tutorial</h1>
+            <nav></nav>
             <div ref={ref} style={{maxHeight: '80vh', height: '100%'}}>
                 <iframe src="https://www.youtube.com/embed/5vztBTlkKIE?si=fcAn3go7pkIvze8A"
                         title="Milino Tutorial" frameBorder="0"

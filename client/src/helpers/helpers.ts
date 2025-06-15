@@ -957,7 +957,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
     }
 }
 
-export function textToLink(text: string) {
+export function textToLink(text: MaybeUndefined<string>) {
+    if (!text) return '';
     // Transliterate using Intl (works well for many non-Latin scripts)
     const transliterated = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
