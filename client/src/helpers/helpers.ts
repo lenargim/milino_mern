@@ -1015,8 +1015,8 @@ export const createOrderFormData = async (po_rooms_api:RoomOrderType[], po_blob:
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, materials);
         const cart_orders: CartOrder[] = cartFront.map((el) => {
-            const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
-            return cart_order_item;
+            const {subcategory, isStandard, image_active_number, _id, room_id, glass, ...cart_order_item} = el;
+            return {...cart_order_item, glass: {door: glass.door ?? [], shelf: glass.shelf ?? ''}};
         })
         return {
             materials,

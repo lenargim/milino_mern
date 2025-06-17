@@ -17,8 +17,8 @@ export type CartNewType = {
     hinge: hingeTypes,
     options: string[],
     glass: {
-        door: string[],
-        shelf: string,
+        door: MaybeUndefined<string[]>,
+        shelf: MaybeUndefined<string>,
     },
     led: {
         border: string[],

@@ -1,9 +1,9 @@
 import * as dotenv from "dotenv";
 import multer from "multer";
-const env = dotenv.config().parsed;
 import {__dirname} from "../app.js";
 import fs from 'fs';
 import path from 'path';
+const env = dotenv.config().parsed;
 
 
 export const getTransporterObject = () => {

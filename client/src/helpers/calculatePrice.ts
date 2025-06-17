@@ -859,6 +859,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_closet);
     const hasGlassDoor = options.includes('Glass Door');
+    const glassDoorProfile = glass.door ? glass.door[0] : undefined;
 
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
@@ -868,7 +869,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         ledPrice: getLedPrice(width, height, led.border),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard",is_leather_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
-        glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], product_type === "standard", hasGlassDoor),
+        glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
 }

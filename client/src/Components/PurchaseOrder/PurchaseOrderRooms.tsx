@@ -26,8 +26,6 @@ const PurchaseOrderRooms: FC = () => {
         active_room && dispatch(setActiveRoom(''));
     },[active_po])
 
-
-    console.log(purchase_order)
     if (!purchase_order) return null;
     if (loading_rooms) return <Loading />
     return (

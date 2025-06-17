@@ -50,13 +50,13 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
             {options.length ?
                 <View>
                     <Text style={s.itemOption}>Options:</Text>
-                    {options.includes('Glass Door') ?
+                    {options.includes('Glass Door') && glass_door ?
                         <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
                             <Text>Glass Door: {glass_door.filter(el => !!el).join(', ')}</Text>
                         </View> : null
                     }
 
-                    {options.includes('Glass Shelf') ?
+                    {options.includes('Glass Shelf') && glass_shelf ?
                         <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
                             <Text>Glass Shelf: {glass_shelf}</Text>
                         </View> : null
