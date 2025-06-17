@@ -1,15 +1,14 @@
 import React, {FC} from 'react';
 import s from './product.module.sass'
-import {useParams} from "react-router-dom";
 import {
     addProductToCart, getFraction,
-    getProductById, useAppDispatch,
+    useAppDispatch,
 } from "../../helpers/helpers";
 import {
-    MaybeNull, MaybeUndefined,
-    productCategory, productValuesType, sizeLimitsType
+    MaybeUndefined,
+    productCategory, ProductFormType, ProductType, sizeLimitsType
 } from "../../helpers/productTypes";
-import Cabinet from "./Cabinet";
+import ProductCabinet from "./ProductCabinet";
 import {Formik} from 'formik';
 import {
     getMaterialData, getProductPriceRange,
@@ -18,18 +17,15 @@ import {
 import sizes from "../../api/sizes.json";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
-import {addToCart} from "../../store/reducers/generalSlice";
-import {addToCartInRoomAPI} from "../../api/apiFunctions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {addProduct} from "../../store/reducers/roomSlice";
 
-const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) => {
+const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product: ProductType }> = ({
+                                                                                                      materials,
+                                                                                                      room_id,
+                                                                                                      product
+                                                                                                  }) => {
     const dispatch = useAppDispatch();
-    let {productId, category: catFromParam, roomId} = useParams();
-    if (!productId || !catFromParam || !materials) return <div>Product error</div>;
-    const isProductStandard = ['Standard Base Cabinets', 'Standard Wall Cabinets', 'Standard Tall Cabinets'].includes(catFromParam)
-    let product = getProductById(+productId, isProductStandard);
-    if (!product) return <div>Product error</div>;
     const {
         isBlind,
         isCornerChoose,
@@ -42,7 +38,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         middleSectionDefault,
         category
     } = product;
-    const materialData = getMaterialData(materials);
+    const materialData = getMaterialData(materials, id);
     const {base_price_type, is_standard_cabinet} = materialData;
     const tablePriceData = getProductPriceRange(id, is_standard_cabinet, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
@@ -51,7 +47,7 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
     if (!widthRange.length || !sizeLimit || !tablePriceData) return <div>Cannot find product data</div>;
     const middleSectionNumber = hasMiddleSection && middleSectionDefault ? middleSectionDefault : 0;
     const middleSection = hasMiddleSection && middleSectionDefault ? getFraction(middleSectionNumber) : '';
-    const initialValues: productValuesType = {
+    const initialValues: ProductFormType = {
         'Width': widthRange[0],
         isBlind: isBlind,
         'Blind Width': blindArr ? blindArr[0] : '',
@@ -78,8 +74,8 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         'LED borders': [],
         'LED alignment': hasLedBlock ? 'Center' : '',
         'LED indent': '',
-        glass_door: [],
-        'Shelf Glass Color': '',
+        glass_door: ['', '', ''],
+        glass_shelf: '',
         image_active_number: 1,
         'Note': '',
         price: 0,
@@ -88,27 +84,23 @@ const Product: FC<{ materials: MaybeNull<MaterialsFormType> }> = ({materials}) =
         <Formik
             initialValues={initialValues}
             validationSchema={getProductSchema(product, sizeLimit)}
-            onSubmit={(values: productValuesType, {resetForm}) => {
+            onSubmit={async (values: ProductFormType, {resetForm, setSubmitting}) => {
                 if (!product) return;
-                const cartData = addProductToCart(product, values, productRange, roomId);
-                if (roomId) {
-                    addToCartInRoomAPI(cartData, roomId).then(cart => {
-                        if (cart && roomId) dispatch(updateCartInRoom({cart, _id: roomId}));
-                    })
-                } else {
-                    dispatch(addToCart(cartData))
-                }
+                setSubmitting(true)
+                const cartData = addProductToCart(product, values, productRange, room_id);
+                await dispatch(addProduct({product: cartData}));
                 resetForm();
+                setSubmitting(false)
             }}
         >
             <>
                 <ProductLeft product={product} materials={materials}/>
                 <div className={s.right}>
-                    <Cabinet product={product}
-                             materialData={materialData}
-                             productRange={productRange}
-                             tablePriceData={tablePriceData}
-                             sizeLimit={sizeLimit}
+                    <ProductCabinet product={product}
+                                    materialData={materialData}
+                                    productRange={productRange}
+                                    tablePriceData={tablePriceData}
+                                    sizeLimit={sizeLimit}
                     />
                 </div>
             </>

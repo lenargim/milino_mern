@@ -1,34 +1,29 @@
 import React, {FC} from 'react';
-import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
-import {getCartItemImg, getCustomPartById, getProductById, useAppDispatch} from "../../helpers/helpers";
-import s from "../OrderForm/Sidebar/sidebar.module.sass";
-import {CartItemType, removeFromCartInRoomAPI, updateProductAmountAPI} from "../../api/apiFunctions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import CartItemOptions from "../Product/CartItemOptions";
+import {changeAmountType} from "../../helpers/cartTypes";
+import {getCartItemImg, getProductById, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import s from "../Sidebar/sidebar.module.sass";
+import CartItemOptions from "../Sidebar/CartItemOptions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
+import {removeFromCart, RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
+import Loading from "../../common/Loading";
 
-const RoomCartItem: FC<{ item: CartItemType, room:string }> = ({item, room}) => {
-    const dispatch = useAppDispatch()
-    const {amount, note, _id, price, image_active_number, product_id, product_type} = item
-    const productAPI = product_type !== 'custom'
-        ? getProductById(product_id, product_type === 'standard')
-        : getCustomPartById(product_id);
-    if (!productAPI || !room) return null;
+const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
+    const dispatch = useAppDispatch();
+    const {loading_cart_items} = useAppSelector<RoomsState>(state => state.room);
+    const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item
+    const productAPI = getProductById(product_id, product_type === 'standard');
+    if (!productAPI) return null;
     const {name} = productAPI
-    const img = getCartItemImg(productAPI, image_active_number)
+    const img = getCartItemImg(productAPI, image_active_number);
     function changeAmount(type: changeAmountType) {
-        updateProductAmountAPI(room,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-            if (cart) dispatch(updateCartInRoom({cart: cart,_id:room}))
-        })
+        dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
 
+    if (loading_cart_items) return <Loading />
     return (
         <div className={s.cartItem} data-uuid={_id}>
             <div className={s.cartItemTop}>
-                <button onClick={() => removeFromCartInRoomAPI(room,_id).then(data => {
-                    if (data) dispatch(updateCartInRoom({cart: data,_id:room}))
-                })} className={s.itemClose}
-                        type={"button"}>×
-                </button>
+                <button onClick={() => dispatch(removeFromCart({room_id, _id}))} className={s.itemClose} type={"button"}>×</button>
                 <img className={s.itemimg} src={img} alt={name}/>
                 <div className={s.itemName}>{name}</div>
             </div>

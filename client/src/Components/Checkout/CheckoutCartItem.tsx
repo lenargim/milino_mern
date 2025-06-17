@@ -1,23 +1,21 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
-import {updateProductAmount} from "../../store/reducers/generalSlice";
 import {
     getCartItemImg,
     getCustomCabinetString,
-    getCustomPartById,
     getProductById,
-    useAppDispatch
+    useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
-import {changeAmountType} from "../OrderForm/Sidebar/Sidebar";
-import {CartItemType, updateProductAmountAPI} from "../../api/apiFunctions";
-import CartItemOptions from "../Product/CartItemOptions";
-import {updateCartInRoom} from "../../store/reducers/roomSlice";
-import {MaybeUndefined} from "../../helpers/productTypes";
+import {changeAmountType} from "../../helpers/cartTypes";
+import CartItemOptions from "../Sidebar/CartItemOptions";
+import {CartItemFrontType} from "../../helpers/cartTypes";
+import {RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
 
-const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }> = ({el, room_id = undefined}) => {
+const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
     const {
         _id,
+        room_id,
         price,
         amount,
         note,
@@ -26,23 +24,17 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
         image_active_number,
         product_type
     } = el;
-    const product = product_type !== 'custom'
-        ? getProductById(product_id, product_type === 'standard')
-        : getCustomPartById(product_id);
+    const {rooms} = useAppSelector<RoomsState>(state => state.room);
+    const room = rooms.find(el => el._id === room_id );
+    if (!room) return null;
+    const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
     const {name} = product;
-    const img = getCartItemImg(product, image_active_number)
+    const img = getCartItemImg(product, image_active_number);
+
 
     function changeAmount(type: changeAmountType) {
-        if (room_id) {
-            updateProductAmountAPI(room_id,_id, type === 'minus' ? amount - 1 : amount + 1).then((cart) => {
-                if (cart) {
-                    if (cart) dispatch(updateCartInRoom({cart: cart,_id:room_id}))
-                }
-            })
-        } else {
-            dispatch(updateProductAmount({_id, amount: type === 'minus' ? amount - 1 : amount + 1}))
-        }
+        dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }
 
     return (
@@ -51,7 +43,8 @@ const CheckoutCartItem: FC<{ el: CartItemType, room_id: MaybeUndefined<string> }
             <div>
                 <div className={s.itemName}>
                     <span>{name}</span>
-                    {getCustomCabinetString(isStandard) && <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
+                    {getCustomCabinetString(isStandard) &&
+                    <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
                 </div>
                 <div>
                     <CartItemOptions item={el}/>

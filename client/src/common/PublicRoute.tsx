@@ -1,14 +1,13 @@
-import {Navigate} from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
+import {useAppSelector} from "../helpers/helpers";
+import React from "react";
+import Loading from "./Loading";
 
-type LoginedRouteProps = {
-    isAuth: boolean;
-    outlet: JSX.Element;
-};
+export default function PublicRote() {
+    const user = useAppSelector(state => state.user.user);
+    const loading = useAppSelector(state => state.user.loading);
 
-export default function PublicRote({isAuth, outlet}: LoginedRouteProps) {
-    if(!isAuth) {
-        return outlet;
-    } else {
-        return <Navigate to={{ pathname: '/profile' }} />;
-    }
+    if (loading) return <Loading />;
+    if (user) return <Navigate to="/profile" />;
+    return <Outlet />;
 };

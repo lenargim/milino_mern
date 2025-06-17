@@ -14,10 +14,11 @@ export type SortAdminUsers = Partial<{
     [key in SortTypes]: 1 | -1
 }>;
 
-const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
+const ProfileEdit: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const admin = useAppSelector<AdminUsersRes>(state => state.admin);
+    const user = useAppSelector(state => state.user.user)!;
     const {users, sort, page, hasNextPage} = admin;
 
     useEffect(() => {
@@ -50,7 +51,7 @@ const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
         return ''
     }
     return (
-        <div className={s.roomsMain}>
+        <div>
             <h1>Enable Users</h1>
             <div className={s.table}>
                 <div className={s.tableHead}>

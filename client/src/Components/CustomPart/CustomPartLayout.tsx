@@ -2,12 +2,13 @@ import {Form, useFormikContext} from 'formik';
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
-import GlassDoorBlock from "./GlassDoorBlock";
-import GlassShelfBlock from "./GlassShelfBlock";
+import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
+import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import {CustomPartType} from "../../helpers/productTypes";
 import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
+import CustomPartSubmit from "./CustomPartSubmit";
 
-export type CustomPartFormValuesType = {
+export type CustomPartFormType = {
     Width: string,
     Height: string,
     Depth: string,
@@ -34,7 +35,7 @@ export type hingeHoleCustomType = {
     price: 6
 }
 
-export type DoorAccessoiresType = {
+export type DoorAccessoriesType = {
     aventos: HingeType[],
     door_hinge: number,
     hinge_holes: number,
@@ -43,7 +44,7 @@ export type DoorAccessoiresType = {
 
 }
 
-export interface DoorAccessoiresValuesType extends DoorAccessoiresType {
+export interface DoorAccessoriesValuesType extends DoorAccessoriesType {
     price: number,
     Note: string,
 }
@@ -55,7 +56,7 @@ export type CustomPartLayout = {
 }
 
 export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, isStandardCabinet}) => {
-    const {values} = useFormikContext<CustomPartFormValuesType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {
         price,
         glass_door
@@ -102,8 +103,8 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 </div>
               </div>
             }
-            {showGlassDoorBlock && <GlassDoorBlock glass_door={glass_door} is_custom={true}/>}
-            {showGlassShelfBlock && <GlassShelfBlock product={product}/>}
+            {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true}/>}
+            {showGlassShelfBlock && <CustomPartGlassShelfBlock product={product}/>}
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>
@@ -112,7 +113,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')}>Add to cart</button>
+            <CustomPartSubmit />
         </Form>
     );
 };

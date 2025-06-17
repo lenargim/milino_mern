@@ -4,12 +4,13 @@ import s from './profile.module.sass'
 import {EditProfileType, UserType} from "../../api/apiTypes";
 import {constructorLogin, updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
-import {useAppDispatch} from "../../helpers/helpers";
+import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import ProfileEditForm from "./ProfileEditForm";
 import {ProfileEditSchema} from "./ProfileEditSchema";
 
-const ProfileEdit: FC<{ user: UserType }> = ({user}) => {
+const ProfileEdit: FC = () => {
     const dispatch = useAppDispatch();
+    const user = useAppSelector(state => state.user.user)!;
     const getInitialValues = (user: UserType): EditProfileType => {
         const {is_active, is_active_in_constructor, is_super_user, email, ...userData} = user
         return {...userData, password: '', compare: ''}

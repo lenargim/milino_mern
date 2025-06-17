@@ -1,0 +1,203 @@
+@use 'src/styles/variables' as *
+
+.img
+  max-width: 800px
+  margin: 0 auto
+
+.category
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  gap: 15px
+  margin: 40px auto
+.item
+  position: relative
+  transition: all .2s ease
+  &:hover
+    transform: scale(1.08)
+  input
+    position: absolute
+    z-index: -1
+    opacity: 0
+  label
+    position: relative
+    text-align: center
+    cursor: pointer
+    padding: 10px
+    box-shadow: 4px 4px 5px rgba(0,0,0,.3)
+    border-radius: 5px
+    transition: all .2s ease
+    &:hover
+      box-shadow: 6px 6px 6px rgba(0,0,0,.3)
+  &.itemChecked label
+    box-shadow: 10px 10px 12px rgba(0,0,0,.5)
+    transform: scale(1.06)
+
+
+.list
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 20px 30px
+.item
+  display: flex
+  gap: 20px
+.itemImg
+  width: 100%
+  max-width: 320px
+  overflow: hidden
+  &.s
+    aspect-ratio: 4/3
+  &.m
+    aspect-ratio: 5/4
+  &.l
+    aspect-ratio: 25/31
+
+.name
+  font: 500 20px/1.2 $mainFont
+  margin-top: 1em
+  margin-bottom: 0.6em
+
+.roomForm
+  display: flex
+  flex-direction: column
+  gap: 20px
+  padding-bottom: 40px
+
+.orderBlock
+  display: block
+  position: relative
+  width: 100%
+  transition: all .3s ease
+  &:not(:last-of-type)
+    padding-bottom: 1em
+  &.checked
+    &:not(:last-of-type)
+      border-bottom: 2px solid $accentLight
+      padding-bottom: 3em
+      margin-bottom: 2em
+    h2
+      font-size: 16px
+      margin-bottom: .3em
+  h2
+    margin-bottom: .8em
+    transition: all .3s ease
+  &.errorBlock
+    position: relative
+    &::after
+      content: ''
+      display: block
+      border-radius: 50%
+      z-index: 1
+      left: -20px
+      top: 10px
+      position: absolute
+      border: 3px solid $red
+      pointer-events: none
+      animation: wave 1s linear infinite
+      transform-origin: center center
+
+.type
+  display: flex
+  flex-wrap: wrap
+  gap: 15px
+  padding-bottom: 50px
+  transition: all .3s ease
+  width: 100%
+  &.checked
+    gap: 10px
+    flex-wrap: nowrap
+    overflow-x: auto
+    padding: 10px 20px 15px 20px
+    position: relative
+    margin-left: -20px
+    margin-right: -20px
+    &::-webkit-scrollbar
+      display: none
+    .typeItem
+      display: inline-flex
+      width: calc(100%/8 - 80px/7)
+      min-width: calc(100%/8 - 80px/7)
+    label span
+      font-size: 14px
+
+.typeItem
+  position: relative
+  transition: all .3s ease
+  width: calc(25% - 45px/4)
+  input:checked + label
+    box-shadow: 20px 20px 120px 0 rgba(255, 255, 255, 0.9)
+    transform: scale(1.1)
+    background: rgba(255, 255, 255, 0.9)
+    z-index: 2
+    opacity: 1
+    span
+      opacity: 1
+  img
+    aspect-ratio: 16/9
+    transition: all .2s ease
+  label
+    cursor: pointer
+    position: relative
+    overflow: hidden
+    border-radius: 6px
+    opacity: .9
+    border: 2px solid rgba(0,0,0, 0.4)
+    box-shadow: 2px 2px 12px 0 rgba(0,0,0, 0.4)
+    &::after
+      content: attr(title)
+      position: absolute
+      font-size: 20px
+      text-align: center
+      bottom: 0
+      left: 0
+      right: 0
+      text-transform: uppercase
+      border-radius: 0 0 5px 5px
+      background-color: rgba(255, 255, 255, 0.8)
+
+    &:hover
+      transform: scale(1.08)
+      box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2)
+      cursor: pointer
+      opacity: 1
+      z-index: 1
+      span
+        opacity: .9
+
+    span
+      position: absolute
+      bottom: 0
+      text-align: center
+      white-space: nowrap
+      margin: 0 auto
+      width: 100%
+      font: 500 16.5px/1.1 $mainFont
+      opacity: .8
+      letter-spacing: -0.05em
+      text-transform: uppercase
+      transition: all .2s ease
+      background-color: rgba(255, 255, 255, .6)
+
+.typeItemSmall
+  width: calc(20% - 60px/5)
+
+.roomMain
+  position: relative
+
+.back
+  top: 20px
+  position: sticky
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  gap: .2em
+  transition: all .3s ease
+  opacity: .3
+  z-index: 2
+  &:hover
+    opacity: 1
+  &::before
+    content: '\2190'
+    width: 1em
+    height: 1em

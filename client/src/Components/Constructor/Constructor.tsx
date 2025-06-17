@@ -1,9 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
-import {UserType} from "../../api/apiTypes";
 import Iframe from "./Iframe";
 import {constructorLogin} from "../../api/apiFunctions";
+import {useAppSelector} from "../../helpers/helpers";
 
-const Constructor: FC<{ user: UserType }> = ({user}) => {
+const Constructor: FC = () => {
+    const user = useAppSelector(state => state.user.user)!;
     const {is_active_in_constructor, is_super_user} = user;
     const [hasPermission, setHasPermission] = useState<boolean>(false);
     const [isConstructorSigned, setIsConstructorSigned] = useState<boolean>(false);

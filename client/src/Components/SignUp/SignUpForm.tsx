@@ -15,6 +15,8 @@ const initialValues: SignUpFrontType = {
     phone: '',
     password: '',
     compare: '',
+    website: ''
+
 }
 
 const SignUpForm = () => {
@@ -44,6 +46,7 @@ const SignUpForm = () => {
                 <PhoneInput type="text" name="phone" label="Phone number"/>
                 <PasswordInput type={"password"} label={'Password'} name={'password'}/>
                 <PasswordInput type={"password"} label={'Confirm password'} name={'compare'}/>
+                <TextInput type={"text"} label={'Website'} name={'website'}/>
                 <button type="submit" className={['button yellow'].join(' ')}>Sign Up</button>
                 {userSuccessModalIsOpen && <UserWillBeActivated />}
             </Form>
@@ -54,7 +57,6 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 const UserWillBeActivated: FC = () => {
-    console.log('in')
     return (
         <div className={modalSt.notificationWrap}>
             <div className={modalSt.notification}>

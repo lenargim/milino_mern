@@ -1,11 +1,12 @@
-import {OrderType} from "../helpers/productTypes";
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
+import {CartOrder} from "../helpers/cartTypes";
 
 export type UserDataType = {
     name: string,
     company: string,
     email: string,
     phone: string,
+    website: string
 }
 
 export interface SignUpType extends UserDataType {
@@ -23,7 +24,7 @@ export interface UserType extends UserDataType {
     is_active_in_constructor: boolean
 }
 
-export interface UserTypeResponse extends UserType {
+export interface UserAndTokenType extends UserType {
     token: string
 }
 
@@ -32,7 +33,7 @@ export interface UserTypeCheckout {
     company: string,
     email: string,
     phone: string,
-    project: string,
+    room_name: string,
     delivery: string
 }
 
@@ -50,11 +51,13 @@ export type LogInType = {
     password: string
 }
 
-export type OrderTypeApi = {
+export type OrderTypeAPI = {
     user: string,
     room_id: string,
-    room_name: string,
-    order: OrderType[],
+    name: string,
+    purchase_order_id: string,
+    purchase_order_name: string,
+    cart: CartOrder[],
     total: number,
     createdAt: Date
 }

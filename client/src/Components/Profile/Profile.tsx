@@ -4,7 +4,6 @@ import {Outlet} from 'react-router-dom';
 import ProfileSidebar from "./ProfileSidebar";
 
 const Profile: FC = () => {
-
     return (
         <main className={s.profile}>
             <ProfileSidebar/>

@@ -23,6 +23,7 @@ const ProfileEditForm: FC<{ user: UserType }> = ({user}) => {
             <TextInput type={"text"} label={'Name'} name={'name'}/>
             <TextInput type={"text"} label={'Company'} name={'company'}/>
             <PhoneInput type="text" label="Phone number" name={'phone'}/>
+            <TextInput type={"text"} label={'Website'} name={'website'}/>
             <PasswordInput type={"password"} label={'Password'} name={'password'}/>
             <PasswordInput type={"password"} label={'Confirm password'} name={'compare'}/>
             <button type="submit" className={['button yellow'].join(' ')}

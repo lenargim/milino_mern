@@ -1,8 +1,9 @@
 import React, {FC} from 'react';
-import {UserType} from "../../api/apiTypes";
 import s from './profile.module.sass'
+import {useAppSelector} from "../../helpers/helpers";
 
-const ProfileMain:FC<{ user: UserType }> = ({user}) => {
+const ProfileMain:FC = () => {
+    const user = useAppSelector(state => state.user.user)!;
     const {name, email} = user
     return (
         <div className={s.profileMain}>

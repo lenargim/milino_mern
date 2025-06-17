@@ -3,19 +3,18 @@ import {useFormikContext} from 'formik';
 import CustomPartLayout from "./CustomPartLayout";
 import {CustomPartType} from "../../helpers/productTypes";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
-import {CustomPartFormValuesType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import {getFinishColorCoefCustomPart} from "../../helpers/helpers";
-import {MaterialsFormType} from "../../common/MaterialsForm";
+import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 type CustomPartCabinet = {
     product: CustomPartType,
-    materials: MaterialsFormType
+    materials: RoomMaterialsFormType
     isDepthIsConst: boolean,
     isStandardCabinet: boolean
 }
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormValuesType>();
-
+    const {values, setFieldValue, errors, touched} = useFormikContext<CustomPartFormType>();
     const {
         Material: material,
         glass_door: [doorProfileVal],

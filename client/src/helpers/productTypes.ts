@@ -1,8 +1,6 @@
 import {optionType} from "../common/SelectField";
-import {LEDAccessoriesType} from "../Components/CustomPart/LEDForm";
-import {DoorAccessoireAPIType} from "../Components/CustomPart/CustomPart";
-import {DoorType} from "../Components/CustomPart/StandardDoorForm";
-import {ledAlignmentType} from "../Components/Product/LED";
+import {ledAlignmentType} from "../Components/Product/ProductLED";
+import exp from "constants";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -11,11 +9,6 @@ export type DoorColorType = 1 | 2 | 3;
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
 export type MaybeNull<T> = T | null;
-
-function notEmpty<TValue>(value: MaybeUndefined<TValue>): value is TValue {
-    return value !== null && value !== undefined;
-}
-
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
@@ -63,19 +56,21 @@ export type productCategory =
 
 export type AngleType = false | 'flat' | 'corner';
 
-export type ProductType = {
+export type ProductOrCustomType = {
     id: number,
     name: string,
+    product_type: ProductApiType,
+    images: itemImg[],
+}
+
+export interface ProductType extends ProductOrCustomType{
     room: string,
     category: productCategory,
-    images: itemImg[],
     attributes: attrItem[],
     options: string[],
     legsHeight: number,
     isBlind: boolean,
     isAngle: AngleType,
-    isProductStandard: boolean,
-    product_type: ProductApiType,
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
@@ -90,25 +85,11 @@ export type ProductType = {
     horizontal_line?: number
 }
 
-
-export type productPricesType = {
-    id: number,
-    prices: {
-        type: pricesTypings,
-        data: pricePart[]
-    }[]
-}
-
-
-export type CustomPartType = {
-    id: number,
-    name: string,
+export interface CustomPartType extends ProductOrCustomType{
     type: CustomTypes,
-    product_type: 'custom',
     width?: number,
     depth?: number,
     height_range?: number[],
-    images: itemImg[],
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
     glass_shelf?: string[],
@@ -116,16 +97,12 @@ export type CustomPartType = {
 
 }
 
-export type customPartDataType = {
-    id: number,
-    name: string,
+export interface customPartDataType extends ProductOrCustomType{
     room: string,
-    product_type: 'custom',
     type: CustomTypes,
     category: productCategory,
     width?: number,
     depth?: number,
-    images: itemImg[],
     price?: number,
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
@@ -333,31 +310,6 @@ export type CartExtrasType = {
     boxFromFinishMaterial: boolean
 }
 
-export type OrderType = {
-    product_id: number,
-    price: number,
-    amount: number,
-    width: number,
-    height: number,
-    depth: number,
-    blind_width: number,
-    middle_section: number,
-    corner: MaybeEmpty<cornerTypes>,
-    hinge: hingeTypes,
-    options: string[],
-    shelf_option: string
-    led_border: string[],
-    led_alignment: string,
-    led_indent: string,
-    material?: string,
-    glass_door: string[],
-    glass_shelf?: string,
-    led_accessories?: LEDAccessoriesType,
-    door_accessories?: DoorAccessoireAPIType[],
-    standard_door?: DoorType
-    note: string,
-}
-
 export type AttributesPrices = {
     ptoDoors: number,
     ptoDrawers: number,
@@ -394,7 +346,7 @@ type initialStandardValues = {
     image_active_number: productTypings
 }
 
-export interface productValuesType extends initialStandardValues {
+export interface ProductFormType extends initialStandardValues {
     "Custom Width": MaybeEmpty<number>,
     'Custom Blind Width': MaybeEmpty<number>,
     'Custom Height': MaybeEmpty<number>,
@@ -403,9 +355,7 @@ export interface productValuesType extends initialStandardValues {
     'Custom Height Number': MaybeEmpty<number>,
     'Custom Depth Number': MaybeEmpty<number>,
     'Middle Section Number': MaybeEmpty<number>,
-    // 'Door Profile': string,
-    // 'Door Glass Type': string,
-    // 'Door Glass Color': string,
     glass_door: string[],
-    'Shelf Glass Color': string,
+    glass_shelf: string
+
 }

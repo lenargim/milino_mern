@@ -17,6 +17,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  website: {
+    type: String,
+  },
   is_active: {
     type: Boolean,
   },

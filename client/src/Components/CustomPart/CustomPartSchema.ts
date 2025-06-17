@@ -1,9 +1,11 @@
 import * as Yup from 'yup';
 import {CustomPartType} from "../../helpers/productTypes";
 import {numericQuantity} from 'numeric-quantity';
+import {colorsArr} from "./CustomPartGolaProfile";
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
+
     const customSchema = Yup.object({
         'Width': Yup.string()
             .required('Please wright down width')
@@ -54,8 +56,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     const maxHeight = sizeLimit.height && sizeLimit.height[1] || 999;
                     return numberVal <= maxHeight;
                 }
-            )
-        ,
+            ),
         'Depth': Yup.string()
             .required('Please wright down depth')
             .test('min',
@@ -132,9 +133,25 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             return customSchema.concat(shelfDoorSchema)
         case "led-accessories":
             return Yup.object({
+                led_accessories: Yup.object().shape({
+                    led_alum_profiles: Yup.array().of(
+                            Yup.object().shape({
+                                length: Yup.string().required('Set length'),
+                                ['length Number']: Yup.number().positive('Must be positive number').default(0),
+                                qty: Yup.number().positive()
+                            })
+                        ),
+                    led_gola_profiles: Yup.array().of(
+                        Yup.object().shape({
+                            length: Yup.string().required('Set length'),
+                            ['length Number']: Yup.number().positive('Must be positive number').default(0),
+                            color: Yup.string().oneOf(colorsArr),
+                            qty: Yup.number().positive()
+                        })
+                    ),
+                }),
                 price: Yup.number().required().positive()
             })
-
         case "door-accessories":
             return Yup.object({
                 price: Yup.number().required().positive(),
@@ -143,10 +160,19 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
         case "standard-glass-door":
             return Yup.object({
                 standard_door: Yup.object().shape({
-                    doors: Yup.array().of(Yup.object().shape({
-                        name: Yup.string(),
-                        qty: Yup.number().integer().positive()
-                    })).min(1),
+                    doors: Yup.array()
+                        .of(Yup.object().shape({
+                            name: Yup.string(),
+                            qty: Yup.number().integer().positive()
+                        }))
+                        .default([])
+                        .test({
+                            message: 'Choose at least one door',
+                            test: doors => {
+                                return !!(doors.length && doors[0].name);
+
+                            },
+                        }),
                     color: Yup.string().required('Choose Color')
                 }),
                 price: Yup.number().required().positive(),
