@@ -129,7 +129,7 @@ export function addGlassShelfPrice(qty: number): number {
     return settings.fixPrices["Glass Shelf"] * qty || 0
 }
 
-export function addGlassDoorPrice(square: number, profileName: string, is_standard: boolean, hasGlassDoor: boolean): number {
+export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<string>, is_standard: boolean, hasGlassDoor: boolean): number {
     if (!hasGlassDoor) return 0;
     if (is_standard) return square * 10;
 
