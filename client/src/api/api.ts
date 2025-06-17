@@ -15,19 +15,20 @@ import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
 import {CartAPIResponse, CartNewType} from "../helpers/cartTypes";
 
 const instanceFormData = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         'Content-Type': "multipart/form-data"
-    }
+    },
+    baseURL: process.env.REACT_APP_BASE_URL,
+    withCredentials: true,
 });
 
 const instance = axios.create({
-    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },
     baseURL: process.env.REACT_APP_BASE_URL,
-    responseType: 'json'
+    responseType: 'json',
+    withCredentials: true,
 });
 
 const prodboard_instance = axios.create({
@@ -47,7 +48,7 @@ const getConstructorHeaders = () => ({
 })
 
 export const checkoutAPI = {
-    postEmail: (form: FormData, company: string) => instanceFormData.post(`/email/${company}`, form),
+    postEmail: (form: FormData, company: string) => instanceFormData.post(`/email/${company}`, form, {headers: getHeaders()}),
     getCheckoutRooms: (purchase_id: string): Promise<AxiosResponse<RoomOrderType[]>> => instance.get(`/email/pdf/${purchase_id}`, {headers: getHeaders()}),
     getCheckoutRoomsAmount: (purchase_id: string): Promise<AxiosResponse<number>> => instance.get(`/email/pdf/amount/${purchase_id}`, {headers: getHeaders()}),
 }

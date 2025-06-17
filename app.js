@@ -54,7 +54,7 @@ app.use(CORS);
 const start = async () => {
   try {
     // Mail
-    app.post('/api/email/:company_name', CORS, upload.fields([
+    app.post('/api/email/:company_name', checkAuth, upload.fields([
       {name: 'pdf', maxCount: 1},
       {name: 'json', maxCount: 1}
     ]), PDFController.SendPDF);
