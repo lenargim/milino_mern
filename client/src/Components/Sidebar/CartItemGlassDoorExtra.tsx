@@ -4,10 +4,11 @@ import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
-    const {glass: {door: glass_door}, custom} = product;
-    if (!custom) return null;
-    const {material} = custom
+    const {glass: glassObj, custom} = product;
+    if (!glassObj || !custom) return null;
+    const {door: glass_door} = glassObj;
     if (!glass_door) return null;
+    const {material} = custom
     return (
         <>
             <Dimentions dimensions={dimensions}/>

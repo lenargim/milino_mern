@@ -4,6 +4,7 @@ import {getFraction} from "../../helpers/helpers";
 import {s} from "./PDFOrder";
 import Dimensions from "./Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import CartItemChosenOptions from "./CartItemChosenOptions";
 
 const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
     const {
@@ -17,7 +18,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
         glass
     } = product;
     const {indent, alignment, border} = led;
-    const {door:glass_door, shelf:glass_shelf} = glass;
 
     return (
         <View>
@@ -47,26 +47,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
                     <Text>Corner: {corner}</Text>
                 </View> : null
             }
-            {options.length ?
-                <View>
-                    <Text style={s.itemOption}>Options:</Text>
-                    {options.includes('Glass Door') && glass_door ?
-                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
-                            <Text>Glass Door: {glass_door.filter(el => !!el).join(', ')}</Text>
-                        </View> : null
-                    }
-
-                    {options.includes('Glass Shelf') && glass_shelf ?
-                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption}>
-                            <Text>Glass Shelf: {glass_shelf}</Text>
-                        </View> : null
-                    }
-                    {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
-                        <View style={!isStandard.options ? s.itemOptionCustom:s.itemOption} key={index}>
-                            <Text>{el}</Text>
-                        </View>)}
-                </View> : null
-            }
+            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard} />
         </View>
     )
 }

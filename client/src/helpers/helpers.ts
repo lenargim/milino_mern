@@ -735,14 +735,14 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             const customPart = product_or_custom as CustomPartType;
             const {type, standard_price} = customPart;
             const {accessories, standard_door, standard_panels, material} = custom!;
-            const {door: glass_door_val} = glass;
+            // const {door: glass_door_val} = glass;
             const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
             const isStandardPanel = ["standard-panel"].includes(type);
             let price: number = 0;
 
             if (isCabinetLayout) {
                 const finishColorCoef = getFinishColorCoefCustomPart(product_id, material, door_color);
-                const profileName = glass_door_val ? glass_door_val[0] : '';
+                const profileName = glass?.door?.length ? glass.door[0] : '';
                 price = +(getCustomPartPrice(product_id, width, height, depth, material, profileName) * finishColorCoef).toFixed(1);
             }
 
@@ -1015,8 +1015,8 @@ export const createOrderFormData = async (po_rooms_api:RoomOrderType[], po_blob:
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, materials);
         const cart_orders: CartOrder[] = cartFront.map((el) => {
-            const {subcategory, isStandard, image_active_number, _id, room_id, glass, ...cart_order_item} = el;
-            return {...cart_order_item, glass: {door: glass.door ?? [], shelf: glass.shelf ?? ''}};
+            const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
+            return cart_order_item;
         })
         return {
             materials,

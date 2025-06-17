@@ -5,13 +5,13 @@ import Dimensions from "./Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemShelfExtra: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
-    const {glass: {shelf: glass_shelf}} = product
-    if (!glass_shelf) return null;
+    if (!product.glass?.shelf) return null;
+
     return (
         <>
             <Dimensions dimensions={dimensions}/>
             <View style={s.itemOption}>
-                <Text>Glass Color: {glass_shelf}</Text>
+                <Text>Glass Color: {product.glass.shelf}</Text>
             </View>
         </>
     );

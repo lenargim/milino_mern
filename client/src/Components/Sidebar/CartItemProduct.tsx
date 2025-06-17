@@ -3,6 +3,7 @@ import s from "./sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
 import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import CartItemChosenOptions from "./CartItemChosenOptions";
 
 const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {
@@ -16,7 +17,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
         isStandard
     } = product;
     const {indent:led_indent, alignment:led_alignment, border:led_border} = led;
-    const {door:glass_door, shelf:glass_shelf} = glass
 
     return (
         <>
@@ -51,30 +51,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
                     <span>{corner}</span>
                 </div> : null
             }
-            {options.length ?
-                <>
-                    <div>Options:</div>
-                    {options.includes('Glass Door') && glass_door ?
-                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
-                            <span>Glass Door:</span>
-                            <span>{glass_door.filter(el => !!el).join(', ')}</span>
-                        </div> : null
-                    }
-
-                    {options.includes('Glass Shelf') && glass_shelf ?
-                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')}>
-                            <span>Glass Shelf:</span>
-                            <span>{glass_shelf}</span>
-                        </div> : null
-                    }
-
-                    {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
-                        <div className={[s.itemOption, !isStandard.options ? s.itemOptionCustom:''].join(' ')} key={index}>
-                            <span>{el}:</span>
-                            <span>True</span>
-                        </div>)}
-                </> : null
-            }
+            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
         </>
     )
 }

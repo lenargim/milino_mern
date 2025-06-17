@@ -859,7 +859,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_closet);
     const hasGlassDoor = options.includes('Glass Door');
-    const glassDoorProfile = glass.door ? glass.door[0] : undefined;
+    const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
 
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,

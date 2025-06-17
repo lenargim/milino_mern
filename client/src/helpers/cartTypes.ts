@@ -16,10 +16,7 @@ export type CartNewType = {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
-    glass: {
-        door: MaybeUndefined<string[]>,
-        shelf: MaybeUndefined<string>,
-    },
+    glass: MaybeUndefined<GlassAPIType>,
     led: {
         border: string[],
         alignment: string,
@@ -27,6 +24,11 @@ export type CartNewType = {
     },
     custom: MaybeUndefined<CartCustomType>,
     note: string,
+}
+
+export type GlassAPIType = {
+    door: MaybeUndefined<string[]>,
+    shelf: MaybeUndefined<string>,
 }
 
 export interface CartAPI extends CartNewType {
@@ -53,10 +55,7 @@ export interface CartOrder {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
-    glass: {
-        door: string[],
-        shelf: string,
-    },
+    glass: MaybeUndefined<GlassAPIType>,
     led: {
         border: string[],
         alignment: string,
