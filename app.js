@@ -106,6 +106,17 @@ const start = async () => {
 
 start()
 
-app.listen(PORT, () => {
-  console.log(`listening port ${PORT}`);
-})
+// app.listen(PORT, () => {
+//   console.log(`listening port ${PORT}`);
+// })
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Listening on port ${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
+});
