@@ -5,7 +5,7 @@ import Fraction from "fraction.js";
 import {
     AngleType,
     attrItem,
-    customPartDataType,
+    CustomPartDataType,
     CustomPartType,
     hingeArr,
     itemImg,
@@ -27,7 +27,6 @@ import {
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
-import customParts from '../api/customPart.json';
 import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
     calculateProduct,
@@ -213,18 +212,12 @@ export const getProductsByCategory = (category: productCategory, isStandardCabin
 }
 
 
-export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
+export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): CustomPartDataType[] => {
+    const standardDoorCustomParts = cabinets as ProductOrCustomType[];
     let exceptionIds: number[] = [];
     exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921];
-    const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
-    return standardDoorCustomParts as customPartDataType[];
+    return standardDoorCustomParts.filter(el => el.product_type === 'custom' && !exceptionIds.includes(el.id)) as CustomPartDataType[];
 }
-
-// export const getCustomPartById = (id: number): MaybeNull<CustomPartType> => {
-//     const arr = customParts as CustomPartType[];
-//     const product = arr.find(part => +part.id === id);
-//     return product ? product : null;
-// }
 
 export const getInitialMaterialData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardCabinet: boolean): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
@@ -1031,7 +1024,7 @@ export const me = async (token: MaybeNull<string>) => {
     }
 }
 
-export const createOrderFormData = async (po_rooms_api:RoomOrderType[], po_blob:Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, materials);

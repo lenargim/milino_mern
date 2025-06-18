@@ -97,7 +97,7 @@ export interface CustomPartType extends ProductOrCustomType{
 
 }
 
-export interface customPartDataType extends ProductOrCustomType{
+export interface CustomPartDataType extends ProductOrCustomType{
     room: string,
     type: CustomTypes,
     category: productCategory,

@@ -6678,7 +6678,7 @@
   {
     "id": 903,
     "product_type": "custom",
-    "name": "Panels",
+    "name": "Panel, Filler, WTK",
     "type": "custom",
     "depth": 0,
     "materials_array": [
@@ -7199,7 +7199,7 @@
   {
     "id": 922,
     "product_type": "custom",
-    "name": "Plastic Toe Kick And Filler",
+    "name": "Plastic Toe Kick",
     "type": "plastic_toe",
     "width": 156,
     "height_range": [4.5,6],

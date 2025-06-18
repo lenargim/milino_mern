@@ -7,7 +7,7 @@ import {
     getProductImage, getProductsByCategory
 } from "../../helpers/helpers";
 import {
-    customPartDataType,
+    CustomPartDataType,
     productCategory, ProductType,
     productTypings
 } from "../../helpers/productTypes";
@@ -62,7 +62,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
     )
 }
 
-const Part: FC<{ product: customPartDataType }> = ({product}) => {
+const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
     const {name, images, id} = product;
     return (
         <NavLink to={`product/${id}`} className={s.item}>
