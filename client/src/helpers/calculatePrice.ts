@@ -295,6 +295,7 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Milino":
             return square * 36;
         case "Syncron":
+        case "Micro Milino":
             return square * 48;
         case "Luxe":
         case "Ultrapan PET":
@@ -312,8 +313,10 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
     }
 }
 
-function getSlattedPanelPrice(square: number): number {
-    return square * 48;
+function getSlattedPanelPrice(square: number, material:MaybeUndefined<string>): number {
+    if (!material) return 0;
+    if (material === 'Milino') return square * 48;
+    return square * 60;
 }
 
 function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
@@ -470,6 +473,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: bo
                 }
                 break;
             case 'Finger Pull':
+            case 'Five piece shaker':
                 if (door_finish_material === 'Zenit') return 1.03;
                 break;
             case 'Painted':
@@ -567,7 +571,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ca
                 if (door_finish_material === 'Syncron') return 30;
                 return 36;
             case "Painted":
-                return 37.8;
+                return 43.2;
             case "Micro Shaker":
                 if (door_finish_material === 'Milino') return 30;
                 return 36;
@@ -772,7 +776,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
             let decorPrice = area > 4 ? area * 64 : 240;
             return material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
         case 912:
-            return getSlattedPanelPrice(area);
+            return getSlattedPanelPrice(area, material);
         case 913:
             let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
             return material === 'Ultrapan Acrylic' ? shakerDoorPrice * 1.1 : shakerDoorPrice

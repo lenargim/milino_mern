@@ -7241,6 +7241,20 @@
     "type": "custom",
     "materials_array": [
       {
+        "name": "Micro Milino",
+        "limits": {
+          "width": [
+            5,
+            108
+          ],
+          "height": [
+            5,
+            108
+          ]
+        },
+        "depth": 0.75
+      },
+      {
         "name": "Zenit",
         "limits": {
           "width": [
