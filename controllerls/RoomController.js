@@ -29,7 +29,7 @@ export const create = async (req, res) => {
       is_deleted: false
     })
 
-    // Проверяем, есть ли в бд PO с таким именем (без учета регистра и из неудаленных);
+    // Проверяем, есть ли в бд у PO комната с таким именем (без учета регистра и из неудаленных);
     const Room = await RoomModel.findOne({
       purchase_order_id: req.body.purchase_order_id,
       name: { $regex: `^${req.body.name}$`, $options: 'i' },

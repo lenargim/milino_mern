@@ -143,7 +143,7 @@ export const getMe = async (req, res) => {
 
     res.json(userData);
   } catch (e) {
-    res.status(403).json({
+    res.status(401).json({
       message: 'Cannot auth'
     })
   }
@@ -176,13 +176,19 @@ export const patchMe = async (req, res) => {
 
 export const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
-  if (!token) return res.sendStatus(401).json({message: "No refresh token"});
+  if (!token) return res.sendStatus(401).json({
+    type: 'token-refresh',
+    message: "No refresh token"
+  });
 
   try {
     const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
     const { accessToken } = generateTokens(decoded.id);
     res.json(accessToken);
   } catch {
-    res.sendStatus(403);
+    res.sendStatus(401).json({
+      type: 'token-refresh',
+      message: "Wrong refresh token"
+    });
   }
 }

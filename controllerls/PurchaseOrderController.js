@@ -30,9 +30,10 @@ export const create = async (req, res) => {
       ...req.body,
       is_deleted: false
     })
-    // Проверяем, есть ли в бд PO с таким именем (без учета регистра);
+    // Проверяем, есть ли в бд PO с таким именем (без учета регистра) у конкретного пользователя;
     const PO = await PurchaseOrder.findOne({
       name: { $regex: `^${req.body.name}$`, $options: 'i' },
+      user_id: req.body.user_id,
       is_deleted: false
     }).exec();
     if (PO) {
