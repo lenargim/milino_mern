@@ -30,6 +30,10 @@
         "type": 2
       },
       {
+        "value": "1021 Gold",
+        "type": 2
+      },
+      {
         "value": "1022 Black",
         "type": 3
       },
@@ -38,7 +42,7 @@
         "type": 3
       },
       {
-        "value": "1022 Clear Anodized",
+        "value": "1022 Graphite",
         "type": 3
       },
       {
@@ -67,6 +71,24 @@
       },
       {
         "value": "1040 White",
+        "type": 2
+      },
+      {
+        "value": "1040 Black Matte",
+        "type": 2
+      },
+      {
+        "value": "1040 Bronze Matte",
+        "type": 2
+      },
+      {
+        "value": "1040 Gold",
+        "type": 2
+      },{
+        "value": "1040 Golden Sand Matte",
+        "type": 2
+      },{
+        "value": "1040 Graphite Matte",
         "type": 2
       },
       {
@@ -102,6 +124,26 @@
         "type": 3
       },
       {
+        "value": "1042 Black Matte",
+        "type": 3
+      },
+      {
+        "value": "1042 Bronze",
+        "type": 3
+      },
+      {
+        "value": "1042 Golden Sand Matte",
+        "type": 3
+      },
+      {
+        "value": "1042 Graphite Matte",
+        "type": 3
+      },
+      {
+        "value": "1042 Mint Matte",
+        "type": 3
+      },
+      {
         "value": "1070 Champagne",
         "type": 3
       },
@@ -111,6 +153,10 @@
       },
       {
         "value": "1070 Silver",
+        "type": 3
+      },
+      {
+        "value": "1070 Graphite",
         "type": 3
       }
     ],
