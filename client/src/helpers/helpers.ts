@@ -151,7 +151,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     return range[category] ? [range[category], 0] : [0];
 }
 
-export function getHingeArr(doorArr: number[], product_id: number): string[] {
+export function getHingeArr(doorArr: number[], product_id: number, width:number, height:number, product_type: ProductApiType): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
     let arr: string[] = [];
     const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211, 216];
@@ -161,6 +161,13 @@ export function getHingeArr(doorArr: number[], product_id: number): string[] {
     const tall_type_4: number[] = [217, 218, 219, 220];
 
     if (no_hinge.includes(product_id)) return arr;
+
+    // exceptions in standard products
+    if (product_type === 'standard') {
+        if (product_id === 101 && width === 24 && height >=36) return [double];
+    }
+
+
     if (tall_type_1.includes(product_id)) {
         if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
         if (doorArr.includes(4)) arr.push(double, four)
@@ -876,6 +883,12 @@ export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, produc
 
 export const isShowMiddleSectionBlock = (hasMiddleSection: MaybeUndefined<true>, middleSectionDefault: MaybeUndefined<number>, isProductStandard: boolean): boolean => {
     return !!(hasMiddleSection && !isProductStandard && middleSectionDefault)
+}
+
+export const isShowHingeBlock = (hingeArr:string[], id:number, product_type:ProductApiType):boolean => {
+    if (hingeArr.length < 2) return false;
+    // if ( id === 101 && product_type === 'standard') return false;
+    return true
 }
 
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {

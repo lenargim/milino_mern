@@ -17,7 +17,7 @@ import ProductHingeBlock from "./ProductHingeBlock";
 import ProductCornerBlock from "./ProductCornerBlock";
 import {
     getHeightRange,
-    isShowBlindWidthBlock,
+    isShowBlindWidthBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
 import ProductLED from "./ProductLED";
@@ -36,7 +36,20 @@ const ProductLayout: FC<CabinetFormType> = ({
                                                 hingeArr,
                                                 tablePriceData
                                             }) => {
-    const {hasSolidWidth, hasMiddleSection, middleSectionDefault, isAngle, isCornerChoose, hasLedBlock, blindArr, product_type, id, category, customHeight, attributes} = product;
+    const {
+        hasSolidWidth,
+        hasMiddleSection,
+        middleSectionDefault,
+        isAngle,
+        isCornerChoose,
+        hasLedBlock,
+        blindArr,
+        product_type,
+        id,
+        category,
+        customHeight,
+        attributes
+    } = product;
     const {values, isSubmitting} = useFormikContext<ProductFormType>();
     const {widthRange, heightRange, depthRange} = productRange;
 
@@ -50,11 +63,12 @@ const ProductLayout: FC<CabinetFormType> = ({
         price
     } = values;
 
-    const widthRangeWithCustom = product_type === "standard" ? widthRange :widthRange.concat([0]);
-    const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category,customHeight)
+    const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
+    const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category, customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
-    const showBlindWidthBlock = isShowBlindWidthBlock(blindArr,product_type)
-    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection,middleSectionDefault,product_type === "standard");
+    const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
+    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection, middleSectionDefault, product_type === "standard");
+    const showHingeBlock = isShowHingeBlock(hingeArr, id, product_type)
     return (
         <Form>
             {!hasSolidWidth ?
@@ -64,7 +78,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                         {widthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
                                                                                          name={'Width'}
                                                                                          value={w}/>)}
-                        {!width && <ProductInputCustom  name={'Custom Width'}/>}
+                        {!width && <ProductInputCustom name={'Custom Width'}/>}
                     </div>
                 </div> : null}
             {showBlindWidthBlock ?
@@ -72,8 +86,8 @@ const ProductLayout: FC<CabinetFormType> = ({
                     <h3>Blind width</h3>
                     <div className={s.options}>
                         {blindArr && blindArr.map((w, index) => <ProductRadioInputCustom key={index}
-                                                                             name={'Blind Width'}
-                                                                             value={w}/>)}
+                                                                                         name={'Blind Width'}
+                                                                                         value={w}/>)}
                         {!blindWidth && <ProductInputCustom name={'Custom Blind Width'}/>}
                     </div>
                 </div> : null
@@ -100,14 +114,14 @@ const ProductLayout: FC<CabinetFormType> = ({
                     </div>
                     : null}
                 {showMiddleSectionBlock &&
-                  <div className={s.block}>
-                    <h3>Cutout Height</h3>
-                    <ProductInputCustom name={'Middle Section'}/>
-                  </div>
+                <div className={s.block}>
+                  <h3>Cutout Height</h3>
+                  <ProductInputCustom name={'Middle Section'}/>
+                </div>
                 }
             </div>
 
-            <ProductHingeBlock hingeArr={hingeArr}/>
+            {showHingeBlock ? <ProductHingeBlock hingeArr={hingeArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
             <ProductLED hasLedBlock={hasLedBlock}/>
             <ProductOptionsBlock filteredOptions={filteredOptions}

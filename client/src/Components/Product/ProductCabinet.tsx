@@ -83,7 +83,7 @@ const ProductCabinet: FC<CabinetType> = ({
     const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     const realMiddleSection = middleSectionNumber || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
-    const hingeArr = getHingeArr(doorArr || [], id);
+    const hingeArr = getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type);
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const cabinetItem: CartAPIImagedType = {
         _id: '',

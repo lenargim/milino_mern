@@ -6,7 +6,6 @@ type HingeBlockType = {
     hingeArr: string[]
 }
 const ProductHingeBlock: FC<HingeBlockType> = ({hingeArr}) => {
-    if (hingeArr.length < 2) return null;
     return (
         <div className={s.block}>
             <h3>Hinge opening</h3>
