@@ -85,7 +85,6 @@ export const updateRoom = async (req, res, next) => {
         })
       }
       req.params.id = req.body.purchase_order_id;
-      console.log(req.params.id)
       next()
     });
   } catch (e) {

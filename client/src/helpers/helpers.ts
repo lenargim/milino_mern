@@ -832,11 +832,6 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     return 1;
 }
 
-// const getProductApiType = (category: productCategory, isProductStandard: boolean): ProductApiType => {
-//     if (category === 'Custom Parts') return 'custom'
-//     return isProductStandard ? 'standard' : 'cabinet'
-// }
-
 export const getCartItemImg = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
     const {product_type, images} = product;
     if (product_type === 'custom') {

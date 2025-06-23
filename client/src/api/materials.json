@@ -51,11 +51,6 @@
               "img": "Beige-Linen-Melamine.jpg"
             },
             {
-              "value": "Blanco Wood Melamine",
-              "img": "Blanco-Wood-Melamine.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
@@ -104,11 +99,6 @@
             {
               "value": "Agave Natural Wood",
               "img": "Agave Natural Wood.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Anniversary Oak 1",
-              "img": "Anniversary Oak 1.jpg",
               "isGrain": true
             },
             {
@@ -167,11 +157,6 @@
               "img": "Como Ash 3.jpg"
             },
             {
-              "value": "Evora 3",
-              "isGrain": true,
-              "img": "Evora 3.jpg"
-            },
-            {
               "value": "Evora 4",
               "isGrain": true,
               "img": "Evora 4.jpg"
@@ -202,16 +187,6 @@
               "img": "Ice 1.jpg"
             },
             {
-              "value": "Ice 2",
-              "isGrain": true,
-              "img": "Ice 2.jpg"
-            },
-            {
-              "value": "Ice 3",
-              "isGrain": true,
-              "img": "Ice 3.jpg"
-            },
-            {
               "value": "Ice 4",
               "isGrain": true,
               "img": "Ice 4.jpg"
@@ -235,11 +210,6 @@
               "value": "Ida 4",
               "isGrain": true,
               "img": "Ida 4.jpg"
-            },
-            {
-              "value": "Lakeland Oak 1",
-              "isGrain": true,
-              "img": "Lakeland Oak 1.jpg"
             },
             {
               "value": "Lakeland Oak 2",
@@ -1029,11 +999,6 @@
               "isGrain": true
             },
             {
-              "value": "Anniversary Oak 1",
-              "img": "Anniversary Oak 1.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Anniversary Oak 2",
               "img": "Anniversary Oak 2.jpg",
               "isGrain": true
@@ -1089,11 +1054,6 @@
               "img": "Como Ash 3.jpg"
             },
             {
-              "value": "Evora 3",
-              "isGrain": true,
-              "img": "Evora 3.jpg"
-            },
-            {
               "value": "Evora 4",
               "isGrain": true,
               "img": "Evora 4.jpg"
@@ -1124,16 +1084,6 @@
               "img": "Ice 1.jpg"
             },
             {
-              "value": "Ice 2",
-              "isGrain": true,
-              "img": "Ice 2.jpg"
-            },
-            {
-              "value": "Ice 3",
-              "isGrain": true,
-              "img": "Ice 3.jpg"
-            },
-            {
               "value": "Ice 4",
               "isGrain": true,
               "img": "Ice 4.jpg"
@@ -1157,11 +1107,6 @@
               "value": "Ida 4",
               "isGrain": true,
               "img": "Ida 4.jpg"
-            },
-            {
-              "value": "Lakeland Oak 1",
-              "isGrain": true,
-              "img": "Lakeland Oak 1.jpg"
             },
             {
               "value": "Lakeland Oak 2",
@@ -1565,11 +1510,6 @@
           "img": "syncron.jpg",
           "colors": [
             {
-              "value": "Como Ash 1 FP",
-              "img": "Como Ash 1.jpg",
-              "isGrain": 1
-            },
-            {
               "value": "Como Ash 2 FP",
               "img": "Como Ash 2.jpg",
               "isGrain": 1
@@ -1602,11 +1542,6 @@
             {
               "value": "Rosales 3 FP",
               "img": "Rosales 3.jpg",
-              "isGrain": 1
-            },
-            {
-              "value": "Woodline 1 FP",
-              "img": "Woodline 1.jpg",
               "isGrain": 1
             },
             {
@@ -1660,11 +1595,6 @@
               "img": "Beige-Linen-Melamine.jpg"
             },
             {
-              "value": "Blanco Wood Melamine",
-              "img": "Blanco-Wood-Melamine.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
@@ -1711,11 +1641,6 @@
           "img": "syncron.jpg",
           "colors": [
             {
-              "value": "Anniversary Oak 1",
-              "isGrain": true,
-              "img": "Anniversary Oak 1.jpg"
-            },
-            {
               "value": "Anniversary Oak 2",
               "isGrain": true,
               "img": "Anniversary Oak 2.jpg"
@@ -1756,11 +1681,6 @@
               "img": "Como Ash 3.jpg"
             },
             {
-              "value": "Evora 3",
-              "isGrain": true,
-              "img": "Evora 3.jpg"
-            },
-            {
               "value": "Evora 4",
               "isGrain": true,
               "img": "Evora 4.jpg"
@@ -1791,16 +1711,6 @@
               "img": "Ice 1.jpg"
             },
             {
-              "value": "Ice 2",
-              "isGrain": true,
-              "img": "Ice 2.jpg"
-            },
-            {
-              "value": "Ice 3",
-              "isGrain": true,
-              "img": "Ice 3.jpg"
-            },
-            {
               "value": "Ice 4",
               "isGrain": true,
               "img": "Ice 4.jpg"
@@ -1824,11 +1734,6 @@
               "value": "Ida 4",
               "isGrain": true,
               "img": "Ida 4.jpg"
-            },
-            {
-              "value": "Lakeland Oak 1",
-              "isGrain": true,
-              "img": "Lakeland Oak 1.jpg"
             },
             {
               "value": "Lakeland Oak 2",
@@ -2272,11 +2177,6 @@
               "img": "Beige-Linen-Melamine.jpg"
             },
             {
-              "value": "Blanco Wood Melamine",
-              "img": "Blanco-Wood-Melamine.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
@@ -2325,11 +2225,6 @@
             {
               "value": "Agave Natural Wood",
               "img": "Agave Natural Wood.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Anniversary Oak 1",
-              "img": "Anniversary Oak 1.jpg",
               "isGrain": true
             },
             {
@@ -2388,11 +2283,6 @@
               "isGrain": true
             },
             {
-              "value": "Evora 3",
-              "img": "Evora 3.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Evora 4",
               "img": "Evora 4.jpg",
               "isGrain": true
@@ -2423,16 +2313,6 @@
               "isGrain": true
             },
             {
-              "value": "Ice 2",
-              "img": "Ice 2.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Ice 3",
-              "img": "Ice 3.jpg",
-              "isGrain": true
-            },
-            {
               "value": "Ice 4",
               "img": "Ice 4.jpg",
               "isGrain": true
@@ -2455,11 +2335,6 @@
             {
               "value": "Ida 4",
               "img": "Ida 4.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Lakeland Oak 1",
-              "img": "Lakeland Oak 1.jpg",
               "isGrain": true
             },
             {

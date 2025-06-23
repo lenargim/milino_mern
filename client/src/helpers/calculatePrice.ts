@@ -543,6 +543,7 @@ const getBoxMaterialCoef = (box_material: string, product_id:number): number => 
     }
 }
 
+
 const getBoxMaterialFinishCoef = (door_finish_material:string, door_color:string): number => {
     switch (door_finish_material) {
         case "Milino":
