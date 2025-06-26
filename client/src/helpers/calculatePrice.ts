@@ -827,9 +827,9 @@ export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: m
 
 const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: boolean): number => {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
-    console.log(`box_material_coef ${box_material_coef}`)
-    console.log(`grain_coef ${grain_coef}`)
-    console.log(`materials_coef ${materials_coef}`)
+    // console.log(`box_material_coef ${box_material_coef}`)
+    // console.log(`grain_coef ${grain_coef}`)
+    // console.log(`materials_coef ${materials_coef}`)
     const boxCoef = boxFromFinishMaterial ? box_material_finish_coef : box_material_coef;
     return +(boxCoef * materials_coef * grain_coef).toFixed(3);
 }
