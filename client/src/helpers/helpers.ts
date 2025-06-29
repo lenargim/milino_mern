@@ -1,4 +1,4 @@
-import {AppDispatch, RootState, store} from "../store/store";
+import {AppDispatch, RootState} from "../store/store";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import noImg from './../assets/img/noPhoto.png'
 import Fraction from "fraction.js";
@@ -21,7 +21,6 @@ import {
     ProductType,
     productTypings,
     ProductFormType,
-    RoomCategories,
     sizeLimitsType,
     valueItemType, ProductOrCustomType
 } from "./productTypes";
@@ -72,6 +71,8 @@ import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
 import PDFPurchaseOrder from "../Components/PDFOrder/PDFPurchaseOrder";
+import {UserType} from "../api/apiTypes";
+import {logout} from "../store/reducers/userSlice";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
@@ -151,7 +152,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     return range[category] ? [range[category], 0] : [0];
 }
 
-export function getHingeArr(doorArr: number[], product_id: number, width:number, height:number, product_type: ProductApiType): string[] {
+export function getHingeArr(doorArr: number[], product_id: number, width: number, height: number, product_type: ProductApiType): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
     let arr: string[] = [];
     const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211, 216];
@@ -164,7 +165,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width:number,
 
     // exceptions in standard products
     if (product_type === 'standard') {
-        if (product_id === 101 && width === 24 && height >=36) return [double];
+        if (product_id === 101 && width === 24 && height >= 36) return [double];
     }
 
 
@@ -467,47 +468,61 @@ export const isGolaShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: b
 
 export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola: string, showGola: boolean): boolean => {
     if (!category) return false;
+    if (category === 'Simple Closet') return false;
     return !(showGola && !gola);
 }
 
 export const isDoorFinishShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, finishArr?: finishType[]): boolean => {
-    if (!category || doorType === 'Standard White Shaker') return false
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
+    if (doorType === 'Standard White Shaker') return false
     return !!(doorType && finishArr?.length)
 }
 
-export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+export const isDoorColorShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     if (doorType === 'Standard White Shaker') return true;
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
-export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+export const isDoorFrameWidth = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     if (!frameArr || doorType !== 'Micro Shaker') return false
     return !!doorFinishMaterial
 }
 
-export const isDoorGrain = (doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+export const isDoorGrain = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     return !(!doorFinishMaterial || !grainArr)
 }
 
-export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
+export const isBoxMaterial = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
     if (!boxMaterialArr.length) return false;
     if (showDoorGrain && !door_grain) return false;
+    if (category === 'Simple Closet') return true;
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
 }
-export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial: finishType[]): boolean => {
-    return !!(isLeather && box_material && boxMaterial.length)
+export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, isLeather: boolean, boxMaterialArr: finishType[]): boolean => {
+    if (!box_material || !boxMaterialArr.length) return false;
+    if (category === 'Simple Closet') return true;
+    return isLeather
 }
 
-export const isDrawerBrand = (box_material: string, box_color: string, isLeather: boolean): boolean => {
+export const isDrawerBrand = (box_material: string, box_color: string, isCloset: boolean): boolean => {
     if (!box_material) return false;
-    return !(isLeather && !box_color);
+    return !(isCloset && !box_color);
 }
 
-export const isDrawerType = (drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
+export const isDrawerType = (showDrawerBrand: boolean, drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
+    if (!showDrawerBrand) return false;
     return !(!drawer_brand || !drawerTypesArr.length);
 }
 
-export const isDrawerColor = (drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
+export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
+    if (!showDrawerType) return false;
     return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
 }
 
@@ -551,15 +566,15 @@ export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boole
     return arr;
 }
 
-export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategories>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
+export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategoriesType>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
     if (!category) return [];
-    return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
+    return category === 'Leather Closet' || category === 'Simple Closet' ? leatherBoxMaterialArr : boxMaterial
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, boxMaterialType: string, boxMaterialsArr: finishType[]): MaybeUndefined<colorType[]> => {
-    if (!isLeather) return undefined;
-    return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
+export const getBoxMaterialColorsArr = (category: MaybeEmpty<RoomCategoriesType>, isLeather: boolean, boxMaterialType: string, boxMaterialsArr: finishType[]): MaybeUndefined<colorType[]> => {
+    if (isLeather || category === 'Simple Closet') return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
+    return undefined;
 }
 
 export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {
@@ -835,8 +850,10 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
 export const getCartItemImg = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
     const {product_type, images} = product;
     if (product_type === 'custom') {
+        if (!images.length || !images[0].value) return noImg
         return getImg('products/custom', images[0].value)
     }
+    if (!images.length || !images[image_active_number - 1].value) return noImg
     return getImg('products', images[image_active_number - 1].value)
 }
 
@@ -880,9 +897,9 @@ export const isShowMiddleSectionBlock = (hasMiddleSection: MaybeUndefined<true>,
     return !!(hasMiddleSection && !isProductStandard && middleSectionDefault)
 }
 
-export const isShowHingeBlock = (hingeArr:string[], id:number, product_type:ProductApiType):boolean => {
+export const isShowHingeBlock = (hingeArr: string[], id: number, product_type: ProductApiType): boolean => {
     if (hingeArr.length < 2) return false;
-    // if ( id === 101 && product_type === 'standard') return false;
+    if (id === 101 && product_type === 'standard') return false;
     return true
 }
 
@@ -900,6 +917,8 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
             return API['Leather Closet'] as SliderCategoriesItemType;
         case "Build In Closet":
             return API['Build In Closet'] as SliderCategoriesItemType;
+        case "Simple Closet":
+            return API['Simple Closet'] as SliderCategoriesItemType;
     }
 }
 
@@ -975,6 +994,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
             return [34.5];
+        case "Simple Closets":
+            return [95]
         default:
             return []
     }
@@ -1007,7 +1028,7 @@ export const findIsProductStandard = (materials: RoomMaterialsFormType): boolean
     return materials.door_type === 'Standard White Shaker'
 }
 
-export const findHasGolaByCategory = (category: string): boolean => {
+export const findHasGolaByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     return ['Kitchen', 'Vanity'].includes(category)
 }
 
@@ -1018,19 +1039,26 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const me = async (token: MaybeNull<string>) => {
-    if (!token) return null;
-    if (!isTokenValid(token)) {
-        token = await refreshTokenAPI() || null;
-        if (!token) return null;
-        localStorage.setItem('token', token);
-    }
+export const me = async (hasRetried = false): Promise<MaybeNull<UserType>> => {
     try {
         return (await usersAPI.me()).data;
-    } catch (error) {
-        return alertError(error);
+    } catch (error: any) {
+        const status = error?.response?.status;
+
+        if (!hasRetried && status === 401) {
+            const newToken = await refreshTokenAPI();
+            if (newToken) {
+                localStorage.setItem('token', newToken);
+                return me(true);
+            }
+        }
+
+        if (status === 404) {
+            logout(); // ← handle user-deleted scenario
+        }
+        return null;
     }
-}
+};
 
 export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {

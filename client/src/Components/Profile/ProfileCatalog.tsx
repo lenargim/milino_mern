@@ -3,9 +3,9 @@ import s from "./profile.module.sass";
 import MyPDFViewer from "../../common/PDFViewer";
 import PDFRegular from './../../assets/pdf/catalog/Regular.pdf'
 import PDFShaker from './../../assets/pdf/catalog/White Shaker.pdf';
+import PDFSimpleCloset from './../../assets/pdf/catalog/Simple Closet.pdf'
 
-
-const states = ['Regular', 'White Shaker'] as const;
+const states = ['Regular', 'White Shaker', 'Simple Closet'] as const;
 export type statesType = typeof states[number];
 const ProfileCatalog: FC = () => {
     const [state, setState] = useState<statesType>('Regular');
@@ -16,6 +16,9 @@ const ProfileCatalog: FC = () => {
             break
         case "White Shaker":
             pdfLink = PDFShaker;
+            break
+        case "Simple Closet":
+            pdfLink = PDFSimpleCloset
             break
     }
     return (

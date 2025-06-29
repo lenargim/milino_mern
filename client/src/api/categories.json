@@ -125,6 +125,19 @@
       }
     ]
   },
+  "Simple Closet": {
+    "defaultImg": "Simple-Closet.webp",
+    "categories": [
+      {
+        "name": "Simple Closets",
+        "img": "Simple-Closet.webp"
+      },
+      {
+        "name": "Custom Parts",
+        "img": "Flatd_05.webp"
+      }
+    ]
+  },
   "Standard Door": {
     "defaultImg": "Flatd_01.webp",
     "categories": [

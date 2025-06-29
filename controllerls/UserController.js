@@ -13,6 +13,7 @@ function generateTokens(userId) {
   return { accessToken, refreshToken };
 }
 
+
 export const register = async (req, res) => {
   try {
     const password = req.body.password;
@@ -112,8 +113,7 @@ export const login = async (req, res) => {
         httpOnly: true,
         // sameSite: 'Strict',
         secure: isCookieSecure(), // set true in production with HTTPS
-        // maxAge: 7 * 24 * 60 * 60 * 1000
-        maxAge: 2 * 60 * 1000 // 2 min
+        maxAge: 24 * 60 * 60 * 1000
       })
       .json({...userData, token:accessToken});
   } catch (err) {
@@ -140,7 +140,6 @@ export const getMe = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-
     res.json(userData);
   } catch (e) {
     res.status(401).json({
@@ -176,14 +175,23 @@ export const patchMe = async (req, res) => {
 
 export const refresh = async (req, res) => {
   const token = req.cookies.refreshToken;
-  if (!token) return res.sendStatus(401).json({
-    type: 'token-refresh',
-    message: "No refresh token"
-  });
+  if (!token) {
+    return res.sendStatus(401).json({
+      type: 'token-refresh',
+      message: "No refresh token"
+    });
+  }
 
   try {
     const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
-    const { accessToken } = generateTokens(decoded.id);
+    const user = await UserModel.findById(decoded._id); // ← validate user exists
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const { accessToken } = generateTokens(decoded._id);
+
     res.json(accessToken);
   } catch {
     res.sendStatus(401).json({

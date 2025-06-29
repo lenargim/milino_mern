@@ -12,9 +12,7 @@ export interface UserState {
 export const loadUser = createAsyncThunk<MaybeNull<UserType>>(
     'user/loadUser',
     async (_) => {
-        const token = localStorage.getItem('token');
-        const user = await me(token);
-        return user;
+        return await me();
     }
 );
 

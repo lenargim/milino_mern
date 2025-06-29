@@ -1,6 +1,7 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 import exp from "constants";
+import {RoomCategoriesType} from "./roomTypes";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -12,11 +13,9 @@ export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
-export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
-export type RoomCategories = typeof roomCategories[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
@@ -46,12 +45,13 @@ export type StandardCategory =
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
 
+export type ClosetsCategory = 'Build In' | 'Leather' | 'Simple Closets'
+
 export type productCategory =
     kitchenCategories
     | StandardCategory
     | VanitiesCategory
-    | 'Build In'
-    | 'Leather'
+    | ClosetsCategory
     | 'Custom Parts'
 
 export type AngleType = false | 'flat' | 'corner';
@@ -130,7 +130,7 @@ export type materialsLimitsType = {
 
 export type materialDataType = {
     is_standard_cabinet: boolean,
-    category: MaybeEmpty<RoomCategories>,
+    category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
@@ -143,7 +143,7 @@ export type materialDataType = {
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_closet: boolean,
+    is_leather_or_simple_closet: boolean,
     box_material: string,
     box_color: string,
     materials_coef: number

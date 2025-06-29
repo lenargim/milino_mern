@@ -58,6 +58,7 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price;
             return undefined;
         case "Leather":
+        case "Simple Closets":
             if (!priceData[0]?.depth) {
                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
                 if (widthTablePrice) return widthTablePrice;
@@ -146,7 +147,7 @@ export function addGlassDoorPrice(square: number, profileName: string, is_standa
 export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: attrItem[]): productTypings {
     const doorValues = attributes.find(el => el.name === 'Door')?.values ?? [];
     const shelfValues = attributes.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
-    if (attributes[0].values.length < 2) return 1;
+    if (!attributes.length || attributes[0].values.length < 2) return 1;
 
     switch (category) {
         case 'Base Cabinets':
@@ -221,11 +222,11 @@ function getDoorPrice(square: number, materialData: materialDataType, isProductS
     if (isProductStandard) return 0;
     const {
         door_price_multiplier,
-        is_leather_closet,
+        is_leather_or_simple_closet,
         box_material,
         box_color,
     } = materialData;
-    if (is_leather_closet) {
+    if (is_leather_or_simple_closet) {
         const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
         return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
     }
@@ -526,7 +527,6 @@ const getBoxMaterialCoef = (box_material: string, product_id:number): number => 
         case "Gray Melamine":
         case "Ash Melamine":
         case "Beige Linen Melamine":
-        case "Blanco Wood Melamine":
         case "Gray Linen Melamine":
         case "Walnut Melamine":
         case "White Melamine":
@@ -606,15 +606,15 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id:num
         box_color
     } = materials;
     const is_standard_cabinet = door_type === "Standard White Shaker";
-    const is_leather_closet = category === 'Leather Closet'
+    const is_leather_or_simple_closet = category === 'Leather Closet' || category === 'Simple Closet';
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
-    const base_price_type = getBasePriceType(materials, is_leather_closet);
-    const materials_coef = getMaterialCoef(materials, is_leather_closet);
+    const base_price_type = getBasePriceType(materials, is_leather_or_simple_closet);
+    const materials_coef = getMaterialCoef(materials, is_leather_or_simple_closet);
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
-    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_closet);
+    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_or_simple_closet);
 
     return {
         is_standard_cabinet,
@@ -632,7 +632,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id:num
         drawer_type,
         drawer_color,
         leather,
-        is_leather_closet,
+        is_leather_or_simple_closet,
         box_material,
         materials_coef
     }
@@ -853,7 +853,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         drawer_color,
         door_finish_material,
         door_type,
-        is_leather_closet
+        is_leather_or_simple_closet
     } = materialData
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand,image_active_number);
     const {
@@ -864,7 +864,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
-    const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_closet);
+    const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_simple_closet);
     const hasGlassDoor = options.includes('Glass Door');
 
     return {
@@ -873,7 +873,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led.border),
-        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard",is_leather_closet),
+        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard", is_leather_or_simple_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
         glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),

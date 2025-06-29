@@ -18,6 +18,7 @@ import {store} from "../store/store";
 // 403 Forbidden
 export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
     const axiosError = error as AxiosError;
+    console.log(axiosError)
     const data:any = axiosError?.response?.data;
     const resStatus = axiosError.response?.status;
     if (resStatus === 401 && data?.type === 'token') {
@@ -25,6 +26,7 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
             const newToken = await refreshTokenAPI();
             if (newToken) {
                 localStorage.setItem('token', newToken);
+                console.log(retryCallback)
                 // Retry original request
                 if (retryCallback) {
                     return await retryCallback();
@@ -35,6 +37,7 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
             }
         } catch (refreshErr) {
             store.dispatch(logout());
+            return;
         }
     } else if (resStatus === 403 || resStatus === 401) {
         if (data) {
@@ -233,13 +236,25 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
     }
 }
 
+// export const isTokenValid = (token: string): boolean => {
+//     const decodedToken = jwtDecode(token);
+//     const {exp} = decodedToken;
+//     const currentDate = new Date().getUTCDate();
+//     const expDate = exp ? exp : 0;
+//     return expDate > currentDate / 1000;
+// }
+
 export const isTokenValid = (token: string): boolean => {
-    const decodedToken = jwtDecode(token);
-    const {exp} = decodedToken;
-    const currentDate = new Date().getUTCDate();
-    const expDate = exp ? exp : 0;
-    return expDate > currentDate / 1000;
-}
+    try {
+        const decodedToken = jwtDecode<{ exp: number }>(token);
+        const { exp } = decodedToken;
+        const now = Date.now() / 1000;
+        return exp > now;
+    } catch {
+        return false; // Invalid token format
+    }
+};
+
 
 
 export const getAllPOs = async (user_id: string):Promise<MaybeUndefined<PurchaseOrderType[]>> => {

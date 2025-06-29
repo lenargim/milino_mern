@@ -6351,7 +6351,99 @@
     "options": []
   },
 
-
+  {
+    "id": 500,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "isBlind": false,
+    "isAngle": false,
+    "name": "SDH Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SDH.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 501,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SLH Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SLH.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 502,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SAS Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SAS.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 503,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SSS Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SSS.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 504,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SFAS Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SFAS.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 505,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SHS Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SHS.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 506,
+    "product_type": "cabinet",
+    "legsHeight": 0,
+    "name": "SDS Series",
+    "category": "Simple Closets",
+    "images": [{
+      "type": 1,
+      "value": "CC/SDS.webp"
+    }],
+    "attributes": [],
+    "options": []
+  },
 
 
 
