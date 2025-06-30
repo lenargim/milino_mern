@@ -64,9 +64,10 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
 
 const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
     const {name, images, id} = product;
+    const img = getProductImage(images);
     return (
         <NavLink to={`product/${id}`} className={s.item}>
-            <div className={s.itemImg}><img src={getImg('products/custom', images[0])} alt={name}/></div>
+            <div className={s.itemImg}><img src={img} alt={name}/></div>
             <div>
                 <div className={s.name}>{name}</div>
             </div>

@@ -64,7 +64,7 @@ export type ProductOrCustomType = {
 }
 
 export interface ProductType extends ProductOrCustomType{
-    room: string,
+    // room: string,
     category: productCategory,
     attributes: attrItem[],
     options: string[],
@@ -98,7 +98,7 @@ export interface CustomPartType extends ProductOrCustomType{
 }
 
 export interface CustomPartDataType extends ProductOrCustomType{
-    room: string,
+    // room: string,
     type: CustomTypes,
     category: productCategory,
     width?: number,

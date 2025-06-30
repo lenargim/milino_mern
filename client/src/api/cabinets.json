@@ -4,7 +4,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BS Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BS.webp","BC/BS_2.webp"],
     "attributes": [
@@ -45,7 +44,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BD.webp","BC/BD_2.webp"],
     "attributes": [
@@ -85,7 +83,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B.webp","BC/B_2.webp"],
     "attributes": [
@@ -136,7 +133,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BID Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BID.webp", "BC/BID_2.webp"],
     "attributes": [
@@ -186,7 +182,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BSG Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BSG.webp","BC/BSG.webp"],
     "attributes": [
@@ -225,7 +220,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BG Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BG.webp","BC/BG.webp"],
     "attributes": [
@@ -274,7 +268,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BSP Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BSP.webp"],
     "attributes": [
@@ -308,7 +301,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "BD2 Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BD2.webp"],
     "attributes": [
@@ -352,7 +344,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B2DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B2DE.webp"],
     "attributes": [
@@ -376,7 +367,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B3DI Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B3DI.webp"],
     "attributes": [
@@ -409,7 +399,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B3D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B3D.webp"],
     "attributes": [
@@ -442,7 +431,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B3DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B3DE.webp"],
     "attributes": [
@@ -475,7 +463,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B3ED Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B3ED.webp"],
     "attributes": [
@@ -499,7 +486,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B4D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B4D.webp"],
     "attributes": [
@@ -532,7 +518,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B4DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/B4DE.webp"],
     "attributes": [
@@ -556,7 +541,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "SB2D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/SB2D.webp"],
     "attributes": [
@@ -580,7 +564,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "SB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/SB.webp"],
     "attributes": [
@@ -614,7 +597,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "SBD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/SBD.webp"],
     "attributes": [
@@ -657,7 +639,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "SBT Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/SBT.webp"],
     "attributes": [
@@ -700,7 +681,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "SBDT Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/SBDT.webp"],
     "attributes": [
@@ -753,7 +733,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "BCB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BCB.webp"],
     "attributes": [
@@ -797,7 +776,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "BCBL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BCBL.webp"],
     "attributes": [
@@ -842,7 +820,6 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCA Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BCA.webp"],
     "attributes": [
@@ -887,7 +864,6 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCAL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BCAL.webp"],
     "attributes": [
@@ -932,7 +908,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BC.webp"],
     "attributes": [
@@ -977,7 +952,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BCL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BCL.webp"],
     "attributes": [
@@ -1020,7 +994,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CTB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/CTB.webp"],
     "attributes": [
@@ -1062,7 +1035,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "COB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/COB.webp"],
     "attributes": [
@@ -1103,7 +1075,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "MB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/MB.webp"],
     "attributes": [
@@ -1145,7 +1116,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "B1D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "customHeight": 12,
     "images": ["BC/B1D.webp"],
@@ -1168,7 +1138,6 @@
     "id": 31,
     "product_type": "cabinet",
     "name": "B1KD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "customHeight": 6,
     "images": ["BC/B1KD.webp"],
@@ -1192,7 +1161,6 @@
     "id": 33,
     "product_type": "cabinet",
     "name": "DDC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/DDC.webp"],
     "attributes": [
@@ -1214,7 +1182,6 @@
     "legsHeight": 4.5,
     "customDepth": 13,
     "name": "BW Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BW.webp"],
     "attributes": [
@@ -1236,7 +1203,6 @@
     "legsHeight": 4.5,
     "isAngle": "flat",
     "name": "BEAC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "images": ["BC/BEAC.webp"],
     "attributes": [
@@ -1279,7 +1245,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PBS Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBS.webp","GC/PBS_2.webp"],
     "attributes": [
@@ -1320,7 +1285,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PBD Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBD.webp","GC/PBD_2.webp"],
     "attributes": [
@@ -1360,7 +1324,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PBSG Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBSG.webp","GC/PBSG.webp"],
     "attributes": [
@@ -1399,7 +1362,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PBG Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBG.webp"],
     "attributes": [
@@ -1443,7 +1405,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PBSP Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBSP.webp"],
     "attributes": [
@@ -1477,7 +1438,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PSB Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PSB.webp"],
     "attributes": [
@@ -1511,7 +1471,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PSBD Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PSBD.webp"],
     "attributes": [
@@ -1554,7 +1513,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PB2D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PB2D.webp"],
     "attributes": [
@@ -1578,7 +1536,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PB3DI Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PB3DI.webp"],
     "attributes": [
@@ -1611,7 +1568,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PSB2D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PSB2D.webp"],
     "attributes": [
@@ -1635,7 +1591,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PB3D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PB3D.webp"],
     "attributes": [
@@ -1670,7 +1625,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "PBC Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBCC.webp"],
     "attributes": [
@@ -1715,7 +1669,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "PBCL Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBCL.webp"],
     "attributes": [
@@ -1759,7 +1712,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PBCB Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBCB.webp"],
     "attributes": [
@@ -1803,7 +1755,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PBCBL Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
     "images": ["GC/PBCBL.webp"],
     "attributes": [
@@ -1845,7 +1796,6 @@
     "id": 101,
     "product_type": "cabinet",
     "name": "W Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/W.webp","WC/W_2.webp","WC/W.webp","WC/W_2.webp"],
     "attributes": [
@@ -1911,7 +1861,6 @@
     "id": 102,
     "product_type": "cabinet",
     "name": "WDA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WDA.webp","WC/WDA.webp"],
     "attributes": [
@@ -1963,7 +1912,6 @@
     "id": 103,
     "product_type": "cabinet",
     "name": "WA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WA.webp"],
     "attributes": [
@@ -1996,7 +1944,6 @@
     "id": 104,
     "product_type": "cabinet",
     "name": "WBL Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WBL.webp"],
     "attributes": [
@@ -2028,7 +1975,6 @@
     "id": 105,
     "product_type": "cabinet",
     "name": "WBA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WBA.webp","WC/WBA.webp"],
     "attributes": [
@@ -2085,7 +2031,6 @@
     "id": 106,
     "product_type": "cabinet",
     "name": "WB Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WB.webp","WC/WB.webp"],
     "attributes": [
@@ -2139,7 +2084,6 @@
     "product_type": "cabinet",
     "customDepth": 24,
     "name": "WRF Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WRF.webp","WC/WRF.webp"],
     "attributes": [
@@ -2197,7 +2141,6 @@
     "product_type": "cabinet",
     "customDepth": 24,
     "name": "WRFA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WRFA.webp","WC/WRFA.webp"],
     "attributes": [
@@ -2257,7 +2200,6 @@
     "isAngle": "corner",
     "customDepth": 24,
     "name": "WC Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WC.webp"],
     "attributes": [
@@ -2313,7 +2255,6 @@
     "isAngle": "flat",
     "customDepth": 24,
     "name": "WCA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WCA.webp"],
     "attributes": [
@@ -2367,7 +2308,6 @@
     "product_type": "cabinet",
     "isBlind": true,
     "name": "WCB Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WCB.webp"],
     "attributes": [
@@ -2412,7 +2352,6 @@
     "isAngle": "corner",
     "hasSolidWidth": true,
     "name": "WDC Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WDC.webp"],
     "attributes": [
@@ -2444,7 +2383,6 @@
     "isAngle": "corner",
     "customDepth": 24,
     "name": "PWC Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PWC.webp"],
     "attributes": [
@@ -2500,7 +2438,6 @@
     "isAngle": "flat",
     "customDepth": 24,
     "name": "PWCA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PWCA.webp"],
     "attributes": [
@@ -2553,7 +2490,6 @@
     "id": 115,
     "product_type": "cabinet",
     "name": "PW Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PW.webp","GC/PW_2.webp","GC/PW.webp","GC/PW_2.webp"],
     "attributes": [
@@ -2619,7 +2555,6 @@
     "id": 116,
     "product_type": "cabinet",
     "name": "PWDA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PWDA.webp"],
     "attributes": [
@@ -2671,7 +2606,6 @@
     "id": 117,
     "product_type": "cabinet",
     "name": "PWA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PWA.webp"],
     "attributes": [
@@ -2705,7 +2639,6 @@
     "product_type": "cabinet",
     "isBlind": true,
     "name": "PWCB Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
     "images": ["GC/PWCB.webp"],
     "attributes": [
@@ -2750,7 +2683,6 @@
     "isAngle": "flat",
     "hasSolidWidth": true,
     "name": "WEAC",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
     "images": ["WC/WEAC.webp"],
     "attributes": [
@@ -2782,7 +2714,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PC Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/PC.webp","TC/PC_2.webp","TC/PC.webp","TC/PC_2.webp"],
     "attributes": [
@@ -2850,7 +2781,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PC2D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/PC2D.webp","TC/PC2D_2.webp"],
     "attributes": [
@@ -2909,7 +2839,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PC3D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/PC3D.webp","TC/PC3D_2.webp"],
     "attributes": [
@@ -2968,7 +2897,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PC4D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/PC4D.webp","TC/PC4D_2.webp"],
     "attributes": [
@@ -3028,7 +2956,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "TBC Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/TBC.webp"],
     "attributes": [
@@ -3088,7 +3015,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "TBCL Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/TBCL.webp"],
     "attributes": [
@@ -3147,7 +3073,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "TDO Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
@@ -3196,7 +3121,6 @@
     "name": "TSO Series",
     "hasMiddleSection": true,
     "middleSectionDefault": 30,
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/TSO.webp"],
     "attributes": [
@@ -3253,7 +3177,6 @@
     "id": 209,
     "product_type": "cabinet",
     "name": "T Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/T.webp","TC/T_2.webp"],
     "attributes": [
@@ -3310,7 +3233,6 @@
     "id": 210,
     "product_type": "cabinet",
     "name": "TD Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/TD.webp","TC/TD_2.webp"],
     "attributes": [
@@ -3380,7 +3302,6 @@
     "id": 211,
     "product_type": "cabinet",
     "name": "PCSP Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "images": ["TC/PCSP.webp"],
     "attributes": [
@@ -3424,7 +3345,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PPC Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PPC.webp","GC/PPC_2.webp","GC/PPC.webp","GC/PPC_2.webp"],
     "attributes": [
@@ -3492,7 +3412,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PPCD Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PPCD.webp","GC/PPCD_2.webp"],
     "attributes": [
@@ -3551,7 +3470,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PPCDV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PPCDV.webp"],
     "attributes": [
@@ -3595,7 +3513,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PPCV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PPC.webp"],
     "attributes": [
@@ -3640,7 +3557,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "PTDO Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
@@ -3688,7 +3604,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PTBC Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PTBC.webp"],
     "attributes": [
@@ -3748,7 +3663,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PTBCL Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PTBCL.webp"],
     "attributes": [
@@ -3808,7 +3722,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PTBCLV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PTBCL.webp"],
     "attributes": [
@@ -3853,7 +3766,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "PTBCV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "images": ["GC/PTBC.webp"],
     "attributes": [
@@ -3897,7 +3809,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VBS Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VBS.webp","VC/VBS_2.webp"],
     "attributes": [
@@ -3938,7 +3849,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VSB Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VSB.webp"],
     "attributes": [
@@ -3972,7 +3882,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VSBD Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VSBD.webp"],
     "attributes": [
@@ -4015,7 +3924,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VB2D Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VB2D.webp"],
     "attributes": [
@@ -4039,7 +3947,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VSB2D Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VSB2D.webp"],
     "attributes": [
@@ -4063,7 +3970,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "VB3D Series",
-    "room": "Vanity",
     "category": "Vanities",
     "images": ["VC/VB3D.webp"],
     "attributes": [
@@ -4095,7 +4001,6 @@
     "id": 307,
     "product_type": "cabinet",
     "name": "VF Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VF.webp","VC/VF_2.webp"],
@@ -4136,7 +4041,6 @@
     "id": 308,
     "product_type": "cabinet",
     "name": "VF2D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VF2D.webp"],
@@ -4160,7 +4064,6 @@
     "id": 309,
     "product_type": "cabinet",
     "name": "VF3D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VF3D.webp"],
@@ -4184,7 +4087,6 @@
     "id": 310,
     "product_type": "cabinet",
     "name": "VSF Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VSF.webp"],
@@ -4218,7 +4120,6 @@
     "id": 311,
     "product_type": "cabinet",
     "name": "VSFD Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VSFD.webp"],
@@ -4261,7 +4162,6 @@
     "id": 312,
     "product_type": "cabinet",
     "name": "VSF2D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VSF2D.webp"],
@@ -4285,7 +4185,6 @@
     "id": 319,
     "product_type": "cabinet",
     "name": "VPF Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPF.webp","VC/VPF_2.webp"],
@@ -4326,7 +4225,6 @@
     "id": 320,
     "product_type": "cabinet",
     "name": "VPSF Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPSF.webp"],
@@ -4360,7 +4258,6 @@
     "id": 321,
     "product_type": "cabinet",
     "name": "VPSFD Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPSFD.webp"],
@@ -4394,7 +4291,6 @@
     "id": 322,
     "product_type": "cabinet",
     "name": "VPSF2D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPSF2D.webp"],
@@ -4418,7 +4314,6 @@
     "id": 323,
     "product_type": "cabinet",
     "name": "VPF2DI Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPF2DI.webp"],
@@ -4451,7 +4346,6 @@
     "id": 324,
     "product_type": "cabinet",
     "name": "VPF2D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPF2D.webp"],
@@ -4475,7 +4369,6 @@
     "id": 325,
     "product_type": "cabinet",
     "name": "VPSF1D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPSF1D.webp"],
@@ -4499,7 +4392,6 @@
     "id": 326,
     "product_type": "cabinet",
     "name": "VPF1D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
     "images": ["VC/VPF1D.webp"],
@@ -4524,7 +4416,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CAS Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CAS.webp","CC/CAS_2.webp","CC/CAS.webp","CC/CAS_2.webp"],
     "attributes": [
@@ -4591,7 +4482,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CDH Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CDH.webp","CC/CDH_2.webp"],
     "attributes": [
@@ -4649,7 +4539,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CLH Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CLH.webp","CC/CLH_2.webp"],
     "attributes": [
@@ -4707,7 +4596,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CRD Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CRD.webp","CC/CRD_2.webp"],
     "attributes": [
@@ -4778,7 +4666,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "CSS Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CSS.webp","CC/CSS_2.webp"],
     "attributes": [
@@ -4837,7 +4724,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "CCH Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CCH.webp"],
     "attributes": [
@@ -4872,7 +4758,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "CCL Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CCL.webp"],
     "attributes": [
@@ -4907,7 +4792,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "CCS Series",
-    "room": "Closet",
     "category": "Build In",
     "images": ["CC/CCS.webp"],
     "attributes": [
@@ -4950,7 +4834,6 @@
     "id": 408,
     "product_type": "cabinet",
     "name": "VDH Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VDH.webp"],
@@ -4971,7 +4854,6 @@
     "id": 409,
     "product_type": "cabinet",
     "name": "VLH Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VLH.webp"],
@@ -5003,7 +4885,6 @@
     "id": 410,
     "product_type": "cabinet",
     "name": "VSS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VSS.webp"],
@@ -5026,7 +4907,6 @@
     "id": 411,
     "product_type": "cabinet",
     "name": "VAS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VAS.webp"],
@@ -5047,7 +4927,6 @@
     "id": 412,
     "product_type": "cabinet",
     "name": "VFSA Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VFAS.webp"],
@@ -5079,7 +4958,6 @@
     "id": 413,
     "product_type": "cabinet",
     "name": "VHS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VHS.webp"],
@@ -5111,7 +4989,6 @@
     "id": 414,
     "product_type": "cabinet",
     "name": "VDS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VDS.webp"],
@@ -5144,7 +5021,6 @@
     "id": 415,
     "product_type": "cabinet",
     "name": "VDI Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 35.5,
     "images": ["CC/VDI.webp"],
@@ -5167,7 +5043,6 @@
     "id": 416,
     "product_type": "cabinet",
     "name": "VLC Series",
-    "room": "Closet",
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
@@ -5189,7 +5064,6 @@
     "id": 417,
     "product_type": "cabinet",
     "name": "VSC Series",
-    "room": "Closet",
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
@@ -5214,7 +5088,6 @@
     "product_type": "cabinet",
     "isCornerChoose": true,
     "name": "VDC Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
     "images": ["CC/VDC.webp"],
@@ -6600,7 +6473,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BS Series",
-    "room": "Standard Door",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": ["standard/BS.webp","standard/BS_2.webp"],
@@ -6639,7 +6511,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BD Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": ["standard/BD.webp","standard/BD_2.webp"],
@@ -6677,7 +6548,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "B Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": ["standard/B.webp","standard/B_2.webp"],
@@ -6726,7 +6596,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BID Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
     "images": ["standard/BID.webp","standard/BID_2.webp"],
@@ -6774,7 +6643,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BSG Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "widthDivider": 15,
     "images": ["standard/BSG.webp","standard/BSG.webp"],
@@ -6812,7 +6680,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BG Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "widthDivider": 15,
     "images": ["standard/BG.webp","standard/BG.webp"],
@@ -6860,7 +6727,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BSP Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BSP.webp"],
     "attributes": [
@@ -6893,7 +6759,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BD2 Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BD2.webp"],
     "attributes": [
@@ -6936,7 +6801,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "B2DE Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/B2DE.webp"],
     "attributes": [
@@ -6959,7 +6823,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "B3DI Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/B3DI.webp"],
     "attributes": [
@@ -6991,7 +6854,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "B3D Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/B3D.webp"],
     "attributes": [
@@ -7023,7 +6885,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "B4D Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/B4D.webp"],
     "attributes": [
@@ -7055,7 +6916,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "SB2D Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/SB2D.webp"],
     "attributes": [
@@ -7078,7 +6938,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "SB Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/SB.webp"],
     "attributes": [
@@ -7111,7 +6970,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "SBD Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/SBD.webp"],
     "attributes": [
@@ -7153,7 +7011,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "SBT Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/SBT.webp"],
     "attributes": [
@@ -7195,7 +7052,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "SBDT Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/SBDT.webp"],
     "attributes": [
@@ -7247,7 +7103,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "BCB Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BCB.webp"],
     "attributes": [
@@ -7290,7 +7145,6 @@
     "legsHeight": 4.5,
     "isBlind": true,
     "name": "BCBL Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BCBL.webp"],
     "attributes": [
@@ -7334,7 +7188,6 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCA Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BCA.webp"],
     "attributes": [
@@ -7378,7 +7231,6 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCAL Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BCAL.webp"],
     "attributes": [
@@ -7422,7 +7274,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BC Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BC.webp"],
     "attributes": [
@@ -7466,7 +7317,6 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BCL Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BCL.webp"],
     "attributes": [
@@ -7508,7 +7358,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "CTB Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/CTB.webp"],
     "attributes": [
@@ -7549,7 +7398,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "COB Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/COB.webp"],
     "attributes": [
@@ -7588,7 +7436,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "MB Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/MB.webp"],
     "attributes": [
@@ -7630,7 +7477,6 @@
     "legsHeight": 4.5,
     "name": "B1D Series",
     "customHeight": 12,
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/B1D.webp"],
     "attributes": [
@@ -7652,7 +7498,6 @@
     "id": 31,
     "product_type": "standard",
     "name": "B1KD Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "customHeight": 6,
     "images": ["standard/B1KD.webp"],
@@ -7675,7 +7520,6 @@
     "id": 33,
     "product_type": "standard",
     "name": "DDC Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/DDC.webp"],
     "attributes": [
@@ -7696,7 +7540,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "BEAC Series",
-    "room": "Kitchen",
     "category": "Standard Base Cabinets",
     "images": ["standard/BEAC.webp"],
     "attributes": [
@@ -7737,7 +7580,6 @@
     "id": 101,
     "product_type": "standard",
     "name": "W Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/W.webp","standard/W_2.webp","standard/W.webp","standard/W_2.webp"],
     "attributes": [
@@ -7801,7 +7643,6 @@
     "id": 102,
     "product_type": "standard",
     "name": "WDA Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WDA.webp","standard/WDA.webp"],
     "attributes": [
@@ -7851,7 +7692,6 @@
     "id": 103,
     "product_type": "standard",
     "name": "WA Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WA.webp"],
     "attributes": [
@@ -7883,7 +7723,6 @@
     "id": 104,
     "product_type": "standard",
     "name": "WBL Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WBL.webp","standard/WBL.webp"],
     "attributes": [
@@ -7936,7 +7775,6 @@
     "id": 105,
     "product_type": "standard",
     "name": "WBA Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WBA.webp","standard/WBA.webp"],
     "attributes": [
@@ -7990,7 +7828,6 @@
     "id": 106,
     "product_type": "standard",
     "name": "WB Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WB.webp","standard/WB.webp"],
     "attributes": [
@@ -8044,7 +7881,6 @@
     "id": 107,
     "product_type": "standard",
     "name": "WRF Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WRF.webp","standard/WRF.webp"],
     "attributes": [
@@ -8098,7 +7934,6 @@
     "id": 108,
     "product_type": "standard",
     "name": "WRFA Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WRFA.webp","standard/WRFA.webp"],
     "attributes": [
@@ -8155,7 +7990,6 @@
     "isAngle": true,
     "customDepth": 24,
     "name": "WC Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WC.webp","standard/WC.webp"],
     "attributes": [
@@ -8209,7 +8043,6 @@
     "isAngle": true,
     "customDepth": 24,
     "name": "WCA Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WCA.webp","standard/WCA.webp"],
     "attributes": [
@@ -8261,7 +8094,6 @@
     "product_type": "standard",
     "isBlind": true,
     "name": "WCB Series",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WCB.webp","standard/WCB.webp"],
     "attributes": [
@@ -8318,7 +8150,6 @@
     "isAngle": true,
     "hasSolidWidth": true,
     "name": "WEAC",
-    "room": "Kitchen",
     "category": "Standard Wall Cabinets",
     "images": ["standard/WEAC.webp"],
     "attributes": [
@@ -8348,7 +8179,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "PC Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/PC.webp","standard/PC_2.webp","standard/PC.webp","standard/PC_2.webp"],
     "attributes": [
@@ -8413,7 +8243,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "PC2D Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/PC2D.webp","standard/PC2D_2.webp","standard/PC2D.webp","standard/PC2D_2.webp"],
     "attributes": [
@@ -8491,7 +8320,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "PC3D Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/PC3D.webp","standard/PC3D_2.webp","standard/PC3D.webp","standard/PC3D_2.webp"],
     "attributes": [
@@ -8569,7 +8397,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "PC4D Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/PC4D.webp","standard/PC4D_2.webp","standard/PC4D.webp","standard/PC4D_2.webp"],
     "attributes": [
@@ -8655,7 +8482,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "TBC Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/TBC.webp","standard/TBC.webp"],
     "attributes": [
@@ -8707,7 +8533,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "TBCL Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/TBCL.webp","standard/TBCL.webp"],
     "attributes": [
@@ -8763,7 +8588,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "TDO Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
@@ -8823,7 +8647,6 @@
     "name": "TSO Series",
     "hasMiddleSection": true,
     "middleSectionDefault": 30,
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/TSO.webp","standard/TSO.webp"],
     "attributes": [
@@ -8878,7 +8701,6 @@
     "id": 209,
     "product_type": "standard",
     "name": "T Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/T.webp","standard/T_2.webp"],
     "attributes": [
@@ -8933,7 +8755,6 @@
     "id": 210,
     "product_type": "standard",
     "name": "TD Series",
-    "room": "Kitchen",
     "category": "Standard Tall Cabinets",
     "images": ["standard/TD.webp","standard/TD_2.webp"],
     "attributes": [
