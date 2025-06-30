@@ -58,8 +58,8 @@ const PDFPurchaseOrder: FC<{ values: CheckoutType, po_rooms_api: RoomOrderType[]
                                     const {product_id, product_type, image_active_number, isStandard} = el;
                                     const product = getProductById(product_id, product_type === 'standard');
                                     if (!product) return;
-                                    const {name} = product;
-                                    const img = getCartItemImgPDF(product, image_active_number);
+                                    const {name, images} = product;
+                                    const img = getCartItemImgPDF(images, image_active_number);
                                     return (
                                         <View wrap={false} style={s.cartItem} key={index}>
                                             <View style={s.th0}><Text>{++index}</Text></View>

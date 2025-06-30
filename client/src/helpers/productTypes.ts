@@ -54,13 +54,13 @@ export type productCategory =
     | ClosetsCategory
     | 'Custom Parts'
 
-export type AngleType = false | 'flat' | 'corner';
+export type AngleType = 'flat' | 'corner';
 
 export type ProductOrCustomType = {
     id: number,
     name: string,
     product_type: ProductApiType,
-    images: itemImg[],
+    images: string[],
 }
 
 export interface ProductType extends ProductOrCustomType{
@@ -68,9 +68,9 @@ export interface ProductType extends ProductOrCustomType{
     category: productCategory,
     attributes: attrItem[],
     options: string[],
-    legsHeight: number,
-    isBlind: boolean,
-    isAngle: AngleType,
+    legsHeight?: number,
+    isBlind?: boolean,
+    isAngle?: AngleType,
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,

@@ -18,7 +18,6 @@ import {store} from "../store/store";
 // 403 Forbidden
 export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
     const axiosError = error as AxiosError;
-    console.log(axiosError)
     const data:any = axiosError?.response?.data;
     const resStatus = axiosError.response?.status;
     if (resStatus === 401 && data?.type === 'token') {
@@ -26,7 +25,6 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
             const newToken = await refreshTokenAPI();
             if (newToken) {
                 localStorage.setItem('token', newToken);
-                console.log(retryCallback)
                 // Retry original request
                 if (retryCallback) {
                     return await retryCallback();

@@ -105,7 +105,7 @@ export function addHeightPriceCoef(customHeight: number, maxHeight: number) {
     return Math.ceil((customHeight - maxHeight - 1) / 3) / 10
 }
 
-export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: AngleType) {
+export function addDepthPriceCoef(customDepth: number, depthRangeData: number[], isAngle: MaybeUndefined<AngleType>) {
     if (isAngle) return 0;
     const maxDepth = depthRangeData[depthRangeData.length - 1];
     if (customDepth > maxDepth) {
@@ -835,7 +835,7 @@ const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: b
 }
 
 const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {legsHeight, attributes, horizontal_line = 2, isAngle, category, id, product_type} = product;
+    const {legsHeight = 0, attributes, horizontal_line = 2, isAngle, category, id, product_type} = product;
     const {
         options,
         width,

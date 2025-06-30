@@ -53,7 +53,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
 
     return (
         <NavLink to={`product/${id}`} className={s.item}>
-            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
+            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={img} alt={name}/></div>
             <div>
                 <div className={s.name}>{name}</div>
                 <ProductAttributes attributes={attributes} type={initialType}/>
@@ -66,7 +66,7 @@ const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
     const {name, images, id} = product;
     return (
         <NavLink to={`product/${id}`} className={s.item}>
-            <div className={s.itemImg}><img src={getImg('products/custom', images[0].value)} alt={name}/></div>
+            <div className={s.itemImg}><img src={getImg('products/custom', images[0])} alt={name}/></div>
             <div>
                 <div className={s.name}>{name}</div>
             </div>

@@ -77,7 +77,7 @@ import {logout} from "../store/reducers/userSlice";
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
 
-export const getImg = (folder: string, img: string = ''): string => {
+export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     if (!folder || !img) return noImg;
     try {
         return require(`./../assets/img/${folder}/${img}`)
@@ -111,9 +111,12 @@ export const getAttributes = (attributes: attrItem[], type: productTypings = 1) 
     })
 }
 
-export const getProductImage = (images: itemImg[], type: productTypings = 1): string => {
-    const img = images.find(img => img.type === type)
-    return img ? img.value.toString() : ''
+export const getProductImage = (images: string[], imgType: productTypings = 1): string => {
+    for (let i = imgType; i >= 0; i--) {
+        const imgLink = images[i-1];
+        if (imgLink) return getImg('products', imgLink);
+    }
+    return noImg
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
@@ -197,7 +200,7 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
         case "cabinet":
         case "standard": {
             const product = product_or_custom as ProductType;
-            const {category, isBlind} = product;
+            const {category, isBlind = false} = product;
             return {
                 ...product,
                 hasLedBlock: isHasLedBlock(category),
@@ -258,7 +261,7 @@ export const getLimit = (d: MaybeUndefined<number[]>): number => {
 }
 
 export const getIsProductStandard = (productRange: productRangeType, width: number, height: number, depth: number, blind_width: number, middle_section: number, options: string[], led_border: string[], product: ProductType): boolean => {
-    const {isAngle, isBlind, blindArr, middleSectionDefault, hasMiddleSection} = product;
+    const {isAngle, isBlind = false, blindArr, middleSectionDefault, hasMiddleSection} = product;
     return checkDimensionsStandard(productRange, width, height, depth, isAngle)
         && checkBlindStandard(isBlind, blind_width, blindArr)
         && checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
@@ -266,7 +269,7 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
         && checkLedSelected(led_border)
 }
 
-export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: AngleType): boolean => {
+export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: MaybeUndefined<AngleType>): boolean => {
     return checkWidthStandard(productRange, width)
         && checkHeightStandard(productRange, height)
         && checkDepthStandard(productRange, depth, isAngle)
@@ -278,7 +281,7 @@ export const checkWidthStandard = (productRange: productRangeType, width: number
 export const checkHeightStandard = (productRange: productRangeType, height: number): boolean => {
     return productRange.heightRange.includes(height)
 }
-export const checkDepthStandard = (productRange: productRangeType, depth: number, isAngle: AngleType): boolean => {
+export const checkDepthStandard = (productRange: productRangeType, depth: number, isAngle: MaybeUndefined<AngleType>): boolean => {
     return !isAngle ? productRange.depthRange.includes(depth) : true;
 }
 export const checkBlindStandard = (isBlind: boolean, blind_width: number, blindArr?: number[]): boolean => {
@@ -656,7 +659,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: AngleType, isWallCab: boolean): number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, isWallCab: boolean): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
     const blindCorner = isWallCab ? 13.5 : 24;
@@ -725,7 +728,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 customDepth,
                 hasMiddleSection,
                 isAngle,
-                isBlind,
+                isBlind = false,
                 middleSectionDefault,
                 blindArr
             } = product
@@ -847,24 +850,12 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     return 1;
 }
 
-export const getCartItemImg = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
-    const {product_type, images} = product;
-    if (product_type === 'custom') {
-        if (!images.length || !images[0].value) return noImg
-        return getImg('products/custom', images[0].value)
+export const getCartItemImgPDF = (images: string[], image_active_number: productTypings): string => {
+    for (let i = image_active_number; i >= 0; i--) {
+        const imgLink = images[i-1];
+        if (imgLink) return getImg('products-checkout', imgLink.replace('webp', 'jpg'));
     }
-    if (!images.length || !images[image_active_number - 1].value) return noImg
-    return getImg('products', images[image_active_number - 1].value)
-}
-
-export const getCartItemImgPDF = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
-    const {product_type, images} = product;
-    if (product_type === 'custom') {
-        const val = images[0].value.replace('webp', 'jpg');
-        return getImg('products-checkout/custom', val)
-    }
-    const val = images[image_active_number - 1].value.replace('webp', 'jpg');
-    return getImg('products-checkout', val)
+    return noImg
 }
 
 export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryType => {
@@ -1019,7 +1010,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
         const {product_id, product_type, image_active_number} = el
         const product = getProductById(product_id, product_type === 'standard');
         if (!product) return el;
-        const img = getCartItemImg(product, image_active_number)
+        const img = getProductImage(product.images, image_active_number)
         return ({...el, img: img.replace('webp', 'jpg')})
     })
 }
