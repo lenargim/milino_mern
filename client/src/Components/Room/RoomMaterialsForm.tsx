@@ -89,7 +89,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     const boxMaterialArr: finishType[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr || [])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(category,isLeather, box_material, boxMaterialArr) ?? [];
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isSimpleCloset,box_material, boxMaterialArr, boxMaterial) ?? [];
     const drawerBrandArr = getDrawerBrandArr(drawers);
     const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
     const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)

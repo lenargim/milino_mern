@@ -46,21 +46,25 @@
           "img": "milino.jpg",
           "colors": [
             {
-              "value": "Ash Melamine",
-              "img": "Ash-Melamine-1.jpg",
-              "isGrain": true
+              "value": "White Melamine",
+              "img": "White-Melamine.jpg"
             },
             {
-              "value": "Beige Linen Melamine",
-              "img": "Beige-Linen-Melamine.jpg"
+              "value": "Grey Melamine",
+              "img": "Gray-Melamine.jpg"
             },
             {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
             {
-              "value": "Grey Melamine",
-              "img": "Gray-Melamine.jpg"
+              "value": "Beige Linen Melamine",
+              "img": "Beige-Linen-Melamine.jpg"
+            },
+            {
+              "value": "Ash Melamine",
+              "img": "Ash-Melamine-1.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Melamine",
@@ -68,17 +72,8 @@
               "isGrain": true
             },
             {
-              "value": "White Melamine",
-              "img": "White-Melamine.jpg"
-            },
-            {
               "value": "Brown Oak",
               "img": "Brown Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Grey Woodline",
-              "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
@@ -87,12 +82,17 @@
               "isGrain": true
             },
             {
-              "value": "Ultra Matte Grey",
-              "img": "Ultra Matte Grey.jpg"
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
               "img": "Ultra Matte White.jpg"
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
             }
           ]
         },
@@ -1590,21 +1590,25 @@
           "img": "milino.jpg",
           "colors": [
             {
-              "value": "Ash Melamine",
-              "img": "Ash-Melamine-1.jpg",
-              "isGrain": true
+              "value": "White Melamine",
+              "img": "White-Melamine.jpg"
             },
             {
-              "value": "Beige Linen Melamine",
-              "img": "Beige-Linen-Melamine.jpg"
+              "value": "Grey Melamine",
+              "img": "Gray-Melamine.jpg"
             },
             {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
             {
-              "value": "Grey Melamine",
-              "img": "Gray-Melamine.jpg"
+              "value": "Beige Linen Melamine",
+              "img": "Beige-Linen-Melamine.jpg"
+            },
+            {
+              "value": "Ash Melamine",
+              "img": "Ash-Melamine-1.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Melamine",
@@ -1612,17 +1616,8 @@
               "isGrain": true
             },
             {
-              "value": "White Melamine",
-              "img": "White-Melamine.jpg"
-            },
-            {
               "value": "Brown Oak",
               "img": "Brown Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Grey Woodline",
-              "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
@@ -1631,12 +1626,17 @@
               "isGrain": true
             },
             {
-              "value": "Ultra Matte Grey",
-              "img": "Ultra Matte Grey.jpg"
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
               "img": "Ultra Matte White.jpg"
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
             }
           ]
         },
@@ -2172,21 +2172,25 @@
           "img": "milino.jpg",
           "colors": [
             {
-              "value": "Ash Melamine",
-              "img": "Ash-Melamine-1.jpg",
-              "isGrain": true
+              "value": "White Melamine",
+              "img": "White-Melamine.jpg"
             },
             {
-              "value": "Beige Linen Melamine",
-              "img": "Beige-Linen-Melamine.jpg"
+              "value": "Grey Melamine",
+              "img": "Gray-Melamine.jpg"
             },
             {
               "value": "Grey Linen Melamine",
               "img": "Gray-Linen-Melamine.jpg"
             },
             {
-              "value": "Grey Melamine",
-              "img": "Gray-Melamine.jpg"
+              "value": "Beige Linen Melamine",
+              "img": "Beige-Linen-Melamine.jpg"
+            },
+            {
+              "value": "Ash Melamine",
+              "img": "Ash-Melamine-1.jpg",
+              "isGrain": true
             },
             {
               "value": "Walnut Melamine",
@@ -2194,17 +2198,8 @@
               "isGrain": true
             },
             {
-              "value": "White Melamine",
-              "img": "White-Melamine.jpg"
-            },
-            {
               "value": "Brown Oak",
               "img": "Brown Oak.jpg",
-              "isGrain": true
-            },
-            {
-              "value": "Grey Woodline",
-              "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
@@ -2213,12 +2208,17 @@
               "isGrain": true
             },
             {
-              "value": "Ultra Matte Grey",
-              "img": "Ultra Matte Grey.jpg"
+              "value": "Grey Woodline",
+              "img": "Grey Woodline.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
               "img": "Ultra Matte White.jpg"
+            },
+            {
+              "value": "Ultra Matte Grey",
+              "img": "Ultra Matte Grey.jpg"
             }
           ]
         },

@@ -6,6 +6,7 @@ import {RoomCategoriesType} from "./roomTypes";
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 export type DoorColorType = 1 | 2 | 3;
+export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
@@ -29,7 +30,8 @@ export type CustomTypes =
     | 'standard-glass-door'
     | 'backing'
     | 'standard-panel'
-    | 'plastic_toe';
+    | 'plastic_toe'
+    | 'simple-closets';
 
 export type kitchenCategories =
     'Base Cabinets'

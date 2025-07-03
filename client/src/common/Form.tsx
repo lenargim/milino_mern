@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
-import {useField, ErrorMessage, Field, getIn} from "formik";
+import {useField, ErrorMessage, Field} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'

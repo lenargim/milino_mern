@@ -7,7 +7,6 @@ import {
     getSelectValfromVal
 } from "../../helpers/helpers";
 import SelectField from "../../common/SelectField";
-import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }> = ({is_custom, glass_door}) => {
     const [profile, type, color] = glass_door;

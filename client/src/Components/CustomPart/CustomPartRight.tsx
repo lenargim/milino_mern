@@ -7,6 +7,7 @@ import CustomPartStandardPanel from "./CustomPartStandardPanel";
 import CustomPartPlasticToe from "./CustomPartPlasticToe";
 import DoorAccessoriesForm from "./CustomPartDoorAccessoiresForm";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import CustomPartSimpleCloset from "./CustomPartSimpleCloset";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -45,6 +46,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
         case "plastic_toe":
             return <CustomPartPlasticToe product={customPartProduct} />
+        case "simple-closets":
+            return <CustomPartSimpleCloset materials={materials} />
     }
 };
 

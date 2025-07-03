@@ -5,7 +5,7 @@ import {
     hingeTypes,
     productTypings
 } from "../../helpers/productTypes";
-import {CartItemFrontType} from "../../helpers/cartTypes";
+import {CartItemFrontType, CartLEDAPI} from "../../helpers/cartTypes";
 
 export type glassDoorExtraType = {
     material?: string,
@@ -38,11 +38,7 @@ export type productExtraType = {
     shelfGlassType?: string,
     shelfGlassColor?: string,
     middleSection?: number,
-    led?: {
-        border: string[],
-        alignment: string,
-        indent?: string
-    },
+    led?: CartLEDAPI,
     leather?: string,
     cartExtras: CartExtrasType
 }

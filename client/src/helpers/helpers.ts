@@ -8,7 +8,6 @@ import {
     CustomPartDataType,
     CustomPartType,
     hingeArr,
-    itemImg,
     materialsCustomPart,
     MaybeEmpty,
     MaybeNull,
@@ -44,7 +43,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType,
+    DoorAccessoryType, SimpleClosetAPIType,
 } from "../Components/CustomPart/CustomPart";
 import {addToCartAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -58,7 +57,7 @@ import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/C
 import settings from "../api/settings.json";
 import {
     CartAPI,
-    CartAPIImagedType,
+    CartAPIImagedType, CartCustomType,
     CartItemFrontType,
     CartNewType, CartOrder,
     CustomAccessoriesType,
@@ -66,11 +65,10 @@ import {
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
-import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
+import {refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
-import PDFPurchaseOrder from "../Components/PDFOrder/PDFPurchaseOrder";
 import {UserType} from "../api/apiTypes";
 import {logout} from "../store/reducers/userSlice";
 
@@ -113,7 +111,7 @@ export const getAttributes = (attributes: attrItem[], type: productTypings = 1) 
 
 export const getProductImage = (images: string[], imgType: productTypings = 1): string => {
     for (let i = imgType; i >= 0; i--) {
-        const imgLink = images[i-1];
+        const imgLink = images[i - 1];
         if (imgLink) return getImg('products', imgLink);
     }
     return noImg
@@ -227,6 +225,7 @@ export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): Cust
     const standardDoorCustomParts = cabinets as ProductOrCustomType[];
     let exceptionIds: number[] = [];
     exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921];
+    if (room.category !== 'Simple Closet') exceptionIds.push(923)
     return standardDoorCustomParts.filter(el => el.product_type === 'custom' && !exceptionIds.includes(el.id)) as CustomPartDataType[];
 }
 
@@ -295,8 +294,8 @@ export const checkMiddleSectionStandard = (hasMiddleSection: MaybeUndefined<true
 export const checkOptionsSelected = (options: string[]): boolean => {
     return !options.length
 }
-export const checkLedSelected = (led: string[]): boolean => {
-    return !led.length
+export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
+    return !led?.length
 }
 
 export const getCustomCabinetString = (isStandard: IsStandardOptionsType): string => {
@@ -374,6 +373,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         led_accessories,
         standard_door,
         standard_panels,
+        simple_closet_custom
     } = values;
 
     const {id, product_type} = product;
@@ -397,12 +397,16 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     }));
 
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-    const {doors, color} = standard_door
     const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
     const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
     const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
+    const simple_closet_custom_api: SimpleClosetAPIType[] = simple_closet_custom.map(el => ({
+        qty: el.qty,
+        name: el.name,
+        width: el["Width Number"]
+    }))
 
-    return {
+    let preparedProduct: CartNewType = {
         room_id: roomId,
         product_id: id,
         product_type: product_type,
@@ -419,44 +423,73 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
             door: glass_door,
             shelf: glass_shelf,
         },
-        led: {
-            border: [],
-            alignment: '',
-            indent: '',
-        },
-        custom: {
-            material: material,
-            accessories: {
-                led_alum_profiles: led_alum_profiles_api,
-                led_gola_profiles: led_gola_profiles_api,
-                led_dimmable_remote: led_dimmable_remote,
-                led_door_sensor: led_door_sensor,
-                led_transformer: led_transformer,
-                door: door_accessories.filter(el => el.qty > 0),
-            },
-            standard_panels: {
-                standard_panel: standard_panel_api,
-                shape_panel: shape_panel_api,
-                wtk: wtk_api,
-                crown_molding
-            },
-            standard_door: {
-                doors,
-                color
-            }
-        },
-        note: note
-        // subcategory: type,
-        // price,
-        // isStandard: {
-        //     dimensions: true,
-        //     led: true,
-        //     blind: true,
-        //     middle: true,
-        //     options: true
+        custom: {},
+        // led: {
+        //     border: [],
+        //     alignment: '',
+        //     indent: '',
         // },
-        // image_active_number: 1,
+        // custom: {
+        //     material: material,
+        //     accessories: {
+        //         led_alum_profiles: led_alum_profiles_api,
+        //         led_gola_profiles: led_gola_profiles_api,
+        //         led_dimmable_remote: led_dimmable_remote,
+        //         led_door_sensor: led_door_sensor,
+        //         led_transformer: led_transformer,
+        //         door: door_accessories.filter(el => el.qty > 0),
+        //     },
+        //     standard_panels: {
+        //         standard_panel: standard_panel_api,
+        //         shape_panel: shape_panel_api,
+        //         wtk: wtk_api,
+        //         crown_molding
+        //     },
+        //     standard_door: {
+        //         doors,
+        //         color
+        //     },
+        //     simple_closet: simple_closet_custom_api
+        // },
+        note: note
     }
+
+    function forceSetPath<T extends object>(
+        obj: T,
+        path: string,
+        value: any
+    ): void {
+        const keys = path.split('.');
+        let current: any = obj;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+
+            if (current[key] === undefined || typeof current[key] !== 'object') {
+                current[key] = {};
+            }
+
+            current = current[key];
+        }
+
+        current[keys[keys.length - 1]] = value;
+    }
+
+
+    if (material) forceSetPath(preparedProduct, 'custom.material', material);
+    if (led_alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_alum_profiles', led_alum_profiles_api);
+    if (led_gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_gola_profiles', led_gola_profiles_api);
+    if (led_dimmable_remote) forceSetPath(preparedProduct, 'custom.accessories.led_dimmable_remote', led_dimmable_remote);
+    if (led_door_sensor) forceSetPath(preparedProduct, 'custom.accessories.led_door_sensor', led_door_sensor);
+    if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
+    if (door_accessories.length) forceSetPath(preparedProduct, 'custom.accessories.door', door_accessories.filter(el => el.qty > 0));
+    if (standard_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.standard_panel', standard_panel_api);
+    if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
+    if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
+    if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
+    if (standard_door) forceSetPath(preparedProduct, 'custom.standard_door', {doors: standard_door.doors, color: standard_door.color});
+    if (simple_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.simple_closet', simple_closet_custom_api)
+    return preparedProduct;
 }
 
 const isHasLedBlock = (category: productCategory): boolean => {
@@ -575,14 +608,14 @@ export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategoriesType>
 }
 
 
-export const getBoxMaterialColorsArr = (category: MaybeEmpty<RoomCategoriesType>, isLeather: boolean, boxMaterialType: string, boxMaterialsArr: finishType[]): MaybeUndefined<colorType[]> => {
-    if (isLeather || category === 'Simple Closet') return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
+export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): MaybeUndefined<colorType[]> => {
+    if (isLeather) return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors;
+    if (isSimpleCloset) return boxMaterialAPI
     return undefined;
 }
 
 export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {
     const grainType = colorArr.find(el => el.value === door_color)?.isGrain;
-
     switch (grainType) {
         case true:
             return grain;
@@ -733,8 +766,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 blindArr
             } = product
 
-            const {border} = led
-
             const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
             if (!tablePriceData) return null;
 
@@ -759,7 +790,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 isStandard: {
                     dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
                     blind: checkBlindStandard(isBlind, blind_width, blindArr),
-                    led: checkLedSelected(border),
+                    led: checkLedSelected(led?.border),
                     options: checkOptionsSelected(options),
                     middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
                 }
@@ -852,7 +883,7 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
 
 export const getCartItemImgPDF = (images: string[], image_active_number: productTypings): string => {
     for (let i = image_active_number; i >= 0; i--) {
-        const imgLink = images[i-1];
+        const imgLink = images[i - 1];
         if (imgLink) return getImg('products-checkout', imgLink.replace('webp', 'jpg'));
     }
     return noImg

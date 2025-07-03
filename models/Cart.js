@@ -152,6 +152,13 @@ const CartSchema = new mongoose.Schema({
         type: Number,
       }
     },
+    simple_closet: [
+      {
+        qty: {type: Number},
+        name: {type: String},
+        width: {type: Number}
+      }
+    ]
   },
   note: {
     type: String,

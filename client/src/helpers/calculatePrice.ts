@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttributesPrices,
-    attrItem,
+    attrItem, BoxMaterialColorType,
     DoorColorType,
     materialDataType,
     MaybeNull,
@@ -30,6 +30,8 @@ import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
 import {RoomMaterialsFormType} from "./roomTypes";
 import {CartAPIImagedType, CartItemFrontType} from "./cartTypes";
+import {CustomPartFormType, SimplePartCustomType} from "../Components/CustomPart/CustomPart";
+import {retry} from "@reduxjs/toolkit/query";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], category: productCategory): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -514,6 +516,14 @@ const getDoorColorType = (color: string): DoorColorType => {
     return 1
 };
 
+const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
+    if (color.includes('Melamine')) return 1;
+    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(color)) return 2;
+    if (color.includes('Ultra Matte')) return 3;
+    if (color.includes('Plywood')) return 4;
+    return 1
+};
+
 const getBoxMaterialCoef = (box_material: string, product_id:number): number => {
     // Exceptions
     const noCoefExceptionsArr: number[] = [35];
@@ -872,7 +882,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led.border),
+        ledPrice: getLedPrice(width, height, led?.border),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard", is_leather_or_simple_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
         glassDoor: addGlassDoorPrice(frontSquare, glass.door[0], product_type === "standard", hasGlassDoor),
@@ -892,4 +902,60 @@ const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], p
     if (maxHeight < height) coef_h = addHeightPriceCoef(height, maxHeight);
     if (depthRange[0] !== depth) coef_d = addDepthPriceCoef(depth, depthRange, isAngle);
     return 1 + (coef_w + coef_h + coef_d)
+}
+
+export const getSimpleClosetCustomPartPrice = (simple_closet_custom:SimplePartCustomType[], materials:RoomMaterialsFormType):number => {
+    const getItemPrice = (item:SimplePartCustomType):number => {
+        const {name, qty, 'Width Number': width} = item;
+        if (!qty || !name || !width) return 0;
+        const getCoef = (materials:RoomMaterialsFormType):number => {
+            const {box_material, box_color} = materials
+            switch (box_material) {
+                case "Milino":
+                    const boxType = getBoxMaterialColorType(box_color)
+                    if (boxType === 1) return 8;
+                    if (boxType === 2) return 8.8;
+                    if (boxType === 3) return 9.6;
+                    return 9.2;
+                case "Syncron":
+                    return 18;
+                case "Luxe":
+                case "Zenit":
+                case "Ultrapan PET":
+                    return 24;
+                case "Ultrapan Acrylic":
+                    return 26.4;
+                default:
+                    return 0;
+            }
+        }
+        const coef = getCoef(materials);
+        switch (name) {
+            case "SR":
+                return width*15/12;
+            case "STK":
+                return 1 + (width*3*coef)/144;
+            case "AS14":
+                return width*14*coef/144;
+            case "AS18":
+                return width*18*coef/144;
+            case "AS22":
+                return width*22*coef/144;
+            case "FS14":
+                return 5 + (width*14*coef)/144
+            case "FS18":
+                return 5 + (width*18*coef)/144
+            case "FS22":
+                return 5 + (width*22*coef)/144
+            case "SS14":
+                return width + (width*14*coef)/144
+            case "SS18":
+                return width + (width*18*coef)/144
+            case "SS22":
+                return width + (width*22*coef)/144;
+            default:
+                return 0
+        }
+    }
+    return +(simple_closet_custom.reduce((acc, item) => acc + (getItemPrice(item) * item.qty), 0)).toFixed(2)
 }

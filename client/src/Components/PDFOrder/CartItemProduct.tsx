@@ -4,6 +4,7 @@ import {getFraction} from "../../helpers/helpers";
 import {s} from "./PDFOrder";
 import Dimensions from "./Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import CartItemLED from "./CartItemLED";
 
 const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
     const {
@@ -16,7 +17,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
         options,
         glass
     } = product;
-    const {indent, alignment, border} = led;
     const {door:glass_door, shelf:glass_shelf} = glass;
 
     return (
@@ -37,11 +37,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
                 <View style={s.itemOption}>
                     <Text>Hinge opening: {hinge}</Text>
                 </View> : null}
-            {border.length ?
-                <View style={!isStandard.led ? s.itemOptionCustom:s.itemOption}>
-                    <Text>LED: {`${border.map(el => el)}. ${alignment} ${indent ? indent + '"' : ''}`}</Text>
-                </View> : null
-            }
+            {led && <CartItemLED led={led} />}
             {corner ?
                 <View style={s.itemOption}>
                     <Text>Corner: {corner}</Text>

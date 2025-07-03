@@ -5168,6 +5168,13 @@
     "options": []
   },
   {
+    "id": 923,
+    "product_type": "custom",
+    "name": "Simple Closet additional parts",
+    "type": "simple-closets",
+    "images": ["custom/simple-closets-additional-parts.webp"]
+  },
+  {
     "id": 921,
     "product_type": "custom",
     "name": "Standard Panel",
