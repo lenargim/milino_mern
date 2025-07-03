@@ -30,8 +30,7 @@ import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
 import {RoomMaterialsFormType} from "./roomTypes";
 import {CartAPIImagedType, CartItemFrontType} from "./cartTypes";
-import {CustomPartFormType, SimplePartCustomType} from "../Components/CustomPart/CustomPart";
-import {retry} from "@reduxjs/toolkit/query";
+import {SimplePartCustomType} from "../Components/CustomPart/CustomPart";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], category: productCategory): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];

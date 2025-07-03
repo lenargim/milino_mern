@@ -33,7 +33,7 @@ import {
     getMaterialData,
     getProductDataToCalculatePrice,
     getProductPriceRange,
-    getProductRange,
+    getProductRange, getSimpleClosetCustomPartPrice,
     getType
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
@@ -43,7 +43,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, SimpleClosetAPIType,
+    DoorAccessoryType, SimpleClosetAPIType, SimplePartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {addToCartAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -799,7 +799,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         case "custom": {
             const customPart = product_or_custom as CustomPartType;
             const {type, standard_price} = customPart;
-            const {accessories, standard_door, standard_panels, material} = custom!;
+            const {accessories, standard_door, standard_panels, material, simple_closet} = custom!;
             const {door: glass_door_val} = glass;
             const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
             const isStandardPanel = ["standard-panel"].includes(type);
@@ -835,6 +835,15 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             }
             if (type === "plastic_toe" && standard_price) {
                 price = standard_price
+            }
+
+            if (type === "simple-closets") {
+                if (simple_closet) {
+                    const simple_closet_front:SimplePartCustomType[] = simple_closet.map(el => {
+                        return {qty: el.qty, name: el.name, "Width Number": el.width, "Width": ''}
+                    });
+                    price = getSimpleClosetCustomPartPrice(simple_closet_front, room);
+                }
             }
             return {
                 ...item,
