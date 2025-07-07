@@ -1,20 +1,18 @@
 import React, {FC, useEffect} from 'react';
-import {FieldArray, Form, useField, useFormikContext } from 'formik';
+import {FieldArray, Form, useField, useFormikContext} from 'formik';
 import {
     getSelectDoorVal,
     getSelectValfromVal,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, MaybeNull} from "../../helpers/productTypes";
 import {changeAmountType} from "../../helpers/cartTypes";
 import SelectField, {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormType} from "./CustomPart";
 import {StandardDoorAPIType} from "../../helpers/cartTypes";
-import CustomPartSubmit from "./CustomPartSubmit";
-
 
 type Door = {
     name: string,
@@ -28,24 +26,37 @@ export type DoorType = {
     color: string,
 }
 
+const initialStandardDoor: DoorType = {
+    color: '',
+    doors: [{
+        name: '',
+        qty: 1,
+        width: 0,
+        height: 0
+    }],
+}
+
 const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customPart}) => {
     const {type} = customPart;
     const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {standard_door, price} = values
-    const {doors, color} = standard_door
 
     const doorColors = settings.doorColors as string[];
     const doorColorsArr = doorColors.map(el => ({value: el, label: el}))
-
     const doorSizes = type === 'standard-door' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
     const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
 
+    useEffect(() => {
+        if (!values.standard_door) setFieldValue('standard_door', initialStandardDoor);
+    }, [])
     useEffect(() => {
         const newPrice = getCustomPartStandardDoorPrice(standard_door, type);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
-    }, [standard_door, doors, color, doorSizesArr]);
+    }, [standard_door, doorSizesArr]);
+    if (!standard_door) return null;
+    const {doors, color} = standard_door;
     return (
         <Form className={s.accessories}>
             <div className={s.block}>
@@ -56,7 +67,7 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
                             <DoorItem door={door} index={index} key={index} remove={remove}
                                       doorSizesArr={doorSizesArr}/>)}
                         {typeof errors['standard_door'] === 'string' &&
-                          <div className="error">{errors['standard_door']}</div>}
+                        <div className="error">{errors['standard_door']}</div>}
                         <button
                             type="button"
                             onClick={() => push({name: '', qty: 1, width: 0, height: 0})}
@@ -88,7 +99,8 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
 
 export default CustomPartStandardDoorForm;
 
-export const getCustomPartStandardDoorPrice = (values: StandardDoorAPIType, name: string): number => {
+export const getCustomPartStandardDoorPrice = (values: MaybeNull<StandardDoorAPIType>, name: string): number => {
+    if (!values) return 0;
     const {doors: doorsArr, color} = values;
     const glassPrice: number = name !== 'standard-door' ? 10 : 0;
     const colorPrice: number = color !== 'White' ? 30 : 0;

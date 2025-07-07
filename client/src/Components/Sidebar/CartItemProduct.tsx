@@ -4,6 +4,7 @@ import {getFraction} from "../../helpers/helpers";
 import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemChosenOptions from "./CartItemChosenOptions";
+import CartItemLED from "./CartItemLED";
 
 const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {
@@ -16,7 +17,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
         glass,
         isStandard
     } = product;
-    const {indent:led_indent, alignment:led_alignment, border:led_border} = led;
 
     return (
         <>
@@ -39,12 +39,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
                     <span>Hinge opening:</span>
                     <span>{hinge}</span>
                 </div> : null}
-            {led_border.length ?
-                <div className={[s.itemOption, !isStandard.led ? s.itemOptionCustom:''].join(' ')}>
-                    <span>LED:</span>
-                    <span>{`${led_border.map(el => el)}. ${led_alignment} ${led_indent ? led_indent + '"' : ''}`}</span>
-                </div> : null
-            }
+            {led && <CartItemLED led={led} />}
             {corner ?
                 <div className={s.itemOption}>
                     <span>Corner:</span>

@@ -3,21 +3,9 @@
     "id": 1,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BS Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BS.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/BS_2.webp"
-      }
-    ],
+    "images": ["BC/BS.webp","BC/BS_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -55,21 +43,9 @@
     "id": 2,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BD.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/BD_2.webp"
-      }
-    ],
+    "images": ["BC/BD.webp","BC/BD_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -106,21 +82,9 @@
     "id": 3,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/B_2.webp"
-      }
-    ],
+    "images": ["BC/B.webp","BC/B_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -168,21 +132,9 @@
     "id": 4,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BID Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BID.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/BID_2.webp"
-      }
-    ],
+    "images": ["BC/BID.webp", "BC/BID_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -229,21 +181,9 @@
     "id": 5,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BSG Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BSG.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/BSG.webp"
-      }
-    ],
+    "images": ["BC/BSG.webp","BC/BSG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -279,21 +219,9 @@
     "id": 6,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BG Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BG.webp"
-      },
-      {
-        "type": 2,
-        "value": "BC/BG.webp"
-      }
-    ],
+    "images": ["BC/BG.webp","BC/BG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -339,17 +267,9 @@
     "id": 7,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BSP Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BSP.webp"
-      }
-    ],
+    "images": ["BC/BSP.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -380,17 +300,9 @@
     "id": 8,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "BD2 Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BD2.webp"
-      }
-    ],
+    "images": ["BC/BD2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -431,17 +343,9 @@
     "id": 9,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B2DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B2DE.webp"
-      }
-    ],
+    "images": ["BC/B2DE.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -462,17 +366,9 @@
     "id": 10,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B3DI Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B3DI.webp"
-      }
-    ],
+    "images": ["BC/B3DI.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -502,17 +398,9 @@
     "id": 11,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B3D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B3D.webp"
-      }
-    ],
+    "images": ["BC/B3D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -542,17 +430,9 @@
     "id": 12,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B3DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B3DE.webp"
-      }
-    ],
+    "images": ["BC/B3DE.webp"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -582,17 +462,9 @@
     "id": 13,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B3ED Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B3ED.webp"
-      }
-    ],
+    "images": ["BC/B3ED.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -613,17 +485,9 @@
     "id": 14,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B4D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B4D.webp"
-      }
-    ],
+    "images": ["BC/B4D.webp"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -653,17 +517,9 @@
     "id": 15,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B4DE Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B4DE.webp"
-      }
-    ],
+    "images": ["BC/B4DE.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -684,17 +540,9 @@
     "id": 16,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "SB2D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/SB2D.webp"
-      }
-    ],
+    "images": ["BC/SB2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -715,17 +563,9 @@
     "id": 17,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "SB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/SB.webp"
-      }
-    ],
+    "images": ["BC/SB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -756,17 +596,9 @@
     "id": 18,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "SBD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/SBD.webp"
-      }
-    ],
+    "images": ["BC/SBD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -806,17 +638,9 @@
     "id": 19,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "SBT Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/SBT.webp"
-      }
-    ],
+    "images": ["BC/SBT.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -856,17 +680,9 @@
     "id": 20,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "SBDT Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/SBDT.webp"
-      }
-    ],
+    "images": ["BC/SBDT.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -916,16 +732,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "BCB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BCB.webp"
-      }
-    ],
+    "images": ["BC/BCB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -966,16 +775,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "BCBL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BCBL.webp"
-      }
-    ],
+    "images": ["BC/BCBL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1018,14 +820,8 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCA Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BCA.webp"
-      }
-    ],
+    "images": ["BC/BCA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1068,14 +864,8 @@
     "isBlind": true,
     "isAngle": "flat",
     "name": "BCAL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BCAL.webp"
-      }
-    ],
+    "images": ["BC/BCAL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1118,14 +908,8 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BC.webp"
-      }
-    ],
+    "images": ["BC/BC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1168,14 +952,8 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "BCL Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BCL.webp"
-      }
-    ],
+    "images": ["BC/BCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1215,17 +993,9 @@
     "id": 27,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CTB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/CTB.webp"
-      }
-    ],
+    "images": ["BC/CTB.webp"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1264,17 +1034,9 @@
     "id": 28,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "COB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/COB.webp"
-      }
-    ],
+    "images": ["BC/COB.webp"],
     "attributes": [
       {
         "name": "Front Panel",
@@ -1312,17 +1074,9 @@
     "id": 29,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "MB Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/MB.webp"
-      }
-    ],
+    "images": ["BC/MB.webp"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1357,23 +1111,14 @@
       "Box from finish material"
     ]
   },
-
   {
     "id": 30,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind":  false,
-    "isAngle": false,
     "name": "B1D Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "customHeight": 12,
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B1D.webp"
-      }
-    ],
+    "images": ["BC/B1D.webp"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1389,23 +1134,13 @@
       "PTO for drawers"
     ]
   },
-
   {
     "id": 31,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "B1KD Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
     "customHeight": 6,
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/B1KD.webp"
-      }
-    ],
+    "images": ["BC/B1KD.webp"],
     "attributes": [
       {
         "name": "Floating Drawer Cabinet",
@@ -1425,18 +1160,9 @@
   {
     "id": 33,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "DDC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/DDC.webp"
-      }
-    ],
+    "images": ["BC/DDC.webp"],
     "attributes": [
       {
         "name": "Empty Drop Down Door Cabinet",
@@ -1448,26 +1174,16 @@
         ]
       }
     ],
-    "options": [
-      "Box from finish material"
-    ]
+    "options": ["Box from finish material"]
   },
   {
     "id": 35,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "customDepth": 13,
     "name": "BW Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BW.webp"
-      }
-    ],
+    "images": ["BC/BW.webp"],
     "attributes": [
       {
         "name": "Wine Cells Cabinet",
@@ -1485,17 +1201,10 @@
     "id": 36,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
     "isAngle": "flat",
     "name": "BEAC Series",
-    "room": "Kitchen",
     "category": "Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "BC/BEAC.webp"
-      }
-    ],
+    "images": ["BC/BEAC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1535,21 +1244,9 @@
     "id": 40,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PBS Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBS.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PBS_2.webp"
-      }
-    ],
+    "images": ["GC/PBS.webp","GC/PBS_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1587,21 +1284,9 @@
     "id": 41,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PBD Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBD.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PBD_2.webp"
-      }
-    ],
+    "images": ["GC/PBD.webp","GC/PBD_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1638,21 +1323,9 @@
     "id": 42,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PBSG Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBSG.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PBSG.webp"
-      }
-    ],
+    "images": ["GC/PBSG.webp","GC/PBSG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1688,17 +1361,9 @@
     "id": 43,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PBG Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBG.webp"
-      }
-    ],
+    "images": ["GC/PBG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1739,17 +1404,9 @@
     "id": 44,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PBSP Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBSP.webp"
-      }
-    ],
+    "images": ["GC/PBSP.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1780,17 +1437,9 @@
     "id": 45,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PSB Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PSB.webp"
-      }
-    ],
+    "images": ["GC/PSB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1821,17 +1470,9 @@
     "id": 46,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PSBD Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PSBD.webp"
-      }
-    ],
+    "images": ["GC/PSBD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -1871,17 +1512,9 @@
     "id": 47,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PB2D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PB2D.webp"
-      }
-    ],
+    "images": ["GC/PB2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -1902,17 +1535,9 @@
     "id": 48,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PB3DI Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PB3DI.webp"
-      }
-    ],
+    "images": ["GC/PB3DI.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -1942,17 +1567,9 @@
     "id": 49,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PSB2D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PSB2D.webp"
-      }
-    ],
+    "images": ["GC/PSB2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -1973,17 +1590,9 @@
     "id": 50,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PB3D Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PB3D.webp"
-      }
-    ],
+    "images": ["GC/PB3D.webp"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -2016,14 +1625,8 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "PBC Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBCC.webp"
-      }
-    ],
+    "images": ["GC/PBCC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2066,14 +1669,8 @@
     "isBlind": true,
     "isAngle": "corner",
     "name": "PBCL Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBCL.webp"
-      }
-    ],
+    "images": ["GC/PBCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2114,16 +1711,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PBCB Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBCB.webp"
-      }
-    ],
+    "images": ["GC/PBCB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2164,16 +1754,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PBCBL Series",
-    "room": "Kitchen",
     "category": "Gola Base Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PBCBL.webp"
-      }
-    ],
+    "images": ["GC/PBCBL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2212,30 +1795,9 @@
   {
     "id": 101,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "W Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/W.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/W_2.webp"
-      },
-      {
-        "type": 3,
-        "value": "WC/W.webp"
-      },
-      {
-        "type": 4,
-        "value": "WC/W_2.webp"
-      }
-    ],
+    "images": ["WC/W.webp","WC/W_2.webp","WC/W.webp","WC/W_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2298,22 +1860,9 @@
   {
     "id": 102,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WDA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WDA.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WDA.webp"
-      }
-    ],
+    "images": ["WC/WDA.webp","WC/WDA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2362,18 +1911,9 @@
   {
     "id": 103,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WA.webp"
-      }
-    ],
+    "images": ["WC/WA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2403,18 +1943,9 @@
   {
     "id": 104,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WBL Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WBL.webp"
-      }
-    ],
+    "images": ["WC/WBL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2443,22 +1974,9 @@
   {
     "id": 105,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WBA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WBA.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WBA.webp"
-      }
-    ],
+    "images": ["WC/WBA.webp","WC/WBA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2512,22 +2030,9 @@
   {
     "id": 106,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WB Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WB.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WB.webp"
-      }
-    ],
+    "images": ["WC/WB.webp","WC/WB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2577,23 +2082,10 @@
   {
     "id": 107,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "customDepth": 24,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WRF Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WRF.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WRF.webp"
-      }
-    ],
+    "images": ["WC/WRF.webp","WC/WRF.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2647,23 +2139,10 @@
   {
     "id": 108,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "customDepth": 24,
-    "isBlind": false,
-    "isAngle": false,
     "name": "WRFA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WRFA.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WRFA.webp"
-      }
-    ],
+    "images": ["WC/WRFA.webp","WC/WRFA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2717,23 +2196,12 @@
   {
     "id": 109,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
     "isAngle": "corner",
     "customDepth": 24,
     "name": "WC Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WC.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WC.webp"
-      }
-    ],
+    "images": ["WC/WC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2783,23 +2251,12 @@
   {
     "id": 110,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
     "isAngle": "flat",
     "customDepth": 24,
     "name": "WCA Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WCA.webp"
-      },
-      {
-        "type": 2,
-        "value": "WC/WCA.webp"
-      }
-    ],
+    "images": ["WC/WCA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2849,18 +2306,10 @@
   {
     "id": 111,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
-    "isAngle": false,
     "name": "WCB Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WCB.webp"
-      }
-    ],
+    "images": ["WC/WCB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -2900,19 +2349,11 @@
   {
     "id": 112,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
     "isAngle": "corner",
     "hasSolidWidth": true,
     "name": "WDC Series",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WDC.webp"
-      }
-    ],
+    "images": ["WC/WDC.webp"],
     "attributes": [
       {
         "name": "False Front",
@@ -2938,23 +2379,12 @@
   {
     "id": 113,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
     "isAngle": "corner",
     "customDepth": 24,
     "name": "PWC Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PWC.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PWC.webp"
-      }
-    ],
+    "images": ["GC/PWC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3004,23 +2434,12 @@
   {
     "id": 114,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
     "isAngle": "flat",
     "customDepth": 24,
     "name": "PWCA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PWCA.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PWCA.webp"
-      }
-    ],
+    "images": ["GC/PWCA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3070,30 +2489,9 @@
   {
     "id": 115,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PW Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PW.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PW_2.webp"
-      },
-      {
-        "type": 3,
-        "value": "GC/PW.webp"
-      },
-      {
-        "type": 4,
-        "value": "GC/PW_2.webp"
-      }
-    ],
+    "images": ["GC/PW.webp","GC/PW_2.webp","GC/PW.webp","GC/PW_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3156,22 +2554,9 @@
   {
     "id": 116,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PWDA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PWDA.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PWDA.webp"
-      }
-    ],
+    "images": ["GC/PWDA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3220,18 +2605,9 @@
   {
     "id": 117,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PWA Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PWA.webp"
-      }
-    ],
+    "images": ["GC/PWA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3261,18 +2637,10 @@
   {
     "id": 118,
     "product_type": "cabinet",
-    "legsHeight": 0,
     "isBlind": true,
-    "isAngle": false,
     "name": "PWCB Series",
-    "room": "Kitchen",
     "category": "Gola Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PWCB.webp"
-      }
-    ],
+    "images": ["GC/PWCB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3312,19 +2680,11 @@
   {
     "id": 119,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
     "isAngle": "flat",
     "hasSolidWidth": true,
     "name": "WEAC",
-    "room": "Kitchen",
     "category": "Wall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "WC/WEAC.webp"
-      }
-    ],
+    "images": ["WC/WEAC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3353,29 +2713,9 @@
     "id": 201,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PC Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/PC.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/PC_2.webp"
-      },
-      {
-        "type": 3,
-        "value": "TC/PC.webp"
-      },
-      {
-        "type": 4,
-        "value": "TC/PC_2.webp"
-      }
-    ],
+    "images": ["TC/PC.webp","TC/PC_2.webp","TC/PC.webp","TC/PC_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3440,21 +2780,9 @@
     "id": 202,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PC2D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/PC2D.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/PC2D_2.webp"
-      }
-    ],
+    "images": ["TC/PC2D.webp","TC/PC2D_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3510,21 +2838,9 @@
     "id": 203,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PC3D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/PC3D.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/PC3D_2.webp"
-      }
-    ],
+    "images": ["TC/PC3D.webp","TC/PC3D_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3580,21 +2896,9 @@
     "id": 204,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PC4D Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/PC4D.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/PC4D_2.webp"
-      }
-    ],
+    "images": ["TC/PC4D.webp","TC/PC4D_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3651,20 +2955,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "TBC Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TBC.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/TBC.webp"
-      }
-    ],
+    "images": ["TC/TBC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3721,20 +3014,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "TBCL Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TBCL.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/TBCL.webp"
-      }
-    ],
+    "images": ["TC/TBCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3790,19 +3072,11 @@
     "id": 207,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "TDO Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TDO.webp"
-      }
-    ],
+    "images": ["TC/TDO.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3844,23 +3118,11 @@
     "id": 208,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "TSO Series",
     "hasMiddleSection": true,
     "middleSectionDefault": 30,
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TSO.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/TSO.webp"
-      }
-    ],
+    "images": ["TC/TSO.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3914,22 +3176,9 @@
   {
     "id": 209,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "T Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/T.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/T_2.webp"
-      }
-    ],
+    "images": ["TC/T.webp","TC/T_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -3983,22 +3232,9 @@
   {
     "id": 210,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "TD Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/TD.webp"
-      },
-      {
-        "type": 2,
-        "value": "TC/TD_2.webp"
-      }
-    ],
+    "images": ["TC/TD.webp","TC/TD_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4065,18 +3301,9 @@
   {
     "id": 211,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PCSP Series",
-    "room": "Kitchen",
     "category": "Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "TC/PCSP.webp"
-      }
-    ],
+    "images": ["TC/PCSP.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4117,29 +3344,9 @@
     "id": 212,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PPC Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PPC.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PPC_2.webp"
-      },
-      {
-        "type": 3,
-        "value": "GC/PPC.webp"
-      },
-      {
-        "type": 4,
-        "value": "GC/PPC_2.webp"
-      }
-    ],
+    "images": ["GC/PPC.webp","GC/PPC_2.webp","GC/PPC.webp","GC/PPC_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4204,21 +3411,9 @@
     "id": 213,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PPCD Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PPCD.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PPCD_2.webp"
-      }
-    ],
+    "images": ["GC/PPCD.webp","GC/PPCD_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4274,17 +3469,9 @@
     "id": 214,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PPCDV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PPCDV.webp"
-      }
-    ],
+    "images": ["GC/PPCDV.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4325,21 +3512,9 @@
     "id": 215,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PPCV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PPC.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PPC.webp"
-      }
-    ],
+    "images": ["GC/PPC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4381,19 +3556,11 @@
     "id": 216,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "PTDO Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTDO.webp"
-      }
-    ],
+    "images": ["GC/PTDO.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4436,20 +3603,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PTBC Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBC.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PTBC.webp"
-      }
-    ],
+    "images": ["GC/PTBC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4506,20 +3662,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PTBCL Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBCL.webp"
-      },
-      {
-        "type": 2,
-        "value": "GC/PTBCL.webp"
-      }
-    ],
+    "images": ["GC/PTBCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4576,16 +3721,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PTBCLV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBCL.webp"
-      }
-    ],
+    "images": ["GC/PTBCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4627,16 +3765,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "PTBCV Series",
-    "room": "Kitchen",
     "category": "Gola Tall Cabinets",
-    "images": [
-      {
-        "type": 1,
-        "value": "GC/PTBC.webp"
-      }
-    ],
+    "images": ["GC/PTBC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4673,26 +3804,13 @@
       "Box from finish material"
     ]
   },
-
   {
     "id": 301,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VBS Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VBS.webp"
-      },
-      {
-        "type": 2,
-        "value": "VC/VBS_2.webp"
-      }
-    ],
+    "images": ["VC/VBS.webp","VC/VBS_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4730,17 +3848,9 @@
     "id": 302,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSB Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSB.webp"
-      }
-    ],
+    "images": ["VC/VSB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4771,17 +3881,9 @@
     "id": 303,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSBD Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSBD.webp"
-      }
-    ],
+    "images": ["VC/VSBD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4821,17 +3923,9 @@
     "id": 305,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VB2D Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VB2D.webp"
-      }
-    ],
+    "images": ["VC/VB2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4852,17 +3946,9 @@
     "id": 304,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSB2D Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSB2D.webp"
-      }
-    ],
+    "images": ["VC/VSB2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -4883,17 +3969,9 @@
     "id": 306,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VB3D Series",
-    "room": "Vanity",
     "category": "Vanities",
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VB3D.webp"
-      }
-    ],
+    "images": ["VC/VB3D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4922,23 +4000,10 @@
   {
     "id": 307,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VF Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VF.webp"
-      },
-      {
-        "type": 2,
-        "value": "VC/VF_2.webp"
-      }
-    ],
+    "images": ["VC/VF.webp","VC/VF_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -4975,19 +4040,10 @@
   {
     "id": 308,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VF2D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VF2D.webp"
-      }
-    ],
+    "images": ["VC/VF2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -5007,19 +4063,10 @@
   {
     "id": 309,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VF3D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VF3D.webp"
-      }
-    ],
+    "images": ["VC/VF3D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -5039,19 +4086,10 @@
   {
     "id": 310,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSF Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSF.webp"
-      }
-    ],
+    "images": ["VC/VSF.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5081,19 +4119,10 @@
   {
     "id": 311,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSFD Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSFD.webp"
-      }
-    ],
+    "images": ["VC/VSFD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5132,19 +4161,10 @@
   {
     "id": 312,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSF2D Series",
-    "room": "Vanity",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VSF2D.webp"
-      }
-    ],
+    "images": ["VC/VSF2D.webp"],
     "attributes": [
       {
         "name": "Drawer with Sink Cut-out",
@@ -5161,27 +4181,13 @@
       "PTO for drawers"
     ]
   },
-
   {
     "id": 319,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPF Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPF.webp"
-      },
-      {
-        "type": 2,
-        "value": "VC/VPF_2.webp"
-      }
-    ],
+    "images": ["VC/VPF.webp","VC/VPF_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5218,19 +4224,10 @@
   {
     "id": 320,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPSF Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPSF.webp"
-      }
-    ],
+    "images": ["VC/VPSF.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5260,19 +4257,10 @@
   {
     "id": 321,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPSFD Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPSFD.webp"
-      }
-    ],
+    "images": ["VC/VPSFD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5302,19 +4290,10 @@
   {
     "id": 322,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPSF2D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPSF2D.webp"
-      }
-    ],
+    "images": ["VC/VPSF2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawers with Sink Cut-outs",
@@ -5334,19 +4313,10 @@
   {
     "id": 323,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPF2DI Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPF2DI.webp"
-      }
-    ],
+    "images": ["VC/VPF2DI.webp"],
     "attributes": [
       {
         "name": "Large Drawer",
@@ -5375,19 +4345,10 @@
   {
     "id": 324,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPF2D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPF2D.webp"
-      }
-    ],
+    "images": ["VC/VPF2D.webp"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -5407,19 +4368,10 @@
   {
     "id": 325,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPSF1D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPSF1D.webp"
-      }
-    ],
+    "images": ["VC/VPSF1D.webp"],
     "attributes": [
       {
         "name": "Drawer with Sink Cut-out",
@@ -5439,19 +4391,10 @@
   {
     "id": 326,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VPF1D Series",
-    "room": "Vanity",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "VC/VPF1D.webp"
-      }
-    ],
+    "images": ["VC/VPF1D.webp"],
     "attributes": [
       {
         "name": "Large Drawer",
@@ -5468,34 +4411,13 @@
       "Box from finish material"
     ]
   },
-
   {
     "id": 400,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CAS Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CAS.webp"
-      },
-      {
-        "type": 2,
-        "value": "CC/CAS_2.webp"
-      },
-      {
-        "type": 3,
-        "value": "CC/CAS.webp"
-      },
-      {
-        "type": 4,
-        "value": "CC/CAS_2.webp"
-      }
-    ],
+    "images": ["CC/CAS.webp","CC/CAS_2.webp","CC/CAS.webp","CC/CAS_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5559,21 +4481,9 @@
     "id": 401,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CDH Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CDH.webp"
-      },
-      {
-        "type": 2,
-        "value": "CC/CDH_2.webp"
-      }
-    ],
+    "images": ["CC/CDH.webp","CC/CDH_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5628,21 +4538,9 @@
     "id": 402,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CLH Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CLH.webp"
-      },
-      {
-        "type": 2,
-        "value": "CC/CLH_2.webp"
-      }
-    ],
+    "images": ["CC/CLH.webp","CC/CLH_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5697,21 +4595,9 @@
     "id": 403,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CRD Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CRD.webp"
-      },
-      {
-        "type": 2,
-        "value": "CC/CRD_2.webp"
-      }
-    ],
+    "images": ["CC/CRD.webp","CC/CRD_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5779,21 +4665,9 @@
     "id": 404,
     "product_type": "cabinet",
     "legsHeight": 4.5,
-    "isBlind": false,
-    "isAngle": false,
     "name": "CSS Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CSS.webp"
-      },
-      {
-        "type": 2,
-        "value": "CC/CSS_2.webp"
-      }
-    ],
+    "images": ["CC/CSS.webp","CC/CSS_2.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5849,16 +4723,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "CCH Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CCH.webp"
-      }
-    ],
+    "images": ["CC/CCH.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5890,16 +4757,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "CCL Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CCL.webp"
-      }
-    ],
+    "images": ["CC/CCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5931,16 +4791,9 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "isBlind": true,
-    "isAngle": false,
     "name": "CCS Series",
-    "room": "Closet",
     "category": "Build In",
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/CCS.webp"
-      }
-    ],
+    "images": ["CC/CCS.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -5980,19 +4833,10 @@
   {
     "id": 408,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VDH Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VDH.webp"
-      }
-    ],
+    "images": ["CC/VDH.webp"],
     "attributes": [
       {
         "name": "Fixed Shelf-Double Hanging",
@@ -6009,19 +4853,10 @@
   {
     "id": 409,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VLH Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VLH.webp"
-      }
-    ],
+    "images": ["CC/VLH.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6049,19 +4884,10 @@
   {
     "id": 410,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VSS.webp"
-      }
-    ],
+    "images": ["CC/VSS.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6080,19 +4906,10 @@
   {
     "id": 411,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VAS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VAS.webp"
-      }
-    ],
+    "images": ["CC/VAS.webp"],
     "attributes": [
       {
         "name": "Angled Shoe Shelf",
@@ -6109,19 +4926,10 @@
   {
     "id": 412,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VFSA Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VFAS.webp"
-      }
-    ],
+    "images": ["CC/VFAS.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6149,19 +4957,10 @@
   {
     "id": 413,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VHS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VHS.webp"
-      }
-    ],
+    "images": ["CC/VHS.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6189,19 +4988,10 @@
   {
     "id": 414,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VDS Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VDS.webp"
-      }
-    ],
+    "images": ["CC/VDS.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6230,19 +5020,10 @@
   {
     "id": 415,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VDI Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 35.5,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VDI.webp"
-      }
-    ],
+    "images": ["CC/VDI.webp"],
     "attributes": [
       {
         "name": "Drawer",
@@ -6261,20 +5042,11 @@
   {
     "id": 416,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VLC Series",
-    "room": "Closet",
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VLC.webp"
-      }
-    ],
+    "images": ["CC/VLC.webp"],
     "attributes": [
       {
         "name": "Long Hanging",
@@ -6291,20 +5063,11 @@
   {
     "id": 417,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "name": "VSC Series",
-    "room": "Closet",
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VSC.webp"
-      }
-    ],
+    "images": ["CC/VSC.webp"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -6323,20 +5086,11 @@
   {
     "id": 418,
     "product_type": "cabinet",
-    "legsHeight": 0,
-    "isBlind": false,
-    "isAngle": false,
     "isCornerChoose": true,
     "name": "VDC Series",
-    "room": "Closet",
     "category": "Leather",
     "customHeight": 95,
-    "images": [
-      {
-        "type": 1,
-        "value": "CC/VDC.webp"
-      }
-    ],
+    "images": ["CC/VDC.webp"],
     "attributes": [
       {
         "name": "Double Hanging",
@@ -6350,47 +5104,96 @@
     ],
     "options": []
   },
-
-
-
-
-
-
+  {
+    "id": 500,
+    "product_type": "cabinet",
+    "name": "SDH Series",
+    "category": "Simple Closets",
+    "images": ["CC/SDH.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 501,
+    "product_type": "cabinet",
+    "name": "SLH Series",
+    "category": "Simple Closets",
+    "images": ["CC/SLH.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 502,
+    "product_type": "cabinet",
+    "name": "SAS Series",
+    "category": "Simple Closets",
+    "images": ["CC/SAS.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 503,
+    "product_type": "cabinet",
+    "name": "SSS Series",
+    "category": "Simple Closets",
+    "images": ["CC/SSS.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 504,
+    "product_type": "cabinet",
+    "name": "SFAS Series",
+    "category": "Simple Closets",
+    "images": ["CC/SFAS.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 505,
+    "product_type": "cabinet",
+    "name": "SHS Series",
+    "category": "Simple Closets",
+    "images": ["CC/SHS.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 506,
+    "product_type": "cabinet",
+    "name": "SDS Series",
+    "category": "Simple Closets",
+    "images": ["CC/SDS.webp"],
+    "attributes": [],
+    "options": []
+  },
+  {
+    "id": 923,
+    "product_type": "custom",
+    "name": "Simple Closet additional parts",
+    "type": "simple-closets",
+    "images": ["custom/simple-closets-additional-parts.webp"]
+  },
   {
     "id": 921,
     "product_type": "custom",
     "name": "Standard Panel",
     "type": "standard-panel",
-    "images": [
-      {
-        "type": 1,
-        "value": "Panel_Standard.webp"
-      }
-    ]
+    "images": ["custom/Panel_Standard.webp"]
   },
   {
     "id": 919,
     "product_type": "custom",
     "name": "Standard Door",
     "type": "standard-door",
-    "images": [
-      {
-        "type": 1,
-        "value": "Standard Shaker Door.webp"
-      }
-    ]
+    "images": ["custom/Standard Shaker Door.webp"]
   },
   {
     "id": 920,
     "product_type": "custom",
     "name": "Glass Door",
     "type": "standard-glass-door",
-    "images": [
-      {
-        "type": 1,
-        "value": "Standard Shaker Glass Door.webp"
-      }
-    ]
+    "images": ["custom/Standard Shaker Glass Door.webp"]
   },
   {
     "id": 900,
@@ -6535,12 +5338,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Open Cabinet.webp"
-      }
-    ]
+    "images": ["custom/Open Cabinet.webp"]
   },
   {
     "id": 901,
@@ -6668,17 +5466,12 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Floating Shelf.webp"
-      }
-    ]
+    "images": ["custom/Floating Shelf.webp"]
   },
   {
     "id": 903,
     "product_type": "custom",
-    "name": "Panels",
+    "name": "Panel, Filler, WTK",
     "type": "custom",
     "depth": 0,
     "materials_array": [
@@ -6787,12 +5580,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Panel.webp"
-      }
-    ]
+    "images": ["custom/Panel.webp"]
   },
   {
     "id": 905,
@@ -6906,12 +5694,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Double Panel.webp"
-      }
-    ]
+    "images": ["custom/Double Panel.webp"]
   },
   {
     "id": 906,
@@ -7056,12 +5839,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "L-Shape.webp"
-      }
-    ]
+    "images": ["custom/L-Shape.webp"]
   },
   {
     "id": 907,
@@ -7189,26 +5967,19 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Column.webp"
-      }
-    ]
+    "images": ["custom/Column.webp"]
   },
   {
     "id": 922,
     "product_type": "custom",
-    "name": "Plastic Toe Kick And Filler",
+    "name": "Plastic Toe Kick",
     "type": "plastic_toe",
     "width": 156,
-    "height_range": [4.5,6],
-    "images": [
-      {
-        "type": 1,
-        "value": "Plastic_Toe_Kick.webp"
-      }
+    "height_range": [
+      4.5,
+      6
     ],
+    "images": ["custom/Plastic_Toe_Kick.webp"],
     "standard_price": 91
   },
   {
@@ -7227,12 +5998,7 @@
         96
       ]
     },
-    "images": [
-      {
-        "type": 1,
-        "value": "Backing.webp"
-      }
-    ]
+    "images": ["custom/Backing.webp"]
   },
   {
     "id": 910,
@@ -7241,7 +6007,7 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Zenit",
+        "name": "Shaker Syncron",
         "limits": {
           "width": [
             5,
@@ -7255,7 +6021,7 @@
         "depth": 0.75
       },
       {
-        "name": "Syncron",
+        "name": "Shaker Zenit",
         "limits": {
           "width": [
             5,
@@ -7269,7 +6035,7 @@
         "depth": 0.75
       },
       {
-        "name": "Painted",
+        "name": "Shaker Painted",
         "limits": {
           "width": [
             5,
@@ -7281,6 +6047,20 @@
           ]
         },
         "depth": 0.875
+      },
+      {
+        "name": "Micro Shaker Milino",
+        "limits": {
+          "width": [
+            5,
+            108
+          ],
+          "height": [
+            5,
+            108
+          ]
+        },
+        "depth": 0.75
       },
       {
         "name": "Micro Shaker",
@@ -7297,12 +6077,7 @@
         "depth": 1
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Shaker Panel.webp"
-      }
-    ]
+    "images": ["custom/Shaker Panel.webp"]
   },
   {
     "id": 911,
@@ -7390,12 +6165,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Decor panel.webp"
-      }
-    ]
+    "images": ["custom/Decor panel.webp"]
   },
   {
     "id": 912,
@@ -7457,12 +6227,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Slatted Panel.webp"
-      }
-    ]
+    "images": ["custom/Slatted Panel.webp"]
   },
   {
     "id": 913,
@@ -7580,12 +6345,7 @@
         108
       ]
     },
-    "images": [
-      {
-        "type": 1,
-        "value": "Shaker Glass Door.webp"
-      }
-    ]
+    "images": ["custom/Shaker Glass Door.webp"]
   },
   {
     "id": 914,
@@ -7603,12 +6363,7 @@
         108
       ]
     },
-    "images": [
-      {
-        "type": 1,
-        "value": "Alum Glass Door.webp"
-      }
-    ]
+    "images": ["custom/Alum Glass Door.webp"]
   },
   {
     "id": 915,
@@ -7680,12 +6435,7 @@
         }
       }
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "PVC.webp"
-      }
-    ]
+    "images": ["custom/PVC.webp"]
   },
   {
     "id": 916,
@@ -7709,2966 +6459,2370 @@
       "Bronze Translucent",
       "Gray Translucent"
     ],
-    "images": [
-      {
-        "type": 1,
-        "value": "Glass shelf.webp"
-      }
-    ]
+    "images": ["custom/Glass shelf.webp"]
   },
   {
     "id": 917,
     "product_type": "custom",
     "name": "LED Accessories",
     "type": "led-accessories",
-    "images": [
-      {
-        "type": 1,
-        "value": "LED.webp"
-      }
-    ]
+    "images": ["custom/LED.webp"]
   },
   {
     "id": 918,
     "product_type": "custom",
     "name": "Door Accessories",
     "type": "door-accessories",
-    "images": [
+    "images": ["custom/Accessories.webp"]
+  },
+  {
+    "id": 1,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BS Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 24,
+    "images": ["standard/BS.webp"],
+    "attributes": [
       {
-        "type": 1,
-        "value": "Accessories.webp"
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
       }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "Glass Shelf"
     ]
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {
-      "id": 1,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "BS Series",
-      "room": "Standard Door",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 24,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BS.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/BS_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door",
-        "Glass Shelf"
-      ]
-    },
-    {
-      "id": 2,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BD Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 24,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BD.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/BD_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 3,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 24,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/B_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "PTO for drawers",
-        "Glass Door",
-        "Glass Shelf"
-      ]
-    },
-    {
-      "id": 4,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BID Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 24,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BID.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/BID_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "PTO for drawers",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 5,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BSG Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 15,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BSG.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/BSG.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Trash Bin",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for Trash Bins",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 6,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BG Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "widthDivider": 15,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BG.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/BG.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Trash Bin",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers",
-        "PTO for Trash Bins",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 7,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BSP Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BSP.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Sliding Wire Basket",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 8,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BD2 Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BD2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "AS",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door",
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 9,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B2DE Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B2DE.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Equal Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 10,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B3DI Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B3DI.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Equal Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 11,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B3D Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B3D.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Equal Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Small Top Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-
-    {
-      "id": 14,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B4D Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B4D.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Equal Top Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 3
-            }
-          ]
-        },
-        {
-          "name": "Large Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-
-    {
-      "id": 16,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "SB2D Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/SB2D.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Equal Drawer with Sink cut-off",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 17,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "SB Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/SB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Sink Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 18,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "SBD Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/SBD.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Sink Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 19,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "SBT Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/SBT.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Tilt-out Tray",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "Sink Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 20,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "SBDT Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/SBDT.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Tilt-out Tray",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "Sink Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 21,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": false,
-      "name": "BCB Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BCB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Blind Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 22,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": false,
-      "name": "BCBL Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BCBL.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "LeMans System",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "Blind Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 23,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": "flat",
-      "name": "BCA Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BCA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "45° Angle Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 24,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": "flat",
-      "name": "BCAL Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BCAL.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Lazy Susan",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "45° Angle Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 25,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": "corner",
-      "name": "BC Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "90° Angle Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 26,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  true,
-      "isAngle": "corner",
-      "name": "BCL Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BCL.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Lazy Susan",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "90° Angle Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 27,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "CTB Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/CTB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "False Front",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Cook Top",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 28,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "COB Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/COB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Front Panel",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "Empty",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "Oven Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "id": 29,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "MB Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/MB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Front Panel",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        },
-        {
-          "name": "For Microwave",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 30,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B1D Series",
-      "customHeight": 12,
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B1D.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Drawer",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-    {
-      "id": 31,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "B1KD Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "customHeight": 6,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/B1KD.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Floating Drawer Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for drawers"
-      ]
-    },
-
-    {
-      "id": 33,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "DDC Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/DDC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Empty Drop Down Door Cabinet",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "id": 36,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind":  false,
-      "isAngle": false,
-      "name": "BEAC Series",
-      "room": "Kitchen",
-      "category": "Standard Base Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/BEAC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Triangle Corner Base",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-
-    {
-      "id": 101,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "W Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/W.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/W_2.webp"
-        },
-        {
-          "type": 3,
-          "value": "standard/W.webp"
-        },
-        {
-          "type": 4,
-          "value": "standard/W_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1,
-              "maxWidth": 27
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "minWidth": 24
-            },
-            {
-              "type": 3,
-              "value": 1,
-              "maxWidth": 27
-            },
-            {
-              "type": 4,
-              "value": 2,
-              "minWidth": 24
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 3,
-              "value": 3,
-              "minHeight": 42
-            },
-            {
-              "type": 4,
-              "value": 3,
-              "minHeight": 42
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 102,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WDA Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WDA.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WDA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "minHeight": 42
-            }
-          ]
-        },
-        {
-          "name": "Lift-up Aventos System",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 103,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WA Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Lift-up Aventos System",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 104,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WBL Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WBL.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WBL.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 0,
-              "maxHeight": 18
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Parallel Opening Aventos",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 105,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WBA Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WBA.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WBA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 0,
-              "maxHeight": 18
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Wall Bridge Aventos",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 106,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WB Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WB.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 0,
-              "maxHeight": 18
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Wall Bridge",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 107,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WRF Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WRF.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WRF.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 0,
-              "maxHeight": 18
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Refrigerator Wall",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 108,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "WRFA Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WRFA.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WRFA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 0,
-              "maxHeight": 18
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Aventos Refrigerator Wall",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 109,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": true,
-      "isAngle":true,
-      "customDepth": 24,
-      "name": "WC Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WC.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "minHeight": 42
-            }
-          ]
-        },
-        {
-          "name": "90° Corner Wall",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 110,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": true,
-      "isAngle":true,
-      "customDepth": 24,
-      "name": "WCA Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WCA.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WCA.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "minHeight": 42
-            }
-          ]
-        },
-        {
-          "name": "45° Corner Wall",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 111,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": true,
-      "isAngle":false,
-      "name": "WCB Series",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WCB.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/WCB.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 42
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "minHeight": 42
-            }
-          ]
-        },
-        {
-          "name": "Wall Blind Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 119,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":true,
-      "hasSolidWidth": true,
-      "name": "WEAC",
-      "room": "Kitchen",
-      "category": "Standard Wall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/WEAC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-
-    {
-      "id": 201,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "PC Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/PC.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/PC_2.webp"
-        },
-        {
-          "type": 3,
-          "value": "standard/PC.webp"
-        },
-        {
-          "type": 4,
-          "value": "standard/PC_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxWidth": 30
-            },
-            {
-              "type": 2,
-              "value": 4,
-              "minWidth": 27
-            },
-            {
-              "type": 3,
-              "value": 2,
-              "maxWidth": 30
-            },
-            {
-              "type": 4,
-              "value": 4,
-              "minWidth": 27
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 5,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 5,
-              "maxHeight": 90
-            },
-            {
-              "type": 3,
-              "value": 6,
-              "minHeight": 96
-            },
-            {
-              "type": 4,
-              "value": 6,
-              "minHeight": 96
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 202,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "PC2D Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/PC2D.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/PC2D_2.webp"
-        },
-        {
-          "type": 3,
-          "value": "standard/PC2D.webp"
-        },
-        {
-          "type": 4,
-          "value": "standard/PC2D_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 2,
-              "value": 4,
-              "minWidth": 21
-            },
-            {
-              "type": 3,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 4,
-              "value": 4,
-              "minWidth": 21
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 4,
-              "maxHeight": 96
-            },
-            {
-              "type": 2,
-              "value": 4,
-              "maxHeight": 96
-            },
-            {
-              "type": 3,
-              "value": 5,
-              "minHeight": 96
-            },
-            {
-              "type": 4,
-              "value": 5,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 203,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "PC3D Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/PC3D.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/PC3D_2.webp"
-        },
-        {
-          "type": 3,
-          "value": "standard/PC3D.webp"
-        },
-        {
-          "type": 4,
-          "value": "standard/PC3D_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 2,
-              "value": 4,
-              "minWidth": 21
-            },
-            {
-              "type": 3,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 4,
-              "value": 4,
-              "minWidth": 21
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 3,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "maxHeight": 90
-            },
-            {
-              "type": 3,
-              "value": 4,
-              "minHeight": 96
-            },
-            {
-              "type": 4,
-              "value": 4,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 3
-            },
-            {
-              "type": 2,
-              "value": 3
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 204,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "PC4D Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/PC4D.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/PC4D_2.webp"
-        },
-        {
-          "type": 3,
-          "value": "standard/PC4D.webp"
-        },
-        {
-          "type": 4,
-          "value": "standard/PC4D_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 2,
-              "value": 4,
-              "minWidth": 21
-            },
-            {
-              "type": 3,
-              "value": 2,
-              "maxWidth": 24
-            },
-            {
-              "type": 4,
-              "value": 4,
-              "minWidth": 21
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "maxHeight": 90
-            },
-            {
-              "type": 3,
-              "value": 3,
-              "minHeight": 96
-            },
-            {
-              "type": 4,
-              "value": 3,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 4
-            },
-            {
-              "type": 2,
-              "value": 4
-            },
-            {
-              "type": 3,
-              "value": 4
-            },
-            {
-              "type": 4,
-              "value": 4
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 205,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "TBC Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/TBC.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/TBC.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 4,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 5,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Tall Blind Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 206,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "TBCL Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/TBCL.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/TBCL.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Double LeMans Blind Corner",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 207,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "TDO Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "hasMiddleSection": true,
-      "middleSectionDefault": 49.5,
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/TDO.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/TDO.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 2
-            },
-            {
-              "type": 2,
-              "value": 2
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Double Oven",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 208,
-      "product_type": "standard",
-      "legsHeight": 4.5,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "TSO Series",
-      "hasMiddleSection": true,
-      "middleSectionDefault": 30,
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/TSO.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/TSO.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 4
-            },
-            {
-              "type": 2,
-              "value": 4
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 2,
-              "maxHeight": 90
-            },
-            {
-              "type": 2,
-              "value": 3,
-              "minHeight": 96
-            }
-          ]
-        },
-        {
-          "name": "Single Oven",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 209,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "T Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/T.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/T_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1,
-              "maxWidth": 27
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "minWidth": 27
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 3
-            },
-            {
-              "type": 2,
-              "value": 3
-            }
-          ]
-        },
-        {
-          "name": "No Legs",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    },
-    {
-      "id": 210,
-      "product_type": "standard",
-      "legsHeight": 0,
-      "isBlind": false,
-      "isAngle":false,
-      "name": "TD Series",
-      "room": "Kitchen",
-      "category": "Standard Tall Cabinets",
-      "images": [
-        {
-          "type": 1,
-          "value": "standard/TD.webp"
-        },
-        {
-          "type": 2,
-          "value": "standard/TD_2.webp"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "Door",
-          "values": [
-            {
-              "type": 1,
-              "value": 1,
-              "maxWidth": 27
-            },
-            {
-              "type": 2,
-              "value": 2,
-              "minWidth": 27
-            }
-          ]
-        },
-        {
-          "name": "Rollout",
-          "values": [
-            {
-              "type": 1,
-              "value": 3
-            },
-            {
-              "type": 2,
-              "value": 3
-            }
-          ]
-        },
-        {
-          "name": "Adjustable Shelf",
-          "values": [
-            {
-              "type": 1,
-              "value": 1
-            },
-            {
-              "type": 2,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "name": "No Legs",
-          "values": [
-            {
-              "type": 1,
-              "value": 0
-            },
-            {
-              "type": 2,
-              "value": 0
-            }
-          ]
-        }
-      ],
-      "options": [
-        "PTO for doors",
-        "Glass Door"
-      ]
-    }
+  {
+    "id": 2,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BD Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 24,
+    "images": ["standard/BD.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 3,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 24,
+    "images": ["standard/B.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "PTO for drawers",
+      "Glass Door",
+      "Glass Shelf"
+    ]
+  },
+  {
+    "id": 4,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BID Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 24,
+    "images": ["standard/BID.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "PTO for drawers",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 5,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BSG Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 15,
+    "images": ["standard/BSG.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Trash Bin",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for Trash Bins",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 6,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BG Series",
+    "category": "Standard Base Cabinets",
+    "widthDivider": 15,
+    "images": ["standard/BG.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Trash Bin",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers",
+      "PTO for Trash Bins",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 7,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BSP Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BSP.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Sliding Wire Basket",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 8,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BD2 Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BD2.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "AS",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 9,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B2DE Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/B2DE.webp"],
+    "attributes": [
+      {
+        "name": "Equal Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 10,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B3DI Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/B3DI.webp"],
+    "attributes": [
+      {
+        "name": "Equal Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 11,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B3D Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/B3D.webp"],
+    "attributes": [
+      {
+        "name": "Equal Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Small Top Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 14,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B4D Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/B4D.webp"],
+    "attributes": [
+      {
+        "name": "Equal Top Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Large Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 16,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SB2D Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/SB2D.webp"],
+    "attributes": [
+      {
+        "name": "Equal Drawer with Sink cut-off",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 17,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SB Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/SB.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Sink Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 18,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SBD Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/SBD.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Sink Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 19,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SBT Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/SBT.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Tilt-out Tray",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Sink Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 20,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SBDT Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/SBDT.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Tilt-out Tray",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Sink Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 21,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "name": "BCB Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BCB.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 22,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "name": "BCBL Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BCBL.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "LeMans System",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 23,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": "flat",
+    "name": "BCA Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BCA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "45° Angle Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 24,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": "flat",
+    "name": "BCAL Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BCAL.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Lazy Susan",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "45° Angle Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 25,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": "corner",
+    "name": "BC Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "90° Angle Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 26,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "isBlind": true,
+    "isAngle": "corner",
+    "name": "BCL Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BCL.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Lazy Susan",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "90° Angle Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 27,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "CTB Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/CTB.webp"],
+    "attributes": [
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "False Front",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Cook Top",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 28,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "COB Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/COB.webp"],
+    "attributes": [
+      {
+        "name": "Front Panel",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Empty",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Oven Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 29,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "MB Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/MB.webp"],
+    "attributes": [
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Front Panel",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "For Microwave",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 30,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "B1D Series",
+    "customHeight": 12,
+    "category": "Standard Base Cabinets",
+    "images": ["standard/B1D.webp"],
+    "attributes": [
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 31,
+    "product_type": "standard",
+    "name": "B1KD Series",
+    "category": "Standard Base Cabinets",
+    "customHeight": 6,
+    "images": ["standard/B1KD.webp"],
+    "attributes": [
+      {
+        "name": "Floating Drawer Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers"
+    ]
+  },
+  {
+    "id": 33,
+    "product_type": "standard",
+    "name": "DDC Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/DDC.webp"],
+    "attributes": [
+      {
+        "name": "Empty Drop Down Door Cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 36,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "BEAC Series",
+    "category": "Standard Base Cabinets",
+    "images": ["standard/BEAC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Triangle Corner Base",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 101,
+    "product_type": "standard",
+    "name": "W Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/W.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minWidth": 24
+          },
+          {
+            "type": 3,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 4,
+            "value": 2,
+            "minWidth": 24
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 3,
+            "value": 3,
+            "minHeight": 42
+          },
+          {
+            "type": 4,
+            "value": 3,
+            "minHeight": 42
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 102,
+    "product_type": "standard",
+    "name": "WDA Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WDA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 42
+          }
+        ]
+      },
+      {
+        "name": "Lift-up Aventos System",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 103,
+    "product_type": "standard",
+    "name": "WA Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Lift-up Aventos System",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 104,
+    "product_type": "standard",
+    "name": "WBL Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WBL.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Parallel Opening Aventos",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 105,
+    "product_type": "standard",
+    "name": "WBA Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WBA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Wall Bridge Aventos",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 106,
+    "product_type": "standard",
+    "name": "WB Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WB.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Wall Bridge",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 107,
+    "product_type": "standard",
+    "name": "WRF Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WRF.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Refrigerator Wall",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 108,
+    "product_type": "standard",
+    "name": "WRFA Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WRFA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 0,
+            "maxHeight": 18
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Aventos Refrigerator Wall",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 109,
+    "product_type": "standard",
+    "isBlind": true,
+    "isAngle": true,
+    "customDepth": 24,
+    "name": "WC Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 42
+          }
+        ]
+      },
+      {
+        "name": "90° Corner Wall",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 110,
+    "product_type": "standard",
+    "isBlind": true,
+    "isAngle": true,
+    "customDepth": 24,
+    "name": "WCA Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WCA.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 42
+          }
+        ]
+      },
+      {
+        "name": "45° Corner Wall",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 111,
+    "product_type": "standard",
+    "isBlind": true,
+    "name": "WCB Series",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WCB.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 42
+          }
+        ]
+      },
+      {
+        "name": "Wall Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 119,
+    "product_type": "standard",
+    "isAngle": true,
+    "hasSolidWidth": true,
+    "name": "WEAC",
+    "category": "Standard Wall Cabinets",
+    "images": ["standard/WEAC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 201,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "PC Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/PC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxWidth": 30
+          },
+          {
+            "type": 2,
+            "value": 4,
+            "minWidth": 27
+          },
+          {
+            "type": 3,
+            "value": 2,
+            "maxWidth": 30
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minWidth": 27
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 5,
+            "maxHeight": 90
+          },
+          {
+            "type": 3,
+            "value": 6,
+            "minHeight": 96
+          },
+          {
+            "type": 4,
+            "value": 6,
+            "minHeight": 96
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 202,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "PC2D Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/PC2D.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 2,
+            "value": 4,
+            "minWidth": 21
+          },
+          {
+            "type": 3,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minWidth": 21
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 4,
+            "maxHeight": 96
+          },
+          {
+            "type": 2,
+            "value": 4,
+            "maxHeight": 96
+          },
+          {
+            "type": 3,
+            "value": 5,
+            "minHeight": 96
+          },
+          {
+            "type": 4,
+            "value": 5,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 203,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "PC3D Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/PC3D.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 2,
+            "value": 4,
+            "minWidth": 21
+          },
+          {
+            "type": 3,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minWidth": 21
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "maxHeight": 90
+          },
+          {
+            "type": 3,
+            "value": 4,
+            "minHeight": 96
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          },
+          {
+            "type": 2,
+            "value": 3
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 204,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "PC4D Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/PC4D.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 2,
+            "value": 4,
+            "minWidth": 21
+          },
+          {
+            "type": 3,
+            "value": 2,
+            "maxWidth": 24
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minWidth": 21
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "maxHeight": 90
+          },
+          {
+            "type": 3,
+            "value": 3,
+            "minHeight": 96
+          },
+          {
+            "type": 4,
+            "value": 3,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 4
+          },
+          {
+            "type": 2,
+            "value": 4
+          },
+          {
+            "type": 3,
+            "value": 4
+          },
+          {
+            "type": 4,
+            "value": 4
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 205,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "TBC Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/TBC.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 4,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 5,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Tall Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 206,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "TBCL Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/TBCL.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Double LeMans Blind Corner",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 207,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "TDO Series",
+    "category": "Standard Tall Cabinets",
+    "hasMiddleSection": true,
+    "middleSectionDefault": 49.5,
+    "images": ["standard/TDO.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          },
+          {
+            "type": 2,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Double Oven",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 208,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "TSO Series",
+    "hasMiddleSection": true,
+    "middleSectionDefault": 30,
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/TSO.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 4
+          },
+          {
+            "type": 2,
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2,
+            "maxHeight": 90
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "minHeight": 96
+          }
+        ]
+      },
+      {
+        "name": "Single Oven",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 209,
+    "product_type": "standard",
+    "name": "T Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/T.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minWidth": 27
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          },
+          {
+            "type": 2,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "No Legs",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 210,
+    "product_type": "standard",
+    "name": "TD Series",
+    "category": "Standard Tall Cabinets",
+    "images": ["standard/TD.webp"],
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minWidth": 27
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          },
+          {
+            "type": 2,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "No Legs",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          },
+          {
+            "type": 2,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  }
 ]

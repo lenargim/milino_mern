@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../../helpers/cartTypes";
-import {getCartItemImg, getProductById, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {getProductById, getProductImage, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import s from "../Sidebar/sidebar.module.sass";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
@@ -13,8 +13,8 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item
     const productAPI = getProductById(product_id, product_type === 'standard');
     if (!productAPI) return null;
-    const {name} = productAPI
-    const img = getCartItemImg(productAPI, image_active_number);
+    const {name, images} = productAPI
+    const img = getProductImage(images, image_active_number);
     function changeAmount(type: changeAmountType) {
         dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))
     }

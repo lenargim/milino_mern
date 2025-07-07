@@ -177,6 +177,36 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                 }),
                 price: Yup.number().required().positive(),
             })
+        case "simple-closets":
+            return Yup.object().shape({
+                simple_closet_custom: Yup.array()
+                    .of(
+                        Yup.object().shape({
+                            name: Yup.string().required('Required'),
+                            qty: Yup.number().min(1, 'Min 1'),
+                            'Width': Yup.string()
+                                .required('Please wright down width')
+                                .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
+                                .test('min',
+                                    ({value}) => `It's too small size`,
+                                    (val, context) => {
+                                        const numberVal = numericQuantity(val);
+                                        const minWidth = 1;
+                                        return numberVal >= minWidth;
+                                    }
+                                )
+                                .test('max',
+                                    ({value}) => `It's too huge size`,
+                                    (val, context) => {
+                                        const numberVal = numericQuantity(val);
+                                        const maxWidth = 999;
+                                        return numberVal <= maxWidth;
+                                    }
+                                ),
+                        })
+                    )
+                    .min(1,'Must have at least 1 additional part') // these constraints are shown if and only if inner constraints are satisfied
+            });
         default:
             return undefined
     }

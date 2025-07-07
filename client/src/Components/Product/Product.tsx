@@ -27,7 +27,7 @@ const Product: FC<{ materials: RoomMaterialsFormType, room_id: string, product: 
                                                                                                   }) => {
     const dispatch = useAppDispatch();
     const {
-        isBlind,
+        isBlind = false,
         isCornerChoose,
         customHeight,
         customDepth,

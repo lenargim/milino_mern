@@ -1,7 +1,7 @@
 import {MaybeEmpty, MaybeNull, productCategory} from "./productTypes";
 import {CartAPI} from "./cartTypes";
 
-export type RoomCategoriesType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet';
+export type RoomCategoriesType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet' | 'Simple Closet';
 
 export type RoomMaterialsFormType = {
     name: string,

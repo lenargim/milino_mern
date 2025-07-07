@@ -5,14 +5,7 @@ import {
     hingeTypes,
     productTypings
 } from "../../helpers/productTypes";
-import {CartItemFrontType} from "../../helpers/cartTypes";
-
-// interface GeneralState {
-//     materials: MaybeNull<MaterialsFormType>,
-//     product: MaybeNull<ProductType>,
-//     customPart: customPartDataType | null,
-//     cart: CartItemFrontType[]
-// }
+import {CartItemFrontType, CartLEDAPI} from "../../helpers/cartTypes";
 
 export type glassDoorExtraType = {
     material?: string,
@@ -45,11 +38,7 @@ export type productExtraType = {
     shelfGlassType?: string,
     shelfGlassColor?: string,
     middleSection?: number,
-    led?: {
-        border: string[],
-        alignment: string,
-        indent?: string
-    },
+    led?: CartLEDAPI,
     leather?: string,
     cartExtras: CartExtrasType
 }
@@ -110,7 +99,7 @@ export interface productChangeMaterialType extends CartItemFrontType {
 // setMaterials: (state, action: PayloadAction<MaybeNull<MaterialsFormType>>) => {
 //     state.materials = action.payload
 // },
-// setCustomPart: (state, action: PayloadAction<MaybeNull<customPartDataType>>) => {
+// setCustomPart: (state, action: PayloadAction<MaybeNull<CustomPartDataType>>) => {
 //     state.customPart = action.payload
 // },
 // addToCart: (state, action: PayloadAction<CartItemFrontType>) => {

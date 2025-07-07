@@ -6,13 +6,11 @@ import {ProductInputCustom} from "../../common/Form";
 import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 export type AlProfileType = {
-    // _id: string,
     length: number,
     qty: number
 }
 
 export type alProfileFormType = {
-    // _id: string,
     length: string,
     ['length Number']: number,
     qty: number

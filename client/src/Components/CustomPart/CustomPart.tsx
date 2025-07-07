@@ -6,7 +6,7 @@ import {
     getLimit,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeEmpty, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import CustomPartLeft from "./CustomPartLeft";
@@ -71,21 +71,29 @@ export type CustomPartFormType = {
     glass_shelf: string,
     led_accessories: LedAccessoriesFormType,
     door_accessories: DoorAccessoryType[],
-    standard_door: DoorType,
+    standard_door: MaybeNull<DoorType>,
     standard_panels: PanelsFormType,
+    simple_closet_custom: SimplePartCustomType[]
+}
+export const SimpleClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
+export type SimpleClosetCustomTypes = typeof SimpleClosetCustomOptions[number];
+
+
+export type SimpleClosetAPIType = {
+    name: SimpleClosetCustomTypes,
+    width: number
+    qty: number,
+}
+export type SimplePartCustomType = {
+    name: MaybeEmpty<SimpleClosetCustomTypes>,
+    'Width': string,
+    'Width Number': number,
+    qty: number,
 }
 
 const doorAccessories = DA as DoorAccessoryFront[]
 const initialDoorAccessories: DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}))
-const initialStandardDoor: DoorType = {
-    color: '',
-    doors: [{
-        name: '',
-        qty: 1,
-        width: 0,
-        height: 0
-    }],
-}
+
 
 type InitialSizesType = {
     initial_width: number,
@@ -113,9 +121,12 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     }
 }
 
-const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, custom_part: CustomPartType}> = ({materials, room_id, custom_part}) => {
+const CustomPart: FC<{ materials: RoomMaterialsFormType, room_id: string, custom_part: CustomPartType }> = ({
+                                                                                                                materials,
+                                                                                                                room_id,
+                                                                                                                custom_part
+                                                                                                            }) => {
     const dispatch = useAppDispatch();
-
     const isStandardCabinet = findIsProductStandard(materials);
     const initialMaterialData = getInitialMaterialData(custom_part, materials, isStandardCabinet);
     const initialSizes = getInitialSizes(custom_part, initialMaterialData);
@@ -138,10 +149,10 @@ const CustomPart: FC<{materials: RoomMaterialsFormType, room_id: string, custom_
             led_dimmable_remote: 0,
             led_transformer: 0,
         },
-        // write function
         door_accessories: isDoorAccessories ? initialDoorAccessories : [],
-        standard_door: initialStandardDoor,
+        standard_door: null,
         standard_panels: initialStandardPanels,
+        simple_closet_custom: [],
         'Note': '',
         price: 0,
     }

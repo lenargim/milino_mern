@@ -3,11 +3,11 @@ import s from './room.module.sass'
 import {NavLink} from "react-router-dom";
 import {
     getCustomParts,
-    getImg, getImgSize,
+    getImgSize,
     getProductImage, getProductsByCategory
 } from "../../helpers/helpers";
 import {
-    customPartDataType,
+    CustomPartDataType,
     productCategory, ProductType,
     productTypings
 } from "../../helpers/productTypes";
@@ -52,7 +52,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
 
     return (
         <NavLink to={`product/${id}`} className={s.item}>
-            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={getImg('products', img)} alt={name}/></div>
+            <div className={[s.itemImg, s[imgSize]].join(' ')}><img src={img} alt={name}/></div>
             <div>
                 <div className={s.name}>{name}</div>
                 <ProductAttributes attributes={attributes} type={initialType}/>
@@ -61,11 +61,12 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
     )
 }
 
-const Part: FC<{ product: customPartDataType }> = ({product}) => {
+const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
     const {name, images, id} = product;
+    const img = getProductImage(images);
     return (
         <NavLink to={`product/${id}`} className={s.item}>
-            <div className={s.itemImg}><img src={getImg('products/custom', images[0].value)} alt={name}/></div>
+            <div className={s.itemImg}><img src={img} alt={name}/></div>
             <div>
                 <div className={s.name}>{name}</div>
             </div>

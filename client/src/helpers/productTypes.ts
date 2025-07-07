@@ -1,10 +1,12 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 import exp from "constants";
+import {RoomCategoriesType} from "./roomTypes";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
 export type DoorColorType = 1 | 2 | 3;
+export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 
 export type MaybeEmpty<T> = T | '';
 export type MaybeUndefined<T> = T | undefined;
@@ -12,11 +14,9 @@ export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
-export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet"] as const;
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
-export type RoomCategories = typeof roomCategories[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
@@ -30,7 +30,8 @@ export type CustomTypes =
     | 'standard-glass-door'
     | 'backing'
     | 'standard-panel'
-    | 'plastic_toe';
+    | 'plastic_toe'
+    | 'simple-closets';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -46,31 +47,32 @@ export type StandardCategory =
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
 
+export type ClosetsCategory = 'Build In' | 'Leather' | 'Simple Closets'
+
 export type productCategory =
     kitchenCategories
     | StandardCategory
     | VanitiesCategory
-    | 'Build In'
-    | 'Leather'
+    | ClosetsCategory
     | 'Custom Parts'
 
-export type AngleType = false | 'flat' | 'corner';
+export type AngleType = 'flat' | 'corner';
 
 export type ProductOrCustomType = {
     id: number,
     name: string,
     product_type: ProductApiType,
-    images: itemImg[],
+    images: string[],
 }
 
 export interface ProductType extends ProductOrCustomType{
-    room: string,
+    // room: string,
     category: productCategory,
     attributes: attrItem[],
     options: string[],
-    legsHeight: number,
-    isBlind: boolean,
-    isAngle: AngleType,
+    legsHeight?: number,
+    isBlind?: boolean,
+    isAngle?: AngleType,
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
@@ -97,8 +99,8 @@ export interface CustomPartType extends ProductOrCustomType{
 
 }
 
-export interface customPartDataType extends ProductOrCustomType{
-    room: string,
+export interface CustomPartDataType extends ProductOrCustomType{
+    // room: string,
     type: CustomTypes,
     category: productCategory,
     width?: number,
@@ -130,7 +132,7 @@ export type materialsLimitsType = {
 
 export type materialDataType = {
     is_standard_cabinet: boolean,
-    category: MaybeEmpty<RoomCategories>,
+    category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
@@ -143,7 +145,7 @@ export type materialDataType = {
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_closet: boolean,
+    is_leather_or_simple_closet: boolean,
     box_material: string,
     box_color: string,
     materials_coef: number

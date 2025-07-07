@@ -1,6 +1,6 @@
 import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
-import {DoorAccessoryAPIType} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryAPIType, SimpleClosetAPIType, SimpleClosetCustomTypes} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
 
 export type CartNewType = {
@@ -17,18 +17,20 @@ export type CartNewType = {
     hinge: hingeTypes,
     options: string[],
     glass: MaybeUndefined<GlassAPIType>,
-    led: {
-        border: string[],
-        alignment: string,
-        indent: string,
-    },
-    custom: MaybeUndefined<CartCustomType>,
+    led?: CartLEDAPI,
+    custom?: CartCustomType,
     note: string,
 }
 
 export type GlassAPIType = {
     door: MaybeUndefined<string[]>,
     shelf: MaybeUndefined<string>,
+}
+
+export type CartLEDAPI = {
+    border: string[],
+    alignment: string,
+    indent: string
 }
 
 export interface CartAPI extends CartNewType {
@@ -56,12 +58,8 @@ export interface CartOrder {
     hinge: hingeTypes,
     options: string[],
     glass: MaybeUndefined<GlassAPIType>,
-    led: {
-        border: string[],
-        alignment: string,
-        indent: string,
-    },
-    custom: MaybeUndefined<CartCustomType>,
+    led?: CartLEDAPI,
+    custom?: MaybeUndefined<CartCustomType>,
     note: string,
     // price: number
 }
@@ -78,6 +76,7 @@ export type CartCustomType = {
     accessories?: CustomAccessoriesType,
     standard_door?: StandardDoorAPIType,
     standard_panels?: PanelsFormAPIType,
+    simple_closet?: SimpleClosetAPIType[]
 }
 
 export type PanelsFormAPIType = {

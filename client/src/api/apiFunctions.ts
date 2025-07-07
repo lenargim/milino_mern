@@ -14,13 +14,13 @@ import {CartAPI, CartAPIResponse} from "../helpers/cartTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {store} from "../store/store";
 
-
+// 401 Unauthtorized
+// 403 Forbidden
 export const alertError = async (error: unknown, retryCallback?: () => Promise<any>) => {
     const axiosError = error as AxiosError;
-    if (!axiosError.response) throw new Error('Response Error');
-    const status = axiosError.response.status;
-    const response_data: any = axiosError.response.data;
-    if (status === 401 && response_data.type === 'token') {
+    const data:any = axiosError?.response?.data;
+    const resStatus = axiosError.response?.status;
+    if (resStatus === 401 && data?.type === 'token') {
         try {
             const newToken = await refreshTokenAPI();
             if (newToken) {
@@ -30,13 +30,19 @@ export const alertError = async (error: unknown, retryCallback?: () => Promise<a
                     return await retryCallback();
                 }
             } else {
+                store.dispatch(logout());
                 throw new Error('Refresh token failed');
             }
         } catch (refreshErr) {
             store.dispatch(logout());
+            return;
         }
-    } else if (response_data.message) {
-        alert(response_data.message);
+    } else if (resStatus === 403 || resStatus === 401) {
+        if (data) {
+            const msg = data?.message ?? axiosError.message;
+            alert(msg);
+        }
+        store.dispatch(logout());
     } else {
         alert(axiosError.message);
     }
@@ -97,15 +103,8 @@ export const deleteRoomAPI = async (purchase_order_id: string, room_id: string):
     }
 }
 
-// export const editRoomAPI = async (room: RoomType):Promise<MaybeUndefined<RoomType>> => {
-//     try {
-//         return (await roomsAPI.editRoom(room)).data;
-//     } catch (error) {
-//         return await alertError(error, () => editRoomAPI(room));
-//     }
-// }
 
-export const getCartAPI = async (room_id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
+export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.getCart(room_id)).data;
     } catch (error) {
@@ -236,13 +235,25 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
     }
 }
 
+// export const isTokenValid = (token: string): boolean => {
+//     const decodedToken = jwtDecode(token);
+//     const {exp} = decodedToken;
+//     const currentDate = new Date().getUTCDate();
+//     const expDate = exp ? exp : 0;
+//     return expDate > currentDate / 1000;
+// }
+
 export const isTokenValid = (token: string): boolean => {
-    const decodedToken = jwtDecode(token);
-    const {exp} = decodedToken;
-    const currentDate = new Date().getUTCDate();
-    const expDate = exp ? exp : 0;
-    return expDate > currentDate / 1000;
-}
+    try {
+        const decodedToken = jwtDecode<{ exp: number }>(token);
+        const { exp } = decodedToken;
+        const now = Date.now() / 1000;
+        return exp > now;
+    } catch {
+        return false; // Invalid token format
+    }
+};
+
 
 
 export const getAllPOs = async (user_id: string): Promise<MaybeUndefined<PurchaseOrderType[]>> => {

@@ -1,7 +1,5 @@
 import React, {FC} from 'react';
-import {Form, Formik} from "formik";
-import {TextInput} from "../../common/Form";
-import s from "../Product/product.module.sass";
+import {Formik} from "formik";
 import {useNavigate, useOutletContext} from "react-router-dom";
 import {addPO, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
 import {PONewSchema} from "./PurchaseOrderNewSchema";

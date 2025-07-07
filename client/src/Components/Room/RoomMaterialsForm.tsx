@@ -58,7 +58,7 @@ export const materialsFormInitial: RoomMaterialsFormType = {
 
 const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
-    const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<RoomMaterialsFormType>();
+    const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<RoomMaterialsFormType>();
     const {
         name,
         gola,
@@ -76,17 +76,20 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
         leather,
         leather_note
     } = values;
+
     const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
+    const isSimpleCloset = category === 'Simple Closet';
+    const isCloset = isLeather || isSimpleCloset;
     const isStandardDoor = door_type === 'Standard White Shaker';
     const hasGola = findHasGolaByCategory(category);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     const boxMaterialArr: finishType[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr || [])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, box_material, boxMaterialArr) ?? [];
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isSimpleCloset,box_material, boxMaterialArr, boxMaterial) ?? [];
     const drawerBrandArr = getDrawerBrandArr(drawers);
     const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
     const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)
@@ -189,8 +192,14 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
             if (!hasGola && gola) setFieldValue('gola', '');
             if (door_frame_width && door_type !== 'Micro Shaker') setFieldValue('door_frame_width', '');
             if (!grainArr && door_grain) setFieldValue('door_grain', '');
-            if (!isLeather) {
+
+            // Check Box Color
+            if (!isCloset) {
                 if (box_color) setFieldValue('box_color', '');
+            }
+
+            // Check Leather
+            if (!isLeather) {
                 if (leather) setFieldValue('leather', '');
                 if (leather_note) setFieldValue('leather_note', '')
             }
@@ -203,25 +212,25 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
         }
     }, [values]);
 
-    const showCategory = !!name;
+    const hasName = !!name;
     const showGola = isGolaShown(category, hasGola)
     const showDoorType = isDoorTypeShown(category, gola, showGola)
     const showDoorFinish = isDoorFinishShown(category, door_type, finishArr);
-    const showDoorColor = isDoorColorShown(door_type, door_finish_material, finishArr, colorArr);
-    const showDoorFrameWidth = isDoorFrameWidth(door_type, door_finish_material, frameArr);
-    const showDoorGrain = isDoorGrain(door_finish_material, grainArr);
-    const showBoxMaterial = isBoxMaterial(door_finish_material, door_color, box_material, boxMaterialArr, showDoorGrain, door_grain);
-    const showBoxColor = isBoxColor(box_material, isLeather, boxMaterialArr)
-    const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeather);
-    const showDrawerType = isDrawerType(drawer_brand, drawerTypesArr);
-    const showDrawerColor = isDrawerColor(drawer_type, drawerColorsArr);
+    const showDoorColor = isDoorColorShown(category, door_type, door_finish_material, finishArr, colorArr);
+    const showDoorFrameWidth = isDoorFrameWidth(category,door_type, door_finish_material, frameArr);
+    const showDoorGrain = isDoorGrain(category, door_finish_material, grainArr);
+    const showBoxMaterial = isBoxMaterial(category,door_finish_material, door_color, box_material, boxMaterialArr, showDoorGrain, door_grain);
+    const showBoxColor = isBoxColor(category,box_material, isLeather, boxMaterialArr)
+    const showDrawerBrand = isDrawerBrand(box_material, box_color, isCloset);
+    const showDrawerType = isDrawerType(showDrawerBrand, drawer_brand, drawerTypesArr);
+    const showDrawerColor = isDrawerColor(showDrawerType, drawer_type, drawerColorsArr);
     const showLeatherType = isLeatherType(drawer_color, drawer_type, isLeather, leatherTypeArr);
     const showLeatherNote = isLeatherNote(showLeatherType, leather)
 
     return (
         <Form className={s.roomForm}>
             <TextInput type={"text"} label={roomNameText} name="name" autoFocus={true}/>
-            {showCategory &&
+            {hasName &&
             <RoomMaterialsDataType data={categories} value={category ?? ''} name="category" label="Category"/>}
             {showGola && <RoomMaterialsDataType data={golaArr} value={gola ?? ''} name="gola" label="Gola"/>}
             {showDoorType &&

@@ -20,11 +20,6 @@ export type CatItem = {
     name: productCategory,
     img: string
 }
-// export type catInfoType = {
-//     defaultImg: string,
-//     categories: CatItem[]
-// }
-
 
 export type SliderCategoriesType = {
     "Kitchen": SliderCategoriesItemType,
@@ -33,8 +28,10 @@ export type SliderCategoriesType = {
     "Vanity Gola": SliderCategoriesItemType,
     "Build In Closet": SliderCategoriesItemType,
     "Leather Closet": SliderCategoriesItemType,
-    "Standard Door": SliderCategoriesItemType
+    "Standard Door": SliderCategoriesItemType,
 
+    // ???
+    "Simple Closet": SliderCategoriesItemType
 }
 
 export type SliderCategoriesItemType = {

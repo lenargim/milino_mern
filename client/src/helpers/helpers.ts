@@ -5,10 +5,9 @@ import Fraction from "fraction.js";
 import {
     AngleType,
     attrItem,
-    customPartDataType,
+    CustomPartDataType,
     CustomPartType,
     hingeArr,
-    itemImg,
     materialsCustomPart,
     MaybeEmpty,
     MaybeNull,
@@ -21,13 +20,11 @@ import {
     ProductType,
     productTypings,
     ProductFormType,
-    RoomCategories,
     sizeLimitsType,
     valueItemType, ProductOrCustomType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
-import customParts from '../api/customPart.json';
 import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
     calculateProduct,
@@ -36,7 +33,7 @@ import {
     getMaterialData,
     getProductDataToCalculatePrice,
     getProductPriceRange,
-    getProductRange,
+    getProductRange, getSimpleClosetCustomPartPrice,
     getType
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
@@ -46,7 +43,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType,
+    DoorAccessoryType, SimpleClosetAPIType, SimplePartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {addToCartAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -60,7 +57,7 @@ import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/C
 import settings from "../api/settings.json";
 import {
     CartAPI,
-    CartAPIImagedType,
+    CartAPIImagedType, CartCustomType,
     CartItemFrontType,
     CartNewType, CartOrder,
     CustomAccessoriesType,
@@ -68,16 +65,18 @@ import {
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
-import {alertError, isTokenValid, refreshTokenAPI} from "../api/apiFunctions";
+import {refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
+import {UserType} from "../api/apiTypes";
+import {logout} from "../store/reducers/userSlice";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
 
-export const getImg = (folder: string, img: string = ''): string => {
+export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     if (!folder || !img) return noImg;
     try {
         return require(`./../assets/img/${folder}/${img}`)
@@ -111,9 +110,12 @@ export const getAttributes = (attributes: attrItem[], type: productTypings = 1) 
     })
 }
 
-export const getProductImage = (images: itemImg[], type: productTypings = 1): string => {
-    const img = images.find(img => img.type === type)
-    return img ? img.value.toString() : ''
+export const getProductImage = (images: string[], imgType: productTypings = 1): string => {
+    for (let i = imgType; i >= 0; i--) {
+        const imgLink = images[i - 1];
+        if (imgLink) return getImg('products', imgLink);
+    }
+    return noImg
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
@@ -152,7 +154,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     return range[category] ? [range[category], 0] : [0];
 }
 
-export function getHingeArr(doorArr: number[], product_id: number): string[] {
+export function getHingeArr(doorArr: number[], product_id: number, width: number, height: number, product_type: ProductApiType): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
     let arr: string[] = [];
     const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211, 216];
@@ -162,6 +164,13 @@ export function getHingeArr(doorArr: number[], product_id: number): string[] {
     const tall_type_4: number[] = [217, 218, 219, 220];
 
     if (no_hinge.includes(product_id)) return arr;
+
+    // exceptions in standard products
+    if (product_type === 'standard') {
+        if (product_id === 101 && width === 24 && height >= 36) return [double];
+    }
+
+
     if (tall_type_1.includes(product_id)) {
         if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
         if (doorArr.includes(4)) arr.push(double, four)
@@ -190,7 +199,7 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
         case "cabinet":
         case "standard": {
             const product = product_or_custom as ProductType;
-            const {category, isBlind} = product;
+            const {category, isBlind = false} = product;
             return {
                 ...product,
                 hasLedBlock: isHasLedBlock(category),
@@ -211,11 +220,13 @@ export const getProductsByCategory = (category: productCategory, isStandardCabin
     return products.filter(el => el.category === category && el.product_type !== "standard");
 }
 
-export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): customPartDataType[] => {
+
+export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): CustomPartDataType[] => {
+    const standardDoorCustomParts = cabinets as ProductOrCustomType[];
     let exceptionIds: number[] = [];
     exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921];
-    const standardDoorCustomParts = customParts.filter(el => !exceptionIds.includes(el.id))
-    return standardDoorCustomParts as customPartDataType[];
+    if (room.category !== 'Simple Closet') exceptionIds.push(923)
+    return standardDoorCustomParts.filter(el => el.product_type === 'custom' && !exceptionIds.includes(el.id)) as CustomPartDataType[];
 }
 
 export const getInitialMaterialData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardCabinet: boolean): MaybeNull<materialsCustomPart> => {
@@ -249,7 +260,7 @@ export const getLimit = (d: MaybeUndefined<number[]>): number => {
 }
 
 export const getIsProductStandard = (productRange: productRangeType, width: number, height: number, depth: number, blind_width: number, middle_section: number, options: string[], led_border: string[], product: ProductType): boolean => {
-    const {isAngle, isBlind, blindArr, middleSectionDefault, hasMiddleSection} = product;
+    const {isAngle, isBlind = false, blindArr, middleSectionDefault, hasMiddleSection} = product;
     return checkDimensionsStandard(productRange, width, height, depth, isAngle)
         && checkBlindStandard(isBlind, blind_width, blindArr)
         && checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
@@ -257,7 +268,7 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
         && checkLedSelected(led_border)
 }
 
-export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: AngleType): boolean => {
+export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: MaybeUndefined<AngleType>): boolean => {
     return checkWidthStandard(productRange, width)
         && checkHeightStandard(productRange, height)
         && checkDepthStandard(productRange, depth, isAngle)
@@ -269,7 +280,7 @@ export const checkWidthStandard = (productRange: productRangeType, width: number
 export const checkHeightStandard = (productRange: productRangeType, height: number): boolean => {
     return productRange.heightRange.includes(height)
 }
-export const checkDepthStandard = (productRange: productRangeType, depth: number, isAngle: AngleType): boolean => {
+export const checkDepthStandard = (productRange: productRangeType, depth: number, isAngle: MaybeUndefined<AngleType>): boolean => {
     return !isAngle ? productRange.depthRange.includes(depth) : true;
 }
 export const checkBlindStandard = (isBlind: boolean, blind_width: number, blindArr?: number[]): boolean => {
@@ -283,8 +294,8 @@ export const checkMiddleSectionStandard = (hasMiddleSection: MaybeUndefined<true
 export const checkOptionsSelected = (options: string[]): boolean => {
     return !options.length
 }
-export const checkLedSelected = (led: string[]): boolean => {
-    return !led.length
+export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
+    return !led?.length
 }
 
 export const getCustomCabinetString = (isStandard: IsStandardOptionsType): string => {
@@ -362,6 +373,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         led_accessories,
         standard_door,
         standard_panels,
+        simple_closet_custom
     } = values;
 
     const {id, product_type} = product;
@@ -385,12 +397,16 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     }));
 
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-    const {doors, color} = standard_door
     const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
     const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
     const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
+    const simple_closet_custom_api: SimpleClosetAPIType[] = simple_closet_custom.map(el => ({
+        qty: el.qty,
+        name: el.name,
+        width: el["Width Number"]
+    }))
 
-    return {
+    let preparedProduct: CartNewType = {
         room_id: roomId,
         product_id: id,
         product_type: product_type,
@@ -407,34 +423,73 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
             door: glass_door,
             shelf: glass_shelf,
         },
-        led: {
-            border: [],
-            alignment: '',
-            indent: '',
-        },
-        custom: {
-            material: material,
-            accessories: {
-                led_alum_profiles: led_alum_profiles_api,
-                led_gola_profiles: led_gola_profiles_api,
-                led_dimmable_remote: led_dimmable_remote,
-                led_door_sensor: led_door_sensor,
-                led_transformer: led_transformer,
-                door: door_accessories.filter(el => el.qty > 0),
-            },
-            standard_panels: {
-                standard_panel: standard_panel_api,
-                shape_panel: shape_panel_api,
-                wtk: wtk_api,
-                crown_molding
-            },
-            standard_door: {
-                doors,
-                color
-            }
-        },
+        custom: {},
+        // led: {
+        //     border: [],
+        //     alignment: '',
+        //     indent: '',
+        // },
+        // custom: {
+        //     material: material,
+        //     accessories: {
+        //         led_alum_profiles: led_alum_profiles_api,
+        //         led_gola_profiles: led_gola_profiles_api,
+        //         led_dimmable_remote: led_dimmable_remote,
+        //         led_door_sensor: led_door_sensor,
+        //         led_transformer: led_transformer,
+        //         door: door_accessories.filter(el => el.qty > 0),
+        //     },
+        //     standard_panels: {
+        //         standard_panel: standard_panel_api,
+        //         shape_panel: shape_panel_api,
+        //         wtk: wtk_api,
+        //         crown_molding
+        //     },
+        //     standard_door: {
+        //         doors,
+        //         color
+        //     },
+        //     simple_closet: simple_closet_custom_api
+        // },
         note: note
     }
+
+    function forceSetPath<T extends object>(
+        obj: T,
+        path: string,
+        value: any
+    ): void {
+        const keys = path.split('.');
+        let current: any = obj;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+
+            if (current[key] === undefined || typeof current[key] !== 'object') {
+                current[key] = {};
+            }
+
+            current = current[key];
+        }
+
+        current[keys[keys.length - 1]] = value;
+    }
+
+
+    if (material) forceSetPath(preparedProduct, 'custom.material', material);
+    if (led_alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_alum_profiles', led_alum_profiles_api);
+    if (led_gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_gola_profiles', led_gola_profiles_api);
+    if (led_dimmable_remote) forceSetPath(preparedProduct, 'custom.accessories.led_dimmable_remote', led_dimmable_remote);
+    if (led_door_sensor) forceSetPath(preparedProduct, 'custom.accessories.led_door_sensor', led_door_sensor);
+    if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
+    if (door_accessories.length) forceSetPath(preparedProduct, 'custom.accessories.door', door_accessories.filter(el => el.qty > 0));
+    if (standard_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.standard_panel', standard_panel_api);
+    if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
+    if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
+    if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
+    if (standard_door) forceSetPath(preparedProduct, 'custom.standard_door', {doors: standard_door.doors, color: standard_door.color});
+    if (simple_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.simple_closet', simple_closet_custom_api)
+    return preparedProduct;
 }
 
 const isHasLedBlock = (category: productCategory): boolean => {
@@ -449,47 +504,61 @@ export const isGolaShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: b
 
 export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola: string, showGola: boolean): boolean => {
     if (!category) return false;
+    if (category === 'Simple Closet') return false;
     return !(showGola && !gola);
 }
 
 export const isDoorFinishShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, finishArr?: finishType[]): boolean => {
-    if (!category || doorType === 'Standard White Shaker') return false
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
+    if (doorType === 'Standard White Shaker') return false
     return !!(doorType && finishArr?.length)
 }
 
-export const isDoorColorShown = (doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+export const isDoorColorShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     if (doorType === 'Standard White Shaker') return true;
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
-export const isDoorFrameWidth = (doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+export const isDoorFrameWidth = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     if (!frameArr || doorType !== 'Micro Shaker') return false
     return !!doorFinishMaterial
 }
 
-export const isDoorGrain = (doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+export const isDoorGrain = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+    if (!category) return false;
+    if (category === 'Simple Closet') return false;
     return !(!doorFinishMaterial || !grainArr)
 }
 
-export const isBoxMaterial = (doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
+export const isBoxMaterial = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
     if (!boxMaterialArr.length) return false;
     if (showDoorGrain && !door_grain) return false;
+    if (category === 'Simple Closet') return true;
     return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
 }
-export const isBoxColor = (box_material: string, isLeather: boolean, boxMaterial: finishType[]): boolean => {
-    return !!(isLeather && box_material && boxMaterial.length)
+export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, isLeather: boolean, boxMaterialArr: finishType[]): boolean => {
+    if (!box_material || !boxMaterialArr.length) return false;
+    if (category === 'Simple Closet') return true;
+    return isLeather
 }
 
-export const isDrawerBrand = (box_material: string, box_color: string, isLeather: boolean): boolean => {
+export const isDrawerBrand = (box_material: string, box_color: string, isCloset: boolean): boolean => {
     if (!box_material) return false;
-    return !(isLeather && !box_color);
+    return !(isCloset && !box_color);
 }
 
-export const isDrawerType = (drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
+export const isDrawerType = (showDrawerBrand: boolean, drawer_brand: string, drawerTypesArr: materialsData[]): boolean => {
+    if (!showDrawerBrand) return false;
     return !(!drawer_brand || !drawerTypesArr.length);
 }
 
-export const isDrawerColor = (drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
+export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
+    if (!showDrawerType) return false;
     return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
 }
 
@@ -533,20 +602,20 @@ export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boole
     return arr;
 }
 
-export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategories>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
+export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategoriesType>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
     if (!category) return [];
-    return category === 'Leather Closet' ? leatherBoxMaterialArr : boxMaterial
+    return category === 'Leather Closet' || category === 'Simple Closet' ? leatherBoxMaterialArr : boxMaterial
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, boxMaterialType: string, boxMaterialsArr: finishType[]): MaybeUndefined<colorType[]> => {
-    if (!isLeather) return undefined;
-    return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors
+export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): MaybeUndefined<colorType[]> => {
+    if (isLeather) return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors;
+    if (isSimpleCloset) return boxMaterialAPI
+    return undefined;
 }
 
 export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {
     const grainType = colorArr.find(el => el.value === door_color)?.isGrain;
-
     switch (grainType) {
         case true:
             return grain;
@@ -626,7 +695,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: AngleType, isWallCab: boolean): number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, isWallCab: boolean): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
     const blindCorner = isWallCab ? 13.5 : 24;
@@ -694,12 +763,10 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 customDepth,
                 hasMiddleSection,
                 isAngle,
-                isBlind,
+                isBlind = false,
                 middleSectionDefault,
                 blindArr
             } = product
-
-            const {border} = led
 
             const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
             if (!tablePriceData) return null;
@@ -725,7 +792,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 isStandard: {
                     dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
                     blind: checkBlindStandard(isBlind, blind_width, blindArr),
-                    led: checkLedSelected(border),
+                    led: checkLedSelected(led?.border),
                     options: checkOptionsSelected(options),
                     middle: checkMiddleSectionStandard(hasMiddleSection, middleSectionDefault, middle_section)
                 }
@@ -734,8 +801,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         case "custom": {
             const customPart = product_or_custom as CustomPartType;
             const {type, standard_price} = customPart;
-            const {accessories, standard_door, standard_panels, material} = custom!;
-            // const {door: glass_door_val} = glass;
+            const {accessories, standard_door, standard_panels, material, simple_closet} = custom!;
             const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
             const isStandardPanel = ["standard-panel"].includes(type);
             let price: number = 0;
@@ -770,6 +836,15 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             }
             if (type === "plastic_toe" && standard_price) {
                 price = standard_price
+            }
+
+            if (type === "simple-closets") {
+                if (simple_closet) {
+                    const simple_closet_front:SimplePartCustomType[] = simple_closet.map(el => {
+                        return {qty: el.qty, name: el.name, "Width Number": el.width, "Width": ''}
+                    });
+                    price = getSimpleClosetCustomPartPrice(simple_closet_front, room);
+                }
             }
             return {
                 ...item,
@@ -807,7 +882,7 @@ const getLEDProductCartPrice = (accessories: CustomAccessoriesType): number => {
 
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, door_color: string): number => {
     // Choose Panels only
-    if (![900, 901, 903, 905, 906].includes(id)) return 1;
+    if (![903].includes(id)) return 1;
     // Choose Material (In Product Page)
     if (material !== 'Milino') return 1;
     // Door Color from Materials page
@@ -816,22 +891,12 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     return 1;
 }
 
-export const getCartItemImg = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
-    const {product_type, images} = product;
-    if (product_type === 'custom') {
-        return getImg('products/custom', images[0].value)
+export const getCartItemImgPDF = (images: string[], image_active_number: productTypings): string => {
+    for (let i = image_active_number; i >= 0; i--) {
+        const imgLink = images[i - 1];
+        if (imgLink) return getImg('products-checkout', imgLink.replace('webp', 'jpg'));
     }
-    return getImg('products', images[image_active_number - 1].value)
-}
-
-export const getCartItemImgPDF = (product: ProductType | CustomPartType, image_active_number: productTypings): string => {
-    const {product_type, images} = product;
-    if (product_type === 'custom') {
-        const val = images[0].value.replace('webp', 'jpg');
-        return getImg('products-checkout/custom', val)
-    }
-    const val = images[image_active_number - 1].value.replace('webp', 'jpg');
-    return getImg('products-checkout', val)
+    return noImg
 }
 
 export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryType => {
@@ -864,6 +929,11 @@ export const isShowMiddleSectionBlock = (hasMiddleSection: MaybeUndefined<true>,
     return !!(hasMiddleSection && !isProductStandard && middleSectionDefault)
 }
 
+export const isShowHingeBlock = (hingeArr: string[]): boolean => {
+    if (hingeArr.length < 2) return false;
+    return true
+}
+
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
@@ -878,6 +948,8 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
             return API['Leather Closet'] as SliderCategoriesItemType;
         case "Build In Closet":
             return API['Build In Closet'] as SliderCategoriesItemType;
+        case "Simple Closet":
+            return API['Simple Closet'] as SliderCategoriesItemType;
     }
 }
 
@@ -952,6 +1024,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
             return [34.5];
+        case "Simple Closets":
+            return [95]
         default:
             return []
     }
@@ -976,7 +1050,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
         const {product_id, product_type, image_active_number} = el
         const product = getProductById(product_id, product_type === 'standard');
         if (!product) return el;
-        const img = getCartItemImg(product, image_active_number)
+        const img = getProductImage(product.images, image_active_number)
         return ({...el, img: img.replace('webp', 'jpg')})
     })
 }
@@ -985,7 +1059,7 @@ export const findIsProductStandard = (materials: RoomMaterialsFormType): boolean
     return materials.door_type === 'Standard White Shaker'
 }
 
-export const findHasGolaByCategory = (category: string): boolean => {
+export const findHasGolaByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     return ['Kitchen', 'Vanity'].includes(category)
 }
 
@@ -996,21 +1070,28 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const me = async (token: MaybeNull<string>) => {
-    if (!token) return null;
-    if (!isTokenValid(token)) {
-        token = await refreshTokenAPI() || null;
-        if (!token) return null;
-        localStorage.setItem('token', token);
-    }
+export const me = async (hasRetried = false): Promise<MaybeNull<UserType>> => {
     try {
         return (await usersAPI.me()).data;
-    } catch (error) {
-        return alertError(error);
-    }
-}
+    } catch (error: any) {
+        const status = error?.response?.status;
 
-export const createOrderFormData = async (po_rooms_api:RoomOrderType[], po_blob:Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
+        if (!hasRetried && status === 401) {
+            const newToken = await refreshTokenAPI();
+            if (newToken) {
+                localStorage.setItem('token', newToken);
+                return me(true);
+            }
+        }
+
+        if (status === 404) {
+            logout(); // ← handle user-deleted scenario
+        }
+        return null;
+    }
+};
+
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, materials);
