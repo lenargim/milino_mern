@@ -6007,7 +6007,7 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Micro Milino",
+        "name": "Shaker Syncron",
         "limits": {
           "width": [
             5,
@@ -6021,7 +6021,7 @@
         "depth": 0.75
       },
       {
-        "name": "Zenit",
+        "name": "Shaker Zenit",
         "limits": {
           "width": [
             5,
@@ -6035,21 +6035,7 @@
         "depth": 0.75
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            5,
-            108
-          ],
-          "height": [
-            5,
-            108
-          ]
-        },
-        "depth": 0.75
-      },
-      {
-        "name": "Painted",
+        "name": "Shaker Painted",
         "limits": {
           "width": [
             5,
@@ -6061,6 +6047,20 @@
           ]
         },
         "depth": 0.875
+      },
+      {
+        "name": "Micro Shaker Milino",
+        "limits": {
+          "width": [
+            5,
+            108
+          ],
+          "height": [
+            5,
+            108
+          ]
+        },
+        "depth": 0.75
       },
       {
         "name": "Micro Shaker",
@@ -6482,7 +6482,7 @@
     "name": "BS Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
-    "images": ["standard/BS.webp","standard/BS_2.webp"],
+    "images": ["standard/BS.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -6520,7 +6520,7 @@
     "name": "BD Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
-    "images": ["standard/BD.webp","standard/BD_2.webp"],
+    "images": ["standard/BD.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -6557,7 +6557,7 @@
     "name": "B Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
-    "images": ["standard/B.webp","standard/B_2.webp"],
+    "images": ["standard/B.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -6605,7 +6605,7 @@
     "name": "BID Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 24,
-    "images": ["standard/BID.webp","standard/BID_2.webp"],
+    "images": ["standard/BID.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -6652,7 +6652,7 @@
     "name": "BSG Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 15,
-    "images": ["standard/BSG.webp","standard/BSG.webp"],
+    "images": ["standard/BSG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -6689,7 +6689,7 @@
     "name": "BG Series",
     "category": "Standard Base Cabinets",
     "widthDivider": 15,
-    "images": ["standard/BG.webp","standard/BG.webp"],
+    "images": ["standard/BG.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7588,7 +7588,7 @@
     "product_type": "standard",
     "name": "W Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/W.webp","standard/W_2.webp","standard/W.webp","standard/W_2.webp"],
+    "images": ["standard/W.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7651,7 +7651,7 @@
     "product_type": "standard",
     "name": "WDA Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WDA.webp","standard/WDA.webp"],
+    "images": ["standard/WDA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7731,7 +7731,7 @@
     "product_type": "standard",
     "name": "WBL Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WBL.webp","standard/WBL.webp"],
+    "images": ["standard/WBL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7783,7 +7783,7 @@
     "product_type": "standard",
     "name": "WBA Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WBA.webp","standard/WBA.webp"],
+    "images": ["standard/WBA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7836,7 +7836,7 @@
     "product_type": "standard",
     "name": "WB Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WB.webp","standard/WB.webp"],
+    "images": ["standard/WB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7889,7 +7889,7 @@
     "product_type": "standard",
     "name": "WRF Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WRF.webp","standard/WRF.webp"],
+    "images": ["standard/WRF.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7942,7 +7942,7 @@
     "product_type": "standard",
     "name": "WRFA Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WRFA.webp","standard/WRFA.webp"],
+    "images": ["standard/WRFA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -7998,7 +7998,7 @@
     "customDepth": 24,
     "name": "WC Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WC.webp","standard/WC.webp"],
+    "images": ["standard/WC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8051,7 +8051,7 @@
     "customDepth": 24,
     "name": "WCA Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WCA.webp","standard/WCA.webp"],
+    "images": ["standard/WCA.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8102,7 +8102,7 @@
     "isBlind": true,
     "name": "WCB Series",
     "category": "Standard Wall Cabinets",
-    "images": ["standard/WCB.webp","standard/WCB.webp"],
+    "images": ["standard/WCB.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8187,7 +8187,7 @@
     "legsHeight": 4.5,
     "name": "PC Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/PC.webp","standard/PC_2.webp","standard/PC.webp","standard/PC_2.webp"],
+    "images": ["standard/PC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8251,7 +8251,7 @@
     "legsHeight": 4.5,
     "name": "PC2D Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/PC2D.webp","standard/PC2D_2.webp","standard/PC2D.webp","standard/PC2D_2.webp"],
+    "images": ["standard/PC2D.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8328,7 +8328,7 @@
     "legsHeight": 4.5,
     "name": "PC3D Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/PC3D.webp","standard/PC3D_2.webp","standard/PC3D.webp","standard/PC3D_2.webp"],
+    "images": ["standard/PC3D.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8405,7 +8405,7 @@
     "legsHeight": 4.5,
     "name": "PC4D Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/PC4D.webp","standard/PC4D_2.webp","standard/PC4D.webp","standard/PC4D_2.webp"],
+    "images": ["standard/PC4D.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8490,7 +8490,7 @@
     "legsHeight": 4.5,
     "name": "TBC Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/TBC.webp","standard/TBC.webp"],
+    "images": ["standard/TBC.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8541,7 +8541,7 @@
     "legsHeight": 4.5,
     "name": "TBCL Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/TBCL.webp","standard/TBCL.webp"],
+    "images": ["standard/TBCL.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8598,7 +8598,7 @@
     "category": "Standard Tall Cabinets",
     "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
-    "images": ["standard/TDO.webp","standard/TDO.webp"],
+    "images": ["standard/TDO.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8655,7 +8655,7 @@
     "hasMiddleSection": true,
     "middleSectionDefault": 30,
     "category": "Standard Tall Cabinets",
-    "images": ["standard/TSO.webp","standard/TSO.webp"],
+    "images": ["standard/TSO.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8709,7 +8709,7 @@
     "product_type": "standard",
     "name": "T Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/T.webp","standard/T_2.webp"],
+    "images": ["standard/T.webp"],
     "attributes": [
       {
         "name": "Door",
@@ -8763,7 +8763,7 @@
     "product_type": "standard",
     "name": "TD Series",
     "category": "Standard Tall Cabinets",
-    "images": ["standard/TD.webp","standard/TD_2.webp"],
+    "images": ["standard/TD.webp"],
     "attributes": [
       {
         "name": "Door",

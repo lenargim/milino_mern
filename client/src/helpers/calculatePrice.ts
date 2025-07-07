@@ -296,17 +296,17 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
     switch (door_finish_material) {
         case "Milino":
             return square * 36;
-        case "Syncron":
-        case "Micro Milino":
+        case "Shaker Syncron":
+        case "Micro Shaker Milino":
             return square * 48;
         case "Luxe":
         case "Ultrapan PET":
             return square * 60;
         case "Ultrapan Acrylic":
             return square * 60 * 1.1;
-        case "Zenit":
+        case "Shaker Zenit":
             return square * 60 * 1.03;
-        case 'Painted':
+        case 'Shaker Painted':
             return square * 78;
         case "Micro Shaker":
             return square * 60

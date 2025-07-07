@@ -13,6 +13,10 @@ function generateTokens(userId) {
   return { accessToken, refreshToken };
 }
 
+const getCookieDays = () => {
+  const envDays = env.BACKEND_REFRESH_KEY_EXPIRES;
+  return Number(envDays.replace('d', ''));
+}
 
 export const register = async (req, res) => {
   try {
@@ -113,7 +117,7 @@ export const login = async (req, res) => {
         httpOnly: true,
         // sameSite: 'Strict',
         secure: isCookieSecure(), // set true in production with HTTPS
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: getCookieDays() * 24 * 60 * 60 * 1000
       })
       .json({...userData, token:accessToken});
   } catch (err) {
@@ -191,7 +195,6 @@ export const refresh = async (req, res) => {
     }
 
     const { accessToken } = generateTokens(decoded._id);
-
     res.json(accessToken);
   } catch {
     res.sendStatus(401).json({

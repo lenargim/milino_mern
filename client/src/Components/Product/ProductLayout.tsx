@@ -68,7 +68,7 @@ const ProductLayout: FC<CabinetFormType> = ({
     const depthRangeWithCustom = depthRange.concat([0]);
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection, middleSectionDefault, product_type === "standard");
-    const showHingeBlock = isShowHingeBlock(hingeArr, id, product_type)
+    const showHingeBlock = isShowHingeBlock(hingeArr)
     return (
         <Form>
             {!hasSolidWidth ?

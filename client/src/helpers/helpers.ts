@@ -928,9 +928,8 @@ export const isShowMiddleSectionBlock = (hasMiddleSection: MaybeUndefined<true>,
     return !!(hasMiddleSection && !isProductStandard && middleSectionDefault)
 }
 
-export const isShowHingeBlock = (hingeArr: string[], id: number, product_type: ProductApiType): boolean => {
+export const isShowHingeBlock = (hingeArr: string[]): boolean => {
     if (hingeArr.length < 2) return false;
-    if (id === 101 && product_type === 'standard') return false;
     return true
 }
 
