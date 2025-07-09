@@ -3,20 +3,20 @@ import UserModel from "../models/User.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import nodemailer from "nodemailer";
-import {getTransporterObject, isCookieSecure} from "../utils/helpers.js";
+import {getTransporterObject} from "../utils/helpers.js";
 
 const env = dotenv.config().parsed;
 
 function generateTokens(userId) {
   const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
-  const refreshToken = jwt.sign({_id: userId}, env.BACKEND_REFRESH_KEY, {expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES});
-  return {accessToken, refreshToken};
+  // const refreshToken = jwt.sign({_id: userId}, env.BACKEND_REFRESH_KEY, {expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES});
+  return accessToken;
 }
 
-const getCookieDays = () => {
-  const envDays = env.BACKEND_REFRESH_KEY_EXPIRES;
-  return Number(envDays.replace('d', ''));
-}
+// const getCookieDays = () => {
+//   const envDays = env.BACKEND_REFRESH_KEY_EXPIRES;
+//   return Number(envDays.replace('d', ''));
+// }
 
 export const register = async (req, res) => {
   try {
@@ -110,15 +110,15 @@ export const login = async (req, res) => {
     }
 
     const {passwordHash: hash, ...userData} = user._doc;
-    const {accessToken, refreshToken} = generateTokens(user._id);
+    const accessToken = generateTokens(user._id);
 
     res.status(200)
-      .cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        // sameSite: 'Strict',
-        secure: isCookieSecure(), // set true in production with HTTPS
-        maxAge: getCookieDays() * 24 * 60 * 60 * 1000
-      })
+      // .cookie('refreshToken', refreshToken, {
+      //   httpOnly: true,
+      //   // sameSite: 'Strict',
+      //   secure: isCookieSecure(), // set true in production with HTTPS
+      //   maxAge: getCookieDays() * 24 * 60 * 60 * 1000
+      // })
       .json({...userData, token: accessToken});
   } catch (err) {
     console.log(err);
@@ -181,29 +181,29 @@ export const patchMe = async (req, res) => {
   }
 }
 
-export const refresh = async (req, res) => {
-  const token = req.cookies.refreshToken;
-  if (!token) {
-    return res.sendStatus(401).json({
-      type: 'token-refresh',
-      message: "No refresh token"
-    });
-  }
-
-  try {
-    const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
-    const user = await UserModel.findById(decoded._id); // ← validate user exists
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const { accessToken } = generateTokens(decoded._id);
-    res.json(accessToken);
-  } catch {
-    res.sendStatus(401).json({
-      type: 'token-refresh',
-      message: "Wrong refresh token"
-    });
-  }
-}
+// export const refresh = async (req, res) => {
+//   const token = req.cookies.refreshToken;
+//   if (!token) {
+//     return res.sendStatus(401).json({
+//       type: 'token-refresh',
+//       message: "No refresh token"
+//     });
+//   }
+//
+//   try {
+//     const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
+//     const user = await UserModel.findById(decoded._id); // ← validate user exists
+//
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+//
+//     const { accessToken } = generateTokens(decoded._id);
+//     res.json(accessToken);
+//   } catch {
+//     res.sendStatus(401).json({
+//       type: 'token-refresh',
+//       message: "Wrong refresh token"
+//     });
+//   }
+// }

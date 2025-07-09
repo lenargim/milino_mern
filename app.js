@@ -3,7 +3,6 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import path from 'path';
 import {fileURLToPath} from 'url';
-import cookieParser from 'cookie-parser';
 import {
   UserController,
   PDFController,
@@ -45,7 +44,7 @@ const corsOptions = {
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(__dirname));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 const CORS = cors(corsOptions);
 app.use(CORS);
@@ -66,7 +65,7 @@ const start = async () => {
     app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login);
     app.get('/api/users/me', checkAuth, UserController.getMe)
     app.patch('/api/users/me', checkAuth, UserController.patchMe)
-    app.post('/api/users/refresh', UserController.refresh)
+    // app.post('/api/users/refresh', UserController.refresh)
 
     // Purchase Order
     app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)

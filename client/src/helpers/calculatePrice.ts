@@ -210,7 +210,7 @@ export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItem
     return [...new Set<number>(filter.map(el => el.value))]
 }
 
-function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, horizontal_line: number, doorType: string, doorFinish: string, isProductStandard:boolean, is_leather_closet:boolean): number {
+function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, horizontal_line: number, doorType: string, doorFinish: string, isProductStandard: boolean, is_leather_closet: boolean): number {
     if (doorType === 'No Doors' || doorFinish === 'Milino' || isProductStandard || is_leather_closet) return 0;
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     const pvcPrice = per * 2.5;
@@ -313,7 +313,7 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
     }
 }
 
-function getSlattedPanelPrice(square: number, material:MaybeUndefined<string>): number {
+function getSlattedPanelPrice(square: number, material: MaybeUndefined<string>): number {
     if (!material) return 0;
     if (material === 'Milino') return square * 48;
     return square * 60;
@@ -488,9 +488,10 @@ const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: bo
     } else {
         switch (box_material) {
             case 'Milino': {
-                const boxColorType = getDoorColorType(box_color)
+                const boxColorType = getBoxMaterialColorType(box_color)
                 if (boxColorType === 2) return 1.1;
                 if (boxColorType === 3) return 1.2;
+                if (boxColorType === 4) return 1.15
                 break;
             }
             case 'Zenit':
@@ -521,11 +522,10 @@ const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     return 1
 };
 
-const getBoxMaterialCoef = (box_material: string, product_id:number): number => {
+const getBoxMaterialCoef = (box_material: string, product_id: number): number => {
     // Exceptions
     const noCoefExceptionsArr: number[] = [35];
     if (noCoefExceptionsArr.includes(product_id)) return 1;
-
     switch (box_material) {
         case "Natural Plywood":
         case "White Plywood":
@@ -550,8 +550,7 @@ const getBoxMaterialCoef = (box_material: string, product_id:number): number => 
     }
 }
 
-
-const getBoxMaterialFinishCoef = (door_finish_material:string, door_color:string): number => {
+const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: string): number => {
     switch (door_finish_material) {
         case "Milino":
             const colorType = getDoorColorType(door_color);
@@ -598,7 +597,7 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
         depthRange: getDepthRange(priceData, category, customDepth)
     }
 }
-export const getMaterialData = (materials: RoomMaterialsFormType, product_id:number): materialDataType => {
+export const getMaterialData = (materials: RoomMaterialsFormType, product_id: number): materialDataType => {
     const {
         box_material,
         door_type,
@@ -801,7 +800,7 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
 const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name === 'Adjustable Shelf')?.value ?? 0;
 }
-export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType):CartItemFrontType[] => {
+export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartItemFrontType[] => {
     return cart.map(cartItem => {
         const {product_id, product_type} = cartItem;
         const product_or_custom = getProductById(product_id, product_type === 'standard');
@@ -815,7 +814,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
         const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
         if (!sizeLimit) return cartItem;
         const totalPrice = calculateProduct(cartItem, materialData, tablePriceData, sizeLimit, product);
-        return {...cartItem,  price:totalPrice};
+        return {...cartItem, price: totalPrice};
     });
 }
 
@@ -862,7 +861,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         door_type,
         is_leather_or_simple_closet
     } = materialData
-    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand,image_active_number);
+    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {
         drawersQty,
         shelfsQty,
@@ -881,7 +880,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led?.border),
-        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material,product_type === "standard", is_leather_or_simple_closet),
+        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material, product_type === "standard", is_leather_or_simple_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
@@ -902,11 +901,11 @@ const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], p
     return 1 + (coef_w + coef_h + coef_d)
 }
 
-export const getSimpleClosetCustomPartPrice = (simple_closet_custom:SimplePartCustomType[], materials:RoomMaterialsFormType):number => {
-    const getItemPrice = (item:SimplePartCustomType):number => {
+export const getSimpleClosetCustomPartPrice = (simple_closet_custom: SimplePartCustomType[], materials: RoomMaterialsFormType): number => {
+    const getItemPrice = (item: SimplePartCustomType): number => {
         const {name, qty, 'Width Number': width} = item;
         if (!qty || !name || !width) return 0;
-        const getCoef = (materials:RoomMaterialsFormType):number => {
+        const getCoef = (materials: RoomMaterialsFormType): number => {
             const {box_material, box_color} = materials
             switch (box_material) {
                 case "Milino":
@@ -930,27 +929,27 @@ export const getSimpleClosetCustomPartPrice = (simple_closet_custom:SimplePartCu
         const coef = getCoef(materials);
         switch (name) {
             case "SR":
-                return width*15/12;
+                return width * 15 / 12;
             case "STK":
-                return 1 + (width*3*coef)/144;
+                return 1 + (width * 3 * coef) / 144;
             case "AS14":
-                return width*14*coef/144;
+                return width * 14 * coef / 144;
             case "AS18":
-                return width*18*coef/144;
+                return width * 18 * coef / 144;
             case "AS22":
-                return width*22*coef/144;
+                return width * 22 * coef / 144;
             case "FS14":
-                return 5 + (width*14*coef)/144
+                return 5 + (width * 14 * coef) / 144
             case "FS18":
-                return 5 + (width*18*coef)/144
+                return 5 + (width * 18 * coef) / 144
             case "FS22":
-                return 5 + (width*22*coef)/144
+                return 5 + (width * 22 * coef) / 144
             case "SS14":
-                return width + (width*14*coef)/144
+                return width + (width * 14 * coef) / 144
             case "SS18":
-                return width + (width*18*coef)/144
+                return width + (width * 18 * coef) / 144
             case "SS22":
-                return width + (width*22*coef)/144;
+                return width + (width * 22 * coef) / 144;
             default:
                 return 0
         }

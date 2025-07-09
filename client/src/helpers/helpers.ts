@@ -57,7 +57,7 @@ import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/C
 import settings from "../api/settings.json";
 import {
     CartAPI,
-    CartAPIImagedType, CartCustomType,
+    CartAPIImagedType,
     CartItemFrontType,
     CartNewType, CartOrder,
     CustomAccessoriesType,
@@ -65,7 +65,6 @@ import {
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
-import {refreshTokenAPI} from "../api/apiFunctions";
 import {usersAPI} from "../api/api";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
@@ -602,16 +601,17 @@ export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boole
     return arr;
 }
 
-export const getBoxMaterialArr = <T, U>(category: MaybeEmpty<RoomCategoriesType>, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
-    if (!category) return [];
-    return category === 'Leather Closet' || category === 'Simple Closet' ? leatherBoxMaterialArr : boxMaterial
+export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
+    return isCloset ? leatherBoxMaterialArr : boxMaterial
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): MaybeUndefined<colorType[]> => {
-    if (isLeather) return boxMaterialsArr?.find(el => el.value === boxMaterialType)?.colors;
-    if (isSimpleCloset) return boxMaterialAPI
-    return undefined;
+export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[],boxMaterialAPI:materialsData[]): colorType[] => {
+    const colorsArr:MaybeUndefined<colorType[]> = boxMaterialsArr.find(el => el.value === boxMaterialType)?.colors;
+    if (!colorsArr) return [];
+    if (isLeather) return colorsArr;
+    if (isSimpleCloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
+    return [];
 }
 
 export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_color: string): MaybeNull<materialsData[]> => {
@@ -1069,27 +1069,6 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     });
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
-
-export const me = async (hasRetried = false): Promise<MaybeNull<UserType>> => {
-    try {
-        return (await usersAPI.me()).data;
-    } catch (error: any) {
-        const status = error?.response?.status;
-
-        if (!hasRetried && status === 401) {
-            const newToken = await refreshTokenAPI();
-            if (newToken) {
-                localStorage.setItem('token', newToken);
-                return me(true);
-            }
-        }
-
-        if (status === 404) {
-            logout(); // ← handle user-deleted scenario
-        }
-        return null;
-    }
-};
 
 export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {

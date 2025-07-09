@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {OrderTypeAPI, UserType} from "../../api/apiTypes";
-import {me} from "../../helpers/helpers";
-import {MaybeNull} from "../../helpers/productTypes";
+import {MaybeNull, MaybeUndefined} from "../../helpers/productTypes";
+import {me} from "../../api/apiFunctions";
 
 export interface UserState {
     loading: boolean,
@@ -9,7 +9,7 @@ export interface UserState {
     orders: OrderTypeAPI[]
 }
 
-export const loadUser = createAsyncThunk<MaybeNull<UserType>>(
+export const loadUser = createAsyncThunk<MaybeUndefined<UserType>>(
     'user/loadUser',
     async (_) => {
         return await me();
@@ -47,7 +47,8 @@ export const userSlice = createSlice({
                 state.loading = true;
             })
             .addCase(loadUser.fulfilled, (state, action) => {
-                state.user = action.payload;
+                const user = action.payload ?? null;
+                state.user = user;
                 state.loading = false;
             })
             .addCase(loadUser.rejected, state => {

@@ -3,8 +3,8 @@ import {MaybeNull, productCategory} from "../../helpers/productTypes";
 import {RoomFront, RoomType} from "../../helpers/roomTypes";
 import {convertCartAPIToFront, convertRoomAPIToFront} from "../../helpers/helpers";
 import {cartAPI, roomsAPI} from "../../api/api";
-import {withRetry} from "../../utils/withRetry";
 import {CartAPIResponse, CartItemFrontType, CartNewType} from "../../helpers/cartTypes";
+import {withTryCatch} from "../../utils/withTryCatch";
 
 export interface RoomsState {
     rooms: RoomFront[],
@@ -26,14 +26,14 @@ const initialState: RoomsState = {
     error: null
 }
 
-export const fetchRooms = createAsyncThunk<RoomType[],
-    { _id: string }>(
-    'room/fetchRooms',
+export const fetchRooms = createAsyncThunk<RoomType[],                // Returned value
+    { _id: string },           // Argument to the thunk
+    { rejectValue: string }    // Type of rejected error
+    >(
+    'rooms/fetchRooms',
     async ({_id}, thunkAPI) => {
-        return await withRetry(
-            roomsAPI.getRooms,
-            [_id],
-            'Unable to fetch rooms',
+        return await withTryCatch<RoomType[]>(
+            () => roomsAPI.getRooms(_id),
             thunkAPI
         );
     }
@@ -44,12 +44,7 @@ export const removeRoom = createAsyncThunk<RoomType[],
     { purchase_order_id: string, _id: string }>(
     'room/fetchRooms',
     async ({purchase_order_id, _id}, thunkAPI) => {
-        return await withRetry(
-            roomsAPI.deleteRoom,
-            [purchase_order_id, _id],
-            'Unable to remove rooms',
-            thunkAPI
-        );
+        return await withTryCatch(() => roomsAPI.deleteRoom(purchase_order_id, _id), thunkAPI);
     }
 );
 
@@ -57,12 +52,7 @@ export const editRoom = createAsyncThunk<RoomType[],
     RoomType>(
     'room/fetchRooms',
     async (room, thunkAPI) => {
-        return await withRetry(
-            roomsAPI.editRoom,
-            [room],
-            'Unable to edit room',
-            thunkAPI
-        );
+        return await withTryCatch(() => roomsAPI.editRoom(room), thunkAPI);
     }
 );
 
@@ -71,64 +61,39 @@ export const fetchCart = createAsyncThunk<CartAPIResponse,
     { _id: string }>(
     'room/fetchCart',
     async ({_id}, thunkAPI) => {
-        return await withRetry(
-            cartAPI.getCart,
-            [_id],
-            'Unable to fetch cart',
-            thunkAPI
-        );
+        return await withTryCatch(() => cartAPI.getCart(_id), thunkAPI);
     }
 );
 
 export const updateCartAmount = createAsyncThunk<CartAPIResponse,
     { room_id: string, _id: string, amount: number }>(
     'room/fetchCart',
-    async ({room_id, _id, amount},thunkAPI) => {
-        return await withRetry(
-            cartAPI.updateAmount,
-            [room_id, _id, amount],
-            'Unable to update cart',
-            thunkAPI
-        );
+    async ({room_id, _id, amount}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.updateAmount(room_id, _id, amount), thunkAPI);
     }
 )
 
 export const removeFromCart = createAsyncThunk<CartAPIResponse,
     { room_id: string, _id: string }>(
     'room/fetchCart',
-    async ({room_id, _id},thunkAPI) => {
-        return await withRetry(
-            cartAPI.remove,
-            [room_id, _id],
-            'Unable to update cart',
-            thunkAPI
-        );
+    async ({room_id, _id}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.remove(room_id, _id), thunkAPI);
     }
 )
 
 export const removeAllFromCart = createAsyncThunk<CartAPIResponse,
     { room_id: string }>(
     'room/fetchCart',
-    async ({room_id},thunkAPI) => {
-        return await withRetry(
-            cartAPI.removeAll,
-            [room_id],
-            'Unable to update cart',
-            thunkAPI
-        );
+    async ({room_id}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.removeAll(room_id), thunkAPI);
     }
 )
 
 export const addProduct = createAsyncThunk<CartAPIResponse,
     { product: CartNewType }>(
     'room/fetchCart',
-    async ({product},thunkAPI) => {
-        return await withRetry(
-            cartAPI.addToCart,
-            [product],
-            'Unable to update cart',
-            thunkAPI
-        );
+    async ({product}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.addToCart(product), thunkAPI);
     }
 )
 
@@ -156,7 +121,7 @@ export const roomSlice = createSlice({
         updateCartAfterMaterialsChange: (state, action: PayloadAction<CartItemFrontType[]>) => {
             state.cart_items = action.payload
         },
-        setActiveRoom: (state, action:PayloadAction<string>) => {
+        setActiveRoom: (state, action: PayloadAction<string>) => {
             state.active_room = action.payload
         }
     },

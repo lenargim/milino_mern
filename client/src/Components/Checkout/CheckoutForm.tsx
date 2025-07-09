@@ -77,7 +77,7 @@ const CheckoutForm: FC = () => {
                 const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
                 const POFormData = await createOrderFormData(po_rooms_api, po_blob, values, fileName, date);
                 const res = await sendOrder(POFormData, textToLink(company));
-                if (res.status === 201) setIsModalOpen(true);
+                if (res?.status === 201) setIsModalOpen(true);
                 break;
             }
         }

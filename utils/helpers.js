@@ -28,9 +28,9 @@ export const getTransporterObject = () => {
     }
 }
 
-export const isCookieSecure = () => {
-  return env.NODE_ENV === 'production'
-}
+// export const isCookieSecure = () => {
+//   return env.NODE_ENV === 'production'
+// }
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

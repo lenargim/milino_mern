@@ -23,9 +23,9 @@ import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
 import RoomMaterialsDataType from "./RoomMaterialsDataType";
 import materialsAPI from "../../api/materials.json";
-import {MaybeUndefined} from "../../helpers/productTypes";
+import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
-import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
 
 const {
@@ -54,6 +54,14 @@ export const materialsFormInitial: RoomMaterialsFormType = {
     drawer_color: '',
     leather: '',
     leather_note: ''
+}
+
+function shouldClearFormData(category:MaybeEmpty<RoomCategoriesType>, prevCategory:MaybeUndefined<string>):boolean {
+    if (!category || !prevCategory) return false;
+    if (category === prevCategory) return false;
+    if (category === 'Leather Closet' && prevCategory !== 'Leather Closet') return true;
+    if (category === 'Simple Closet' && prevCategory !== 'Simple Closet') return true;
+    return false;
 }
 
 const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
@@ -88,8 +96,8 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
-    const boxMaterialArr: finishType[] = getBoxMaterialArr(category, boxMaterial, leatherBoxMaterialArr || [])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isSimpleCloset,box_material, boxMaterialArr, boxMaterial) ?? [];
+    const boxMaterialArr: finishType[] = getBoxMaterialArr(isCloset, boxMaterial, leatherBoxMaterialArr || [])
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isSimpleCloset,box_material, boxMaterialArr, boxMaterial);
     const drawerBrandArr = getDrawerBrandArr(drawers);
     const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
     const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)
@@ -99,8 +107,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)
 
     useEffect(() => {
-        const isLeather = category === 'Leather Closet';
-        if (category && prevCategory && category !== prevCategory && ((isLeather && prevCategory !== 'Leather Closet') || (!isLeather && prevCategory === 'Leather Closet'))) {
+        if (shouldClearFormData(category, prevCategory)) {
             setValues({
                 name,
                 category,

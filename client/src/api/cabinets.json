@@ -5164,7 +5164,17 @@
     "name": "SDS Series",
     "category": "Simple Closets",
     "images": ["CC/SDS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {

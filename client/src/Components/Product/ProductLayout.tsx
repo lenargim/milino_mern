@@ -53,7 +53,6 @@ const ProductLayout: FC<CabinetFormType> = ({
     const {values, isSubmitting} = useFormikContext<ProductFormType>();
     const {widthRange, heightRange, depthRange} = productRange;
 
-
     const {filteredOptions} = productPriceData;
     const {
         Width: width,
