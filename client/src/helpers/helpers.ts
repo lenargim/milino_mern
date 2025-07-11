@@ -167,6 +167,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
     // exceptions in standard products
     if (product_type === 'standard') {
         if (product_id === 101 && width === 24 && height >= 36) return [double];
+        if ([106,107].includes(product_id) && width <=21) arr.push(left, right)
     }
 
 

@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
@@ -55,6 +55,13 @@ const ProductCabinet: FC<CabinetType> = ({
         image_active_number,
         price: price,
     } = values;
+    const realWidth = +width || +customWidthNumber || 0;
+    const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
+    const realHeight = +height || +customHeightNumber || 0;
+    const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
+    const realMiddleSection = middleSectionNumber || 0
+    const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
+    const [hingeArr, setHingeArr] = useState<string[]>(getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type))
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)
@@ -75,15 +82,17 @@ const ProductCabinet: FC<CabinetType> = ({
         if (product.product_type === 'standard') {
             const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
             if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
+
+            const newHingeArr = getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type);
+            if (!newHingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', newHingeArr[0]);
         }
     }, [width]);
-    const realWidth = +width || +customWidthNumber || 0;
-    const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
-    const realHeight = +height || +customHeightNumber || 0;
-    const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
-    const realMiddleSection = middleSectionNumber || 0
-    const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
-    const hingeArr = getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type);
+
+    useEffect(() => {
+        const newHingeArr = getHingeArr(doorArr || [], id, width, height, product.product_type);
+        setHingeArr(newHingeArr)
+    },[width, height])
+
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const cabinetItem: CartAPIImagedType = {
         _id: '',

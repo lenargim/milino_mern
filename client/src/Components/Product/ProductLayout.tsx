@@ -61,7 +61,6 @@ const ProductLayout: FC<CabinetFormType> = ({
         'Blind Width': blindWidth,
         price
     } = values;
-
     const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
     const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category, customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
