@@ -61,7 +61,7 @@ const ProductCabinet: FC<CabinetType> = ({
     const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
     const realMiddleSection = middleSectionNumber || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
-    const [hingeArr, setHingeArr] = useState<string[]>(getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type))
+    const [hingeArr, setHingeArr] = useState<string[]>(getHingeArr(doorArr || [], id, realWidth, realHeight, product_type));
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)

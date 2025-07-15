@@ -161,27 +161,47 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
     const tall_type_2: number[] = [212, 213];
     const tall_type_3: number[] = [205, 206];
     const tall_type_4: number[] = [217, 218, 219, 220];
+    const any_tall_type = tall_type_1.concat(tall_type_2, tall_type_3, tall_type_4);
 
     if (no_hinge.includes(product_id)) return arr;
-
     // exceptions in standard products
     if (product_type === 'standard') {
         if (product_id === 101 && width === 24 && height >= 36) return [double];
-        if ([106,107].includes(product_id) && width <=21) arr.push(left, right)
+        if ([106, 107].includes(product_id) && width <= 21) arr.push(left, right);
+
+
     }
 
 
-    if (tall_type_1.includes(product_id)) {
-        if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
-        if (doorArr.includes(4)) arr.push(double, four)
-        return arr;
-    } else if (tall_type_2.includes(product_id)) {
-        return [left, right, double]
-    } else if (tall_type_3.includes(product_id)) {
-        return [left_2, right_2, single_left, single_right]
-    } else if (tall_type_4.includes(product_id)) {
-        return [left, right]
+    // Tall Cabinets
+    if (any_tall_type) {
+        if (product_type !== 'standard') {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) arr.push(left_2, right_2, single_left, single_right);
+                if (doorArr.includes(4)) arr.push(double, four)
+                return arr;
+            } else if (tall_type_2.includes(product_id)) {
+                return [left, right, double]
+            } else if (tall_type_3.includes(product_id)) {
+                return [left_2, right_2, single_left, single_right]
+            } else if (tall_type_4.includes(product_id)) {
+                return [left, right]
+            }
+        } else {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) arr.push(left_2, right_2);
+                if (doorArr.includes(4)) arr.push(double, four)
+                return arr;
+            } else if (tall_type_2.includes(product_id)) {
+                return [left, right, double]
+            } else if (tall_type_3.includes(product_id)) {
+                return [left_2, right_2]
+            } else if (tall_type_4.includes(product_id)) {
+                return [left, right]
+            }
+        }
     }
+
     // Basic
     if (doorArr.includes(1)) arr.push(left, right);
     if (doorArr.includes(2)) arr.push(double);
@@ -487,7 +507,10 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
     if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
     if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
-    if (standard_door) forceSetPath(preparedProduct, 'custom.standard_door', {doors: standard_door.doors, color: standard_door.color});
+    if (standard_door) forceSetPath(preparedProduct, 'custom.standard_door', {
+        doors: standard_door.doors,
+        color: standard_door.color
+    });
     if (simple_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.simple_closet', simple_closet_custom_api)
     return preparedProduct;
 }
@@ -607,8 +630,8 @@ export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], lea
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[],boxMaterialAPI:materialsData[]): colorType[] => {
-    const colorsArr:MaybeUndefined<colorType[]> = boxMaterialsArr.find(el => el.value === boxMaterialType)?.colors;
+export const getBoxMaterialColorsArr = (isLeather: boolean, isSimpleCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): colorType[] => {
+    const colorsArr: MaybeUndefined<colorType[]> = boxMaterialsArr.find(el => el.value === boxMaterialType)?.colors;
     if (!colorsArr) return [];
     if (isLeather) return colorsArr;
     if (isSimpleCloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
@@ -691,7 +714,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
         return 0;
     }
     // Exceptions
-    const noDoorsArr:number[] = [28];
+    const noDoorsArr: number[] = [28];
     if (noDoorsArr.includes(product_id)) return 0;
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
@@ -721,6 +744,7 @@ export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<Room
 
 
 export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
+    console.log(room)
     return {
         ...room,
         activeProductCategory: ''
@@ -841,7 +865,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
 
             if (type === "simple-closets") {
                 if (simple_closet) {
-                    const simple_closet_front:SimplePartCustomType[] = simple_closet.map(el => {
+                    const simple_closet_front: SimplePartCustomType[] = simple_closet.map(el => {
                         return {qty: el.qty, name: el.name, "Width Number": el.width, "Width": ''}
                     });
                     price = getSimpleClosetCustomPartPrice(simple_closet_front, room);
@@ -966,9 +990,9 @@ export const formatDateToTextShort = (dateApi: Date): string => {
 
 export function prepareToSelectField(arr: string[]): optionType[] {
     return arr.map(el => ({
-            value: el,
-            label: el
-        }))
+        value: el,
+        label: el
+    }))
 }
 
 export const getProfileList = (is_custom: boolean): optionType[] => {

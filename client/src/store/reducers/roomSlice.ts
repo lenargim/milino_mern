@@ -30,7 +30,7 @@ export const fetchRooms = createAsyncThunk<RoomType[],                // Returne
     { _id: string },           // Argument to the thunk
     { rejectValue: string }    // Type of rejected error
     >(
-    'rooms/fetchRooms',
+    'room/fetchRooms',
     async ({_id}, thunkAPI) => {
         return await withTryCatch<RoomType[]>(
             () => roomsAPI.getRooms(_id),

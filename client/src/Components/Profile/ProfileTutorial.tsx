@@ -6,7 +6,7 @@ const links: LinkItem[] = [
     {
         name: 'Order Form Tutorial',
         type: 'link',
-        frameUrl: 'https://www.youtube.com/embed/5vztBTlkKIE?si=fcAn3go7pkIvze8A'
+        frameUrl: 'https://www.youtube.com/embed/c69DY1-gqqw?si=R4T5xjTtVKZ6mPbS'
     },
     {
         name: 'Constructor Tutorial',
