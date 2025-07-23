@@ -9,12 +9,12 @@ import CartItemDoor from "./CartItemDoor";
 import CartItemPanel from "./CartItemPanel";
 import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import CartItemSimpleClosetCustom from "./CartItemSimpleClosetCustom";
+import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 
 const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
     const {subcategory, product_id, custom} = product;
     if (!custom) return null;
-    const {accessories, standard_door, standard_panels, material, simple_closet} = custom;
+    const {accessories, standard_door, standard_panels, material, rta_closet} = custom;
     switch (subcategory) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product} dimensions={dimensions}/>
@@ -35,9 +35,9 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({
         case 'standard-panel':
             if (!standard_panels) return null;
             return <CartItemPanel standard_panels={standard_panels} prod_id={product_id} />
-        case 'simple-closets':
-            if (!simple_closet) return null
-            return <CartItemSimpleClosetCustom simple_closet={simple_closet}  />
+        case 'rta-closets':
+            if (!rta_closet) return null
+            return <CartItemRTAClosetCustom rta_closet={rta_closet}  />
         default:
             return <>
                 <Dimentions dimensions={dimensions}/>

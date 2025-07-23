@@ -1,16 +1,16 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {SimpleClosetAPIType} from "../CustomPart/CustomPart";
+import {RTAClosetAPIType} from "../CustomPart/CustomPart";
 
-const CartItemSimpleClosetCustom: FC<{ simple_closet: SimpleClosetAPIType[] }> = ({
-                                                                                      simple_closet
+const CartItemRTAClosetCustom: FC<{ rta_closet: RTAClosetAPIType[] }> = ({
+                                                                                      rta_closet
                                                                                   }) => {
     return (
         <div className={s.blocks}>
-            {simple_closet.length ?
+            {rta_closet.length ?
                 <div>
-                    <div>Simple Closet additional parts:</div>
-                    {simple_closet.map((el, index) => {
+                    <div>RTA Closet additional parts:</div>
+                    {rta_closet.map((el, index) => {
                         if (!el.name) return null;
                         return (
                             <div key={index}>
@@ -27,4 +27,4 @@ const CartItemSimpleClosetCustom: FC<{ simple_closet: SimpleClosetAPIType[] }> =
     );
 };
 
-export default CartItemSimpleClosetCustom
+export default CartItemRTAClosetCustom

@@ -30,7 +30,7 @@ import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
 import {RoomMaterialsFormType} from "./roomTypes";
 import {CartAPIImagedType, CartItemFrontType} from "./cartTypes";
-import {SimplePartCustomType} from "../Components/CustomPart/CustomPart";
+import {RTAPartCustomType} from "../Components/CustomPart/CustomPart";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], category: productCategory): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -59,7 +59,7 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price;
             return undefined;
         case "Leather":
-        case "Simple Closets":
+        case "RTA Closets":
             if (!priceData[0]?.depth) {
                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
                 if (widthTablePrice) return widthTablePrice;
@@ -221,11 +221,11 @@ function getDoorPrice(square: number, materialData: materialDataType, isProductS
     if (isProductStandard) return 0;
     const {
         door_price_multiplier,
-        is_leather_or_simple_closet,
+        is_leather_or_rta_closet,
         box_material,
         box_color,
     } = materialData;
-    if (is_leather_or_simple_closet) {
+    if (is_leather_or_rta_closet) {
         const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
         return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
     }
@@ -612,15 +612,15 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         box_color
     } = materials;
     const is_standard_cabinet = door_type === "Standard White Shaker";
-    const is_leather_or_simple_closet = category === 'Leather Closet' || category === 'Simple Closet';
+    const is_leather_or_rta_closet = category === 'Leather Closet' || category === 'RTA Closet';
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
-    const base_price_type = getBasePriceType(materials, is_leather_or_simple_closet);
-    const materials_coef = getMaterialCoef(materials, is_leather_or_simple_closet);
+    const base_price_type = getBasePriceType(materials, is_leather_or_rta_closet);
+    const materials_coef = getMaterialCoef(materials, is_leather_or_rta_closet);
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
-    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_or_simple_closet);
+    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_or_rta_closet);
 
     return {
         is_standard_cabinet,
@@ -638,7 +638,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         drawer_type,
         drawer_color,
         leather,
-        is_leather_or_simple_closet,
+        is_leather_or_rta_closet,
         box_material,
         materials_coef
     }
@@ -859,7 +859,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         drawer_color,
         door_finish_material,
         door_type,
-        is_leather_or_simple_closet
+        is_leather_or_rta_closet
     } = materialData
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {
@@ -870,7 +870,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
-    const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_simple_closet);
+    const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_rta_closet);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
 
@@ -880,7 +880,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led?.border),
-        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material, product_type === "standard", is_leather_or_simple_closet),
+        pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material, product_type === "standard", is_leather_or_rta_closet),
         doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
@@ -901,8 +901,8 @@ const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], p
     return 1 + (coef_w + coef_h + coef_d)
 }
 
-export const getSimpleClosetCustomPartPrice = (simple_closet_custom: SimplePartCustomType[], materials: RoomMaterialsFormType): number => {
-    const getItemPrice = (item: SimplePartCustomType): number => {
+export const getRTAClosetCustomPartPrice = (rta_closet_custom: RTAPartCustomType[], materials: RoomMaterialsFormType): number => {
+    const getItemPrice = (item: RTAPartCustomType): number => {
         const {name, qty, 'Width Number': width} = item;
         if (!qty || !name || !width) return 0;
         const getCoef = (materials: RoomMaterialsFormType): number => {
@@ -954,5 +954,5 @@ export const getSimpleClosetCustomPartPrice = (simple_closet_custom: SimplePartC
                 return 0
         }
     }
-    return +(simple_closet_custom.reduce((acc, item) => acc + (getItemPrice(item) * item.qty), 0)).toFixed(2)
+    return +(rta_closet_custom.reduce((acc, item) => acc + (getItemPrice(item) * item.qty), 0)).toFixed(2)
 }

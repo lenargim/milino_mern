@@ -60,7 +60,7 @@ function shouldClearFormData(category:MaybeEmpty<RoomCategoriesType>, prevCatego
     if (!category || !prevCategory) return false;
     if (category === prevCategory) return false;
     if (category === 'Leather Closet' && prevCategory !== 'Leather Closet') return true;
-    if (category === 'Simple Closet' && prevCategory !== 'Simple Closet') return true;
+    if (category === 'RTA Closet' && prevCategory !== 'RTA Closet') return true;
     return false;
 }
 
@@ -89,15 +89,15 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
-    const isSimpleCloset = category === 'Simple Closet';
-    const isCloset = isLeather || isSimpleCloset;
+    const isRTACloset = category === 'RTA Closet';
+    const isCloset = isLeather || isRTACloset;
     const isStandardDoor = door_type === 'Standard White Shaker';
     const hasGola = findHasGolaByCategory(category);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
     const colorArr = getDoorColorsArr(door_finish_material, isStandardDoor, doors, door_type) ?? []
     const boxMaterialArr: finishType[] = getBoxMaterialArr(isCloset, boxMaterial, leatherBoxMaterialArr || [])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isSimpleCloset,box_material, boxMaterialArr, boxMaterial);
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isRTACloset,box_material, boxMaterialArr, boxMaterial);
     const drawerBrandArr = getDrawerBrandArr(drawers);
     const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
     const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)

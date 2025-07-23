@@ -177,9 +177,9 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                 }),
                 price: Yup.number().required().positive(),
             })
-        case "simple-closets":
+        case "rta-closets":
             return Yup.object().shape({
-                simple_closet_custom: Yup.array()
+                rta_closet_custom: Yup.array()
                     .of(
                         Yup.object().shape({
                             name: Yup.string().required('Required'),

@@ -48,26 +48,34 @@ const CheckoutButtonRow: FC<CheckoutButtonRowType> = ({clickedButtonRef, handleS
     }, [])
     return (
         <div className={s.buttonRow}>
-            {showPOButton
-                ? <button type="submit"
-                          onClick={(e) => customSubmitHandler(e, 'purchase')}
-                          className={['button yellow'].join(' ')}
-                          disabled={isSubmitting}>Download PO
-                </button>
-                : null
-            }
             <button type="submit"
-                    onClick={(e) => customSubmitHandler(e, 'room')}
+                    onClick={(e) => customSubmitHandler(e, 'save-room')}
                     className={['button yellow'].join(' ')}
                     disabled={isSubmitting}>Download Room
             </button>
             <button type="submit"
-                    onClick={(e) => customSubmitHandler(e, 'send')}
+                    onClick={(e) => customSubmitHandler(e, 'send-room')}
                     className={['button yellow'].join(' ')}
-                    disabled={isSubmitting}>Submit Order
+                    disabled={isSubmitting}>Submit Room
             </button>
+            {showPOButton
+                ? <>
+                    <button type="submit"
+                            onClick={(e) => customSubmitHandler(e, 'save-po')}
+                            className={['button yellow'].join(' ')}
+                            disabled={isSubmitting}>Download PO
+                    </button>
+                    <button type="submit"
+                            onClick={(e) => customSubmitHandler(e, 'send-po')}
+                            className={['button yellow'].join(' ')}
+                            disabled={isSubmitting}>Submit Full Order
+                    </button>
+                </>
+                : null
+            }
         </div>
     );
-};
+}
+;
 
 export default CheckoutButtonRow;

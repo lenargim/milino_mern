@@ -1,6 +1,6 @@
 import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
-import {DoorAccessoryAPIType, SimpleClosetAPIType, SimpleClosetCustomTypes} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryAPIType, RTAClosetAPIType} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
 
 export type CartNewType = {
@@ -76,7 +76,7 @@ export type CartCustomType = {
     accessories?: CustomAccessoriesType,
     standard_door?: StandardDoorAPIType,
     standard_panels?: PanelsFormAPIType,
-    simple_closet?: SimpleClosetAPIType[]
+    rta_closet?: RTAClosetAPIType[]
 }
 
 export type PanelsFormAPIType = {

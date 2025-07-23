@@ -29,7 +29,7 @@ export type SliderCategoriesType = {
     "Build In Closet": SliderCategoriesItemType,
     "Leather Closet": SliderCategoriesItemType,
     "Standard Door": SliderCategoriesItemType,
-    "Simple Closet": SliderCategoriesItemType
+    "RTA Closet": SliderCategoriesItemType
 }
 
 export type SliderCategoriesItemType = {

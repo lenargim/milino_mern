@@ -125,12 +125,12 @@
       }
     ]
   },
-  "Simple Closet": {
-    "defaultImg": "Simple-Closet.webp",
+  "RTA Closet": {
+    "defaultImg": "rta-closet.webp",
     "categories": [
       {
-        "name": "Simple Closets",
-        "img": "Simple-Closet.webp"
+        "name": "RTA Closets",
+        "img": "rta-closet.webp"
       },
       {
         "name": "Custom Parts",
