@@ -77,7 +77,7 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
     const {id} = product;
     const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
     const {door_type, door_color} = materials
-    const is_price_type_default = door_type === 'Standard White Shaker' && door_color === 'Default White';
+    const is_price_type_default = door_type === 'Standard Size White Shaker' && door_color === 'Default White';
     const addPanel = (panelType: PanelTypeName, panels: PanelType[]) => {
         setFieldValue(`standard_panels.${panelType}`, [...panels, {
             _id: uuidv4(),

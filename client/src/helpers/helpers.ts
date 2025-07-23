@@ -527,14 +527,14 @@ export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola: 
 export const isDoorFinishShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, finishArr?: finishType[]): boolean => {
     if (!category) return false;
     if (category === 'RTA Closet') return false;
-    if (doorType === 'Standard White Shaker') return false
+    if (doorType === 'Standard Size White Shaker') return false
     return !!(doorType && finishArr?.length)
 }
 
 export const isDoorColorShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
     if (!category) return false;
     if (category === 'RTA Closet') return false;
-    if (doorType === 'Standard White Shaker') return true;
+    if (doorType === 'Standard Size White Shaker') return true;
     return !!(doorFinishMaterial && colorArr?.length)
 }
 
@@ -609,10 +609,10 @@ export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boole
     let arr = doors;
     const noGola = gola === '' || gola === 'No Gola'
     if (!noGola) {
-        arr = arr.filter(el => el.value !== 'Standard White Shaker');
+        arr = arr.filter(el => el.value !== 'Standard Size White Shaker');
     }
     if (isLeather) {
-        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard White Shaker"]
+        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard Size White Shaker"]
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
@@ -841,7 +841,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             }
 
             if (isStandardPanel && standard_panels) {
-                const is_price_type_default = door_type === 'Standard White Shaker' && door_color === 'Default White';
+                const is_price_type_default = door_type === 'Standard Size White Shaker' && door_color === 'Default White';
                 const apiPanelData = standardProductsPrices.find(el => el.id === product_id) as priceStandardPanel;
                 const standard_panels_front: PanelsFormType = {
                     standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
@@ -955,7 +955,7 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
     const no_gola = !gola || gola === 'No Gola';
-    if (door_type === 'Standard White Shaker') return API['Standard Door'] as SliderCategoriesItemType;
+    if (door_type === 'Standard Size White Shaker') return API['Standard Door'] as SliderCategoriesItemType;
     switch (category) {
         case "Kitchen":
             return no_gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
@@ -1073,7 +1073,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
 }
 
 export const findIsProductStandard = (materials: RoomMaterialsFormType): boolean => {
-    return materials.door_type === 'Standard White Shaker'
+    return materials.door_type === 'Standard Size White Shaker'
 }
 
 export const findHasGolaByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

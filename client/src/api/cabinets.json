@@ -1117,7 +1117,7 @@
     "legsHeight": 4.5,
     "name": "B1D Series",
     "category": "Base Cabinets",
-    "customHeight": 12,
+    "customHeight": 16.5,
     "images": ["BC/B1D.webp"],
     "attributes": [
       {

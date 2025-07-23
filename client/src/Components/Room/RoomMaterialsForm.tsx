@@ -91,7 +91,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean}> = ({isRoomNew}) => {
     const isLeather = category === 'Leather Closet';
     const isRTACloset = category === 'RTA Closet';
     const isCloset = isLeather || isRTACloset;
-    const isStandardDoor = door_type === 'Standard White Shaker';
+    const isStandardDoor = door_type === 'Standard Size White Shaker';
     const hasGola = findHasGolaByCategory(category);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
