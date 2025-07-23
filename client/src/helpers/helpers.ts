@@ -228,12 +228,18 @@ export const getProductsByCategory = (category: productCategory, isStandardCabin
 }
 
 
-export const getCustomParts = (room: RoomType, isStandardCabinet: boolean): CustomPartDataType[] => {
-    const standardDoorCustomParts = cabinets as ProductOrCustomType[];
-    let exceptionIds: number[] = [];
-    exceptionIds = isStandardCabinet ? [910, 913] : [919, 920, 921];
-    if (room.category !== 'RTA Closet') exceptionIds.push(923)
-    return standardDoorCustomParts.filter(el => el.product_type === 'custom' && !exceptionIds.includes(el.id)) as CustomPartDataType[];
+export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: boolean,customPartType:"Standard Parts"|"Custom Parts"): CustomPartDataType[] => {
+    const customParts = cabinets.filter(el => el.product_type === 'custom') as ProductOrCustomType[];
+    const standardIds = [919, 920, 921];
+    switch (customPartType) {
+        case 'Standard Parts':
+            return customParts.filter(el => standardIds.includes(el.id)) as CustomPartDataType[];
+        case "Custom Parts":
+            let exceptionIds = standardIds;
+            if (isStandardCabinet) exceptionIds.push(910, 913)
+            if (category !== 'RTA Closet') exceptionIds.push(923)
+            return customParts.filter(el => !exceptionIds.includes(el.id)) as CustomPartDataType[];
+    }
 }
 
 export const getInitialMaterialData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardCabinet: boolean): MaybeNull<materialsCustomPart> => {
