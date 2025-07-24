@@ -14,14 +14,15 @@ import {
 import {ProductAttributes} from "../Product/ProductAttributes";
 import {RoomType} from "../../helpers/roomTypes";
 
-const RoomProductsList: FC<{ category: productCategory, room: RoomType, isStandardCabinet: boolean }> = ({
-                                                                                                             category,
-                                                                                                             room,
-                                                                                                             isStandardCabinet
-                                                                                                         }) => {
-    switch (category) {
+const RoomProductsList: FC<{ category_active: productCategory, room: RoomType, isStandardCabinet: boolean }> = ({
+                                                                                                                    category_active,
+                                                                                                                    room,
+                                                                                                                    isStandardCabinet
+                                                                                                                }) => {
+    switch (category_active) {
         case "Custom Parts":
-            const customParts = getCustomParts(room, isStandardCabinet);
+        case "Standard Parts":
+            const customParts = getCustomParts(room.category, isStandardCabinet,category_active);
             if (!customParts.length) return <div>Sorry, there are no custom parts yet</div>;
             return (
                 <div className={s.list}>
@@ -29,7 +30,7 @@ const RoomProductsList: FC<{ category: productCategory, room: RoomType, isStanda
                 </div>
             )
         default:
-            const products = getProductsByCategory(category, isStandardCabinet);
+            const products = getProductsByCategory(category_active, isStandardCabinet);
             if (!products.length) return <div>Sorry, there are no products yet</div>;
             return (
                 <div className={s.list}>

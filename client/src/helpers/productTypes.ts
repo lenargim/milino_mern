@@ -31,7 +31,7 @@ export type CustomTypes =
     | 'backing'
     | 'standard-panel'
     | 'plastic_toe'
-    | 'simple-closets';
+    | 'rta-closets';
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -43,11 +43,12 @@ export type kitchenCategories =
 export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
-    | 'Standard Tall Cabinets';
+    | 'Standard Tall Cabinets'
+    | 'Standard Parts';
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
 
-export type ClosetsCategory = 'Build In' | 'Leather' | 'Simple Closets'
+export type ClosetsCategory = 'Build In' | 'Leather' | 'RTA Closets'
 
 export type productCategory =
     kitchenCategories
@@ -145,7 +146,7 @@ export type materialDataType = {
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_or_simple_closet: boolean,
+    is_leather_or_rta_closet: boolean,
     box_material: string,
     box_color: string,
     materials_coef: number

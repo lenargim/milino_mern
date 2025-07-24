@@ -7,7 +7,7 @@ import CustomPartStandardPanel from "./CustomPartStandardPanel";
 import CustomPartPlasticToe from "./CustomPartPlasticToe";
 import DoorAccessoriesForm from "./CustomPartDoorAccessoiresForm";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import CustomPartSimpleCloset from "./CustomPartSimpleCloset";
+import CustomPartRTACloset from "./CustomPartRTACloset";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -20,7 +20,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
                                                   initialMaterialData,
                                                   materials
                                               }) => {
-    const isStandardCabinet = materials.door_type === 'Standard White Shaker';
+    const isStandardCabinet = materials.door_type === 'Standard Size White Shaker';
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number'
@@ -46,8 +46,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
         case "plastic_toe":
             return <CustomPartPlasticToe product={customPartProduct} />
-        case "simple-closets":
-            return <CustomPartSimpleCloset materials={materials} />
+        case "rta-closets":
+            return <CustomPartRTACloset materials={materials} />
     }
 };
 

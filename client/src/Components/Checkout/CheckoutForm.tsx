@@ -1,7 +1,7 @@
 import React, {Dispatch, FC, useRef, useState} from 'react';
 import {useNavigate, useOutletContext} from "react-router-dom";
 import {
-    checkoutCartItemWithImg, createOrderFormData,
+    checkoutCartItemWithImg, createOrderFormData, createOrderFormRoomData,
     getCartTotal,
     getMaterialStrings, textToLink,
     useAppSelector
@@ -23,7 +23,7 @@ import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 import CheckoutButtonRow from "./CheckoutButtonRow";
 
-export type ButtonType = 'purchase' | 'room' | 'send';
+export type ButtonType = 'save-room' | 'send-room' | 'save-po' | 'send-po';
 export type CheckoutFormValues = {
     name: string,
     company: string,
@@ -49,21 +49,8 @@ const CheckoutForm: FC = () => {
         const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
         const fileName = `${textToLink(values.purchase_order)}.${date}`;
 
-
-        // const cart_orders: CartOrder[] = cart_items.map((el) => {
-        //     const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
-        //     return cart_order_item;
-        // })
-
         switch (button_type) {
-            case "purchase": {
-                const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
-                if (!po_rooms_api) return;
-                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
-                saveAs(po_blob, `${fileName}.pdf`);
-                break;
-            }
-            case "room": {
+            case "save-room": {
                 const cartWithJPG = checkoutCartItemWithImg(cart_items);
                 const room_blob = await pdf(<PDFOrder values={values}
                                                       materialStrings={materialStrings}
@@ -71,7 +58,25 @@ const CheckoutForm: FC = () => {
                 saveAs(room_blob, `${fileName}.pdf`);
                 break;
             }
-            case "send": {
+            case "save-po": {
+                const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
+                if (!po_rooms_api) return;
+                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
+                saveAs(po_blob, `${fileName}.pdf`);
+                break;
+            }
+            case "send-room": {
+                const cartWithJPG = checkoutCartItemWithImg(cart_items);
+                const room_blob = await pdf(<PDFOrder values={values}
+                                                      materialStrings={materialStrings}
+                                                      cart={cartWithJPG}/>).toBlob();
+                const RoomFormData = await createOrderFormRoomData(room, cart_items, room_blob, values, fileName, date);
+                const res = await sendOrder(RoomFormData, textToLink(company));
+                if (res?.status === 201) setIsModalOpen(true);
+                break;
+
+            }
+            case "send-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
                 const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();

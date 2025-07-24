@@ -10,7 +10,7 @@ export const getRooms = async (req, res) => {
       })
     }
     const frontData = rooms.map(el => {
-      const {is_deleted, ...front} = el._doc;
+      const {is_deleted, createdAt, updatedAt, ...front} = el._doc;
       return front
     })
     res.json(frontData)

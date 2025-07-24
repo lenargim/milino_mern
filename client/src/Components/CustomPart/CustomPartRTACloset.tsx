@@ -2,51 +2,51 @@ import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
 import {FieldArray, FieldArrayRenderProps, Form, useFormikContext, useField} from "formik";
-import {CustomPartFormType, SimpleClosetCustomOptions, SimplePartCustomType} from "./CustomPart";
+import {CustomPartFormType, RTAClosetCustomOptions, RTAPartCustomType} from "./CustomPart";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import SelectField, {optionType} from "../../common/SelectField";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {getSelectValfromVal} from "../../helpers/helpers";
 import styles from "./../../common/Form.module.sass"
-import {getSimpleClosetCustomPartPrice} from "../../helpers/calculatePrice";
+import {getRTAClosetCustomPartPrice} from "../../helpers/calculatePrice";
 
 
-export const newItemSimpleCloset: SimplePartCustomType = {
+export const newItemRTACloset: RTAPartCustomType = {
     name: '',
     'Width': '',
     'Width Number': 0,
     qty: 1
 }
 
-const CustomPartSimpleCloset: FC<{ materials: RoomMaterialsFormType }> = ({
+const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({
                                                                               materials
                                                                           }) => {
-    const dropdownOptions: optionType[] = SimpleClosetCustomOptions.map(el => ({value: el, label: el}));
+    const dropdownOptions: optionType[] = RTAClosetCustomOptions.map(el => ({value: el, label: el}));
     const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
-    const {price, simple_closet_custom} = values;
-    const [field, meta, helpers] = useField('simple_closet_custom');
+    const {price, rta_closet_custom} = values;
+    const [field, meta, helpers] = useField('rta_closet_custom');
     useEffect(() => {
-        if (!field.value.length) helpers.setValue([newItemSimpleCloset]);
+        if (!field.value.length) helpers.setValue([newItemRTACloset]);
     }, [])
     useEffect(() => {
-        const newPrice = getSimpleClosetCustomPartPrice(simple_closet_custom, materials);
+        const newPrice = getRTAClosetCustomPartPrice(rta_closet_custom, materials);
         if (price !== newPrice) setFieldValue('price', newPrice);
     }, [values])
     return (
         <Form className={s.accessories}>
             <div className={s.block}>
                 <h3>Additional part</h3>
-                <FieldArray name="simple_closet_custom" render={(arrayHelpers) => (
+                <FieldArray name="rta_closet_custom" render={(arrayHelpers) => (
                     <div>
-                        {simple_closet_custom.map((part, index) => (
-                            <CustomPartSimpleClosetItem key={index}
+                        {rta_closet_custom.map((part, index) => (
+                            <CustomPartRTAClosetItem key={index}
                                                         part={part}
                                                         index={index}
                                                         arrayHelpers={arrayHelpers}
                                                         dropdownOptions={dropdownOptions}
                             />
                         ))}
-                        <button type="button" onClick={() => arrayHelpers.push(newItemSimpleCloset)}
+                        <button type="button" onClick={() => arrayHelpers.push(newItemRTACloset)}
                                 className={['button yellow small'].join(' ')}>
                             + Add Part
                         </button>
@@ -68,10 +68,10 @@ const CustomPartSimpleCloset: FC<{ materials: RoomMaterialsFormType }> = ({
     );
 };
 
-export default CustomPartSimpleCloset;
+export default CustomPartRTACloset;
 
 
-const CustomPartSimpleClosetItem: FC<{ arrayHelpers: FieldArrayRenderProps, part: SimplePartCustomType, index: number, dropdownOptions: optionType[] }> = ({
+const CustomPartRTAClosetItem: FC<{ arrayHelpers: FieldArrayRenderProps, part: RTAPartCustomType, index: number, dropdownOptions: optionType[] }> = ({
                                                                                                                                                                arrayHelpers,
                                                                                                                                                                part,
                                                                                                                                                                index,
@@ -86,13 +86,13 @@ const CustomPartSimpleClosetItem: FC<{ arrayHelpers: FieldArrayRenderProps, part
     return (
         <div className={s.row}>
             <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
-            <SelectField name={`simple_closet_custom[${index}].name`}
+            <SelectField name={`rta_closet_custom[${index}].name`}
                          label="Additional part"
                          val={val}
                          options={dropdownOptions}
             />
             <div className={s.options}>
-                <ProductInputCustom name={`simple_closet_custom[${index}].Width`} label={'Width'}/>
+                <ProductInputCustom name={`rta_closet_custom[${index}].Width`} label={'Width'}/>
             </div>
 
             <div className={s.row}>×

@@ -73,19 +73,19 @@ export type CustomPartFormType = {
     door_accessories: DoorAccessoryType[],
     standard_door: MaybeNull<DoorType>,
     standard_panels: PanelsFormType,
-    simple_closet_custom: SimplePartCustomType[]
+    rta_closet_custom: RTAPartCustomType[]
 }
-export const SimpleClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
-export type SimpleClosetCustomTypes = typeof SimpleClosetCustomOptions[number];
+export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
+export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
 
 
-export type SimpleClosetAPIType = {
-    name: SimpleClosetCustomTypes,
+export type RTAClosetAPIType = {
+    name: RTAClosetCustomTypes,
     width: number
     qty: number,
 }
-export type SimplePartCustomType = {
-    name: MaybeEmpty<SimpleClosetCustomTypes>,
+export type RTAPartCustomType = {
+    name: MaybeEmpty<RTAClosetCustomTypes>,
     'Width': string,
     'Width Number': number,
     qty: number,
@@ -152,7 +152,7 @@ const CustomPart: FC<{ materials: RoomMaterialsFormType, room_id: string, custom
         door_accessories: isDoorAccessories ? initialDoorAccessories : [],
         standard_door: null,
         standard_panels: initialStandardPanels,
-        simple_closet_custom: [],
+        rta_closet_custom: [],
         'Note': '',
         price: 0,
     }

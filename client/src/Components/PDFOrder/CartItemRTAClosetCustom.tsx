@@ -1,17 +1,17 @@
 import React, {FC} from 'react';
 import {View, Text} from "@react-pdf/renderer";
 import {s} from './PDFOrder'
-import {SimpleClosetAPIType} from "../CustomPart/CustomPart";
+import {RTAClosetAPIType} from "../CustomPart/CustomPart";
 
 
-const CartItemSimpleClosetCustom: FC<{ simple_closet: SimpleClosetAPIType[] }> = ({simple_closet}) => {
+const CartItemRTAClosetCustom: FC<{ rta_closet: RTAClosetAPIType[] }> = ({rta_closet}) => {
         return (
             <View style={s.blocks}>
                 <View>
-                    {simple_closet.length ?
+                    {rta_closet.length ?
                         <View>
-                            <Text style={s.itemOptionBold}>Simple Closet additional parts:</Text>
-                            {simple_closet.map((el, index) => {
+                            <Text style={s.itemOptionBold}>RTA Closet additional parts:</Text>
+                            {rta_closet.map((el, index) => {
                                 if (!el.name) return null;
                                 return (
                                     <View key={index} style={s.itemOption}>
@@ -28,4 +28,4 @@ const CartItemSimpleClosetCustom: FC<{ simple_closet: SimpleClosetAPIType[] }> =
     }
 ;
 
-export default CartItemSimpleClosetCustom
+export default CartItemRTAClosetCustom

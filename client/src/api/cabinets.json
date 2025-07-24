@@ -1117,7 +1117,7 @@
     "legsHeight": 4.5,
     "name": "B1D Series",
     "category": "Base Cabinets",
-    "customHeight": 12,
+    "customHeight": 16.5,
     "images": ["BC/B1D.webp"],
     "attributes": [
       {
@@ -5108,7 +5108,7 @@
     "id": 500,
     "product_type": "cabinet",
     "name": "SDH Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SDH.webp"],
     "attributes": [],
     "options": []
@@ -5117,7 +5117,7 @@
     "id": 501,
     "product_type": "cabinet",
     "name": "SLH Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SLH.webp"],
     "attributes": [],
     "options": []
@@ -5126,7 +5126,7 @@
     "id": 502,
     "product_type": "cabinet",
     "name": "SAS Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SAS.webp"],
     "attributes": [],
     "options": []
@@ -5135,7 +5135,7 @@
     "id": 503,
     "product_type": "cabinet",
     "name": "SSS Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SSS.webp"],
     "attributes": [],
     "options": []
@@ -5144,7 +5144,7 @@
     "id": 504,
     "product_type": "cabinet",
     "name": "SFAS Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SFAS.webp"],
     "attributes": [],
     "options": []
@@ -5153,7 +5153,7 @@
     "id": 505,
     "product_type": "cabinet",
     "name": "SHS Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SHS.webp"],
     "attributes": [],
     "options": []
@@ -5162,7 +5162,7 @@
     "id": 506,
     "product_type": "cabinet",
     "name": "SDS Series",
-    "category": "Simple Closets",
+    "category": "RTA Closets",
     "images": ["CC/SDS.webp"],
     "attributes": [
       {
@@ -5180,9 +5180,9 @@
   {
     "id": 923,
     "product_type": "custom",
-    "name": "Simple Closet additional parts",
-    "type": "simple-closets",
-    "images": ["custom/simple-closets-additional-parts.webp"]
+    "name": "RTA Closet additional parts",
+    "type": "rta-closets",
+    "images": ["custom/rta-closets-additional-parts.webp"]
   },
   {
     "id": 921,

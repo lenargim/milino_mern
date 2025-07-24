@@ -101,14 +101,6 @@ export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPI
     }
 }
 
-// export const addToCartAPI = async (product: CartAPI): Promise<MaybeUndefined<CartAPIResponse>> => {
-//     try {
-//         return (await cartAPI.addToCart(product)).data;
-//     } catch (error) {
-//         alertError(error);
-//     }
-// }
-
 export const removeFromCartInRoomAPI = async (room: string, _id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
         return (await cartAPI.remove(room, _id)).data

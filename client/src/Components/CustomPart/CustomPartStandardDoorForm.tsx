@@ -40,21 +40,22 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType }> = ({customP
     const {type} = customPart;
     const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {standard_door, price} = values
-
     const doorColors = settings.doorColors as string[];
     const doorColorsArr = doorColors.map(el => ({value: el, label: el}))
     const doorSizes = type === 'standard-door' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
     const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
 
     useEffect(() => {
-        if (!values.standard_door) setFieldValue('standard_door', initialStandardDoor);
-    }, [])
+        if (!standard_door) setFieldValue('standard_door', initialStandardDoor);
+    }, [standard_door])
+
     useEffect(() => {
         const newPrice = getCustomPartStandardDoorPrice(standard_door, type);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
     }, [standard_door, doorSizesArr]);
+
     if (!standard_door) return null;
     const {doors, color} = standard_door;
     return (

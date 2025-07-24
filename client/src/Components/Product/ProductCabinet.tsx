@@ -66,32 +66,27 @@ const ProductCabinet: FC<CabinetType> = ({
         if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hingeOpening)
         if (doors !== doorNum) setFieldValue('Doors', doorNum);
-        if (doors && !hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
-        if (price !== totalPrice) {
-            setFieldValue('price', totalPrice)
-        }
-        if (newType !== image_active_number) {
-            setFieldValue('image_active_number', newType);
 
-        }
+        if (price !== totalPrice) setFieldValue('price', totalPrice);
+        if (newType !== image_active_number) setFieldValue('image_active_number', newType);
         if ((door_profile || door_glass_type || door_glass_color) && !chosenOptions.includes('Glass Door')) {
             setFieldValue('glass_door', [])
         }
     }, [values]);
     useEffect(() => {
-        if (product.product_type === 'standard') {
+        if (product_type === 'standard') {
             const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
             if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
-
-            const newHingeArr = getHingeArr(doorArr || [], id, realWidth, realHeight, product.product_type);
-            if (!newHingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', newHingeArr[0]);
         }
     }, [width]);
 
     useEffect(() => {
-        const newHingeArr = getHingeArr(doorArr || [], id, width, height, product.product_type);
-        setHingeArr(newHingeArr)
+        setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
     },[width, height])
+
+    useEffect(() => {
+        if (!hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
+    }, [hingeArr,hingeOpening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const cabinetItem: CartAPIImagedType = {

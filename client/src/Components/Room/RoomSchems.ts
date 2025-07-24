@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import {ObjectSchema} from "yup";
 import {RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
-const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "Simple Closet"] as const;
+const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet"] as const;
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
@@ -38,9 +38,9 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['door_finish_material', 'category'], {
                     is: (door_finish_material: string, category:RoomCategoriesType) => {
-                        const isSimpleCloset = category === 'Simple Closet';
+                        const isRTACloset = category === 'RTA Closet';
                         const noHinges = door_finish_material === 'No Doors No Hinges';
-                      return isSimpleCloset && noHinges;
+                      return isRTACloset && noHinges;
                     },
                     then: (schema => schema.required('Please choose color'))
                 }),
@@ -53,7 +53,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when('category', {
                     // is: 'Leather Closet',
-                    is: (val: RoomCategoriesType) => val === 'Leather Closet' || val === 'Simple Closet',
+                    is: (val: RoomCategoriesType) => val === 'Leather Closet' || val === 'RTA Closet',
                     then: schema => schema.required('Please choose Box Color')
                 }),
             drawer_brand: Yup.string()
