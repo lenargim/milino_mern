@@ -10,7 +10,7 @@ import {
     pricePart,
     productDataToCalculatePriceType,
     productRangeType,
-    ProductType, ProductFormType
+    ProductType, ProductFormType, ProductTableDataType
 } from "../../helpers/productTypes";
 import ProductOptionsBlock from "./ProductOptionsBlock";
 import ProductHingeBlock from "./ProductHingeBlock";
@@ -21,24 +21,20 @@ import {
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
 import ProductLED from "./ProductLED";
+import {useParams} from "react-router-dom";
 
 export type CabinetFormType = {
     product: ProductType,
-    productRange: productRangeType,
-    productPriceData: productDataToCalculatePriceType,
     hingeArr: string[],
-    tablePriceData: pricePart[]
+    productData: ProductTableDataType
 }
 const ProductLayout: FC<CabinetFormType> = ({
                                                 product,
-                                                productRange,
-                                                productPriceData,
                                                 hingeArr,
-                                                tablePriceData
+                                                productData
                                             }) => {
     const {
         hasSolidWidth,
-        hasMiddleSection,
         middleSectionDefault,
         isAngle,
         isCornerChoose,
@@ -50,8 +46,10 @@ const ProductLayout: FC<CabinetFormType> = ({
         customHeight,
         attributes
     } = product;
+    const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
+    const {cartId} = useParams();
+    const buttonText = !cartId ? 'Add to cart' : 'Update Product'
     const {values, isSubmitting} = useFormikContext<ProductFormType>();
-    const {widthRange, heightRange, depthRange} = productRange;
 
     const {filteredOptions} = productPriceData;
     const {
@@ -61,11 +59,12 @@ const ProductLayout: FC<CabinetFormType> = ({
         'Blind Width': blindWidth,
         price
     } = values;
+
     const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
     const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category, customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
-    const showMiddleSectionBlock = isShowMiddleSectionBlock(hasMiddleSection, middleSectionDefault, product_type === "standard");
+    const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
     const showHingeBlock = isShowHingeBlock(hingeArr)
     return (
         <Form>
@@ -135,7 +134,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
+            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>{buttonText}</button>
         </Form>
     );
 };

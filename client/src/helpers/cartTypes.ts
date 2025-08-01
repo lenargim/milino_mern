@@ -2,8 +2,10 @@ import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {DoorAccessoryAPIType, RTAClosetAPIType} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
+import {ledAlignmentType} from "../Components/Product/ProductLED";
 
-export type CartNewType = {
+export type CartAPI = {
+    _id: string,
     room_id: string,
     product_id: number,
     product_type: ProductApiType,
@@ -29,12 +31,8 @@ export type GlassAPIType = {
 
 export type CartLEDAPI = {
     border: string[],
-    alignment: string,
+    alignment: MaybeEmpty<ledAlignmentType>,
     indent: string
-}
-
-export interface CartAPI extends CartNewType {
-    _id: string,
 }
 
 export interface CartAPIResponse extends CartAPI {

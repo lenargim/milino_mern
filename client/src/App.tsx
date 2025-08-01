@@ -24,6 +24,7 @@ import PurchaseOrderEdit from "./Components/PurchaseOrder/PurchaseOrderEdit";
 import PurchaseOrderRooms from "./Components/PurchaseOrder/PurchaseOrderRooms";
 import PrivateRoute from "./common/PrivateRoute";
 import PublicRote from "./common/PublicRoute";
+import RoomEditCartProduct from "./Components/Room/RoomEditCartProduct";
 
 function App() {
     return (
@@ -47,6 +48,7 @@ function App() {
                                     <Route path=":room_name" element={<Room/>}>
                                         <Route path="edit" element={<RoomEdit/>}/>
                                         <Route index element={<RoomCategory/>}/>
+                                        <Route path="product/:productId/edit/:cartId" element={<RoomEditCartProduct />}/>
                                         <Route path="product/:productId" element={<RoomProduct/>}/>
                                         <Route path="checkout" element={<CheckoutForm/>}/>
                                     </Route>

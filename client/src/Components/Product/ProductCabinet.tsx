@@ -14,23 +14,19 @@ import ProductLayout from "./ProductLayout";
 import {CartAPIImagedType} from "../../helpers/cartTypes";
 
 const ProductCabinet: FC<CabinetType> = ({
-                                      product,
-                                      materialData,
-                                      productRange,
-                                      tablePriceData,
-                                      sizeLimit
-                                  }) => {
+                                             product,
+                                             productData
+                                         }) => {
     const {
         id,
         attributes,
         widthDivider,
         category,
         isAngle,
-        product_type
+        product_type,
     } = product;
-    const {drawer_brand} = materialData
+    const {materialData, tablePriceData, sizeLimit, productPriceData} = productData
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
-    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
     const {doorValues} = productPriceData;
     const {
         ['Width']: width,
@@ -82,11 +78,11 @@ const ProductCabinet: FC<CabinetType> = ({
 
     useEffect(() => {
         setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
-    },[width, height])
+    }, [width, height])
 
     useEffect(() => {
         if (!hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
-    }, [hingeArr,hingeOpening])
+    }, [hingeArr, hingeOpening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const cabinetItem: CartAPIImagedType = {
@@ -119,10 +115,8 @@ const ProductCabinet: FC<CabinetType> = ({
     const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
     return (
         <ProductLayout product={product}
-                       productRange={productRange}
-                       productPriceData={productPriceData}
                        hingeArr={hingeArr}
-                       tablePriceData={tablePriceData}
+                       productData={productData}
         />
     )
 };

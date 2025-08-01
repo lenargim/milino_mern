@@ -1,22 +1,20 @@
 import {Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartCustomPart, findIsProductStandard,
-    getInitialMaterialData,
-    getLimit,
+    addToCartCustomPart,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartType, materialsCustomPart, MaybeEmpty, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartTableDataType, CustomPartType, MaybeEmpty, MaybeNull} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import CustomPartLeft from "./CustomPartLeft";
 import {DoorType} from "./CustomPartStandardDoorForm";
 import {colorOption} from "./CustomPartGolaProfile";
-import DA from '../../api/doorAccessories.json'
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct} from "../../store/reducers/roomSlice";
+import st from "../Profile/profile.module.sass";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
@@ -91,75 +89,26 @@ export type RTAPartCustomType = {
     qty: number,
 }
 
-const doorAccessories = DA as DoorAccessoryFront[]
-const initialDoorAccessories: DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}))
-
-
-type InitialSizesType = {
-    initial_width: number,
-    initial_height: number,
-    initial_depth: number
+type CustomPartFCType = {
+    materials: RoomMaterialsFormType,
+    room_id: string,
+    custom_part: CustomPartType,
+    customPartData: CustomPartTableDataType,
+    initialCustomPartValues: CustomPartFormType
 }
 
-const initialStandardPanels: PanelsFormType = {
-    standard_panel: [],
-    shape_panel: [],
-    wtk: [],
-    crown_molding: 0
-}
-
-const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, depth, limits, height_range} = customPart
-    const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
-    const w = width ?? getLimit(sizeLimitInitial.width);
-    const h = height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height);
-    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
-    return {
-        initial_width: w,
-        initial_height: h,
-        initial_depth: d
-    }
-}
-
-const CustomPart: FC<{ materials: RoomMaterialsFormType, room_id: string, custom_part: CustomPartType }> = ({
-                                                                                                                materials,
-                                                                                                                room_id,
-                                                                                                                custom_part
-                                                                                                            }) => {
+const CustomPart: FC<CustomPartFCType> = ({
+                                            materials,
+                                            room_id,
+                                            custom_part,
+                                            customPartData,
+                                            initialCustomPartValues
+                                        }) => {
     const dispatch = useAppDispatch();
-    const isStandardCabinet = findIsProductStandard(materials);
-    const initialMaterialData = getInitialMaterialData(custom_part, materials, isStandardCabinet);
-    const initialSizes = getInitialSizes(custom_part, initialMaterialData);
-    const {initial_width, initial_height, initial_depth} = initialSizes
-    const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
-    const initialValues: CustomPartFormType = {
-        'Width': initial_width.toString(),
-        'Height': initial_height.toString(),
-        'Depth': initial_depth.toString(),
-        'Width Number': initial_width,
-        'Height Number': initial_height,
-        'Depth Number': initial_depth,
-        'Material': initialMaterialData?.name || '',
-        glass_door: ['', '', ''],
-        glass_shelf: '',
-        led_accessories: {
-            led_alum_profiles: [],
-            led_gola_profiles: [],
-            led_door_sensor: 0,
-            led_dimmable_remote: 0,
-            led_transformer: 0,
-        },
-        door_accessories: isDoorAccessories ? initialDoorAccessories : [],
-        standard_door: null,
-        standard_panels: initialStandardPanels,
-        rta_closet_custom: [],
-        'Note': '',
-        price: 0,
-    }
-
+    const {initialMaterialData} = customPartData
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={initialCustomPartValues}
             validationSchema={getCustomPartSchema(custom_part)}
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
@@ -170,14 +119,14 @@ const CustomPart: FC<{ materials: RoomMaterialsFormType, room_id: string, custom
                 setSubmitting(false)
             }}
         >
-            <>
+            <div className={st.product}>
                 <CustomPartLeft product={custom_part} materials={materials}/>
                 <div className={s.right}>
                     <CustomPartRight customPartProduct={custom_part}
                                      initialMaterialData={initialMaterialData}
                                      materials={materials}/>
                 </div>
-            </>
+            </div>
         </Formik>
     );
 };

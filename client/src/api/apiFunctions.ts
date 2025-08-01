@@ -93,13 +93,13 @@ export const deleteRoomAPI = async (purchase_order_id: string, room_id: string):
 }
 
 
-export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
-    try {
-        return (await cartAPI.getCart(room_id)).data;
-    } catch (error) {
-        alertError(error);
-    }
-}
+// export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
+//     try {
+//         return (await cartAPI.getCart(room_id)).data;
+//     } catch (error) {
+//         alertError(error);
+//     }
+// }
 
 export const removeFromCartInRoomAPI = async (room: string, _id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {

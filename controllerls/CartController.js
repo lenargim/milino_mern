@@ -24,10 +24,10 @@ export const getCart = async (req, res) => {
 
 export const addToCart = async (req, res, next) => {
   try {
-    const room_id = req.body.room_id;
-    const doc = new CartModel(req.body)
+    const {_id, ...newCart} = req.body
+    const doc = new CartModel(newCart)
     await doc.save();
-    req.params.id = room_id;
+    req.params.id = newCart.room_id;
     next();
   } catch (e) {
     res.status(500).json({

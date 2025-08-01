@@ -7,7 +7,7 @@ import {getUniqueNames, textToLink, useAppDispatch, useAppSelector} from "../../
 import RoomMaterialsForm from "./RoomMaterialsForm";
 import {RoomFront, RoomType} from "../../helpers/roomTypes";
 
-const RoomEdit: FC = () => {
+const RoomEdit: FC<{isEdit?: boolean}> = ({isEdit = false}) => {
     const {room_name, purchase_order_name} = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -31,12 +31,6 @@ const RoomEdit: FC = () => {
                         _id: room._id,
                         purchase_order_id: room.purchase_order_id
                     }
-                    // editRoomAPI(rest).then(data => {
-                    //     if (data && purchase_order_name) {
-                    //         dispatch(editRoom(data))
-                    //         navigate(`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(data.name)}`);
-                    //     }
-                    // })
                     try {
                         const res = await dispatch(editRoom(roomAPI));
                         const new_room_name:string = res.meta.arg.name;
