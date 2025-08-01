@@ -2082,6 +2082,7 @@
   {
     "id": 107,
     "product_type": "cabinet",
+    "customDepth": 24,
     "name": "WRF Series",
     "category": "Wall Cabinets",
     "images": ["WC/WRF.webp","WC/WRF.webp"],
@@ -2138,6 +2139,7 @@
   {
     "id": 108,
     "product_type": "cabinet",
+    "customDepth": 24,
     "name": "WRFA Series",
     "category": "Wall Cabinets",
     "images": ["WC/WRFA.webp","WC/WRFA.webp"],
@@ -7896,6 +7898,7 @@
     "id": 107,
     "product_type": "standard",
     "name": "WRF Series",
+    "customDepth": 24,
     "category": "Standard Wall Cabinets",
     "images": ["standard/WRF.webp"],
     "attributes": [
@@ -7949,6 +7952,7 @@
     "id": 108,
     "product_type": "standard",
     "name": "WRFA Series",
+    "customDepth": 24,
     "category": "Standard Wall Cabinets",
     "images": ["standard/WRFA.webp"],
     "attributes": [
