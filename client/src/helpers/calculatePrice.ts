@@ -288,7 +288,7 @@ function getPanelPrice(square: number, door_finish_material: MaybeUndefined<stri
             return square * k * 24 * 1.1;
         case "Zenit":
             return square * k * 24 * 1.03;
-        case "Custom Painted Shaker":
+        case "Painted":
             return square * k * 31.2 * 1.3;
         default:
             return 0;

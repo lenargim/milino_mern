@@ -23,6 +23,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, mate
         'Depth Number': depthNumber,
         price
     } = values
+    console.log(values)
     const {id, materials_array, type} = product;
     const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {

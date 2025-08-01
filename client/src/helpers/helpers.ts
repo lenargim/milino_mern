@@ -437,33 +437,6 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
             shelf: glass_shelf,
         },
         custom: {},
-        // led: {
-        //     border: [],
-        //     alignment: '',
-        //     indent: '',
-        // },
-        // custom: {
-        //     material: material,
-        //     accessories: {
-        //         led_alum_profiles: led_alum_profiles_api,
-        //         led_gola_profiles: led_gola_profiles_api,
-        //         led_dimmable_remote: led_dimmable_remote,
-        //         led_door_sensor: led_door_sensor,
-        //         led_transformer: led_transformer,
-        //         door: door_accessories.filter(el => el.qty > 0),
-        //     },
-        //     standard_panels: {
-        //         standard_panel: standard_panel_api,
-        //         shape_panel: shape_panel_api,
-        //         wtk: wtk_api,
-        //         crown_molding
-        //     },
-        //     standard_door: {
-        //         doors,
-        //         color
-        //     },
-        //     rta_closet: rta_closet_custom_api
-        // },
         note: note
     }
 
@@ -847,7 +820,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
                     shape_panel: standard_panels.shape_panel.map(el => ({...el, _id: uuidv4()})),
                     wtk: standard_panels.wtk.map(el => ({...el, _id: uuidv4()})),
-                    crown_molding: standard_panels.crown_molding
+                    crown_molding: standard_panels.crown_molding || 0
                 };
                 price = getStandardPanelsPrice(standard_panels_front, is_price_type_default, apiPanelData);
             }

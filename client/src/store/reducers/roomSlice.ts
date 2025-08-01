@@ -140,7 +140,6 @@ export const roomSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-
             .addCase(fetchCart.pending, (state) => {
                 state.loading_cart_items = true;
                 state.error = null;
