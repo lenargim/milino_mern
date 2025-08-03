@@ -384,7 +384,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         glass_shelf,
         door_accessories,
         led_accessories,
-        standard_door,
+        standard_doors,
         standard_panels,
         rta_closet_custom
     } = values;
@@ -473,10 +473,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
     if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
     if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
-    if (standard_door) forceSetPath(preparedProduct, 'custom.standard_door', {
-        doors: standard_door.doors,
-        color: standard_door.color
-    });
+    if (standard_doors) forceSetPath(preparedProduct, 'custom.standard_doors', standard_doors.filter(el => el.qty > 0 && el.name));
     if (rta_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.rta_closet', rta_closet_custom_api)
     return preparedProduct;
 }
@@ -791,7 +788,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         case "custom": {
             const customPart = product_or_custom as CustomPartType;
             const {type, standard_price} = customPart;
-            const {accessories, standard_door, standard_panels, material, rta_closet} = custom!;
+            const {accessories, standard_doors, standard_panels, material, rta_closet} = custom!;
             const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
             const isStandardPanel = ["standard-panel"].includes(type);
             let price: number = 0;
@@ -809,8 +806,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             if (type === 'door-accessories' && accessories && accessories.door) {
                 price = addToCartAccessories(accessories.door)
             }
-            if ((type === 'standard-door' || type === 'standard-glass-door') && standard_door) {
-                price = getCustomPartStandardDoorPrice(standard_door, type)
+            if ((type === 'standard-doors' || type === 'standard-glass-doors') && standard_doors) {
+                price = getCustomPartStandardDoorPrice(standard_doors, type, door_color)
             }
 
             if (isStandardPanel && standard_panels) {

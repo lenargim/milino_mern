@@ -19,7 +19,6 @@ const SelectFieldInArr: FC<SelectFieldType> = ({options, name, val, arrIndex, pl
     const {value} = field
     const {error, touched} = meta;
 
-
     const onChange = (fullVal: OnChangeValue<optionTypeDoor, false>) => {
         const newVal = {...value[arrIndex], name: fullVal?.label, width: fullVal?.width, height: fullVal?.height};
         value.splice(arrIndex, 1, newVal);

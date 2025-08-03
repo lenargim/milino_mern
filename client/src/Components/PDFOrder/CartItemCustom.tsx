@@ -16,7 +16,7 @@ import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {subcategory, product_id, custom} = product;
     if (!custom) return null;
-    const {accessories, standard_door, standard_panels, material, rta_closet} = custom;
+    const {accessories, standard_doors, standard_panels, material, rta_closet} = custom;
     switch (subcategory) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product} dimensions={dimensions}/></View>
@@ -32,10 +32,10 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = (
             if (!accessories) return null;
             return <View><CartItemLEDExtra accessories={accessories}/></View>
         }
-        case 'standard-door':
-        case 'standard-glass-door':
-            if (!standard_door) return null;
-            return <View><CartItemDoor standard_door={standard_door}/></View>
+        case 'standard-doors':
+        case 'standard-glass-doors':
+            if (!standard_doors) return null;
+            return <View><CartItemDoor standard_doors={standard_doors}/></View>
         case 'standard-panel':
             if (!standard_panels) return null;
             return <View><CartItemPanel standard_panels={standard_panels} prod_id={product_id}/></View>

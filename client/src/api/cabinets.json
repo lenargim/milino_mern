@@ -5195,14 +5195,14 @@
     "id": 919,
     "product_type": "custom",
     "name": "Standard Door",
-    "type": "standard-door",
+    "type": "standard-doors",
     "images": ["custom/Standard Shaker Door.webp"]
   },
   {
     "id": 920,
     "product_type": "custom",
     "name": "Glass Door",
-    "type": "standard-glass-door",
+    "type": "standard-glass-doors",
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
   {

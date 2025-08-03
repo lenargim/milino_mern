@@ -71,7 +71,7 @@ export type CustomPartFormType = {
     glass_shelf: string,
     led_accessories: LedAccessoriesFormType,
     door_accessories: DoorAccessoryType[],
-    standard_door: MaybeNull<DoorType>,
+    standard_doors: MaybeNull<DoorType[]>,
     standard_panels: PanelsFormType,
     rta_closet_custom: RTAPartCustomType[]
 }
@@ -150,7 +150,7 @@ const CustomPart: FC<{ materials: RoomMaterialsFormType, room_id: string, custom
             led_transformer: 0,
         },
         door_accessories: isDoorAccessories ? initialDoorAccessories : [],
-        standard_door: null,
+        standard_doors: null,
         standard_panels: initialStandardPanels,
         rta_closet_custom: [],
         'Note': '',

@@ -11,7 +11,7 @@ const RoomSidebar: FC = () => {
     const dispatch = useAppDispatch()
     const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const {cart_items, rooms, active_room} = useAppSelector<RoomsState>(state => state.room)
-    if (!cart_items || !cart_items.length) return null;
+    if (!cart_items?.length) return null;
     const total = getCartTotal(cart_items);
     const room = rooms.find(el => el._id === cart_items[0].room_id);
     if (!room || !active_po || !active_room) return null;

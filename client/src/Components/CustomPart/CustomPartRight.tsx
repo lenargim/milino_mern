@@ -39,9 +39,9 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartLEDForm/>
         case "door-accessories":
             return <DoorAccessoriesForm/>
-        case "standard-door":
-        case "standard-glass-door":
-            return <CustomPartStandardDoorForm customPart={customPartProduct}/>
+        case "standard-doors":
+        case "standard-glass-doors":
+            return <CustomPartStandardDoorForm customPart={customPartProduct} color={materials.door_color}/>
         case "standard-panel":
             return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
         case "plastic_toe":

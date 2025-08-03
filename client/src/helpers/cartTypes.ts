@@ -74,7 +74,7 @@ export interface CartItemFrontType extends CartAPIImagedType {
 export type CartCustomType = {
     material?: string,
     accessories?: CustomAccessoriesType,
-    standard_door?: StandardDoorAPIType,
+    standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,
     rta_closet?: RTAClosetAPIType[]
 }
@@ -98,11 +98,6 @@ export type CustomAccessoriesType = {
 }
 
 export type StandardDoorAPIType = {
-    color: string,
-    doors: StandardDoorItemAPIType[]
-}
-
-export type StandardDoorItemAPIType = {
     width: number,
     height: number,
     qty: number

@@ -194,7 +194,6 @@ const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialSt
                     if (!product) return;
                     const {name, images} = product;
                     const img = getCartItemImgPDF(images, image_active_number);
-                    console.log(img)
                     return (
                         <View wrap={false} style={s.cartItem} key={index}>
                             <View style={s.th0}><Text>{++index}</Text></View>

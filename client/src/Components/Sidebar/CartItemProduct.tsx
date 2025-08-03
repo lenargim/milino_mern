@@ -17,7 +17,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
         glass,
         isStandard
     } = product;
-
     return (
         <>
             <Dimentions dimensions={dimensions} isStandard={isStandard.dimensions}/>

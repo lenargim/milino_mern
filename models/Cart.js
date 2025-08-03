@@ -111,24 +111,19 @@ const CartSchema = new mongoose.Schema({
         }
       ],
     },
-    standard_door: {
-      doors: [
-        {
-          width: {
-            type: Number,
-          },
-          height: {
-            type: Number,
-          },
-          qty: {
-            type: Number,
-          }
+    standard_doors: [
+      {
+        width: {
+          type: Number,
+        },
+        height: {
+          type: Number,
+        },
+        qty: {
+          type: Number,
         }
-      ],
-      color: {
-        type: String,
-      },
-    },
+      }
+    ],
     standard_panels: {
       standard_panel: [
         {
