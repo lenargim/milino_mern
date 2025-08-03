@@ -222,8 +222,8 @@ function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, h
     return +(isAcrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
 }
 
-function getDoorPrice(square: number, materialData: materialDataType, isProductStandard: boolean): number {
-    if (isProductStandard) return 0;
+function getDoorPrice(square: number, materialData: materialDataType): number {
+    // if (isProductStandard) return 0;
     const {
         door_price_multiplier,
         is_leather_or_rta_closet,
@@ -882,7 +882,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led?.border),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, is_acrylic, horizontal_line, door_type, door_finish_material, product_type === "standard", is_leather_or_rta_closet),
-        doorPrice: getDoorPrice(frontSquare, materialData, product_type === "standard"),
+        doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
     }
