@@ -1,24 +1,23 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import s from './product.module.sass'
 import st from './../Profile/profile.module.sass'
 import {addProductToCart, useAppDispatch,} from "../../helpers/helpers";
-import {
-    materialDataType, pricePart, ProductFormType, ProductTableDataType, ProductType, sizeLimitsType
-} from "../../helpers/productTypes";
+import {MaybeUndefined, ProductFormType, ProductTableDataType, ProductType} from "../../helpers/productTypes";
 import ProductCabinet from "./ProductCabinet";
 import {Formik} from 'formik';
-import {getProductRange} from "../../helpers/calculatePrice";
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {addProduct} from "../../store/reducers/roomSlice";
+import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
+import {useNavigate} from "react-router-dom";
 
 type ProductComponentType = {
     materials: RoomMaterialsFormType,
     room_id: string,
     product: ProductType,
     initialProductValues: ProductFormType,
-    productData: ProductTableDataType
+    productData: ProductTableDataType,
+    productEditId: MaybeUndefined<string>
 }
 
 const Product: FC<ProductComponentType> = ({
@@ -26,21 +25,30 @@ const Product: FC<ProductComponentType> = ({
                                                room_id,
                                                product,
                                                initialProductValues,
-                                               productData
+                                               productData,
+                                               productEditId
                                            }) => {
     const dispatch = useAppDispatch();
-    const {sizeLimit} = productData
+    const {sizeLimit} = productData;
+    const navigate = useNavigate();
     return (
         <Formik
             initialValues={initialProductValues}
+            enableReinitialize={true}
             validationSchema={getProductSchema(product, sizeLimit)}
             onSubmit={async (values: ProductFormType, {resetForm, setSubmitting}) => {
                 if (!product) return;
                 setSubmitting(true)
-                const cartData = addProductToCart(product, values, room_id);
-                await dispatch(addProduct({product: cartData}));
-                resetForm();
-                setSubmitting(false)
+                const cartData = addProductToCart(product, values, room_id, productEditId);
+                if (productEditId) {
+                    await dispatch(updateProduct({product: cartData}));
+                    resetForm();
+                    navigate(-1);
+                } else {
+                    await dispatch(addProduct({product: cartData}));
+                    resetForm();
+                    setSubmitting(false)
+                }
             }}
         >
             <div className={st.product}>

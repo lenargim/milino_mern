@@ -22,6 +22,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
     const {_id: room_id} = room
     const product_or_custom = getProductById(Number(productId), isRoomStandard);
     if (!product_or_custom) return <div>Product error</div>;
+    const productEditId = cartItemValues?._id
     switch (product_or_custom.product_type) {
         case "custom": {
             // const initialMaterialData = getInitialMaterialData(product_or_custom as CustomPartType, materials, isRoomStandard);
@@ -74,6 +75,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
                             product={product_or_custom as ProductType}
                             productData={productData}
                             initialProductValues={initialProductValues}
+                            productEditId={productEditId}
             />
         }
     }

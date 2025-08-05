@@ -97,6 +97,14 @@ export const addProduct = createAsyncThunk<CartAPIResponse,
     }
 )
 
+export const updateProduct = createAsyncThunk<CartAPIResponse,
+    { product: CartAPI }>(
+    'room/fetchCart',
+    async ({product}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.updateProduct(product), thunkAPI);
+    }
+)
+
 
 export const roomSlice = createSlice({
     name: 'room',

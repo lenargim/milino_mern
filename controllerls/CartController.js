@@ -79,7 +79,7 @@ export const removeAllFromCart = async (req, res, next) => {
   }
 }
 
-export const updateCart = async (req, res, next) => {
+export const updateCartAmount = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const cartId = req.params.cartId;
@@ -100,6 +100,30 @@ export const updateCart = async (req, res, next) => {
     next()
 
 
+  } catch (e) {
+    res.status(500).json({
+      message: 'Cannot update Cart'
+    })
+  }
+}
+
+export const updateCartItem = async (req, res, next) => {
+  try {
+    const cart = req.body;
+
+    const doc = await CartModel.findByIdAndUpdate(cart._id,
+      cart, {
+        returnDocument: "after",
+      })
+
+    if (!doc) {
+      return res.status(404).json({
+        message: 'Cart Item not found'
+      })
+    }
+
+    req.params.id = cart.room_id;
+    next()
   } catch (e) {
     res.status(500).json({
       message: 'Cannot update Cart'

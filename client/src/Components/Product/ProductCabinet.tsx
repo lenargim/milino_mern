@@ -3,7 +3,6 @@ import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr,
-    getProductDataToCalculatePrice,
     getType
 } from "../../helpers/calculatePrice";
 import {
@@ -75,11 +74,9 @@ const ProductCabinet: FC<CabinetType> = ({
             if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
         }
     }, [width]);
-
     useEffect(() => {
         setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
     }, [width, height])
-
     useEffect(() => {
         if (!hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
     }, [hingeArr, hingeOpening])

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {MaybeUndefined} from "../../helpers/productTypes";
 import {textToLink, useAppSelector} from "../../helpers/helpers";
@@ -19,6 +19,7 @@ const RoomEditCartProduct: FC = () => {
         navigate(`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`);
         return null;
     }
+
     return (
         <RoomProduct cartItemValues={cartItemValues}/>
     );

@@ -316,7 +316,7 @@ export const getCustomCabinetString = (isStandard: IsStandardOptionsType): strin
     return Object.values(isStandard).includes(false) ? 'Custom' : '';
 }
 
-export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string): CartAPI => {
+export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {id, product_type} = product
     const {
         'Width': width,
@@ -348,7 +348,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realBlind = blindWidth || customBlindWidth || 0;
 
     return {
-        _id: '',
+        _id: productEditId ?? '',
         room_id: roomId,
         product_id: id,
         product_type: product_type,
