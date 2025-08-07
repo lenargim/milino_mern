@@ -8,7 +8,7 @@ export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
-    const {isAngle, hasMiddleSection, product_type} = product
+    const {isAngle, product_type, middleSectionDefault} = product
     const blindDoorMinMax = settings.blindDoor;
     const minWidth = sizeLimit.width[0];
     const maxWidth = sizeLimit.width[1];
@@ -212,7 +212,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             }),
         'Middle Section': Yup.string()
             .when([], {
-                is: () => hasMiddleSection === true,
+                is: () => middleSectionDefault && middleSectionDefault > 0,
                 then: (schema) => schema
                     .required()
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")

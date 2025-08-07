@@ -114,10 +114,27 @@
   justify-content: flex-start
   gap: 10px
 
+.itemClose, .itemEdit
+  font: 500 16px/1 $mainFont
+  box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.30)
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 20px
+  height: 20px
+  border-radius: 50%
+  color: #fff
+  transition: all .15s ease
+  &:hover
+    transform: scale(1.2)
+    z-index: 2
+    box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.40)
+
 .itemClose
-  color: $red
-  font-size: 26px
-  font-weight: 700
+  background-color: $red
+
+.itemEdit
+  background-color: $green
 
 .itemimg
   display: block

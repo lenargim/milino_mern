@@ -3074,7 +3074,6 @@
     "legsHeight": 4.5,
     "name": "TDO Series",
     "category": "Tall Cabinets",
-    "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
     "images": ["TC/TDO.webp"],
     "attributes": [
@@ -3119,7 +3118,6 @@
     "product_type": "cabinet",
     "legsHeight": 4.5,
     "name": "TSO Series",
-    "hasMiddleSection": true,
     "middleSectionDefault": 30,
     "category": "Tall Cabinets",
     "images": ["TC/TSO.webp"],
@@ -3558,7 +3556,6 @@
     "legsHeight": 4.5,
     "name": "PTDO Series",
     "category": "Gola Tall Cabinets",
-    "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
     "images": ["GC/PTDO.webp"],
     "attributes": [
@@ -8608,7 +8605,6 @@
     "legsHeight": 4.5,
     "name": "TDO Series",
     "category": "Standard Tall Cabinets",
-    "hasMiddleSection": true,
     "middleSectionDefault": 49.5,
     "images": ["standard/TDO.webp"],
     "attributes": [
@@ -8664,7 +8660,6 @@
     "product_type": "standard",
     "legsHeight": 4.5,
     "name": "TSO Series",
-    "hasMiddleSection": true,
     "middleSectionDefault": 30,
     "category": "Standard Tall Cabinets",
     "images": ["standard/TSO.webp"],

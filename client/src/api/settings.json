@@ -386,5 +386,7 @@
     {"width": 42, "height": 18, "value": "42x18"},
     {"width": 42, "height": 21, "value": "42x21"}
   ],
-  "crown_molding_price": [100,250]
+  "crown_molding_price": [100,250],
+  "standard_glass_door_price": 30,
+  "standard_glass_door_color_coef": 30
 }

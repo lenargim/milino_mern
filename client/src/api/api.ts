@@ -12,7 +12,8 @@ import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
-import {CartAPIResponse, CartNewType} from "../helpers/cartTypes";
+import {CartAPIResponse, CartAPI} from "../helpers/cartTypes";
+import {updateProduct} from "../store/reducers/roomSlice";
 
 const instanceFormData = axios.create({
     headers: {
@@ -86,10 +87,11 @@ export const roomsAPI = {
 
 export const cartAPI = {
     getCart: (roomId: string): Promise<AxiosResponse<CartAPIResponse>> => instance.get(`/cart/${roomId}`, {headers: getHeaders()}),
-    addToCart: (cart: CartNewType): Promise<AxiosResponse<CartAPIResponse>> => instance.post(`/cart`, cart, {headers: getHeaders()}),
+    addToCart: (cart: CartAPI): Promise<AxiosResponse<CartAPIResponse>> => instance.post(`/cart`, cart, {headers: getHeaders()}),
     removeAll: (room_id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/all/${room_id}`, {headers: getHeaders()}),
     remove: (room_id: string, _id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/${room_id}/${_id}`, {headers: getHeaders()}),
     updateAmount: (room_id: string, _id: string, amount: number): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart/${room_id}/${_id}`, {amount: amount}, {headers: getHeaders()}),
+    updateProduct: (cart: CartAPI): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart`, cart, {headers: getHeaders()}),
 }
 
 export const AdminAPI = {

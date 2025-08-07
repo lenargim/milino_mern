@@ -568,9 +568,9 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
             return 2.706
     }
 }
-const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_cabinet: boolean, is_leather_closet: boolean): number => {
+const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_room: boolean, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color} = materials
-    if (is_standard_cabinet) return door_color === 'Default White' ? 0 : 30;
+    if (is_standard_room) return door_color === 'Default White' ? 0 : 30;
     if (!is_leather_closet) {
         switch (door_type) {
             case "Slab":
@@ -616,7 +616,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         leather,
         box_color
     } = materials;
-    const is_standard_cabinet = door_type === "Standard Size White Shaker";
+    const is_standard_room = door_type === "Standard Size White Shaker";
     const is_leather_or_rta_closet = category === 'Leather Closet' || category === 'RTA Closet';
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
@@ -625,10 +625,10 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
-    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_cabinet, is_leather_or_rta_closet);
+    const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room, is_leather_or_rta_closet);
 
     return {
-        is_standard_cabinet,
+        is_standard_room,
         category,
         base_price_type,
         grain_coef,
@@ -813,8 +813,8 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
         if (product_type === 'custom') return cartItem;
         const product = product_or_custom as unknown as ProductType;
         const materialData = getMaterialData(materials, product_id)
-        const {is_standard_cabinet, base_price_type} = materialData;
-        const tablePriceData = getProductPriceRange(product_id, is_standard_cabinet, base_price_type);
+        const {is_standard_room, base_price_type} = materialData;
+        const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
         if (!tablePriceData) return cartItem;
         const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
         if (!sizeLimit) return cartItem;

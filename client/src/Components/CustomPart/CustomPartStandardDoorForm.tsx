@@ -80,11 +80,13 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string 
 
 export default CustomPartStandardDoorForm;
 
-export const getCustomPartStandardDoorPrice = (doors: MaybeNull<StandardDoorAPIType[]>, name: string, color:string): number => {
-    if (!doors) return 0;
-    const glassPrice: number = name !== 'standard-doors' ? 30 : 0;
-    const colorPrice: number = color !== 'Default White' ? 30 : 0;
-    return doors.reduce((acc, door) => {
+
+export const getCustomPartStandardDoorPrice = (values: MaybeNull<StandardDoorAPIType>, name: string): number => {
+    if (!values) return 0;
+    const {doors: doorsArr, color} = values;
+    const glassPrice: number = name !== 'standard-door' ? settings.standard_glass_door_price : 0;
+    const colorPrice: number = color !== 'White' ? settings.standard_glass_door_color_coef : 0;
+    return doorsArr.reduce((acc, door) => {
         const sqr = door.width * door.height / 144;
         const doorPrice = sqr * (20 + glassPrice + colorPrice);
         return +(acc + (doorPrice * door.qty)).toFixed(1)

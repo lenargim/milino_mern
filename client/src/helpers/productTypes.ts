@@ -1,7 +1,9 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import exp from "constants";
 import {RoomCategoriesType} from "./roomTypes";
+import {number} from "yup";
+import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
+import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -63,11 +65,10 @@ export type ProductOrCustomType = {
     id: number,
     name: string,
     product_type: ProductApiType,
-    images: string[],
+    images: string[]
 }
 
 export interface ProductType extends ProductOrCustomType{
-    // room: string,
     category: productCategory,
     attributes: attrItem[],
     options: string[],
@@ -77,7 +78,6 @@ export interface ProductType extends ProductOrCustomType{
     customHeight: MaybeUndefined<number>,
     customDepth: MaybeUndefined<number>,
     hasSolidWidth?: true,
-    hasMiddleSection?: true,
     middleSectionDefault?: number,
     isCornerChoose: MaybeUndefined<true>,
     widthDivider?: number,
@@ -132,7 +132,7 @@ export type materialsLimitsType = {
 }
 
 export type materialDataType = {
-    is_standard_cabinet: boolean,
+    is_standard_room: boolean,
     category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
@@ -253,10 +253,7 @@ export interface drawerInterface {
 
 export type CabinetType = {
     product: ProductType,
-    materialData: materialDataType,
-    productRange: productRangeType,
-    tablePriceData: pricePart[],
-    sizeLimit: sizeLimitsType,
+    productData: ProductTableDataType
 }
 
 export type DepthRangeType = {
@@ -336,10 +333,6 @@ type initialStandardValues = {
     'Hinge opening': hingeTypes,
     Corner: MaybeEmpty<cornerTypes>,
     Options: string[],
-    'Profile': string,
-    'Glass Type': string,
-    'Glass Color': string,
-    'Glass Shelf': string,
     'Middle Section': string,
     'LED borders': string[],
     'LED alignment': MaybeEmpty<ledAlignmentType>,
@@ -350,9 +343,9 @@ type initialStandardValues = {
 }
 
 export interface ProductFormType extends initialStandardValues {
-    "Custom Width": MaybeEmpty<number>,
-    'Custom Blind Width': MaybeEmpty<number>,
-    'Custom Height': MaybeEmpty<number>,
+    "Custom Width": string,
+    'Custom Blind Width': string,
+    'Custom Height': string,
     "Custom Width Number": MaybeEmpty<number>,
     'Custom Blind Width Number': MaybeEmpty<number>,
     'Custom Height Number': MaybeEmpty<number>,
@@ -361,4 +354,34 @@ export interface ProductFormType extends initialStandardValues {
     glass_door: string[],
     glass_shelf: string
 
+}
+
+export type ProductTableDataType = {
+    materialData: materialDataType,
+    tablePriceData: pricePart[],
+    sizeLimit: sizeLimitsType,
+    widthRange: number[],
+    heightRange: number[],
+    depthRange: number[],
+    middleSectionNumber: number,
+    middleSection: string,
+    blindWidth: MaybeEmpty<number>,
+    corner:MaybeEmpty<cornerTypes>,
+    ledAlignment:MaybeEmpty<ledAlignmentType>,
+    productPriceData: productDataToCalculatePriceType
+    isBlind: boolean,
+}
+
+export type CustomPartTableDataType = {
+    initialMaterialData: MaybeNull<materialsCustomPart>,
+    initialSizes: InitialSizesType,
+    isDoorAccessories: boolean,
+    initialDoorAccessories: DoorAccessoryType[],
+    initialStandardPanels: PanelsFormType
+}
+
+export type InitialSizesType = {
+    initial_width: number,
+    initial_height: number,
+    initial_depth: number
 }

@@ -3,7 +3,7 @@ import {MaybeNull, productCategory} from "../../helpers/productTypes";
 import {RoomFront, RoomType} from "../../helpers/roomTypes";
 import {convertCartAPIToFront, convertRoomAPIToFront} from "../../helpers/helpers";
 import {cartAPI, roomsAPI} from "../../api/api";
-import {CartAPIResponse, CartItemFrontType, CartNewType} from "../../helpers/cartTypes";
+import {CartAPIResponse, CartItemFrontType, CartAPI} from "../../helpers/cartTypes";
 import {withTryCatch} from "../../utils/withTryCatch";
 
 export interface RoomsState {
@@ -90,10 +90,18 @@ export const removeAllFromCart = createAsyncThunk<CartAPIResponse,
 )
 
 export const addProduct = createAsyncThunk<CartAPIResponse,
-    { product: CartNewType }>(
+    { product: CartAPI }>(
     'room/fetchCart',
     async ({product}, thunkAPI) => {
         return await withTryCatch(() => cartAPI.addToCart(product), thunkAPI);
+    }
+)
+
+export const updateProduct = createAsyncThunk<CartAPIResponse,
+    { product: CartAPI }>(
+    'room/fetchCart',
+    async ({product}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.updateProduct(product), thunkAPI);
     }
 )
 
