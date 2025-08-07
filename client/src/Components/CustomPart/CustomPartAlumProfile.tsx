@@ -3,7 +3,6 @@ import {FieldArrayRenderProps} from "formik";
 import {changeAmountType} from "../../helpers/cartTypes";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
-import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 export type AlProfileType = {
     length: number,
@@ -12,7 +11,7 @@ export type AlProfileType = {
 
 export type alProfileFormType = {
     length: string,
-    ['length Number']: number,
+    'length Number': number,
     qty: number
 }
 

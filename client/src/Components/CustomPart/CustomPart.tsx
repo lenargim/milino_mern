@@ -67,10 +67,10 @@ export type CustomPartFormType = {
     price: number,
     glass_door: string[],
     glass_shelf: string,
-    led_accessories: LedAccessoriesFormType,
-    door_accessories: DoorAccessoryType[],
+    led_accessories: MaybeNull<LedAccessoriesFormType>,
+    door_accessories: MaybeNull<DoorAccessoryType[]>,
     standard_doors: MaybeNull<DoorType[]>,
-    standard_panels: PanelsFormType,
+    standard_panels: MaybeNull<PanelsFormType>,
     rta_closet_custom: RTAPartCustomType[]
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
@@ -105,7 +105,6 @@ const CustomPart: FC<CustomPartFCType> = ({
                                             initialCustomPartValues
                                         }) => {
     const dispatch = useAppDispatch();
-    const {initialMaterialData} = customPartData
     return (
         <Formik
             initialValues={initialCustomPartValues}
@@ -123,7 +122,7 @@ const CustomPart: FC<CustomPartFCType> = ({
                 <CustomPartLeft product={custom_part} materials={materials}/>
                 <div className={s.right}>
                     <CustomPartRight customPartProduct={custom_part}
-                                     initialMaterialData={initialMaterialData}
+                                     customPartData={customPartData}
                                      materials={materials}/>
                 </div>
             </div>

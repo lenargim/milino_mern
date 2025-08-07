@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartTableDataType, CustomPartType} from "../../helpers/productTypes";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLEDForm from "./CustomPartLEDForm";
 import CustomPartStandardDoorForm from "./CustomPartStandardDoorForm";
@@ -11,16 +11,18 @@ import CustomPartRTACloset from "./CustomPartRTACloset";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
-    initialMaterialData: MaybeNull<materialsCustomPart>,
+    customPartData: CustomPartTableDataType,
     materials: RoomMaterialsFormType
 }
 
 const CustomPartRight: FC<CustomPartRight> = ({
                                                   customPartProduct,
-                                                  initialMaterialData,
+                                                  customPartData,
                                                   materials
                                               }) => {
-    const isStandardCabinet = materials.door_type === 'Standard Size White Shaker';
+    const {initialMaterialData} = customPartData;
+    const {door_color, door_type} = materials
+    const isStandardCabinet = door_type === 'Standard Size White Shaker';
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number'
@@ -41,13 +43,13 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <DoorAccessoriesForm/>
         case "standard-doors":
         case "standard-glass-doors":
-            return <CustomPartStandardDoorForm customPart={customPartProduct} color={materials.door_color}/>
+            return <CustomPartStandardDoorForm customPart={customPartProduct} color={door_color}/>
         case "standard-panel":
             return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
         case "plastic_toe":
-            return <CustomPartPlasticToe product={customPartProduct} />
+            return <CustomPartPlasticToe product={customPartProduct}/>
         case "rta-closets":
-            return <CustomPartRTACloset materials={materials} />
+            return <CustomPartRTACloset materials={materials}/>
     }
 };
 

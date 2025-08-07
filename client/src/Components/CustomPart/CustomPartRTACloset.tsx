@@ -18,16 +18,13 @@ export const newItemRTACloset: RTAPartCustomType = {
     qty: 1
 }
 
-const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({
-                                                                              materials
-                                                                          }) => {
+const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({materials}) => {
     const dropdownOptions: optionType[] = RTAClosetCustomOptions.map(el => ({value: el, label: el}));
     const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {price, rta_closet_custom} = values;
-    const [field, meta, helpers] = useField('rta_closet_custom');
     useEffect(() => {
-        if (!field.value.length) helpers.setValue([newItemRTACloset]);
-    }, [])
+        if (!rta_closet_custom.length) setFieldValue('rta_closet_custom', [newItemRTACloset]);
+    }, [rta_closet_custom])
     useEffect(() => {
         const newPrice = getRTAClosetCustomPartPrice(rta_closet_custom, materials);
         if (price !== newPrice) setFieldValue('price', newPrice);
@@ -40,10 +37,10 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({
                     <div>
                         {rta_closet_custom.map((part, index) => (
                             <CustomPartRTAClosetItem key={index}
-                                                        part={part}
-                                                        index={index}
-                                                        arrayHelpers={arrayHelpers}
-                                                        dropdownOptions={dropdownOptions}
+                                                     part={part}
+                                                     index={index}
+                                                     arrayHelpers={arrayHelpers}
+                                                     dropdownOptions={dropdownOptions}
                             />
                         ))}
                         <button type="button" onClick={() => arrayHelpers.push(newItemRTACloset)}
@@ -53,8 +50,7 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({
                     </div>
                 )}
                 />
-                {meta.touched && meta.error && typeof meta.error === 'string' &&
-                <div className={styles.error}>{meta.error}</div>}
+                {/*{meta.touched && meta.error && <div className={styles.error}>{meta.error}</div>}*/}
             </div>
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="Note"/>
@@ -72,11 +68,11 @@ export default CustomPartRTACloset;
 
 
 const CustomPartRTAClosetItem: FC<{ arrayHelpers: FieldArrayRenderProps, part: RTAPartCustomType, index: number, dropdownOptions: optionType[] }> = ({
-                                                                                                                                                               arrayHelpers,
-                                                                                                                                                               part,
-                                                                                                                                                               index,
-                                                                                                                                                               dropdownOptions
-                                                                                                                                                           }) => {
+                                                                                                                                                         arrayHelpers,
+                                                                                                                                                         part,
+                                                                                                                                                         index,
+                                                                                                                                                         dropdownOptions
+                                                                                                                                                     }) => {
     const {name, qty} = part
     const val = getSelectValfromVal(name, dropdownOptions);
     const {remove, replace} = arrayHelpers;

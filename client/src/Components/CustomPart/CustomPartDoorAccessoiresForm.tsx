@@ -2,17 +2,22 @@ import {Form, useFormikContext} from 'formik';
 import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPartFormType, DoorAccessoryAPIType} from "./CustomPart";
+import {CustomPartFormType, DoorAccessoryAPIType, DoorAccessoryFront, DoorAccessoryType} from "./CustomPart";
 import {convertDoorAccessories} from "../../helpers/helpers";
 import CustomPartDoorAccessoryNumberPart from "./CustomPartDoorAccessoryNumberPart";
+import {MaybeNull} from "../../helpers/productTypes";
+import DA from "../../api/doorAccessories.json";
+
+const doorAccessories = DA as DoorAccessoryFront[]
+export const initialDoorAccessories:DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}));
 
 const DoorAccessoriesForm: FC = () => {
     const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {door_accessories, price} = values;
-    const aventos = door_accessories.filter(el => el.filter === 'aventos');
-    const hinge = door_accessories.filter(el => el.filter === 'hinge');
-    const PTO = door_accessories.filter(el => el.filter === 'PTO');
-    const servo = door_accessories.filter(el => el.filter === 'servo');
+
+    useEffect(() => {
+        if (!door_accessories) setFieldValue('door_accessories', initialDoorAccessories)
+    }, [door_accessories])
 
     useEffect(() => {
         const newPrice = addToCartAccessories(door_accessories)
@@ -20,6 +25,12 @@ const DoorAccessoriesForm: FC = () => {
             setFieldValue('price', newPrice)
         }
     }, [values]);
+
+    if (!door_accessories) return null;
+    const aventos = door_accessories.filter(el => el.filter === 'aventos');
+    const hinge = door_accessories.filter(el => el.filter === 'hinge');
+    const PTO = door_accessories.filter(el => el.filter === 'PTO');
+    const servo = door_accessories.filter(el => el.filter === 'servo');
 
     return (
         <Form className={s.accessories}>
@@ -58,7 +69,8 @@ const DoorAccessoriesForm: FC = () => {
 export default DoorAccessoriesForm;
 
 
-export const addToCartAccessories = (values: DoorAccessoryAPIType[]): number => {
+export const addToCartAccessories = (values: MaybeNull<DoorAccessoryAPIType[]>): number => {
+    if (!values) return 0;
     const frontAccessories = values.map(el => (convertDoorAccessories(el)))
     return +(frontAccessories.reduce((acc, item) => acc + (item.price * item.qty), 0)).toFixed(1)
 }

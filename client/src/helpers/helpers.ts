@@ -48,17 +48,25 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, LedAccessoriesFormType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
-import {addToCartAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
-import {getCustomPartStandardDoorPrice} from "../Components/CustomPart/CustomPartStandardDoorForm";
+import {addToCartAccessories, initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
+import {
+    DoorSizesArrType,
+    DoorType,
+    getCustomPartStandardDoorPrice
+} from "../Components/CustomPart/CustomPartStandardDoorForm";
 import React, {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import standardProductsPrices from "../api/standartProductsPrices.json";
-import {getStandardPanelsPrice, PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
+import {
+    getStandardPanelsPrice,
+    initialStandardPanels,
+    PanelsFormType
+} from "../Components/CustomPart/CustomPartStandardPanel";
 import settings from "../api/settings.json";
 import {
     CartAPI,
@@ -66,12 +74,13 @@ import {
     CartItemFrontType,
     CartOrder,
     CustomAccessoriesType,
-    IsStandardOptionsType
+    IsStandardOptionsType, PanelsFormPartAPIType
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
+import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -392,29 +401,8 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     } = values;
 
     const {id, product_type} = product;
-    const {
-        led_alum_profiles,
-        led_gola_profiles,
-        led_transformer,
-        led_door_sensor,
-        led_dimmable_remote
-    } = led_accessories;
 
-    const led_alum_profiles_api = led_alum_profiles.map(el => ({
-        length: el["length Number"],
-        qty: el.qty
-    }));
 
-    const led_gola_profiles_api = led_gola_profiles.map(el => ({
-        length: el["length Number"],
-        qty: el.qty,
-        color: el.color
-    }));
-
-    const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-    const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
-    const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
-    const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
     const rta_closet_custom_api: RTAClosetAPIType[] = rta_closet_custom.map(el => ({
         qty: el.qty,
         name: el.name,
@@ -464,18 +452,51 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         current[keys[keys.length - 1]] = value;
     }
 
-
     if (material) forceSetPath(preparedProduct, 'custom.material', material);
-    if (led_alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_alum_profiles', led_alum_profiles_api);
-    if (led_gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_gola_profiles', led_gola_profiles_api);
-    if (led_dimmable_remote) forceSetPath(preparedProduct, 'custom.accessories.led_dimmable_remote', led_dimmable_remote);
-    if (led_door_sensor) forceSetPath(preparedProduct, 'custom.accessories.led_door_sensor', led_door_sensor);
-    if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
-    if (door_accessories.length) forceSetPath(preparedProduct, 'custom.accessories.door', door_accessories.filter(el => el.qty > 0));
-    if (standard_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.standard_panel', standard_panel_api);
-    if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
-    if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
-    if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
+
+    // LED Accessories
+    if (led_accessories) {
+        const {
+            led_alum_profiles,
+            led_gola_profiles,
+            led_transformer,
+            led_door_sensor,
+            led_dimmable_remote
+        } = led_accessories;
+
+        const led_alum_profiles_api = led_alum_profiles.map(el => ({
+            length: el["length Number"],
+            qty: el.qty
+        }));
+        const led_gola_profiles_api = led_gola_profiles.map(el => ({
+            length: el["length Number"],
+            qty: el.qty,
+            color: el.color
+        }));
+
+        if (led_alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_alum_profiles', led_alum_profiles_api);
+        if (led_gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_gola_profiles', led_gola_profiles_api);
+        if (led_dimmable_remote) forceSetPath(preparedProduct, 'custom.accessories.led_dimmable_remote', led_dimmable_remote);
+        if (led_door_sensor) forceSetPath(preparedProduct, 'custom.accessories.led_door_sensor', led_door_sensor);
+        if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
+    }
+
+
+    //Door Accessories
+    if (door_accessories) forceSetPath(preparedProduct, 'custom.accessories.door', door_accessories.filter(el => el.qty > 0));
+
+    // Standard panels
+    if (standard_panels) {
+        const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
+        const standard_panel_api = standard_panel.map(el => ({qty: el.qty, name: el.name}));
+        const shape_panel_api = shape_panel.map(el => ({qty: el.qty, name: el.name}));
+        const wtk_api = wtk.map(el => ({qty: el.qty, name: el.name}));
+        if (standard_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.standard_panel', standard_panel_api);
+        if (shape_panel_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.shape_panel', shape_panel_api);
+        if (wtk_api.length) forceSetPath(preparedProduct, 'custom.standard_panels.wtk', wtk_api);
+        if (crown_molding) forceSetPath(preparedProduct, 'custom.standard_panels.crown_molding', crown_molding);
+    }
+
     if (standard_doors) forceSetPath(preparedProduct, 'custom.standard_doors', standard_doors.filter(el => el.qty > 0 && el.name));
     if (rta_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.rta_closet', rta_closet_custom_api)
     return preparedProduct;
@@ -1266,7 +1287,6 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 
 }
 
-
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
     const {width, depth, limits, height_range} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
@@ -1284,50 +1304,116 @@ export const getCustomPartInitialTableData = (custom_part: CustomPartType, mater
     const initialMaterialData = getInitialMaterialData(custom_part, materials, isRoomStandard);
     const initialSizes = getInitialSizes(custom_part, initialMaterialData);
     const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
+    const isStandardPanel = ["standard-panel"].includes(custom_part.type);
+    const isLEDAccessories = ["led-accessories"].includes(custom_part.type);
+    const isStandardDoor = ['standard-doors', 'standard-glass-doors'].includes(custom_part.type);
 
-    const doorAccessories = DA as DoorAccessoryFront[]
-    const initialDoorAccessories: DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}))
-    const initialStandardPanels: PanelsFormType = {
-        standard_panel: [],
-        shape_panel: [],
-        wtk: [],
-        crown_molding: 0
-    }
+    const initialDoorAccessoriesData: MaybeNull<DoorAccessoryType[]> = isDoorAccessories ? initialDoorAccessories : null;
+    const initialStandardPanelsData = isStandardPanel ? initialStandardPanels : null;
+    const initialLEDAccessoriesData = isLEDAccessories ? initialLEDAccessories : null;
+
+    const standardDoorData = isStandardDoor ?
+        custom_part.type === 'standard-doors' ?
+            settings.StandardDoorSizes as DoorSizesArrType[] :
+            settings.glassDoorSizes as DoorSizesArrType[] :
+        null;
 
     return {
         initialMaterialData,
         initialSizes,
-        isDoorAccessories,
-        initialDoorAccessories,
-        initialStandardPanels
+        initialDoorAccessories: initialDoorAccessoriesData,
+        initialStandardPanels: initialStandardPanelsData,
+        initialLEDAccessories: initialLEDAccessoriesData,
+        standardDoorData
     }
 }
 
-export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>, custom_part: CustomPartType): CustomPartFormType => {
-    const {initialSizes, initialMaterialData, isDoorAccessories, initialDoorAccessories, initialStandardPanels} = customPartData;
+export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>): CustomPartFormType => {
+    const {
+        initialSizes,
+        initialMaterialData,
+        initialDoorAccessories,
+        initialStandardPanels,
+        initialLEDAccessories,
+        standardDoorData
+    } = customPartData;
     const {initial_width, initial_height, initial_depth} = initialSizes
-    return {
-        'Width': initial_width.toString(),
-        'Height': initial_height.toString(),
-        'Depth': initial_depth.toString(),
-        'Width Number': initial_width,
-        'Height Number': initial_height,
-        'Depth Number': initial_depth,
-        'Material': initialMaterialData?.name || '',
-        glass_door: ['', '', ''],
-        glass_shelf: '',
-        led_accessories: {
-            led_alum_profiles: [],
-            led_gola_profiles: [],
-            led_door_sensor: 0,
-            led_dimmable_remote: 0,
-            led_transformer: 0,
-        },
-        door_accessories: isDoorAccessories ? initialDoorAccessories : [],
-        standard_door: null,
-        standard_panels: initialStandardPanels,
-        rta_closet_custom: [],
-        'Note': '',
-        price: 0,
+
+    if (!cartItemValues) {
+        return {
+            'Width': initial_width.toString(),
+            'Height': initial_height.toString(),
+            'Depth': initial_depth.toString(),
+            'Width Number': initial_width,
+            'Height Number': initial_height,
+            'Depth Number': initial_depth,
+            'Material': initialMaterialData?.name || '',
+            glass_door: ['', '', ''],
+            glass_shelf: '',
+            led_accessories: initialLEDAccessories,
+            door_accessories: initialDoorAccessories,
+            standard_doors: null,
+            standard_panels: initialStandardPanels,
+            rta_closet_custom: [],
+            'Note': '',
+            price: 0,
+        }
+    } else {
+        const {width, height, depth, custom, note, price, glass} = cartItemValues;
+        const {standard_doors, standard_panels, material, rta_closet, accessories} = custom!;
+        const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories ? {
+            led_alum_profiles: accessories.led_alum_profiles.map(el => ({
+                qty: el.qty,
+                length: getFraction(el.length),
+                'length Number': el.length
+            })),
+            led_gola_profiles: accessories.led_gola_profiles.map(el => ({
+                qty: el.qty,
+                length: getFraction(el.length),
+                'length Number': el.length,
+                color: el.color
+            })),
+            led_door_sensor: accessories.led_door_sensor,
+            led_dimmable_remote: accessories.led_dimmable_remote,
+            led_transformer: accessories.led_transformer,
+        } : null;
+
+        const doorAccessories = DA as DoorAccessoryFront[]
+        const doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = accessories?.door ?
+            accessories.door.map((el, index) => {
+                return {
+                    id: index,
+                    qty: el.qty,
+                    value: el.value,
+                    filter: doorAccessories[index].filter,
+                    label: doorAccessories[index].label,
+                    price: doorAccessories[index].price
+                }
+            }) : null;
+
+        const standardDoorValues: MaybeNull<DoorType[]> = standardDoorData && standard_doors ?
+            standard_doors.map(el => ({
+                ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
+            })) : null;
+
+
+        return {
+            'Width': width.toString(),
+            'Height': height.toString(),
+            'Depth': depth.toString(),
+            'Width Number': width,
+            'Height Number': height,
+            'Depth Number': depth,
+            'Material': material ?? '',
+            glass_door: glass?.door ?? ['', '', ''],
+            glass_shelf: glass?.shelf ?? '',
+            led_accessories: LEDAccessoriesValues,
+            door_accessories: doorAccessoriesValues,
+            standard_doors: standardDoorValues,
+            standard_panels: standard_panels ?? null,
+            rta_closet_custom: rta_closet ?? [],
+            'Note': note,
+            price: price,
+        }
     }
 }

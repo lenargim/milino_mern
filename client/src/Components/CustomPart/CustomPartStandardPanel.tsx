@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {
-    CustomPartType,
+    CustomPartType, MaybeNull,
     pricePartStandardPanel,
     priceStandardPanel
 } from "../../helpers/productTypes";
@@ -43,7 +43,8 @@ export type PanelAPIType = Exclude<PanelType, '_id'>
 type PanelTypeName = 'standard_panel' | 'shape_panel' | 'wtk';
 type MoldingTypeName = 'crown_molding';
 
-export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price_type_default: boolean, apiPanelData: priceStandardPanel) => {
+export const getStandardPanelsPrice = (standard_panels: MaybeNull<PanelsFormType>, is_price_type_default: boolean, apiPanelData: priceStandardPanel):number => {
+    if (!standard_panels) return 0;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
     const standard_panel_price = standard_panel.reduce((acc, panel) => {
         const panelPriceData = apiPanelData.standard_panel.find(el => el.name === panel.name);
@@ -70,9 +71,29 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormType, is_price
     return standard_panel_price + shape_panel_price + wtk_price + crown_price;
 }
 
+export const initialStandardPanels: PanelsFormType = {
+    standard_panel: [],
+    shape_panel: [],
+    wtk: [],
+    crown_molding: 0
+}
+
 const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
     const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {price, standard_panels} = values;
+
+    useEffect(() => {
+        if (!standard_panels) setFieldValue('standard_panels', initialStandardPanels);
+    }, [standard_panels])
+
+    useEffect(() => {
+        const newPrice = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
+        if (price !== newPrice) {
+            setFieldValue('price', newPrice)
+        }
+    }, [values])
+
+    if (!standard_panels) return null;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
     const {id} = product;
     const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
@@ -89,13 +110,6 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
     const addMolding = (moldingName:MoldingTypeName) => {
         setFieldValue(`standard_panels.${moldingName}`, 1)
     }
-
-    useEffect(() => {
-        const newPrice = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
-        if (price !== newPrice) {
-            setFieldValue('price', newPrice)
-        }
-    }, [values])
     return (
         <Form className={s.accessories}>
             <div className={s.block}>

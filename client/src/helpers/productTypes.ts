@@ -1,9 +1,9 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 import {RoomCategoriesType} from "./roomTypes";
-import {number} from "yup";
-import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryType, LedAccessoriesFormType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
+import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -375,9 +375,10 @@ export type ProductTableDataType = {
 export type CustomPartTableDataType = {
     initialMaterialData: MaybeNull<materialsCustomPart>,
     initialSizes: InitialSizesType,
-    isDoorAccessories: boolean,
-    initialDoorAccessories: DoorAccessoryType[],
-    initialStandardPanels: PanelsFormType
+    initialDoorAccessories: MaybeNull<DoorAccessoryType[]>,
+    initialStandardPanels: MaybeNull<PanelsFormType>,
+    initialLEDAccessories: MaybeNull<LedAccessoriesFormType>,
+    standardDoorData: MaybeNull<DoorSizesArrType[]>
 }
 
 export type InitialSizesType = {
