@@ -7,14 +7,13 @@ import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import SelectField, {optionType} from "../../common/SelectField";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {getSelectValfromVal} from "../../helpers/helpers";
-import styles from "./../../common/Form.module.sass"
 import {getRTAClosetCustomPartPrice} from "../../helpers/calculatePrice";
 
 
 export const newItemRTACloset: RTAPartCustomType = {
     name: '',
-    'Width': '',
-    'Width Number': 0,
+    width: 0,
+    width_string: '',
     qty: 1
 }
 
@@ -23,12 +22,13 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({material
     const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {price, rta_closet_custom} = values;
     useEffect(() => {
-        if (!rta_closet_custom.length) setFieldValue('rta_closet_custom', [newItemRTACloset]);
+        if (!rta_closet_custom || !rta_closet_custom.length) setFieldValue('rta_closet_custom', [newItemRTACloset]);
     }, [rta_closet_custom])
     useEffect(() => {
         const newPrice = getRTAClosetCustomPartPrice(rta_closet_custom, materials);
         if (price !== newPrice) setFieldValue('price', newPrice);
     }, [values])
+    if (!rta_closet_custom) return null;
     return (
         <Form className={s.accessories}>
             <div className={s.block}>
@@ -88,7 +88,7 @@ const CustomPartRTAClosetItem: FC<{ arrayHelpers: FieldArrayRenderProps, part: R
                          options={dropdownOptions}
             />
             <div className={s.options}>
-                <ProductInputCustom name={`rta_closet_custom[${index}].Width`} label={'Width'}/>
+                <ProductInputCustom name={`rta_closet_custom[${index}].width_string`} label={'Width'}/>
             </div>
 
             <div className={s.row}>×

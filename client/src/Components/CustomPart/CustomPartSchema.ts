@@ -181,7 +181,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                         Yup.object().shape({
                             name: Yup.string().required('Required'),
                             qty: Yup.number().min(1, 'Min 1'),
-                            'Width': Yup.string()
+                            width_string: Yup.string()
                                 .required('Please wright down width')
                                 .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                                 .test('min',

@@ -3,11 +3,11 @@ import s from "../Product/product.module.sass";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {useField} from "formik";
 
-const LEDNumberPart: FC<{ name?: string, el: string,label?:string }> = ({name, el, label}) => {
-    const fieldName = name ? `${name}.${el}` : el
-    const [field, , helpers] = useField(fieldName)
+const LEDNumberPart: FC<{ el: string,label?:string }> = ({el, label}) => {
+    const [{value}, , helpers] = useField(el);
+    const qty = value ?? 0;
     const changeAmount = (type: changeAmountType) => {
-        const newQty = type === 'minus' ? field.value - 1 : field.value + 1;
+        const newQty = type === 'minus' ? qty - 1 : qty + 1;
         helpers.setValue(newQty)
     }
     return (
@@ -15,10 +15,10 @@ const LEDNumberPart: FC<{ name?: string, el: string,label?:string }> = ({name, e
             <div className={s.number}>
                 <h4>{label}</h4>
                 <div className={s.buttons}>
-                    <button value="minus" disabled={field.value <= 0} onClick={() => changeAmount('minus')}
+                    <button value="minus" disabled={qty <= 0} onClick={() => changeAmount('minus')}
                             type={"button"}>-
                     </button>
-                    {field.value}
+                    {qty}
                     <button value="plus" onClick={() => changeAmount('plus')} type={"button"}>+</button>
                 </div>
             </div>

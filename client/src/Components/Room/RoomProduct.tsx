@@ -32,6 +32,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
                                custom_part={product_or_custom as CustomPartType}
                                customPartData={customPartData}
                                initialCustomPartValues={initialCustomPartValues}
+                               productEditId={productEditId}
             />
         }
         case "cabinet":

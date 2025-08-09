@@ -902,9 +902,10 @@ const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], p
     return 1 + (coef_w + coef_h + coef_d)
 }
 
-export const getRTAClosetCustomPartPrice = (rta_closet_custom: RTAPartCustomType[], materials: RoomMaterialsFormType): number => {
+export const getRTAClosetCustomPartPrice = (rta_closet_custom: MaybeNull<RTAPartCustomType[]>, materials: RoomMaterialsFormType): number => {
+    if (!rta_closet_custom) return 0;
     const getItemPrice = (item: RTAPartCustomType): number => {
-        const {name, qty, 'Width Number': width} = item;
+        const {name, qty, width} = item;
         if (!qty || !name || !width) return 0;
         const getCoef = (materials: RoomMaterialsFormType): number => {
             const {box_material, box_color} = materials

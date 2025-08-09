@@ -4,7 +4,12 @@ import {
     addToCartCustomPart,
     useAppDispatch
 } from "../../helpers/helpers";
-import {CustomPartTableDataType, CustomPartType, MaybeEmpty, MaybeNull} from "../../helpers/productTypes";
+import {
+    CustomPartTableDataType,
+    CustomPartType,
+    MaybeNull,
+    MaybeUndefined
+} from "../../helpers/productTypes";
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import CustomPartLeft from "./CustomPartLeft";
@@ -13,8 +18,9 @@ import {colorOption} from "./CustomPartGolaProfile";
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {addProduct} from "../../store/reducers/roomSlice";
+import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
 import st from "../Profile/profile.module.sass";
+import {useNavigate} from "react-router-dom";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
@@ -71,7 +77,7 @@ export type CustomPartFormType = {
     door_accessories: MaybeNull<DoorAccessoryType[]>,
     standard_doors: MaybeNull<DoorType[]>,
     standard_panels: MaybeNull<PanelsFormType>,
-    rta_closet_custom: RTAPartCustomType[]
+    rta_closet_custom: MaybeNull<RTAPartCustomType[]>
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
@@ -82,11 +88,9 @@ export type RTAClosetAPIType = {
     width: number
     qty: number,
 }
-export type RTAPartCustomType = {
-    name: MaybeEmpty<RTAClosetCustomTypes>,
-    'Width': string,
-    'Width Number': number,
-    qty: number,
+
+export interface RTAPartCustomType extends RTAClosetAPIType {
+    width_string: string
 }
 
 type CustomPartFCType = {
@@ -94,17 +98,20 @@ type CustomPartFCType = {
     room_id: string,
     custom_part: CustomPartType,
     customPartData: CustomPartTableDataType,
-    initialCustomPartValues: CustomPartFormType
+    initialCustomPartValues: CustomPartFormType,
+    productEditId: MaybeUndefined<string>
 }
 
 const CustomPart: FC<CustomPartFCType> = ({
-                                            materials,
-                                            room_id,
-                                            custom_part,
-                                            customPartData,
-                                            initialCustomPartValues
-                                        }) => {
+                                              materials,
+                                              room_id,
+                                              custom_part,
+                                              customPartData,
+                                              initialCustomPartValues,
+                                              productEditId
+                                          }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     return (
         <Formik
             initialValues={initialCustomPartValues}
@@ -113,9 +120,18 @@ const CustomPart: FC<CustomPartFCType> = ({
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
                 const cartData = addToCartCustomPart(values, custom_part, room_id)
-                await dispatch(addProduct({product: cartData}));
-                resetForm();
-                setSubmitting(false)
+
+                if (productEditId) {
+                    await dispatch(updateProduct({product: cartData}));
+                    resetForm();
+                    navigate(-1);
+                } else {
+                    await dispatch(addProduct({product: cartData}));
+                    resetForm();
+                    setSubmitting(false)
+                }
+
+
             }}
         >
             <div className={st.product}>

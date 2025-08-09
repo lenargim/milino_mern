@@ -56,7 +56,7 @@ import {
     DoorType,
     getCustomPartStandardDoorPrice
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
-import React, {useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
@@ -402,13 +402,6 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
 
     const {id, product_type} = product;
 
-
-    const rta_closet_custom_api: RTAClosetAPIType[] = rta_closet_custom.map(el => ({
-        qty: el.qty,
-        name: el.name,
-        width: el["Width Number"]
-    }))
-
     let preparedProduct: CartAPI = {
         _id: '',
         room_id: roomId,
@@ -481,7 +474,6 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
     }
 
-
     //Door Accessories
     if (door_accessories) forceSetPath(preparedProduct, 'custom.accessories.door', door_accessories.filter(el => el.qty > 0));
 
@@ -498,7 +490,17 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     }
 
     if (standard_doors) forceSetPath(preparedProduct, 'custom.standard_doors', standard_doors.filter(el => el.qty > 0 && el.name));
-    if (rta_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.rta_closet', rta_closet_custom_api)
+
+
+    // RTA
+    if (rta_closet_custom) {
+        const rta_closet_custom_api: RTAClosetAPIType[] = rta_closet_custom.map(el => ({
+            qty: el.qty,
+            name: el.name,
+            width: el.width
+        }))
+        if (rta_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.rta_closet', rta_closet_custom_api)
+    }
     return preparedProduct;
 }
 
@@ -851,7 +853,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             if (type === "rta-closets") {
                 if (rta_closet) {
                     const rta_closet_front: RTAPartCustomType[] = rta_closet.map(el => {
-                        return {qty: el.qty, name: el.name, "Width Number": el.width, "Width": ''}
+                        return {qty: el.qty, name: el.name, width: el.width, width_string: getFraction(width)}
                     });
                     price = getRTAClosetCustomPartPrice(rta_closet_front, room);
                 }
@@ -1396,6 +1398,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
             })) : null;
 
+        const rtaClosetValues:MaybeNull<RTAPartCustomType[]> = rta_closet ? rta_closet.map(el => ({...el, width_string: getFraction(el.width)})) : null;
 
         return {
             'Width': width.toString(),
@@ -1411,7 +1414,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             door_accessories: doorAccessoriesValues,
             standard_doors: standardDoorValues,
             standard_panels: standard_panels ?? null,
-            rta_closet_custom: rta_closet ?? [],
+            rta_closet_custom: rtaClosetValues,
             'Note': note,
             price: price,
         }

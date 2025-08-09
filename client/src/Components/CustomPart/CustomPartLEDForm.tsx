@@ -6,8 +6,8 @@ import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
 import {CustomPartFormType, LedAccessoriesFormType} from "./CustomPart";
 import LEDNumberPart from "./CustomPartNumberPart";
-import {CustomAccessoriesType} from "../../helpers/cartTypes";
 import {MaybeNull} from "../../helpers/productTypes";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 export const initialLEDAccessories:LedAccessoriesFormType = {
     led_alum_profiles: [],
@@ -18,9 +18,8 @@ export const initialLEDAccessories:LedAccessoriesFormType = {
 }
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue, isSubmitting, errors} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {led_accessories, price} = values;
-
 
     useEffect(() => {
         if (!led_accessories) setFieldValue('led_accessories', [initialLEDAccessories]);
@@ -31,7 +30,7 @@ const CustomPartLEDForm: FC = () => {
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
-    }, [values])
+    }, [led_accessories])
 
     if (!led_accessories) return null;
     const {led_alum_profiles, led_gola_profiles} = led_accessories
@@ -43,13 +42,10 @@ const CustomPartLEDForm: FC = () => {
                     <>
                         {led_alum_profiles.map((profile, index) => (
                             <CustomPartAlumProfile key={index} profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
-                        <button type="button" className={['button yellow small'].join(' ')}
-                                onClick={() => arrayHelpers.push({
-                                    length: '',
-                                    qty: 1
-                                })}>+
-                            Aluminum Profile
-                        </button>
+                        <button type="button"
+                                className={['button yellow small'].join(' ')}
+                                onClick={() => arrayHelpers.push({length: '', qty: 1})}
+                        >+ Aluminum Profile</button>
                     </>
                 )}
                 />
@@ -86,8 +82,7 @@ const CustomPartLEDForm: FC = () => {
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart
-            </button>
+            <CustomPartSubmit />
         </Form>
     );
 };
@@ -100,9 +95,9 @@ export const getLEDProductPrice = (values: MaybeNull<LedAccessoriesFormType>): n
     const {
         led_alum_profiles,
         led_gola_profiles,
-        led_door_sensor,
-        led_dimmable_remote,
-        led_transformer,
+        led_door_sensor = 0,
+        led_dimmable_remote = 0,
+        led_transformer = 0,
     } = values;
     const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 2.55 * profile.qty), 0);
     const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 5.5 * profile.qty), 0);

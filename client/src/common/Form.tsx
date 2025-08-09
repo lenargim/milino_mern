@@ -291,7 +291,7 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
                                                                              label
                                                                          }) => {
     const [field] = useField(name);
-    const [fieldNumber, , helpers] = useField(name + ' Number');
+    const [fieldNumber, , helpers] = useField(name.replace('_string', ''));
     const result = numericQuantity(field.value) || '';
     useEffect(() => {
         if (fieldNumber.value !== result) helpers.setValue(result);

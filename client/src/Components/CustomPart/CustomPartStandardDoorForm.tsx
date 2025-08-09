@@ -27,7 +27,7 @@ const initialStandardDoor: DoorType = {
 
 const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string }> = ({customPart, color}) => {
     const {type} = customPart;
-    const {values, setFieldValue, errors, isSubmitting} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
     const {standard_doors, price} = values;
     const doorSizes = type === 'standard-doors' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
     const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
