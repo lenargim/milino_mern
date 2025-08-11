@@ -15,7 +15,7 @@ const ProductCornerBlock:FC<CornerBlockType> = ({isCornerChoose}) => {
             <h3>Corner</h3>
             <div className={s.options}>
                 {cornerArr.map((w, index) => <ProductRadioInput key={index}
-                                                                name={'Corner'}
+                                                                name="corner"
                                                                 value={w}/>)}
             </div>
         </div>

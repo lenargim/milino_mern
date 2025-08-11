@@ -8,7 +8,7 @@ export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
-    const {isAngle, product_type, middleSectionDefault} = product
+    const {isAngle, product_type, middleSectionDefault, isBlind} = product
     const blindDoorMinMax = settings.blindDoor;
     const minWidth = sizeLimit.width[0];
     const maxWidth = sizeLimit.width[1];
@@ -18,17 +18,21 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
     const maxDepth = !isAngle ? sizeLimit.depth[1] : sizeLimit.width[1];
 
     const schemaBasic = Yup.object({
-        'Width': Yup.number().required(),
-        isBlind: Yup.boolean(),
-        'Blind Width': Yup.number()
-            .when('isBlind', {
-                is: true,
-                then: (schema) => schema.required()
-            }),
-        'Height': Yup.number().required(),
-        'Depth': Yup.number().required(),
-        'Custom Depth': Yup.string()
-            .when('Depth', {
+        width: Yup.number().required(),
+        // isBlind: Yup.boolean(),
+        blind_width: Yup.number()
+            .test("isRequired", "Blind width is a required field", (val, {parent}) => {
+                if (isBlind) return !!val || parent.custom_blind_width
+            return true;
+        }),
+            // .when('isBlind', {
+            //     is: true,
+            //     then: (schema) => schema.required()
+            // }),
+        height: Yup.number().required(),
+        depth: Yup.number().required(),
+        custom_depth_string: Yup.string()
+            .when('depth', {
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down depth')
@@ -51,10 +55,10 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     )
 
             }),
-        'LED borders': Yup.array()
+        led_borders: Yup.array()
             .of(Yup.string().oneOf(borderOptions, 'Error')),
-        'LED alignment': Yup.string()
-            .when('LED borders', {
+        led_alignment: Yup.string()
+            .when('led_borders', {
                 is: (val: string[]) => val.length,
                 then: (schema) => schema
                     .required('Please choose alignment')
@@ -62,8 +66,8 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     .default('Center')
             })
         ,
-        'LED indent': Yup.string()
-            .when('LED alignment', {
+        led_indent_string: Yup.string()
+            .when('led_alignment', {
                 is: (val: string) => val && val !== 'Center',
                 then: (schema) => schema
                     .required('Required')
@@ -73,16 +77,16 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         `Indent should be lower than Depth`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
-                            const fullDepth = parent['Depth'] || parent['Custom Depth'];
+                            const fullDepth = parent['depth'] || parent['custom_depth'];
                             return numberVal < fullDepth
                         }
                     )
 
             }),
-        'Hinge opening': Yup.string().oneOf(hingeArr),
-        Options: Yup.array().of(Yup.string()),
+        hinge_opening: Yup.string().oneOf(hingeArr),
+        options: Yup.array().of(Yup.string()),
         glass_door: Yup.lazy((value, context) => {
-            const options = context?.parent?.Options ?? [];
+            const options = context?.parent?.options ?? [];
 
             const requiredIf = (index: number) => {
                 if (!options.includes('Glass Door')) return Yup.string().notRequired();
@@ -120,16 +124,16 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             ]).transform(() => padded);
         }),
         glass_shelf: Yup.string()
-            .when('Options', (options, field) =>
+            .when('options', (options, field) =>
                 options[0].includes('Glass Shelf') ? field.required('Glass Shelf is required') : field
             ),
-        'Note': Yup.string(),
+        note: Yup.string(),
         price: Yup.number().required().positive()
     });
 
     const schemaExtended = Yup.object({
-        'Custom Width': Yup.string()
-            .when('Width', {
+        custom_width_string: Yup.string()
+            .when('width', {
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down width')
@@ -151,8 +155,8 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         }
                     )
             }),
-        'Custom Blind Width': Yup.string()
-            .when(['isBlind', 'Blind Width'], {
+        custom_blind_width_string: Yup.string()
+            .when(['isBlind', 'blind_width'], {
                 is: (isBlind: boolean, blindWidth: number) => isBlind && blindWidth === 0,
                 then: (schema) => schema
                     .required('Please wright down blind width')
@@ -162,7 +166,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         `Width is too small`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
-                            const fullWidth = parent['Width'] || parent['Custom Width'];
+                            const fullWidth = parent['width'] || parent['custom_width'];
                             if (isAngle) {
                                 const maxCorner = blindDoorMinMax[1] * Math.cos(45);
                                 return numberVal >= Math.floor(fullWidth - maxCorner)
@@ -176,7 +180,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         `Width is too big`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
-                            const fullWidth = parent['Width'] || parent['Custom Width'];
+                            const fullWidth = parent['width'] || parent['custom_width'];
                             if (isAngle) {
                                 const minCorner = blindDoorMinMax[0] * Math.cos(45);
                                 return numberVal <= Math.floor(fullWidth - minCorner)
@@ -187,8 +191,8 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     )
 
             }),
-        'Custom Height': Yup.string()
-            .when('Height', {
+        custom_height_string: Yup.string()
+            .when('height', {
                 is: 0,
                 then: (schema) => schema
                     .required('Please wright down height')
@@ -210,7 +214,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         }
                     )
             }),
-        'Middle Section': Yup.string()
+        middle_section_string: Yup.string()
             .when([], {
                 is: () => middleSectionDefault && middleSectionDefault > 0,
                 then: (schema) => schema
@@ -221,7 +225,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         `Cutout height should be lower than cabinet height`,
                         (val: any, {parent}) => {
                             const numberVal = numericQuantity(val);
-                            const fullHeight = parent['Height'] || parent['Custom Height'];
+                            const fullHeight = parent['height'] || parent['custom_height'];
                             return numberVal < fullHeight
                         }
                     )

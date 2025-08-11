@@ -16,11 +16,11 @@ type CustomPartCabinet = {
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
     const {values, setFieldValue, errors, touched} = useFormikContext<CustomPartFormType>();
     const {
-        Material: material,
+        material,
         glass_door: [doorProfileVal],
-        'Width Number': widthNumber,
-        'Height Number': heightNumber,
-        'Depth Number': depthNumber,
+        width,
+        height,
+        depth,
         price
     } = values;
 
@@ -28,12 +28,12 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, mate
     const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {
         const newDepth = materials_array?.find(el => el.name === material)?.depth;
-        if (newDepth && depthNumber !== newDepth) setFieldValue('Depth Number', newDepth);
+        if (newDepth && depth !== newDepth) setFieldValue('depth', newDepth);
     }
     useEffect(() => {
         let newPrice;
         const finishColorCoef = getFinishColorCoefCustomPart(id, material, materials.door_color);
-        newPrice = +(getCustomPartPrice(id, widthNumber, heightNumber, depthNumber, material, doorProfileVal) * finishColorCoef).toFixed(1);
+        newPrice = +(getCustomPartPrice(id, width, height, depth, material, doorProfileVal) * finishColorCoef).toFixed(1);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }

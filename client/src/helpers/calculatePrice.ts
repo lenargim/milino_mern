@@ -44,8 +44,8 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
         case "Gola Base Cabinets":
             // Round +1 inch to width
             if (width > maxDataWidth + 1) return maxDataPrice;
+            const lastElIndex = priceData.length - 1;
             return priceData.find((data_el, index, arr) => {
-                const lastElIndex = arr.length - 1;
                 const delta_with_next_width = lastElIndex >= index+1 ? arr[index+1].width-data_el.width : 3;
                 let round_width = delta_with_next_width > 1 ? 1 : 0.95 ;
                 return data_el.width + round_width >= width

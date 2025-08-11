@@ -16,8 +16,8 @@ export type golaProfileType = {
 }
 
 export type golaProfileFormType = {
-    length: string,
-    ['length Number']: number,
+    length_string: string,
+    length: number,
     color: colorOption,
     qty: number,
 }
@@ -39,7 +39,7 @@ const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number, a
         <div className={s.row}>
             <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length"
-                                name={`[led_accessories.led_gola_profiles].${index}.length`}/>
+                                name={`[led_accessories.led_gola_profiles].${index}.length_string`}/>
             <ColorField options={colorsArr} name={`[led_accessories.led_gola_profiles].${index}.color`}/>
             <div className={s.row}>×
                 <div className={s.buttons}>

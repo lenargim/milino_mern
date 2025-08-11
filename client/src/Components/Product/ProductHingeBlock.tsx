@@ -11,7 +11,7 @@ const ProductHingeBlock: FC<HingeBlockType> = ({hingeArr}) => {
             <h3>Hinge opening</h3>
             <div className={s.options}>
                 {hingeArr.map((w, index) => <ProductRadioInput key={index}
-                                                               name={'Hinge opening'}
+                                                               name="hinge_opening"
                                                                value={w}/>)}
             </div>
         </div>

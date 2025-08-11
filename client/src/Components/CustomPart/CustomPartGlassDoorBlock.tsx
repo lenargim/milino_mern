@@ -13,6 +13,7 @@ const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }>
     const door_profiles = getProfileList(is_custom);
     const door_types = getGlassTypeList();
     const door_colors = getColorsList(type);
+
     return (
         <div className={s.blockWrap}>
             {door_profiles?.length ?

@@ -13,6 +13,7 @@ import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormType} from "./CustomPart";
 import {StandardDoorAPIType} from "../../helpers/cartTypes";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 export interface DoorType extends StandardDoorAPIType {
     name: string,
@@ -67,13 +68,13 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string 
             </div>
 
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
+            <CustomPartSubmit />
         </Form>
     );
 };
@@ -112,7 +113,7 @@ const DoorItem: FC<{ door: DoorType, index: number, remove: Function, doorSizesA
         <div className={s.row}>
             <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
             <SelectFieldInArr options={doorSizesArr}
-                              name={`standard_doors`}
+                              name="standard_doors"
                               val={selectVal}
                               arrIndex={index}
                               placeholder={'Door size'}/>

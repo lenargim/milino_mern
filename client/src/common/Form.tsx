@@ -36,6 +36,7 @@ interface textInputInterface extends InputInterface {
 interface PasswordInputInterface extends InputInterface {
     type: 'text' | 'password',
     label: string,
+
     [x: string]: any;
 }
 
@@ -107,7 +108,8 @@ export const PasswordInput: FC<PasswordInputInterface> = ({
 
     return (
         <div className={[styles.row, error && touched ? 'error' : null, className].join(' ')}>
-            {<button tabIndex={-1} type="button" onClick={handleChange} className={styles.eye}>{eyeIsOn ? <EyeOff/> : <EyeOn/>}</button>}
+            {<button tabIndex={-1} type="button" onClick={handleChange} className={styles.eye}>{eyeIsOn ? <EyeOff/> :
+                <EyeOn/>}</button>}
             <Field
                 {...props}
                 className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
@@ -194,14 +196,17 @@ export const RadioInputGrain: FC<RadioInterface> = ({name, value, className, img
     )
 }
 
+
 export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> = ({
                                                                                       name,
                                                                                       value,
                                                                                       className,
                                                                                       nullable = false
                                                                                   }) => {
+    const labelName = name.replace('_', ' ')
     const [, , helpers] = useField(name)
-    const label = nullable ? value : value ? getFraction(value) : `Custom ${name}`;
+    const labelCustom =nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
+
 
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
@@ -216,19 +221,20 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
                 value={value}
                 id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`}
-                   className={styles.radioLabel}><span>{label}</span></label>
+                   className={styles.radioLabel}><span>{labelCustom}</span></label>
         </div>
     )
 }
 
 
 export const ProductRadioInputStandardCustom: FC<ProductDimensionRadioCustomInterface> = ({
-                                                                                      name,
-                                                                                      value,
-                                                                                      className
-                                                                                  }) => {
-    const stringFieldName = name.replace(' Number', '')
-    const [, , helpers] = useField(name);
+                                                                                              name,
+                                                                                              value,
+                                                                                              className
+                                                                                          }) => {
+    const stringFieldName = name;
+    const numberName = name.replace('_string', '');
+    const [, , helpers] = useField(numberName);
     const [, , helpersString] = useField(stringFieldName);
 
     function convert(input: HTMLInputElement): void {
@@ -241,10 +247,10 @@ export const ProductRadioInputStandardCustom: FC<ProductDimensionRadioCustomInte
             <Field
                 onChange={(e: any) => convert(e.target)}
                 type="radio"
-                name={name}
+                name={numberName}
                 value={value}
-                id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`}
+                id={`${numberName}_${value}`}/>
+            <label htmlFor={`${numberName}_${value}`}
                    className={styles.radioLabel}><span>{value}</span></label>
         </div>
     )
@@ -290,8 +296,9 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
                                                                              name,
                                                                              label
                                                                          }) => {
+    const numberName = name.replace('_string', '')
     const [field] = useField(name);
-    const [fieldNumber, , helpers] = useField(name.replace('_string', ''));
+    const [fieldNumber, , helpers] = useField(numberName);
     const result = numericQuantity(field.value) || '';
     useEffect(() => {
         if (fieldNumber.value !== result) helpers.setValue(result);
@@ -310,13 +317,13 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
             <Field
                 className={'hidden'}
                 type="number"
-                name={name + ' Number'}
-                id={name}
+                name={numberName}
+                id={numberName}
                 readOnly={true}
             />
             <div className={styles.error}>
                 <ErrorMessage name={name} component="span"/>
-                <NestedErrorMessage name={fieldNumber.name} />
+                <NestedErrorMessage name={fieldNumber.name}/>
             </div>
         </div>
     )
@@ -327,7 +334,7 @@ export const ProductOptionsInput: FC<ProductOptionsRadioInterface> = ({name, cla
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
-                type="checkbox" name={'Options'} value={value}
+                type="checkbox" name="options" value={value}
                 id={value}/>
             <label htmlFor={value}
                    className={styles.radioLabel}><span>{value}</span></label>

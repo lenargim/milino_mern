@@ -9,14 +9,14 @@ import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 import CustomPartSubmit from "./CustomPartSubmit";
 
 export type CustomPartFormTypeLayout = {
-    Width: string,
-    Height: string,
-    Depth: string,
-    ['Width Number']: number,
-    ['Height Number']: number,
-    ['Depth Number']: number,
-    Material: string,
-    Note: string,
+    width_string: string,
+    height_string: string,
+    depth_string: string,
+    width: number,
+    height: number,
+    depth: number,
+    material: string,
+    note: string,
     price: number,
     glass_door: string[],
     glass_shelf: string
@@ -72,7 +72,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <div className={s.block}>
                     <h3>{type !== 'pvc' ? 'Width' : 'PVC Length(ft)'}</h3>
                     <div className={s.options}>
-                        <ProductInputCustom name={'Width'}/>
+                        <ProductInputCustom name="width_string"/>
                     </div>
                 </div> : null}
 
@@ -80,7 +80,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
             <div className={s.block}>
                 <h3>Height</h3>
                 <div className={s.options}>
-                    <ProductInputCustom name={'Height'}/>
+                    <ProductInputCustom name="height_string"/>
                 </div>
             </div> : null}
 
@@ -88,7 +88,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <div className={s.block}>
                     <h3>Depth</h3>
                     <div className={s.options}>
-                        <ProductInputCustom name={'Depth'}/>
+                        <ProductInputCustom name="depth_string"/>
                     </div>
                 </div> : null
             }
@@ -98,7 +98,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
                 <h3>Material</h3>
                 <div className={s.options}>
                     {filtered_materials_array.map((m, index) => <ProductRadioInput key={index}
-                                                                          name={'Material'}
+                                                                          name="material"
                                                                           value={m.name}/>)}
                 </div>
               </div>
@@ -107,7 +107,7 @@ export const CustomPartLayout:FC<CustomPartLayout> = ({product, showDepthBlock, 
             {showGlassShelfBlock && <CustomPartGlassShelfBlock product={product}/>}
 
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>

@@ -10,8 +10,8 @@ export type AlProfileType = {
 }
 
 export type alProfileFormType = {
-    length: string,
-    'length Number': number,
+    length_string: string,
+    length: number,
     qty: number
 }
 
@@ -30,7 +30,7 @@ const CustomPartAlumProfile: FC<{ profile: alProfileFormType, index: number, arr
     return (
         <div className={s.row}>
             <button className={s.close} onClick={() => remove(index)}>×</button>
-            <ProductInputCustom label="Length" name={`[led_accessories.led_alum_profiles].${index}.length`}/>
+            <ProductInputCustom label="Length" name={`[led_accessories.led_alum_profiles].${index}.length_string`}/>
             <div className={s.row}>×
                 <div className={s.buttons}>
                     <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')} type={"button"}>-

@@ -25,42 +25,42 @@ const ProductCabinet: FC<CabinetType> = ({
         product_type,
     } = product;
     const {materialData, tablePriceData, sizeLimit, productPriceData} = productData
-    const {values, setFieldValue} = useFormikContext<ProductFormType>();
+    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
     const {doorValues} = productPriceData;
     const {
-        ['Width']: width,
-        ['Blind Width']: blindWidth,
-        ['Height']: height,
-        ['Depth']: depth,
-        ['Custom Width Number']: customWidthNumber,
-        ['Custom Height Number']: customHeightNumber,
-        ['Custom Depth Number']: customDepthNumber,
-        ['Custom Blind Width Number']: customBlindWidthNumber,
-        ['Middle Section Number']: middleSectionNumber,
-        Corner: corner,
-        'Doors': doors,
-        Options: chosenOptions,
+        width,
+        blind_width,
+        height,
+        depth,
+        custom_width,
+        custom_height,
+        custom_depth,
+        custom_blind_width,
+        middle_section,
+        corner,
+        doors_amount: doors,
+        options: chosenOptions,
         glass_door: [door_profile, door_glass_type, door_glass_color],
         glass_shelf: shelf_glass_color,
-        ['Hinge opening']: hingeOpening,
-        'LED borders': ledBorders,
-        ['LED alignment']: led_alignment,
-        ['LED indent']: led_indent,
-        Note: note,
+        hinge_opening,
+        led_borders,
+        led_alignment,
+        led_indent_string,
+        note,
         image_active_number,
-        price: price,
+        price,
     } = values;
-    const realWidth = +width || +customWidthNumber || 0;
-    const realBlindWidth = +blindWidth || +customBlindWidthNumber || 0;
-    const realHeight = +height || +customHeightNumber || 0;
-    const realDepth = !isAngle ? (+depth || +customDepthNumber || 0) : realWidth;
-    const realMiddleSection = middleSectionNumber || 0
+    const realWidth = width || +custom_width || 0;
+    const realBlindWidth = +blind_width || +custom_blind_width || 0;
+    const realHeight = height || +custom_height || 0;
+    const realDepth = !isAngle ? (+depth || +custom_depth || 0) : realWidth;
+    const realMiddleSection = middle_section || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const [hingeArr, setHingeArr] = useState<string[]>(getHingeArr(doorArr || [], id, realWidth, realHeight, product_type));
     useEffect(() => {
-        if (isAngle && realWidth !== depth) setFieldValue('Depth', realWidth);
-        const doorNum = checkDoors(+doors, doorArr, hingeOpening)
-        if (doors !== doorNum) setFieldValue('Doors', doorNum);
+        if (isAngle && realWidth !== depth) setFieldValue('depth', realWidth);
+        const doorNum = checkDoors(+doors, doorArr, hinge_opening)
+        if (doors !== doorNum) setFieldValue('doors_amount', doorNum);
 
         if (price !== totalPrice) setFieldValue('price', totalPrice);
         if (newType !== image_active_number) setFieldValue('image_active_number', newType);
@@ -71,43 +71,43 @@ const ProductCabinet: FC<CabinetType> = ({
     useEffect(() => {
         if (product_type === 'standard') {
             const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
-            if (!newHeightRange.includes(height)) setFieldValue('Height', newHeightRange[0]);
+            if (!newHeightRange.includes(height)) setFieldValue('height', newHeightRange[0]);
         }
     }, [width]);
     useEffect(() => {
         setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
     }, [width, height])
     useEffect(() => {
-        if (!hingeArr.includes(hingeOpening)) setFieldValue('Hinge opening', hingeArr[0]);
-    }, [hingeArr, hingeOpening])
+        if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
+    }, [hingeArr, hinge_opening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const cabinetItem: CartAPIImagedType = {
         _id: '',
         room_id: '',
         product_id: id,
-        product_type: product_type,
+        product_type,
         amount: 1,
         width: realWidth,
         height: realHeight,
         depth: realDepth,
         blind_width: realBlindWidth,
         middle_section: realMiddleSection,
-        corner: corner,
-        hinge: hingeOpening,
+        corner,
+        hinge: hinge_opening,
         options: chosenOptions,
         glass: {
             door: [door_profile, door_glass_type, door_glass_color],
             shelf: shelf_glass_color,
         },
         led: {
-            border: ledBorders,
+            border: led_borders,
             alignment: led_alignment,
-            indent: led_indent
+            indent: led_indent_string
         },
         custom: undefined,
         image_active_number: newType,
-        note: note,
+        note,
     };
     const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
     return (

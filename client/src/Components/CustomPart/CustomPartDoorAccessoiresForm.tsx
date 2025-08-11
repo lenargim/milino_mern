@@ -7,6 +7,7 @@ import {convertDoorAccessories} from "../../helpers/helpers";
 import CustomPartDoorAccessoryNumberPart from "./CustomPartDoorAccessoryNumberPart";
 import {MaybeNull} from "../../helpers/productTypes";
 import DA from "../../api/doorAccessories.json";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 const doorAccessories = DA as DoorAccessoryFront[]
 export const initialDoorAccessories:DoorAccessoryType[] = doorAccessories.map(el => ({...el, qty: 0}));
@@ -55,13 +56,13 @@ const DoorAccessoriesForm: FC = () => {
 
 
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
+            <CustomPartSubmit />
         </Form>
     );
 };

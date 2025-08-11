@@ -77,11 +77,11 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
                                             }) => {
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {
-        Options: chosenOptions,
+        options: chosenOptions,
         glass_door,
         glass_shelf: shelfGlassColor,
-        Width: width,
-        Height: height,
+        width,
+        height,
         image_active_number
     } = values;
     const attrs = getAttributes(attributes, image_active_number);
@@ -92,12 +92,12 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
     const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption);
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {
-            glass_color && setFieldValue('Door Glass Color', '');
-            chosenOptions.includes('Glass Door') && setFieldValue('Options', removeOptionFromOptions(chosenOptions, 'Glass Door'));
+            glass_color && setFieldValue('glass_door', '');
+            chosenOptions.includes('Glass Door') && setFieldValue('options', removeOptionFromOptions(chosenOptions, 'Glass Door'));
         }
         if (!isEnableGlassShelfOption) {
             shelfGlassColor && setFieldValue('glass_shelf', '');
-            chosenOptions.includes('Glass Shelf') && setFieldValue('Options', removeOptionFromOptions(chosenOptions, 'Glass Shelf'));
+            chosenOptions.includes('Glass Shelf') && setFieldValue('options', removeOptionFromOptions(chosenOptions, 'Glass Shelf'));
         }
     }, [width, height]);
 
@@ -111,7 +111,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
                 <div className={s.block}>
                     <h3>Options</h3>
                     <div className={s.options} role="group">
-                        {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name={`Options`}
+                        {filteredOptionsFront.map((w, index) => <ProductOptionsInput key={index} name="options"
                                                                                      value={w}/>)}
                     </div>
                 </div>

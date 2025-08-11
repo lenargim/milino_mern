@@ -31,7 +31,7 @@ const CustomPartGlassShelfBlock: FC<{ product: CustomPartType }> = ({product}) =
                 <div className={s.block}>
                     <h3>Glass Color</h3>
                     <SelectField label="Color"
-                                 name={'glass_shelf'}
+                                 name="glass_shelf"
                                  val={getSelectValfromVal(glassShelfVal, glassPrepared)}
                                  options={glassPrepared}/>
                 </div> : null}

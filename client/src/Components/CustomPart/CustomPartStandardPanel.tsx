@@ -16,6 +16,7 @@ import {customStyles, optionType} from "../../common/SelectField";
 import {getdimensionsRow} from "../../helpers/helpers";
 import settings from '../../api/settings.json'
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 export type PanelsFormType = {
     standard_panel: PanelType[],
@@ -78,7 +79,7 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
                                                                                                         product,
                                                                                                         materials
                                                                                                     }) => {
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price, standard_panels} = values;
 
     useEffect(() => {
@@ -90,7 +91,7 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
         if (price !== newPrice) {
             setFieldValue('price', newPrice)
         }
-    }, [values])
+    }, [standard_panels])
 
     if (!standard_panels) return null;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
@@ -190,13 +191,13 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
             </div>
 
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
+            <CustomPartSubmit />
         </Form>
     );
 };

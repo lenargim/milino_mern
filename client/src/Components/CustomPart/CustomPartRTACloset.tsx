@@ -8,6 +8,7 @@ import SelectField, {optionType} from "../../common/SelectField";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {getSelectValfromVal} from "../../helpers/helpers";
 import {getRTAClosetCustomPartPrice} from "../../helpers/calculatePrice";
+import CustomPartSubmit from "./CustomPartSubmit";
 
 
 export const newItemRTACloset: RTAPartCustomType = {
@@ -27,7 +28,7 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({material
     useEffect(() => {
         const newPrice = getRTAClosetCustomPartPrice(rta_closet_custom, materials);
         if (price !== newPrice) setFieldValue('price', newPrice);
-    }, [values])
+    }, [rta_closet_custom, materials])
     if (!rta_closet_custom) return null;
     return (
         <Form className={s.accessories}>
@@ -53,13 +54,13 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({material
                 {/*{meta.touched && meta.error && <div className={styles.error}>{meta.error}</div>}*/}
             </div>
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <button type="submit" className={['button yellow'].join(' ')} disabled={isSubmitting}>Add to cart</button>
+            <CustomPartSubmit />
         </Form>
     );
 };

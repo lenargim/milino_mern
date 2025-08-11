@@ -24,13 +24,13 @@ import {useNavigate} from "react-router-dom";
 
 export type LedAccessoriesFormType = {
     led_alum_profiles: {
-        length: string,
-        ['length Number']: number,
+        length_string: string,
+        length: number,
         qty: number
     }[],
     led_gola_profiles: {
-        length: string,
-        ['length Number']: number,
+        length_string: string,
+        length: number,
         color: colorOption,
         qty: number,
     }[],
@@ -43,11 +43,12 @@ type FilterAccessory = 'aventos' | 'hinge' | 'PTO' | 'servo';
 
 export type DoorAccessoryFront = {
     id: number,
-    value: string,
     label: string,
     filter: FilterAccessory,
-    price: number
+    price: number,
+    value: string,
 }
+
 
 export type DoorAccessoryAPIType = {
     value: string,
@@ -56,20 +57,20 @@ export type DoorAccessoryAPIType = {
 
 export interface DoorAccessoryType extends DoorAccessoryAPIType {
     id: number,
-    filter: FilterAccessory,
     label: string,
+    filter: FilterAccessory,
     price: number
 }
 
 export type CustomPartFormType = {
-    Width: string,
-    Height: string,
-    Depth: string,
-    ['Width Number']: number,
-    ['Height Number']: number,
-    ['Depth Number']: number,
-    Material: string,
-    Note: string,
+    width: number,
+    height: number,
+    depth: number,
+    width_string: string,
+    height_string: string,
+    depth_string: string,
+    material: string,
+    note: string,
     price: number,
     glass_door: string[],
     glass_shelf: string,
@@ -119,7 +120,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, custom_part, room_id)
+                const cartData = addToCartCustomPart(values, custom_part, room_id,productEditId)
 
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));

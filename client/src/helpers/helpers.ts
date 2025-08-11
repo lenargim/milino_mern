@@ -328,33 +328,33 @@ export const getCustomCabinetString = (isStandard: IsStandardOptionsType): strin
 export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {id, product_type} = product
     const {
-        'Width': width,
-        'Blind Width': blindWidth,
-        'Height': height,
-        'Depth': depth,
-        'Custom Depth Number': customDepth,
-        'Hinge opening': hinge,
-        'Corner': corner,
-        Options: chosenOptions,
+        width,
+        blind_width,
+        height,
+        depth,
+        custom_depth,
+        hinge_opening,
+        corner,
+        options: chosenOptions,
         glass_door,
         glass_shelf,
-        'Note': note,
-        'LED borders': ledBorders,
-        'LED alignment': ledAlignment,
-        'LED indent': ledIndent,
+        note,
+        led_borders,
+        led_alignment,
+        led_indent_string,
 
         // Excluded in standard cabinet
-        'Custom Width Number': customWidth,
-        'Custom Height Number': customHeight,
-        'Custom Blind Width Number': customBlindWidth,
-        'Middle Section Number': middleSection,
+        custom_width,
+        custom_height,
+        custom_blind_width,
+        middle_section,
     } = values;
 
-    const realW = width || customWidth || 0;
-    const realH = height || customHeight || 0;
-    const realD = depth || customDepth || 0;
-    const realMiddle = middleSection || 0
-    const realBlind = blindWidth || customBlindWidth || 0;
+    const realW = width || +custom_width || 0;
+    const realH = height || +custom_height || 0;
+    const realD = depth || +custom_depth || 0;
+    const realMiddle = +middle_section || 0
+    const realBlind = +blind_width || +custom_blind_width || 0;
 
     return {
         _id: productEditId ?? '',
@@ -367,7 +367,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         depth: realD,
         blind_width: realBlind,
         middle_section: realMiddle,
-        hinge: hinge,
+        hinge: hinge_opening,
         corner: corner,
         options: chosenOptions,
         glass: {
@@ -375,22 +375,22 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             shelf: glass_shelf,
         },
         led: {
-            border: ledBorders,
-            alignment: ledAlignment,
-            indent: ledIndent,
+            border: led_borders,
+            alignment: led_alignment,
+            indent: led_indent_string,
         },
-        note: note,
+        note,
         custom: undefined
     }
 }
 
-export const addToCartCustomPart = (values: CustomPartFormType, product: CustomPartType, roomId: string): CartAPI => {
+export const addToCartCustomPart = (values: CustomPartFormType, product: CustomPartType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {
-        'Width Number': width,
-        'Height Number': height,
-        'Depth Number': depth,
-        'Material': material,
-        'Note': note,
+        width,
+        height,
+        depth,
+        material,
+        note,
         glass_door,
         glass_shelf,
         door_accessories,
@@ -403,7 +403,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     const {id, product_type} = product;
 
     let preparedProduct: CartAPI = {
-        _id: '',
+        _id: productEditId ?? '',
         room_id: roomId,
         product_id: id,
         product_type: product_type,
@@ -458,11 +458,11 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         } = led_accessories;
 
         const led_alum_profiles_api = led_alum_profiles.map(el => ({
-            length: el["length Number"],
+            length: el.length,
             qty: el.qty
         }));
         const led_gola_profiles_api = led_gola_profiles.map(el => ({
-            length: el["length Number"],
+            length: el.length,
             qty: el.qty,
             color: el.color
         }));
@@ -1201,32 +1201,31 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     } = productData
     if (!cartItemValues) {
         return {
-            'Width': widthRange[0],
-            isBlind: isBlind,
-            'Blind Width': blindWidth,
-            'Height': heightRange[0],
-            'Depth': depthRange[0],
-            'Custom Width': '',
-            'Custom Blind Width': '',
-            'Custom Height': '',
-            'Custom Depth': '',
-            'Custom Width Number': '',
-            'Custom Blind Width Number': '',
-            'Custom Height Number': '',
-            'Custom Depth Number': '',
-            'Middle Section': middleSection,
-            'Middle Section Number': middleSectionNumber,
-            'Doors': 0,
-            'Hinge opening': '',
-            'Corner': cornerTable,
-            'Options': [],
-            'LED borders': [],
-            'LED alignment': ledAlignment,
-            'LED indent': '',
+            width: widthRange[0],
+            blind_width: blindWidth,
+            height: heightRange[0],
+            depth: depthRange[0],
+            custom_width_string: '',
+            custom_blind_width_string: '',
+            custom_height_string: '',
+            custom_depth_string: '',
+            custom_width: '',
+            custom_blind_width: '',
+            custom_height: '',
+            custom_depth: '',
+            middle_section_string: middleSection,
+            middle_section: middleSectionNumber,
+            doors_amount: 0,
+            hinge_opening: '',
+            corner: cornerTable,
+            options: [],
+            led_borders: [],
+            led_alignment: ledAlignment,
+            led_indent_string: '',
             glass_door: ['', '', ''],
             glass_shelf: '',
             image_active_number: 1,
-            'Note': '',
+            note: '',
             price: 0,
         }
     }
@@ -1258,33 +1257,32 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const doors = checkDoors(0, doorArr, hinge)
 
     return {
-        'Width': isStandardWidth ? width : 0,
-        isBlind: isBlind,
-        'Blind Width': isBlindStandard ? blind_width : "",
-        'Height': isStandardHeight ? height : 0,
-        'Depth': isStandardDepth ? depth : 0,
-        'Custom Width': !isStandardWidth ? getFraction(width) : '',
-        'Custom Blind Width': !isBlindStandard ? getFraction(blind_width) : "",
-        'Custom Height': !isStandardHeight ? getFraction(height) : '',
-        'Custom Depth': !isStandardDepth ? getFraction(depth) : '',
-        'Custom Width Number': !isStandardWidth ? width : '',
-        'Custom Blind Width Number': !isBlindStandard ? blind_width : "",
-        'Custom Height Number': !isStandardHeight ? height : '',
-        'Custom Depth Number': !isStandardDepth ? depth : '',
-        'Middle Section': getFraction(middle_section),
-        'Middle Section Number': middle_section,
-        'Doors': doors,
-        'Hinge opening': hinge,
-        'Corner': corner,
-        'Options': options,
-        'LED borders': led?.border || [],
-        'LED alignment': led?.alignment || '',
-        'LED indent': led?.indent || '',
+        width: isStandardWidth ? width : 0,
+        blind_width: isBlindStandard ? blind_width : "",
+        height: isStandardHeight ? height : 0,
+        depth: isStandardDepth ? depth : 0,
+        custom_width_string: !isStandardWidth ? getFraction(width) : '',
+        custom_blind_width_string: !isBlindStandard ? getFraction(blind_width) : "",
+        custom_height_string: !isStandardHeight ? getFraction(height) : '',
+        custom_depth_string: !isStandardDepth ? getFraction(depth) : '',
+        custom_width: !isStandardWidth ? width : '',
+        custom_blind_width: !isBlindStandard ? blind_width : "",
+        custom_height: !isStandardHeight ? height : '',
+        custom_depth: !isStandardDepth ? depth : '',
+        middle_section_string: getFraction(middle_section),
+        middle_section: middle_section,
+        doors_amount: doors,
+        hinge_opening: hinge,
+        corner,
+        options,
+        led_borders: led?.border || [],
+        led_alignment: led?.alignment || '',
+        led_indent_string: led?.indent || '',
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
-        'Note': note,
-        price: price,
+        note,
+        price,
     }
 
 }
@@ -1343,13 +1341,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
 
     if (!cartItemValues) {
         return {
-            'Width': initial_width.toString(),
-            'Height': initial_height.toString(),
-            'Depth': initial_depth.toString(),
-            'Width Number': initial_width,
-            'Height Number': initial_height,
-            'Depth Number': initial_depth,
-            'Material': initialMaterialData?.name || '',
+            width_string: initial_width.toString(),
+            height_string: initial_height.toString(),
+            depth_string: initial_depth.toString(),
+            width: initial_width,
+            height: initial_height,
+            depth: initial_depth,
+            material: initialMaterialData?.name || '',
             glass_door: ['', '', ''],
             glass_shelf: '',
             led_accessories: initialLEDAccessories,
@@ -1357,7 +1355,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_doors: null,
             standard_panels: initialStandardPanels,
             rta_closet_custom: [],
-            'Note': '',
+            note: '',
             price: 0,
         }
     } else {
@@ -1366,13 +1364,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories ? {
             led_alum_profiles: accessories.led_alum_profiles.map(el => ({
                 qty: el.qty,
-                length: getFraction(el.length),
-                'length Number': el.length
+                length_string: getFraction(el.length),
+                length: el.length
             })),
             led_gola_profiles: accessories.led_gola_profiles.map(el => ({
                 qty: el.qty,
-                length: getFraction(el.length),
-                'length Number': el.length,
+                length_string: getFraction(el.length),
+                length: el.length,
                 color: el.color
             })),
             led_door_sensor: accessories.led_door_sensor,
@@ -1381,33 +1379,43 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         } : null;
 
         const doorAccessories = DA as DoorAccessoryFront[]
-        const doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = accessories?.door ?
-            accessories.door.map((el, index) => {
-                return {
-                    id: index,
-                    qty: el.qty,
-                    value: el.value,
-                    filter: doorAccessories[index].filter,
-                    label: doorAccessories[index].label,
-                    price: doorAccessories[index].price
+        let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
+        if (accessories && accessories.door ) {
+            doorAccessoriesValues = doorAccessories.map(el => {
+                const {value, id, price, label, filter} = el;
+                let qty:number = 0;
+                if (accessories.door) {
+                    qty = accessories.door.find(el => el.value === value)?.qty ?? 0;
                 }
-            }) : null;
+                return {
+                    id,
+                    label,
+                    filter,
+                    price,
+                    value,
+                    qty
+                }
+            })
+        }
 
         const standardDoorValues: MaybeNull<DoorType[]> = standardDoorData && standard_doors ?
             standard_doors.map(el => ({
                 ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
             })) : null;
 
-        const rtaClosetValues:MaybeNull<RTAPartCustomType[]> = rta_closet ? rta_closet.map(el => ({...el, width_string: getFraction(el.width)})) : null;
+        const rtaClosetValues: MaybeNull<RTAPartCustomType[]> = rta_closet ? rta_closet.map(el => ({
+            ...el,
+            width_string: getFraction(el.width)
+        })) : null;
 
         return {
-            'Width': width.toString(),
-            'Height': height.toString(),
-            'Depth': depth.toString(),
-            'Width Number': width,
-            'Height Number': height,
-            'Depth Number': depth,
-            'Material': material ?? '',
+            width_string: width.toString(),
+            height_string: height.toString(),
+            depth_string: depth.toString(),
+            width,
+            height,
+            depth,
+            material: material ?? '',
             glass_door: glass?.door ?? ['', '', ''],
             glass_shelf: glass?.shelf ?? '',
             led_accessories: LEDAccessoriesValues,
@@ -1415,7 +1423,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_doors: standardDoorValues,
             standard_panels: standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
-            'Note': note,
+            note,
             price: price,
         }
     }

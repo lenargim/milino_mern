@@ -53,10 +53,10 @@ const ProductLayout: FC<CabinetFormType> = ({
 
     const {filteredOptions} = productPriceData;
     const {
-        Width: width,
-        Height: height,
-        Depth: depth,
-        'Blind Width': blindWidth,
+        width,
+        height,
+        depth,
+        blind_width,
         price
     } = values;
 
@@ -73,19 +73,21 @@ const ProductLayout: FC<CabinetFormType> = ({
                     <h3>Width</h3>
                     <div className={s.options}>
                         {widthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
-                                                                                         name={'Width'}
+                                                                                         name={'width'}
                                                                                          value={w}/>)}
-                        {!width && <ProductInputCustom name={'Custom Width'}/>}
+                        {!width && <ProductInputCustom name="custom_width_string"/>}
                     </div>
                 </div> : null}
             {showBlindWidthBlock ?
                 <div className={s.block}>
                     <h3>Blind width</h3>
                     <div className={s.options}>
-                        {blindArr && blindArr.map((w, index) => <ProductRadioInputCustom key={index}
-                                                                                         name={'Blind Width'}
-                                                                                         value={w}/>)}
-                        {!blindWidth && <ProductInputCustom name={'Custom Blind Width'}/>}
+                        {blindArr && blindArr.map((w, index) => <ProductRadioInputCustom
+                            key={index}
+                            name={'blind_width'}
+                            value={w}
+                        />)}
+                        {!blind_width && <ProductInputCustom name="custom_blind_width_string"/>}
                     </div>
                 </div> : null
             }
@@ -93,9 +95,9 @@ const ProductLayout: FC<CabinetFormType> = ({
                 <h3>Height</h3>
                 <div className={s.options}>
                     {heightRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
-                                                                                      name={'Height'}
+                                                                                      name={'height'}
                                                                                       value={w}/>)}
-                    {!height && <ProductInputCustom name={'Custom Height'}/>}
+                    {!height && <ProductInputCustom name="custom_height_string"/>}
                 </div>
             </div>
             <div className={s.divider}>
@@ -104,23 +106,23 @@ const ProductLayout: FC<CabinetFormType> = ({
                         <h3>Depth</h3>
                         <div className={s.options}>
                             {depthRangeWithCustom.map((w, index) => <ProductRadioInputCustom key={index}
-                                                                                             name={'Depth'}
+                                                                                             name={'depth'}
                                                                                              value={w}/>)}
-                            {!depth && <ProductInputCustom name={'Custom Depth'}/>}
+                            {!depth && <ProductInputCustom name="custom_depth_string"/>}
                         </div>
                     </div>
                     : null}
                 {showMiddleSectionBlock &&
                 <div className={s.block}>
                   <h3>Cutout Height</h3>
-                  <ProductInputCustom name={'Middle Section'}/>
+                  <ProductInputCustom name="middle_section_string"/>
                 </div>
                 }
             </div>
 
             {showHingeBlock ? <ProductHingeBlock hingeArr={hingeArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
-            <ProductLED hasLedBlock={hasLedBlock}/>
+            {hasLedBlock ? <ProductLED/> : null}
             <ProductOptionsBlock filteredOptions={filteredOptions}
                                  isProductStandard={product_type === "standard"}
                                  id={id}
@@ -128,7 +130,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             />
 
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>

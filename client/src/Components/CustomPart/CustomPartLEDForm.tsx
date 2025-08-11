@@ -18,7 +18,7 @@ export const initialLEDAccessories:LedAccessoriesFormType = {
 }
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
     const {led_accessories, price} = values;
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const CustomPartLEDForm: FC = () => {
                             <CustomPartAlumProfile key={index} profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
                         <button type="button"
                                 className={['button yellow small'].join(' ')}
-                                onClick={() => arrayHelpers.push({length: '', qty: 1})}
+                                onClick={() => arrayHelpers.push({length_string: '', qty: 1})}
                         >+ Aluminum Profile</button>
                     </>
                 )}
@@ -58,7 +58,7 @@ const CustomPartLEDForm: FC = () => {
                             <CustomPartGolaProfile key={index}  profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
                         <button type="button" className={['button yellow small'].join(' ')}
                                 onClick={() => arrayHelpers.push({
-                                    length: '',
+                                    length_string: '',
                                     color: 'Black',
                                     qty: 1
                                 })}>+
@@ -76,7 +76,7 @@ const CustomPartLEDForm: FC = () => {
                 <LEDNumberPart el={'led_accessories.led_transformer'} label="Transformer"/>
             </div>
             <div className={s.block}>
-                <TextInput type={"text"} label={'Note'} name="Note"/>
+                <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
             <div className={s.total}>
                 <span>Total: </span>
@@ -99,8 +99,8 @@ export const getLEDProductPrice = (values: MaybeNull<LedAccessoriesFormType>): n
         led_dimmable_remote = 0,
         led_transformer = 0,
     } = values;
-    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 2.55 * profile.qty), 0);
-    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile["length Number"] * 5.5 * profile.qty), 0);
+    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
+    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
     const dimRemotePrice = led_dimmable_remote * 100;
     const doorSensorPrice = led_door_sensor * 150;
     const transformerPrice = led_transformer * 50;

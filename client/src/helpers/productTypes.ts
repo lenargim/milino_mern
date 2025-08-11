@@ -322,39 +322,35 @@ export type AttributesPrices = {
     drawerPrice: number,
 }
 
-type initialStandardValues = {
-    Width: number,
-    isBlind: boolean,
-    "Blind Width": MaybeEmpty<number>,
-    Height: number,
-    Depth: number,
-    'Custom Depth': string,
-    'Doors': number,
-    'Hinge opening': hingeTypes,
-    Corner: MaybeEmpty<cornerTypes>,
-    Options: string[],
-    'Middle Section': string,
-    'LED borders': string[],
-    'LED alignment': MaybeEmpty<ledAlignmentType>,
-    'LED indent': string,
-    'Note': string,
-    price: number,
-    image_active_number: productTypings
-}
-
-export interface ProductFormType extends initialStandardValues {
-    "Custom Width": string,
-    'Custom Blind Width': string,
-    'Custom Height': string,
-    "Custom Width Number": MaybeEmpty<number>,
-    'Custom Blind Width Number': MaybeEmpty<number>,
-    'Custom Height Number': MaybeEmpty<number>,
-    'Custom Depth Number': MaybeEmpty<number>,
-    'Middle Section Number': MaybeEmpty<number>,
+export type ProductFormType = {
+    width: number,
+    custom_width: MaybeEmpty<number>,
+    custom_width_string: string,
+    blind_width: MaybeEmpty<number>,
+    custom_blind_width: MaybeEmpty<number>,
+    custom_blind_width_string: MaybeEmpty<string>,
+    height: number,
+    custom_height: MaybeEmpty<number>,
+    custom_height_string: string,
+    depth: number,
+    custom_depth: MaybeEmpty<number>,
+    custom_depth_string: string,
+    doors_amount: number,
+    hinge_opening: hingeTypes,
+    corner: MaybeEmpty<cornerTypes>,
+    options: string[],
+    middle_section: MaybeEmpty<number>,
+    middle_section_string: MaybeEmpty<string>,
+    led_borders: string[],
+    led_alignment: MaybeEmpty<ledAlignmentType>,
+    led_indent_string: string,
     glass_door: string[],
     glass_shelf: string
-
+    note: string,
+    price: number,
+    image_active_number: productTypings,
 }
+
 
 export type ProductTableDataType = {
     materialData: materialDataType,
