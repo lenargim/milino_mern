@@ -84,8 +84,10 @@ export default CustomPartStandardDoorForm;
 
 export const getCustomPartStandardDoorPrice = (doors: MaybeNull<StandardDoorAPIType[]>, name: string, color:string): number => {
     if (!doors) return 0;
-    const glassPrice: number = name !== 'standard-door' ? settings.standard_glass_door_price : 0;
+    const glassPrice: number = name !== 'standard-doors' ? settings.standard_glass_door_price : 0;
     const colorPrice: number = color !== 'Default White' ? settings.standard_glass_door_color_coef : 0;
+    console.log(glassPrice)
+    console.log(colorPrice)
     return doors.reduce((acc, door) => {
         const sqr = door.width * door.height / 144;
         const doorPrice = sqr * (20 + glassPrice + colorPrice);
