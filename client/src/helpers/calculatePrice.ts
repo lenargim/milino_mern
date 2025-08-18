@@ -138,7 +138,7 @@ export function addGlassShelfPrice(qty: number): number {
 
 export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<string>, is_standard: boolean, hasGlassDoor: boolean): number {
     if (!hasGlassDoor) return 0;
-    if (is_standard) return square * 10;
+    if (is_standard) return square * settings.standard_glass_door_price;
 
     const profileType = settings.Glass.Profile.find(el => el.value === profileName)?.type;
     const minPrice = settings.Glass.priceType.find(el => el.id === profileType)?.minPrice;
