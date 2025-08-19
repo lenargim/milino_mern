@@ -386,7 +386,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
 }
 
 export const addToCartCustomPart = (values: CustomPartFormType, product: CustomPartType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
-    const {
+    let {
         width,
         height,
         depth,
@@ -401,7 +401,15 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         rta_closet_custom
     } = values;
 
-    const {id, product_type} = product;
+    const {id, product_type, name} = product;
+
+    // Update L-Shape
+    if (name === 'L Shape') {
+        const min = Math.min(width, height);
+        const max = Math.max(width, height);
+        width = min;
+        height = max;
+    }
 
     let preparedProduct: CartAPI = {
         _id: productEditId ?? '',

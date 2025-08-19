@@ -826,7 +826,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {width, height, depth, options} = cabinetItem;
     const boxFromFinishMaterial = options.includes("Box from finish material");
-    const overall_coef = getOverallCoef(materialData, boxFromFinishMaterial)
+    const overall_coef = getOverallCoef(materialData, boxFromFinishMaterial);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
     const startPrice = getStartPrice(width, height, depth, overall_coef, sizeLimit, tablePrice);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);

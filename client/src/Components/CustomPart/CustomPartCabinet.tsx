@@ -14,7 +14,7 @@ type CustomPartCabinet = {
     isStandardCabinet: boolean
 }
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, materials, isStandardCabinet}) => {
-    const {values, setFieldValue, errors, touched} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {
         material,
         glass_door: [doorProfileVal],
