@@ -246,7 +246,8 @@ export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: 
             return customParts.filter(el => standardIds.includes(el.id)) as CustomPartDataType[];
         case "Custom Parts":
             let exceptionIds = standardIds;
-            if (isStandardCabinet) exceptionIds.push(910, 913)
+            // Temporary
+            // if (isStandardCabinet) exceptionIds.push(910, 913)
             if (category !== 'RTA Closet') exceptionIds.push(923)
             return customParts.filter(el => !exceptionIds.includes(el.id)) as CustomPartDataType[];
     }

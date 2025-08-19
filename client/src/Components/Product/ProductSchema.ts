@@ -195,7 +195,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             .when('height', {
                 is: 0,
                 then: (schema) => schema
-                    .required('Please wright down height')
+                    .required('Please write down height')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",

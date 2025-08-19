@@ -4,6 +4,7 @@ import {RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType, LedAccessoriesFormType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
+import {number} from "yup";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -34,6 +35,9 @@ export type CustomTypes =
     | 'standard-panel'
     | 'plastic_toe'
     | 'rta-closets';
+
+const customPartsNames = ['RTA Closet additional parts', 'Standard Panel', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories'] as const;
+export type CustomPartsNamesType = typeof customPartsNames[number];
 
 export type kitchenCategories =
     'Base Cabinets'
@@ -89,6 +93,7 @@ export interface ProductType extends ProductOrCustomType{
 }
 
 export interface CustomPartType extends ProductOrCustomType{
+    name: CustomPartsNamesType,
     type: CustomTypes,
     width?: number,
     depth?: number,

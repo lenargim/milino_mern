@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
-import {getImg, getProductImage} from "../../helpers/helpers";
+import {getProductImage} from "../../helpers/helpers";
 import {CustomPartType} from "../../helpers/productTypes";
 import Materials from "../../common/Materials";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";

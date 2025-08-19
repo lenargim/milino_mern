@@ -33,7 +33,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                 }
             ),
         height_string: Yup.string()
-            .required('Please wright down height')
+            .required('Please write down height')
             .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
             .test('min',
                 ({value}) => `It's too small size`,
