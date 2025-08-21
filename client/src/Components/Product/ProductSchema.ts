@@ -35,7 +35,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             .when('depth', {
                 is: 0,
                 then: (schema) => schema
-                    .required('Please wright down depth')
+                    .required('Please write down depth')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",
@@ -136,7 +136,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             .when('width', {
                 is: 0,
                 then: (schema) => schema
-                    .required('Please wright down width')
+                    .required('Please write down width')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "min",
@@ -159,7 +159,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             .when(['isBlind', 'blind_width'], {
                 is: (isBlind: boolean, blindWidth: number) => isBlind && blindWidth === 0,
                 then: (schema) => schema
-                    .required('Please wright down blind width')
+                    .required('Please write down blind width')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test(
                         "is-min",

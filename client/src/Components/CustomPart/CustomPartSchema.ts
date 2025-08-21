@@ -6,9 +6,9 @@ import {colorsArr} from "./CustomPartGolaProfile";
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
 
-    const customSchema = Yup.object({
+    const customDoorsSchema = Yup.object({
         width_string: Yup.string()
-            .required('Please wright down width')
+            .required('Please write down width')
             .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
             .test('min',
                 ({value}) => `It's too small size`,
@@ -57,8 +57,12 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     return numberVal <= maxHeight;
                 }
             ),
+        note: Yup.string(),
+        price: Yup.number().required().positive()
+    });
+    const customPartWithMaterialSchema = Yup.object({
         depth_string: Yup.string()
-            .required('Please wright down depth')
+            .required('Please write down depth')
             .test('min',
                 ({value}) => `It's too small size`,
                 (val, context) => {
@@ -82,9 +86,8 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                 }
             ),
         material: Yup.string(),
-        note: Yup.string(),
-        price: Yup.number().required().positive()
     })
+    const customSchema = customDoorsSchema.concat(customPartWithMaterialSchema);
     switch (type) {
         case "custom":
         case "backing":
@@ -182,7 +185,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                             name: Yup.string().required('Required'),
                             qty: Yup.number().min(1, 'Min 1'),
                             width_string: Yup.string()
-                                .required('Please wright down width')
+                                .required('Please write down width')
                                 .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                                 .test('min',
                                     ({value}) => `It's too small size`,
@@ -204,6 +207,8 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     )
                     .min(1, 'Must have at least 1 additional part') // these constraints are shown if and only if inner constraints are satisfied
             });
+        case "custom-doors":
+            return customDoorsSchema;
         default:
             return undefined
     }

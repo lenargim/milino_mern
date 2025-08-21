@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttributesPrices,
-    attrItem, BoxMaterialColorType,
+    attrItem, BoxMaterialColorType, CustomPartsNamesType,
     DoorColorType,
     materialDataType,
     MaybeNull,
@@ -741,7 +741,9 @@ export const getCustomPartPrice = (id: number, width: number, height: number, de
                     return 0;
             }
         case 906:
-            const lSHapeArea = (width + depth) * height / 144
+            const min = Math.min(width, height);
+            const max = Math.max(width, height);
+            const lSHapeArea = (min + depth) * max / 144
             switch (material) {
                 case "Milino":
                     return lSHapeArea * 19;
@@ -957,4 +959,10 @@ export const getRTAClosetCustomPartPrice = (rta_closet_custom: MaybeNull<RTAPart
         }
     }
     return +(rta_closet_custom.reduce((acc, item) => acc + (getItemPrice(item) * item.qty), 0)).toFixed(2)
+}
+
+export const getCustomDoorsPrice = (width: number, height:number, name: CustomPartsNamesType):number => {
+    const area = +(width * height / 144).toFixed(2);
+    const coef = name === 'Custom Size Door' ? 78 : 104
+    return +(area * coef).toFixed(1);
 }

@@ -300,6 +300,7 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
     const [field] = useField(name);
     const [fieldNumber, , helpers] = useField(numberName);
     const result = numericQuantity(field.value) || '';
+
     useEffect(() => {
         if (fieldNumber.value !== result) helpers.setValue(result);
     }, [result])

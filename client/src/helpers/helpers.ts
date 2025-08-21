@@ -32,7 +32,7 @@ import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
 import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
-    calculateProduct,
+    calculateProduct, getCustomDoorsPrice,
     getCustomPartPrice,
     getDoorMinMaxValuesArr,
     getMaterialData,
@@ -240,14 +240,13 @@ export const getProductsByCategory = (category: productCategory, isStandardCabin
 
 export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: boolean, customPartType: "Standard Parts" | "Custom Parts"): CustomPartDataType[] => {
     const customParts = cabinets.filter(el => el.product_type === 'custom') as ProductOrCustomType[];
-    const standardIds = [919, 920, 921];
+    const standardIds = [919, 920, 921,924,925];
     switch (customPartType) {
         case 'Standard Parts':
             return customParts.filter(el => standardIds.includes(el.id)) as CustomPartDataType[];
         case "Custom Parts":
             let exceptionIds = standardIds;
-            // Temporary
-            // if (isStandardCabinet) exceptionIds.push(910, 913)
+            if (isStandardCabinet) exceptionIds.push(910, 913)
             if (category !== 'RTA Closet') exceptionIds.push(923)
             return customParts.filter(el => !exceptionIds.includes(el.id)) as CustomPartDataType[];
     }
@@ -821,7 +820,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         }
         case "custom": {
             const customPart = product_or_custom as CustomPartType;
-            const {type, standard_price} = customPart;
+            const {type, standard_price, name} = customPart;
             const {accessories, standard_doors, standard_panels, material, rta_closet} = custom!;
             const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
             const isStandardPanel = ["standard-panel"].includes(type);
@@ -866,6 +865,9 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     });
                     price = getRTAClosetCustomPartPrice(rta_closet_front, room);
                 }
+            }
+            if (type === 'custom-doors') {
+                price = getCustomDoorsPrice(width, height, name)
             }
             return {
                 ...item,
@@ -1350,9 +1352,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
 
     if (!cartItemValues) {
         return {
-            width_string: initial_width.toString(),
-            height_string: initial_height.toString(),
-            depth_string: initial_depth.toString(),
+            width_string: getFraction(initial_width),
+            height_string: getFraction(initial_height),
+            depth_string: getFraction(initial_depth),
             width: initial_width,
             height: initial_height,
             depth: initial_depth,
@@ -1418,9 +1420,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         })) : null;
 
         return {
-            width_string: width.toString(),
-            height_string: height.toString(),
-            depth_string: depth.toString(),
+            width_string: getFraction(width),
+            height_string: getFraction(height),
+            depth_string: getFraction(depth),
             width,
             height,
             depth,

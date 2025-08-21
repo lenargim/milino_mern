@@ -5184,7 +5184,7 @@
   {
     "id": 921,
     "product_type": "custom",
-    "name": "Standard White Shaker",
+    "name": "Standard Panel, L-shapes, Wood Toe Kick, Crown Molding",
     "type": "standard-panel",
     "images": ["custom/Panel_Standard.webp"]
   },
@@ -6481,6 +6481,40 @@
     "name": "Door Accessories",
     "type": "door-accessories",
     "images": ["custom/Accessories.webp"]
+  },
+  {
+    "id": 924,
+    "product_type": "custom",
+    "name": "Custom Size Door",
+    "type": "custom-doors",
+    "limits": {
+      "width": [
+        6,
+        96
+      ],
+      "height": [
+        6,
+        96
+      ]
+    },
+    "images": ["custom/Standard Shaker Door.webp"]
+  },
+  {
+    "id": 925,
+    "product_type": "custom",
+    "name": "Custom Size Glass Door",
+    "type": "custom-doors",
+    "limits": {
+      "width": [
+        6,
+        96
+      ],
+      "height": [
+        6,
+        96
+      ]
+    },
+    "images": ["custom/Standard Shaker Glass Door.webp"]
   },
   {
     "id": 1,

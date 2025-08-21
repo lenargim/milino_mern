@@ -34,9 +34,10 @@ export type CustomTypes =
     | 'backing'
     | 'standard-panel'
     | 'plastic_toe'
-    | 'rta-closets';
+    | 'rta-closets'
+    | 'custom-doors';
 
-const customPartsNames = ['RTA Closet additional parts', 'Standard Panel', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories'] as const;
+const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];
 
 export type kitchenCategories =
