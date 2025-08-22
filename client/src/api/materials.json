@@ -93,6 +93,14 @@
             {
               "value": "Ultra Matte Grey",
               "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte Cashmere",
+              "img": "Cashmere.jpg"
+            },
+            {
+              "value": "White Gloss",
+              "img": "White.jpg"
             }
           ]
         },
@@ -625,11 +633,11 @@
             },
             {
               "value": "White UG",
-              "img": "white-1024x1024.jpg"
+              "img": "White.jpg"
             },
             {
               "value": "White UM",
-              "img": "white-matte-300x300.jpg"
+              "img": "White.jpg"
             },
             {
               "value": "Amalfi Noce UG",
@@ -1633,6 +1641,14 @@
             {
               "value": "Ultra Matte Grey",
               "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte Cashmere",
+              "img": "Cashmere.jpg"
+            },
+            {
+              "value": "White Gloss",
+              "img": "White.jpg"
             }
           ]
         },
@@ -2005,11 +2021,11 @@
             },
             {
               "value": "White UG",
-              "img": "white-1024x1024.jpg"
+              "img": "White.jpg"
             },
             {
               "value": "White UM",
-              "img": "white-matte-300x300.jpg"
+              "img": "White.jpg"
             }
           ]
         },
@@ -2213,6 +2229,14 @@
             {
               "value": "Ultra Matte Grey",
               "img": "Ultra Matte Grey.jpg"
+            },
+            {
+              "value": "Ultra Matte Cashmere",
+              "img": "Cashmere.jpg"
+            },
+            {
+              "value": "White Gloss",
+              "img": "White.jpg"
             }
           ]
         },

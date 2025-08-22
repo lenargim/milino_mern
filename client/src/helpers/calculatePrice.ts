@@ -512,16 +512,21 @@ const getGrainCoef = (doorGrain: string): number => {
     return !doorGrain || doorGrain === 'Vertical' ? 1 : 1.1
 }
 
+export const isTexturedColor = (color: string):boolean => {
+    // New Textured colors
+    return ['Brown Oak', 'Grey Woodline', 'Ivory Woodline', 'White Gloss'].includes(color)
+}
+
 const getDoorColorType = (color: string): DoorColorType => {
     if (color.includes('Melamine')) return 1;
-    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(color)) return 2;
+    if (isTexturedColor(color)) return 2;
     if (color.includes('Ultra Matte')) return 3;
     return 1
 };
 
 const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     if (color.includes('Melamine')) return 1;
-    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(color)) return 2;
+    if (isTexturedColor(color)) return 2;
     if (color.includes('Ultra Matte')) return 3;
     if (color.includes('Plywood')) return 4;
     return 1

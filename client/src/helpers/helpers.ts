@@ -39,7 +39,7 @@ import {
     getProductDataToCalculatePrice,
     getProductPriceRange,
     getProductRange, getRTAClosetCustomPartPrice,
-    getType
+    getType, isTexturedColor
 } from "./calculatePrice";
 import {v4 as uuidv4} from "uuid";
 import sizes from "../api/sizes.json";
@@ -909,7 +909,7 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     // Choose Material (In Product Page)
     if (material !== 'Milino') return 1;
     // Door Color from Materials page
-    if (['Brown Oak', 'Grey Woodline', 'Ivory Woodline'].includes(door_color)) return 1.1;
+    if (isTexturedColor(door_color)) return 1.1;
     if (door_color.includes('Ultra Matte')) return 1.2;
     return 1;
 }
