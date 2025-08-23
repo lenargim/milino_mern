@@ -257,7 +257,8 @@
     "PTO for doors": 30,
     "PTO for drawers": 80,
     "PTO for trash bins": 350,
-    "Glass Shelf": 170
+    "Glass Shelf": 170,
+    "plastic_toe": 91
   },
   "blindRange": {
     "Base Cabinets": 27,
@@ -388,5 +389,6 @@
   ],
   "crown_molding_price": [100,250],
   "standard_glass_door_price": 30,
-  "standard_glass_door_color_coef": 30
+  "standard_glass_door_color_coef": 30,
+  "global_price_coef": 2
 }

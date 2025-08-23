@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {CustomPartTableDataType, CustomPartType} from "../../helpers/productTypes";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLEDForm from "./CustomPartLEDForm";
@@ -9,6 +9,10 @@ import DoorAccessoriesForm from "./CustomPartDoorAccessoiresForm";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import CustomPartRTACloset from "./CustomPartRTACloset";
 import CustomPartCustomDoors from "./CustomPartCustomDoors";
+import {useFormikContext} from "formik";
+import {CustomPartFormType} from "./CustomPart";
+import {addToCartCustomPart} from "../../helpers/helpers";
+import {getCustomPartPrice} from "../../helpers/calculatePrice";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -26,7 +30,18 @@ const CustomPartRight: FC<CustomPartRight> = ({
     const isStandardCabinet = door_type === 'Standard Size White Shaker';
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
-    const isDepthIsConst = typeof depthApi === 'number'
+    const isDepthIsConst = typeof depthApi === 'number';
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
+    const {price} = values
+
+    useEffect(() => {
+        const APIValues = addToCartCustomPart(values, customPartProduct, '', undefined)
+        const newPrice = getCustomPartPrice(customPartProduct, materials, APIValues);
+        if (price !== newPrice) {
+            setFieldValue('price', newPrice)
+        }
+    }, [{...values}])
+
     switch (type) {
         case "custom":
         case "pvc":
@@ -35,7 +50,6 @@ const CustomPartRight: FC<CustomPartRight> = ({
         case "glass-shelf":
             return <CustomPartCabinet product={customPartProduct}
                                       isDepthIsConst={isDepthIsConst}
-                                      materials={materials}
                                       isStandardCabinet={isStandardCabinet}
             />
         case "led-accessories":

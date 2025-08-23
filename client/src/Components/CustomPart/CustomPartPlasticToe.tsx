@@ -7,13 +7,10 @@ import {CustomPartType} from "../../helpers/productTypes";
 import CustomPartSubmit from "./CustomPartSubmit";
 
 const CustomPartPlasticToe: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {price } = values;
     const {height_range} = product;
-    useEffect(() => {
-        const newPrice = 91;
-        if (price !== newPrice) setFieldValue('price', newPrice);
-    }, [height_range])
+
     return (
         <Form>
             <div className={s.block}>

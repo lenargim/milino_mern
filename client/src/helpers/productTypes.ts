@@ -102,7 +102,6 @@ export interface CustomPartType extends ProductOrCustomType{
     materials_array?: materialsCustomPart[],
     limits?: materialsLimitsType,
     glass_shelf?: string[],
-    standard_price?: number
 
 }
 

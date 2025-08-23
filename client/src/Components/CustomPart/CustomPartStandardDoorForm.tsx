@@ -28,7 +28,7 @@ const initialStandardDoor: DoorType = {
 
 const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string }> = ({customPart, color}) => {
     const {type} = customPart;
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {standard_doors, price} = values;
     const doorSizes = type === 'standard-doors' ? settings.StandardDoorSizes : settings.glassDoorSizes as DoorSizesArrType[];
     const doorSizesArr: optionTypeDoor[] = doorSizes.map(el => ({...el, label: el.value}))
@@ -37,12 +37,6 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string 
         if (!standard_doors) setFieldValue('standard_doors', [initialStandardDoor]);
     }, [standard_doors])
 
-    useEffect(() => {
-        const newPrice = getCustomPartStandardDoorPrice(standard_doors, type, color);
-        if (price !== newPrice) {
-            setFieldValue('price', newPrice)
-        }
-    }, [standard_doors, doorSizesArr]);
     if (!standard_doors) return null;
     return (
         <Form className={s.accessories}>
@@ -80,18 +74,6 @@ const CustomPartStandardDoorForm: FC<{ customPart: CustomPartType, color:string 
 };
 
 export default CustomPartStandardDoorForm;
-
-
-export const getCustomPartStandardDoorPrice = (doors: MaybeNull<StandardDoorAPIType[]>, name: CustomTypes, color:string): number => {
-    if (!doors) return 0;
-    const glassPrice: number = name !== 'standard-doors' ? settings.standard_glass_door_price : 0;
-    const colorPrice: number = color !== 'Default White' ? settings.standard_glass_door_color_coef : 0;
-    return doors.reduce((acc, door) => {
-        const sqr = door.width * door.height / 144;
-        const doorPrice = sqr * (20 + glassPrice + colorPrice);
-        return +(acc + (doorPrice * door.qty)).toFixed(1)
-    }, 0);
-}
 
 const DoorItem: FC<{ door: DoorType, index: number, remove: Function, doorSizesArr: optionTypeDoor[] }> = ({
                                                                                                            door,

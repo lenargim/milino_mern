@@ -40,33 +40,7 @@ export type PanelsFormAPIType = {
 type PanelTypeName = 'standard_panel' | 'shape_panel' | 'wtk';
 type MoldingTypeName = 'crown_molding';
 
-export const getStandardPanelsPrice = (standard_panels: MaybeNull<PanelsFormType>, is_price_type_default: boolean, apiPanelData: priceStandardPanel): number => {
-    if (!standard_panels) return 0;
-    const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-    const standard_panel_price = standard_panel.reduce((acc, panel) => {
-        const panelPriceData = apiPanelData.standard_panel.find(el => el.name === panel.name);
-        if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
-    }, 0);
 
-    const shape_panel_price = shape_panel.reduce((acc, panel) => {
-        const panelPriceData = apiPanelData.shape_panel.find(el => el.name === panel.name);
-        if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
-    }, 0);
-
-    const wtk_price = wtk.reduce((acc, panel) => {
-        const panelPriceData = apiPanelData.wtk.find(el => el.name === panel.name);
-        if (!panelPriceData) return 0;
-        return acc + ((is_price_type_default ? panelPriceData.price : panelPriceData.painted_price) * panel.qty)
-    }, 0);
-
-
-    const crown_molding_item_price: number = is_price_type_default ? settings.crown_molding_price[0] : settings.crown_molding_price[1]
-    const crown_price = crown_molding_item_price * crown_molding;
-
-    return standard_panel_price + shape_panel_price + wtk_price + crown_price;
-}
 
 export const initialStandardPanels: PanelsFormType = {
     standard_panel: [],
@@ -86,19 +60,10 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
         if (!standard_panels) setFieldValue('standard_panels', initialStandardPanels);
     }, [standard_panels])
 
-    useEffect(() => {
-        const newPrice = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
-        if (price !== newPrice) {
-            setFieldValue('price', newPrice)
-        }
-    }, [standard_panels])
-
     if (!standard_panels) return null;
     const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels
     const {id} = product;
     const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
-    const {door_type, door_color} = materials
-    const is_price_type_default = door_type === 'Standard Size White Shaker' && door_color === 'Default White';
 
     const addMolding = (moldingName: MoldingTypeName) => {
         setFieldValue(`standard_panels.${moldingName}`, 1)

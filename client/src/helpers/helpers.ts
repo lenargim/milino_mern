@@ -13,7 +13,6 @@ import {
     MaybeNull,
     MaybeUndefined,
     pricePart,
-    priceStandardPanel,
     ProductApiType,
     productCategory,
     productRangeType,
@@ -23,7 +22,6 @@ import {
     sizeLimitsType,
     valueItemType,
     ProductOrCustomType,
-    materialDataType,
     ProductTableDataType,
     CustomPartTableDataType,
     InitialSizesType
@@ -32,16 +30,15 @@ import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
 import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
-    calculateProduct, getCustomDoorsPrice,
+    calculateProduct,
     getCustomPartPrice,
     getDoorMinMaxValuesArr,
     getMaterialData,
     getProductDataToCalculatePrice,
     getProductPriceRange,
-    getProductRange, getRTAClosetCustomPartPrice,
+    getProductRange,
     getType, isTexturedColor
 } from "./calculatePrice";
-import {v4 as uuidv4} from "uuid";
 import sizes from "../api/sizes.json";
 import {MaterialStringsType} from "../common/Materials";
 import {
@@ -50,23 +47,17 @@ import {
     DoorAccessoryFront,
     DoorAccessoryType, LedAccessoriesFormType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
-import {addToCartAccessories, initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
+import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
     DoorSizesArrType,
     DoorType,
-    getCustomPartStandardDoorPrice
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
 import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
-import standardProductsPrices from "../api/standartProductsPrices.json";
-import {
-    getStandardPanelsPrice,
-    initialStandardPanels,
-    PanelsFormType
-} from "../Components/CustomPart/CustomPartStandardPanel";
+import {initialStandardPanels} from "../Components/CustomPart/CustomPartStandardPanel";
 import settings from "../api/settings.json";
 import {
     CartAPI,
@@ -74,7 +65,7 @@ import {
     CartItemFrontType,
     CartOrder,
     CustomAccessoriesType,
-    IsStandardOptionsType, PanelsFormPartAPIType
+    IsStandardOptionsType
 } from "./cartTypes";
 import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
@@ -760,7 +751,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         blind_width,
         middle_section,
         led,
-        glass,
         custom,
     } = item;
     const materialData = getMaterialData(room, product_id);
@@ -820,55 +810,9 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         }
         case "custom": {
             const customPart = product_or_custom as CustomPartType;
-            const {type, standard_price, name} = customPart;
-            const {accessories, standard_doors, standard_panels, material, rta_closet} = custom!;
-            const isCabinetLayout = ["custom", "pvc", "backing", "glass-door", "glass-shelf"].includes(type);
-            const isStandardPanel = ["standard-panel"].includes(type);
-            let price: number = 0;
+            const {type} = customPart;
+            let price: number = getCustomPartPrice(customPart, room, item);
 
-            if (isCabinetLayout) {
-                const finishColorCoef = getFinishColorCoefCustomPart(product_id, material, door_color);
-                const profileName = glass?.door?.length ? glass.door[0] : '';
-                price = +(getCustomPartPrice(product_id, width, height, depth, material, profileName) * finishColorCoef).toFixed(1);
-            }
-
-            if (type === 'led-accessories' && accessories) {
-                price = getLEDProductCartPrice(accessories);
-            }
-
-            if (type === 'door-accessories' && accessories && accessories.door) {
-                price = addToCartAccessories(accessories.door)
-            }
-            if ((type === 'standard-doors' || type === 'standard-glass-doors') && standard_doors) {
-                price = getCustomPartStandardDoorPrice(standard_doors, type, door_color)
-            }
-
-            if (isStandardPanel && standard_panels) {
-                const is_price_type_default = door_type === 'Standard Size White Shaker' && door_color === 'Default White';
-                const apiPanelData = standardProductsPrices.find(el => el.id === product_id) as priceStandardPanel;
-                const standard_panels_front: PanelsFormType = {
-                    standard_panel: standard_panels.standard_panel.map(el => ({...el, _id: uuidv4()})),
-                    shape_panel: standard_panels.shape_panel.map(el => ({...el, _id: uuidv4()})),
-                    wtk: standard_panels.wtk.map(el => ({...el, _id: uuidv4()})),
-                    crown_molding: standard_panels.crown_molding || 0
-                };
-                price = getStandardPanelsPrice(standard_panels_front, is_price_type_default, apiPanelData);
-            }
-            if (type === "plastic_toe" && standard_price) {
-                price = standard_price
-            }
-
-            if (type === "rta-closets") {
-                if (rta_closet) {
-                    const rta_closet_front: RTAPartCustomType[] = rta_closet.map(el => {
-                        return {qty: el.qty, name: el.name, width: el.width, width_string: getFraction(width)}
-                    });
-                    price = getRTAClosetCustomPartPrice(rta_closet_front, room);
-                }
-            }
-            if (type === 'custom-doors') {
-                price = getCustomDoorsPrice(width, height, name)
-            }
             return {
                 ...item,
                 image_active_number: 1,
@@ -886,20 +830,19 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
     }
 };
 
-const getLEDProductCartPrice = (accessories: CustomAccessoriesType): number => {
+export const getLEDProductCartPrice = (accessories: CustomAccessoriesType): number => {
     const {
-        led_alum_profiles,
-        led_gola_profiles,
-        led_door_sensor,
-        led_dimmable_remote,
-        led_transformer,
+        led_alum_profiles = [],
+        led_gola_profiles = [],
+        led_door_sensor = 0,
+        led_dimmable_remote = 0,
+        led_transformer = 0,
     } = accessories;
     const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
     const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
     const dimRemotePrice = led_dimmable_remote * 100 || 0;
     const doorSensorPrice = led_door_sensor * 150 || 0;
     const transformerPrice = led_transformer * 50 || 0;
-
     return +(alumProfPrice + golaProfPrice + dimRemotePrice + doorSensorPrice + transformerPrice).toFixed(1)
 }
 

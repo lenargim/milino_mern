@@ -6,7 +6,6 @@ import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
 import {CustomPartFormType, LedAccessoriesFormType} from "./CustomPart";
 import LEDNumberPart from "./CustomPartNumberPart";
-import {MaybeNull} from "../../helpers/productTypes";
 import CustomPartSubmit from "./CustomPartSubmit";
 
 export const initialLEDAccessories:LedAccessoriesFormType = {
@@ -23,13 +22,6 @@ const CustomPartLEDForm: FC = () => {
 
     useEffect(() => {
         if (!led_accessories) setFieldValue('led_accessories', [initialLEDAccessories]);
-    }, [led_accessories])
-
-    useEffect(() => {
-        const newPrice = getLEDProductPrice(led_accessories)
-        if (price !== newPrice) {
-            setFieldValue('price', newPrice)
-        }
     }, [led_accessories])
 
     if (!led_accessories) return null;
@@ -88,22 +80,3 @@ const CustomPartLEDForm: FC = () => {
 };
 
 export default CustomPartLEDForm;
-
-
-export const getLEDProductPrice = (values: MaybeNull<LedAccessoriesFormType>): number => {
-    if (!values) return 0;
-    const {
-        led_alum_profiles,
-        led_gola_profiles,
-        led_door_sensor = 0,
-        led_dimmable_remote = 0,
-        led_transformer = 0,
-    } = values;
-    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
-    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
-    const dimRemotePrice = led_dimmable_remote * 100;
-    const doorSensorPrice = led_door_sensor * 150;
-    const transformerPrice = led_transformer * 50;
-
-    return +(alumProfPrice + golaProfPrice + dimRemotePrice + doorSensorPrice + transformerPrice).toFixed(1)
-}

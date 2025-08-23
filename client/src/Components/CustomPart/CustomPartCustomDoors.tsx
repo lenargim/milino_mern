@@ -5,28 +5,13 @@ import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
-import {getCustomDoorsPrice} from "../../helpers/calculatePrice";
 
 type CustomPartCabinet = {
     product: CustomPartType
 }
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
-    const {
-        width,
-        height,
-        price,
-    } = values;
-
-    const {type, name} = product;
-
-    useEffect(() => {
-        let newPrice;
-        newPrice = getCustomDoorsPrice(width, height, name);
-        if (price !== newPrice) {
-            setFieldValue('price', newPrice)
-        }
-    }, [values])
+    const {values} = useFormikContext<CustomPartFormType>();
+    const {price} = values;
     return (
         <Form>
             <div className={s.block}>

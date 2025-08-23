@@ -7,7 +7,6 @@ import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import SelectField, {optionType} from "../../common/SelectField";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {getSelectValfromVal} from "../../helpers/helpers";
-import {getRTAClosetCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartSubmit from "./CustomPartSubmit";
 
 
@@ -25,10 +24,7 @@ const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({material
     useEffect(() => {
         if (!rta_closet_custom || !rta_closet_custom.length) setFieldValue('rta_closet_custom', [newItemRTACloset]);
     }, [rta_closet_custom])
-    useEffect(() => {
-        const newPrice = getRTAClosetCustomPartPrice(rta_closet_custom, materials);
-        if (price !== newPrice) setFieldValue('price', newPrice);
-    }, [rta_closet_custom, materials])
+
     if (!rta_closet_custom) return null;
     return (
         <Form className={s.accessories}>
