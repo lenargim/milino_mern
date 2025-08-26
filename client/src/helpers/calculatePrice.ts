@@ -3,7 +3,7 @@ import {
     AttributesPrices,
     attrItem, BoxMaterialColorType, CustomPartType, CustomTypes,
     DoorColorType,
-    materialDataType,
+    materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined,
     priceItem,
@@ -36,6 +36,7 @@ import {
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
+import {BoxMaterialType} from "./materialsTypes";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -469,7 +470,6 @@ const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: b
 
 const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color, box_material, box_color} = materials;
-
     if (!is_leather_closet) {
         switch (door_type) {
             case 'Slab':
@@ -537,10 +537,10 @@ const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     return 1
 };
 
-const getBoxMaterialCoef = (box_material: string, product_id: number): number => {
+const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, product_id: number): number => {
     // Exceptions
     const noCoefExceptionsArr: number[] = [35];
-    if (noCoefExceptionsArr.includes(product_id)) return 1;
+    if (noCoefExceptionsArr.includes(product_id) || !box_material) return 1;
     switch (box_material) {
         case "Natural Plywood":
         case "White Plywood":
@@ -556,9 +556,11 @@ const getBoxMaterialCoef = (box_material: string, product_id: number): number =>
         case "Brown Oak":
         case "Grey Woodline":
         case "Ivory Woodline":
+        case "White Gloss":
             return 1.1
         case "Ultra Matte Grey":
         case "Ultra Matte White":
+        case "Ultra Matte Cashmere":
             return 1.2
         default:
             return 1

@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
 import {ObjectSchema} from "yup";
-import {RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
-const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet"] as const;
+import {roomCategories, RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {boxMaterialNames, leatherBoxMaterialNames, totalBoxMaterialNames} from "../../helpers/materialsTypes";
+
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
@@ -48,6 +49,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default(''),
             box_material: Yup.string()
                 .default('')
+                .oneOf([...totalBoxMaterialNames, ''])
                 .required('Please write down box material'),
             box_color: Yup.string()
                 .default('')

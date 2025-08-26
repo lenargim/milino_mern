@@ -4,7 +4,7 @@ import {RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType, LedAccessoriesFormType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {number} from "yup";
+import {BoxMaterialType} from "./materialsTypes";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -152,7 +152,7 @@ export type materialDataType = {
     drawer_color: string,
     leather: string,
     is_leather_or_rta_closet: boolean,
-    box_material: string,
+    box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
     materials_coef: number
 }

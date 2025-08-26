@@ -67,12 +67,11 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, isSt
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {
         material,
-        width,
         glass_door,
         depth,
         price
     } = values;
-    const {materials_array, type, id} = product;
+    const {materials_array, type, id, width} = product;
     const showDepthBlock = (type === 'custom' && !isDepthIsConst);
     if (showDepthBlock) {
         const newDepth = materials_array?.find(el => el.name === material)?.depth;

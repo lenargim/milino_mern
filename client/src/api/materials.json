@@ -4011,6 +4011,14 @@
     {
       "value": "Ultra Matte Grey",
       "img": "Ultra Matte Grey.jpg"
+    },
+    {
+      "value": "Ultra Matte Cashmere",
+      "img": "Cashmere.jpg"
+    },
+    {
+      "value": "White Gloss",
+      "img": "White.jpg"
     }
   ],
   "drawers": [

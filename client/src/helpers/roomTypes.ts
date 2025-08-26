@@ -1,7 +1,9 @@
-import {MaybeEmpty, MaybeNull, productCategory} from "./productTypes";
+import {MaybeEmpty, productCategory} from "./productTypes";
 import {CartAPI} from "./cartTypes";
+import {BoxMaterialType} from "./materialsTypes";
 
-export type RoomCategoriesType = 'Kitchen' | 'Vanity' | 'Build In Closet' | 'Leather Closet' | 'RTA Closet';
+export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet"] as const;
+export type RoomCategoriesType = typeof roomCategories[number];
 
 export type RoomMaterialsFormType = {
     name: string,
@@ -12,7 +14,7 @@ export type RoomMaterialsFormType = {
     door_frame_width: string,
     door_color: string,
     door_grain: string,
-    box_material: string,
+    box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
     drawer_brand: string,
     drawer_type: string,
