@@ -67,7 +67,15 @@ import {
     CustomAccessoriesType,
     IsStandardOptionsType
 } from "./cartTypes";
-import {RoomCategoriesType, RoomFront, RoomMaterialsFormType, RoomOrderType, RoomType} from "./roomTypes";
+import {
+    GolaType,
+    GolaTypesType,
+    RoomCategoriesType,
+    RoomFront,
+    RoomMaterialsFormType,
+    RoomOrderType,
+    RoomType
+} from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {pdf} from "@react-pdf/renderer";
@@ -231,7 +239,7 @@ export const getProductsByCategory = (category: productCategory, isStandardCabin
 
 export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: boolean, customPartType: "Standard Parts" | "Custom Parts"): CustomPartDataType[] => {
     const customParts = cabinets.filter(el => el.product_type === 'custom') as ProductOrCustomType[];
-    const standardIds = [919, 920, 921,924,925];
+    const standardIds = [919, 920, 921, 924, 925];
     switch (customPartType) {
         case 'Standard Parts':
             return customParts.filter(el => standardIds.includes(el.id)) as CustomPartDataType[];
@@ -508,15 +516,31 @@ const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-export const isGolaShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
+export const isGolaTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
     if (!category) return false;
     return hasGola
 }
 
-export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola: string, showGola: boolean): boolean => {
-    if (!category) return false;
-    if (category === 'RTA Closet') return false;
-    return !(showGola && !gola);
+export const isGolaShown = (golaType: MaybeEmpty<GolaTypesType>): boolean => {
+    if (!golaType) return false
+    return golaType.includes('Gola')
+}
+
+export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola_type:MaybeEmpty<GolaTypesType>,gola:MaybeEmpty<GolaType>): boolean => {
+    switch (category) {
+        case "":
+        case "RTA Closet":
+            return false;
+        case "Kitchen":
+        case "Vanity": {
+            if (!gola_type) return false
+            if (!isGolaShown(gola_type)) return true;
+            return !!gola;
+        }
+        default: {
+            return true
+        }
+    }
 }
 
 export const isDoorFinishShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, finishArr?: finishType[]): boolean => {
@@ -573,7 +597,8 @@ export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, draw
     return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
 }
 
-export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boolean, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
+export const getDoorColorsArr = (doorFinishMaterial: string, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
+    const isStandardDoor = findIsRoomStandard(doorType);
     const finishArr: MaybeUndefined<finishType[]> = doors.find(el => el.value === doorType)?.finish;
     return isStandardDoor ?
         standardColors.colors as colorType[] :
@@ -581,7 +606,7 @@ export const getDoorColorsArr = (doorFinishMaterial: string, isStandardDoor: boo
 }
 
 export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
-    return drawers.map(el => ({value: el.value, img: el.img})) as materialsData[];
+    return drawers.map(el => ({value: el.value, img: el.img})) as materialsData[] ?? [];
 }
 
 export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): materialsData[] => {
@@ -596,14 +621,13 @@ export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): mater
 export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawer_type: string): materialsData[] => {
     const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
     if (!drawerTypesArrFilter) return [];
-    return drawerTypesArrFilter.find(el => el.value === drawer_type)?.colors as materialsData[];
+    return drawerTypesArrFilter.find(el => el.value === drawer_type)?.colors as materialsData[] ?? [];
 
 }
 
-export const getDoorTypeArr = (doors: doorType[], gola: string, isLeather: boolean): doorType[] => {
+export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
     let arr = doors;
-    const noGola = gola === '' || gola === 'No Gola'
-    if (!noGola) {
+    if (gola) {
         arr = arr.filter(el => el.value !== 'Standard Size White Shaker');
     }
     if (isLeather) {
@@ -872,8 +896,8 @@ export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryT
     return {...item, qty: el.qty}
 }
 
-export const usePrevious = (data: string) => {
-    const prev = useRef<string>()
+export function usePrevious<T>(data: T) {
+    const prev = useRef<T>()
     useEffect(() => {
         if (data) prev.current = data;
     }, [data])
@@ -903,13 +927,12 @@ export const isShowHingeBlock = (hingeArr: string[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    const no_gola = !gola || gola === 'No Gola';
     if (door_type === 'Standard Size White Shaker') return API['Standard Door'] as SliderCategoriesItemType;
     switch (category) {
         case "Kitchen":
-            return no_gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
+            return !gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
         case "Vanity":
-            return no_gola ? API['Vanity'] : API['Vanity Gola'] as SliderCategoriesItemType;
+            return !gola ? API['Vanity'] : API['Vanity Gola'] as SliderCategoriesItemType;
         case "Leather Closet":
             return API['Leather Closet'] as SliderCategoriesItemType;
         case "Build In Closet":
@@ -1025,8 +1048,13 @@ export const findIsRoomStandard = (door_type: string): boolean => {
     return door_type === 'Standard Size White Shaker'
 }
 
-export const findHasGolaByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+export const findHasGolaTypeByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     return ['Kitchen', 'Vanity'].includes(category)
+}
+
+export const filterGolaTypeArrByCategory = (category: MaybeEmpty<RoomCategoriesType>, arr: materialsData[]): materialsData[] => {
+    if (!category) return [];
+    return arr.filter(el => el.value.includes(category)) ?? [];
 }
 
 export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderType[] | RoomFront[], exclude?: string): string[] => {
@@ -1334,10 +1362,10 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
 
         const doorAccessories = DA as DoorAccessoryFront[]
         let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
-        if (accessories && accessories.door ) {
+        if (accessories && accessories.door) {
             doorAccessoriesValues = doorAccessories.map(el => {
                 const {value, id, price, label, filter} = el;
-                let qty:number = 0;
+                let qty: number = 0;
                 if (accessories.door) {
                     qty = accessories.door.find(el => el.value === value)?.qty ?? 0;
                 }

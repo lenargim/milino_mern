@@ -3,12 +3,18 @@ import {CartAPI} from "./cartTypes";
 import {BoxMaterialType} from "./materialsTypes";
 
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet"] as const;
+export const golaTypeNames = ['Regular Kitchen', 'Gola Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
+export const golaNames = ['Aluminum Gola', 'Black Matte Gola', 'White Gloss Gola', 'Champagne Gola', 'Wood Gola'] as const;
+
 export type RoomCategoriesType = typeof roomCategories[number];
+export type GolaTypesType = typeof golaTypeNames[number];
+export type GolaType = typeof golaNames[number];
 
 export type RoomMaterialsFormType = {
     name: string,
     category: MaybeEmpty<RoomCategoriesType>,
-    gola: string,
+    category_gola_type: MaybeEmpty<GolaTypesType>
+    gola: MaybeEmpty<GolaType>,
     door_type: string,
     door_finish_material: string,
     door_frame_width: string,

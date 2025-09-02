@@ -4209,17 +4209,31 @@
       "img": "Horizontal Grain.jpg"
     }
   ],
-  "gola": [
+  "golaType": [
     {
-      "value": "No Gola",
-      "img": "No Gola.jpg"
+      "value": "Regular Kitchen",
+      "img": "Regular Kitchen.jpg"
     },
+    {
+      "value": "Gola Kitchen",
+      "img": "Gola Kitchen.jpg"
+    },
+    {
+      "value": "Regular Vanity",
+      "img": "Regular Vanity.jpg"
+    },
+    {
+      "value": "Gola Vanity",
+      "img": "Gola Vanity.jpg"
+    }
+  ],
+  "gola": [
     {
       "value": "Aluminum Gola",
       "img": "Aluminum Gola.jpg"
     },
     {
-      "value": "Black Gloss Gola",
+      "value": "Black Matte Gola",
       "img": "Black Metal Gloss Gola.jpg"
     },
     {

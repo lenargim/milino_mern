@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {useNavigate, useOutletContext, useParams} from "react-router-dom";
-import {RoomSchema} from "./RoomSchems";
+import {RoomSchema} from "./RoomSchema";
 import {createRoomAPI} from "../../api/apiFunctions";
 import {addRoom, RoomsState} from "../../store/reducers/roomSlice";
 import {Formik} from "formik";

@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {FC} from 'react';
-import {RoomSchema} from "./RoomSchems";
+import {RoomSchema} from "./RoomSchema";
 import {useNavigate, useParams} from "react-router-dom";
 import {editRoom, RoomsState} from "../../store/reducers/roomSlice";
 import {getUniqueNames, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";

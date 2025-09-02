@@ -1,7 +1,15 @@
 import * as Yup from 'yup';
 import {ObjectSchema} from "yup";
-import {roomCategories, RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {boxMaterialNames, leatherBoxMaterialNames, totalBoxMaterialNames} from "../../helpers/materialsTypes";
+import {
+    GolaType, golaTypeNames,
+    GolaTypesType,
+    roomCategories,
+    RoomCategoriesType,
+    RoomMaterialsFormType
+} from "../../helpers/roomTypes";
+import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/materialsTypes";
+import {MaybeEmpty} from "../../helpers/productTypes";
+import {findHasGolaTypeByCategory, isGolaShown} from "../../helpers/helpers";
 
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
@@ -15,14 +23,23 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 })
                 .min(2, 'Min 2 symbols')
                 .defined('Enter Room name'),
-            category: Yup.string()
+            category: Yup.mixed<RoomCategoriesType>()
                 .oneOf(roomCategories)
                 .defined()
-                .required(),
-            gola: Yup.string()
+                .required('Choose category'),
+            category_gola_type: Yup.mixed<MaybeEmpty<GolaTypesType>>()
                 .default('')
+                .defined()
+                .oneOf([...golaTypeNames, ''])
                 .when('category', {
-                    is: (val: string) => val === 'Kitchen' || val === 'Vanity',
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => findHasGolaTypeByCategory(val),
+                    then: (schema => schema.required('Please choose gola type'))
+                }),
+            gola: Yup.mixed<MaybeEmpty<GolaType>>()
+                .default('')
+                .defined()
+                .when('category_gola_type', {
+                    is: (val: MaybeEmpty<GolaTypesType>) => isGolaShown(val),
                     then: (schema => schema.required('Please choose gola type'))
                 }),
             door_type: Yup.string()
@@ -47,7 +64,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 }),
             door_grain: Yup.string()
                 .default(''),
-            box_material: Yup.string()
+            box_material: Yup.mixed<MaybeEmpty<BoxMaterialType>>()
                 .default('')
                 .oneOf([...totalBoxMaterialNames, ''])
                 .required('Please write down box material'),
