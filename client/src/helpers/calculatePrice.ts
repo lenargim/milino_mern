@@ -36,7 +36,7 @@ import {
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
-import {BoxMaterialType} from "./materialsTypes";
+import {BoxMaterialType} from "./roomTypes";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -584,6 +584,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
     const {door_type, door_finish_material, door_color} = materials
     if (is_standard_room) return door_color === 'Default White' ? 0 : 30;
     if (!is_leather_closet) {
+        if (!door_type) return 0;
         switch (door_type) {
             case "Slab":
                 return 0;
@@ -595,6 +596,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 if (door_finish_material === 'Syncron') return 30;
                 return 36;
             case "Custom Painted Shaker":
+                if (door_finish_material === 'Slab') return 30;
                 return 43.2;
             case "Micro Shaker":
                 if (door_finish_material === 'Milino') return 30;
@@ -638,7 +640,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room, is_leather_or_rta_closet);
-
     return {
         is_standard_room,
         category,

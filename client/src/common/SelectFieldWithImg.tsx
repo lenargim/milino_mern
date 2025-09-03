@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import Select, {OnChangeValue, StylesConfig} from "react-select";
 import {useField} from "formik";
 import styles from "./Form.module.sass";
-import {materialsData} from "../helpers/materialsTypes";
+import {materialsData} from "../helpers/roomTypes";
 
 
 type SelectFieldType = {

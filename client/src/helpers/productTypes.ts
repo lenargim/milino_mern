@@ -4,7 +4,7 @@ import {RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType, LedAccessoriesFormType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {BoxMaterialType} from "./materialsTypes";
+import {BoxMaterialType} from "./roomTypes";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3

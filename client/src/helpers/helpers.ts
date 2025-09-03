@@ -28,7 +28,6 @@ import {
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
-import {colorType, doorType, drawer, finishType, materialsData} from "./materialsTypes";
 import {
     calculateProduct,
     getCustomPartPrice,
@@ -68,8 +67,9 @@ import {
     IsStandardOptionsType
 } from "./cartTypes";
 import {
+    colorType, doorType, DoorTypesType, drawer, finishType,
     GolaType,
-    GolaTypesType,
+    GolaTypesType, materialsData,
     RoomCategoriesType,
     RoomFront,
     RoomMaterialsFormType,
@@ -597,14 +597,6 @@ export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, draw
     return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
 }
 
-export const getDoorColorsArr = (doorFinishMaterial: string, doors: doorType[], doorType: string): MaybeUndefined<colorType[]> => {
-    const isStandardDoor = findIsRoomStandard(doorType);
-    const finishArr: MaybeUndefined<finishType[]> = doors.find(el => el.value === doorType)?.finish;
-    return isStandardDoor ?
-        standardColors.colors as colorType[] :
-        finishArr?.find(el => el.value === doorFinishMaterial)?.colors
-}
-
 export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
     return drawers.map(el => ({value: el.value, img: el.img})) as materialsData[] ?? [];
 }
@@ -635,6 +627,17 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
+}
+
+export const getDoorFinishArr = (doors:doorType[], door_type:MaybeEmpty<DoorTypesType>):finishType[] => {
+    return doors.find(el => el.value === door_type)?.finish ?? [];
+}
+
+export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr:finishType[]): colorType[] => {
+    const isStandardDoor = findIsRoomStandard(doorType);
+    if (isStandardDoor) return standardColors.colors as colorType[] || [];
+    if (doorType === 'Custom Painted Shaker') return finishArr?.[0].colors || [];
+    return finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
 }
 
 export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
@@ -1044,7 +1047,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
     })
 }
 
-export const findIsRoomStandard = (door_type: string): boolean => {
+export const findIsRoomStandard = (door_type: MaybeEmpty<DoorTypesType>): boolean => {
     return door_type === 'Standard Size White Shaker'
 }
 

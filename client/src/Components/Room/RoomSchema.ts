@@ -1,13 +1,14 @@
 import * as Yup from 'yup';
 import {ObjectSchema} from "yup";
 import {
+    DoorTypesType,
     GolaType, golaTypeNames,
     GolaTypesType,
     roomCategories,
     RoomCategoriesType,
     RoomMaterialsFormType
 } from "../../helpers/roomTypes";
-import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/materialsTypes";
+import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/roomTypes";
 import {MaybeEmpty} from "../../helpers/productTypes";
 import {findHasGolaTypeByCategory, isGolaShown} from "../../helpers/helpers";
 
@@ -42,7 +43,8 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                     is: (val: MaybeEmpty<GolaTypesType>) => isGolaShown(val),
                     then: (schema => schema.required('Please choose gola type'))
                 }),
-            door_type: Yup.string()
+            door_type: Yup.mixed<MaybeEmpty<DoorTypesType>>()
+                .defined()
                 .default(''),
             door_finish_material: Yup.string()
                 .default(''),

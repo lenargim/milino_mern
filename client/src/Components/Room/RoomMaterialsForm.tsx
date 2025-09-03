@@ -4,7 +4,7 @@ import {
     filterGolaTypeArrByCategory,
     findHasGolaTypeByCategory,
     getBoxMaterialArr, getBoxMaterialColorsArr,
-    getDoorColorsArr,
+    getDoorColorsArr, getDoorFinishArr,
     getDoorTypeArr, getDrawerBrandArr, getDrawerColorArr, getDrawerTypeArr,
     getGrainArr,
     isBoxColor,
@@ -19,14 +19,20 @@ import {
     useAppDispatch, useAppSelector,
     usePrevious
 } from "../../helpers/helpers";
-import {colorType, finishType, materialsData, MaterialsType} from "../../helpers/materialsTypes";
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
 import RoomMaterialsDataType from "./RoomMaterialsDataType";
 import materialsAPI from "../../api/materials.json";
 import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
-import {RoomCategoriesType, RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {
+    colorType,
+    finishType,
+    materialsData,
+    MaterialsType,
+    RoomCategoriesType,
+    RoomMaterialsFormType
+} from "../../helpers/roomTypes";
 import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
 
 const {
@@ -95,8 +101,8 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const hasGolaType = findHasGolaTypeByCategory(category);
     const golaTypeArr = filterGolaTypeArrByCategory(category, golaType);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
-    const finishArr = doors.find(el => el.value === door_type)?.finish ?? [];
-    const colorArr = getDoorColorsArr(door_finish_material, doors, door_type) ?? []
+    const finishArr = getDoorFinishArr(doors, door_type);
+    const colorArr = getDoorColorsArr(door_finish_material, door_type, finishArr);
     const boxMaterialArr: finishType[] = getBoxMaterialArr(isCloset, boxMaterial, leatherBoxMaterialArr || [])
     const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isRTACloset, box_material, boxMaterialArr, boxMaterial);
     const drawerBrandArr = getDrawerBrandArr(drawers);
@@ -133,7 +139,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             } else {
                 if (category_gola_type && !isGolaShown(category_gola_type)) setFieldValue('gola', '');
             }
-
 
             // Door finish material
             if (!finishArr.length) setFieldValue('door_finish_material', '');
@@ -184,7 +189,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             dispatch(updateCartAfterMaterialsChange(newCart))
         }
     }, [values]);
-
     const hasName = !!name;
     const showGolaType = isGolaTypeShown(category, hasGolaType);
     const showGola = isGolaShown(category_gola_type)

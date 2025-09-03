@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import s from "./room.module.sass";
 import {RadioInput} from "../../common/Form";
 import {getImg} from "../../helpers/helpers";
-import {materialsData, OrderFormSelectType} from "../../helpers/materialsTypes";
+import {materialsData, OrderFormSelectType} from "../../helpers/roomTypes";
 import SelectFieldWithImg from "../../common/SelectFieldWithImg";
 
 
