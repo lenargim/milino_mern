@@ -14,7 +14,7 @@ import {
     isDoorFrameWidth,
     isDoorGrain,
     isDoorTypeShown,
-    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown, isGolaTypeShown, isLeatherNote,
+    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown, isGolaTypeShown, isGrooveShown, isLeatherNote,
     isLeatherType,
     useAppDispatch, useAppSelector,
     usePrevious
@@ -44,6 +44,7 @@ const {
     drawers,
     leatherType: leatherTypeArr,
     grain,
+    groove: grooveArr
 }: MaterialsType = materialsAPI;
 
 export const materialsFormInitial: RoomMaterialsFormType = {
@@ -62,7 +63,8 @@ export const materialsFormInitial: RoomMaterialsFormType = {
     drawer_type: '',
     drawer_color: '',
     leather: '',
-    leather_note: ''
+    leather_note: '',
+    groove: ''
 }
 
 function shouldClearFormData(category: MaybeEmpty<RoomCategoriesType>, prevCategory: MaybeUndefined<MaybeEmpty<RoomCategoriesType>>): boolean {
@@ -89,11 +91,11 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
         drawer_type,
         drawer_color,
         leather,
-        leather_note
-    } = values;
+        leather_note,
+        groove
+    } = values as RoomMaterialsFormType;
     const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
-
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
     const isRTACloset = category === 'RTA Closet';
@@ -128,7 +130,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             }, false)
         }
     }, [category])
-
     // Check is values are in array
     useEffect(() => {
         if (category) {
@@ -139,6 +140,9 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             } else {
                 if (category_gola_type && !isGolaShown(category_gola_type)) setFieldValue('gola', '');
             }
+
+            //Groove
+            if (groove && door_type !== 'Wood ribbed doors') setFieldValue('groove', '');
 
             // Door finish material
             if (!finishArr.length) setFieldValue('door_finish_material', '');
@@ -192,12 +196,13 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const hasName = !!name;
     const showGolaType = isGolaTypeShown(category, hasGolaType);
     const showGola = isGolaShown(category_gola_type)
-    const showDoorType = isDoorTypeShown(category, category_gola_type, gola)
-    const showDoorFinish = isDoorFinishShown(category, door_type, finishArr);
-    const showDoorColor = isDoorColorShown(category, door_type, door_finish_material, finishArr, colorArr);
-    const showDoorFrameWidth = isDoorFrameWidth(category, door_type, door_finish_material, frameArr);
-    const showDoorGrain = isDoorGrain(category, door_finish_material, grainArr);
-    const showBoxMaterial = isBoxMaterial(category, door_finish_material, door_color, box_material, boxMaterialArr, showDoorGrain, door_grain);
+    const showDoorType = isDoorTypeShown(values, showGola)
+    const showGroove = isGrooveShown(door_type)
+    const showDoorFinish = isDoorFinishShown(values, finishArr, showGroove);
+    const showDoorFrameWidth = isDoorFrameWidth(values, frameArr);
+    const showDoorColor = isDoorColorShown(values, colorArr, showDoorFrameWidth);
+    const showDoorGrain = isDoorGrain(values, grainArr);
+    const showBoxMaterial = isBoxMaterial(values, boxMaterialArr,showDoorFinish,showDoorColor,showDoorGrain);
     const showBoxColor = isBoxColor(category, box_material, isLeather, boxMaterialArr)
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isCloset);
     const showDrawerType = isDrawerType(showDrawerBrand, drawer_brand, drawerTypesArr);
@@ -208,23 +213,26 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
         <Form className={s.roomForm}>
             <TextInput type={"text"} label={roomNameText} name="name" autoFocus={true}/>
             {hasName &&
-            <RoomMaterialsDataType data={categories} value={category ?? ''} name="category" label="Category"/>}
+            <RoomMaterialsDataType data={categories} value={category} name="category" label="Category"/>}
             {showGolaType &&
             <RoomMaterialsDataType data={golaTypeArr} value={category_gola_type} name="category_gola_type"
                                    label={`${category} Type`}/>}
             {showGola && <RoomMaterialsDataType data={golaArr} value={gola} name="gola" label={`Gola Type`}/>}
             {showDoorType &&
             <RoomMaterialsDataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}
+            {showGroove && <RoomMaterialsDataType data={grooveArr} value={groove} name='groove' label="Grooves style"/>}
+
             {showDoorFinish &&
             <RoomMaterialsDataType data={finishArr} value={door_finish_material} name='door_finish_material'
                                    label="Door Finish Material. Price increase from left to right"/>}
             {showDoorFrameWidth &&
             <RoomMaterialsDataType data={frameArr} value={door_frame_width ?? ''} name='door_frame_width'
                                    label="Door Frame Width"/>}
-            {showDoorColor &&
-            <RoomMaterialsDataType data={colorArr} value={door_color ?? ''} name="door_color" label="Door Color"/>}
+            {showDoorColor && <RoomMaterialsDataType data={colorArr} value={door_color} name="door_color" label="Door Color"/>}
             {showDoorGrain && <RoomMaterialsDataType data={grainArr || []} value={door_grain ?? ''} name="door_grain"
                                                      label="Door Grain"/>}
+
+
             {showBoxMaterial &&
             <RoomMaterialsDataType data={boxMaterialArr} value={box_material} name="box_material"
                                    label="Box Material"/>}

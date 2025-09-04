@@ -3057,6 +3057,58 @@
           "img": "Painted ribbed.jpg"
         }
       ]
+    },
+    {
+      "value": "Wood ribbed doors",
+      "img": "Ribbed_door.jpg",
+      "finish": [
+        {
+          "value": "Maple",
+          "img": "Maple.jpg"
+        },
+        {
+          "value": "Birch",
+          "img": "Birch.jpg"
+        },
+        {
+          "value": "White Oak",
+          "img": "White Oak.jpg"
+        },
+        {
+          "value": "Walnut",
+          "img": "Walnut.jpg"
+        },
+        {
+          "value": "Clear Coat Maple",
+          "img": "Maple.jpg"
+        },
+        {
+          "value": "Clear Coat Birch",
+          "img": "Birch.jpg"
+        },
+        {
+          "value": "Clear Coat White Oak",
+          "img": "White Oak.jpg"
+        },
+        {
+          "value": "Clear Coat Walnut",
+          "img": "Walnut.jpg"
+        }
+      ]
+    }
+  ],
+  "groove": [
+    {
+      "value": "1/4 rounded",
+      "img": "1_4 rounded.jpg"
+    },
+    {
+      "value": "1/4 squared",
+      "img": "1_4 squared.jpg"
+    },
+    {
+      "value": "3/4 squared",
+      "img": "3_4 squared.jpg"
     }
   ],
   "boxMaterial": [

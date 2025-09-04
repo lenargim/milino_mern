@@ -19,6 +19,9 @@ const RoomSchema = new mongoose.Schema({
   door_type: {
     type: String,
   },
+  groove: {
+    type: String,
+  },
   door_finish_material: {
     type: String,
   },

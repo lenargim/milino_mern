@@ -67,9 +67,9 @@ import {
     IsStandardOptionsType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType,
+    colorType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
     GolaType,
-    GolaTypesType, materialsData,
+    GolaTypesType, GrooveType, materialsData,
     RoomCategoriesType,
     RoomFront,
     RoomMaterialsFormType,
@@ -521,21 +521,21 @@ export const isGolaTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGol
     return hasGola
 }
 
-export const isGolaShown = (golaType: MaybeEmpty<GolaTypesType>): boolean => {
-    if (!golaType) return false
-    return golaType.includes('Gola')
+export const isGolaShown = (category_gola_type: MaybeEmpty<GolaTypesType>): boolean => {
+    if (!category_gola_type) return false
+    return category_gola_type.includes('Gola')
 }
 
-export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola_type:MaybeEmpty<GolaTypesType>,gola:MaybeEmpty<GolaType>): boolean => {
-    switch (category) {
-        case "":
+export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola:boolean): boolean => {
+    const {category, category_gola_type, gola} = values;
+    if (!category) return false;
+    switch (category as RoomCategoriesType) {
         case "RTA Closet":
             return false;
         case "Kitchen":
         case "Vanity": {
-            if (!gola_type) return false
-            if (!isGolaShown(gola_type)) return true;
-            return !!gola;
+            if (!category_gola_type) return false;
+            return showGola ? !!gola : true
         }
         default: {
             return true
@@ -543,39 +543,66 @@ export const isDoorTypeShown = (category: MaybeEmpty<RoomCategoriesType>, gola_t
     }
 }
 
-export const isDoorFinishShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, finishArr?: finishType[]): boolean => {
-    if (!category) return false;
-    if (category === 'RTA Closet') return false;
-    if (doorType === 'Standard Size White Shaker') return false
-    return !!(doorType && finishArr?.length)
+export const isGrooveShown = (door_type:MaybeEmpty<DoorTypesType>) => {
+    if (door_type === 'Wood ribbed doors') return true;
+    return false;
 }
 
-export const isDoorColorShown = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, finishArr?: finishType[], colorArr?: colorType[]): boolean => {
+export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove:boolean): boolean => {
+    const {category, door_type, groove} = values
     if (!category) return false;
     if (category === 'RTA Closet') return false;
-    if (doorType === 'Standard Size White Shaker') return true;
-    return !!(doorFinishMaterial && colorArr?.length)
+    if (door_type === 'Standard Size White Shaker') return false;
+    if (showGroove && !groove) return false;
+    return !!(door_type && finishArr.length)
 }
 
-export const isDoorFrameWidth = (category: MaybeEmpty<RoomCategoriesType>, doorType: string, doorFinishMaterial: string, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth:boolean): boolean => {
+    const {category, door_type, door_finish_material, door_frame_width} = values
     if (!category) return false;
     if (category === 'RTA Closet') return false;
-    if (!frameArr || doorType !== 'Micro Shaker') return false
-    return !!doorFinishMaterial
+    if (door_type === 'Standard Size White Shaker') return true;
+    if (showDoorFrameWidth && !door_frame_width) return false;
+    return !!(door_finish_material && colorArr.length)
 }
 
-export const isDoorGrain = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeUndefined<materialsData[]>): boolean => {
+    const {category, door_type, door_finish_material} = values;
     if (!category) return false;
     if (category === 'RTA Closet') return false;
-    return !(!doorFinishMaterial || !grainArr)
+    if (!frameArr || door_type !== 'Micro Shaker') return false
+    return !!door_finish_material
 }
 
-export const isBoxMaterial = (category: MaybeEmpty<RoomCategoriesType>, doorFinishMaterial: string, doorColor: string | undefined, boxMaterialVal: string, boxMaterialArr: materialsData[], showDoorGrain: boolean, door_grain: string): boolean => {
-    if (!boxMaterialArr.length) return false;
-    if (showDoorGrain && !door_grain) return false;
-    if (category === 'RTA Closet') return true;
-    return !!(doorFinishMaterial === 'No Doors No Hinges' || doorColor || boxMaterialVal)
+export const isDoorGrain = (values: RoomMaterialsFormType, grainArr: MaybeNull<materialsData[]>): boolean => {
+    const {category, door_finish_material} = values;
+    if (!category) return false;
+    if (category === 'RTA Closet') return false;
+    return !(!door_finish_material || !grainArr || !grainArr.length)
 }
+
+export const isBoxMaterial = (values:RoomMaterialsFormType, boxMaterialArr:finishType[], showDoorFinish:boolean,showDoorColor:boolean,showDoorGrain:boolean): boolean => {
+    const {category, door_grain, door_finish_material, door_color, door_type} = values;
+    if (!category || !boxMaterialArr.length) return false;
+    switch (category as RoomCategoriesType) {
+        case "RTA Closet":
+            return true;
+        default:
+            switch (door_type as DoorTypesType) {
+                case "No Doors":
+                    return true;
+                case "Wood ribbed doors":
+                    return !!door_finish_material;
+                default:
+                    if (showDoorFinish && !door_finish_material) return false;
+                    if (showDoorColor && !door_color) return false;
+                    if (showDoorGrain && !door_grain) return false;
+                    return !!door_color
+            }
+    }
+
+}
+
 export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, isLeather: boolean, boxMaterialArr: finishType[]): boolean => {
     if (!box_material || !boxMaterialArr.length) return false;
     if (category === 'RTA Closet') return true;
@@ -1412,4 +1439,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             price: price,
         }
     }
+}
+
+export const isCloset = (category:MaybeEmpty<RoomCategoriesType>):boolean => {
+    if (!category) return false;
+    return category.includes('Closet')
 }

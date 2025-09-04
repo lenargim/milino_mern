@@ -23,13 +23,13 @@ import {
     getAttributes, getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart, getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor
+    getWidthToCalculateDoor, isCloset
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
-import {RoomMaterialsFormType} from "./roomTypes";
+import {DoorTypesType, FinishTypes, RoomMaterialsFormType} from "./roomTypes";
 import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType,
@@ -436,13 +436,15 @@ function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUnd
 
 const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: boolean): pricesTypings => {
     const {door_type, door_color, door_finish_material, box_material} = materials;
+    if (!box_material || !door_type) return 1;
     if (is_leather_closet) {
         if (box_material === 'Milino') return 1;
         if (box_material === 'Syncron') return 2;
         return 3
     } else {
-        switch (door_type) {
+        switch (door_type as DoorTypesType) {
             case 'Slab':
+                if (!door_finish_material) return 3;
                 switch (door_finish_material) {
                     case 'Milino':
                         const colorType = getDoorColorType(door_color);
@@ -463,6 +465,8 @@ const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: b
             case 'Slatted':
                 if (door_finish_material === 'Milino') return 2;
                 break;
+            case "Wood ribbed doors":
+                return 3;
         }
         return 3;
     }
@@ -470,9 +474,11 @@ const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: b
 
 const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: boolean): number => {
     const {door_type, door_finish_material, door_color, box_material, box_color} = materials;
+    if (!door_type || !box_material) return 1;
     if (!is_leather_closet) {
-        switch (door_type) {
+        switch (door_type as DoorTypesType) {
             case 'Slab':
+                if (!door_finish_material) return 1;
                 switch (door_finish_material) {
                     case 'Milino':
                         return getDoorColorType(door_color) === 2 ? 1.05 : 1;
@@ -494,6 +500,8 @@ const getMaterialCoef = (materials: RoomMaterialsFormType, is_leather_closet: bo
                 break;
             case 'Slatted':
                 return 1.03;
+            case "Wood ribbed doors":
+                return 1;
         }
     } else {
         switch (box_material) {
@@ -585,7 +593,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
     if (is_standard_room) return door_color === 'Default White' ? 0 : 30;
     if (!is_leather_closet) {
         if (!door_type) return 0;
-        switch (door_type) {
+        switch (door_type as DoorTypesType) {
             case "Slab":
                 return 0;
             case "No Doors":
@@ -604,6 +612,12 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
             case "Slatted":
                 if (door_finish_material === 'Milino') return 31.5;
                 return 37.8;
+            case "Wood ribbed doors": {
+                const finish = door_finish_material as FinishTypes;
+                const extra = finish.includes('Clear Coat') ? 21.5 : 0;
+                if (finish.includes('Maple')||finish.includes('Birch')) return 145+extra;
+                if (finish.includes('White Oak')||finish.includes('Walnut')) return 225+extra;
+            }
         }
         return 0;
     }
@@ -631,7 +645,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         box_color
     } = materials;
     const is_standard_room = door_type === "Standard Size White Shaker";
-    const is_leather_or_rta_closet = category === 'Leather Closet' || category === 'RTA Closet';
+    const is_leather_or_rta_closet = isCloset(category);
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
     const base_price_type = getBasePriceType(materials, is_leather_or_rta_closet);
@@ -640,6 +654,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room, is_leather_or_rta_closet);
+    console.log(door_price_multiplier)
     return {
         is_standard_room,
         category,
