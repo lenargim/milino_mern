@@ -66,7 +66,8 @@ export type OrderFormSelectType = {
 
 export type materialsData = {
     value: string,
-    img?: string
+    img?: string,
+    label?: string
 }
 
 export interface drawer extends materialsData {

@@ -13,6 +13,7 @@ import {useFormikContext} from "formik";
 import {CustomPartFormType} from "./CustomPart";
 import {addToCartCustomPart} from "../../helpers/helpers";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
+import CustomPartRibbed from "./CustomPartRibbed";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -67,6 +68,10 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartRTACloset materials={materials}/>
         case "custom-doors":
             return <CustomPartCustomDoors product={customPartProduct} />;
+        case "ribbed":
+            return <CustomPartRibbed product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+        default:
+            return null;
     }
 };
 

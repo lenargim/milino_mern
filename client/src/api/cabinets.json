@@ -6236,6 +6236,85 @@
     "images": ["custom/Slatted Panel.webp"]
   },
   {
+    "id": 926,
+    "product_type": "custom",
+    "name": "Ribbed panels",
+    "type": "ribbed",
+    "images": ["custom/Custom Parts Ribbed.webp"],
+    "materials_array": [
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        },
+        "img": "Painted ribbed.jpg"
+      },
+      {
+        "name": "Maple",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        },
+        "img": "Maple.jpg"
+      },
+      {
+        "name": "Birch",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        },
+        "img": "Birch.jpg"
+      },
+      {
+        "name": "White Oak",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        },
+        "img": "White Oak.jpg"
+      },
+      {
+        "name": "Walnut",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        },
+        "img": "Walnut.jpg"
+      }
+    ]
+  },
+  {
     "id": 913,
     "product_type": "custom",
     "name": "Shaker Glass Door",
@@ -6515,6 +6594,7 @@
     },
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
+
   {
     "id": 1,
     "product_type": "standard",

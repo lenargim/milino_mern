@@ -62,6 +62,11 @@ export interface DoorAccessoryType extends DoorAccessoryAPIType {
     price: number
 }
 
+export type GrooveAPIType = {
+    style: string,
+    clear_coat: boolean
+}
+
 export type CustomPartFormType = {
     width: number,
     height: number,
@@ -78,7 +83,8 @@ export type CustomPartFormType = {
     door_accessories: MaybeNull<DoorAccessoryType[]>,
     standard_doors: MaybeNull<DoorType[]>,
     standard_panels: MaybeNull<PanelsFormType>,
-    rta_closet_custom: MaybeNull<RTAPartCustomType[]>
+    rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
+    groove: MaybeNull<GrooveAPIType>
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];

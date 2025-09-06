@@ -9,6 +9,7 @@ import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
 import NestedErrorMessage from "./ErrorForNestedFields";
+import {MaybeUndefined} from "../helpers/productTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -44,6 +45,7 @@ interface RadioInterface extends InputInterface {
     img?: string,
     value: string | number,
     checked?: boolean,
+    label?: string
 }
 
 interface ProductRadioInterface extends InputInterface {
@@ -176,6 +178,19 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
         </div>
     )
 }
+export const RadioInputGroove: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, label}) => {
+    const [field] = useField(name)
+    return (
+        <div className={[className, styles.checkboxSelect].join(' ')}>
+            <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
+            <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
+                <img src={img} alt={value.toString()}/>
+                <span>{label ?? value}</span>
+                {field.value === value && <CheckSvg classes={styles.checked}/>}
+            </label>
+        </div>
+    )
+}
 
 export const RadioInputGrain: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false}) => {
     const [field, , helpers] = useField(name);
@@ -205,7 +220,7 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
                                                                                   }) => {
     const labelName = name.replace('_', ' ')
     const [, , helpers] = useField(name)
-    const labelCustom =nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
+    const labelCustom = nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
 
 
     function convert(input: HTMLInputElement): void {
@@ -339,6 +354,25 @@ export const ProductOptionsInput: FC<ProductOptionsRadioInterface> = ({name, cla
                 id={value}/>
             <label htmlFor={value}
                    className={styles.radioLabel}><span>{value}</span></label>
+        </div>
+    )
+}
+
+
+export const CustomPartAttrCheckbox: FC<{ name: string, className?: MaybeUndefined<string>, label?: string }> = ({
+                                                                                                                     label,
+                                                                                                                     name,
+                                                                                                                     className
+                                                                                                                 }) => {
+    return (
+        <div className={[className, styles.productRadio].join(' ')}>
+            <Field
+                type="checkbox"
+                name={name}
+                id={name}
+            />
+            <label htmlFor={name}
+                   className={styles.radioLabel}><span>{label ?? name}</span></label>
         </div>
     )
 }

@@ -11,10 +11,11 @@ import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 
-const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
+const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
     const {subcategory, product_id, custom} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet} = custom;
+    const {accessories, standard_doors, standard_panels, material, rta_closet, groove} = custom;
+    console.log(groove)
     switch (subcategory) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product} dimensions={dimensions}/>
@@ -34,18 +35,31 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions:string }> = ({
             return <CartItemDoor standard_doors={standard_doors}/>
         case 'standard-panel':
             if (!standard_panels) return null;
-            return <CartItemPanel standard_panels={standard_panels} prod_id={product_id} />
+            return <CartItemPanel standard_panels={standard_panels} prod_id={product_id}/>
         case 'rta-closets':
             if (!rta_closet) return null
-            return <CartItemRTAClosetCustom rta_closet={rta_closet}  />
+            return <CartItemRTAClosetCustom rta_closet={rta_closet}/>
         default:
             return <>
                 <Dimentions dimensions={dimensions}/>
                 {material &&
-                  <div className={s.itemOption}>
-                    <span>Material:</span>
-                    <span>{material}</span>
-                  </div>}
+                <div className={s.itemOption}>
+                  <span>Material:</span>
+                  <span>{material}</span>
+                </div>}
+                {
+                    groove &&
+                    <>
+                      <div className={s.itemOption}>
+                        <span>Groove Styles:</span>
+                        <span>{groove.style}</span>
+                      </div>
+                      <div className={s.itemOption}>
+                        <span>Clear Coat:</span>
+                        <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
+                      </div>
+                    </>
+                }
             </>
     }
 }

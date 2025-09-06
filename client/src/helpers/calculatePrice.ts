@@ -32,7 +32,7 @@ import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RoomMaterialsFormType} from "./roomTypes";
 import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
-    DoorAccessoryAPIType,
+    DoorAccessoryAPIType, GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -614,7 +614,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 return 37.8;
             case "Wood ribbed doors": {
                 const finish = door_finish_material as FinishTypes;
-                const extra = finish.includes('Clear Coat') ? 21.5 : 0;
+                const extra = finish.includes('Clear Coat') ? settings.fixPrices.clear_coat : 0;
                 if (finish.includes('Maple')||finish.includes('Birch')) return 145+extra;
                 if (finish.includes('White Oak')||finish.includes('Walnut')) return 225+extra;
             }
@@ -654,7 +654,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room, is_leather_or_rta_closet);
-    console.log(door_price_multiplier)
     return {
         is_standard_room,
         category,
@@ -708,10 +707,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
     let price: number = 0;
     const {width, height, depth, custom, glass} = values;
     if (!custom) return price;
-    const {material, accessories, standard_doors, standard_panels, rta_closet} = custom;
+    const {material, accessories, standard_doors, standard_panels, rta_closet, groove} = custom;
     const {door_color, door_type} = materials
 
-    const {id, materials_array, type} = product;
+    const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
     switch (type) {
         case "custom":
@@ -720,7 +719,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         case "glass-door":
         case "glass-shelf": {
             let priceCustom = 0;
-            const finishColorCoef = getFinishColorCoefCustomPart(id, material, materials.door_color);
+            const finishColorCoef = getFinishColorCoefCustomPart(id, material, door_color);
             switch (id) {
                 case 900: {
                     switch (material) {
@@ -929,9 +928,11 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case "custom-doors": {
-            price = getCustomDoorsPrice(width, height, id);
+            price = getCustomDoorsPrice(area, id);
             break;
         }
+        case "ribbed":
+            price = getRibbedCustomPartPrice(material, groove, area);
     }
     return price * settings.global_price_coef;
 }
@@ -1140,8 +1141,22 @@ export const getRTAClosetCustomPartPrice = (rta_closet_custom: MaybeNull<RTAClos
     return +(rta_closet_custom.reduce((acc, item) => acc + (getItemPrice(item) * item.qty), 0)).toFixed(2)
 }
 
-export const getCustomDoorsPrice = (width: number, height: number, id: number): number => {
-    const area = +(width * height / 144).toFixed(2);
+export const getCustomDoorsPrice = (area: number, id: number): number => {
     const coef = id === 924 ? 78 : 104
     return +(area * coef).toFixed(1);
+}
+
+export const getRibbedCustomPartPrice = (material:MaybeUndefined<string>, groove:MaybeUndefined<GrooveAPIType>, area:number):number => {
+    const clearCoatPrice = groove?.clear_coat ? settings.fixPrices.clear_coat : 0;
+    switch (material) {
+        case "Painted":
+            return area*(78+clearCoatPrice)
+        case "Maple":
+        case "Birch":
+            return area*(145+clearCoatPrice)
+        case "White Oak":
+        case "Walnut":
+            return area*(225+clearCoatPrice)
+    }
+    return 0
 }

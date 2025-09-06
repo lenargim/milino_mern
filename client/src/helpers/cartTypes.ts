@@ -1,6 +1,6 @@
 import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
-import {DoorAccessoryAPIType, RTAClosetAPIType} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryAPIType, GrooveAPIType, RTAClosetAPIType} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 
@@ -71,6 +71,7 @@ export interface CartItemFrontType extends CartAPIImagedType {
 
 export type CartCustomType = {
     material?: string,
+    groove?: GrooveAPIType,
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,

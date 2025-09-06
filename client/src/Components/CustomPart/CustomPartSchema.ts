@@ -209,6 +209,15 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
             });
         case "custom-doors":
             return customDoorsSchema;
+        case "ribbed":
+            const ribbedSchema = Yup.object({
+                material: Yup.string().required(),
+                groove: Yup.object({
+                    style: Yup.string(),
+                    clear_coat: Yup.boolean()
+                })
+            })
+            return ribbedSchema.concat(customDoorsSchema)
         default:
             return undefined
     }

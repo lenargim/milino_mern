@@ -119,7 +119,8 @@ export const getAttributes = (attributes: attrItem[], type: productTypings = 1) 
     })
 }
 
-export const getProductImage = (images: string[], imgType: productTypings = 1): string => {
+export const getProductImage = (images: MaybeUndefined<string[]>, imgType: productTypings = 1): string => {
+    if (!images) return noImg;
     for (let i = imgType; i >= 0; i--) {
         const imgLink = images[i - 1];
         if (imgLink) return getImg('products', imgLink);
@@ -396,7 +397,8 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         led_accessories,
         standard_doors,
         standard_panels,
-        rta_closet_custom
+        rta_closet_custom,
+        groove
     } = values;
 
     const {id, product_type, name} = product;
@@ -508,6 +510,12 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         }))
         if (rta_closet_custom_api.length) forceSetPath(preparedProduct, 'custom.rta_closet', rta_closet_custom_api)
     }
+
+    //Groove
+    if (groove) {
+        forceSetPath(preparedProduct, 'custom.groove', groove);
+    }
+
     return preparedProduct;
 }
 
@@ -1367,12 +1375,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_doors: null,
             standard_panels: initialStandardPanels,
             rta_closet_custom: [],
+            groove: null,
             note: '',
             price: 0,
         }
     } else {
         const {width, height, depth, custom, note, price, glass} = cartItemValues;
-        const {standard_doors, standard_panels, material, rta_closet, accessories} = custom!;
+        const {standard_doors, standard_panels, material, rta_closet, accessories, groove} = custom!;
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories ? {
             led_alum_profiles: accessories.led_alum_profiles.map(el => ({
                 qty: el.qty,
@@ -1435,6 +1444,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_doors: standardDoorValues,
             standard_panels: standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
+            groove: groove ?? null,
             note,
             price: price,
         }

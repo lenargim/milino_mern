@@ -153,7 +153,15 @@ const CartSchema = new mongoose.Schema({
         name: {type: String},
         width: {type: Number}
       }
-    ]
+    ],
+    groove: {
+      style: {
+        type: String,
+      },
+      clear_coat: {
+        type: Boolean
+      }
+    }
   },
   note: {
     type: String,

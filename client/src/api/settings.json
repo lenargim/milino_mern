@@ -258,7 +258,8 @@
     "PTO for drawers": 80,
     "PTO for trash bins": 350,
     "Glass Shelf": 170,
-    "plastic_toe": 91
+    "plastic_toe": 91,
+    "clear_coat": 21.5
   },
   "blindRange": {
     "Base Cabinets": 27,

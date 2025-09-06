@@ -3100,15 +3100,18 @@
   "groove": [
     {
       "value": "1/4 rounded",
-      "img": "1_4 rounded.jpg"
+      "img": "1_4 rounded.jpg",
+      "label": "rounded, 1/4 slats, 1/4 grooves"
     },
     {
       "value": "1/4 squared",
-      "img": "1_4 squared.jpg"
+      "img": "1_4 squared.jpg",
+      "label": "squared, 1/4 slats, 1/4 grooves"
     },
     {
       "value": "3/4 squared",
-      "img": "3_4 squared.jpg"
+      "img": "3_4 squared.jpg",
+      "label": "squared, 3/4 slats, 1/4 grooves"
     }
   ],
   "boxMaterial": [
