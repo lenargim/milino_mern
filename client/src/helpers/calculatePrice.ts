@@ -933,8 +933,12 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case "ribbed":
             price = getRibbedCustomPartPrice(material, groove, area);
+            break;
+        case "floating-shelf":
+            const sq = width*depth/144;
+            price = getFloatingShelfCustomPartPrice(material, sq);
     }
-    return price * settings.global_price_coef;
+    return +(price * settings.global_price_coef).toFixed(1);
 }
 
 export const addToCartDoorAccessories = (values: MaybeNull<DoorAccessoryAPIType[]>): number => {
@@ -1157,6 +1161,22 @@ export const getRibbedCustomPartPrice = (material:MaybeUndefined<string>, groove
         case "White Oak":
         case "Walnut":
             return area*(225+clearCoatPrice)
+    }
+    return 0
+}
+
+export const getFloatingShelfCustomPartPrice = (material:MaybeUndefined<string>, area:number):number => {
+    switch (material) {
+        case "Milino":
+            return area*72;
+        case "Syncron":
+            return area*86.4;
+        case "Luxe":
+            return area*102;
+        case "Painted":
+            return area*132.6;
+        case "Wood Veneer":
+            return area*153;
     }
     return 0
 }

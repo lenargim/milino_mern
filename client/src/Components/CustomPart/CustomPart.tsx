@@ -49,7 +49,6 @@ export type DoorAccessoryFront = {
     value: string,
 }
 
-
 export type DoorAccessoryAPIType = {
     value: string,
     qty: number

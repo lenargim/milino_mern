@@ -1308,10 +1308,10 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, depth, limits, height_range} = customPart
+    const {width, height, depth, limits, height_range } = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
     const w = width ?? getLimit(sizeLimitInitial.width);
-    const h = height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height);
+    const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height));
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
     return {
         initial_width: w,

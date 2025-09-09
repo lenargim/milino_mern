@@ -36,9 +36,10 @@ export type CustomTypes =
     | 'plastic_toe'
     | 'rta-closets'
     | 'custom-doors'
-    | 'ribbed';
+    | 'ribbed'
+    | 'floating-shelf';
 
-const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels'] as const;
+const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels','1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];
 
 export type kitchenCategories =
@@ -98,6 +99,7 @@ export interface CustomPartType extends ProductOrCustomType{
     name: CustomPartsNamesType,
     type: CustomTypes,
     width?: number,
+    height?: number,
     depth?: number,
     height_range?: number[],
     materials_array?: materialsCustomPart[],

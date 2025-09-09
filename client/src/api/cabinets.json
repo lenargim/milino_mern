@@ -5202,6 +5202,269 @@
     "type": "standard-glass-doors",
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
+
+
+
+
+  {
+    "id": 903,
+    "product_type": "custom",
+    "name": "Panel, Filler, WTK",
+    "type": "custom",
+    "depth": 0,
+    "materials_array": [
+      {
+        "name": "Milino",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Plywood",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Luxe",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Zenit",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Syncron",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan PET",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            120
+          ]
+        }
+      }
+    ],
+    "images": ["custom/Panel.webp"]
+  },
+  {
+    "id": 906,
+    "product_type": "custom",
+    "name": "L Shape",
+    "type": "custom",
+    "materials_array": [
+      {
+        "name": "Milino",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            96
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Plywood",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            96
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Luxe",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Zenit",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Syncron",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan PET",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            120
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      }
+    ],
+    "images": ["custom/L-Shape.webp"]
+  },
   {
     "id": 900,
     "product_type": "custom",
@@ -5348,6 +5611,149 @@
     "images": ["custom/Open Cabinet.webp"]
   },
   {
+    "id": 905,
+    "product_type": "custom",
+    "name": "Double Panel",
+    "type": "custom",
+    "depth": 0,
+    "materials_array": [
+      {
+        "name": "Milino",
+        "limits": {
+          "width": [
+            2.5,
+            96
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Plywood",
+        "limits": {
+          "width": [
+            2.5,
+            96
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Luxe",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Zenit",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Syncron",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan PET",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            2.5,
+            120
+          ],
+          "height": [
+            2.5,
+            120
+          ]
+        }
+      }
+    ],
+    "images": ["custom/Double Panel.webp"]
+  },
+  {
+    "id": 927,
+    "product_type": "custom",
+    "name": "1½” Thick Floating Shelves",
+    "type": "floating-shelf",
+    "materials_array": [
+      {
+        "name": "Milino"
+      },
+      {
+        "name": "Syncron"
+      },
+      {
+        "name": "Luxe"
+      },
+      {
+        "name": "Painted"
+      },
+      {
+        "name": "Wood Veneer"
+      }
+    ],
+    "limits": {
+      "width": [5,99],
+      "depth": [5,99]
+    },
+    "height": 1.5,
+    "images": ["custom/1-1_2-floating-shelf.webp"]
+  },
+  {
     "id": 901,
     "product_type": "custom",
     "name": "Floating Shelf",
@@ -5474,379 +5880,6 @@
       }
     ],
     "images": ["custom/Floating Shelf.webp"]
-  },
-  {
-    "id": 903,
-    "product_type": "custom",
-    "name": "Panel, Filler, WTK",
-    "type": "custom",
-    "depth": 0,
-    "materials_array": [
-      {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            120
-          ]
-        }
-      }
-    ],
-    "images": ["custom/Panel.webp"]
-  },
-  {
-    "id": 905,
-    "product_type": "custom",
-    "name": "Double Panel",
-    "type": "custom",
-    "depth": 0,
-    "materials_array": [
-      {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            2.5,
-            96
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            2.5,
-            96
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
-      },
-      {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
-      },
-      {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            2.5,
-            120
-          ],
-          "height": [
-            2.5,
-            120
-          ]
-        }
-      }
-    ],
-    "images": ["custom/Double Panel.webp"]
-  },
-  {
-    "id": 906,
-    "product_type": "custom",
-    "name": "L Shape",
-    "type": "custom",
-    "materials_array": [
-      {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      },
-      {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            120
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
-      }
-    ],
-    "images": ["custom/L-Shape.webp"]
   },
   {
     "id": 907,
