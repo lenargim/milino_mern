@@ -211,7 +211,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const showLeatherNote = isLeatherNote(showLeatherType, leather)
     return (
         <Form className={s.roomForm}>
-            <TextInput type={"text"} label={roomNameText} name="name" autoFocus={true}/>
+            <TextInput type="text" label={roomNameText} name="name" autoFocus={true}/>
             {hasName &&
             <RoomMaterialsDataType data={categories} value={category} name="category" label="Category"/>}
             {showGolaType &&
@@ -221,7 +221,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             {showDoorType &&
             <RoomMaterialsDataType data={doorTypeArr} value={door_type} name='door_type' label="Door Type"/>}
             {showGroove && <RoomMaterialsDataType data={grooveArr} value={groove} name='groove' label="Grooves style"/>}
-
             {showDoorFinish &&
             <RoomMaterialsDataType data={finishArr} value={door_finish_material} name='door_finish_material'
                                    label="Door Finish Material. Price increase from left to right"/>}

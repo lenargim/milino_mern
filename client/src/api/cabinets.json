@@ -5316,6 +5316,19 @@
             120
           ]
         }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
       }
     ],
     "images": ["custom/Panel.webp"]
@@ -5455,6 +5468,23 @@
           "height": [
             6,
             120
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
           ],
           "depth": [
             4,
@@ -5606,6 +5636,23 @@
             120
           ]
         }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            6,
+            108
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            6,
+            108
+          ]
+        }
       }
     ],
     "images": ["custom/Open Cabinet.webp"]
@@ -5718,6 +5765,19 @@
           "height": [
             2.5,
             120
+          ]
+        }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            2.5,
+            108
+          ],
+          "height": [
+            2.5,
+            108
           ]
         }
       }
@@ -5877,6 +5937,23 @@
             48
           ]
         }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            3,
+            108
+          ],
+          "height": [
+            3,
+            108
+          ],
+          "depth": [
+            3,
+            48
+          ]
+        }
       }
     ],
     "images": ["custom/Floating Shelf.webp"]
@@ -6005,6 +6082,23 @@
             48
           ]
         }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            3,
+            48
+          ],
+          "height": [
+            6,
+            108
+          ],
+          "depth": [
+            4,
+            48
+          ]
+        }
       }
     ],
     "images": ["custom/Column.webp"]
@@ -6114,6 +6208,20 @@
           ]
         },
         "depth": 1
+      },
+      {
+        "name": "Micro Shaker Veneer",
+        "limits": {
+          "width": [
+            5,
+            120
+          ],
+          "height": [
+            5,
+            120
+          ]
+        },
+        "depth": 1
       }
     ],
     "images": ["custom/Shaker Panel.webp"]
@@ -6192,6 +6300,19 @@
       },
       {
         "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            4,
+            108
+          ],
+          "height": [
+            4,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Wood Veneer",
         "limits": {
           "width": [
             4,

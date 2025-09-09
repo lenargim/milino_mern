@@ -229,7 +229,6 @@ function getPvcPrice(doorWidth: number, doorHeight: number, isAcrylic = false, h
 }
 
 function getDoorPrice(square: number, materialData: materialDataType): number {
-    // if (isProductStandard) return 0;
     const {
         door_price_multiplier,
         is_leather_or_rta_closet,
@@ -296,6 +295,8 @@ function getPanelPrice(square: number, door_finish_material: MaybeUndefined<stri
             return square * k * 24 * 1.03;
         case "Painted":
             return square * k * 31.2 * 1.3;
+        case "Wood Veneer":
+            return square * k * 42;
         default:
             return 0;
     }
@@ -319,6 +320,8 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
             return square * 78;
         case "Micro Shaker":
             return square * 60
+        case "Micro Shaker Veneer":
+            return square * 96;
         default:
             return 0;
     }
@@ -593,8 +596,10 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
     if (is_standard_room) return door_color === 'Default White' ? 0 : 30;
     if (!is_leather_closet) {
         if (!door_type) return 0;
+
         switch (door_type as DoorTypesType) {
             case "Slab":
+                if (door_finish_material === 'Wood Veneer') return 22;
                 return 0;
             case "No Doors":
                 return -8;
@@ -607,16 +612,22 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 if (door_finish_material === 'Slab') return 30;
                 return 43.2;
             case "Micro Shaker":
-                if (door_finish_material === 'Milino') return 30;
-                return 36;
+                switch (door_finish_material as FinishTypes) {
+                    case "Milino":
+                        return 30;
+                    case "Wood Veneer":
+                        return 58
+                    default:
+                        return 36;
+                }
             case "Slatted":
                 if (door_finish_material === 'Milino') return 31.5;
                 return 37.8;
             case "Wood ribbed doors": {
                 const finish = door_finish_material as FinishTypes;
                 const extra = finish.includes('Clear Coat') ? settings.fixPrices.clear_coat : 0;
-                if (finish.includes('Maple')||finish.includes('Birch')) return 145+extra;
-                if (finish.includes('White Oak')||finish.includes('Walnut')) return 225+extra;
+                if (finish.includes('Maple') || finish.includes('Birch')) return 145 + extra;
+                if (finish.includes('White Oak') || finish.includes('Walnut')) return 225 + extra;
             }
         }
         return 0;
@@ -745,6 +756,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                         case "Painted":
                             priceCustom = ((width * height * depth / 20) + 120) * 1.3 * 1.05;
                             break;
+                        case "Wood Veneer":
+                            priceCustom = ((width * height * depth / 10) + 120);
+                            break;
                     }
                     break;
                 }
@@ -769,6 +783,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                             break;
                         case "Painted":
                             priceCustom = opetCabinetCoef * 31.2 * 1.05;
+                            break;
+                        case "Wood Veneer":
+                            priceCustom = opetCabinetCoef * 34;
                             break;
                     }
                     break;
@@ -801,6 +818,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                         case "Painted":
                             priceCustom = area * 78;
                             break;
+                        case "Wood Veneer":
+                            priceCustom = area * 90;
+                            break;
                     }
                     break;
                 }
@@ -831,6 +851,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                         case "Painted":
                             priceCustom = lSHapeArea * 74.4;
                             break
+                        case "Wood Veneer":
+                            priceCustom = lSHapeArea * 100;
+                            break
                     }
                     break
                 }
@@ -856,6 +879,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                         case "Painted":
                             priceCustom = columnArea * 23.92;
                             break
+                        case "Wood Veneer":
+                            priceCustom = columnArea * 26;
+                            break
                     }
                     break
                 }
@@ -870,6 +896,16 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 case 911: {
                     let decorPrice = area > 4 ? area * 64 : 240;
                     priceCustom = material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
+                    switch (material) {
+                        case "Ultrapan Acrylic":
+                            priceCustom = decorPrice * 1.1;
+                            break;
+                        case "Wood Veneer":
+                            priceCustom = area > 4 ? area * 105 : 240;
+                            break;
+                        default:
+                            priceCustom = decorPrice;
+                    }
                     break
                 }
                 case 912: {
@@ -935,7 +971,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             price = getRibbedCustomPartPrice(material, groove, area);
             break;
         case "floating-shelf":
-            const sq = width*depth/144;
+            const sq = width * depth / 144;
             price = getFloatingShelfCustomPartPrice(material, sq);
     }
     return +(price * settings.global_price_coef).toFixed(1);
@@ -1150,33 +1186,33 @@ export const getCustomDoorsPrice = (area: number, id: number): number => {
     return +(area * coef).toFixed(1);
 }
 
-export const getRibbedCustomPartPrice = (material:MaybeUndefined<string>, groove:MaybeUndefined<GrooveAPIType>, area:number):number => {
+export const getRibbedCustomPartPrice = (material: MaybeUndefined<string>, groove: MaybeUndefined<GrooveAPIType>, area: number): number => {
     const clearCoatPrice = groove?.clear_coat ? settings.fixPrices.clear_coat : 0;
     switch (material) {
         case "Painted":
-            return area*(78+clearCoatPrice)
+            return area * (78 + clearCoatPrice)
         case "Maple":
         case "Birch":
-            return area*(145+clearCoatPrice)
+            return area * (145 + clearCoatPrice)
         case "White Oak":
         case "Walnut":
-            return area*(225+clearCoatPrice)
+            return area * (225 + clearCoatPrice)
     }
     return 0
 }
 
-export const getFloatingShelfCustomPartPrice = (material:MaybeUndefined<string>, area:number):number => {
+export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>, area: number): number => {
     switch (material) {
         case "Milino":
-            return area*72;
+            return area * 72;
         case "Syncron":
-            return area*86.4;
+            return area * 86.4;
         case "Luxe":
-            return area*102;
+            return area * 102;
         case "Painted":
-            return area*132.6;
+            return area * 132.6;
         case "Wood Veneer":
-            return area*153;
+            return area * 153;
     }
     return 0
 }
