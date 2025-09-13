@@ -1,10 +1,11 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 import {RoomCategoriesType} from "./roomTypes";
-import {DoorAccessoryType, LedAccessoriesFormType} from "../Components/CustomPart/CustomPart";
+import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
 import {BoxMaterialType} from "./roomTypes";
+import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3
@@ -37,7 +38,8 @@ export type CustomTypes =
     | 'rta-closets'
     | 'custom-doors'
     | 'ribbed'
-    | 'floating-shelf';
+    | 'floating-shelf'
+    | 'drawer-inserts';
 
 const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, WTK', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels','1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];
@@ -390,4 +392,23 @@ export type InitialSizesType = {
     initial_width: number,
     initial_height: number,
     initial_depth: number
+}
+
+export type LedAccessoriesFormType = {
+    alum_profiles: {
+        length_string: string,
+        length: number,
+        qty: number
+    }[],
+    gola_profiles: {
+        length_string: string,
+        length: number,
+        color: colorOption,
+        qty: number,
+    }[],
+    transformer_60_W: number,
+    transformer_100_W: number,
+    remote_control: number,
+    door_sensor_single: number,
+    door_sensor_double: number,
 }

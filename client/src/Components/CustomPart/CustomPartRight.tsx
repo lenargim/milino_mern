@@ -15,6 +15,7 @@ import {addToCartCustomPart} from "../../helpers/helpers";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartRibbed from "./CustomPartRibbed";
 import CustomPartFloatingShelf from "./CustomPartFloatingShelf";
+import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -73,6 +74,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartRibbed product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "floating-shelf":
             return <CustomPartFloatingShelf product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+        case "drawer-inserts":
+            return <CustomPartDrawerInserts product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         default:
             return null;
     }

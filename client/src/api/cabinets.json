@@ -6469,6 +6469,19 @@
     ]
   },
   {
+    "id": 928,
+    "product_type": "custom",
+    "name": "Drawer Inserts",
+    "type": "drawer-inserts",
+    "limits": {
+      "width": [
+        12,
+        48
+      ]
+    },
+    "images": ["custom/drawer-inserts.webp"]
+  },
+  {
     "id": 913,
     "product_type": "custom",
     "name": "Shaker Glass Door",

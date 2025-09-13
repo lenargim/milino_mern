@@ -1,55 +1,68 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {CustomAccessoriesType} from "../../helpers/cartTypes";
+import {LEDAccessoriesType} from "../../helpers/cartTypes";
 import {getFraction} from "../../helpers/helpers";
 
-const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
-    if (!accessories) return null;
+const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
     const {
-        led_alum_profiles,
-        led_gola_profiles,
-        led_door_sensor,
-        led_dimmable_remote,
-        led_transformer
-    } = accessories
+        alum_profiles,
+        gola_profiles,
+        transformer_60_W,
+        transformer_100_W,
+        remote_control,
+        door_sensor_single,
+        door_sensor_double
+    } = led;
     return (
         <>
-            {led_alum_profiles.length ?
+            {alum_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
-                    <span>{led_alum_profiles.map((profile, index) =>
-                        <span className={s.profileItem} key={index}>{getFraction(profile.length)}'' x {profile.qty}</span>
+                    <span>{alum_profiles.map((profile, index) =>
+                        <span className={s.profileItem}
+                              key={index}>{getFraction(profile.length)}'' x {profile.qty}</span>
                     )}</span>
                 </div>
                 : null}
-            {led_gola_profiles.length ?
+            {gola_profiles.length ?
                 <div className={s.itemOption}>
                     <span>LED Gola Profiles:</span>
-                    <span>{led_gola_profiles.map((profile, index) =>
+                    <span>{gola_profiles.map((profile, index) =>
                         <span className={s.profileItem}
                               key={index}>{getFraction(profile.length)}'' x {profile.qty} - {profile.color}</span>
                     )}</span>
                 </div>
                 : null}
-            {led_door_sensor ?
+            {transformer_60_W ?
                 <div className={s.itemOption}>
-                    <span>Door Sensor:</span>
-                    <span>{led_door_sensor}</span>
+                    <span>Transformer 60W:</span>
+                    <span>{transformer_60_W}</span>
                 </div>
                 : null}
-            {led_dimmable_remote ?
+            {transformer_100_W ?
                 <div className={s.itemOption}>
-                    <span>Dimmable Remote:</span>
-                    <span>{led_dimmable_remote}</span>
+                    <span>Transformer 100W:</span>
+                    <span>{transformer_100_W}</span>
                 </div>
                 : null}
-            {led_transformer ?
+            {remote_control ?
                 <div className={s.itemOption}>
-                    <span>Transformer:</span>
-                    <span>{led_transformer}</span>
+                    <span>Remote Control:</span>
+                    <span>{remote_control}</span>
                 </div>
                 : null}
-
+            {door_sensor_single ?
+                <div className={s.itemOption}>
+                    <span>Door Sensor Single:</span>
+                    <span>{door_sensor_single}</span>
+                </div>
+                : null}
+            {door_sensor_double ?
+                <div className={s.itemOption}>
+                    <span>Door Sensor Double:</span>
+                    <span>{door_sensor_double}</span>
+                </div>
+                : null}
         </>
     );
 };

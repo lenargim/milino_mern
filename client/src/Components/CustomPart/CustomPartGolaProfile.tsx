@@ -39,8 +39,8 @@ const CustomPartGolaProfile: FC<{ profile: golaProfileFormType, index: number, a
         <div className={s.row}>
             <button onClick={() => remove(index)} className={s.close} type={"button"}>×</button>
             <ProductInputCustom label="Length"
-                                name={`[led_accessories.led_gola_profiles].${index}.length_string`}/>
-            <ColorField options={colorsArr} name={`[led_accessories.led_gola_profiles].${index}.color`}/>
+                                name={`[led_accessories.gola_profiles].${index}.length_string`}/>
+            <ColorField options={colorsArr} name={`[led_accessories.gola_profiles].${index}.color`}/>
             <div className={s.row}>×
                 <div className={s.buttons}>
                     <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')}

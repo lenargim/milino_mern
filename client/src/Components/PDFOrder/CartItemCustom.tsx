@@ -11,12 +11,13 @@ import {s} from './PDFOrder'
 import Dimensions from "./Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
+import CartItemDrawerInserts from "./CartItemDrawerInserts";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
-    const {subcategory, product_id, custom} = product;
+    const {subcategory, product_id, custom, width} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet, groove} = custom;
+    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_inserts} = custom;
     switch (subcategory) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product} dimensions={dimensions}/></View>
@@ -29,8 +30,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = (
             return <View><CartItemDoorExtra accessories={accessories}/></View>
         }
         case 'led-accessories': {
-            if (!accessories) return null;
-            return <View><CartItemLEDExtra accessories={accessories}/></View>
+            if (!accessories || !accessories.led) return null;
+            return <View><CartItemLEDExtra led={accessories.led}/></View>
         }
         case 'standard-doors':
         case 'standard-glass-doors':
@@ -42,6 +43,9 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = (
         case 'rta-closets':
             if (!rta_closet) return null
             return <View><CartItemRTAClosetCustom rta_closet={rta_closet}/></View>
+        case 'drawer-inserts':
+            if (!drawer_inserts) return null;
+            return <View><CartItemDrawerInserts drawer_inserts={drawer_inserts} width={width} /></View>
         default:
             return <View>
                 <Dimensions dimensions={dimensions}/>

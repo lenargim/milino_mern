@@ -32,7 +32,7 @@ import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RoomMaterialsFormType} from "./roomTypes";
 import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
-    DoorAccessoryAPIType, GrooveAPIType,
+    DoorAccessoryAPIType, DrawerInsertsType, GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -718,9 +718,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
     let price: number = 0;
     const {width, height, depth, custom, glass} = values;
     if (!custom) return price;
-    const {material, accessories, standard_doors, standard_panels, rta_closet, groove} = custom;
+    const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_inserts} = custom;
     const {door_color, door_type} = materials
-
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
     switch (type) {
@@ -935,7 +934,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case "led-accessories": {
-            if (accessories) price = getLEDProductCartPrice(accessories);
+            if (accessories?.led) price = getLEDProductCartPrice(accessories.led);
             break;
         }
         case "door-accessories": {
@@ -973,6 +972,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         case "floating-shelf":
             const sq = width * depth / 144;
             price = getFloatingShelfCustomPartPrice(material, sq);
+            break;
+        case "drawer-inserts":
+            price = getDrawerInsertsCustomPartPrice(drawer_inserts, width);
+            break;
     }
     return +(price * settings.global_price_coef).toFixed(1);
 }
@@ -1215,4 +1218,20 @@ export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>
             return area * 153;
     }
     return 0
+}
+
+export const getDrawerInsertsCustomPartPrice = (drawer:MaybeUndefined<DrawerInsertsType>, width:number):number => {
+    if (!drawer || !width) return 0;
+    const {box_type, color} = drawer;
+    if (!color) return 0;
+    let colorCoef:number = 0;
+    switch (box_type) {
+        case "Inserts":
+            colorCoef = color === 'Maple' ? 5 : 9;break;
+        case "Pegs":
+            colorCoef = color === 'Maple' ? 4 : 8;break;
+        case "Spice":
+            colorCoef = color === 'Maple' ? 4 : 5;break;
+    }
+    return Math.round(width * colorCoef * 1.4);
 }

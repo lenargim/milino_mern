@@ -68,37 +68,45 @@ const CartSchema = new mongoose.Schema({
       type: String,
     },
     accessories: {
-      led_alum_profiles: [
-        {
-          length: {
-            type: Number,
-          },
-          qty: {
-            type: Number,
+      led: {
+        alum_profiles: [
+          {
+            length: {
+              type: Number,
+            },
+            qty: {
+              type: Number,
+            }
           }
-        }
-      ],
-      led_gola_profiles: [
-        {
-          length: {
-            type: Number,
-          },
-          color: {
-            type: String,
-          },
-          qty: {
-            type: Number,
-          },
-        }
-      ],
-      led_door_sensor: {
-        type: Number,
-      },
-      led_dimmable_remote: {
-        type: Number,
-      },
-      led_transformer: {
-        type: Number,
+        ],
+        gola_profiles: [
+          {
+            length: {
+              type: Number,
+            },
+            color: {
+              type: String,
+            },
+            qty: {
+              type: Number,
+            },
+          }
+        ],
+        transformer_60_W: {
+          type: Number,
+        },
+        transformer_100_W: {
+          type: Number,
+        },
+        remote_control: {
+          type: Number,
+        },
+        door_sensor_single: {
+          type: Number,
+        },
+        door_sensor_double: {
+          type: Number,
+        },
       },
       door: [
         {
@@ -161,6 +169,17 @@ const CartSchema = new mongoose.Schema({
       clear_coat: {
         type: Boolean
       }
+    },
+    drawer_inserts: {
+      box_type: {
+        type: String
+      },
+      color: {
+        type: String
+      },
+      insert_type: {
+        type: String
+      },
     }
   },
   note: {

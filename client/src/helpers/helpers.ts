@@ -24,7 +24,7 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType
+    InitialSizesType, LedAccessoriesFormType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -44,7 +44,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, LedAccessoriesFormType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
@@ -64,7 +64,7 @@ import {
     CartItemFrontType,
     CartOrder,
     CustomAccessoriesType,
-    IsStandardOptionsType
+    IsStandardOptionsType, LEDAccessoriesType
 } from "./cartTypes";
 import {
     colorType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
@@ -398,7 +398,8 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         standard_doors,
         standard_panels,
         rta_closet_custom,
-        groove
+        groove,
+        drawer_inserts
     } = values;
 
     const {id, product_type, name} = product;
@@ -459,28 +460,32 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
     // LED Accessories
     if (led_accessories) {
         const {
-            led_alum_profiles,
-            led_gola_profiles,
-            led_transformer,
-            led_door_sensor,
-            led_dimmable_remote
+            alum_profiles,
+            gola_profiles,
+            transformer_60_W,
+            transformer_100_W,
+            remote_control,
+            door_sensor_single,
+            door_sensor_double
         } = led_accessories;
 
-        const led_alum_profiles_api = led_alum_profiles.map(el => ({
+        const alum_profiles_api = alum_profiles.map(el => ({
             length: el.length,
             qty: el.qty
         }));
-        const led_gola_profiles_api = led_gola_profiles.map(el => ({
+        const gola_profiles_api = gola_profiles.map(el => ({
             length: el.length,
             qty: el.qty,
             color: el.color
         }));
 
-        if (led_alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_alum_profiles', led_alum_profiles_api);
-        if (led_gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led_gola_profiles', led_gola_profiles_api);
-        if (led_dimmable_remote) forceSetPath(preparedProduct, 'custom.accessories.led_dimmable_remote', led_dimmable_remote);
-        if (led_door_sensor) forceSetPath(preparedProduct, 'custom.accessories.led_door_sensor', led_door_sensor);
-        if (led_transformer) forceSetPath(preparedProduct, 'custom.accessories.led_transformer', led_transformer);
+        if (alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.alum_profiles', alum_profiles_api);
+        if (gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.gola_profiles', gola_profiles_api);
+        if (transformer_60_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_60_W', transformer_60_W);
+        if (transformer_100_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_100_W', transformer_100_W);
+        if (remote_control) forceSetPath(preparedProduct, 'custom.accessories.led.remote_control', remote_control);
+        if (door_sensor_single) forceSetPath(preparedProduct, 'custom.accessories.led.door_sensor_single', door_sensor_single);
+        if (door_sensor_double) forceSetPath(preparedProduct, 'custom.accessories.led.door_sensor_double', door_sensor_double);
     }
 
     //Door Accessories
@@ -516,6 +521,11 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         forceSetPath(preparedProduct, 'custom.groove', groove);
     }
 
+    //Drawer Inserts
+    if (drawer_inserts) {
+        forceSetPath(preparedProduct, 'custom.drawer_inserts', drawer_inserts);
+    }
+
     return preparedProduct;
 }
 
@@ -534,7 +544,7 @@ export const isGolaShown = (category_gola_type: MaybeEmpty<GolaTypesType>): bool
     return category_gola_type.includes('Gola')
 }
 
-export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola:boolean): boolean => {
+export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola: boolean): boolean => {
     const {category, category_gola_type, gola} = values;
     if (!category) return false;
     switch (category as RoomCategoriesType) {
@@ -551,12 +561,12 @@ export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola:boolean)
     }
 }
 
-export const isGrooveShown = (door_type:MaybeEmpty<DoorTypesType>) => {
+export const isGrooveShown = (door_type: MaybeEmpty<DoorTypesType>) => {
     if (door_type === 'Wood ribbed doors') return true;
     return false;
 }
 
-export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove:boolean): boolean => {
+export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove: boolean): boolean => {
     const {category, door_type, groove} = values
     if (!category) return false;
     if (category === 'RTA Closet') return false;
@@ -565,7 +575,7 @@ export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: fini
     return !!(door_type && finishArr.length)
 }
 
-export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth:boolean): boolean => {
+export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth: boolean): boolean => {
     const {category, door_type, door_finish_material, door_frame_width} = values
     if (!category) return false;
     if (category === 'RTA Closet') return false;
@@ -589,7 +599,7 @@ export const isDoorGrain = (values: RoomMaterialsFormType, grainArr: MaybeNull<m
     return !(!door_finish_material || !grainArr || !grainArr.length)
 }
 
-export const isBoxMaterial = (values:RoomMaterialsFormType, boxMaterialArr:finishType[], showDoorFinish:boolean,showDoorColor:boolean,showDoorGrain:boolean): boolean => {
+export const isBoxMaterial = (values: RoomMaterialsFormType, boxMaterialArr: finishType[], showDoorFinish: boolean, showDoorColor: boolean, showDoorGrain: boolean): boolean => {
     const {category, door_grain, door_finish_material, door_color, door_type} = values;
     if (!category || !boxMaterialArr.length) return false;
     switch (category as RoomCategoriesType) {
@@ -664,11 +674,11 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
     return arr;
 }
 
-export const getDoorFinishArr = (doors:doorType[], door_type:MaybeEmpty<DoorTypesType>):finishType[] => {
+export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): finishType[] => {
     return doors.find(el => el.value === door_type)?.finish ?? [];
 }
 
-export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr:finishType[]): colorType[] => {
+export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
     const isStandardDoor = findIsRoomStandard(doorType);
     if (isStandardDoor) return standardColors.colors as colorType[] || [];
     if (doorType === 'Custom Painted Shaker') return finishArr?.[0].colors || [];
@@ -801,7 +811,6 @@ export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
 }
 
 const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNull<CartItemFrontType> => {
-    const {door_type, door_color} = room;
     const {
         product_id,
         width,
@@ -812,8 +821,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         product_type,
         blind_width,
         middle_section,
-        led,
-        custom,
+        led
     } = item;
     const materialData = getMaterialData(room, product_id);
     const {
@@ -892,20 +900,25 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
     }
 };
 
-export const getLEDProductCartPrice = (accessories: CustomAccessoriesType): number => {
+export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const {
-        led_alum_profiles = [],
-        led_gola_profiles = [],
-        led_door_sensor = 0,
-        led_dimmable_remote = 0,
-        led_transformer = 0,
-    } = accessories;
-    const alumProfPrice = led_alum_profiles.reduce((acc, profile) => acc + (profile.length * 2.55 * profile.qty), 0);
-    const golaProfPrice = led_gola_profiles.reduce((acc, profile) => acc + (profile.length * 5.5 * profile.qty), 0);
-    const dimRemotePrice = led_dimmable_remote * 100 || 0;
-    const doorSensorPrice = led_door_sensor * 150 || 0;
-    const transformerPrice = led_transformer * 50 || 0;
-    return +(alumProfPrice + golaProfPrice + dimRemotePrice + doorSensorPrice + transformerPrice).toFixed(1)
+        alum_profiles = [],
+        gola_profiles = [],
+        transformer_60_W = 0,
+        transformer_100_W = 0,
+        remote_control = 0,
+        door_sensor_single = 0,
+        door_sensor_double = 0,
+    } = led;
+    const pricesAPI = settings.led_custom_part;
+    const alumProfPrice = alum_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.alum_profiles * profile.qty), 0);
+    const golaProfPrice = gola_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.gola_profiles * profile.qty), 0);
+    const transformer60Price = transformer_60_W * pricesAPI.transformer_60_W || 0;
+    const transformer100Price = transformer_100_W * pricesAPI.transformer_100_W || 0;
+    const remoteControlPrice = remote_control * pricesAPI.remote_control || 0;
+    const doorSensorSinglePrice = door_sensor_single * pricesAPI.door_sensor_single || 0;
+    const doorSensorDoublePrice = door_sensor_double * pricesAPI.door_sensor_double || 0;
+    return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, door_color: string): number => {
@@ -943,6 +956,7 @@ export function usePrevious<T>(data: T) {
 }
 
 export const getdimensionsRow = (width: number, height: number, depth: number): string => {
+    // if (width && !height && !depth) return `${getFraction(width)}"Width`
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? ` ${getFraction(height)}"H` : '';
     const depthPart = depth && depth > 1 ? ` x ${getFraction(depth)}"D` : '';
@@ -1308,7 +1322,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, height, depth, limits, height_range } = customPart
+    const {width, height, depth, limits, height_range} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
     const w = width ?? getLimit(sizeLimitInitial.width);
     const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height));
@@ -1376,27 +1390,30 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: initialStandardPanels,
             rta_closet_custom: [],
             groove: null,
+            drawer_inserts: null,
             note: '',
             price: 0,
         }
     } else {
         const {width, height, depth, custom, note, price, glass} = cartItemValues;
-        const {standard_doors, standard_panels, material, rta_closet, accessories, groove} = custom!;
-        const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories ? {
-            led_alum_profiles: accessories.led_alum_profiles.map(el => ({
+        const {standard_doors, standard_panels, material, rta_closet, accessories, groove, drawer_inserts} = custom!;
+        const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
+            alum_profiles: accessories.led.alum_profiles.map(el => ({
                 qty: el.qty,
                 length_string: getFraction(el.length),
                 length: el.length
             })),
-            led_gola_profiles: accessories.led_gola_profiles.map(el => ({
+            gola_profiles: accessories.led.gola_profiles.map(el => ({
                 qty: el.qty,
                 length_string: getFraction(el.length),
                 length: el.length,
                 color: el.color
             })),
-            led_door_sensor: accessories.led_door_sensor,
-            led_dimmable_remote: accessories.led_dimmable_remote,
-            led_transformer: accessories.led_transformer,
+            transformer_60_W: accessories.led.transformer_60_W,
+            transformer_100_W: accessories.led.transformer_100_W,
+            remote_control: accessories.led.remote_control,
+            door_sensor_single: accessories.led.door_sensor_single,
+            door_sensor_double: accessories.led.door_sensor_double
         } : null;
 
         const doorAccessories = DA as DoorAccessoryFront[]
@@ -1445,13 +1462,14 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
             groove: groove ?? null,
+            drawer_inserts: drawer_inserts ?? null,
             note,
             price: price,
         }
     }
 }
 
-export const isCloset = (category:MaybeEmpty<RoomCategoriesType>):boolean => {
+export const isCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category.includes('Closet')
 }

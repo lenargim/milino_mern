@@ -1,6 +1,11 @@
 import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
-import {DoorAccessoryAPIType, GrooveAPIType, RTAClosetAPIType} from "../Components/CustomPart/CustomPart";
+import {
+    DoorAccessoryAPIType,
+    DrawerInsertsType,
+    GrooveAPIType,
+    RTAClosetAPIType
+} from "../Components/CustomPart/CustomPart";
 import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 
@@ -59,7 +64,6 @@ export interface CartOrder {
     led?: CartLEDAPI,
     custom?: MaybeUndefined<CartCustomType>,
     note: string,
-    // price: number
 }
 
 // is standard or customized product (size led, options)
@@ -72,6 +76,7 @@ export interface CartItemFrontType extends CartAPIImagedType {
 export type CartCustomType = {
     material?: string,
     groove?: GrooveAPIType,
+    drawer_inserts?: DrawerInsertsType,
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,
@@ -88,12 +93,18 @@ export type PanelsFormAPIType = {
 export type PanelsFormPartAPIType = { qty: number, name: string }
 
 export type CustomAccessoriesType = {
-    led_alum_profiles: AlProfileType[],
-    led_gola_profiles: golaProfileType[],
-    led_door_sensor: number,
-    led_dimmable_remote: number,
-    led_transformer: number,
+    led?: LEDAccessoriesType,
     door?: DoorAccessoryAPIType[],
+}
+
+export type LEDAccessoriesType = {
+    alum_profiles: AlProfileType[],
+    gola_profiles: golaProfileType[],
+    transformer_60_W: number,
+    transformer_100_W: number,
+    remote_control: number,
+    door_sensor_single: number,
+    door_sensor_double: number,
 }
 
 export type StandardDoorAPIType = {

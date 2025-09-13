@@ -30,7 +30,7 @@ const CustomPartAlumProfile: FC<{ profile: alProfileFormType, index: number, arr
     return (
         <div className={s.row}>
             <button className={s.close} onClick={() => remove(index)}>×</button>
-            <ProductInputCustom label="Length" name={`[led_accessories.led_alum_profiles].${index}.length_string`}/>
+            <ProductInputCustom label="Length" name={`[led_accessories.alum_profiles].${index}.length_string`}/>
             <div className={s.row}>×
                 <div className={s.buttons}>
                     <button value="minus" disabled={qty <= 1} onClick={() => changeAmount('minus')} type={"button"}>-

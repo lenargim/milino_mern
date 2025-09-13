@@ -1,50 +1,61 @@
 import React, {FC} from "react";
 import {s} from './PDFOrder'
 import {Text, View} from "@react-pdf/renderer";
-import {CustomAccessoriesType} from "../../helpers/cartTypes";
+import {LEDAccessoriesType} from "../../helpers/cartTypes";
 
-const CartItemLedExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessories}) => {
+const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
     const {
-        led_alum_profiles,
-        led_gola_profiles,
-        led_door_sensor,
-        led_dimmable_remote,
-        led_transformer
-    } = accessories
+        alum_profiles,
+        gola_profiles,
+        transformer_60_W,
+        transformer_100_W,
+        remote_control,
+        door_sensor_single,
+        door_sensor_double
+    } = led
     return (
         <>
-            {led_alum_profiles.length ?
+            {alum_profiles.length ?
                 <Text style={s.itemOption}>
                     <Text>LED Aluminum Profiles:</Text>
-                    <Text>{led_alum_profiles.map((profile, index) =>
+                    <Text>{alum_profiles.map((profile, index) =>
                         <Text key={index}>{profile.length}'' x {profile.qty}</Text>
                     )}</Text>
                 </Text>
                 : null}
-            {led_gola_profiles.length ?
+            {gola_profiles.length ?
                 <View style={s.itemOption}>
                     <Text>LED Gola Profiles:</Text>
-                    <Text>{led_gola_profiles.map((profile, index) =>
+                    <Text>{gola_profiles.map((profile, index) =>
                         <Text key={index}>{profile.length}'' x {profile.qty} - {profile.color}</Text>
                     )}</Text>
                 </View>
                 : null}
-            {led_door_sensor ?
+            {transformer_60_W ?
                 <View style={s.itemOption}>
-                    <Text>Door Sensor: {led_door_sensor}</Text>
+                    <Text>Transformer 60W: {transformer_60_W}</Text>
                 </View>
                 : null}
-            {led_dimmable_remote ?
+            {transformer_100_W ?
                 <View style={s.itemOption}>
-                    <Text>Dimmable Remote: {led_dimmable_remote}</Text>
+                    <Text>Transformer 100W: {transformer_100_W}</Text>
                 </View>
                 : null}
-            {led_transformer ?
+            {remote_control ?
                 <View style={s.itemOption}>
-                    <Text>Transformer: {led_transformer}</Text>
+                    <Text>Remote Control: {remote_control}</Text>
                 </View>
                 : null}
-
+            {door_sensor_single ?
+                <View style={s.itemOption}>
+                    <Text>Door Sensor Single: {door_sensor_single}</Text>
+                </View>
+                : null}
+            {door_sensor_double ?
+                <View style={s.itemOption}>
+                    <Text>Door Sensor Double: {door_sensor_double}</Text>
+                </View>
+                : null}
         </>
     );
 };

@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import {
     CustomPartTableDataType,
-    CustomPartType,
+    CustomPartType, LedAccessoriesFormType,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -14,30 +14,12 @@ import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import CustomPartLeft from "./CustomPartLeft";
 import {DoorType} from "./CustomPartStandardDoorForm";
-import {colorOption} from "./CustomPartGolaProfile";
 import {PanelsFormType} from "./CustomPartStandardPanel";
 import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
 import st from "../Profile/profile.module.sass";
 import {useNavigate} from "react-router-dom";
-
-export type LedAccessoriesFormType = {
-    led_alum_profiles: {
-        length_string: string,
-        length: number,
-        qty: number
-    }[],
-    led_gola_profiles: {
-        length_string: string,
-        length: number,
-        color: colorOption,
-        qty: number,
-    }[],
-    led_door_sensor: number,
-    led_dimmable_remote: number,
-    led_transformer: number,
-}
 
 type FilterAccessory = 'aventos' | 'hinge' | 'PTO' | 'servo';
 
@@ -66,6 +48,18 @@ export type GrooveAPIType = {
     clear_coat: boolean
 }
 
+export const DrawerInsertsBoxNames = ['Inserts' , 'Pegs' , 'Spice'] as const;
+export const DrawerInsertsColorNames = ['Maple' , 'Walnut'] as const;
+export const DrawerInsertsLetterNames = ['A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J'] as const;
+export type DrawerInsertsBoxType = typeof DrawerInsertsBoxNames[number];
+export type DrawerInsertsColor = typeof DrawerInsertsColorNames[number];
+export type DrawerInsertsLetter = typeof DrawerInsertsLetterNames[number];
+export type DrawerInsertsType = {
+    box_type: DrawerInsertsBoxType,
+    color: DrawerInsertsColor,
+    insert_type: MaybeNull<DrawerInsertsLetter>
+}
+
 export type CustomPartFormType = {
     width: number,
     height: number,
@@ -83,7 +77,8 @@ export type CustomPartFormType = {
     standard_doors: MaybeNull<DoorType[]>,
     standard_panels: MaybeNull<PanelsFormType>,
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
-    groove: MaybeNull<GrooveAPIType>
+    groove: MaybeNull<GrooveAPIType>,
+    drawer_inserts: MaybeNull<DrawerInsertsType>
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];

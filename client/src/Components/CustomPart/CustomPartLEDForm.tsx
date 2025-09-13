@@ -4,16 +4,19 @@ import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
 import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
-import {CustomPartFormType, LedAccessoriesFormType} from "./CustomPart";
+import {CustomPartFormType} from "./CustomPart";
 import LEDNumberPart from "./CustomPartNumberPart";
 import CustomPartSubmit from "./CustomPartSubmit";
+import {LedAccessoriesFormType} from "../../helpers/productTypes";
 
 export const initialLEDAccessories:LedAccessoriesFormType = {
-    led_alum_profiles: [],
-    led_gola_profiles: [],
-    led_door_sensor: 0,
-    led_dimmable_remote: 0,
-    led_transformer: 0,
+    alum_profiles: [],
+    gola_profiles: [],
+    transformer_60_W: 0,
+    transformer_100_W: 0,
+    remote_control: 0,
+    door_sensor_single: 0,
+    door_sensor_double: 0,
 }
 
 const CustomPartLEDForm: FC = () => {
@@ -25,18 +28,18 @@ const CustomPartLEDForm: FC = () => {
     }, [led_accessories])
 
     if (!led_accessories) return null;
-    const {led_alum_profiles, led_gola_profiles} = led_accessories
+    const {alum_profiles, gola_profiles} = led_accessories
     return (
         <Form className={s.accessories}>
             <div className={s.block}>
                 <h3>LED Aluminum Profile</h3>
-                <FieldArray name="led_accessories.led_alum_profiles" render={(arrayHelpers) => (
+                <FieldArray name="led_accessories.alum_profiles" render={(arrayHelpers) => (
                     <>
-                        {led_alum_profiles.map((profile, index) => (
+                        {alum_profiles.map((profile, index) => (
                             <CustomPartAlumProfile key={index} profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
                         <button type="button"
                                 className={['button yellow small'].join(' ')}
-                                onClick={() => arrayHelpers.push({length_string: '', qty: 1})}
+                                onClick={() => arrayHelpers.push({length_string: '', length: '', qty: 1})}
                         >+ Aluminum Profile</button>
                     </>
                 )}
@@ -44,13 +47,14 @@ const CustomPartLEDForm: FC = () => {
             </div>
             <div className={s.block}>
                 <h3>LED Gola Profile</h3>
-                <FieldArray name="led_accessories.led_gola_profiles" render={arrayHelpers => (
+                <FieldArray name="led_accessories.gola_profiles" render={arrayHelpers => (
                     <>
-                        {led_gola_profiles.map((profile, index) => (
+                        {gola_profiles.map((profile, index) => (
                             <CustomPartGolaProfile key={index}  profile={profile} index={index} arrayHelpers={arrayHelpers}/>))}
                         <button type="button" className={['button yellow small'].join(' ')}
                                 onClick={() => arrayHelpers.push({
                                     length_string: '',
+                                    length: '',
                                     color: 'Black',
                                     qty: 1
                                 })}>+
@@ -63,9 +67,11 @@ const CustomPartLEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <LEDNumberPart el={'led_accessories.led_door_sensor'} label='Door sensor'/>
-                <LEDNumberPart el={'led_accessories.led_dimmable_remote'} label="Dimmable Remote"/>
-                <LEDNumberPart el={'led_accessories.led_transformer'} label="Transformer"/>
+                <LEDNumberPart el={'led_accessories.transformer_60_W'} label="Transformer 60W"/>
+                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
+                <LEDNumberPart el={'led_accessories.remote_control'} label="Remote control"/>
+                <LEDNumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>
+                <LEDNumberPart el={'led_accessories.door_sensor_double'} label='Door sensor double'/>
             </div>
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>

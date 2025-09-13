@@ -1,7 +1,13 @@
 import * as Yup from 'yup';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, MaybeEmpty} from "../../helpers/productTypes";
 import {numericQuantity} from 'numeric-quantity';
 import {colorsArr} from "./CustomPartGolaProfile";
+import {
+    DrawerInsertsBoxNames,
+    DrawerInsertsBoxType,
+    DrawerInsertsColor,
+    DrawerInsertsColorNames, DrawerInsertsLetter,
+} from "./CustomPart";
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
     const {materials_array, limits, type} = product;
@@ -15,7 +21,7 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                 (val, context) => {
                     const numberVal = numericQuantity(val);
                     const material: string | undefined = context.parent.material;
-                    const sizeLimit = materials_array?.find(el => el.name === material)?.limits ?? limits
+                    const sizeLimit = materials_array?.find(el => el.name === material)?.limits ?? limits;
                     if (!sizeLimit?.width) return true;
                     const minWidth = sizeLimit.width && sizeLimit.width[0] || 1;
                     return numberVal >= minWidth;
@@ -137,14 +143,14 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
         case "led-accessories":
             return Yup.object({
                 led_accessories: Yup.object().shape({
-                    led_alum_profiles: Yup.array().of(
+                    alum_profiles: Yup.array().of(
                         Yup.object().shape({
                             length_string: Yup.string().required('Set length'),
                             length: Yup.number().positive('Must be positive number').default(0),
                             qty: Yup.number().positive()
                         })
                     ),
-                    led_gola_profiles: Yup.array().of(
+                    gola_profiles: Yup.array().of(
                         Yup.object().shape({
                             length_string: Yup.string().required('Set length'),
                             length: Yup.number().positive('Must be positive number').default(0),
@@ -217,7 +223,44 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     clear_coat: Yup.boolean()
                 })
             })
-            return ribbedSchema.concat(customDoorsSchema)
+            return ribbedSchema.concat(customDoorsSchema);
+        case "drawer-inserts":
+            return Yup.object({
+                width_string: Yup.string()
+                    .required('Please write down width')
+                    .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
+                    .test('min',
+                        ({value}) => `It's too small size`,
+                        (val, context) => {
+                            const numberVal = numericQuantity(val);
+                            const material: string | undefined = context.parent.material;
+                            const sizeLimit = materials_array?.find(el => el.name === material)?.limits ?? limits;
+                            if (!sizeLimit?.width) return true;
+                            const minWidth = sizeLimit.width && sizeLimit.width[0] || 1;
+                            return numberVal >= minWidth;
+                        }
+                    )
+                    .test('max',
+                        ({value}) => `It's too huge size`,
+                        (val, context) => {
+                            const numberVal = numericQuantity(val);
+                            const material: string | undefined = context.parent.material;
+                            const sizeLimit = materials_array?.find(el => el.name === material)?.limits || limits
+                            if (!sizeLimit?.width) return true;
+                            const maxWidth = sizeLimit.width && sizeLimit.width[1] || 999;
+                            return numberVal <= maxWidth;
+                        }
+                    ),
+                drawer_inserts: Yup.object().shape({
+                    box_type: Yup.mixed<DrawerInsertsBoxType>().oneOf(DrawerInsertsBoxNames).required().defined(),
+                    color: Yup.mixed<DrawerInsertsColor>().oneOf(DrawerInsertsColorNames).required().defined(),
+                    insert_type: Yup.mixed<MaybeEmpty<DrawerInsertsLetter>>()
+                        .when('type', {
+                            is: 'Inserts',
+                            then: schema => schema.required('Required'),
+                        })
+                })
+            })
         default:
             return undefined
     }

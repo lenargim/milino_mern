@@ -391,5 +391,14 @@
   "crown_molding_price": [100,250],
   "standard_glass_door_price": 30,
   "standard_glass_door_color_coef": 30,
-  "global_price_coef": 2
+  "global_price_coef": 2,
+  "led_custom_part": {
+    "alum_profiles": 2.55,
+    "gola_profiles": 5.5,
+    "transformer_60_W": 40,
+    "transformer_100_W": 50,
+    "remote_control": 30,
+    "door_sensor_single": 30,
+    "door_sensor_double": 40
+  }
 }
