@@ -4990,6 +4990,7 @@
     "name": "VDS Series",
     "category": "Leather",
     "customHeight": 95,
+    "hasJeweleryBlock": true,
     "images": ["CC/VDS.webp"],
     "attributes": [
       {
@@ -5022,6 +5023,7 @@
     "name": "VDI Series",
     "category": "Leather",
     "customHeight": 35.5,
+    "hasJeweleryBlock": true,
     "images": ["CC/VDI.webp"],
     "attributes": [
       {

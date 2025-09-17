@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {CabinetType, ProductFormType} from "../../helpers/productTypes";
+import {CabinetType, MaybeUndefined, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr,
@@ -10,7 +10,7 @@ import {
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
-import {CartAPIImagedType} from "../../helpers/cartTypes";
+import {CartAPIImagedType, CartCustomType} from "../../helpers/cartTypes";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,
@@ -84,6 +84,11 @@ const ProductCabinet: FC<CabinetType> = ({
     }, [hingeArr, hinge_opening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
+
+    const customVal:MaybeUndefined<CartCustomType> = custom ? {
+        accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
+        jewelery_inserts: custom.jewelery_inserts
+    } : undefined;
     const cabinetItem: CartAPIImagedType = {
         _id: '',
         room_id: '',
@@ -107,7 +112,7 @@ const ProductCabinet: FC<CabinetType> = ({
             alignment: led_alignment,
             indent: led_indent_string
         },
-        custom: custom?.closet_accessories ? {accessories: {closet: custom.closet_accessories}} : undefined,
+        custom: customVal,
         image_active_number: newType,
         note,
     };

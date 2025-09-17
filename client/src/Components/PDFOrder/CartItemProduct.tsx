@@ -51,6 +51,12 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
                     <Text>{custom.accessories.closet}</Text>
                 </View> : null
             }
+            {
+                custom?.jewelery_inserts ? <View style={s.itemOption}>
+                    <Text>Jewelery Inserts:</Text>
+                    <Text>{custom.jewelery_inserts.join(', ')}</Text>
+                </View> : null
+            }
         </View>
     )
 }

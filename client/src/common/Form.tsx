@@ -350,7 +350,7 @@ export const ProductOptionsInput: FC<ProductOptionsRadioInterface> = ({name, cla
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
-                type="checkbox" name="options" value={value}
+                type="checkbox" name={name} value={value}
                 id={value}/>
             <label htmlFor={value}
                    className={styles.radioLabel}><span>{value}</span></label>

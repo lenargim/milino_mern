@@ -184,6 +184,10 @@ const CartSchema = new mongoose.Schema({
         type: String
       },
     },
+    jewelery_inserts: {
+      type: Array,
+      default: [],
+    }
   },
   note: {
     type: String,

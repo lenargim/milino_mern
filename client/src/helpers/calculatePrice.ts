@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     attrItem, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
-    DoorColorType,
+    DoorColorType, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined,
@@ -37,6 +37,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
+import {number} from "yup";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -386,6 +387,11 @@ function getClosetAccessoriesPrice(closet_accessories:MaybeUndefined<ClosetAcces
             if (width < 30) return 350;
     }
     return 0
+}
+
+export function getJeweleryInsertsPrice(jewelery_inserts:MaybeUndefined<JeweleryInsertsType[]>):number {
+    if (!jewelery_inserts) return 0;
+    return jewelery_inserts.length*100;
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1127,7 +1133,8 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
-        closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width)
+        closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
+        jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts)
     }
 }
 const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {

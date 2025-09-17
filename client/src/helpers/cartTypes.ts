@@ -9,7 +9,7 @@ import {
 import {
     ClosetAccessoriesTypes,
     cornerTypes,
-    hingeTypes,
+    hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     MaybeUndefined,
     ProductApiType,
@@ -70,7 +70,6 @@ export interface CartOrder {
     options: string[],
     glass: MaybeUndefined<GlassAPIType>,
     led?: CartLEDAPI,
-    // custom?: MaybeUndefined<CartCustomType>,
     note: string,
 }
 
@@ -85,6 +84,7 @@ export type CartCustomType = {
     material?: string,
     groove?: GrooveAPIType,
     drawer_inserts?: DrawerInsertsType,
+    jewelery_inserts?: JeweleryInsertsType[],
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,

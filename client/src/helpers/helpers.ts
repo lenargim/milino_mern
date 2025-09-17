@@ -384,7 +384,8 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         custom: {
             accessories: {
                 closet: custom?.closet_accessories
-            }
+            },
+            jewelery_inserts: custom?.jewelery_inserts
         }
     }
 }

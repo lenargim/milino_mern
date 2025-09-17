@@ -23,6 +23,7 @@ import {
 import ProductLED from "./ProductLED";
 import {useParams} from "react-router-dom";
 import ProductClosetAccessories from "./ProductClosetAccessories";
+import ProductJeweleryBlock from "./ProductJeweleryBlock";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -41,6 +42,7 @@ const ProductLayout: FC<CabinetFormType> = ({
         isCornerChoose,
         hasLedBlock,
         hasClosetAccessoriesBlock,
+        hasJeweleryBlock,
         blindArr,
         product_type,
         id,
@@ -125,12 +127,13 @@ const ProductLayout: FC<CabinetFormType> = ({
             {showHingeBlock ? <ProductHingeBlock hingeArr={hingeArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
             {hasLedBlock ? <ProductLED/> : null}
+            {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
+            {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}
             <ProductOptionsBlock filteredOptions={filteredOptions}
                                  isProductStandard={product_type === "standard"}
                                  id={id}
                                  attributes={attributes}
             />
-            {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

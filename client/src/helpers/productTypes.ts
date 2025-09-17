@@ -97,7 +97,8 @@ export interface ProductType extends ProductOrCustomType{
     hasLedBlock: boolean,
     blindArr?: number[],
     horizontal_line?: number,
-    hasClosetAccessoriesBlock?: boolean
+    hasClosetAccessoriesBlock?: boolean,
+    hasJeweleryBlock?:boolean
 }
 
 export interface CustomPartType extends ProductOrCustomType{
@@ -114,7 +115,6 @@ export interface CustomPartType extends ProductOrCustomType{
 }
 
 export interface CustomPartDataType extends ProductOrCustomType{
-    // room: string,
     type: CustomTypes,
     category: productCategory,
     width?: number,
@@ -334,11 +334,15 @@ export type AttributesPrices = {
     pvcPrice: number,
     doorPrice: number,
     drawerPrice: number,
-    closetAccessoriesPrice: number
+    closetAccessoriesPrice: number,
+    jeweleryInsertsPrice: number
 }
 
+export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;
+export type JeweleryInsertsType = typeof jeweleryInsertsNames[number];
 export type ProductExtraType = {
-    closet_accessories?: ClosetAccessoriesTypes
+    closet_accessories?: ClosetAccessoriesTypes,
+    jewelery_inserts?: JeweleryInsertsType[]
 }
 
 export type ProductFormType = {
