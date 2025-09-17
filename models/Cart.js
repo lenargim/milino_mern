@@ -118,6 +118,9 @@ const CartSchema = new mongoose.Schema({
           }
         }
       ],
+      closet: {
+        type: String
+      }
     },
     standard_doors: [
       {
@@ -180,7 +183,7 @@ const CartSchema = new mongoose.Schema({
       insert_type: {
         type: String
       },
-    }
+    },
   },
   note: {
     type: String,

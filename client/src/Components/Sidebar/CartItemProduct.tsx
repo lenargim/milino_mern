@@ -15,7 +15,8 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
         corner,
         led,
         glass,
-        isStandard
+        isStandard,
+        custom
     } = product;
     return (
         <>
@@ -46,6 +47,12 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
                 </div> : null
             }
             <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
+            {
+                custom?.accessories?.closet ? <div className={s.itemOption}>
+                  <span>Closet Accessories:</span>
+                  <span>{custom.accessories.closet}</span>
+                </div> : null
+            }
         </>
     )
 }

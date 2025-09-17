@@ -348,6 +348,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         custom_height,
         custom_blind_width,
         middle_section,
+        custom
     } = values;
 
     const realW = width || +custom_width || 0;
@@ -380,7 +381,11 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             indent: led_indent_string,
         },
         note,
-        custom: undefined
+        custom: {
+            accessories: {
+                closet: custom?.closet_accessories
+            }
+        }
     }
 }
 
@@ -1004,11 +1009,14 @@ export const formatDateToTextShort = (dateApi: Date): string => {
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
 
-export function prepareToSelectField(arr: string[]): optionType[] {
-    return arr.map(el => ({
-        value: el,
-        label: el
-    }))
+export function prepareToSelectField(arr: (string|optionType)[]): optionType[] {
+    return arr.map(el => {
+        if (typeof el !== 'string') return el;
+        return {
+            value: el,
+            label: el
+        }
+    })
 }
 
 export const getProfileList = (is_custom: boolean): optionType[] => {
@@ -1259,6 +1267,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             glass_door: ['', '', ''],
             glass_shelf: '',
             image_active_number: 1,
+            custom: null,
             note: '',
             price: 0,
         }
@@ -1276,7 +1285,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         glass,
         hinge,
         middle_section,
-        options
+        options,
+        custom
     } = cartItemValues;
 
     const {customHeight, customDepth, category, isAngle, blindArr} = product;
@@ -1288,7 +1298,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 
     const {doorValues} = productPriceData;
     const doorArr = getDoorMinMaxValuesArr(width, doorValues);
-    const doors = checkDoors(0, doorArr, hinge)
+    const doors = checkDoors(0, doorArr, hinge);
 
     return {
         width: isStandardWidth ? width : 0,
@@ -1315,6 +1325,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
+        custom: custom?.accessories?.closet ? {closet_accessories: custom.accessories.closet}:null,
         note,
         price,
     }

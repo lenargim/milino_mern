@@ -22,6 +22,7 @@ import {
 } from "../../helpers/helpers";
 import ProductLED from "./ProductLED";
 import {useParams} from "react-router-dom";
+import ProductClosetAccessories from "./ProductClosetAccessories";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -39,6 +40,7 @@ const ProductLayout: FC<CabinetFormType> = ({
         isAngle,
         isCornerChoose,
         hasLedBlock,
+        hasClosetAccessoriesBlock,
         blindArr,
         product_type,
         id,
@@ -128,7 +130,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                                  id={id}
                                  attributes={attributes}
             />
-
+            {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

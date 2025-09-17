@@ -49,6 +49,7 @@ const ProductCabinet: FC<CabinetType> = ({
         note,
         image_active_number,
         price,
+        custom
     } = values;
     const realWidth = width || +custom_width || 0;
     const realBlindWidth = +blind_width || +custom_blind_width || 0;
@@ -57,6 +58,7 @@ const ProductCabinet: FC<CabinetType> = ({
     const realMiddleSection = middle_section || 0
     const doorArr = getDoorMinMaxValuesArr(realWidth, doorValues, widthDivider);
     const [hingeArr, setHingeArr] = useState<string[]>(getHingeArr(doorArr || [], id, realWidth, realHeight, product_type));
+
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('depth', realWidth);
         const doorNum = checkDoors(+doors, doorArr, hinge_opening)
@@ -105,7 +107,7 @@ const ProductCabinet: FC<CabinetType> = ({
             alignment: led_alignment,
             indent: led_indent_string
         },
-        custom: undefined,
+        custom: custom?.closet_accessories ? {accessories: {closet: custom.closet_accessories}} : undefined,
         image_active_number: newType,
         note,
     };

@@ -6,7 +6,15 @@ import {
     GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
-import {cornerTypes, hingeTypes, MaybeEmpty, MaybeUndefined, ProductApiType, productTypings} from "./productTypes";
+import {
+    ClosetAccessoriesTypes,
+    cornerTypes,
+    hingeTypes,
+    MaybeEmpty,
+    MaybeUndefined,
+    ProductApiType,
+    productTypings
+} from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
 
 export type CartAPI = {
@@ -62,7 +70,7 @@ export interface CartOrder {
     options: string[],
     glass: MaybeUndefined<GlassAPIType>,
     led?: CartLEDAPI,
-    custom?: MaybeUndefined<CartCustomType>,
+    // custom?: MaybeUndefined<CartCustomType>,
     note: string,
 }
 
@@ -80,7 +88,7 @@ export type CartCustomType = {
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,
-    rta_closet?: RTAClosetAPIType[]
+    rta_closet?: RTAClosetAPIType[],
 }
 
 export type PanelsFormAPIType = {
@@ -95,6 +103,7 @@ export type PanelsFormPartAPIType = { qty: number, name: string }
 export type CustomAccessoriesType = {
     led?: LEDAccessoriesType,
     door?: DoorAccessoryAPIType[],
+    closet?: ClosetAccessoriesTypes
 }
 
 export type LEDAccessoriesType = {

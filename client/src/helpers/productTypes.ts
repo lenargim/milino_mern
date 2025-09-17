@@ -18,9 +18,11 @@ export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
+export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
+export type ClosetAccessoriesTypes = typeof closetAccessoriesNames[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
@@ -94,7 +96,8 @@ export interface ProductType extends ProductOrCustomType{
     cartExtras: CartExtrasType,
     hasLedBlock: boolean,
     blindArr?: number[],
-    horizontal_line?: number
+    horizontal_line?: number,
+    hasClosetAccessoriesBlock?: boolean
 }
 
 export interface CustomPartType extends ProductOrCustomType{
@@ -331,6 +334,11 @@ export type AttributesPrices = {
     pvcPrice: number,
     doorPrice: number,
     drawerPrice: number,
+    closetAccessoriesPrice: number
+}
+
+export type ProductExtraType = {
+    closet_accessories?: ClosetAccessoriesTypes
 }
 
 export type ProductFormType = {
@@ -360,7 +368,9 @@ export type ProductFormType = {
     note: string,
     price: number,
     image_active_number: productTypings,
+    custom: MaybeNull<ProductExtraType>
 }
+
 
 
 export type ProductTableDataType = {

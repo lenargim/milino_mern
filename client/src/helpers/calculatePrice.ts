@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttributesPrices,
-    attrItem, BoxMaterialColorType, CustomPartType, CustomTypes,
+    attrItem, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
     DoorColorType,
     materialDataType, MaybeEmpty,
     MaybeNull,
@@ -367,6 +367,23 @@ function getDrawerPrice(qty: number, width: number, door_type: string, drawerBra
                     break;
             }
             break;
+    }
+    return 0
+}
+
+function getClosetAccessoriesPrice(closet_accessories:MaybeUndefined<ClosetAccessoriesTypes>, width:number):number {
+    if (!closet_accessories) return 0;
+    switch (closet_accessories) {
+        case "Belt Rack":
+            return 100;
+        case "Tie Rack":
+            return 120;
+        case "Valet Rod":
+            return 80;
+        case "Pant Rack":
+            if (width < 18) return 280;
+            if (width < 24) return 300;
+            if (width < 30) return 350;
     }
     return 0
 }
@@ -1076,7 +1093,8 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         image_active_number,
         middle_section,
         led,
-        glass
+        glass,
+        custom
     } = cart;
     const {
         is_acrylic,
@@ -1099,7 +1117,6 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_rta_closet);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
-
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
@@ -1110,6 +1127,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
+        closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width)
     }
 }
 const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {

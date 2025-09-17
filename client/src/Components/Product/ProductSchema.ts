@@ -19,16 +19,11 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
-        // isBlind: Yup.boolean(),
         blind_width: Yup.number()
             .test("isRequired", "Blind width is a required field", (val, {parent}) => {
                 if (isBlind) return !!val || parent.custom_blind_width
             return true;
         }),
-            // .when('isBlind', {
-            //     is: true,
-            //     then: (schema) => schema.required()
-            // }),
         height: Yup.number().required(),
         depth: Yup.number().required(),
         custom_depth_string: Yup.string()

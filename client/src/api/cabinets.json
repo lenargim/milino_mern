@@ -4845,6 +4845,7 @@
         ]
       }
     ],
+    "hasClosetAccessoriesBlock": true,
     "options": []
   },
   {
@@ -4876,7 +4877,8 @@
     ],
     "options": [
       "Glass Shelf"
-    ]
+    ],
+    "hasClosetAccessoriesBlock": true
   },
   {
     "id": 410,
@@ -5055,7 +5057,8 @@
         ]
       }
     ],
-    "options": []
+    "options": [],
+    "hasClosetAccessoriesBlock": true
   },
   {
     "id": 417,
@@ -5099,7 +5102,8 @@
         ]
       }
     ],
-    "options": []
+    "options": [],
+    "hasClosetAccessoriesBlock": true
   },
   {
     "id": 500,
