@@ -54,7 +54,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
                 </div> : null
             }
             {
-                custom?.jewelery_inserts ? <div className={s.itemOption}>
+                custom?.jewelery_inserts?.length ? <div className={s.itemOption}>
                     <span>Jewelery Inserts:</span>
                     <span>{custom.jewelery_inserts.join(', ')}</span>
                 </div> : null
