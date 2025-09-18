@@ -183,9 +183,9 @@ export const RadioInputGroove: FC<RadioInterface> = ({name, value, className, im
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
             <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
-                <img src={img} alt={value.toString()}/>
+            <label htmlFor={`${name}_${value}`} className={styles.radioLabelImaged}>
                 <span>{label ?? value}</span>
+                <img src={img} alt={value.toString()}/>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
         </div>

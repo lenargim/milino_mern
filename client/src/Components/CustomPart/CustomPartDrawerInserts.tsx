@@ -43,7 +43,6 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
     const showLetters = drawer_inserts && drawer_inserts.color && drawer_inserts.box_type === 'Inserts';
     const drawerInsertsLettersFiltered = filterLetterTypeByWidth(width, drawerInsertsLetters);
 
-        // console.log(values)
     return (
         <Form>
             <div className={s.block}>
@@ -64,8 +63,8 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
             </div>}
 
             {drawer_inserts?.box_type && <div className={s.block}>
-              <h3>Color</h3>
-              <SelectField label="Type"
+              <h3>Material</h3>
+              <SelectField label="Material"
                            name="drawer_inserts.color"
                            val={getSelectValfromVal(drawer_inserts?.color, drawerInsertsColorArr)}
                            options={drawerInsertsColorArr}
