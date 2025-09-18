@@ -5502,6 +5502,19 @@
     "images": ["custom/L-Shape.webp"]
   },
   {
+    "id": 928,
+    "product_type": "custom",
+    "name": "Drawer Inserts",
+    "type": "drawer-inserts",
+    "limits": {
+      "width": [
+        12,
+        48
+      ]
+    },
+    "images": ["custom/drawer-inserts.webp"]
+  },
+  {
     "id": 900,
     "product_type": "custom",
     "name": "Open Cabinet",
@@ -6473,19 +6486,6 @@
         "img": "Walnut.jpg"
       }
     ]
-  },
-  {
-    "id": 928,
-    "product_type": "custom",
-    "name": "Drawer Inserts",
-    "type": "drawer-inserts",
-    "limits": {
-      "width": [
-        12,
-        48
-      ]
-    },
-    "images": ["custom/drawer-inserts.webp"]
   },
   {
     "id": 913,
