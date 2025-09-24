@@ -23,8 +23,8 @@ type CustomPartRibbed = {
     isStandardCabinet: boolean
 }
 
-const isShowGroove = (material: string): boolean => {
-    return !!(material && material !== 'Painted');
+const isPaintedMaterial = (material: string): boolean => {
+    return material === 'Painted';
 }
 let grooveArr = materialsAPI.groove as materialsData[];
 grooveArr = grooveArr.map(el => ({...el, img: getImg('materials/groove', el.img)}));
@@ -38,11 +38,16 @@ const CustomPartRibbed: FC<CustomPartRibbed> = ({product, isStandardCabinet}) =>
         } = values;
         const {materials_array, id} = product;
         const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
-        const showGroove = isShowGroove(material);
+        const isPainted = isPaintedMaterial(material);
 
         useEffect(() => {
-            if (groove?.style && material === 'Painted') setFieldValue('groove.style', '')
-            if (showGroove && !groove?.style) setFieldValue('groove.style', grooveArr[0].value)
+            const isPainted = isPaintedMaterial(material);
+            if (isPainted) {
+                if (groove?.style) setFieldValue('groove.style', '');
+                if (groove?.clear_coat) setFieldValue('groove.clear_coat', false);
+            } else {
+                if (!groove?.style) setFieldValue('groove.style', grooveArr[0].value)
+            }
         }, [material])
 
         return (
@@ -71,23 +76,22 @@ const CustomPartRibbed: FC<CustomPartRibbed> = ({product, isStandardCabinet}) =>
                 </div>
                 }
                 {
-                    showGroove && <div className={s.block}>
-                      <h3>Groove Styles</h3>
-                      <div className={s.optionsGroove}>
-                          {grooveArr.map((el, index) => <RadioInputGroove key={index} name="groove.style" value={el.value}
-                                                                          label={el.label} img={el.img}/>)}
+                    !isPainted && <>
+                      <div className={s.block}>
+                        <h3>Groove Styles</h3>
+                        <div className={s.optionsGroove}>
+                            {grooveArr.map((el, index) => <RadioInputGroove key={index} name="groove.style" value={el.value}
+                                                                            label={el.label} img={el.img}/>)}
+                        </div>
                       </div>
-                    </div>
+                      <div className={s.block}>
+                        <h3>Clear Coat</h3>
+                        <div className={s.optionsGroove}>
+                          <CustomPartAttrCheckbox label="Clear Coat" name="groove.clear_coat"/>
+                        </div>
+                      </div>
+                    </>
                 }
-
-                <div className={s.block}>
-                    <h3>Clear Coat</h3>
-                    <div className={s.optionsGroove}>
-                        <CustomPartAttrCheckbox label="Clear Coat" name="groove.clear_coat"/>
-                    </div>
-                </div>
-
-
                 <div className={s.block}>
                     <TextInput type={"text"} label={'Note'} name="note"/>
                 </div>

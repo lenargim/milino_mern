@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {RoomCategoriesType} from "./roomTypes";
+import {DoorTypesType, RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -154,7 +154,7 @@ export type materialDataType = {
     box_material_finish_coef: number,
     door_price_multiplier: number,
     is_acrylic: boolean,
-    door_type: string,
+    door_type: MaybeEmpty<DoorTypesType>,
     door_finish_material: string,
     drawer_brand: string,
     drawer_type: string,
@@ -170,6 +170,11 @@ export type materialDataType = {
 export interface attrItem {
     name: string,
     values: valueItemType[],
+}
+
+export type ImgFieldType = {
+    value: string,
+    img: string
 }
 
 export interface customAttrItem {
