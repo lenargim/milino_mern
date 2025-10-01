@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import {ObjectSchema} from "yup";
 import {
-    DoorTypesType, finishNames, FinishTypes, golaNames,
+    DoorTypesType, FinishTypes, golaNames,
     GolaType, golaTypeNames,
     GolaTypesType, grooveNames, GrooveType,
     roomCategories,
@@ -10,15 +10,14 @@ import {
 } from "../../helpers/roomTypes";
 import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/roomTypes";
 import {MaybeEmpty} from "../../helpers/productTypes";
-import {findHasGolaTypeByCategory, isCloset, isGolaShown} from "../../helpers/helpers";
-
+import {findHasGolaTypeByCategory, isClosetLeatherOrRTA, isGolaShown} from "../../helpers/helpers";
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
         Yup.object({
             name: Yup.string()
                 .required('Enter purchase order name')
-                .test("Unique", "Name should be unique", (value) => {
+                .test("Unique", "Name should be unique", (value,) => {
                     if (!value) return false;
                     return !reservedNames.includes(value.trim().toLowerCase())
                 })
@@ -42,7 +41,14 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                     then: schema => schema.oneOf(golaNames, 'Please choose gola type')
                 }),
             door_type: Yup.mixed<MaybeEmpty<DoorTypesType>>()
-                .default(''),
+                .default('')
+                .when('category', {
+                    is: (category:RoomCategoriesType) => {
+                        const isRTACloset = category === 'RTA Closet';
+                        return !isRTACloset
+                    },
+                    then: schema => schema.notOneOf([''], 'Please choose door type')
+                }),
             groove: Yup.mixed<MaybeEmpty<GrooveType>>()
                 .default('')
                 .when('door_type', {
@@ -51,22 +57,31 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 }),
             door_finish_material: Yup.mixed<MaybeEmpty<FinishTypes>>()
                 .default('')
-                .oneOf([...finishNames, ''] as const),
+                .when(['category', 'door_type'], {
+                    is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>) => {
+                        const isRTACloset = category === 'RTA Closet';
+                        if (isRTACloset || door_type === 'Standard Size White Shaker') return false;
+                        return true
+                    },
+                    then: schema => schema.notOneOf([''], 'Please choose door finish material')
+                })
+            ,
             door_frame_width: Yup.string()
                 .default('')
                 .when('door_type', {
                     is: 'Micro Shaker',
-                    then: schema => schema.required('Please choose Frame width')
+                    then: schema => schema.notOneOf([''], 'Please choose frame width')
                 }),
             door_color: Yup.string()
                 .default('')
-                .when(['door_finish_material', 'category'], {
-                    is: (door_finish_material: MaybeEmpty<FinishTypes>, category: RoomCategoriesType) => {
+                .when(['category','door_finish_material' ], {
+                    is: (category: RoomCategoriesType, door_finish_material: MaybeEmpty<FinishTypes>) => {
                         const isRTACloset = category === 'RTA Closet';
                         const noHinges = door_finish_material === 'No Doors No Hinges';
-                        return isRTACloset && noHinges;
+                        if (isRTACloset || noHinges) return false;
+                        return true;
                     },
-                    then: schema => schema.required('Please choose color')
+                    then: schema => schema.notOneOf([''], 'Please choose door color')
                 }),
             door_grain: Yup.string()
                 .default(''),
@@ -75,10 +90,9 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .oneOf(totalBoxMaterialNames)
                 .required('Please write down box material'),
             box_color: Yup.string()
-                // .default('')
                 .defined()
                 .when('category', {
-                    is: (val: MaybeEmpty<RoomCategoriesType>) => isCloset(val),
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => isClosetLeatherOrRTA(val),
                     then: schema => schema.required('Please choose Box Color'),
                     otherwise: schema => schema.default('')
                 }),
@@ -95,7 +109,6 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                     then: (schema => schema.required('Please write color'))
                 }),
             leather: Yup.string()
-                // .default('')
                 .defined()
                 .when('category', {
                     is: 'Leather Closet',

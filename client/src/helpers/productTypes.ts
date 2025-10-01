@@ -377,7 +377,8 @@ export type ProductFormType = {
     note: string,
     price: number,
     image_active_number: productTypings,
-    custom: MaybeNull<ProductExtraType>
+    custom: MaybeNull<ProductExtraType>,
+    amount: number
 }
 
 

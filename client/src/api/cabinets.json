@@ -6528,15 +6528,15 @@
     "glass_door": {
       "Glass": [
         "Clear",
-        "Frosted",
         "Bronze Translucent",
-        "Gray Translucent"
+        "Gray Translucent",
+        "Frosted"
       ],
       "Mirror": [
-        "Acid Etch",
-        "Bronze",
         "Clear",
+        "Bronze",
         "Gray",
+        "Acid Etch",
         "One-way"
       ],
       "Colored": [
@@ -6722,9 +6722,9 @@
     },
     "glass_shelf": [
       "Clear",
-      "Frosted",
       "Bronze Translucent",
-      "Gray Translucent"
+      "Gray Translucent",
+      "Frosted"
     ],
     "images": ["custom/Glass shelf.webp"]
   },

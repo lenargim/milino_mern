@@ -23,7 +23,7 @@ import {
     getAttributes, getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart, getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor, isCloset
+    getWidthToCalculateDoor, isClosetLeatherOrRTA
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -688,7 +688,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         box_color
     } = materials;
     const is_standard_room = door_type === "Standard Size White Shaker";
-    const is_leather_or_rta_closet = isCloset(category);
+    const is_leather_or_rta_closet = isClosetLeatherOrRTA(category);
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
 
     const base_price_type = getBasePriceType(materials, is_leather_or_rta_closet);

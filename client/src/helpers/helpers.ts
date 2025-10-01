@@ -348,7 +348,8 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         custom_height,
         custom_blind_width,
         middle_section,
-        custom
+        custom,
+        amount
     } = values;
 
     const realW = width || +custom_width || 0;
@@ -362,7 +363,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         room_id: roomId,
         product_id: id,
         product_type: product_type,
-        amount: 1,
+        amount,
         width: realW,
         height: realH,
         depth: realD,
@@ -627,10 +628,9 @@ export const isBoxMaterial = (values: RoomMaterialsFormType, boxMaterialArr: fin
 
 }
 
-export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, isLeather: boolean, boxMaterialArr: finishType[]): boolean => {
-    if (!box_material || !boxMaterialArr.length) return false;
-    if (category === 'RTA Closet') return true;
-    return isLeather
+export const isBoxColor = (box_material: string,isCloset: boolean): boolean => {
+    if (!box_material) return false;
+    return isCloset
 }
 
 export const isDrawerBrand = (box_material: string, box_color: string, isCloset: boolean): boolean => {
@@ -1271,6 +1271,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             custom: null,
             note: '',
             price: 0,
+            amount: 1
         }
     }
     const {
@@ -1287,7 +1288,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         hinge,
         middle_section,
         options,
-        custom
+        custom,
+        amount
     } = cartItemValues;
 
     const {customHeight, customDepth, category, isAngle, blindArr} = product;
@@ -1329,6 +1331,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         custom: custom?.accessories?.closet ? {closet_accessories: custom.accessories.closet}:null,
         note,
         price,
+        amount
     }
 
 }
@@ -1481,7 +1484,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
     }
 }
 
-export const isCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+export const isClosetLeatherOrRTA = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
-    return category.includes('Closet')
+    return category === 'Leather Closet' || category === 'RTA Closet'
 }
