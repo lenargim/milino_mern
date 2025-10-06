@@ -74,7 +74,8 @@ function shouldClearFormData(category: MaybeEmpty<RoomCategoriesType>, prevCateg
 
 const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
-    const {values, setFieldValue, isValid, isSubmitting, setValues} = useFormikContext<RoomMaterialsFormType>();
+    const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<RoomMaterialsFormType>();
+    console.log(errors)
     const {
         name,
         category_gola_type,
@@ -203,7 +204,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const showDoorColor = isDoorColorShown(values, colorArr, showDoorFrameWidth);
     const showDoorGrain = isDoorGrain(values, grainArr);
     const showBoxMaterial = isBoxMaterial(values, boxMaterialArr,showDoorFinish,showDoorColor,showDoorGrain);
-    const showBoxColor = isBoxColor(category, box_material, isLeather, boxMaterialArr)
+    const showBoxColor = isBoxColor(category, box_material, boxMaterialArr)
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isCloset);
     const showDrawerType = isDrawerType(showDrawerBrand, drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(showDrawerType, drawer_type, drawerColorsArr);

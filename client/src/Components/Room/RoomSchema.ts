@@ -10,7 +10,7 @@ import {
 } from "../../helpers/roomTypes";
 import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/roomTypes";
 import {MaybeEmpty} from "../../helpers/productTypes";
-import {findHasGolaTypeByCategory, isCloset, isGolaShown} from "../../helpers/helpers";
+import {findHasGolaTypeByCategory, isCloset, isGolaShown, isLeatherOrRTACloset} from "../../helpers/helpers";
 
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
@@ -75,10 +75,9 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .oneOf(totalBoxMaterialNames)
                 .required('Please write down box material'),
             box_color: Yup.string()
-                // .default('')
                 .defined()
                 .when('category', {
-                    is: (val: MaybeEmpty<RoomCategoriesType>) => isCloset(val),
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => isLeatherOrRTACloset(val),
                     then: schema => schema.required('Please choose Box Color'),
                     otherwise: schema => schema.default('')
                 }),
@@ -95,7 +94,6 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                     then: (schema => schema.required('Please write color'))
                 }),
             leather: Yup.string()
-                // .default('')
                 .defined()
                 .when('category', {
                     is: 'Leather Closet',

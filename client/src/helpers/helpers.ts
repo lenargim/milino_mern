@@ -625,10 +625,9 @@ export const isBoxMaterial = (values: RoomMaterialsFormType, boxMaterialArr: fin
 
 }
 
-export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, isLeather: boolean, boxMaterialArr: finishType[]): boolean => {
+export const isBoxColor = (category: MaybeEmpty<RoomCategoriesType>, box_material: string, boxMaterialArr: finishType[]): boolean => {
     if (!box_material || !boxMaterialArr.length) return false;
-    if (category === 'RTA Closet') return true;
-    return isLeather
+    return isLeatherOrRTACloset(category)
 }
 
 export const isDrawerBrand = (box_material: string, box_color: string, isCloset: boolean): boolean => {
@@ -1479,7 +1478,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
     }
 }
 
-export const isCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+export const isLeatherOrRTACloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
-    return category.includes('Closet')
+    return category === 'RTA Closet' || category === 'Leather Closet'
 }
