@@ -10,7 +10,7 @@ import {
 } from "../../helpers/roomTypes";
 import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/roomTypes";
 import {MaybeEmpty} from "../../helpers/productTypes";
-import {findHasGolaTypeByCategory, isCloset, isGolaShown, isLeatherOrRTACloset} from "../../helpers/helpers";
+import {findHasGolaTypeByCategory, isGolaShown, isLeatherOrRTACloset} from "../../helpers/helpers";
 
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
