@@ -5,7 +5,7 @@ import {Form, useFormikContext} from "formik";
 import {POFormType} from "./PurchaseOrderNew";
 
 const PurchaseOrderForm:FC<{isNew:boolean}> = ({isNew}) => {
-    const {values, isValid, isSubmitting, setValues} = useFormikContext<POFormType>();
+    const {isValid, isSubmitting} = useFormikContext<POFormType>();
     const submitText = isNew ? 'Create Purchase Order' : 'Edit Purchase Order';
     const nameLabelText = isNew ? 'New Purchase Order Name' : 'Purchase Order Name';
     return (

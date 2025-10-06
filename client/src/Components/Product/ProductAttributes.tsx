@@ -11,7 +11,7 @@ export const ProductAttributes: FC<{ attributes: attrItem[], type: productTyping
                 const isMultiple = attr.value > 1;
                 const oneOf = ['Door', 'Drawer', 'Rollout', 'Shelf', 'Front'];
                 let name = attr.name;
-                if (name === 'Adjustable Shelf' && attr.value === 0) return;
+                if (name === 'Adjustable Shelf' && attr.value === 0) return null;
                 if (isMultiple) {
                     const isNameExist = name.split(' ').find(el => oneOf.includes(el));
                     if (isNameExist) name = name + 's';

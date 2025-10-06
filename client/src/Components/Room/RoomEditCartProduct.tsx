@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {MaybeUndefined} from "../../helpers/productTypes";
 import {textToLink, useAppSelector} from "../../helpers/helpers";

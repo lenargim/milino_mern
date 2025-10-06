@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import s from './product.module.sass'
 import st from './../Profile/profile.module.sass'
 import {addProductToCart, useAppDispatch,} from "../../helpers/helpers";

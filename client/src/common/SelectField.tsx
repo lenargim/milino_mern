@@ -1,9 +1,8 @@
 import React, {FC, useEffect} from 'react';
 import Select, {OnChangeValue, StylesConfig} from "react-select";
-import {ErrorMessage, useField} from "formik";
+import {useField} from "formik";
 import styles from "./Form.module.sass";
 import {MaybeNull} from "../helpers/productTypes";
-import ErrorForNestedFields from "./ErrorForNestedFields";
 
 export type optionType = {
     value: string,

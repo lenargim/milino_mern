@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Navigate, Outlet, useLocation} from 'react-router-dom';
+import {Navigate, Outlet} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from "../helpers/helpers";
 import {loadUser, UserState} from "../store/reducers/userSlice";
 import Loading from "./Loading";

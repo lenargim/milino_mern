@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {useNavigate, useOutletContext, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {RoomSchema} from "./RoomSchema";
 import {createRoomAPI} from "../../api/apiFunctions";
 import {addRoom, RoomsState} from "../../store/reducers/roomSlice";

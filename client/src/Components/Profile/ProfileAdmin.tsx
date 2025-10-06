@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
-import {AdminUsersRes, AdminUsersType, UserType} from "../../api/apiTypes";
+import {AdminUsersRes, AdminUsersType} from "../../api/apiTypes";
 import {formatDateToTextShort, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {useNavigate} from "react-router-dom";
 import {adminUserToggleEnabled, getAdminUsers} from "../../api/apiFunctions";

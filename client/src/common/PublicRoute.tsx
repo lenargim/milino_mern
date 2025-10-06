@@ -1,8 +1,7 @@
 import {Navigate, Outlet} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../helpers/helpers";
-import React, {useEffect} from "react";
+import {useAppSelector} from "../helpers/helpers";
+import React from "react";
 import Loading from "./Loading";
-import {loadUser} from "../store/reducers/userSlice";
 
 export default function PublicRote() {
     const token = localStorage.getItem('token')

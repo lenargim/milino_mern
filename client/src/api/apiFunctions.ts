@@ -2,7 +2,6 @@ import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, U
 import {AdminAPI, AuthAPI, cartAPI, checkoutAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {
-    MaybeNull,
     MaybeUndefined,
 } from "../helpers/productTypes";
 import {logout} from "../store/reducers/userSlice";
@@ -11,7 +10,7 @@ import {SortAdminUsers, UserAccessData} from "../Components/Profile/ProfileAdmin
 import {jwtDecode} from "jwt-decode"
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
-import {CartAPI, CartAPIResponse} from "../helpers/cartTypes";
+import {CartAPIResponse} from "../helpers/cartTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {store} from "../store/store";
 

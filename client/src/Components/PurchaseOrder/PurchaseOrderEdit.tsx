@@ -6,7 +6,6 @@ import {getUniqueNames, textToLink, useAppDispatch, useAppSelector} from "../../
 import PurchaseOrderForm from "./PurchaseOrderForm";
 import {editPOAPI} from "../../api/apiFunctions";
 import {editPO, PurchaseOrdersState, PurchaseOrderType} from "../../store/reducers/purchaseOrderSlice";
-import {useDispatch} from "react-redux";
 
 const PurchaseOrderEdit: FC = () => {
     const {purchase_order_name} = useParams();

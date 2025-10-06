@@ -5,7 +5,7 @@ import {PurchaseOrdersState, setActivePO} from "../../store/reducers/purchaseOrd
 
 const PurchaseOrderItem: FC = () => {
     const {purchase_order_name} = useParams();
-    const {purchase_orders,active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const dispatch = useAppDispatch();
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
     useEffect(() => {

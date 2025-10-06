@@ -12,16 +12,16 @@ type SelectFieldType = {
 }
 
 const SelectFieldWithImg: FC<SelectFieldType> = ({options, name, val}) => {
-    const [field, meta, {setValue}] = useField(name);
-    const onChange = (value: OnChangeValue<materialsData, false>) => {
-        if (value) setValue(value.value);
+    const [{value}, ,{setValue}] = useField(name);
+    const onChange = (onChangeVal: OnChangeValue<materialsData, false>) => {
+        if (onChangeVal) setValue(onChangeVal.value);
     };
 
     const onFocus = () => {
-        if (field.value) setValue('');
+        if (value) setValue('');
     };
     useEffect(() => {
-        if (field.value && !val) {
+        if (value && !val) {
             setValue('')
         }
     }, [val])

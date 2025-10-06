@@ -25,7 +25,7 @@ const ProductCabinet: FC<CabinetType> = ({
         product_type,
     } = product;
     const {materialData, tablePriceData, sizeLimit, productPriceData} = productData
-    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
+    const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {doorValues} = productPriceData;
     const {
         width,

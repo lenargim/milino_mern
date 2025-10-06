@@ -10,7 +10,7 @@ export type borderType = 'Sides' | 'Top' | 'Bottom';
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 
 const ProductLED: FC = () => {
-    const {values, setFieldValue, errors} = useFormikContext<ProductFormType>();
+    const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {
         led_borders,
         led_alignment,

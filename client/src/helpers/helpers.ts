@@ -63,13 +63,12 @@ import {
     CartAPIImagedType,
     CartItemFrontType,
     CartOrder,
-    CustomAccessoriesType,
     IsStandardOptionsType, LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
+    colorType, doorType, DoorTypesType, drawer, finishType,
     GolaType,
-    GolaTypesType, GrooveType, materialsData,
+    GolaTypesType, materialsData,
     RoomCategoriesType,
     RoomFront,
     RoomMaterialsFormType,
@@ -78,7 +77,6 @@ import {
 } from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
-import {pdf} from "@react-pdf/renderer";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm

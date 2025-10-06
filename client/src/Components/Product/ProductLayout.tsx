@@ -7,9 +7,6 @@ import {
 } from "../../common/Form";
 import s from './product.module.sass'
 import {
-    pricePart,
-    productDataToCalculatePriceType,
-    productRangeType,
     ProductType, ProductFormType, ProductTableDataType
 } from "../../helpers/productTypes";
 import ProductOptionsBlock from "./ProductOptionsBlock";
