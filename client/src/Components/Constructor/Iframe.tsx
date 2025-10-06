@@ -1,7 +1,6 @@
 import React, {FC, RefObject, useEffect, useRef, useState} from 'react';
 import {MaybeNull} from "../../helpers/productTypes";
 import {UserType} from "../../api/apiTypes";
-import {constructorLogin} from "../../api/apiFunctions";
 
 const Iframe: FC<{ user: UserType,isConstructorSigned:boolean }> = ({user, isConstructorSigned}) => {
     const frame_src = process.env.REACT_APP_CONSTRUCTOR_ENV;
@@ -35,7 +34,6 @@ const Iframe: FC<{ user: UserType,isConstructorSigned:boolean }> = ({user, isCon
             ref={iframeRef}
             style={{width: '100%', height: '100%', padding: 0, margin: 0, border: 'none'}}
             allowFullScreen={true}
-            // allow={'clipboard-read; clipboard-write'}
         />
     );
 };
