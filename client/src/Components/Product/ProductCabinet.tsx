@@ -61,7 +61,7 @@ const ProductCabinet: FC<CabinetType> = ({
 
     useEffect(() => {
         if (isAngle && realWidth !== depth) setFieldValue('depth', realWidth);
-        const doorNum = checkDoors(+doors, doorArr, hinge_opening)
+        const doorNum = checkDoors(hinge_opening)
         if (doors !== doorNum) setFieldValue('doors_amount', doorNum);
 
         if (price !== totalPrice) setFieldValue('price', totalPrice);

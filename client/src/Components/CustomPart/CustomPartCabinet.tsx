@@ -120,7 +120,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, isSt
             </div>
             }
             {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true}/>}
-            {showGlassShelfBlock && <CustomPartGlassShelfBlock product={product}/>}
+            {showGlassShelfBlock && <CustomPartGlassShelfBlock />}
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>

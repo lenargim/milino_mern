@@ -24,7 +24,7 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType, LedAccessoriesFormType
+    InitialSizesType, LedAccessoriesFormType, hingeTypes
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -108,7 +108,7 @@ export const getImgSize = (category: string): 's' | 'm' | 'l' => {
 }
 
 export const getAttributes = (attributes: attrItem[], type: productTypings = 1) => {
-    return attributes.map(attribute => {
+    return attributes.filter(el => el.name !== 'Door').map(attribute => {
         const val: valueItemType = attribute.values.find(v => v.type === type) || attribute.values[0]
         return {
             name: attribute.name,
@@ -724,12 +724,17 @@ export const isLeatherNote = (showLeatherType: boolean, leather: string) => {
     return showLeatherType && leather === 'Other';
 }
 
-export const checkDoors = (doors: number, doorArr: number[] | null, hingeOpening: string): number => {
-    if (!doorArr && doors) return 0;
-    if (doorArr?.length === 1 && doors !== doorArr[0]) return doorArr[0];
-    if (doors === 1 && doorArr?.includes(2) && hingeOpening === 'Double Door') return 2
-    if (doors === 2 && doorArr?.includes(1) && ['Left', 'Right'].includes(hingeOpening)) return 1
-    return doors
+export const checkDoors = (hingeOpening: hingeTypes): number => {
+    // if (!doorArr && doors) return 0;
+    // if (doorArr?.length === 1 && doors !== doorArr[0]) return doorArr[0];
+    // if (doors === 1 && doorArr?.includes(2) && hingeOpening === 'Double Door') return 2
+    // if (doors === 2 && doorArr?.includes(1) && ['Left', 'Right'].includes(hingeOpening)) return 1
+    // if (['Left', 'Right'].includes(hingeOpening)) return 1
+    if (!hingeOpening) return 0;
+    if (hingeOpening === 'Left' || hingeOpening === 'Right' || hingeOpening === 'Single left door' || hingeOpening === 'Single right door') return 1;
+    if (hingeOpening === 'Double Doors' || hingeOpening === 'Two left doors' || hingeOpening === 'Two right doors') return 2
+    if (hingeOpening === 'Four doors') return 4;
+    return 0
 }
 
 export const getMaterialStrings = (materials: RoomMaterialsFormType): MaterialStringsType => {
@@ -858,7 +863,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
             const {doorValues} = productPriceData;
             const doorArr = getDoorMinMaxValuesArr(width, doorValues);
-            const doors = checkDoors(0, doorArr, hinge)
+            const doors = checkDoors(hinge)
             const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
             if (!sizeLimit) return null;
             const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
@@ -1025,7 +1030,7 @@ export const getProfileList = (is_custom: boolean): optionType[] => {
 }
 
 export const getGlassTypeList = (): optionType[] => {
-    return prepareToSelectField(['Glass', 'Mirror', 'Colored']);
+    return prepareToSelectField(['Glass', 'Mirror']);
 }
 
 export const getColorsList = (glassType: string): optionType[] => {
@@ -1034,8 +1039,6 @@ export const getColorsList = (glassType: string): optionType[] => {
             return prepareToSelectField(settings.Glass.Glass);
         case 'Mirror':
             return prepareToSelectField(settings.Glass.Mirror);
-        case 'Colored':
-            return prepareToSelectField(settings.Glass.Colored);
         default:
             return []
     }
@@ -1299,7 +1302,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 
     const {doorValues} = productPriceData;
     const doorArr = getDoorMinMaxValuesArr(width, doorValues);
-    const doors = checkDoors(0, doorArr, hinge);
+    const doors = checkDoors(hinge);
 
     return {
         width: isStandardWidth ? width : 0,

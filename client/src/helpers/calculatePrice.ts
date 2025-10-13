@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     attrItem, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
-    DoorColorType, JeweleryInsertsType,
+    DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined,
@@ -19,6 +19,7 @@ import {
 } from "./productTypes";
 import settings from './../api/settings.json'
 import {
+    checkDoors,
     convertDoorAccessories,
     getAttributes, getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart, getLEDProductCartPrice,
     getProductById,
@@ -37,6 +38,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
+import {number} from "yup";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): MaybeUndefined<number> => {
     const maxData = priceData[priceData.length - 1];
@@ -123,9 +125,8 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(attributes: attrItem[], prodType: productTypings): number {
-    const attrs = getAttributes(attributes, prodType);
-    const doorQty = attrs.find(attr => attr.name === "Door")?.value;
+function addPTODoorsPrice(hinge_opening: hingeTypes): number {
+    const doorQty = checkDoors(hinge_opening)
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
 
@@ -135,10 +136,6 @@ export function addPTODrawerPrice(prodType: productTypings, drawersQty: number):
 
 export function addPTOTrashBinsPrice(): number {
     return settings.fixPrices['PTO for trash bins'] || 0
-}
-
-export function addGlassShelfPrice(qty: number): number {
-    return settings.fixPrices["Glass Shelf"] * qty || 0
 }
 
 export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<string>, is_standard: boolean, hasGlassDoor: boolean): number {
@@ -153,6 +150,20 @@ export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<st
     return p > minPrice ? p : minPrice
 }
 
+export const addGlassAndMirroredShelfPrice = (area:number, glassShelf:MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>>):number => {
+    switch (glassShelf) {
+        case "Clear Glass": return area*25.5;
+        case "Bronze Glass":
+        case "Gray Glass":
+        case "Clear Mirror":
+            return area*45;
+        case "Frosted Glass":
+        case "Bronze Mirror":
+        case "Gray Mirror":
+            return area * 57;
+    }
+    return 0
+}
 export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: attrItem[]): productTypings {
     const doorValues = attributes.find(el => el.name === 'Door')?.values ?? [];
     const shelfValues = attributes.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
@@ -959,7 +970,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
                 case 916: {
-                    priceCustom = 170;
+                    const glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>> = glass?.shelf;
+                    priceCustom = addGlassAndMirroredShelfPrice(area, glassShelf)
                     break
                 }
             }
@@ -1100,17 +1112,19 @@ const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: b
 }
 
 const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {legsHeight = 0, attributes, horizontal_line = 2, isAngle, category, id, product_type} = product;
+    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type} = product;
     const {
         options,
         width,
         height,
+        depth,
         blind_width,
         image_active_number,
         middle_section,
         led,
         glass,
-        custom
+        custom,
+        hinge,
     } = cart;
     const {
         drawer_brand,
@@ -1118,7 +1132,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         drawer_color,
         door_type,
         is_leather_or_rta_closet
-    } = materialData
+    } = materialData;
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {
         drawersQty,
@@ -1131,10 +1145,11 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_rta_closet);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
+    const shelfArea = (width*depth/144)*shelfsQty;
     return {
-        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(attributes, image_active_number) : 0,
+        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
-        glassShelf: options.includes('Glass Shelf') ? addGlassShelfPrice(shelfsQty) : 0,
+        glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led?.border),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),

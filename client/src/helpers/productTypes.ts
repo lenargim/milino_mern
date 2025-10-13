@@ -18,11 +18,13 @@ export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
-export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const
+export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
+export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
 export type ClosetAccessoriesTypes = typeof closetAccessoriesNames[number];
+export type GlassAndMirrorTypes = typeof glassAndMirrorNames[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
@@ -373,7 +375,7 @@ export type ProductFormType = {
     led_alignment: MaybeEmpty<ledAlignmentType>,
     led_indent_string: string,
     glass_door: string[],
-    glass_shelf: string
+    glass_shelf: MaybeEmpty<GlassAndMirrorTypes>
     note: string,
     price: number,
     image_active_number: productTypings,

@@ -8,7 +8,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {
     ClosetAccessoriesTypes,
-    cornerTypes,
+    cornerTypes, GlassAndMirrorTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     MaybeUndefined,
@@ -39,7 +39,7 @@ export type CartAPI = {
 
 export type GlassAPIType = {
     door: MaybeUndefined<string[]>,
-    shelf: MaybeUndefined<string>,
+    shelf: MaybeEmpty<GlassAndMirrorTypes>,
 }
 
 export type CartLEDAPI = {

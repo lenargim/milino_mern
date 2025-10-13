@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import {
     CustomPartTableDataType,
-    CustomPartType, LedAccessoriesFormType,
+    CustomPartType, GlassAndMirrorTypes, LedAccessoriesFormType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -71,7 +71,7 @@ export type CustomPartFormType = {
     note: string,
     price: number,
     glass_door: string[],
-    glass_shelf: string,
+    glass_shelf: MaybeEmpty<GlassAndMirrorTypes>,
     led_accessories: MaybeNull<LedAccessoriesFormType>,
     door_accessories: MaybeNull<DoorAccessoryType[]>,
     standard_doors: MaybeNull<DoorType[]>,
