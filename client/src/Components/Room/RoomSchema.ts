@@ -10,7 +10,14 @@ import {
 } from "../../helpers/roomTypes";
 import {BoxMaterialType, totalBoxMaterialNames} from "../../helpers/roomTypes";
 import {MaybeEmpty} from "../../helpers/productTypes";
-import {findHasGolaTypeByCategory, isClosetLeatherOrRTA, isGolaShown} from "../../helpers/helpers";
+import {
+    findHasGolaTypeByCategory,
+    getDoorColorsArr,
+    getDoorFinishArr, getGrainArr,
+    isClosetLeatherOrRTA, isDoorGrain,
+    isGolaShown
+} from "../../helpers/helpers";
+import materials from './../../api/materials.json'
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
@@ -84,7 +91,19 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                     then: schema => schema.notOneOf([''], 'Please choose door color')
                 }),
             door_grain: Yup.string()
-                .default(''),
+                .default('')
+                .when(['category', 'door_type', 'door_finish_material', 'door_color'], {
+                    is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>, door_finish_material:MaybeEmpty<FinishTypes>, door_color:string) => {
+                        if (!category || !door_type || !door_finish_material || !door_color) return true;
+                        const finishArr = getDoorFinishArr(materials.doors, door_type);
+                        const colorArr = getDoorColorsArr(door_finish_material, door_type, finishArr);
+                        const grainArr = getGrainArr(materials.grain, colorArr, door_color)
+                        return !isDoorGrain(category, door_finish_material, grainArr)
+                    },
+                    then: schema => schema,
+                    otherwise: schema => schema.notOneOf([''], 'Please choose door grain')
+                })
+            ,
             box_material: Yup.mixed<MaybeEmpty<BoxMaterialType>>()
                 .defined()
                 .oneOf(totalBoxMaterialNames)

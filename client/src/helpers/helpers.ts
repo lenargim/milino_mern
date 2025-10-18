@@ -597,11 +597,9 @@ export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeU
     return !!door_finish_material
 }
 
-export const isDoorGrain = (values: RoomMaterialsFormType, grainArr: MaybeNull<materialsData[]>): boolean => {
-    const {category, door_finish_material} = values;
-    if (!category) return false;
-    if (category === 'RTA Closet') return false;
-    return !(!door_finish_material || !grainArr || !grainArr.length)
+export const isDoorGrain = (category:string, door_finish_material:string , grainArr: MaybeNull<materialsData[]>): boolean => {
+    if (!category || category === 'RTA Closet' || !door_finish_material) return false;
+    return !!grainArr?.length
 }
 
 export const isBoxMaterial = (values: RoomMaterialsFormType, boxMaterialArr: finishType[], showDoorFinish: boolean, showDoorColor: boolean, showDoorGrain: boolean): boolean => {
