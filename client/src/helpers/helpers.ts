@@ -340,13 +340,13 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         led_borders,
         led_alignment,
         led_indent_string,
+        custom,
 
         // Excluded in standard cabinet
         custom_width,
         custom_height,
         custom_blind_width,
         middle_section,
-        custom,
         amount
     } = values;
 
@@ -384,7 +384,8 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             accessories: {
                 closet: custom?.closet_accessories
             },
-            jewelery_inserts: custom?.jewelery_inserts
+            jewelery_inserts: custom?.jewelery_inserts,
+            mechanism:custom?.mechanism
         }
     }
 }
@@ -1239,7 +1240,6 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         isBlind,
         blindWidth,
         tablePriceData,
-        productPriceData
     } = productData
     if (!cartItemValues) {
         return {
@@ -1298,9 +1298,13 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const isStandardDepth = checkDepthStandard(productRange, depth, isAngle)
     const isBlindStandard = checkBlindStandard(isBlind, blind_width, blindArr)
 
-    const {doorValues} = productPriceData;
-    const doorArr = getDoorMinMaxValuesArr(width, doorValues);
+    // const {doorValues} = productPriceData;
+    // const doorArr = getDoorMinMaxValuesArr(width, doorValues);
     const doors = checkDoors(hinge);
+
+    let customVal = null;
+    if (custom?.accessories?.closet) customVal = {closet_accessories: custom.accessories.closet};
+    if (custom?.mechanism) customVal = {mechanism: custom.mechanism};
 
     return {
         width: isStandardWidth ? width : 0,
@@ -1327,7 +1331,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
-        custom: custom?.accessories?.closet ? {closet_accessories: custom.accessories.closet}:null,
+        custom: customVal,
         note,
         price,
         amount

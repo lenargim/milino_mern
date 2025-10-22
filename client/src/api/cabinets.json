@@ -6978,7 +6978,20 @@
     "options": [
       "PTO for doors",
       "Glass Door"
-    ]
+    ],
+    "hasMechanism": {
+      "label": "Spice Mechanism",
+      "attributes": [
+        {
+          "name": "Milino",
+          "price": 80
+        },
+        {
+          "name": "Kessebohmer",
+          "price": 320
+        }
+      ]
+    }
   },
   {
     "id": 8,
@@ -7491,7 +7504,20 @@
     "options": [
       "PTO for doors",
       "Glass Door"
-    ]
+    ],
+    "hasMechanism": {
+      "label": "Lazy Susan Mechanism",
+      "attributes": [
+        {
+          "name": "Rev-A-Shelf",
+          "price": 140
+        },
+        {
+          "name": "Kessebohmer",
+          "price": 500
+        }
+      ]
+    }
   },
   {
     "id": 25,
@@ -7577,7 +7603,20 @@
     "options": [
       "PTO for doors",
       "Glass Door"
-    ]
+    ],
+    "hasMechanism": {
+      "label": "Lazy Susan Mechanism",
+      "attributes": [
+        {
+          "name": "Rev-A-Shelf",
+          "price": 140
+        },
+        {
+          "name": "Kessebohmer",
+          "price": 500
+        }
+      ]
+    }
   },
   {
     "id": 27,

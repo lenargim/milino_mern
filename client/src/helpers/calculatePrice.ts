@@ -5,7 +5,7 @@ import {
     DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
-    MaybeUndefined,
+    MaybeUndefined, MechanismType,
     priceItem,
     pricePart, priceStandardPanel,
     pricesTypings,
@@ -408,6 +408,11 @@ function getClosetAccessoriesPrice(closet_accessories: MaybeUndefined<ClosetAcce
 export function getJeweleryInsertsPrice(jewelery_inserts: MaybeUndefined<JeweleryInsertsType[]>): number {
     if (!jewelery_inserts) return 0;
     return jewelery_inserts.length * 100;
+}
+
+export function getMechanismPrice(mechanism:MaybeUndefined<string>, hasMechanism: MaybeUndefined<MechanismType>): number {
+    if (!mechanism || !hasMechanism) return 0;
+    return hasMechanism.attributes.find(el => el.name === mechanism)?.price ?? 0;
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1112,7 +1117,7 @@ const getOverallCoef = (materialData: materialDataType, boxFromFinishMaterial: b
 }
 
 const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
-    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type} = product;
+    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism} = product;
     const {
         options,
         width,
@@ -1157,7 +1162,8 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
-        jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts)
+        jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
+        mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism)
     }
 }
 const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {
