@@ -286,17 +286,20 @@
             {
               "value": "Picasso 1",
               "img": "Picasso 1.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 2",
               "img": "Picasso 2.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 3",
               "img": "Picasso 3.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Reeded Agave",
@@ -1219,17 +1222,20 @@
             {
               "value": "Picasso 1",
               "img": "Picasso 1.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 2",
               "img": "Picasso 2.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 3",
               "img": "Picasso 3.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Reeded Agave",
@@ -2498,17 +2504,20 @@
             {
               "value": "Picasso 1",
               "img": "Picasso 1.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 2",
               "img": "Picasso 2.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Picasso 3",
               "img": "Picasso 3.jpg",
-              "isGrain": true
+              "isGrain": true,
+              "outOfStock": true
             },
             {
               "value": "Reeded Agave",

@@ -87,7 +87,7 @@ const SelectFieldWithImg: FC<SelectFieldType> = ({options, name, val}) => {
                     defaultValue={val}
                     value={val}
                     formatOptionLabel={el => (
-                        <div className={styles.selectImgOption}>
+                        <div className={[styles.selectImgOption, val.outOfStock ? styles.outOfStock : ''].join(' ')}>
                             <img src={el.img} alt={el.value}/>
                             <span>{el.value}</span>
                         </div>

@@ -67,7 +67,8 @@ export type OrderFormSelectType = {
 export type materialsData = {
     value: string,
     img?: string,
-    label?: string
+    label?: string,
+    outOfStock?: boolean
 }
 
 export interface drawer extends materialsData {
@@ -88,7 +89,7 @@ export interface finishType extends materialsData {
 }
 
 export interface colorType extends materialsData {
-    isGrain?: boolean | number,
+    isGrain?: boolean | number
 }
 
 export type MaterialsType = {

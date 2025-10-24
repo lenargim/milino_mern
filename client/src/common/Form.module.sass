@@ -51,6 +51,12 @@
     align-items: center
     justify-content: flex-start
     font: 500 20px/1 $mainFont
+  &.outOfStock
+    span:after
+      content: '- Out of stock'
+      text-transform: uppercase
+      color: $red
+      padding-left: .6em
 
 .error
   position: absolute
@@ -101,6 +107,17 @@
   height: 100%
   overflow: hidden
   transition: all .2s ease
+  &.outOfStock
+    &:before
+      content: 'Out of Stock'
+      position: absolute
+      color: $red
+      text-transform: uppercase
+      font: 600 22px/1.2 $mainFont
+      text-align: center
+      z-index: 2
+      width: 100%
+      top: 1em
 
 .radioLabelImaged
   display: flex

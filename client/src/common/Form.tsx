@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
 import {useField, ErrorMessage, Field} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
@@ -45,7 +45,8 @@ interface RadioInterface extends InputInterface {
     img?: string,
     value: string | number,
     checked?: boolean,
-    label?: string
+    label?: string,
+    outOfStock?: boolean
 }
 
 interface ProductRadioInterface extends InputInterface {
@@ -165,12 +166,12 @@ export const PhoneInput: FC<textInputInterface> = ({
     );
 };
 
-export const RadioInput: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false}) => {
+export const RadioInput: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, outOfStock}) => {
     const [field] = useField(name)
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
             <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`} className={styles.radioLabel}>
+            <label htmlFor={`${name}_${value}`} className={[styles.radioLabel, outOfStock ? styles.outOfStock : ''].join(' ')}>
                 <img src={img} alt={value.toString()}/>
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}

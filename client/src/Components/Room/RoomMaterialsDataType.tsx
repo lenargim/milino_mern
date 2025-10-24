@@ -22,7 +22,7 @@ export default RoomMaterialsDataType;
 
 
 const SelectedField: FC<OrderFormSelectType> = ({value, data, name}) => {
-    const dataWithImgPath:materialsData[] = data.map(el => ({value: el.value.toString(),  img: getImg(`materials/${name}`, `${el.img}`)}))
+    const dataWithImgPath:materialsData[] = data.map(el => ({value: el.value.toString(), img: getImg(`materials/${name}`, `${el.img}`), outOfStock: el.outOfStock}))
     const curValue = dataWithImgPath.find(el => el.value === value) ?? {value: '', img: ''};
 
     return (
@@ -39,6 +39,7 @@ const UnSelectedField: FC<OrderFormSelectType> = ({data, name, small}) => {
             {data.map((el, key) => <RadioInput
                 img={getImg(`materials/${name}`, el.img)}
                 key={key}
+                outOfStock={el.outOfStock}
                 value={el.value}
                 name={name}
                 className={[s.typeItem, small ? s.typeItemSmall : ''].join(' ')}

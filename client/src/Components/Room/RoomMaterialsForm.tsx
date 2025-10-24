@@ -75,7 +75,6 @@ function shouldClearFormData(category: MaybeEmpty<RoomCategoriesType>, prevCateg
 const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<RoomMaterialsFormType>();
-    console.log(errors)
     const {
         name,
         category_gola_type,
