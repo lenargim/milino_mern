@@ -1,22 +1,26 @@
 import React, {FC} from 'react';
 import CartItemProduct from "./CartItemProduct";
 import CartItemCustom from "./CartItemCustom";
-import {getdimensionsRow} from "../../helpers/helpers";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import Dimensions from "../../common/Dimensions";
 
-const CartItemOptions:FC<{item: CartItemFrontType}> = ({item}) => {
+
+const CartItemOptions: FC<{ item: CartItemFrontType }> = ({item}) => {
     const {
         product_type,
-        width, height, depth
+        width, height, depth,
+        isStandard
     } = item;
-    const dimensions = getdimensionsRow(width, height, depth);
-    switch (product_type) {
-        case "cabinet":
-        case "standard":
-            return <CartItemProduct product={item} dimensions={dimensions}/>
-        default:
-            return <CartItemCustom product={item} dimensions={dimensions}/>
-    }
+
+    return (
+        <div>
+            <Dimensions width={width} height={height} depth={depth} isStandard={isStandard.dimensions}/>
+            {product_type === 'custom'
+                ? <CartItemCustom product={item}/>
+                : <CartItemProduct product={item}/>
+            }
+        </div>
+    )
 };
 
 export default CartItemOptions;

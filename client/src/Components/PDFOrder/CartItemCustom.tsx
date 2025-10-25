@@ -8,21 +8,21 @@ import CartItemLEDExtra from "./CartItemLEDExtra";
 import CartItemDoor from "./CartItemDoor";
 import CartItemPanel from "./CartItemPanel";
 import {s} from './PDFOrder'
-import Dimensions from "./Dimentions";
+import Dimensions from "./Dimensions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 import CartItemDrawerInserts from "./CartItemDrawerInserts";
 
 
-const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
+const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width} = product;
     if (!custom) return null;
     const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_inserts} = custom;
     switch (subcategory) {
         case 'glass-door':
-            return <View><CartItemGlassDoorExtra product={product} dimensions={dimensions}/></View>
+            return <View><CartItemGlassDoorExtra product={product}/></View>
         case 'glass-shelf':
-            return <View><CartItemShelfExtra product={product} dimensions={dimensions}/></View>
+            return <View><CartItemShelfExtra product={product}/></View>
         case 'pvc':
             return <View><CartItemPVCExtra product={product}/></View>
         case 'door-accessories': {
@@ -45,10 +45,9 @@ const CartItemCustom: FC<{ product: CartItemFrontType, dimensions: string }> = (
             return <View><CartItemRTAClosetCustom rta_closet={rta_closet}/></View>
         case 'drawer-inserts':
             if (!drawer_inserts) return null;
-            return <View><CartItemDrawerInserts drawer_inserts={drawer_inserts} width={width} /></View>
+            return <View><CartItemDrawerInserts drawer_inserts={drawer_inserts} width={width}/></View>
         default:
             return <View>
-                <Dimensions dimensions={dimensions}/>
                 {material &&
                 <Text style={s.itemOption}>
                   <Text>Material: {material}</Text>

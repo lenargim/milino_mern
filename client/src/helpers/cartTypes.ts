@@ -123,10 +123,16 @@ export type StandardDoorAPIType = {
 }
 
 export type IsStandardOptionsType = {
-    dimensions: boolean,
+    dimensions: IsStandardDimentionsType,
     blind: boolean,
     middle: boolean,
     led: boolean,
     options: boolean
+}
+
+export type IsStandardDimentionsType = {
+    width: boolean,
+    height: boolean,
+    depth: boolean
 }
 export type changeAmountType = 'plus' | 'minus';

@@ -1,12 +1,11 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
 import {getFraction} from "../../helpers/helpers";
-import Dimentions from "../../common/Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemChosenOptions from "./CartItemChosenOptions";
 import CartItemLED from "./CartItemLED";
 
-const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = ({product, dimensions}) => {
+const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
     const {
         middle_section,
         blind_width,
@@ -20,7 +19,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType, dimensions: string }> = 
     } = product;
     return (
         <>
-            <Dimentions dimensions={dimensions} isStandard={isStandard.dimensions}/>
             {blind_width ?
                 <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom:''].join(' ')}>
                     <span>Blind Width:</span>

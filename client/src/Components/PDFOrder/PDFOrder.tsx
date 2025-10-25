@@ -132,6 +132,7 @@ export const s = StyleSheet.create({
     },
     itemOptionCustom: {
         fontSize: 12,
+        fontWeight: 700,
         color: '#CB4141'
     },
     blocks: {
@@ -150,6 +151,10 @@ export const s = StyleSheet.create({
     },
     non: {
         fontSize: '14px',
+        color: '#CB4141'
+    },
+    red: {
+        fontSize: 12,
         color: '#CB4141'
     }
 })

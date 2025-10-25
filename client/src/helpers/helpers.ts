@@ -62,7 +62,7 @@ import {
     CartAPI,
     CartAPIImagedType,
     CartItemFrontType,
-    CartOrder,
+    CartOrder, IsStandardDimentionsType,
     IsStandardOptionsType, LEDAccessoriesType
 } from "./cartTypes";
 import {
@@ -289,10 +289,12 @@ export const getIsProductStandard = (productRange: productRangeType, width: numb
         && checkLedSelected(led_border)
 }
 
-export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: MaybeUndefined<AngleType>): boolean => {
-    return checkWidthStandard(productRange, width)
-        && checkHeightStandard(productRange, height)
-        && checkDepthStandard(productRange, depth, isAngle)
+export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: MaybeUndefined<AngleType>): IsStandardDimentionsType => {
+    return {
+        width: checkWidthStandard(productRange, width),
+        height: checkHeightStandard(productRange, height),
+        depth: checkDepthStandard(productRange, depth, isAngle)
+    }
 }
 
 export const checkWidthStandard = (productRange: productRangeType, width: number): boolean => {
@@ -833,7 +835,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
     const materialData = getMaterialData(room, product_id);
     const {
         is_standard_room,
-        drawer_brand,
         base_price_type,
     } = materialData;
 
@@ -857,10 +858,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
 
             const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
             if (!tablePriceData) return null;
-
-            const productPriceData = getProductDataToCalculatePrice(product, drawer_brand);
-            const {doorValues} = productPriceData;
-            const doorArr = getDoorMinMaxValuesArr(width, doorValues);
             const doors = checkDoors(hinge)
             const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
             if (!sizeLimit) return null;
@@ -896,7 +893,11 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 subcategory: type,
                 price: price,
                 isStandard: {
-                    dimensions: true,
+                    dimensions: {
+                        width: true,
+                        height: true,
+                        depth: true
+                    },
                     led: true,
                     blind: true,
                     middle: true,
@@ -963,7 +964,6 @@ export function usePrevious<T>(data: T) {
 }
 
 export const getdimensionsRow = (width: number, height: number, depth: number): string => {
-    // if (width && !height && !depth) return `${getFraction(width)}"Width`
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? ` ${getFraction(height)}"H` : '';
     const depthPart = depth && depth > 1 ? ` x ${getFraction(depth)}"D` : '';

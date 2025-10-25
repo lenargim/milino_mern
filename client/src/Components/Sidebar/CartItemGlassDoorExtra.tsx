@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import Dimentions from "../../common/Dimentions";
+import Dimentions from "../../common/Dimensions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 
-const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType, dimensions:string }> = ({product, dimensions}) => {
+const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {glass: glassObj, custom} = product;
     if (!glassObj || !custom) return null;
     const {door: glass_door} = glassObj;
@@ -11,7 +11,6 @@ const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType, dimensions:string
     const {material} = custom
     return (
         <>
-            <Dimentions dimensions={dimensions}/>
             {material &&
               <div className={s.itemOption}>
                 <span>Material:</span>

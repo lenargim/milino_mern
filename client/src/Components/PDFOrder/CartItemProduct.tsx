@@ -2,12 +2,11 @@ import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
 import {getFraction} from "../../helpers/helpers";
 import {s} from "./PDFOrder";
-import Dimensions from "./Dimentions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemLED from "./CartItemLED";
 import CartItemChosenOptions from "./CartItemChosenOptions";
 
-const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = ({product, dimensions}) => {
+const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {
         blind_width,
         middle_section,
@@ -22,7 +21,6 @@ const CartItemProduct: FC<{ product: CartItemFrontType,dimensions: string }> = (
 
     return (
         <View>
-            <Dimensions dimensions={dimensions} isStandard={isStandard.dimensions}/>
             {blind_width ?
                 <View style={!isStandard.blind ? s.itemOptionCustom:s.itemOption}>
                     <Text>Blind Width: {getFraction(blind_width)}"</Text>
