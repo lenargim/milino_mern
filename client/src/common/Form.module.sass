@@ -22,12 +22,13 @@
   font: 400 16px/20px $mainFont
   transition: all .2s ease
   max-width: 600px
+  width: 100%
   &.inputError
     border-color: $red
   &.focused, &:hover
     border-color: $accent
   &.focused
-    & + .label
+    & ~ .label
       top: 2px
       font: 400 12px/15px $mainFont
       color: #8D8D8D

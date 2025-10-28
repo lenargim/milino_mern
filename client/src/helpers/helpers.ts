@@ -78,6 +78,7 @@ import {
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {CheckoutFormValues} from "../Components/Checkout/CheckoutForm";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
+import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -1124,7 +1125,7 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, materials);
@@ -1156,7 +1157,7 @@ export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob
     return formData
 }
 
-export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], room_blob: Blob, values: CheckoutFormValues, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], room_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const {_id, purchase_order_id, activeProductCategory, name, ...materials} = room;
     const cart_orders: CartOrder[] = cart_items.map((el) => {
         const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;

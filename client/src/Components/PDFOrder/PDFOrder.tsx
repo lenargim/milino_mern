@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {CheckoutType} from "../../helpers/types";
+import { InferType } from 'yup';
 import {
     getCartItemImgPDF,
     getCartTotal, getCustomCabinetString,
@@ -10,6 +11,7 @@ import logo from '../../assets/img/black-logo.jpg'
 import {MaterialStringsType} from "../../common/Materials";
 import CartItemOptions from "./CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 
 
 export const s = StyleSheet.create({
@@ -159,7 +161,7 @@ export const s = StyleSheet.create({
     }
 })
 
-const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
+const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
                                                                                                                      values,
                                                                                                                      cart,
                                                                                                                      materialStrings
@@ -175,6 +177,11 @@ const PDFOrder: FC<{ values: CheckoutType, cart: CartItemFrontType[], materialSt
                 <Text>Email: {values.email}</Text>
                 <Text>Phone: {values.phone}</Text>
                 <Text>Delivery address: {values.delivery}</Text>
+                <Text>Delivery date: {values.delivery_date?.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                })}</Text>
             </View>
             <View>
                 <Text>Category: {materialStrings.categoryString}</Text>

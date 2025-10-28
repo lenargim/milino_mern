@@ -22,5 +22,9 @@ export const CheckoutSchema = Yup.object({
         .required('Please write down your phone number'),
     delivery: Yup.string()
         .default("")
-        .required('Please enter your delivery address or write “pick up”')
+        .required('Please enter your delivery address or write “pick up”'),
+    delivery_date: Yup.date()
+        .required('Please write down delivery date')
 })
+
+export type CheckoutSchemaType = Yup.InferType<typeof CheckoutSchema>;

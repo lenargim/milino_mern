@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {Page, Text, View, Document, Image} from '@react-pdf/renderer';
-import {CheckoutType} from "../../helpers/types";
 import {
     convertCartAPIToFront,
     getCartItemImgPDF,
@@ -11,9 +10,10 @@ import logo from '../../assets/img/black-logo.jpg'
 import CartItemOptions from "./CartItemOptions";
 import {RoomOrderType} from "../../helpers/roomTypes";
 import {s} from "./PDFOrder"
+import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 
 
-const PDFPurchaseOrder: FC<{ values: CheckoutType, po_rooms_api: RoomOrderType[] }> = ({
+const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrderType[] }> = ({
                                                                                            values,
                                                                                            po_rooms_api
                                                                                        }) => {
@@ -28,6 +28,11 @@ const PDFPurchaseOrder: FC<{ values: CheckoutType, po_rooms_api: RoomOrderType[]
                     <Text>Email: {values.email}</Text>
                     <Text>Phone: {values.phone}</Text>
                     <Text>Delivery address: {values.delivery}</Text>
+                    <Text>Delivery date: {values.delivery_date?.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit'
+                    })}</Text>
                     <Text>Rooms in Purchase order: {po_rooms_api.length}</Text>
                 </View>
             </Page>

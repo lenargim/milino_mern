@@ -17,9 +17,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@react-pdf-viewer/core": "^3.12.0",
-    "@react-pdf-viewer/default-layout": "^3.12.0",
-    "@uiw/react-iframe": "^1.0.3",
     "bcrypt": "^5.1.1",
     "caniuse-lite": "^1.0.30001736",
     "config": "^3.3.12",
@@ -35,8 +32,6 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
-    "pdfjs-dist": "^3.11.174",
-    "react-pdf": "^9.2.1",
     "typescript": "^5.6.3",
     "url": "^0.11.4"
   },

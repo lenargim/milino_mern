@@ -10,6 +10,10 @@ import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
 import NestedErrorMessage from "./ErrorForNestedFields";
 import {MaybeUndefined} from "../helpers/productTypes";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import {addMonths, addWeeks} from 'date-fns';
+
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -171,7 +175,8 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
             <Field type="radio" checked={checked} name={name} value={value} id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`} className={[styles.radioLabel, outOfStock ? styles.outOfStock : ''].join(' ')}>
+            <label htmlFor={`${name}_${value}`}
+                   className={[styles.radioLabel, outOfStock ? styles.outOfStock : ''].join(' ')}>
                 <img src={img} alt={value.toString()}/>
                 <span>{value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
@@ -374,6 +379,37 @@ export const CustomPartAttrCheckbox: FC<{ name: string, className?: MaybeUndefin
             />
             <label htmlFor={name}
                    className={styles.radioLabel}><span>{label ?? name}</span></label>
+        </div>
+    )
+}
+
+
+export const MyDatePicker: FC<{ name: string, label?: string, weeks: number }> = ({
+                                                                                      label,
+                                                                                      name,
+                                                                                      weeks
+                                                                                  }): JSX.Element => {
+
+    const [field, meta, helpers] = useField(name);
+    const {error, touched} = meta
+    const isFilled = !!field.value;
+    return (
+        <div className={[styles.row, error && touched ? 'error' : null].join(' ')}>
+            <DatePicker name={name}
+                        id={name}
+                        selected={field.value instanceof Date ? field.value : null}
+                        onChange={(date: Date | null) => helpers.setValue(date)}
+                        dateFormat="MM/dd/yyyy"
+                        minDate={addWeeks(new Date(), weeks)}
+                        maxDate={addMonths(new Date(), 12)}
+                        className={[styles.input, isFilled ? `${styles.focused}` : null, error && touched ? styles.inputError : null].join(' ')}
+                        wrapperClassName={[styles.input, isFilled ? `${styles.focused}` : null,error && touched ? styles.inputError : null].join(' ')}
+                        autoComplete={'off'}
+                        onFocus={() => helpers.setTouched(true)}
+
+            />
+            <label className={styles.label} htmlFor={name}>{label}</label>
+            <ErrorMessage name={name} component="div" className={styles.error}/>
         </div>
     )
 }

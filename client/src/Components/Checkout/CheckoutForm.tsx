@@ -6,13 +6,13 @@ import {
     getMaterialStrings, textToLink,
     useAppSelector
 } from "../../helpers/helpers";
-import {CheckoutSchema} from "./CheckoutSchema";
+import {CheckoutSchema, CheckoutSchemaType} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
 import {saveAs} from "file-saver";
 import {Form, Formik} from "formik";
 import s from "./checkout.module.sass";
-import {PhoneInput, TextInput} from "../../common/Form";
+import {MyDatePicker, PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
@@ -24,15 +24,13 @@ import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 import CheckoutButtonRow from "./CheckoutButtonRow";
 
 export type ButtonType = 'save-room' | 'send-room' | 'save-po' | 'send-po';
-export type CheckoutFormValues = {
-    name: string,
-    company: string,
-    email: string,
-    phone: string,
-    purchase_order: string,
-    room_name: string,
-    delivery: string
-}
+
+type WithNullableFields<T, K extends keyof T> = Omit<T, K> & {
+    [P in K]: T[P] | null;
+};
+
+export type CheckoutFormValues = WithNullableFields<CheckoutSchemaType, 'delivery_date'>;
+
 const CheckoutForm: FC = () => {
     const navigate = useNavigate();
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
@@ -44,15 +42,21 @@ const CheckoutForm: FC = () => {
     const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
 
     const handleSubmit = async (values: CheckoutFormValues) => {
+        if (!values.delivery_date) return;
+        const validatedValues: CheckoutSchemaType = {
+            ...values,
+            delivery_date: values.delivery_date,
+        };
+
         const button_type = clickedButtonRef.current;
         if (!button_type || !cart_items) return;
         const date = new Date().toLocaleString('ru-RU', {dateStyle: "short"});
-        const fileName = `${textToLink(values.purchase_order)}.${date}`;
+        const fileName = `${textToLink(validatedValues.purchase_order)}.${date}`;
 
         switch (button_type) {
             case "save-room": {
                 const cartWithJPG = checkoutCartItemWithImg(cart_items);
-                const room_blob = await pdf(<PDFOrder values={values}
+                const room_blob = await pdf(<PDFOrder values={validatedValues}
                                                       materialStrings={materialStrings}
                                                       cart={cartWithJPG}/>).toBlob();
                 saveAs(room_blob, `${fileName}.pdf`);
@@ -61,16 +65,17 @@ const CheckoutForm: FC = () => {
             case "save-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
-                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
+                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues}
+                                                            po_rooms_api={po_rooms_api}/>).toBlob();
                 saveAs(po_blob, `${fileName}.pdf`);
                 break;
             }
             case "send-room": {
                 const cartWithJPG = checkoutCartItemWithImg(cart_items);
-                const room_blob = await pdf(<PDFOrder values={values}
+                const room_blob = await pdf(<PDFOrder values={validatedValues}
                                                       materialStrings={materialStrings}
                                                       cart={cartWithJPG}/>).toBlob();
-                const RoomFormData = await createOrderFormRoomData(room, cart_items, room_blob, values, fileName, date);
+                const RoomFormData = await createOrderFormRoomData(room, cart_items, room_blob, validatedValues, fileName, date);
                 const res = await sendOrder(RoomFormData, textToLink(company));
                 if (res?.status === 201) setIsModalOpen(true);
                 break;
@@ -79,15 +84,14 @@ const CheckoutForm: FC = () => {
             case "send-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
-                const po_blob = await pdf(<PDFPurchaseOrder values={values} po_rooms_api={po_rooms_api}/>).toBlob();
-                const POFormData = await createOrderFormData(po_rooms_api, po_blob, values, fileName, date);
+                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues} po_rooms_api={po_rooms_api}/>).toBlob();
+                const POFormData = await createOrderFormData(po_rooms_api, po_blob, validatedValues, fileName, date);
                 const res = await sendOrder(POFormData, textToLink(company));
                 if (res?.status === 201) setIsModalOpen(true);
                 break;
             }
         }
     }
-
     const total = getCartTotal(cart_items);
     const materialStrings = getMaterialStrings(materials);
     if (!user || !active_po || !cart_items) return null;
@@ -100,7 +104,8 @@ const CheckoutForm: FC = () => {
         phone,
         purchase_order: active_po,
         room_name: room.name,
-        delivery: ''
+        delivery: '',
+        delivery_date: null
     };
     return (
         <Formik initialValues={initialValues}
@@ -118,6 +123,7 @@ const CheckoutForm: FC = () => {
                     <TextInput type="email" name="email" label="E-mail"/>
                     <PhoneInput type="text" name="phone" label="Phone number"/>
                     <TextInput type="text" name="delivery" label="Delivery address"/>
+                    <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
                 </div>
                 <CheckoutCart cart={cart_items} total={total}/>
                 <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}
