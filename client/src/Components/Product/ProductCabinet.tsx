@@ -87,7 +87,8 @@ const ProductCabinet: FC<CabinetType> = ({
 
     const customVal:MaybeUndefined<CartCustomType> = custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
-        jewelery_inserts: custom.jewelery_inserts
+        jewelery_inserts: custom.jewelery_inserts,
+        mechanism: custom.mechanism
     } : undefined;
     const cabinetItem: CartAPIImagedType = {
         _id: '',

@@ -100,7 +100,8 @@ export interface ProductType extends ProductOrCustomType{
     blindArr?: number[],
     horizontal_line?: number,
     hasClosetAccessoriesBlock?: boolean,
-    hasJeweleryBlock?:boolean
+    hasJeweleryBlock?:boolean,
+    hasMechanism?: MechanismType
 }
 
 export interface CustomPartType extends ProductOrCustomType{
@@ -342,14 +343,16 @@ export type AttributesPrices = {
     doorPrice: number,
     drawerPrice: number,
     closetAccessoriesPrice: number,
-    jeweleryInsertsPrice: number
+    jeweleryInsertsPrice: number,
+    mechanismPrice: number
 }
 
 export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;
 export type JeweleryInsertsType = typeof jeweleryInsertsNames[number];
 export type ProductExtraType = {
     closet_accessories?: ClosetAccessoriesTypes,
-    jewelery_inserts?: JeweleryInsertsType[]
+    jewelery_inserts?: JeweleryInsertsType[],
+    mechanism?: string
 }
 
 export type ProductFormType = {
@@ -433,4 +436,14 @@ export type LedAccessoriesFormType = {
     remote_control: number,
     door_sensor_single: number,
     door_sensor_double: number,
+}
+
+export type MechanismType = {
+    label: string,
+    attributes: MechanismAccessoriesType[]
+}
+
+type MechanismAccessoriesType = {
+    name: string,
+    price: number
 }

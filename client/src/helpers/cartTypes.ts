@@ -89,6 +89,7 @@ export type CartCustomType = {
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,
     rta_closet?: RTAClosetAPIType[],
+    mechanism?: string
 }
 
 export type PanelsFormAPIType = {

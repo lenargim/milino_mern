@@ -21,6 +21,7 @@ import ProductLED from "./ProductLED";
 import {useParams} from "react-router-dom";
 import ProductClosetAccessories from "./ProductClosetAccessories";
 import ProductJeweleryBlock from "./ProductJeweleryBlock";
+import ProductMechanism from "./ProductMechanism";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -40,6 +41,7 @@ const ProductLayout: FC<CabinetFormType> = ({
         hasLedBlock,
         hasClosetAccessoriesBlock,
         hasJeweleryBlock,
+        hasMechanism,
         blindArr,
         product_type,
         id,
@@ -66,7 +68,7 @@ const ProductLayout: FC<CabinetFormType> = ({
     const depthRangeWithCustom = depthRange.concat([0]);
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
-    const showHingeBlock = isShowHingeBlock(hingeArr)
+    const showHingeBlock = isShowHingeBlock(hingeArr);
     return (
         <Form>
             {!hasSolidWidth ?
@@ -126,6 +128,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             {hasLedBlock ? <ProductLED/> : null}
             {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}
+            {hasMechanism ? <ProductMechanism hasMechanism={hasMechanism}/> : null}
             <ProductOptionsBlock filteredOptions={filteredOptions}
                                  isProductStandard={product_type === "standard"}
                                  id={id}

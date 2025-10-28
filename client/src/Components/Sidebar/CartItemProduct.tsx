@@ -57,6 +57,12 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
                     <span>{custom.jewelery_inserts.join(', ')}</span>
                 </div> : null
             }
+            {
+                custom?.mechanism ? <div className={s.itemOption}>
+                    <span>Mechanism:</span>
+                    <span>{custom.mechanism}</span>
+                </div> : null
+            }
         </>
     )
 }
