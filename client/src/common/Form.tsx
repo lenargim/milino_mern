@@ -409,6 +409,7 @@ export const MyDatePicker: FC<{ name: string, label?: string, weeks: number }> =
 
             />
             <label className={styles.label} htmlFor={name}>{label}</label>
+            <span style={{fontSize: '12px'}}>{`Approximate delivery date (minimum ${weeks} weeks)`}</span>
             <ErrorMessage name={name} component="div" className={styles.error}/>
         </div>
     )
