@@ -386,7 +386,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
                 closet: custom?.closet_accessories
             },
             jewelery_inserts: custom?.jewelery_inserts,
-            mechanism:custom?.mechanism
+            mechanism: custom?.mechanism
         }
     }
 }
@@ -599,7 +599,7 @@ export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeU
     return !!door_finish_material
 }
 
-export const isDoorGrain = (category:string, door_finish_material:string , grainArr: MaybeNull<materialsData[]>): boolean => {
+export const isDoorGrain = (category: string, door_finish_material: string, grainArr: MaybeNull<materialsData[]>): boolean => {
     if (!category || category === 'RTA Closet' || !door_finish_material) return false;
     return !!grainArr?.length
 }
@@ -626,7 +626,7 @@ export const isBoxMaterial = (values: RoomMaterialsFormType, boxMaterialArr: fin
 
 }
 
-export const isBoxColor = (box_material: string,isCloset: boolean): boolean => {
+export const isBoxColor = (box_material: string, isCloset: boolean): boolean => {
     if (!box_material) return false;
     return isCloset
 }
@@ -998,6 +998,8 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
             return API['Build In Closet'] as SliderCategoriesItemType;
         case "RTA Closet":
             return API['RTA Closet'] as SliderCategoriesItemType;
+        case "Cabinet System Closet":
+            return API["Cabinet System Closet"] as SliderCategoriesItemType;
     }
 }
 
@@ -1011,7 +1013,7 @@ export const formatDateToTextShort = (dateApi: Date): string => {
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
 
-export function prepareToSelectField(arr: (string|optionType)[]): optionType[] {
+export function prepareToSelectField(arr: (string | optionType)[]): optionType[] {
     return arr.map(el => {
         if (typeof el !== 'string') return el;
         return {
@@ -1075,6 +1077,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
             return [34.5];
         case "RTA Closets":
             return [95]
+        case "Cabinet System Closet":
+            return [96]
         default:
             return []
     }

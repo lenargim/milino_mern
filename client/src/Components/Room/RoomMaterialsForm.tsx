@@ -75,6 +75,7 @@ function shouldClearFormData(category: MaybeEmpty<RoomCategoriesType>, prevCateg
 const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const dispatch = useAppDispatch()
     const {values, setFieldValue, isValid, isSubmitting, setValues, errors} = useFormikContext<RoomMaterialsFormType>();
+    console.log(errors)
     const {
         name,
         category_gola_type,
@@ -99,15 +100,15 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
-    const isRTACloset = category === 'RTA Closet';
-    const isLeatherOrRTACloset = isClosetLeatherOrRTA(category);
+    const isRTAorSystemCloset = category === 'RTA Closet' || category === 'Cabinet System Closet';
+    const isLeatherOrRTAOrSystemCloset = isClosetLeatherOrRTA(category);
     const hasGolaType = findHasGolaTypeByCategory(category);
     const golaTypeArr = filterGolaTypeArrByCategory(category, golaType);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
     const finishArr = getDoorFinishArr(doors, door_type);
     const colorArr = getDoorColorsArr(door_finish_material, door_type, finishArr);
-    const boxMaterialArr: finishType[] = getBoxMaterialArr(isLeatherOrRTACloset, boxMaterial, leatherBoxMaterialArr || [])
-    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isRTACloset, box_material, boxMaterialArr, boxMaterial);
+    const boxMaterialArr: finishType[] = getBoxMaterialArr(isLeatherOrRTAOrSystemCloset, boxMaterial, leatherBoxMaterialArr || [])
+    const boxMaterialColor: colorType[] = getBoxMaterialColorsArr(isLeather, isRTAorSystemCloset, box_material, boxMaterialArr, boxMaterial);
     const drawerBrandArr = getDrawerBrandArr(drawers);
     const drawerTypesArr = getDrawerTypeArr(drawers, drawer_brand);
     const drawerColorsArr = getDrawerColorArr(drawers, drawer_brand, drawer_type)
@@ -179,7 +180,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             if (!grainArr && door_grain) setFieldValue('door_grain', '');
 
             // Check Box Color
-            if (!isLeatherOrRTACloset && box_color) setFieldValue('box_color', '');
+            if (!isLeatherOrRTAOrSystemCloset && box_color) setFieldValue('box_color', '');
 
             // Check Leather
             if (!isLeather) {
@@ -204,8 +205,8 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const showDoorColor = isDoorColorShown(values, colorArr, showDoorFrameWidth);
     const showDoorGrain = isDoorGrain(category, door_finish_material, grainArr);
     const showBoxMaterial = isBoxMaterial(values, boxMaterialArr,showDoorFinish,showDoorColor,showDoorGrain);
-    const showBoxColor = isBoxColor(box_material,isLeatherOrRTACloset)
-    const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeatherOrRTACloset);
+    const showBoxColor = isBoxColor(box_material,isLeatherOrRTAOrSystemCloset)
+    const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeatherOrRTAOrSystemCloset);
     const showDrawerType = isDrawerType(showDrawerBrand, drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(showDrawerType, drawer_type, drawerColorsArr);
     const showLeatherType = isLeatherType(drawer_color, drawer_type, isLeather, leatherTypeArr);
@@ -231,8 +232,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             {showDoorColor && <RoomMaterialsDataType data={colorArr} value={door_color} name="door_color" label="Door Color"/>}
             {showDoorGrain && <RoomMaterialsDataType data={grainArr || []} value={door_grain ?? ''} name="door_grain"
                                                      label="Door Grain"/>}
-
-
             {showBoxMaterial &&
             <RoomMaterialsDataType data={boxMaterialArr} value={box_material} name="box_material"
                                    label="Box Material"/>}

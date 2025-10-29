@@ -5181,6 +5181,25 @@
     "options": []
   },
   {
+    "id": 600,
+    "product_type": "cabinet",
+    "name": "IDH Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WIDH.webp"],
+    "attributes": [
+      {
+        "name": "Double Hanging Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
     "id": 923,
     "product_type": "custom",
     "name": "RTA Closet additional parts",

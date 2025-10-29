@@ -1,10 +1,10 @@
 import {MaybeEmpty, productCategory} from "./productTypes";
 import {RoomCategoriesType} from "./roomTypes";
 
-export type category = {
-    name: string,
-    img: string
-}
+// export type category = {
+//     name: string,
+//     img: string
+// }
 
 export type setCategoryType = (value: productCategory) => void;
 
@@ -29,7 +29,8 @@ export type SliderCategoriesType = {
     "Build In Closet": SliderCategoriesItemType,
     "Leather Closet": SliderCategoriesItemType,
     "Standard Door": SliderCategoriesItemType,
-    "RTA Closet": SliderCategoriesItemType
+    "RTA Closet": SliderCategoriesItemType,
+    "Cabinet System Closet": SliderCategoriesItemType
 }
 
 export type SliderCategoriesItemType = {

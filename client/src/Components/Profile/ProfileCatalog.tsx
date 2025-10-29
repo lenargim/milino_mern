@@ -7,7 +7,8 @@ import {SpecialZoomLevel, Viewer, Worker} from "@react-pdf-viewer/core";
 const catalogs: CatalogItem[] = [
     {label: 'Regular', file: require('../../assets/pdf/catalog/Regular.pdf')},
     {label: 'White Shaker', file: require('../../assets/pdf/catalog/White Shaker.pdf')},
-    {label: 'RTA Closet', file: require('../../assets/pdf/catalog/RTA_closet.pdf')}
+    {label: 'RTA Closet', file: require('../../assets/pdf/catalog/RTA_closet.pdf')},
+    {label: 'Cabinet System Closet', file: require('../../assets/pdf/catalog/Cabinet_System_Closet.pdf')}
 ];
 
 type CatalogItem = {

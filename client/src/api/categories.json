@@ -138,6 +138,19 @@
       }
     ]
   },
+  "Cabinet System Closet": {
+    "defaultImg": "rta-closet.webp",
+    "categories": [
+      {
+        "name": "Cabinet System Closet",
+        "img": "rta-closet.webp"
+      },
+      {
+        "name": "Custom Parts",
+        "img": "Flatd_05.webp"
+      }
+    ]
+  },
   "Standard Door": {
     "defaultImg": "Flatd_01.webp",
     "categories": [

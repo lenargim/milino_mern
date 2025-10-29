@@ -73,6 +73,7 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
             return undefined;
         case "Leather":
         case "RTA Closets":
+        case "Cabinet System Closet":
             if (!priceData[0]?.depth) {
                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
                 if (widthTablePrice) return widthTablePrice;

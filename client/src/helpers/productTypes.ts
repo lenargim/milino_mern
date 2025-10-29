@@ -63,7 +63,7 @@ export type StandardCategory =
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
 
-export type ClosetsCategory = 'Build In' | 'Leather' | 'RTA Closets'
+export type ClosetsCategory = 'Build In' | 'Leather' | 'RTA Closets' | 'Cabinet System Closet';
 
 export type productCategory =
     kitchenCategories
