@@ -483,12 +483,12 @@ function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUnd
 
 const getBasePriceType = (materials: RoomMaterialsFormType, is_leather_closet: boolean): pricesTypings => {
     const {door_type, door_color, door_finish_material, box_material} = materials;
-    if (!box_material || !door_type) return 1;
     if (is_leather_closet) {
         if (box_material === 'Milino') return 1;
         if (box_material === 'Syncron') return 2;
         return 3
     } else {
+        if (!box_material || !door_type) return 1;
         switch (door_type as DoorTypesType) {
             case 'Slab':
                 if (!door_finish_material) return 3;
@@ -707,7 +707,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
 
     const is_leather_or_rta_closet = isClosetLeatherOrRTA(category);
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
-
     const base_price_type = getBasePriceType(materials, is_leather_or_rta_closet);
     const materials_coef = getMaterialCoef(materials, is_leather_or_rta_closet);
     const grain_coef = getGrainCoef(door_grain);

@@ -15,7 +15,7 @@ import {
     getDoorColorsArr,
     getDoorFinishArr, getGrainArr,
     isClosetLeatherOrRTA, isDoorGrain,
-    isGolaShown
+    isGolaShown, isRTAorSystemCloset
 } from "../../helpers/helpers";
 import materials from './../../api/materials.json'
 
@@ -51,8 +51,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when('category', {
                     is: (category:RoomCategoriesType) => {
-                        const isRTACloset = category === 'RTA Closet';
-                        return !isRTACloset
+                        return !isRTAorSystemCloset(category)
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door type')
                 }),
@@ -66,8 +65,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['category', 'door_type'], {
                     is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>) => {
-                        const isRTACloset = category === 'RTA Closet';
-                        if (isRTACloset || door_type === 'Standard Size White Shaker') return false;
+                        if (isRTAorSystemCloset(category) || door_type === 'Standard Size White Shaker') return false;
                         return true
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door finish material')
@@ -83,9 +81,9 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['category','door_finish_material' ], {
                     is: (category: RoomCategoriesType, door_finish_material: MaybeEmpty<FinishTypes>) => {
-                        const isRTACloset = category === 'RTA Closet';
+                        const isRTASysCloset = isRTAorSystemCloset(category);
                         const noHinges = door_finish_material === 'No Doors No Hinges';
-                        if (isRTACloset || noHinges) return false;
+                        if (isRTASysCloset || noHinges) return false;
                         return true;
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door color')
