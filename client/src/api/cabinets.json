@@ -5200,6 +5200,187 @@
     "options": []
   },
   {
+    "id": 601,
+    "product_type": "cabinet",
+    "name": "ILH Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WILH.webp"],
+    "attributes": [
+      {
+        "name": "Long Hanging Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 602,
+    "product_type": "cabinet",
+    "name": "IAS Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WIAS.webp"],
+    "attributes": [
+      {
+        "name": "Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 603,
+    "product_type": "cabinet",
+    "name": "ISS Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WISS.webp"],
+    "attributes": [
+      {
+        "name": "Angled Shoe Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 604,
+    "product_type": "cabinet",
+    "name": "IFAS Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/IFAS.webp"],
+    "attributes": [
+      {
+        "name": "Angled shoe shelves",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 605,
+    "product_type": "cabinet",
+    "name": "IDS Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WIDS.webp"],
+    "attributes": [
+      {
+        "name": "Drawers Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 606,
+    "product_type": "cabinet",
+    "name": "IHS Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WIHS.webp"],
+    "attributes": [
+      {
+        "name": "Hamper Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 607,
+    "product_type": "cabinet",
+    "name": "IDC Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WIDC.webp"],
+    "attributes": [
+      {
+        "name": "Corner Hanging Sections",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 608,
+    "product_type": "cabinet",
+    "name": "ILC Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WILC.webp"],
+    "attributes": [
+      {
+        "name": "Corner Long Hanging Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 609,
+    "product_type": "cabinet",
+    "name": "ISC Series",
+    "category": "Cabinet System Closet",
+    "images": ["WIC/WISC.webp"],
+    "attributes": [
+      {
+        "name": "Corner Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+
+  {
     "id": 923,
     "product_type": "custom",
     "name": "RTA Closet additional parts",
