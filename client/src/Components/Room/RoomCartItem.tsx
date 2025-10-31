@@ -11,7 +11,7 @@ import {NavLink, useParams} from "react-router-dom";
 const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const dispatch = useAppDispatch();
     const {loading_cart_items} = useAppSelector<RoomsState>(state => state.room);
-    const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item
+    const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item;
     const productAPI = getProductById(product_id, product_type === 'standard');
     const {room_name, purchase_order_name} = useParams();
     if (!productAPI) return null;

@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
 import {
-    getCustomCabinetString,
     getProductById, getProductImage,
     useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
@@ -9,6 +8,7 @@ import {changeAmountType} from "../../helpers/cartTypes";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import {RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
+import {CustomCabinetMarker} from "../../common/CustomCabinetMarker";
 
 const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const dispatch = useAppDispatch()
@@ -42,8 +42,7 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
             <div>
                 <div className={s.itemName}>
                     <span>{name}</span>
-                    {getCustomCabinetString(isStandard) &&
-                    <span className={s.non}>{getCustomCabinetString(isStandard)}</span>}
+                    <CustomCabinetMarker isStandard={isStandard} />
                 </div>
                 <div>
                     <CartItemOptions item={el}/>

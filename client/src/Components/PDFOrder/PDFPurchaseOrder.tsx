@@ -3,7 +3,7 @@ import {Page, Text, View, Document, Image} from '@react-pdf/renderer';
 import {
     convertCartAPIToFront,
     getCartItemImgPDF,
-    getCartTotal, getCustomCabinetString, getMaterialStrings,
+    getCartTotal, getMaterialStrings,
     getProductById
 } from "../../helpers/helpers";
 import logo from '../../assets/img/black-logo.jpg'
@@ -65,6 +65,7 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
                                     if (!product) return;
                                     const {name, images} = product;
                                     const img = getCartItemImgPDF(images, image_active_number);
+                                    const anyNotStandard = Object.values(isStandard).some(value => !value) || Object.values(isStandard.dimensions).some(value => !value);
                                     return (
                                         <View wrap={false} style={s.cartItem} key={index}>
                                             <View style={s.th0}><Text>{++index}</Text></View>
@@ -73,8 +74,7 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
                                             </View>
                                             <View style={s.data}>
                                                 <Text style={s.itemName}>
-                                                    <Text>{name}</Text> {getCustomCabinetString(isStandard) &&
-                                                <Text style={s.non}>{getCustomCabinetString(isStandard)}</Text>}
+                                                    <Text>{name}</Text> {anyNotStandard && <Text style={s.non}>Custom</Text>}
                                                 </Text>
                                                 <CartItemOptions item={el}/>
                                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}

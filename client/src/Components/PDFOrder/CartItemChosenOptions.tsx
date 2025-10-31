@@ -10,7 +10,7 @@ const CartItemChosenOptions:FC<{ options: string[], glass: MaybeUndefined<GlassA
     const showGlassShelfBlock = options.includes('Glass Shelf') && glass && glass.shelf;
     return (
         <View>
-            <Text>Options:</Text>
+            <Text style={s.itemOption}>Options:</Text>
             {showGlassDoorBlock ?
                 <View style={isStandard.options ? s.itemOption: s.itemOptionCustom}>
                     <Text>Glass Door:</Text>
@@ -27,8 +27,7 @@ const CartItemChosenOptions:FC<{ options: string[], glass: MaybeUndefined<GlassA
 
             {options.filter(option => option !== 'Glass Door' && option !== 'Glass Shelf').map((el, index) =>
                 <View style={isStandard.options ? s.itemOption: s.itemOptionCustom} key={index}>
-                    <Text>{el}:</Text>
-                    <Text>True</Text>
+                    <Text>{el}: True</Text>
                 </View>)}
         </View>
     );

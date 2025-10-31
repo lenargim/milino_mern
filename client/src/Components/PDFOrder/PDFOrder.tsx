@@ -1,10 +1,8 @@
 import React, {FC} from 'react';
 import {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
-import {CheckoutType} from "../../helpers/types";
-import { InferType } from 'yup';
 import {
     getCartItemImgPDF,
-    getCartTotal, getCustomCabinetString,
+    getCartTotal,
     getProductById
 } from "../../helpers/helpers";
 import logo from '../../assets/img/black-logo.jpg'
@@ -151,12 +149,12 @@ export const s = StyleSheet.create({
         fontSize: '14px',
         marginBottom: '5px'
     },
-    non: {
-        fontSize: '14px',
-        color: '#CB4141'
-    },
     red: {
         fontSize: 12,
+        color: '#CB4141'
+    },
+    non: {
+        fontSize: '14px',
         color: '#CB4141'
     }
 })
@@ -206,6 +204,7 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
                     if (!product) return;
                     const {name, images} = product;
                     const img = getCartItemImgPDF(images, image_active_number);
+                    const anyNotStandard = Object.values(isStandard).some(value => !value) || Object.values(isStandard.dimensions).some(value => !value);
                     return (
                         <View wrap={false} style={s.cartItem} key={index}>
                             <View style={s.th0}><Text>{++index}</Text></View>
@@ -214,8 +213,7 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
                             </View>
                             <View style={s.data}>
                                 <Text style={s.itemName}>
-                                    <Text>{name}</Text> {getCustomCabinetString(isStandard) &&
-                                <Text style={s.non}>{getCustomCabinetString(isStandard)}</Text>}
+                                    <Text>{name}</Text> {anyNotStandard && <Text style={s.non}>Custom</Text>}
                                 </Text>
                                 <CartItemOptions item={el}/>
                                 {el.note ? <Text style={s.note}>*{el.note}</Text> : null}

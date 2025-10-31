@@ -320,10 +320,6 @@ export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
     return !led?.length
 }
 
-export const getCustomCabinetString = (isStandard: IsStandardOptionsType): string => {
-    return Object.values(isStandard).includes(false) ? 'Custom' : '';
-}
-
 export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {id, product_type} = product
     const {
