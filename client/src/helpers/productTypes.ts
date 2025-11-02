@@ -8,7 +8,7 @@ import {BoxMaterialType} from "./roomTypes";
 import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
-export type pricesTypings = 1 | 2 | 3
+export type pricesTypings = 1 | 2 | 3 | 'wood_veneer';
 export type DoorColorType = 1 | 2 | 3;
 export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 
@@ -156,14 +156,13 @@ export type materialDataType = {
     box_material_coef: number,
     box_material_finish_coef: number,
     door_price_multiplier: number,
-    is_acrylic: boolean,
     door_type: MaybeEmpty<DoorTypesType>,
     door_finish_material: string,
     drawer_brand: string,
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_or_rta_closet: boolean,
+    is_leather_or_rta_or_system_closet: boolean,
     box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
     materials_coef: number

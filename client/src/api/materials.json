@@ -91,6 +91,14 @@
               "isGrain": true
             },
             {
+              "value": "White Oak",
+              "img": "White Oak.jpg"
+            },
+            {
+              "value": "Desert Oak",
+              "img": "Desert Oak.jpg"
+            },
+            {
               "value": "Ultra Matte White",
               "img": "Ultra Matte White.jpg"
             },
@@ -1683,6 +1691,14 @@
               "isGrain": true
             },
             {
+              "value": "White Oak",
+              "img": "White Oak.jpg"
+            },
+            {
+              "value": "Desert Oak",
+              "img": "Desert Oak.jpg"
+            },
+            {
               "value": "Ultra Matte White",
               "img": "Ultra Matte White.jpg"
             },
@@ -2307,6 +2323,14 @@
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
+            },
+            {
+              "value": "White Oak",
+              "img": "White Oak.jpg"
+            },
+            {
+              "value": "Desert Oak",
+              "img": "Desert Oak.jpg"
             },
             {
               "value": "Ultra Matte White",
@@ -3239,6 +3263,14 @@
     {
       "value": "Grey Woodline",
       "img": "Grey Woodline.jpg"
+    },
+    {
+      "value": "White Oak",
+      "img": "White Oak.jpg"
+    },
+    {
+      "value": "Desert Oak",
+      "img": "Desert Oak.jpg"
     },
     {
       "value": "Natural Plywood",

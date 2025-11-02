@@ -14,8 +14,8 @@ import {
     findHasGolaTypeByCategory,
     getDoorColorsArr,
     getDoorFinishArr, getGrainArr,
-    isClosetLeatherOrRTA, isDoorGrain,
-    isGolaShown, isRTAorSystemCloset
+    isDoorGrain,
+    isGolaShown, isLeatherOrRTAorSystemCloset, isRTAorSystemCloset
 } from "../../helpers/helpers";
 import materials from './../../api/materials.json'
 
@@ -109,7 +109,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
             box_color: Yup.string()
                 .defined()
                 .when('category', {
-                    is: (val: MaybeEmpty<RoomCategoriesType>) => isClosetLeatherOrRTA(val),
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => isLeatherOrRTAorSystemCloset(val),
                     then: schema => schema.required('Please choose Box Color'),
                     otherwise: schema => schema.default('')
                 }),

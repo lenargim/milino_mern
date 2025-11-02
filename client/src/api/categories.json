@@ -139,11 +139,11 @@
     ]
   },
   "Cabinet System Closet": {
-    "defaultImg": "rta-closet.webp",
+    "defaultImg": "System_closets.webp",
     "categories": [
       {
         "name": "Cabinet System Closet",
-        "img": "rta-closet.webp"
+        "img": "System_closets.webp"
       },
       {
         "name": "Custom Parts",

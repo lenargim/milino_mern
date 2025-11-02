@@ -8,7 +8,7 @@ import {
     getDoorTypeArr, getDrawerBrandArr, getDrawerColorArr, getDrawerTypeArr,
     getGrainArr,
     isBoxColor,
-    isBoxMaterial, isClosetLeatherOrRTA,
+    isBoxMaterial, isLeatherOrRTAorSystemCloset,
     isDoorColorShown,
     isDoorFinishShown,
     isDoorFrameWidth,
@@ -100,7 +100,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
     const isRTAorSystemCloset = category === 'RTA Closet' || category === 'Cabinet System Closet';
-    const isLeatherOrRTAOrSystemCloset = isClosetLeatherOrRTA(category);
+    const isLeatherOrRTAOrSystemCloset = isLeatherOrRTAorSystemCloset(category);
     const hasGolaType = findHasGolaTypeByCategory(category);
     const golaTypeArr = filterGolaTypeArrByCategory(category, golaType);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
