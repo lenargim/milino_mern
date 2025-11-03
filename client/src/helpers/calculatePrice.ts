@@ -726,9 +726,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const materials_coef = getMaterialCoef(materials);
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
-    console.log(`столбец цены: ${base_price_type}`)
-    console.log(`materials_coef ${materials_coef}`)
-    console.log(`box_material_coef ${box_material_coef}`)
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
     return {
