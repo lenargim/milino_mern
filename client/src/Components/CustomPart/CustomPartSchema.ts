@@ -8,9 +8,10 @@ import {
     DrawerInsertsColor,
     DrawerInsertsColorNames, DrawerInsertsLetter,
 } from "./CustomPart";
+import {glassDoorHasProfile} from "../../helpers/helpers";
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
-    const {materials_array, limits, type} = product;
+    const {materials_array, limits, type, id} = product;
 
     const customDoorsSchema = Yup.object({
         width_string: Yup.string()
@@ -102,35 +103,15 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
         case "glass-door":
             const glassDoorSchema = Yup.object({
                 glass_door: Yup.lazy((value, context) => {
-                    const requiredIf = (index: number) => {
-                        let msg;
-                        switch (index) {
-                            case 0: {
-                                msg = 'Profile is required'
-                                break
-                            }
-                            case 1: {
-                                msg = 'Glass Type is required'
-                                break
-                            }
-                            case 2: {
-                                msg = 'Glass Color is required'
-                                break
-                            }
-                            default: {
-                                msg = `Glass Door ${index + 1} is required`
-                            }
-                        }
-                        return Yup.string().required(msg);
-                    }
-
                     const defaultValue = Array.isArray(value) ? value : [];
                     const padded = [...defaultValue, '', '', ''].slice(0, 3);
 
                     return Yup.tuple([
-                        requiredIf(0),
-                        requiredIf(1),
-                        requiredIf(2),
+                        glassDoorHasProfile(id)
+                            ? Yup.string().required("Profile is required")
+                            : Yup.string(),
+                        Yup.string().required("Glass Type is required"),
+                        Yup.string().required("Glass Color is required"),
                     ]).transform(() => padded);
                 }),
             })

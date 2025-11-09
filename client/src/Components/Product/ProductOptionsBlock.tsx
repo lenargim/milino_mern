@@ -121,7 +121,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
             <>
                 {isProductStandard ?
                     <StandardCabinetGlassDoorBlock doorGlassColor={glass_color}/> :
-                    <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false}/>
+                    <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false} product_id={id}/>
                 }
             </>}
 

@@ -1492,3 +1492,8 @@ export const isLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategories
     if (!category) return false;
     return category === 'Leather Closet' || category === 'RTA Closet' || category === 'Cabinet System Closet'
 }
+
+export function glassDoorHasProfile(id:number):boolean {
+    return id !== 913;
+
+}
