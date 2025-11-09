@@ -683,7 +683,7 @@ export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTy
 export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
     const isStandardDoor = findIsRoomStandard(doorType);
     if (isStandardDoor) return standardColors.colors as colorType[] || [];
-    if (doorType === 'Custom Painted Shaker') return finishArr?.[0].colors || [];
+    if (doorType === 'Custom Painted') return finishArr?.[0].colors || [];
     return finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
 }
 

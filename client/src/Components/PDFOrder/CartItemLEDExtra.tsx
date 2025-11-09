@@ -16,19 +16,19 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
     return (
         <>
             {alum_profiles.length ?
-                <Text style={s.itemOption}>
+                <View style={s.row}>
                     <Text>LED Aluminum Profiles:</Text>
-                    <Text>{alum_profiles.map((profile, index) =>
-                        <Text key={index}>{profile.length}'' x {profile.qty}</Text>
-                    )}</Text>
-                </Text>
+                    <Text style={s.list}>
+                        {alum_profiles.map((p) => `${p.length}'' x ${p.qty}`).join('\n')}
+                    </Text>
+                </View>
                 : null}
             {gola_profiles.length ?
-                <View style={s.itemOption}>
+                <View style={s.row}>
                     <Text>LED Gola Profiles:</Text>
-                    <Text>{gola_profiles.map((profile, index) =>
-                        <Text key={index}>{profile.length}'' x {profile.qty} - {profile.color}</Text>
-                    )}</Text>
+                    <Text style={s.list}>
+                        {gola_profiles.map((p) => `${p.length}'' x ${p.qty} - ${p.color}`).join('\n')}
+                    </Text>
                 </View>
                 : null}
             {transformer_60_W ?

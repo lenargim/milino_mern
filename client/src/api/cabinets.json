@@ -4836,11 +4836,11 @@
     "images": ["CC/VDH.webp"],
     "attributes": [
       {
-        "name": "Fixed Shelf-Double Hanging",
+        "name": "Double Hanging Section",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
@@ -4857,16 +4857,7 @@
     "images": ["CC/VLH.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
-        "values": [
-          {
-            "type": 1,
-            "value": 1
-          }
-        ]
-      },
-      {
-        "name": "Long Hanging",
+        "name": "Long Hanging Section",
         "values": [
           {
             "type": 1,
@@ -4875,9 +4866,7 @@
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ],
+    "options": [],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -4889,18 +4878,16 @@
     "images": ["CC/VSS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Adjustable Shelves Section",
         "values": [
           {
             "type": 1,
-            "value": 6
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 411,
@@ -4911,11 +4898,11 @@
     "images": ["CC/VAS.webp"],
     "attributes": [
       {
-        "name": "Angled Shoe Shelf",
+        "name": "Angled Shoe Shelves Section",
         "values": [
           {
             "type": 1,
-            "value": 10
+            "value": 0
           }
         ]
       }
@@ -4931,27 +4918,25 @@
     "images": ["CC/VFAS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Angled Shoe Shelves Section",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 0
           }
         ]
       },
       {
-        "name": "Angled Shoe Shelf",
+        "name": "Adjustable Shelves Section",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 413,
@@ -4962,27 +4947,16 @@
     "images": ["CC/VHS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Hamper Section",
         "values": [
           {
             "type": 1,
-            "value": 4
-          }
-        ]
-      },
-      {
-        "name": "Hampter",
-        "values": [
-          {
-            "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 414,
@@ -4994,28 +4968,16 @@
     "images": ["CC/VDS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Drawers Section",
         "values": [
           {
             "type": 1,
-            "value": 4
-          }
-        ]
-      },
-      {
-        "name": "Drawer",
-        "values": [
-          {
-            "type": 1,
-            "value": 5
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "PTO for drawers",
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 415,
@@ -5027,18 +4989,16 @@
     "images": ["CC/VDI.webp"],
     "attributes": [
       {
-        "name": "Drawer",
+        "name": "Island Drawers Section",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "PTO for drawers"
-    ]
+    "options": []
   },
   {
     "id": 416,
@@ -5050,7 +5010,7 @@
     "images": ["CC/VLC.webp"],
     "attributes": [
       {
-        "name": "Long Hanging",
+        "name": "Corner Long Hanging Section",
         "values": [
           {
             "type": 1,
@@ -5072,18 +5032,16 @@
     "images": ["CC/VSC.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Corner Adjustable Shelves Section",
         "values": [
           {
             "type": 1,
-            "value": 6
+            "value": 0
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 418,
@@ -5095,7 +5053,7 @@
     "images": ["CC/VDC.webp"],
     "attributes": [
       {
-        "name": "Double Hanging",
+        "name": "Corner Hanging Sections",
         "values": [
           {
             "type": 1,
@@ -5113,7 +5071,35 @@
     "name": "SDH Series",
     "category": "RTA Closets",
     "images": ["CC/SDH.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5122,7 +5108,35 @@
     "name": "SLH Series",
     "category": "RTA Closets",
     "images": ["CC/SLH.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5131,7 +5145,26 @@
     "name": "SAS Series",
     "category": "RTA Closets",
     "images": ["CC/SAS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 7
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5140,7 +5173,17 @@
     "name": "SSS Series",
     "category": "RTA Closets",
     "images": ["CC/SSS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Angled Shoe Shelves",
+        "values": [
+          {
+            "type": 1,
+            "value": 9
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5149,7 +5192,35 @@
     "name": "SFAS Series",
     "category": "RTA Closets",
     "images": ["CC/SFAS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Angled Shoe Shelves",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5158,7 +5229,35 @@
     "name": "SHS Series",
     "category": "RTA Closets",
     "images": ["CC/SHS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hamper",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5169,7 +5268,25 @@
     "images": ["CC/SDS.webp"],
     "attributes": [
       {
-        "name": "Drawer",
+        "name": "Adjustable Shelves",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Drawers",
         "values": [
           {
             "type": 1,

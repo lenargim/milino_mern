@@ -56,7 +56,7 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
 }
 
 const enableGlassShelfOption = (attrs: { name: string, value: number }[]): boolean => {
-    return !!attrs.find(el => el.name === 'Adjustable Shelf' && el.value >= 1);
+    return !!attrs.find(el => (el.name.includes("Shelf") || el.name.includes("Shelves") ) && el.value >= 1);
 }
 
 const getFrontOptions = (filteredOptions: string[], isEnabledGlassDoorOption: boolean, isEnableGlassShelfOption: boolean): string[] => {
@@ -90,6 +90,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
     const isEnableGlassShelfOption = enableGlassShelfOption(attrs);
     const shelfGlassList = prepareToSelectField(settings["Glass"].glass_shelf)
+    console.log(filteredOptions)
     const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption);
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {

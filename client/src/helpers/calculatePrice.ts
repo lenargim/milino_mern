@@ -279,7 +279,7 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
         case "Five piece shaker":
             if (material === "Syncron") return 48;
             return 61.8;
-        case "Custom Painted Shaker":
+        case "Custom Painted":
             return 78;
         case "Micro Shaker":
             return 60;
@@ -517,7 +517,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                     break;
                 case "Wood ribbed doors":
                     return 1;
-                case "Custom Painted Shaker":
+                case "Custom Painted":
                     if (door_finish_material === 'Slab') return 2;
                     return 3
             }
@@ -549,7 +549,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                 case 'Five piece shaker':
                     if (door_finish_material === 'Zenit') return 1.03;
                     break;
-                case 'Custom Painted Shaker':
+                case 'Custom Painted':
                     if (door_finish_material === 'Slab') return 1;
                     return 1.05;
                 case 'Micro Shaker':
@@ -668,7 +668,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 case "Finger Pull":
                     if (door_finish_material === 'Syncron') return 30;
                     return 36;
-                case "Custom Painted Shaker":
+                case "Custom Painted":
                     if (door_finish_material === 'Slab') return 30;
                     return 43.2;
                 case "Micro Shaker":
