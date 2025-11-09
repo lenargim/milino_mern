@@ -5532,7 +5532,7 @@
   {
     "id": 903,
     "product_type": "custom",
-    "name": "Panel, Filler, Wood Toe Kick",
+    "name": "Panel, Filler",
     "type": "custom",
     "depth": 0,
     "materials_array": [
@@ -5655,6 +5655,133 @@
       }
     ],
     "images": ["custom/Panel.webp"]
+  },
+  {
+    "id": 904,
+    "product_type": "custom",
+    "name": "Wood Toe Kick",
+    "type": "custom",
+    "depth": 0,
+    "materials_array": [
+      {
+        "name": "Milino",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Plywood",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Luxe",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Zenit",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Syncron",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan PET",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            120
+          ]
+        }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      }
+    ],
+    "images": ["custom/WTK.webp"]
   },
   {
     "id": 906,

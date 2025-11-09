@@ -858,7 +858,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     }
                     break;
                 }
-                case 903: {
+                case 903:
+                case 904: {
                     priceCustom = getPanelPrice(area, material);
                     break;
                 }
