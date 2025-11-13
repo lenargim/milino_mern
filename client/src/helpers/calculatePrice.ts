@@ -761,13 +761,11 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
     }, 0);
-    const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
     return {
         doorValues,
-        drawersQty,
-        rolloutsQty,
-        filteredOptions,
+        drawersQty: drawersQty + rolloutsQty,
+        filteredOptions: options,
         shelfsQty
     }
 }
@@ -1170,7 +1168,6 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
     const {
         drawersQty,
         shelfsQty,
-        rolloutsQty,
     } = productPriceData;
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
@@ -1188,7 +1185,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
-        drawerPrice: getDrawerPrice(drawersQty + rolloutsQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
+        drawerPrice: getDrawerPrice(drawersQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism)

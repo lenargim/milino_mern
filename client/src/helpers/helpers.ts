@@ -1497,3 +1497,25 @@ export function glassDoorHasProfile(id:number):boolean {
     return id !== 913;
 
 }
+
+export function capitalize(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function toPlural(word: string): string {
+    if (word.endsWith('f')) return word.slice(0, -1) + 'ves';
+    if (word.endsWith('fe')) return word.slice(0, -2) + 'ves';
+    if (word.endsWith('y')) return word.slice(0, -1) + 'ies';
+    return word + 's';
+}
+
+export function pluralizeName(name: string, oneOf:string[]): string {
+    for (const word of oneOf) {
+        const regex = new RegExp(word, 'i');
+        if (regex.test(name)) {
+            const plural = capitalize(toPlural(word));
+            return name.replace(regex, plural);
+        }
+    }
+    return name;
+}

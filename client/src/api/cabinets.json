@@ -4843,6 +4843,15 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
       }
     ],
     "hasClosetAccessoriesBlock": true,
@@ -4862,6 +4871,24 @@
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
           }
         ]
       }
@@ -4885,6 +4912,15 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 6
+          }
+        ]
       }
     ],
     "options": []
@@ -4905,6 +4941,15 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Angled Shoe Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 10
+          }
+        ]
       }
     ],
     "options": []
@@ -4918,7 +4963,7 @@
     "images": ["CC/VFAS.webp"],
     "attributes": [
       {
-        "name": "Angled Shoe Shelves Section",
+        "name": "Angled Shoe Shelves/Adjustable Shelves Section",
         "values": [
           {
             "type": 1,
@@ -4927,11 +4972,20 @@
         ]
       },
       {
-        "name": "Adjustable Shelves Section",
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Angled Shoe Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
           }
         ]
       }
@@ -4952,6 +5006,24 @@
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hamper",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
           }
         ]
       }
@@ -4975,9 +5047,27 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["PTO for drawers"]
   },
   {
     "id": 415,
@@ -4996,9 +5086,18 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 4
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["PTO for drawers"]
   },
   {
     "id": 416,
@@ -5015,6 +5114,24 @@
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
           }
         ]
       }
@@ -5039,6 +5156,15 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 6
+          }
+        ]
       }
     ],
     "options": []
@@ -5053,11 +5179,20 @@
     "images": ["CC/VDC.webp"],
     "attributes": [
       {
-        "name": "Corner Hanging Sections",
+        "name": "Corner Double Hanging Sections",
         "values": [
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
           }
         ]
       }
@@ -5175,7 +5310,7 @@
     "images": ["CC/SSS.webp"],
     "attributes": [
       {
-        "name": "Angled Shoe Shelves",
+        "name": "Angled Shoe Shelf",
         "values": [
           {
             "type": 1,
@@ -5212,7 +5347,7 @@
         ]
       },
       {
-        "name": "Angled Shoe Shelves",
+        "name": "Angled Shoe Shelf",
         "values": [
           {
             "type": 1,
@@ -5268,7 +5403,7 @@
     "images": ["CC/SDS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelves",
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
@@ -5286,7 +5421,7 @@
         ]
       },
       {
-        "name": "Drawers",
+        "name": "Drawer",
         "values": [
           {
             "type": 1,
@@ -5295,7 +5430,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["PTO for drawers"]
   },
   {
     "id": 600,
@@ -5310,6 +5445,15 @@
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
           }
         ]
       }
@@ -5331,9 +5475,27 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 602,
@@ -5350,9 +5512,18 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 6
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 603,
@@ -5369,6 +5540,15 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Angled Shoe Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 10
+          }
+        ]
       }
     ],
     "options": []
@@ -5381,7 +5561,7 @@
     "images": ["WIC/IFAS.webp"],
     "attributes": [
       {
-        "name": "Angled shoe shelves",
+        "name": "Angled Shoe Shelves/Adjustable Shelves Section",
         "values": [
           {
             "type": 1,
@@ -5390,16 +5570,25 @@
         ]
       },
       {
-        "name": "Adjustable Shelves Section",
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Angled Shoe Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 605,
@@ -5413,12 +5602,30 @@
         "values": [
           {
             "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
             "value": 5
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf", "PTO for drawers"]
   },
   {
     "id": 606,
@@ -5435,9 +5642,27 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Hamper",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 607,
@@ -5447,11 +5672,20 @@
     "images": ["WIC/WIDC.webp"],
     "attributes": [
       {
-        "name": "Corner Hanging Sections",
+        "name": "Corner Double Hanging Sections",
         "values": [
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
           }
         ]
       }
@@ -5473,9 +5707,27 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 609,
@@ -5492,9 +5744,18 @@
             "value": 0
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 6
+          }
+        ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
 
   {

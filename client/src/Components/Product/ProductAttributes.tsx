@@ -1,21 +1,19 @@
 import React, {FC} from "react";
 import {attrItem, productTypings} from "../../helpers/productTypes";
-import {getAttributes} from "../../helpers/helpers";
+import {getAttributes, pluralizeName} from "../../helpers/helpers";
 
-export const ProductAttributes: FC<{ attributes: attrItem[], type: productTypings }> = ({attributes, type}) => {
+export const ProductAttributes: FC<{ attributes: attrItem[], type: productTypings, doors_amount?:number }> = ({attributes, type, doors_amount}) => {
     const attrs = getAttributes(attributes, type);
+    const oneOf: string[] = ['Door', 'Drawer', 'Rollout', 'Shelf', 'False Front', 'Hanging Rod', 'Hamper'];
     return (
         <div>
+            {doors_amount ? <div>
+                <span>Doors: </span>
+                <span>{doors_amount}</span>
+            </div>: null}
             {attrs.map((attr, index) => {
                 let hasValue = !!attr.value;
-                const isMultiple = attr.value > 1;
-                const oneOf = ['Door', 'Drawer', 'Rollout', 'Shelf', 'Front'];
-                let name = attr.name;
-                if (name === 'Adjustable Shelf' && attr.value === 0) return null;
-                if (isMultiple) {
-                    const isNameExist = name.split(' ').find(el => oneOf.includes(el));
-                    if (isNameExist) name = name + 's';
-                }
+                const name = attr.value > 1 ? pluralizeName(attr.name, oneOf) : attr.name;
                 return (
                     <div key={index}>
                         {hasValue ? <>

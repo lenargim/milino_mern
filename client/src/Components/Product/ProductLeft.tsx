@@ -18,11 +18,7 @@ const ProductLeft:FC<{product:ProductType, materials:RoomMaterialsFormType}> = (
             <div className={[s.img, s[imgSize]].join(' ')}><img src={img}
                                                                 alt={name}/>
             </div>
-            {doors_amount ? <div>
-                <span>Doors: </span>
-                <span>{doors_amount}</span>
-            </div>: null}
-            <ProductAttributes attributes={attributes} type={image_active_number}/>
+            <ProductAttributes doors_amount={doors_amount} attributes={attributes} type={image_active_number}/>
             <Materials materials={materials}/>
         </div>
     );
