@@ -11,7 +11,7 @@ import {
     getSelectValfromVal, prepareToSelectField,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
-import {ProductInputCustom, RadioInputGroove, TextInput} from "../../common/Form";
+import {ProductInputCustom, RadioInputWithImage, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 import SelectField, {optionType} from "../../common/SelectField";
 
@@ -88,17 +88,14 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
 
                 {showLetters && <div className={s.block}>
                   <h3>Inserts Type</h3>
-                    {/*<SelectField label="Type"*/}
-                    {/*             name="drawer_inserts.insert_type"*/}
-                    {/*             val={getSelectValfromVal(drawer_inserts?.insert_type ?? undefined, drawerInsertsLettersFiltered)}*/}
-                    {/*             options={drawerInsertsLettersFiltered}*/}
-                    {/*/>*/}
-                  <div className={s.optionsGroove}>
-                      {drawerInsertsLettersImaged.map((el, index) => <RadioInputGroove key={index}
+                  <div className={s.optionsWithImage}>
+                      {drawerInsertsLettersImaged.map((el, index) => <RadioInputWithImage key={index}
                                                                                        name="drawer_inserts.insert_type"
                                                                                        value={el.value}
                                                                                        label={el.value}
-                                                                                       img={getImg('drawer_inserts', el.img)}/>)}
+                                                                                       img={getImg('drawer_inserts', el.img)}
+                          />
+                      )}
                   </div>
                 </div>}
                 <div className={s.block}>

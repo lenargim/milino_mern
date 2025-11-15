@@ -203,6 +203,7 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
                 {materialStrings.boxString ? <Text>Box Material: {materialStrings.boxString}</Text> : null}
                 {materialStrings.drawerString ? <Text>Drawer: {materialStrings.drawerString}</Text> : null}
                 {materialStrings.leatherString ? <Text>Leather: {materialStrings.leatherString}</Text> : null}
+                {materialStrings.rod ? <Text>Hanging Rod: {materialStrings.rod}</Text> : null}
             </View>
         </Page>
         <Page orientation="landscape" style={s.page}>

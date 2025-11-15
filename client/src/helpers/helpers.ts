@@ -4,7 +4,7 @@ import noImg from './../assets/img/noPhoto.png'
 import Fraction from "fraction.js";
 import {
     AngleType,
-    attrItem,
+    AttrItemType,
     CustomPartDataType,
     CustomPartType,
     hingeArr,
@@ -24,7 +24,7 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType, LedAccessoriesFormType, hingeTypes
+    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -106,8 +106,13 @@ export const getImgSize = (category: string): 's' | 'm' | 'l' => {
     return imgSize
 }
 
-export const getAttributes = (attributes: attrItem[], type: productTypings = 1) => {
-    return attributes.filter(el => el.name !== 'Door').map(attribute => {
+export const getAttributesWithoutDesc = (attributes: AttrItemType[]):AttrWithoutDescType[] => {
+    return attributes.filter(el => !el.desc && el.values) as AttrWithoutDescType[]
+}
+
+export const getAttributes = (attributes: AttrItemType[], type: productTypings = 1) => {
+    const attributesWithoutDescription = getAttributesWithoutDesc(attributes);
+    return attributesWithoutDescription.filter(el => el.name !== 'Door').map(attribute => {
         const val: valueItemType = attribute.values.find(v => v.type === type) || attribute.values[0]
         return {
             name: attribute.name,
@@ -572,8 +577,7 @@ export const isGrooveShown = (door_type: MaybeEmpty<DoorTypesType>) => {
 
 export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove: boolean): boolean => {
     const {category, door_type, groove} = values
-    if (!category) return false;
-    if (category === 'RTA Closet' || category === 'Cabinet System Closet') return false;
+    if (getIsRTAorSystemCloset(category)) return false;
     if (door_type === 'Standard Size White Shaker') return false;
     if (showGroove && !groove) return false;
     return !!(door_type && finishArr.length)
@@ -581,8 +585,7 @@ export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: fini
 
 export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth: boolean): boolean => {
     const {category, door_type, door_finish_material, door_frame_width} = values
-    if (!category) return false;
-    if (category === 'RTA Closet' || category === 'Cabinet System Closet') return false;
+    if (getIsRTAorSystemCloset(category)) return false;
     if (door_type === 'Standard Size White Shaker') return true;
     if (showDoorFrameWidth && !door_frame_width) return false;
     return !!(door_finish_material && colorArr.length)
@@ -590,14 +593,13 @@ export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorT
 
 export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeUndefined<materialsData[]>): boolean => {
     const {category, door_type, door_finish_material} = values;
-    if (!category) return false;
-    if (category === 'RTA Closet' || category === 'Cabinet System Closet') return false;
+    if (getIsRTAorSystemCloset(category)) return false;
     if (!frameArr || door_type !== 'Micro Shaker') return false
     return !!door_finish_material
 }
 
-export const isDoorGrain = (category: string, door_finish_material: string, grainArr: MaybeNull<materialsData[]>): boolean => {
-    if (!category || category === 'RTA Closet' || category === 'Cabinet System Closet' || !door_finish_material) return false;
+export const isDoorGrain = (category: MaybeEmpty<RoomCategoriesType>, door_finish_material: string, grainArr: MaybeNull<materialsData[]>): boolean => {
+    if (getIsRTAorSystemCloset(category) || !door_finish_material) return false;
     return !!grainArr?.length
 }
 
@@ -712,14 +714,29 @@ export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_
     }
 }
 
-export const isLeatherType = (drawerColor: string | undefined, drawerType: string | undefined, isLeather: boolean, leatherTypeArr: materialsData[]): boolean => {
-    if (!drawerType) return false;
-    if (!leatherTypeArr.length || (!drawerColor && drawerType !== 'Undermount')) return false
-    return isLeather
+export const isLeatherType = (isLeather: boolean, isFilledDrawerBlock:boolean): boolean => {
+    return isLeather && isFilledDrawerBlock
+}
+
+export const getIsFilledDrawerBlock = (drawer_type: MaybeUndefined<string>, drawer_color: MaybeUndefined<string>) => {
+    if (!drawer_type) return false;
+    if (drawer_type === 'Undermount') return true;
+    return !!drawer_color
+}
+
+export const getIsFilledLeatherBlock = (isLeather:boolean, leather:string, leather_note:string):boolean => {
+    if (!isLeather || !leather.length) return false;
+    return !(leather === 'Other' && leather_note.length < 3);
+
 }
 
 export const isLeatherNote = (showLeatherType: boolean, leather: string) => {
     return showLeatherType && leather === 'Other';
+}
+
+export const isClosetRod = (isCloset:boolean, isLeather:boolean, isFilledLeatherBlock:boolean, isFilledDrawerBlock:boolean):boolean => {
+    const isFilledLast = isLeather ? isFilledLeatherBlock : isFilledDrawerBlock;
+    return isCloset && isFilledLast;
 }
 
 export const checkDoors = (hingeOpening: hingeTypes): number => {
@@ -746,7 +763,8 @@ export const getMaterialStrings = (materials: RoomMaterialsFormType): MaterialSt
         drawer_type,
         drawer_color,
         leather,
-        leather_note
+        leather_note,
+        rod
     } = data;
 
     const categoryString = materialsStringify([category, gola])
@@ -759,7 +777,8 @@ export const getMaterialStrings = (materials: RoomMaterialsFormType): MaterialSt
         boxString,
         doorString,
         drawerString,
-        leatherString
+        leatherString,
+        rod
     }
 }
 
@@ -1332,13 +1351,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         price,
         amount
     }
-
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, height, depth, limits, height_range} = customPart
+    const {width, height, depth, limits, height_range, initial_width} = customPart
     const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
-    const w = width ?? getLimit(sizeLimitInitial.width);
+    const w = initial_width ?? width ?? getLimit(sizeLimitInitial.width);
     const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height));
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
     return {
@@ -1483,14 +1501,28 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
     }
 }
 
-export const isRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category === 'RTA Closet' || category === 'Cabinet System Closet'
 }
 
-export const isLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+export const getIsLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category === 'Leather Closet' || category === 'RTA Closet' || category === 'Cabinet System Closet'
+}
+
+export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    switch (category) {
+        case "Cabinet System Closet":
+        case "RTA Closet":
+        case "Build In Closet":
+        case "Leather Closet":
+            return true;
+        case "Kitchen":
+        case "Vanity":
+        case "":
+            return false
+    }
 }
 
 export function glassDoorHasProfile(id:number):boolean {

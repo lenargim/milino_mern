@@ -13,7 +13,7 @@ import ProductOptionsBlock from "./ProductOptionsBlock";
 import ProductHingeBlock from "./ProductHingeBlock";
 import ProductCornerBlock from "./ProductCornerBlock";
 import {
-    getHeightRange,
+    getHeightRange, getIsCloset,
     isShowBlindWidthBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
@@ -47,7 +47,7 @@ const ProductLayout: FC<CabinetFormType> = ({
         id,
         category,
         customHeight,
-        attributes
+        attributes,
     } = product;
     const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
     const {cartId} = useParams();

@@ -8,12 +8,13 @@ export type MaterialStringsType = {
     doorString: string,
     boxString: string,
     drawerString: string,
-    leatherString: string
+    leatherString: string,
+    rod:string
 }
 
 const Materials: FC<{ materials: RoomMaterialsFormType }> = ({materials}) => {
     const materialStrings = getMaterialStrings(materials);
-    const {drawerString, doorString, boxString, leatherString, categoryString} = materialStrings
+    const {drawerString, doorString, boxString, leatherString, categoryString, rod} = materialStrings
 
     return (
         <div className={s.materials}>
@@ -23,6 +24,7 @@ const Materials: FC<{ materials: RoomMaterialsFormType }> = ({materials}) => {
             {boxString ? <MaterialItem label="Box Material" value={boxString}/> : null}
             {drawerString ? <MaterialItem label="Drawer" value={drawerString}/> : null}
             {leatherString ? <MaterialItem label="Leather" value={leatherString}/> : null}
+            {rod ? <MaterialItem label="Hanging rods" value={rod}/> : null}
         </div>
     );
 };

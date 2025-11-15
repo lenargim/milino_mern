@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RoomCategoriesType} from "./roomTypes";
+import {DoorTypesType, RodType, RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -62,7 +62,6 @@ export type StandardCategory =
     | 'Standard Parts';
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
-
 export type ClosetsCategory = 'Build In' | 'Leather' | 'RTA Closets' | 'Cabinet System Closet';
 
 export type productCategory =
@@ -78,7 +77,8 @@ export type ProductOrCustomType = {
     id: number,
     name: string,
     product_type: ProductApiType,
-    images: string[]
+    images: string[],
+    initial_width?:number
 }
 
 export type ProductOptionsType =
@@ -90,7 +90,7 @@ export type ProductOptionsType =
 
 export interface ProductType extends ProductOrCustomType {
     category: productCategory,
-    attributes: attrItem[],
+    attributes: AttrItemType[],
     options: ProductOptionsType[],
     legsHeight?: number,
     isBlind?: boolean,
@@ -108,7 +108,8 @@ export interface ProductType extends ProductOrCustomType {
     horizontal_line?: number,
     hasClosetAccessoriesBlock?: boolean,
     hasJeweleryBlock?: boolean,
-    hasMechanism?: MechanismType
+    hasMechanism?: MechanismType,
+
 }
 
 export interface CustomPartType extends ProductOrCustomType {
@@ -157,7 +158,7 @@ export type materialsLimitsType = {
 
 export type materialDataType = {
     is_standard_room: boolean,
-    category: MaybeEmpty<RoomCategoriesType>,
+    room_category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
@@ -169,14 +170,20 @@ export type materialDataType = {
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_or_rta_or_system_closet: boolean,
     box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
-    materials_coef: number
+    materials_coef: number,
+    rod: MaybeEmpty<RodType>
 }
 
 
-export interface attrItem {
+export type AttrItemType = {
+    name: string,
+    desc?: true,
+    values?: valueItemType[],
+}
+
+export type AttrWithoutDescType = {
     name: string,
     values: valueItemType[],
 }
@@ -298,8 +305,9 @@ export type productDataToCalculatePriceType = {
     doorValues?: valueItemType[],
     drawersQty: number,
     shelfsQty: number,
-    blindArr?: number[],
+    rodsQty: number,
     filteredOptions: string[]
+    blindArr?: number[],
 }
 
 export type StandardProductDataToCalculatePriceType = {
@@ -332,7 +340,7 @@ export type CartExtrasType = {
     ptoTrashBins: number,
     ledPrice: number,
     coefExtra: number,
-    attributes: attrItem[],
+    attributes: AttrItemType[],
     boxFromFinishMaterial: boolean
 }
 
@@ -348,7 +356,8 @@ export type AttributesPrices = {
     drawerPrice: number,
     closetAccessoriesPrice: number,
     jeweleryInsertsPrice: number,
-    mechanismPrice: number
+    mechanismPrice: number,
+    rodPrice: number
 }
 
 export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;

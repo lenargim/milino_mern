@@ -10,6 +10,7 @@ export const boxMaterialNames = ['White Melamine', 'Gray Melamine', 'Gray Linen 
 export const leatherBoxMaterialNames = ['Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Wood Veneer'] as const;
 export const totalBoxMaterialNames = [...boxMaterialNames, ...leatherBoxMaterialNames] as const;
 export const grooveNames = ['1/4 rounded', '1/4 squared', '3/4 squared'] as const;
+export const rodNames = ["Oval Chrome (Default)", "Matte Black", "Matte Brass", "Matte Chrome", "Matte Nickel"] as const;
 
 export type RoomCategoriesType = typeof roomCategories[number];
 export type GolaTypesType = typeof golaTypeNames[number];
@@ -18,6 +19,7 @@ export type DoorTypesType = typeof doorTypesNames[number];
 export type FinishTypes = typeof finishNames[number];
 export type BoxMaterialType = typeof totalBoxMaterialNames[number];
 export type GrooveType = typeof grooveNames[number];
+export type RodType = typeof rodNames[number];
 
 export type RoomMaterialsFormType = {
     name: string,
@@ -36,7 +38,8 @@ export type RoomMaterialsFormType = {
     drawer_color: string,
     leather: string,
     leather_note: string,
-    groove: MaybeEmpty<GrooveType>
+    groove: MaybeEmpty<GrooveType>,
+    rod: MaybeEmpty<RodType>
 }
 
 export interface RoomNewType extends RoomMaterialsFormType {
@@ -102,5 +105,6 @@ export type MaterialsType = {
     leatherBoxMaterial: materialsData[]
     leatherType: materialsData[],
     grain: materialsData[],
-    groove: materialsData[]
+    groove: materialsData[],
+    rod: materialsData[]
 }

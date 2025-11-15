@@ -9,14 +9,14 @@ import {
 import {ProductOptionsInput} from "../../common/Form";
 import {useFormikContext} from "formik";
 import CustomPartGlassDoorBlock from "../CustomPart/CustomPartGlassDoorBlock";
-import {attrItem, ProductFormType} from "../../helpers/productTypes";
+import {AttrItemType, ProductFormType} from "../../helpers/productTypes";
 import settings from "../../api/settings.json";
 
 type OptionsBlockType = {
     id: number,
     filteredOptions: string[],
     isProductStandard: boolean,
-    attributes: attrItem[]
+    attributes: AttrItemType[]
 }
 
 const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: number, height: number): boolean => {
@@ -90,7 +90,6 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
     const isEnableGlassShelfOption = enableGlassShelfOption(attrs);
     const shelfGlassList = prepareToSelectField(settings["Glass"].glass_shelf)
-    console.log(filteredOptions)
     const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption);
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {

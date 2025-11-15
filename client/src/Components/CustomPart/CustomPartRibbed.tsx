@@ -11,7 +11,7 @@ import {
     ProductCheckboxInput,
     ProductInputCustom, ProductOptionsInput,
     ProductRadioInput,
-    RadioInputGroove,
+    RadioInputWithImage,
     TextInput
 } from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
@@ -68,8 +68,8 @@ const CustomPartRibbed: FC<CustomPartRibbed> = ({product, isStandardCabinet}) =>
                 {filtered_materials_array &&
                 <div className={s.block}>
                   <h3>Material</h3>
-                  <div className={s.optionsGroove}>
-                      {filtered_materials_array.map((m, index) => <RadioInputGroove key={index}
+                  <div className={s.optionsWithImage}>
+                      {filtered_materials_array.map((m, index) => <RadioInputWithImage key={index}
                                                                                     name="material" value={m.name}
                                                                                     img={getImg('materials/door_finish_material', m.img)}/>)}
                   </div>
@@ -79,14 +79,14 @@ const CustomPartRibbed: FC<CustomPartRibbed> = ({product, isStandardCabinet}) =>
                     !isPainted && <>
                       <div className={s.block}>
                         <h3>Groove Styles</h3>
-                        <div className={s.optionsGroove}>
-                            {grooveArr.map((el, index) => <RadioInputGroove key={index} name="groove.style" value={el.value}
+                        <div className={s.optionsWithImage}>
+                            {grooveArr.map((el, index) => <RadioInputWithImage key={index} name="groove.style" value={el.value}
                                                                             label={el.label} img={el.img}/>)}
                         </div>
                       </div>
                       <div className={s.block}>
                         <h3>Clear Coat</h3>
-                        <div className={s.optionsGroove}>
+                        <div className={s.optionsWithImage}>
                           <CustomPartAttrCheckbox label="Clear Coat" name="groove.clear_coat"/>
                         </div>
                       </div>

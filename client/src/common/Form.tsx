@@ -184,7 +184,7 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
         </div>
     )
 }
-export const RadioInputGroove: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, label}) => {
+export const RadioInputWithImage: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, label}) => {
     const [field] = useField(name)
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>

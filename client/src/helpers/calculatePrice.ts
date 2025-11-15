@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttributesPrices,
-    attrItem, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
+    AttrItemType, AttrWithoutDescType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
     DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
@@ -21,16 +21,20 @@ import settings from './../api/settings.json'
 import {
     checkDoors,
     convertDoorAccessories,
-    getAttributes, getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart, getLEDProductCartPrice,
+    getAttributes, getAttributesWithoutDesc,
+    getCabinetHeightRangeBasedOnCategory,
+    getFinishColorCoefCustomPart, getIsCloset,
+    getIsLeatherOrRTAorSystemCloset,
+    getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor, isLeatherOrRTAorSystemCloset,
+    getWidthToCalculateDoor,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
 import sizes from './../api/sizes.json'
-import {DoorTypesType, FinishTypes, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
+import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
 import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType, DrawerInsertsType, GrooveAPIType,
@@ -159,10 +163,11 @@ export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUnd
     return 0
 }
 
-export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: attrItem[]): productTypings {
-    const doorValues = attributes.find(el => el.name === 'Door')?.values ?? [];
-    const shelfValues = attributes.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
-    if (!attributes.length || attributes[0].values.length < 2) return 1;
+export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
+    const filteredAttrs = getAttributesWithoutDesc(attributes)
+    const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values ?? [];
+    const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
+    if (!filteredAttrs.length || filteredAttrs[0].values.length < 2) return 1;
 
     switch (category) {
         case 'Base Cabinets':
@@ -231,9 +236,9 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
     const {
         door_finish_material,
         door_type,
-        category
+        room_category
     } = materialData;
-    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || isLeatherOrRTAorSystemCloset(category) || door_type === 'Wood ribbed doors') return 0;
+    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(room_category) || door_type === 'Wood ribbed doors') return 0;
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     const pvcPrice = per * 2.5;
     const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
@@ -243,11 +248,11 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
 function getDoorPrice(square: number, materialData: materialDataType): number {
     const {
         door_price_multiplier,
-        is_leather_or_rta_or_system_closet,
+        room_category,
         box_material,
         box_color,
     } = materialData;
-    if (is_leather_or_rta_or_system_closet) {
+    if (getIsLeatherOrRTAorSystemCloset(room_category)) {
         const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
         return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
     }
@@ -408,6 +413,11 @@ export function getJeweleryInsertsPrice(jewelery_inserts: MaybeUndefined<Jeweler
 export function getMechanismPrice(mechanism: MaybeUndefined<string>, hasMechanism: MaybeUndefined<MechanismType>): number {
     if (!mechanism || !hasMechanism) return 0;
     return hasMechanism.attributes.find(el => el.name === mechanism)?.price ?? 0;
+}
+
+export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width:number, rod:MaybeEmpty<RodType>, qty:number):number => {
+    if (!getIsCloset(room_category) || rod === 'Oval Chrome (Default)') return 0;
+    return 3 * width * qty;
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -718,10 +728,10 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         drawer_brand,
         drawer_type,
         drawer_color,
-        leather
+        leather,
+        rod
     } = materials;
     const is_standard_room = door_type === "Standard Size White Shaker";
-    const is_leather_or_rta_or_system_closet = isLeatherOrRTAorSystemCloset(category);
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
     const grain_coef = getGrainCoef(door_grain);
@@ -730,7 +740,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
     return {
         is_standard_room,
-        category,
+        room_category: category,
         base_price_type,
         grain_coef,
         box_material_coef,
@@ -745,7 +755,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         leather,
         box_material,
         materials_coef,
-        is_leather_or_rta_or_system_closet
+        rod
     }
 }
 export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
@@ -761,12 +771,15 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
     }, 0);
+    const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
+    const rodsQty = getRodsQty(attrArr)
     return {
         doorValues,
         drawersQty: drawersQty + rolloutsQty,
-        filteredOptions: options,
-        shelfsQty
+        filteredOptions,
+        shelfsQty,
+        rodsQty
     }
 }
 export const getProductPriceRange = (id: number, isStandardCabinet: boolean = false, type: pricesTypings = 1): MaybeUndefined<pricePart[]> => {
@@ -1098,6 +1111,10 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormAPIType, is_pr
 const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name === 'Adjustable Shelf')?.value ?? 0;
 }
+
+const getRodsQty = (attrArr: { name: string, value: number }[]): number => {
+    return attrArr.find(el => el.name === 'Hanging Rod')?.value ?? 0;
+}
 export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartItemFrontType[] => {
     return cart.map(cartItem => {
         const {product_id, product_type} = cartItem;
@@ -1162,17 +1179,19 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         drawer_type,
         drawer_color,
         door_type,
-        is_leather_or_rta_or_system_closet
+        room_category,
+        rod
     } = materialData;
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {
         drawersQty,
         shelfsQty,
+        rodsQty
     } = productPriceData;
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
     const doorHeight = height - legsHeight - middle_section;
-    const frontSquare = getSquare(doorWidth, doorHeight, id, is_leather_or_rta_or_system_closet);
+    const frontSquare = getSquare(doorWidth, doorHeight, id, getIsLeatherOrRTAorSystemCloset(room_category));
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
@@ -1188,7 +1207,8 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         drawerPrice: getDrawerPrice(drawersQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color),
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
-        mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism)
+        mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
+        rodPrice: getRodPrice(room_category, width, rod, rodsQty)
     }
 }
 const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {

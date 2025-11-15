@@ -5407,7 +5407,7 @@
         "values": [
           {
             "type": 1,
-            "value": 3
+            "value": 4
           }
         ]
       },
@@ -5441,12 +5441,7 @@
     "attributes": [
       {
         "name": "Double Hanging Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Hanging Rod",
@@ -5469,12 +5464,7 @@
     "attributes": [
       {
         "name": "Long Hanging Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Hanging Rod",
@@ -5506,12 +5496,7 @@
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Adjustable Shelf",
@@ -5534,12 +5519,7 @@
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Angled Shoe Shelf",
@@ -5562,12 +5542,7 @@
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Adjustable Shelf",
@@ -5599,12 +5574,7 @@
     "attributes": [
       {
         "name": "Drawers Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Adjustable Shelf",
@@ -5636,12 +5606,7 @@
     "attributes": [
       {
         "name": "Hamper Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Hamper",
@@ -5673,12 +5638,7 @@
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Hanging Rod",
@@ -5701,12 +5661,7 @@
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Hanging Rod",
@@ -5738,12 +5693,7 @@
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
-        "values": [
-          {
-            "type": 1,
-            "value": 0
-          }
-        ]
+        "desc": true
       },
       {
         "name": "Adjustable Shelf",
@@ -5923,6 +5873,7 @@
     "name": "Wood Toe Kick",
     "type": "custom",
     "depth": 0,
+    "initial_width": 4.5,
     "materials_array": [
       {
         "name": "Milino",

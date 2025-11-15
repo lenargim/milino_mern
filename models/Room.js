@@ -58,6 +58,9 @@ const RoomSchema = new mongoose.Schema({
   leather_note: {
     type: String
   },
+  rod: {
+    type: String
+  },
   is_deleted: {
     type: Boolean
   }
