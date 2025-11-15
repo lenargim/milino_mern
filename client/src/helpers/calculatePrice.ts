@@ -994,7 +994,18 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
                 case 913: {
                     let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
-                    priceCustom = material === 'Ultrapan Acrylic' ? shakerDoorPrice * 1.1 : shakerDoorPrice;
+                    switch (material) {
+                        case "Ultrapan Acrylic": {
+                            priceCustom = shakerDoorPrice * 1.1;
+                            break;
+                        }
+                        case "Painted": {
+                            priceCustom = shakerDoorPrice * 1.15;
+                            break;
+                        }
+                        default:
+                            priceCustom = shakerDoorPrice;
+                    }
                     break
                 }
                 case 914: {
