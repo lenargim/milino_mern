@@ -716,6 +716,13 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
         depthRange: getDepthRange(priceData, category, customDepth)
     }
 }
+
+export const getSizeLimitsFromData = (product_id:number, isAngle:MaybeUndefined<AngleType>):MaybeUndefined<sizeLimitsType> => {
+    let limits = sizes.find(size => size.productIds.includes(product_id))?.limits;
+    if (limits && isAngle) limits = {...limits, depth: limits?.width};
+    return limits
+}
+
 export const getMaterialData = (materials: RoomMaterialsFormType, product_id: number): materialDataType => {
     const {
         category,

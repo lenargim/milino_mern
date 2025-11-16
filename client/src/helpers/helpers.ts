@@ -34,7 +34,7 @@ import {
     getMaterialData,
     getProductDataToCalculatePrice,
     getProductPriceRange,
-    getProductRange,
+    getProductRange, getSizeLimitsFromData,
     getType, isTexturedColor
 } from "./calculatePrice";
 import sizes from "../api/sizes.json";
@@ -1212,13 +1212,14 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
         blindArr,
         isCornerChoose,
         hasLedBlock,
-        isBlind = false
+        isBlind = false,
+        isAngle
     } = product
     const materialData = getMaterialData(materials, product_id);
     const {base_price_type, is_standard_room} = materialData;
     const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
-    const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
+    const sizeLimit = getSizeLimitsFromData(product_id, isAngle);
     const middleSectionNumber = middleSectionDefault ?? 0;
     const middleSection = middleSectionNumber ? getFraction(middleSectionNumber) : '';
     const blindWidth = blindArr ? blindArr[0] : '';
