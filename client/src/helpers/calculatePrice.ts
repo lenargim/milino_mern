@@ -1007,7 +1007,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                             break;
                         }
                         case "Painted": {
-                            priceCustom = shakerDoorPrice * 1.15;
+                            priceCustom = shakerDoorPrice * 1.3;
                             break;
                         }
                         default:
@@ -1226,7 +1226,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
-        rodPrice: getRodPrice(room_category, width, rod, rodsQty)
+        rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef
     }
 }
 const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {

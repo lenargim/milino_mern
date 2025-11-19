@@ -7218,67 +7218,25 @@
     "type": "pvc",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       }
     ],
     "images": ["custom/PVC.webp"]

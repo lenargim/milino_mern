@@ -131,8 +131,6 @@ const CustomPart: FC<CustomPartFCType> = ({
                     resetForm();
                     setSubmitting(false)
                 }
-
-
             }}
         >
             <div className={st.product}>

@@ -24,7 +24,7 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType
+    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType, materialsLimitsType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -65,7 +65,7 @@ import {
     IsStandardOptionsType, LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType,
+    colorType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -106,7 +106,7 @@ export const getImgSize = (category: string): 's' | 'm' | 'l' => {
     return imgSize
 }
 
-export const getAttributesWithoutDesc = (attributes: AttrItemType[]):AttrWithoutDescType[] => {
+export const getAttributesWithoutDesc = (attributes: AttrItemType[]): AttrWithoutDescType[] => {
     return attributes.filter(el => !el.desc && el.values) as AttrWithoutDescType[]
 }
 
@@ -254,7 +254,7 @@ export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: 
     }
 }
 
-export const getInitialMaterialData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardRoom: boolean): MaybeNull<materialsCustomPart> => {
+export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardRoom: boolean): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
     const {door_finish_material, door_type} = materials
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardRoom)
@@ -714,7 +714,7 @@ export const getGrainArr = (grain: materialsData[], colorArr: colorType[], door_
     }
 }
 
-export const isLeatherType = (isLeather: boolean, isFilledDrawerBlock:boolean): boolean => {
+export const isLeatherType = (isLeather: boolean, isFilledDrawerBlock: boolean): boolean => {
     return isLeather && isFilledDrawerBlock
 }
 
@@ -724,7 +724,7 @@ export const getIsFilledDrawerBlock = (drawer_type: MaybeUndefined<string>, draw
     return !!drawer_color
 }
 
-export const getIsFilledLeatherBlock = (isLeather:boolean, leather:string, leather_note:string):boolean => {
+export const getIsFilledLeatherBlock = (isLeather: boolean, leather: string, leather_note: string): boolean => {
     if (!isLeather || !leather.length) return false;
     return !(leather === 'Other' && leather_note.length < 3);
 
@@ -734,7 +734,7 @@ export const isLeatherNote = (showLeatherType: boolean, leather: string) => {
     return showLeatherType && leather === 'Other';
 }
 
-export const isClosetRod = (isCloset:boolean, isLeather:boolean, isFilledLeatherBlock:boolean, isFilledDrawerBlock:boolean):boolean => {
+export const isClosetRod = (isCloset: boolean, isLeather: boolean, isFilledLeatherBlock: boolean, isFilledDrawerBlock: boolean): boolean => {
     const isFilledLast = isLeather ? isFilledLeatherBlock : isFilledDrawerBlock;
     return isCloset && isFilledLast;
 }
@@ -1368,7 +1368,7 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
 }
 
 export const getCustomPartInitialTableData = (custom_part: CustomPartType, materials: RoomMaterialsFormType, isRoomStandard: boolean): CustomPartTableDataType => {
-    const initialMaterialData = getInitialMaterialData(custom_part, materials, isRoomStandard);
+    const initialMaterialData = getInitialMaterialArrayData(custom_part, materials, isRoomStandard);
     const initialSizes = getInitialSizes(custom_part, initialMaterialData);
     const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
     const isStandardPanel = ["standard-panel"].includes(custom_part.type);
@@ -1526,7 +1526,7 @@ export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean =
     }
 }
 
-export function glassDoorHasProfile(id:number):boolean {
+export function glassDoorHasProfile(id: number): boolean {
     return id !== 913;
 
 }
@@ -1542,7 +1542,7 @@ export function toPlural(word: string): string {
     return word + 's';
 }
 
-export function pluralizeName(name: string, oneOf:string[]): string {
+export function pluralizeName(name: string, oneOf: string[]): string {
     for (const word of oneOf) {
         const regex = new RegExp(word, 'i');
         if (regex.test(name)) {
@@ -1551,4 +1551,151 @@ export function pluralizeName(name: string, oneOf:string[]): string {
         }
     }
     return name;
+}
+
+
+const CustomPartMaterialsNames = ["Milino", "Plywood", "Luxe", "Zenit", "Syncron", "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Micro Shaker Milino", "Micro Shaker", "Micro Shaker Veneer"] as const;
+type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
+
+export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeEmpty<CustomPartMaterialsArraySizeLimitsType>, door_color?: MaybeEmpty<string>): MaybeUndefined<materialsLimitsType> => {
+    switch (id) {
+        case 903:
+        case 904: {
+            switch (material) {
+                case "Milino":
+                case "Plywood":
+                    return {width: [2.5, 48], height: [2.5, 96]};
+                case "Luxe":
+                case "Zenit":
+                case "Syncron":
+                case "Ultrapan PET":
+                case "Ultrapan Acrylic":
+                case "Wood Veneer":
+                    return {width: [2.5, 48], height: [2.5, 108]};
+                case "Painted":
+                    return {width: [2.5, 48], height: [2.5, 120]};
+            }
+            break;
+        }
+        case 906:
+        case 907:{
+            switch (material) {
+                case "Milino":
+                case "Plywood":
+                    return {width: [3, 48], height: [6, 96], depth: [4, 48]};
+                case "Luxe":
+                case "Zenit":
+                case "Syncron":
+                case "Ultrapan PET":
+                case "Ultrapan Acrylic":
+                case "Wood Veneer":
+                    return {width: [3, 48], height: [6, 108], depth: [4, 48]};
+                case "Painted":
+                    return {width: [3, 48], height: [6, 120], depth: [4, 48]};
+            }
+            break;
+        }
+        case 928: {
+            return {width: [12, 48]}
+        }
+        case 900: {
+            switch (material) {
+                case "Milino":
+                case "Plywood": {
+                    return {width: [6, 96], height: [6, 96], depth: [6, 96]}
+                }
+                case "Luxe":
+                case "Zenit":
+                case "Syncron":
+                case "Ultrapan PET":
+                case "Ultrapan Acrylic":
+                case "Wood Veneer": {
+                    return {width: [6, 108], height: [6, 108], depth: [6, 108]}
+                }
+                case "Painted": {
+                    return {width: [6, 120], height: [6, 120], depth: [6, 120]}
+                }
+            }
+            break;
+        }
+        case 905: {
+            switch (material) {
+                case "Milino":
+                case "Plywood":
+                    return {width: [2.5, 96], height: [2.5, 96]};
+                case "Luxe":
+                case "Zenit":
+                case "Syncron":
+                case "Ultrapan PET":
+                case "Ultrapan Acrylic":
+                case "Wood Veneer":
+                    return {width: [2.5, 108], height: [2.5, 108]};
+                case "Painted":
+                    return {width: [2.5, 120], height: [2.5, 120]};
+            }
+            break;
+        }
+        case 927: {
+            return {width: [5, 99], depth: [5, 99]}
+        }
+        case 901: {
+            switch (material) {
+                case "Milino":
+                case "Syncron": {
+                    return {width: [3, 96], height: [3, 96], depth: [3, 48]}
+                }
+                case "Luxe":
+                case "Zenit":
+                case "Ultrapan PET":
+                case "Ultrapan Acrylic":
+                case "Wood Veneer": {
+                    return {width: [3, 108], height: [3, 108], depth: [3, 48]}
+                }
+                case "Painted": {
+                    return {width: [3, 120], height: [3, 120], depth: [3, 48]}
+                }
+            }
+            break
+        }
+        case 909: {
+            return {width: [3, 48], height: [3, 96]}
+        }
+        case 910: {
+            switch (material) {
+                case "Shaker Syncron":
+                case "Shaker Zenit":
+                case "Micro Shaker Milino": {
+                    return {width: [5, 108], height: [5, 108]}
+                }
+                case "Shaker Painted":
+                case "Micro Shaker":
+                case "Micro Shaker Veneer": {
+                    return {width: [5, 120], height: [5, 120]}
+                }
+            }
+            break
+        }
+        case 911:
+        case 912:
+        case 926: {
+            return {width: [4, 108], height: [4, 108]};
+        }
+        case 913: {
+            return {width: [5, 108], height: [5, 108]};
+        }
+        case 914: {
+            return {width: [6, 108], height: [6, 108]};
+        }
+        case 915: {
+            return {width: [1, 999]};
+        }
+        case 916: {
+            return {width: [1, 999], height: [1, 999]};
+        }
+        case 924:
+        case 925: {
+            return {width: [6, 96], height: [6, 96]};
+        }
+    }
+    return undefined
 }

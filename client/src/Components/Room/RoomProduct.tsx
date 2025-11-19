@@ -3,7 +3,7 @@ import {useOutletContext, useParams} from "react-router-dom";
 import Product from "../Product/Product";
 import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {
-    getCustomPartInitialFormValues, getCustomPartInitialTableData,
+    getCustomPartInitialFormValues, getCustomPartInitialTableData, getCustomPartMaterialsArraySizeLimits,
     getProductById,
     getProductInitialFormValues,
     getProductInitialTableData
@@ -26,7 +26,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
     switch (product_or_custom.product_type) {
         case "custom": {
             const customPartData = getCustomPartInitialTableData(product_or_custom as CustomPartType, materials, isRoomStandard);
-            const initialCustomPartValues = getCustomPartInitialFormValues(customPartData, cartItemValues)
+            const initialCustomPartValues = getCustomPartInitialFormValues(customPartData, cartItemValues);
             return <CustomPart materials={materials}
                                room_id={room_id}
                                custom_part={product_or_custom as CustomPartType}
