@@ -3207,7 +3207,8 @@
           "value": "Clear Coat Walnut",
           "img": "Walnut.jpg"
         }
-      ]
+      ],
+      "is_hide": true
     }
   ],
   "groove": [
