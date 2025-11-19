@@ -71,7 +71,8 @@ export type materialsData = {
     value: string,
     img?: string,
     label?: string,
-    outOfStock?: boolean
+    outOfStock?: boolean,
+    is_hide?: boolean
 }
 
 export interface drawer extends materialsData {

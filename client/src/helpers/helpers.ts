@@ -667,7 +667,7 @@ export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawe
 }
 
 export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
-    let arr = doors;
+        let arr = doors.filter(el => !el.is_hide);
     if (gola) {
         arr = arr.filter(el => el.value !== 'Standard Size White Shaker');
     }
