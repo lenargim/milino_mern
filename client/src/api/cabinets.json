@@ -4836,11 +4836,20 @@
     "images": ["CC/VDH.webp"],
     "attributes": [
       {
-        "name": "Fixed Shelf-Double Hanging",
+        "name": "Double Hanging Section",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
           }
         ]
       }
@@ -4857,7 +4866,16 @@
     "images": ["CC/VLH.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Long Hanging Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
         "values": [
           {
             "type": 1,
@@ -4866,18 +4884,16 @@
         ]
       },
       {
-        "name": "Long Hanging",
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ],
+    "options": [],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -4889,6 +4905,15 @@
     "images": ["CC/VSS.webp"],
     "attributes": [
       {
+        "name": "Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
         "name": "Adjustable Shelf",
         "values": [
           {
@@ -4898,9 +4923,7 @@
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 411,
@@ -4910,6 +4933,15 @@
     "customHeight": 95,
     "images": ["CC/VAS.webp"],
     "attributes": [
+      {
+        "name": "Angled Shoe Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
       {
         "name": "Angled Shoe Shelf",
         "values": [
@@ -4931,11 +4963,20 @@
     "images": ["CC/VFAS.webp"],
     "attributes": [
       {
+        "name": "Angled Shoe Shelves/Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
         "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 3
           }
         ]
       },
@@ -4944,14 +4985,12 @@
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 5
           }
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 413,
@@ -4962,27 +5001,34 @@
     "images": ["CC/VHS.webp"],
     "attributes": [
       {
-        "name": "Adjustable Shelf",
+        "name": "Hamper Section",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 0
           }
         ]
       },
       {
-        "name": "Hampter",
+        "name": "Hamper",
         "values": [
           {
             "type": 1,
             "value": 1
           }
         ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 414,
@@ -4994,11 +5040,20 @@
     "images": ["CC/VDS.webp"],
     "attributes": [
       {
+        "name": "Drawers Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
         "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 4
+            "value": 3
           }
         ]
       },
@@ -5012,10 +5067,7 @@
         ]
       }
     ],
-    "options": [
-      "PTO for drawers",
-      "Glass Shelf"
-    ]
+    "options": ["PTO for drawers"]
   },
   {
     "id": 415,
@@ -5027,6 +5079,15 @@
     "images": ["CC/VDI.webp"],
     "attributes": [
       {
+        "name": "Island Drawers Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
         "name": "Drawer",
         "values": [
           {
@@ -5036,9 +5097,7 @@
         ]
       }
     ],
-    "options": [
-      "PTO for drawers"
-    ]
+    "options": ["PTO for drawers"]
   },
   {
     "id": 416,
@@ -5050,11 +5109,29 @@
     "images": ["CC/VLC.webp"],
     "attributes": [
       {
-        "name": "Long Hanging",
+        "name": "Corner Long Hanging Section",
         "values": [
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
           }
         ]
       }
@@ -5072,6 +5149,15 @@
     "images": ["CC/VSC.webp"],
     "attributes": [
       {
+        "name": "Corner Adjustable Shelves Section",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
         "name": "Adjustable Shelf",
         "values": [
           {
@@ -5081,9 +5167,7 @@
         ]
       }
     ],
-    "options": [
-      "Glass Shelf"
-    ]
+    "options": []
   },
   {
     "id": 418,
@@ -5095,11 +5179,20 @@
     "images": ["CC/VDC.webp"],
     "attributes": [
       {
-        "name": "Double Hanging",
+        "name": "Corner Double Hanging Sections",
         "values": [
           {
             "type": 1,
             "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
           }
         ]
       }
@@ -5113,7 +5206,35 @@
     "name": "SDH Series",
     "category": "RTA Closets",
     "images": ["CC/SDH.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5122,7 +5243,35 @@
     "name": "SLH Series",
     "category": "RTA Closets",
     "images": ["CC/SLH.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging Rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5131,7 +5280,26 @@
     "name": "SAS Series",
     "category": "RTA Closets",
     "images": ["CC/SAS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 7
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5140,7 +5308,17 @@
     "name": "SSS Series",
     "category": "RTA Closets",
     "images": ["CC/SSS.webp"],
-    "attributes": [],
+    "attributes": [
+      {
+        "name": "Angled Shoe Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 9
+          }
+        ]
+      }
+    ],
     "options": []
   },
   {
@@ -5149,27 +5327,27 @@
     "name": "SFAS Series",
     "category": "RTA Closets",
     "images": ["CC/SFAS.webp"],
-    "attributes": [],
-    "options": []
-  },
-  {
-    "id": 505,
-    "product_type": "cabinet",
-    "name": "SHS Series",
-    "category": "RTA Closets",
-    "images": ["CC/SHS.webp"],
-    "attributes": [],
-    "options": []
-  },
-  {
-    "id": 506,
-    "product_type": "cabinet",
-    "name": "SDS Series",
-    "category": "RTA Closets",
-    "images": ["CC/SDS.webp"],
     "attributes": [
       {
-        "name": "Drawer",
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Angled Shoe Shelf",
         "values": [
           {
             "type": 1,
@@ -5181,6 +5359,80 @@
     "options": []
   },
   {
+    "id": 505,
+    "product_type": "cabinet",
+    "name": "SHS Series",
+    "category": "RTA Closets",
+    "images": ["CC/SHS.webp"],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hamper",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 506,
+    "product_type": "cabinet",
+    "name": "SDS Series",
+    "category": "RTA Closets",
+    "images": ["CC/SDS.webp"],
+    "attributes": [
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
+          }
+        ]
+      }
+    ],
+    "options": ["PTO for drawers"]
+  },
+  {
     "id": 600,
     "product_type": "cabinet",
     "name": "IDH Series",
@@ -5189,10 +5441,14 @@
     "attributes": [
       {
         "name": "Double Hanging Section",
+        "desc": true
+      },
+      {
+        "name": "Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -5208,15 +5464,28 @@
     "attributes": [
       {
         "name": "Long Hanging Section",
+        "desc": true
+      },
+      {
+        "name": "Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 602,
@@ -5227,15 +5496,19 @@
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 6
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 603,
@@ -5246,10 +5519,14 @@
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
+        "desc": true
+      },
+      {
+        "name": "Angled Shoe Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 10
           }
         ]
       }
@@ -5264,25 +5541,29 @@
     "images": ["WIC/IFAS.webp"],
     "attributes": [
       {
-        "name": "Angled shoe shelves",
+        "name": "Angled Shoe Shelves/Adjustable Shelves Section",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 3
           }
         ]
       },
       {
-        "name": "Adjustable Shelves Section",
+        "name": "Angled Shoe Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 5
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 605,
@@ -5293,6 +5574,19 @@
     "attributes": [
       {
         "name": "Drawers Section",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
         "values": [
           {
             "type": 1,
@@ -5301,7 +5595,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf", "PTO for drawers"]
   },
   {
     "id": 606,
@@ -5312,15 +5606,28 @@
     "attributes": [
       {
         "name": "Hamper Section",
+        "desc": true
+      },
+      {
+        "name": "Hamper",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 5
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 607,
@@ -5330,11 +5637,15 @@
     "images": ["WIC/WIDC.webp"],
     "attributes": [
       {
-        "name": "Corner Hanging Sections",
+        "name": "Corner Double Hanging Sections",
+        "desc": true
+      },
+      {
+        "name": "Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -5350,15 +5661,28 @@
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
+        "desc": true
+      },
+      {
+        "name": "Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 609,
@@ -5369,15 +5693,19 @@
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 6
           }
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
 
   {
@@ -5415,7 +5743,7 @@
   {
     "id": 903,
     "product_type": "custom",
-    "name": "Panel, Filler, Wood Toe Kick",
+    "name": "Panel, Filler",
     "type": "custom",
     "depth": 0,
     "materials_array": [
@@ -5538,6 +5866,134 @@
       }
     ],
     "images": ["custom/Panel.webp"]
+  },
+  {
+    "id": 904,
+    "product_type": "custom",
+    "name": "Wood Toe Kick",
+    "type": "custom",
+    "depth": 0,
+    "initial_width": 4.5,
+    "materials_array": [
+      {
+        "name": "Milino",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Plywood",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            96
+          ]
+        }
+      },
+      {
+        "name": "Luxe",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Zenit",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Syncron",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan PET",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Ultrapan Acrylic",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      },
+      {
+        "name": "Painted",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            120
+          ]
+        }
+      },
+      {
+        "name": "Wood Veneer",
+        "limits": {
+          "width": [
+            2.5,
+            48
+          ],
+          "height": [
+            2.5,
+            108
+          ]
+        }
+      }
+    ],
+    "images": ["custom/WTK.webp"]
   },
   {
     "id": 906,
@@ -6762,67 +7218,25 @@
     "type": "pvc",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            1,
-            999
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       }
     ],
     "images": ["custom/PVC.webp"]

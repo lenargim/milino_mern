@@ -2912,7 +2912,7 @@
       ]
     },
     {
-      "value": "Custom Painted Shaker",
+      "value": "Custom Painted",
       "img": "painted.jpg",
       "finish": [
         {
@@ -3528,6 +3528,28 @@
     {
       "value": "Wood Gola",
       "img": "Wood Gola.jpg"
+    }
+  ],
+  "rod": [
+    {
+      "value": "Oval Chrome (Default)",
+      "img": "Oval Chrome (Default).jpg"
+    },
+    {
+      "value": "Matte Black",
+      "img": "Matte Black.jpg"
+    },
+    {
+      "value": "Matte Brass",
+      "img": "Matte Brass.jpg"
+    },
+    {
+      "value": "Matte Chrome",
+      "img": "Matte Chrome.jpg"
+    },
+    {
+      "value": "Matte Nickel",
+      "img": "Matte Nickel.jpg"
     }
   ]
 }

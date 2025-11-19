@@ -3,7 +3,7 @@ import {ObjectSchema} from "yup";
 import {
     DoorTypesType, FinishTypes, golaNames,
     GolaType, golaTypeNames,
-    GolaTypesType, grooveNames, GrooveType,
+    GolaTypesType, grooveNames, GrooveType, rodNames, RodType,
     roomCategories,
     RoomCategoriesType,
     RoomMaterialsFormType
@@ -13,9 +13,9 @@ import {MaybeEmpty} from "../../helpers/productTypes";
 import {
     findHasGolaTypeByCategory,
     getDoorColorsArr,
-    getDoorFinishArr, getGrainArr,
+    getDoorFinishArr, getGrainArr, getIsCloset, getIsRTAorSystemCloset,
     isDoorGrain,
-    isGolaShown, isLeatherOrRTAorSystemCloset, isRTAorSystemCloset
+    isGolaShown, getIsLeatherOrRTAorSystemCloset,
 } from "../../helpers/helpers";
 import materials from './../../api/materials.json'
 
@@ -51,7 +51,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when('category', {
                     is: (category:RoomCategoriesType) => {
-                        return !isRTAorSystemCloset(category)
+                        return !getIsRTAorSystemCloset(category)
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door type')
                 }),
@@ -65,7 +65,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['category', 'door_type'], {
                     is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>) => {
-                        if (isRTAorSystemCloset(category) || door_type === 'Standard Size White Shaker') return false;
+                        if (getIsRTAorSystemCloset(category) || door_type === 'Standard Size White Shaker') return false;
                         return true
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door finish material')
@@ -81,7 +81,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['category','door_finish_material' ], {
                     is: (category: RoomCategoriesType, door_finish_material: MaybeEmpty<FinishTypes>) => {
-                        const isRTASysCloset = isRTAorSystemCloset(category);
+                        const isRTASysCloset = getIsRTAorSystemCloset(category);
                         const noHinges = door_finish_material === 'No Doors No Hinges';
                         if (isRTASysCloset || noHinges) return false;
                         return true;
@@ -109,7 +109,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
             box_color: Yup.string()
                 .defined()
                 .when('category', {
-                    is: (val: MaybeEmpty<RoomCategoriesType>) => isLeatherOrRTAorSystemCloset(val),
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => getIsLeatherOrRTAorSystemCloset(val),
                     then: schema => schema.required('Please choose Box Color'),
                     otherwise: schema => schema.default('')
                 }),
@@ -140,8 +140,15 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                         .min(3, 'Minimum 3 symbols')
                         .max(80, 'Too long note')
                         .required('Leather Note is required')
-                })
+                }),
+            rod: Yup.mixed<MaybeEmpty<RodType>>()
+                .default('')
+                .when('category', {
+                    is: (val: MaybeEmpty<RoomCategoriesType>) => {
+                        return getIsCloset(val)
+                    },
+                    then: schema => schema.oneOf(rodNames,'Please choose hanging rod type')
+                }),
         })
-
     )
 }

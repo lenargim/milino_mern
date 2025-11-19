@@ -9,14 +9,8 @@ const env = dotenv.config().parsed;
 
 function generateTokens(userId) {
   const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
-  // const refreshToken = jwt.sign({_id: userId}, env.BACKEND_REFRESH_KEY, {expiresIn: env.BACKEND_REFRESH_KEY_EXPIRES});
   return accessToken;
 }
-
-// const getCookieDays = () => {
-//   const envDays = env.BACKEND_REFRESH_KEY_EXPIRES;
-//   return Number(envDays.replace('d', ''));
-// }
 
 export const register = async (req, res) => {
   try {
@@ -33,12 +27,6 @@ export const register = async (req, res) => {
     if (checkUserEmail) {
       return res.status(500).json({
         message: "Email already in use"
-      })
-    }
-    const checkUserPhone = await UserModel.findOne({phone: req.body.phone});
-    if (checkUserPhone) {
-      return res.status(500).json({
-        message: "Your phone already in use"
       })
     }
 

@@ -3,21 +3,38 @@ import {Form, useFormikContext} from "formik";
 import {
     filterGolaTypeArrByCategory,
     findHasGolaTypeByCategory,
-    getBoxMaterialArr, getBoxMaterialColorsArr,
-    getDoorColorsArr, getDoorFinishArr,
-    getDoorTypeArr, getDrawerBrandArr, getDrawerColorArr, getDrawerTypeArr,
+    getBoxMaterialArr,
+    getBoxMaterialColorsArr,
+    getDoorColorsArr,
+    getDoorFinishArr,
+    getDoorTypeArr,
+    getDrawerBrandArr,
+    getDrawerColorArr,
+    getDrawerTypeArr,
     getGrainArr,
     isBoxColor,
-    isBoxMaterial, isLeatherOrRTAorSystemCloset,
+    isBoxMaterial,
     isDoorColorShown,
     isDoorFinishShown,
     isDoorFrameWidth,
     isDoorGrain,
     isDoorTypeShown,
-    isDrawerBrand, isDrawerColor, isDrawerType, isGolaShown, isGolaTypeShown, isGrooveShown, isLeatherNote,
+    isDrawerBrand,
+    isDrawerColor,
+    isDrawerType,
+    isGolaShown,
+    isGolaTypeShown,
+    isGrooveShown,
+    isLeatherNote,
     isLeatherType,
-    useAppDispatch, useAppSelector,
-    usePrevious
+    useAppDispatch,
+    useAppSelector,
+    usePrevious,
+    isClosetRod,
+    getIsRTAorSystemCloset,
+    getIsCloset,
+    getIsFilledDrawerBlock,
+    getIsFilledLeatherBlock, getIsLeatherOrRTAorSystemCloset
 } from "../../helpers/helpers";
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
@@ -44,7 +61,8 @@ const {
     drawers,
     leatherType: leatherTypeArr,
     grain,
-    groove: grooveArr
+    groove: grooveArr,
+    rod: rodArr
 }: MaterialsType = materialsAPI;
 
 export const materialsFormInitial: RoomMaterialsFormType = {
@@ -64,7 +82,8 @@ export const materialsFormInitial: RoomMaterialsFormType = {
     drawer_color: '',
     leather: '',
     leather_note: '',
-    groove: ''
+    groove: '',
+    rod: ''
 }
 
 function shouldClearFormData(category: MaybeEmpty<RoomCategoriesType>, prevCategory: MaybeUndefined<MaybeEmpty<RoomCategoriesType>>): boolean {
@@ -92,15 +111,17 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
         drawer_color,
         leather,
         leather_note,
-        groove
+        groove,
+        rod
     } = values as RoomMaterialsFormType;
 
     const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
-    const isRTAorSystemCloset = category === 'RTA Closet' || category === 'Cabinet System Closet';
-    const isLeatherOrRTAOrSystemCloset = isLeatherOrRTAorSystemCloset(category);
+    const isRTAorSystemCloset = getIsRTAorSystemCloset(category);
+    const isLeatherOrRTAOrSystemCloset = getIsLeatherOrRTAorSystemCloset(category);
+    const isCloset = getIsCloset(category)
     const hasGolaType = findHasGolaTypeByCategory(category);
     const golaTypeArr = filterGolaTypeArrByCategory(category, golaType);
     const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
@@ -164,7 +185,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             if (!boxMaterialArr.length) setFieldValue('box_material', '');
             if (category && box_material && !boxMaterialArr.some(el => el.value === box_material)) setFieldValue('box_material', '');
 
-
             //Drawer type
             if (!drawerTypesArr.length) setFieldValue('drawer_type', '');
             if (drawerTypesArr.length === 1) setFieldValue('drawer_type', drawerTypesArr[0].value);
@@ -187,6 +207,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
                 if (leather_note) setFieldValue('leather_note', '')
             }
             if (leather !== 'Other') setFieldValue('leather_note', '');
+            if (!isCloset && rod) setFieldValue('rod', '');
         }
 
         if (!isRoomNew && cart_items?.length) {
@@ -194,7 +215,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             dispatch(updateCartAfterMaterialsChange(newCart))
         }
     }, [values]);
-    const hasName = !!name;
     const showGolaType = isGolaTypeShown(category, hasGolaType);
     const showGola = isGolaShown(category_gola_type)
     const showDoorType = isDoorTypeShown(values, showGola)
@@ -208,12 +228,15 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const showDrawerBrand = isDrawerBrand(box_material, box_color, isLeatherOrRTAOrSystemCloset);
     const showDrawerType = isDrawerType(showDrawerBrand, drawer_brand, drawerTypesArr);
     const showDrawerColor = isDrawerColor(showDrawerType, drawer_type, drawerColorsArr);
-    const showLeatherType = isLeatherType(drawer_color, drawer_type, isLeather, leatherTypeArr);
-    const showLeatherNote = isLeatherNote(showLeatherType, leather)
+    const isFilledDrawerBlock = getIsFilledDrawerBlock(drawer_type, drawer_color);
+    const showLeatherType = isLeatherType(isLeather,isFilledDrawerBlock);
+    const showLeatherNote = isLeatherNote(showLeatherType, leather);
+    const isFilledLeatherBlock = getIsFilledLeatherBlock(isLeather, leather, leather_note);
+    const showClosetRod = isClosetRod(isCloset, isLeather, isFilledLeatherBlock, isFilledDrawerBlock)
     return (
         <Form className={s.roomForm}>
             <TextInput type="text" label={roomNameText} name="name" autoFocus={true}/>
-            {hasName &&
+            {!!name &&
             <RoomMaterialsDataType data={categories} value={category} name="category" label="Category"/>}
             {showGolaType &&
             <RoomMaterialsDataType data={golaTypeArr} value={category_gola_type} name="category_gola_type"
@@ -248,6 +271,8 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             {showLeatherType &&
             <RoomMaterialsDataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
             {showLeatherNote && <TextInput type="text" value={leather_note} name="leather_note" label="Note"/>}
+            {showClosetRod && <RoomMaterialsDataType data={rodArr} value={rod} name='rod'
+                                                     label="Hanging rods"/>}
             {isValid && <button disabled={isSubmitting} className="button yellow" type="submit">{submitText}</button>}
         </Form>
     )

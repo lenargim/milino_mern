@@ -123,6 +123,22 @@ export const s = StyleSheet.create({
         gap: '5px',
         fontSize: 12
     },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        gap: 8, // работает в v9
+        fontSize: 12
+    },
+    label: {
+        flexShrink: 0, // чтобы не сжимался
+    },
+    list: {
+        textAlign: 'right', // выравнивание строк
+        lineHeight: 1.2,
+        flexGrow: 1, // занимает всё оставшееся место
+    },
     itemOptionBold: {
         flexDirection: "row",
         textAlign: 'left',
@@ -183,10 +199,11 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
             </View>
             <View>
                 <Text>Category: {materialStrings.categoryString}</Text>
-                <Text>Door: {materialStrings.doorString}</Text>
-                <Text>Box Material: {materialStrings.boxString}</Text>
-                <Text>Drawer: {materialStrings.drawerString}</Text>
+                {materialStrings.doorString ? <Text>Door: {materialStrings.doorString}</Text> : null}
+                {materialStrings.boxString ? <Text>Box Material: {materialStrings.boxString}</Text> : null}
+                {materialStrings.drawerString ? <Text>Drawer: {materialStrings.drawerString}</Text> : null}
                 {materialStrings.leatherString ? <Text>Leather: {materialStrings.leatherString}</Text> : null}
+                {materialStrings.rod ? <Text>Hanging Rod: {materialStrings.rod}</Text> : null}
             </View>
         </Page>
         <Page orientation="landscape" style={s.page}>

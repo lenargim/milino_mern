@@ -4,19 +4,27 @@ import {
     getColorsList,
     getGlassTypeList,
     getProfileList,
-    getSelectValfromVal
+    getSelectValfromVal, glassDoorHasProfile
 } from "../../helpers/helpers";
 import SelectField from "../../common/SelectField";
 
-const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }> = ({is_custom, glass_door}) => {
+const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[], product_id: number }> = ({
+                                                                                                            is_custom,
+                                                                                                            glass_door,
+                                                                                                            product_id
+                                                                                                        }) => {
     const [profile, type, color] = glass_door;
     const door_profiles = getProfileList(is_custom);
     const door_types = getGlassTypeList();
     const door_colors = getColorsList(type);
 
+    const showProfileSelection = glassDoorHasProfile(product_id);
+    const showDoorTypeSelection = door_types.length && ((showProfileSelection && profile) || !showProfileSelection);
+    const showDorColorSelection = door_colors.length && type
+
     return (
         <div className={s.blockWrap}>
-            {door_profiles?.length ?
+            {showProfileSelection ?
                 <div className={s.block}>
                     <h3>Door Profile</h3>
                     <SelectField label="Profile"
@@ -26,7 +34,7 @@ const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }>
                     />
                 </div> : null}
 
-            {door_types.length && profile ?
+            {showDoorTypeSelection ?
                 <div className={s.block}>
                     <h3>Door Type</h3>
                     <SelectField val={getSelectValfromVal(type, door_types)}
@@ -35,7 +43,7 @@ const CustomPartGlassDoorBlock: FC<{ is_custom: boolean, glass_door: string[] }>
                                  options={door_types}/>
                 </div> : null}
 
-            {door_colors.length && type ?
+            {showDorColorSelection ?
                 <div className={s.block}>
                     <h3>Door Color</h3>
                     <SelectField name="glass_door[2]"

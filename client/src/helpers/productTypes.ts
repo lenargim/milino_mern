@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RoomCategoriesType} from "./roomTypes";
+import {DoorTypesType, RodType, RoomCategoriesType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -45,7 +45,7 @@ export type CustomTypes =
     | 'floating-shelf'
     | 'drawer-inserts';
 
-const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler, Wood Toe Kick', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels','1½” Thick Floating Shelves'] as const;
+const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler', 'Wood Toe Kick', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels', '1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];
 
 export type kitchenCategories =
@@ -62,7 +62,6 @@ export type StandardCategory =
     | 'Standard Parts';
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
-
 export type ClosetsCategory = 'Build In' | 'Leather' | 'RTA Closets' | 'Cabinet System Closet';
 
 export type productCategory =
@@ -78,13 +77,21 @@ export type ProductOrCustomType = {
     id: number,
     name: string,
     product_type: ProductApiType,
-    images: string[]
+    images: string[],
+    initial_width?:number
 }
 
-export interface ProductType extends ProductOrCustomType{
+export type ProductOptionsType =
+    "PTO for drawers"
+    | "PTO for doors"
+    | "Box from finish material"
+    | "Glass Door"
+    | "Glass Shelf";
+
+export interface ProductType extends ProductOrCustomType {
     category: productCategory,
-    attributes: attrItem[],
-    options: string[],
+    attributes: AttrItemType[],
+    options: ProductOptionsType[],
     legsHeight?: number,
     isBlind?: boolean,
     isAngle?: AngleType,
@@ -100,11 +107,12 @@ export interface ProductType extends ProductOrCustomType{
     blindArr?: number[],
     horizontal_line?: number,
     hasClosetAccessoriesBlock?: boolean,
-    hasJeweleryBlock?:boolean,
-    hasMechanism?: MechanismType
+    hasJeweleryBlock?: boolean,
+    hasMechanism?: MechanismType,
+
 }
 
-export interface CustomPartType extends ProductOrCustomType{
+export interface CustomPartType extends ProductOrCustomType {
     name: CustomPartsNamesType,
     type: CustomTypes,
     width?: number,
@@ -117,7 +125,7 @@ export interface CustomPartType extends ProductOrCustomType{
 
 }
 
-export interface CustomPartDataType extends ProductOrCustomType{
+export interface CustomPartDataType extends ProductOrCustomType {
     type: CustomTypes,
     category: productCategory,
     width?: number,
@@ -150,7 +158,7 @@ export type materialsLimitsType = {
 
 export type materialDataType = {
     is_standard_room: boolean,
-    category: MaybeEmpty<RoomCategoriesType>,
+    room_category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
@@ -162,14 +170,20 @@ export type materialDataType = {
     drawer_type: string,
     drawer_color: string,
     leather: string,
-    is_leather_or_rta_or_system_closet: boolean,
     box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
-    materials_coef: number
+    materials_coef: number,
+    rod: MaybeEmpty<RodType>
 }
 
 
-export interface attrItem {
+export type AttrItemType = {
+    name: string,
+    desc?: true,
+    values?: valueItemType[],
+}
+
+export type AttrWithoutDescType = {
     name: string,
     values: valueItemType[],
 }
@@ -290,10 +304,10 @@ export type productRangeType = {
 export type productDataToCalculatePriceType = {
     doorValues?: valueItemType[],
     drawersQty: number,
-    shelfsQty: number
-    rolloutsQty: number,
-    blindArr?: number[],
+    shelfsQty: number,
+    rodsQty: number,
     filteredOptions: string[]
+    blindArr?: number[],
 }
 
 export type StandardProductDataToCalculatePriceType = {
@@ -301,8 +315,7 @@ export type StandardProductDataToCalculatePriceType = {
     blindArr?: number[],
     filteredOptions: string[],
     drawersQty: number,
-    shelfsQty: number,
-    rolloutsQty: number
+    shelfsQty: number
 }
 
 export type customPartDataToCalculatePriceType = {
@@ -327,7 +340,7 @@ export type CartExtrasType = {
     ptoTrashBins: number,
     ledPrice: number,
     coefExtra: number,
-    attributes: attrItem[],
+    attributes: AttrItemType[],
     boxFromFinishMaterial: boolean
 }
 
@@ -343,7 +356,8 @@ export type AttributesPrices = {
     drawerPrice: number,
     closetAccessoriesPrice: number,
     jeweleryInsertsPrice: number,
-    mechanismPrice: number
+    mechanismPrice: number,
+    rodPrice: number
 }
 
 export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;
@@ -386,7 +400,6 @@ export type ProductFormType = {
 }
 
 
-
 export type ProductTableDataType = {
     materialData: materialDataType,
     tablePriceData: pricePart[],
@@ -397,8 +410,8 @@ export type ProductTableDataType = {
     middleSectionNumber: number,
     middleSection: string,
     blindWidth: MaybeEmpty<number>,
-    corner:MaybeEmpty<cornerTypes>,
-    ledAlignment:MaybeEmpty<ledAlignmentType>,
+    corner: MaybeEmpty<cornerTypes>,
+    ledAlignment: MaybeEmpty<ledAlignmentType>,
     productPriceData: productDataToCalculatePriceType
     isBlind: boolean,
 }

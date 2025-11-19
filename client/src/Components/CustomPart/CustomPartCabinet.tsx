@@ -80,7 +80,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, isSt
 
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
     const showHeightBlock = type !== 'pvc';
-    const showGlassDoorBlock = type === 'glass-door'
+    const showGlassDoorBlock = type === 'glass-door';
     const showGlassShelfBlock = type === 'glass-shelf'
     return (
         <Form>
@@ -119,7 +119,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isDepthIsConst, isSt
               </div>
             </div>
             }
-            {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true}/>}
+            {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true} product_id={id}/>}
             {showGlassShelfBlock && <CustomPartGlassShelfBlock />}
 
             <div className={s.block}>

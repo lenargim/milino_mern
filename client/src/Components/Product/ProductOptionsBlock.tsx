@@ -9,14 +9,14 @@ import {
 import {ProductOptionsInput} from "../../common/Form";
 import {useFormikContext} from "formik";
 import CustomPartGlassDoorBlock from "../CustomPart/CustomPartGlassDoorBlock";
-import {attrItem, ProductFormType} from "../../helpers/productTypes";
+import {AttrItemType, ProductFormType} from "../../helpers/productTypes";
 import settings from "../../api/settings.json";
 
 type OptionsBlockType = {
     id: number,
     filteredOptions: string[],
     isProductStandard: boolean,
-    attributes: attrItem[]
+    attributes: AttrItemType[]
 }
 
 const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: number, height: number): boolean => {
@@ -56,7 +56,7 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
 }
 
 const enableGlassShelfOption = (attrs: { name: string, value: number }[]): boolean => {
-    return !!attrs.find(el => el.name === 'Adjustable Shelf' && el.value >= 1);
+    return !!attrs.find(el => (el.name.includes("Shelf") || el.name.includes("Shelves") ) && el.value >= 1);
 }
 
 const getFrontOptions = (filteredOptions: string[], isEnabledGlassDoorOption: boolean, isEnableGlassShelfOption: boolean): string[] => {
@@ -121,7 +121,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
             <>
                 {isProductStandard ?
                     <StandardCabinetGlassDoorBlock doorGlassColor={glass_color}/> :
-                    <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false}/>
+                    <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false} product_id={id}/>
                 }
             </>}
 

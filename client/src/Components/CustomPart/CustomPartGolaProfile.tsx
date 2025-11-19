@@ -5,7 +5,6 @@ import s from "../Product/product.module.sass";
 import {ProductInputCustom} from "../../common/Form";
 import Select, {OnChangeValue, StylesConfig} from "react-select";
 import styles from "../../common/Form.module.sass";
-import NestedErrorMessage from "../../common/ErrorForNestedFields";
 
 export type colorOption = 'Black' | 'White';
 

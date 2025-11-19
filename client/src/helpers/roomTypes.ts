@@ -4,12 +4,13 @@ import {CartAPI} from "./cartTypes";
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet", "Cabinet System Closet"] as const;
 export const golaTypeNames = ['Regular Kitchen', 'Gola Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
 export const golaNames = ['Aluminum Gola', 'Black Matte Gola', 'White Gloss Gola', 'Champagne Gola', 'Wood Gola'] as const;
-export const doorTypesNames = ['No Doors','Standard Size White Shaker','Slab', 'Three Piece Door', 'Five piece shaker', 'Finger Pull', 'Micro Shaker', 'Slatted', 'Custom Painted Shaker', 'Wood ribbed doors'] as const;
+export const doorTypesNames = ['No Doors','Standard Size White Shaker','Slab', 'Three Piece Door', 'Five piece shaker', 'Finger Pull', 'Micro Shaker', 'Slatted', 'Custom Painted', 'Wood ribbed doors'] as const;
 export const finishNames = ['No Doors No Hinges', 'Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Slab', 'Frame 3/4', 'Frame 1', 'Frame 1 1/2', 'Frame 2', 'Frame 2 1/2', 'Ribbed','Maple','Birch', 'White Oak', 'Walnut', 'Clear Coat Maple', 'Clear Coat Birch', 'Clear Coat White Oak', 'Clear Coat Walnut', 'Wood Veneer'] as const;
 export const boxMaterialNames = ['White Melamine', 'Gray Melamine', 'Gray Linen Melamine', 'Beige Linen Melamine', 'Ash Melamine', 'Walnut Melamine', 'Brown Oak', 'Ivory Woodline', 'Grey Woodline', 'White Oak', 'Desert Oak', 'Natural Plywood', 'White Plywood', 'Gray Plywood', 'Ultra Matte White', 'Ultra Matte Grey', 'Ultra Matte Cashmere', 'White Gloss'] as const;
 export const leatherBoxMaterialNames = ['Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Wood Veneer'] as const;
 export const totalBoxMaterialNames = [...boxMaterialNames, ...leatherBoxMaterialNames] as const;
 export const grooveNames = ['1/4 rounded', '1/4 squared', '3/4 squared'] as const;
+export const rodNames = ["Oval Chrome (Default)", "Matte Black", "Matte Brass", "Matte Chrome", "Matte Nickel"] as const;
 
 export type RoomCategoriesType = typeof roomCategories[number];
 export type GolaTypesType = typeof golaTypeNames[number];
@@ -18,6 +19,7 @@ export type DoorTypesType = typeof doorTypesNames[number];
 export type FinishTypes = typeof finishNames[number];
 export type BoxMaterialType = typeof totalBoxMaterialNames[number];
 export type GrooveType = typeof grooveNames[number];
+export type RodType = typeof rodNames[number];
 
 export type RoomMaterialsFormType = {
     name: string,
@@ -36,7 +38,8 @@ export type RoomMaterialsFormType = {
     drawer_color: string,
     leather: string,
     leather_note: string,
-    groove: MaybeEmpty<GrooveType>
+    groove: MaybeEmpty<GrooveType>,
+    rod: MaybeEmpty<RodType>
 }
 
 export interface RoomNewType extends RoomMaterialsFormType {
@@ -103,5 +106,6 @@ export type MaterialsType = {
     leatherBoxMaterial: materialsData[]
     leatherType: materialsData[],
     grain: materialsData[],
-    groove: materialsData[]
+    groove: materialsData[],
+    rod: materialsData[]
 }

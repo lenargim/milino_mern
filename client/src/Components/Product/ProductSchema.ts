@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import settings from './../../api/settings.json'
-import {hingeArr, ProductType, sizeLimitsType} from "../../helpers/productTypes";
-import {ObjectSchema} from "yup";
+import {hingeArr, MaybeUndefined, ProductType, sizeLimitsType} from "../../helpers/productTypes";
+import {AnyObject, ObjectSchema, TestContext} from "yup";
 import {numericQuantity} from 'numeric-quantity';
 
 export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
@@ -10,20 +10,26 @@ export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
     const {isAngle, product_type, middleSectionDefault, isBlind} = product
     const blindDoorMinMax = settings.blindDoor;
-    const minWidth = sizeLimit.width[0];
-    const maxWidth = sizeLimit.width[1];
-    const minHeight = sizeLimit.height[0];
-    const maxHeight = sizeLimit.height[1];
-    const minDepth = !isAngle ? sizeLimit.depth[0] : sizeLimit.width[0];
-    const maxDepth = !isAngle ? sizeLimit.depth[1] : sizeLimit.width[1];
+
+    const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, dimension: 'width' | 'height' | 'depth') => {
+        if (!val) return false;
+        const numberVal = numericQuantity(val);
+        if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
+        const limit = sizeLimit[dimension]
+        const min = (limit && limit[0]) ? limit[0] : 1;
+        const max = (limit && limit[1]) ? limit[1] : 999;
+        if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
+        if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
+        return true;
+    }
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
         blind_width: Yup.number()
             .test("isRequired", "Blind width is a required field", (val, {parent}) => {
                 if (isBlind) return !!val || parent.custom_blind_width
-            return true;
-        }),
+                return true;
+            }),
         height: Yup.number().required(),
         depth: Yup.number().required(),
         custom_depth_string: Yup.string()
@@ -31,23 +37,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down depth')
-                    .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    .test(
-                        "min",
-                        `Minimum ${minDepth} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal >= minDepth
-                        }
-                    )
-                    .test(
-                        "max",
-                        `Maximum ${maxDepth} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal <= maxDepth
-                        }
-                    )
+                    .test('limit', (val, context) => testMinMax(val, context,'depth')),
 
             }),
         led_borders: Yup.array()
@@ -132,23 +122,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down width')
-                    .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    .test(
-                        "min",
-                        `Minimum ${minWidth} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal >= minWidth
-                        }
-                    )
-                    .test(
-                        "max",
-                        `Maximum ${maxWidth} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal <= maxWidth
-                        }
-                    )
+                    .test('limit', (val, context) => testMinMax(val, context,'width')),
             }),
         custom_blind_width_string: Yup.string()
             .when(['isBlind', 'blind_width'], {
@@ -191,23 +165,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down height')
-                    .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    .test(
-                        "min",
-                        `Minimum ${minHeight} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal >= minHeight
-                        }
-                    )
-                    .test(
-                        "max",
-                        `Maximum ${maxHeight} inches`,
-                        (val: string) => {
-                            const numberVal = numericQuantity(val);
-                            return numberVal <= maxHeight
-                        }
-                    )
+                    .test('limit', (val, context) => testMinMax(val, context,'height')),
             }),
         middle_section_string: Yup.string()
             .when([], {
@@ -226,7 +184,6 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     )
             }),
     })
-
     if (product_type === "standard") return schemaBasic;
     return schemaBasic.concat(schemaExtended);
 }
