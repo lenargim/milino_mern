@@ -116,7 +116,7 @@ const CustomPart: FC<CustomPartFCType> = ({
     return (
         <Formik
             initialValues={initialCustomPartValues}
-            validationSchema={getCustomPartSchema(custom_part)}
+            validationSchema={getCustomPartSchema(custom_part, materials)}
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
