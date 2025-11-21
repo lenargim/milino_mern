@@ -6,15 +6,11 @@ import Dimensions from "../../common/Dimensions";
 
 
 const CartItemOptions: FC<{ item: CartItemFrontType }> = ({item}) => {
-    const {
-        product_type,
-        width, height, depth,
-        isStandard
-    } = item;
+    const {product_type} = item;
 
     return (
         <div>
-            <Dimensions width={width} height={height} depth={depth} isStandard={isStandard.dimensions}/>
+            <Dimensions item={item}/>
             {product_type === 'custom'
                 ? <CartItemCustom product={item}/>
                 : <CartItemProduct product={item}/>

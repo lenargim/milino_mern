@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import {
+    CustomPartTableDataType,
     CustomPartType,
     materialsCustomPart,
     materialsLimitsType,
@@ -14,7 +15,7 @@ import {
     DrawerInsertsColor,
     DrawerInsertsColorNames, DrawerInsertsLetter,
 } from "./CustomPart";
-import {glassDoorHasProfile} from "../../helpers/helpers";
+import {checkHeightBlockShownInCustomPart, glassDoorHasProfile} from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 
 
@@ -33,29 +34,40 @@ const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>
 }
 
 export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any> {
-    const {materials_array, limits, type, id} = product;
-    const customDoorsSchema = Yup.object({
+    const {materials_array, limits, type, id, height, depth} = product;
+    const customInitialSchema = Yup.object({
         width_string: Yup.string()
             .required('Please write down width')
             .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'width')),
-        height_string: Yup.string()
-            .required('Please write down height')
-            .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'height')),
         note: Yup.string(),
         price: Yup.number().required().positive()
     });
-    const customPartWithMaterialSchema = Yup.object({
+    const customPartWithHeightSchema = Yup.object({
+        height_string: Yup.string()
+            .required('Please write down height')
+            .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'height'))
+    })
+    const customPartWithDepthSchema = Yup.object({
         depth_string: Yup.string()
             .required('Please write down depth')
             .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'depth')),
-        material: Yup.string(),
+    });
+    const customPartWithMaterialSchema = Yup.object({
+        material: Yup.string().required(),
     })
-    const customSchema = customDoorsSchema.concat(customPartWithMaterialSchema);
+    const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
+
     switch (type) {
         case "custom":
+            return customSchema;
+        case "panel":
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema);
         case "backing":
+            return customInitialSchema.concat(customPartWithHeightSchema);
         case "pvc":
-            return customSchema
+            return customInitialSchema.concat(customPartWithMaterialSchema);
+        case "thick_floating_shelf":
+            return customInitialSchema.concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
         case "glass-door":
             const glassDoorSchema = Yup.object({
                 glass_door: Yup.lazy((value, context) => {
@@ -70,12 +82,12 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     ]).transform(() => padded);
                 }),
             })
-            return customSchema.concat(glassDoorSchema)
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(glassDoorSchema)
         case "glass-shelf":
             const shelfDoorSchema = Yup.object({
                 glass_shelf: Yup.string().required('Glass Shelf required'),
             })
-            return customSchema.concat(shelfDoorSchema)
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(shelfDoorSchema)
         case "led-accessories":
             return Yup.object({
                 led_accessories: Yup.object().shape({
@@ -134,16 +146,16 @@ export function getCustomPartSchema(product: CustomPartType): Yup.InferType<any>
                     .min(1, 'Must have at least 1 additional part') // these constraints are shown if and only if inner constraints are satisfied
             });
         case "custom-doors":
-            return customDoorsSchema;
+            return customInitialSchema;
         case "ribbed":
             const ribbedSchema = Yup.object({
                 material: Yup.string().required(),
                 groove: Yup.object({
                     style: Yup.string(),
                     clear_coat: Yup.boolean()
-                })
+                }).nullable()
             })
-            return ribbedSchema.concat(customDoorsSchema);
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(ribbedSchema);
         case "drawer-inserts":
             return Yup.object({
                 width_string: Yup.string()

@@ -1,43 +1,26 @@
 import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType,} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {
-    filterCustomPartsMaterialsArray,
-} from "../../helpers/helpers";
+import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 
-type CustomPartThickFloatingShelf = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
 
-const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
-    const {
-        price
-    } = values;
+const CustomPartPVC: FC<{ product: CustomPartType, isStandardCabinet: boolean }> = ({product, isStandardCabinet}) => {
+    const {values,} = useFormikContext<CustomPartFormType>();
+    const {price} = values;
     const {materials_array, id} = product;
-
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
-
+    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
     return (
         <Form>
             <div className={s.block}>
-                <h3>Width</h3>
+                <h3>PVC Length(ft)</h3>
                 <div className={s.options}>
                     <ProductInputCustom name="width_string"/>
                 </div>
             </div>
-            <div className={s.block}>
-                <h3>Depth</h3>
-                <div className={s.options}>
-                    <ProductInputCustom name="depth_string"/>
-                </div>
-            </div>
-
             {filtered_materials_array &&
             <div className={s.block}>
               <h3>Material</h3>
@@ -46,7 +29,8 @@ const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product
                                                                                  name="material"
                                                                                  value={m.name}/>)}
               </div>
-            </div>}
+            </div>
+            }
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
@@ -59,4 +43,4 @@ const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product
     );
 };
 
-export default CustomPartThickFloatingShelf;
+export default CustomPartPVC;

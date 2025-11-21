@@ -24,7 +24,7 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType, materialsLimitsType
+    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType, materialsLimitsType, CustomTypes
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -1286,7 +1286,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             custom: null,
             note: '',
             price: 0,
-            amount: 1
+            amount: 1,
+
         }
     }
     const {
@@ -1698,4 +1699,14 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         }
     }
     return undefined
+}
+
+export function checkHeightBlockShownInCustomPart(type:CustomTypes, height: MaybeUndefined<number>):boolean {
+    switch (type) {
+        case "pvc": return false;
+        case "custom": {
+            if (height) return false
+        }
+    }
+    return true
 }

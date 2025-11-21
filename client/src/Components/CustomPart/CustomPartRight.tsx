@@ -16,6 +16,9 @@ import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartRibbed from "./CustomPartRibbed";
 import CustomPartFloatingShelf from "./CustomPartFloatingShelf";
 import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
+import CustomPartPanel from "./CustomPartPanel";
+import CustomPartPVC from "./CustomPartPVC";
+import CustomPartThickFloatingShelf from "./CustomPartFloatingShelf";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -34,9 +37,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number';
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
     const {price} = values
-
     useEffect(() => {
         const APIValues = addToCartCustomPart(values, customPartProduct, '', undefined)
         const newPrice = getCustomPartPrice(customPartProduct, materials, APIValues);
@@ -46,15 +48,19 @@ const CustomPartRight: FC<CustomPartRight> = ({
     }, [{...values}])
 
     switch (type) {
+
         case "custom":
-        case "pvc":
-        case "backing":
         case "glass-door":
         case "glass-shelf":
             return <CustomPartCabinet product={customPartProduct}
                                       isDepthIsConst={isDepthIsConst}
                                       isStandardCabinet={isStandardCabinet}
             />
+        case "panel":
+        case "backing":
+            return <CustomPartPanel product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+        case "pvc":
+            return <CustomPartPVC product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "led-accessories":
             return <CustomPartLEDForm/>
         case "door-accessories":
@@ -72,8 +78,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartCustomDoors product={customPartProduct} />;
         case "ribbed":
             return <CustomPartRibbed product={customPartProduct} isStandardCabinet={isStandardCabinet} />
-        case "floating-shelf":
-            return <CustomPartFloatingShelf product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+        case "thick_floating_shelf":
+            return <CustomPartThickFloatingShelf product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "drawer-inserts":
             return <CustomPartDrawerInserts product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         default:
