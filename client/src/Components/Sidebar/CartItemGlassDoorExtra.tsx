@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import Dimentions from "../../common/Dimensions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType }> = ({product}) => {

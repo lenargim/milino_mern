@@ -1560,13 +1560,13 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, is_special_milino_height: boolean): MaybeUndefined<materialsLimitsType> => {
-    const checkMilino = (limits: materialsLimitsType): materialsLimitsType => {
-        const milino_max_height = 107.5;
+    const checkMilino = (direction: 'width'|'height',limits: materialsLimitsType): materialsLimitsType => {
+        const milino_max = 107.5;
         return is_special_milino_height ?
             {
                 ...limits,
-                height: limits.height
-                    ? [...limits.height.slice(0, -1), milino_max_height]
+                [direction]: limits[direction]
+                    ? [...limits[direction]!.slice(0, -1), milino_max]
                     : undefined,
             } : limits
     }
@@ -1575,7 +1575,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 904: {
             switch (material) {
                 case "Milino":
-                    return checkMilino({width: [2.5, 48], height: [2.5, 96]})
+                    return checkMilino('height',{width: [2.5, 48], height: [2.5, 96]})
                 case "Plywood":
                     return {width: [2.5, 48], height: [2.5, 96]};
                 case "Luxe":
@@ -1594,7 +1594,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 907: {
             switch (material) {
                 case "Milino":
-                    return checkMilino({width: [3, 48], height: [6, 96], depth: [4, 48]});
+                    return checkMilino('height',{width: [3, 48], height: [6, 96], depth: [4, 48]});
                 case "Plywood":
                     return {width: [3, 48], height: [6, 96], depth: [4, 48]};
                 case "Luxe":
@@ -1615,7 +1615,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 900: {
             switch (material) {
                 case "Milino":
-                    return checkMilino({width: [6, 96], height: [6, 96], depth: [6, 96]})
+                    return checkMilino('height',{width: [6, 96], height: [6, 96], depth: [6, 96]})
                 case "Plywood": {
                     return {width: [6, 96], height: [6, 96], depth: [6, 96]}
                 }
@@ -1636,7 +1636,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 905: {
             switch (material) {
                 case "Milino":
-                    return checkMilino({width: [2.5, 96], height: [2.5, 96]});
+                    return checkMilino('height',{width: [2.5, 96], height: [2.5, 96]});
                 case "Plywood":
                     return {width: [2.5, 96], height: [2.5, 96]};
                 case "Luxe":
@@ -1652,6 +1652,10 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             break;
         }
         case 927: {
+            switch (material) {
+                case "Milino":
+                    return checkMilino('width', {width: [5, 99], depth: [5, 99]})
+            }
             return {width: [5, 99], depth: [5, 99]}
         }
         case 901: {
@@ -1695,7 +1699,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 912: {
             switch (material) {
                 case "Milino":  {
-                    return checkMilino({width: [4, 108], height: [4, 108]})
+                    return checkMilino('height',{width: [4, 108], height: [4, 108]})
                 }
                 default: return {width: [4, 108], height: [4, 108]};
             }

@@ -15,7 +15,7 @@ import {
     DrawerInsertsColor,
     DrawerInsertsColorNames, DrawerInsertsLetter,
 } from "./CustomPart";
-import {getCustomPartMaterialsArraySizeLimits, glassDoorHasProfile} from "../../helpers/helpers";
+import {getCustomPartMaterialsArraySizeLimits, getFraction, glassDoorHasProfile} from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
@@ -23,20 +23,17 @@ import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 export function getCustomPartSchema(product: CustomPartType, materials:RoomMaterialsFormType): Yup.InferType<any> {
     const {materials_array, limits, type, id} = product;
     const milino_special_colors_max_height = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(materials.door_color)
-
     const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, materials_array: MaybeUndefined<materialsCustomPart[]>, limits: MaybeUndefined<materialsLimitsType>, dimension: 'width' | 'height' | 'depth') => {
         if (!val) return false;
         const numberVal = numericQuantity(val);
         if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`})
         const material = context.parent.material as MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>;
-        // const sizeLimit = materials_array?.find(el => el.name === material)?.limits ?? limits;
-
         const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, milino_special_colors_max_height);
         const limit = sizeLimit ? sizeLimit[dimension] : undefined
         const min = (limit && limit[0]) ? limit[0] : 1;
         const max = (limit && limit[1]) ? limit[1] : 999;
-        if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
-        if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
+        if (numberVal < min) return context.createError({message: `Minimum ${getFraction(min)} inches`})
+        if (numberVal > max) return context.createError({message: `Maximum ${getFraction(max)} inches`})
         return true;
     }
 
@@ -62,6 +59,7 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
         case "custom":
         case "backing":
         case "pvc":
+        case "floating-shelf":
             return customSchema
         case "glass-door":
             const glassDoorSchema = Yup.object({
