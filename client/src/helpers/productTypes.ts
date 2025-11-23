@@ -123,7 +123,6 @@ export interface CustomPartType extends ProductOrCustomType {
     depth?: number,
     height_range?: number[],
     materials_array?: materialsCustomPart[],
-    limits?: materialsLimitsType,
     glass_shelf?: string[],
 
 }
@@ -147,8 +146,7 @@ export type glassDoorType = {
 }
 
 export type materialsCustomPart = {
-    name: string,
-    limits?: materialsLimitsType,
+    name: CustomPartMaterialsArraySizeLimitsType,
     depth?: number,
     img?: string
 }

@@ -21,14 +21,14 @@ import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 
 export function getCustomPartSchema(product: CustomPartType, materials:RoomMaterialsFormType): Yup.InferType<any> {
-    const {materials_array, limits, type, id} = product;
-    const milino_special_colors_max_height = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(materials.door_color)
-    const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, materials_array: MaybeUndefined<materialsCustomPart[]>, limits: MaybeUndefined<materialsLimitsType>, dimension: 'width' | 'height' | 'depth') => {
+    const {materials_array, type, id} = product;
+
+    const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, materials_array: MaybeUndefined<materialsCustomPart[]>,  dimension: 'width' | 'height' | 'depth') => {
         if (!val) return false;
         const numberVal = numericQuantity(val);
         if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`})
         const material = context.parent.material as MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>;
-        const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, milino_special_colors_max_height);
+        const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, materials.door_color);
         const limit = sizeLimit ? sizeLimit[dimension] : undefined
         const min = (limit && limit[0]) ? limit[0] : 1;
         const max = (limit && limit[1]) ? limit[1] : 999;
@@ -41,17 +41,17 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
     const customDoorsSchema = Yup.object({
         width_string: Yup.string()
             .required('Please write down width')
-            .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'width')),
+            .test('limit', (val, context) => testMinMax(val, context, materials_array, 'width')),
         height_string: Yup.string()
             .required('Please write down height')
-            .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'height')),
+            .test('limit', (val, context) => testMinMax(val, context, materials_array, 'height')),
         note: Yup.string(),
         price: Yup.number().required().positive()
     });
     const customPartWithMaterialSchema = Yup.object({
         depth_string: Yup.string()
             .required('Please write down depth')
-            .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'depth')),
+            .test('limit', (val, context) => testMinMax(val, context, materials_array, 'depth')),
         material: Yup.mixed<CustomPartMaterialsArraySizeLimitsType>(),
     })
     const customSchema = customDoorsSchema.concat(customPartWithMaterialSchema);
@@ -133,7 +133,7 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
                             qty: Yup.number().min(1, 'Min 1'),
                             width_string: Yup.string()
                                 .required('Please write down width')
-                                .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'width')),
+                                .test('limit', (val, context) => testMinMax(val, context, materials_array, 'width')),
                         })
                     )
                     .min(1, 'Must have at least 1 additional part') // these constraints are shown if and only if inner constraints are satisfied
@@ -153,7 +153,7 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
             return Yup.object({
                 width_string: Yup.string()
                     .required('Please write down width')
-                    .test('limit', (val, context) => testMinMax(val, context, materials_array, limits, 'width')),
+                    .test('limit', (val, context) => testMinMax(val, context, materials_array, 'width')),
                 drawer_inserts: Yup.object().shape({
                     box_type: Yup.mixed<DrawerInsertsBoxType>().oneOf(DrawerInsertsBoxNames).required().defined(),
                     color: Yup.mixed<DrawerInsertsColor>().oneOf(DrawerInsertsColorNames).required().defined(),

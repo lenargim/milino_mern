@@ -1359,12 +1359,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     }
 }
 
-const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, height, depth, limits, height_range, initial_width} = customPart
-    const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
-    const w = initial_width ?? width ?? getLimit(sizeLimitInitial.width);
-    const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height));
-    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
+const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials:RoomMaterialsFormType): InitialSizesType => {
+    const {width, height, depth, height_range, initial_width, id} = customPart;
+    const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials.door_color);
+    const w = initial_width ?? width ?? getLimit(sizeLimit?.width);
+    const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
+    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimit?.depth);
     return {
         initial_width: w,
         initial_height: h,
@@ -1374,7 +1374,7 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
 
 export const getCustomPartInitialTableData = (custom_part: CustomPartType, materials: RoomMaterialsFormType, isRoomStandard: boolean): CustomPartTableDataType => {
     const initialMaterialData = getInitialMaterialArrayData(custom_part, materials, isRoomStandard);
-    const initialSizes = getInitialSizes(custom_part, initialMaterialData);
+    const initialSizes = getInitialSizes(custom_part, initialMaterialData, materials);
     const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
     const isStandardPanel = ["standard-panel"].includes(custom_part.type);
     const isLEDAccessories = ["led-accessories"].includes(custom_part.type);
@@ -1559,10 +1559,11 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 }
 
 
-export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, is_special_milino_height: boolean): MaybeUndefined<materialsLimitsType> => {
+export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, door_color:string): MaybeUndefined<materialsLimitsType> => {
+    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(door_color)
     const checkMilino = (direction: 'width'|'height',limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
-        return is_special_milino_height ?
+        return is_special_milino ?
             {
                 ...limits,
                 [direction]: limits[direction]

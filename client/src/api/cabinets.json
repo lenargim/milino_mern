@@ -5748,121 +5748,31 @@
     "depth": 0,
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            120
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Panel.webp"]
@@ -5876,121 +5786,31 @@
     "initial_width": 4.5,
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            120
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            2.5,
-            48
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/WTK.webp"]
@@ -6002,157 +5822,31 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            120
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/L-Shape.webp"]
@@ -6162,12 +5856,6 @@
     "product_type": "custom",
     "name": "Drawer Inserts",
     "type": "drawer-inserts",
-    "limits": {
-      "width": [
-        12,
-        48
-      ]
-    },
     "images": ["custom/drawer-inserts.webp"]
   },
   {
@@ -6177,157 +5865,31 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            6,
-            96
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            6,
-            96
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            6,
-            96
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            6,
-            96
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            6,
-            120
-          ],
-          "height": [
-            6,
-            120
-          ],
-          "depth": [
-            6,
-            120
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            6,
-            108
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            6,
-            108
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Open Cabinet.webp"]
@@ -6340,121 +5902,31 @@
     "depth": 0,
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            2.5,
-            96
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Plywood",
-        "limits": {
-          "width": [
-            2.5,
-            96
-          ],
-          "height": [
-            2.5,
-            96
-          ]
-        }
+        "name": "Plywood"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            2.5,
-            120
-          ],
-          "height": [
-            2.5,
-            120
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            2.5,
-            108
-          ],
-          "height": [
-            2.5,
-            108
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Double Panel.webp"]
@@ -6490,10 +5962,6 @@
         "name": "Wood Veneer"
       }
     ],
-    "limits": {
-      "width": [5,99],
-      "depth": [5,99]
-    },
     "height": 1.5,
     "images": ["custom/1-1_2-floating-shelf.webp"]
   },
@@ -6504,140 +5972,28 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            3,
-            96
-          ],
-          "height": [
-            3,
-            96
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            3,
-            96
-          ],
-          "height": [
-            3,
-            96
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            3,
-            120
-          ],
-          "height": [
-            3,
-            120
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            3,
-            108
-          ],
-          "height": [
-            3,
-            108
-          ],
-          "depth": [
-            3,
-            48
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Floating Shelf.webp"]
@@ -6649,140 +6005,28 @@
     "type": "custom",
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            96
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Painted",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            120
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            3,
-            48
-          ],
-          "height": [
-            6,
-            108
-          ],
-          "depth": [
-            4,
-            48
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Column.webp"]
@@ -6793,10 +6037,7 @@
     "name": "Plastic Toe Kick",
     "type": "plastic_toe",
     "width": 156,
-    "height_range": [
-      4.5,
-      6
-    ],
+    "height_range": [4.5, 6],
     "images": ["custom/Plastic_Toe_Kick.webp"]
   },
   {
@@ -6805,16 +6046,6 @@
     "name": "Backing",
     "type": "backing",
     "depth": 0.25,
-    "limits": {
-      "width": [
-        3,
-        48
-      ],
-      "height": [
-        3,
-        96
-      ]
-    },
     "images": ["custom/Backing.webp"]
   },
   {
@@ -6825,86 +6056,26 @@
     "materials_array": [
       {
         "name": "Shaker Syncron",
-        "limits": {
-          "width": [
-            5,
-            108
-          ],
-          "height": [
-            5,
-            108
-          ]
-        },
         "depth": 0.75
       },
       {
         "name": "Shaker Zenit",
-        "limits": {
-          "width": [
-            5,
-            108
-          ],
-          "height": [
-            5,
-            108
-          ]
-        },
         "depth": 0.75
       },
       {
         "name": "Shaker Painted",
-        "limits": {
-          "width": [
-            5,
-            120
-          ],
-          "height": [
-            5,
-            120
-          ]
-        },
         "depth": 0.875
       },
       {
         "name": "Micro Shaker Milino",
-        "limits": {
-          "width": [
-            5,
-            108
-          ],
-          "height": [
-            5,
-            108
-          ]
-        },
         "depth": 0.75
       },
       {
         "name": "Micro Shaker",
-        "limits": {
-          "width": [
-            5,
-            120
-          ],
-          "height": [
-            5,
-            120
-          ]
-        },
         "depth": 1
       },
       {
         "name": "Micro Shaker Veneer",
-        "limits": {
-          "width": [
-            5,
-            120
-          ],
-          "height": [
-            5,
-            120
-          ]
-        },
         "depth": 1
       }
     ],
@@ -6918,95 +6089,25 @@
     "depth": 0.75,
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Syncron"
       },
       {
-        "name": "Ultrapan PET",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Ultrapan PET"
       },
       {
-        "name": "Ultrapan Acrylic",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Ultrapan Acrylic"
       },
       {
-        "name": "Wood Veneer",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Wood Veneer"
       }
     ],
     "images": ["custom/Decor panel.webp"]
@@ -7019,56 +6120,16 @@
     "depth": 0.75,
     "materials_array": [
       {
-        "name": "Milino",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Milino"
       },
       {
-        "name": "Luxe",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Zenit"
       },
       {
-        "name": "Syncron",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        }
+        "name": "Syncron"
       }
     ],
     "images": ["custom/Slatted Panel.webp"]
@@ -7082,72 +6143,22 @@
     "materials_array": [
       {
         "name": "Painted",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        },
         "img": "Painted ribbed.jpg"
       },
       {
         "name": "Maple",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        },
         "img": "Maple.jpg"
       },
       {
         "name": "Birch",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        },
         "img": "Birch.jpg"
       },
       {
         "name": "White Oak",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        },
         "img": "White Oak.jpg"
       },
       {
         "name": "Walnut",
-        "limits": {
-          "width": [
-            4,
-            108
-          ],
-          "height": [
-            4,
-            108
-          ]
-        },
         "img": "Walnut.jpg"
       }
     ]
@@ -7181,16 +6192,6 @@
         "name": "Painted"
       }
     ],
-    "limits": {
-      "width": [
-        5,
-        108
-      ],
-      "height": [
-        5,
-        108
-      ]
-    },
     "images": ["custom/Shaker Glass Door.webp"]
   },
   {
@@ -7199,16 +6200,6 @@
     "name": "Glass Aluminum Door",
     "type": "glass-door",
     "depth": 0.75,
-    "limits": {
-      "width": [
-        6,
-        108
-      ],
-      "height": [
-        6,
-        108
-      ]
-    },
     "images": ["custom/Alum Glass Door.webp"]
   },
   {
@@ -7247,16 +6238,6 @@
     "name": "Glass, Mirror",
     "type": "glass-shelf",
     "depth": 0.25,
-    "limits": {
-      "width": [
-        1,
-        999
-      ],
-      "height": [
-        1,
-        999
-      ]
-    },
     "images": ["custom/Glass shelf.webp"]
   },
   {
@@ -7278,16 +6259,6 @@
     "product_type": "custom",
     "name": "Custom Size Door",
     "type": "custom-doors",
-    "limits": {
-      "width": [
-        6,
-        96
-      ],
-      "height": [
-        6,
-        96
-      ]
-    },
     "images": ["custom/Standard Shaker Door.webp"]
   },
   {
@@ -7295,16 +6266,6 @@
     "product_type": "custom",
     "name": "Custom Size Glass Door",
     "type": "custom-doors",
-    "limits": {
-      "width": [
-        6,
-        96
-      ],
-      "height": [
-        6,
-        96
-      ]
-    },
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
 
