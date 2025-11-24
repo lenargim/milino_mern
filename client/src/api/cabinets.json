@@ -5737,15 +5737,11 @@
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
 
-
-
-
   {
     "id": 903,
     "product_type": "custom",
     "name": "Panel, Filler",
-    "type": "custom",
-    "depth": 0,
+    "type": "panel",
     "materials_array": [
       {
         "name": "Milino"
@@ -5781,8 +5777,7 @@
     "id": 904,
     "product_type": "custom",
     "name": "Wood Toe Kick",
-    "type": "custom",
-    "depth": 0,
+    "type": "panel",
     "initial_width": 4.5,
     "materials_array": [
       {
@@ -5898,8 +5893,7 @@
     "id": 905,
     "product_type": "custom",
     "name": "Double Panel",
-    "type": "custom",
-    "depth": 0,
+    "type": "panel",
     "materials_array": [
       {
         "name": "Milino"
@@ -5935,7 +5929,7 @@
     "id": 927,
     "product_type": "custom",
     "name": "1½” Thick Floating Shelves",
-    "type": "floating-shelf",
+    "type": "thick_floating_shelf",
     "materials_array": [
       {
         "name": "Milino"
@@ -6052,7 +6046,7 @@
     "id": 910,
     "product_type": "custom",
     "name": "Shaker Panel",
-    "type": "custom",
+    "type": "panel",
     "materials_array": [
       {
         "name": "Shaker Syncron",
@@ -6085,8 +6079,7 @@
     "id": 911,
     "product_type": "custom",
     "name": "Decor Panel",
-    "type": "custom",
-    "depth": 0.75,
+    "type": "panel",
     "materials_array": [
       {
         "name": "Milino"
@@ -6116,8 +6109,7 @@
     "id": 912,
     "product_type": "custom",
     "name": "Slatted Panel",
-    "type": "custom",
-    "depth": 0.75,
+    "type": "panel",
     "materials_array": [
       {
         "name": "Milino"
@@ -6230,7 +6222,8 @@
         "name": "Ultrapan Acrylic"
       }
     ],
-    "images": ["custom/PVC.webp"]
+    "images": ["custom/PVC.webp"],
+    "initial_width": 1
   },
   {
     "id": 916,

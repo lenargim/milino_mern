@@ -32,6 +32,7 @@ export type GlassAndMirrorTypes = typeof glassAndMirrorNames[number];
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
     'custom'
+    | 'panel'
     | 'pvc'
     | 'glass-door'
     | 'glass-shelf'
@@ -45,8 +46,8 @@ export type CustomTypes =
     | 'rta-closets'
     | 'custom-doors'
     | 'ribbed'
-    | 'floating-shelf'
-    | 'drawer-inserts';
+    | 'drawer-inserts'
+    | 'thick_floating_shelf';
 
 const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler', 'Wood Toe Kick', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels', '1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];

@@ -415,7 +415,7 @@ export function getMechanismPrice(mechanism: MaybeUndefined<string>, hasMechanis
     return hasMechanism.attributes.find(el => el.name === mechanism)?.price ?? 0;
 }
 
-export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width:number, rod:MaybeEmpty<RodType>, qty:number):number => {
+export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width: number, rod: MaybeEmpty<RodType>, qty: number): number => {
     if (!getIsCloset(room_category) || rod === 'Oval Chrome (Default)') return 0;
     return 3 * width * qty;
 }
@@ -717,7 +717,7 @@ export const getProductRange = (priceData: MaybeUndefined<pricePart[]>, category
     }
 }
 
-export const getSizeLimitsFromData = (product_id:number, isAngle:MaybeUndefined<AngleType>):MaybeUndefined<sizeLimitsType> => {
+export const getSizeLimitsFromData = (product_id: number, isAngle: MaybeUndefined<AngleType>): MaybeUndefined<sizeLimitsType> => {
     let limits = sizes.find(size => size.productIds.includes(product_id))?.limits;
     if (limits && isAngle) limits = {...limits, depth: limits?.width};
     return limits
@@ -811,9 +811,11 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
     const area = +(width * height / 144).toFixed(2);
     switch (type) {
         case "custom":
+        case "panel":
         case "pvc":
         case "backing":
         case "glass-door":
+        case "thick_floating_shelf":
         case "glass-shelf": {
             let priceCustom = 0;
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, door_color);
@@ -1029,6 +1031,11 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     priceCustom = addGlassAndMirroredShelfPrice(area, glassShelf)
                     break
                 }
+                case 927: {
+                    const sq = width * depth / 144;
+                    priceCustom = getFloatingShelfCustomPartPrice(material, sq);
+                    break;
+                }
             }
             price = +(priceCustom * finishColorCoef).toFixed(1);
             break;
@@ -1068,10 +1075,6 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case "ribbed":
             price = getRibbedCustomPartPrice(material, groove, area);
-            break;
-        case "floating-shelf":
-            const sq = width * depth / 144;
-            price = getFloatingShelfCustomPartPrice(material, sq);
             break;
         case "drawer-inserts":
             price = getDrawerInsertsCustomPartPrice(drawer_inserts, width);

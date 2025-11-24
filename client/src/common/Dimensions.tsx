@@ -1,16 +1,13 @@
 import React, {FC} from 'react';
 import s from "../Components/Sidebar/sidebar.module.sass";
-import {IsStandardDimentionsType} from "../helpers/cartTypes";
+import {CartItemFrontType, IsStandardDimentionsType} from "../helpers/cartTypes";
 import {getFraction} from "../helpers/helpers";
 
 
-const Dimensions: FC<{ width: number, height: number, depth: number, isStandard?: IsStandardDimentionsType }> = ({
-                                                                                                                     width,
-                                                                                                                     height,
-                                                                                                                     depth,
-                                                                                                                     isStandard = {}
-                                                                                                                 }) => {
+const Dimensions: FC<{ item: CartItemFrontType }> = ({item}) => {
+    const {width, height, depth, isStandard: {dimensions: isStandard}, subcategory} = item;
     if (!width && !height && !depth) return null;
+    if (subcategory === 'pvc') return null;
     const anyNotStandard = Object.values(isStandard).some(value => !value);
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? ` ${getFraction(height)}"H` : '';

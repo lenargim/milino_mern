@@ -49,8 +49,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
                   <span>Material:</span>
                   <span>{material}</span>
                 </div>}
-                {
-                    groove &&
+                {groove &&
                     <>
                       <div className={s.itemOption}>
                         <span>Groove Styles:</span>
@@ -60,8 +59,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
                         <span>Clear Coat:</span>
                         <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
                       </div>
-                    </>
-                }
+                    </>}
             </>
     }
 }
