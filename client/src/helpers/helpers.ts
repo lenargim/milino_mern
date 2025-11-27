@@ -135,6 +135,18 @@ export const getProductImage = (images: MaybeUndefined<string[]>, imgType: produ
     return noImg
 }
 
+export const getCustomPartImage = (product:CustomPartType, values:CustomPartFormType): string => {
+    const {images, type} = product;
+    const {drawer_inserts} = values
+    if (!images) return noImg;
+    if (type === 'drawer-inserts') {
+        if (!drawer_inserts?.insert_type || !drawer_inserts?.color) return getImg('products', images[0]);
+        return getImg('drawer_inserts', `Type ${drawer_inserts.insert_type} ${drawer_inserts.color}.jpg`)
+    }
+    if (images[0]) return getImg('products', images[0]);
+    return noImg
+}
+
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
     const option = options.find(el => el.value === val)
     return option || null
@@ -791,8 +803,8 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_or_rta_or_system_closet: boolean): number => {
-    if (is_leather_or_rta_or_system_closet) {
+export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_closet: boolean): number => {
+    if (is_leather_closet) {
         // Door exceptions for leather closet
         if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
         if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
@@ -805,9 +817,10 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, isWallCab: boolean): number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category:productCategory): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
+    const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const blindCorner = isWallCab ? 13.5 : 24;
     const a = realWidth - blindCorner;
     if (a <= 0) return +(Math.sqrt(2 * Math.pow(realWidth, 2))).toFixed(2);
@@ -1516,6 +1529,11 @@ export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>)
 export const getIsLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category === 'Leather Closet' || category === 'RTA Closet' || category === 'Cabinet System Closet'
+}
+
+export const getIsLeatherCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Leather Closet';
 }
 
 export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

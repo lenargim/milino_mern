@@ -104,6 +104,8 @@ function getStartPrice(tablePrice: number, materialData: materialDataType, optio
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
     const materialsCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
+    console.log(`tablePrice ${tablePrice}`)
+    console.log(`materialsCoef ${materialsCoef}`)
     return +(tablePrice * materialsCoef).toFixed(1)
 }
 
@@ -537,7 +539,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
 }
 
 const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
-    const {door_type, door_finish_material, door_color, box_material, box_color, category} = materials;
+    const {door_type, door_finish_material, door_color, box_material, category} = materials;
     if (!door_type || !box_material || !category) return 1;
     switch (category as RoomCategoriesType) {
         case "Kitchen":
@@ -741,10 +743,11 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const is_standard_room = door_type === "Standard Size White Shaker";
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
-    const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
+    const grain_coef = getGrainCoef(door_grain);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
+
     return {
         is_standard_room,
         room_category: category,
@@ -1156,6 +1159,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 
 export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {width, height, depth, options} = cabinetItem;
+    console.log(materialData)
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
@@ -1204,13 +1208,8 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         rod
     } = materialData;
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
-    const {
-        drawersQty,
-        shelfsQty,
-        rodsQty
-    } = productPriceData;
-    const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
-    const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, isWallCab)
+    const {drawersQty, shelfsQty, rodsQty} = productPriceData;
+    const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = height - legsHeight - middle_section;
     const frontSquare = getSquare(doorWidth, doorHeight, id, getIsLeatherOrRTAorSystemCloset(room_category));
     const hasGlassDoor = options.includes('Glass Door');

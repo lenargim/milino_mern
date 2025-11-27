@@ -13,7 +13,7 @@ import ProductOptionsBlock from "./ProductOptionsBlock";
 import ProductHingeBlock from "./ProductHingeBlock";
 import ProductCornerBlock from "./ProductCornerBlock";
 import {
-    getHeightRange, getIsCloset,
+    getHeightRange,
     isShowBlindWidthBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";

@@ -47,8 +47,6 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
         const [field, meta, helpers] = useField('width_string');
         const drawerInsertsTypeArr: optionType[] = prepareToSelectField([...DrawerInsertsBoxNames]);
         const drawerInsertsColorArr: optionType[] = prepareToSelectField([...DrawerInsertsColorNames]);
-        // const drawerInsertsLetters = prepareToSelectField([...DrawerInsertsLetterNames]);
-
         const drawerInsertsLettersFiltered = filterLetterTypeByWidth(width, [...DrawerInsertsLetterNames]);
         const drawerInsertsLettersImaged = prepareToImgField(drawerInsertsLettersFiltered, drawer_inserts?.color)
         const showType = !meta.error;
