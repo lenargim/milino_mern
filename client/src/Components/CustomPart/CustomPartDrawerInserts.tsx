@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import {Form, useField, useFormikContext} from 'formik';
 import {CustomPartType, ImgFieldType, itemImg} from "../../helpers/productTypes";
 import {
-    CustomPartFormType, DrawerInsertsBoxNames,
+    CustomPartFormType, DrawerAccessoriesType, DrawerInsertsBoxNames,
     DrawerInsertsColorNames,
     DrawerInsertsLetterNames,
 } from "./CustomPart";
@@ -42,20 +42,24 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
         const {
             width,
             price,
-            drawer_inserts,
+            drawer_accessories,
         } = values;
         const [field, meta, helpers] = useField('width_string');
         const drawerInsertsTypeArr: optionType[] = prepareToSelectField([...DrawerInsertsBoxNames]);
         const drawerInsertsColorArr: optionType[] = prepareToSelectField([...DrawerInsertsColorNames]);
         const drawerInsertsLettersFiltered = filterLetterTypeByWidth(width, [...DrawerInsertsLetterNames]);
-        const drawerInsertsLettersImaged = prepareToImgField(drawerInsertsLettersFiltered, drawer_inserts?.color)
+        const boxVal = drawer_accessories?.inserts?.box_type;
+        const colorVal = drawer_accessories?.inserts?.color;
+        const insertVal = drawer_accessories?.inserts?.insert_type;
+
+        const drawerInsertsLettersImaged = prepareToImgField(drawerInsertsLettersFiltered, colorVal)
         const showType = !meta.error;
-        const showMaterial = showType && drawer_inserts?.box_type;
-        const showLetters = showType && drawer_inserts && drawer_inserts.color && drawer_inserts.box_type === 'Inserts';
+        const showMaterial = showType && boxVal;
+        const showLetters = showType && colorVal && boxVal === 'Inserts';
 
-        if ((!showLetters && drawer_inserts?.insert_type) || (showLetters && drawer_inserts?.insert_type && !drawerInsertsLettersFiltered.includes(drawer_inserts.insert_type))) setFieldValue('drawer_inserts.insert_type', '');
-        if (showLetters && !drawer_inserts?.insert_type) setFieldValue('drawer_inserts.insert_type', drawerInsertsLettersFiltered[0]);
-
+        if (insertVal && ( !showLetters || !drawerInsertsLettersFiltered.includes(insertVal) )) setFieldValue('drawer_accessories.inserts.insert_type', '');
+        // if ((!showLetters && insertVal) || (showLetters && insertVal && !drawerInsertsLettersFiltered.includes(insertVal))) setFieldValue('drawer_accessories.inserts.insert_type', '');
+        if (showLetters && !insertVal) setFieldValue('drawer_accessories.inserts.insert_type', drawerInsertsLettersFiltered[0]);
         return (
             <Form>
                 <div className={s.block}>
@@ -69,8 +73,8 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
                 <div className={s.block}>
                   <h3>Type</h3>
                     {width && <SelectField label="Type"
-                                           name="drawer_inserts.box_type"
-                                           val={getSelectValfromVal(drawer_inserts?.box_type, drawerInsertsTypeArr)}
+                                           name="drawer_accessories.inserts.box_type"
+                                           val={getSelectValfromVal(boxVal, drawerInsertsTypeArr)}
                                            options={drawerInsertsTypeArr}
                     />}
                 </div>}
@@ -78,8 +82,8 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
                 {showMaterial && <div className={s.block}>
                   <h3>Material</h3>
                   <SelectField label="Material"
-                               name="drawer_inserts.color"
-                               val={getSelectValfromVal(drawer_inserts?.color, drawerInsertsColorArr)}
+                               name="drawer_accessories.inserts.color"
+                               val={getSelectValfromVal(colorVal, drawerInsertsColorArr)}
                                options={drawerInsertsColorArr}
                   />
                 </div>}
@@ -88,10 +92,10 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
                   <h3>Inserts Type</h3>
                   <div className={s.optionsWithImage}>
                       {drawerInsertsLettersImaged.map((el, index) => <RadioInputWithImage key={index}
-                                                                                       name="drawer_inserts.insert_type"
-                                                                                       value={el.value}
-                                                                                       label={el.value}
-                                                                                       img={getImg('drawer_inserts', el.img)}
+                                                                                          name="drawer_accessories.inserts.insert_type"
+                                                                                          value={el.value}
+                                                                                          label={el.value}
+                                                                                          img={getImg('drawer_inserts', el.img)}
                           />
                       )}
                   </div>

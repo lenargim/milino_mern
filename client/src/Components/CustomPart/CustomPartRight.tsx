@@ -19,6 +19,7 @@ import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
 import CustomPartPanel from "./CustomPartPanel";
 import CustomPartPVC from "./CustomPartPVC";
 import CustomPartThickFloatingShelf from "./CustomPartFloatingShelf";
+import CustomPartRODrawer from "./CustomPartRODrawer";
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
@@ -37,7 +38,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number';
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values
     useEffect(() => {
         const APIValues = addToCartCustomPart(values, customPartProduct, '', undefined)
@@ -48,7 +49,6 @@ const CustomPartRight: FC<CustomPartRight> = ({
     }, [{...values}])
 
     switch (type) {
-
         case "custom":
         case "glass-door":
         case "glass-shelf":
@@ -82,6 +82,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartThickFloatingShelf product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "drawer-inserts":
             return <CustomPartDrawerInserts product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+        case "ro_drawer":
+            return <CustomPartRODrawer product={customPartProduct} />
         default:
             return null;
     }

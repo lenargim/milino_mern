@@ -173,16 +173,21 @@ const CartSchema = new mongoose.Schema({
         type: Boolean
       }
     },
-    drawer_inserts: {
-      box_type: {
-        type: String
+    drawer_accessories: {
+      inserts: {
+        box_type: {
+          type: String
+        },
+        color: {
+          type: String
+        },
+        insert_type: {
+          type: String
+        },
       },
-      color: {
+      drawer_ro: {
         type: String
-      },
-      insert_type: {
-        type: String
-      },
+      }
     },
     jewelery_inserts: {
       type: Array,

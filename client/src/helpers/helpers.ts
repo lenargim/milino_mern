@@ -137,11 +137,11 @@ export const getProductImage = (images: MaybeUndefined<string[]>, imgType: produ
 
 export const getCustomPartImage = (product:CustomPartType, values:CustomPartFormType): string => {
     const {images, type} = product;
-    const {drawer_inserts} = values
+    const {drawer_accessories} = values
     if (!images) return noImg;
     if (type === 'drawer-inserts') {
-        if (!drawer_inserts?.insert_type || !drawer_inserts?.color) return getImg('products', images[0]);
-        return getImg('drawer_inserts', `Type ${drawer_inserts.insert_type} ${drawer_inserts.color}.jpg`)
+        if (!drawer_accessories?.inserts?.insert_type || !drawer_accessories?.inserts?.color) return getImg('products', images[0]);
+        return getImg('drawer_inserts', `Type ${drawer_accessories.inserts?.insert_type} ${drawer_accessories.inserts?.color}.jpg`)
     }
     if (images[0]) return getImg('products', images[0]);
     return noImg
@@ -424,7 +424,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         standard_panels,
         rta_closet_custom,
         groove,
-        drawer_inserts
+        drawer_accessories
     } = values;
 
     const {id, product_type, name} = product;
@@ -546,9 +546,9 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         forceSetPath(preparedProduct, 'custom.groove', groove);
     }
 
-    //Drawer Inserts
-    if (drawer_inserts) {
-        forceSetPath(preparedProduct, 'custom.drawer_inserts', drawer_inserts);
+    //Drawer Inserts + RO Drawers
+    if (drawer_accessories) {
+        forceSetPath(preparedProduct, 'custom.drawer_accessories', drawer_accessories);
     }
 
     return preparedProduct;
@@ -1374,9 +1374,9 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials:RoomMaterialsFormType): InitialSizesType => {
-    const {width, height, depth, height_range, initial_width, id} = customPart;
+    const {width, height, depth, width_range, height_range, initial_width, id} = customPart;
     const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials.door_color);
-    const w = initial_width ?? width ?? getLimit(sizeLimit?.width);
+    const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width) );
     const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimit?.depth);
     return {
@@ -1442,13 +1442,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: initialStandardPanels,
             rta_closet_custom: [],
             groove: null,
-            drawer_inserts: null,
+            drawer_accessories: null,
             note: '',
             price: 0,
         }
     } else {
         const {width, height, depth, custom, note, price, glass} = cartItemValues;
-        const {standard_doors, standard_panels, material, rta_closet, accessories, groove, drawer_inserts} = custom!;
+        const {standard_doors, standard_panels, material, rta_closet, accessories, groove, drawer_accessories} = custom!;
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
             alum_profiles: accessories.led.alum_profiles.map(el => ({
                 qty: el.qty,
@@ -1514,7 +1514,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
             groove: groove ?? null,
-            drawer_inserts: drawer_inserts ?? null,
+            drawer_accessories: drawer_accessories ?? null,
             note,
             price: price,
         }

@@ -31,7 +31,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
-
 const PORT = env.PORT || 5000;
 const corsOptions = {
   origin: 'http://localhost:3000', // <-- React app origin

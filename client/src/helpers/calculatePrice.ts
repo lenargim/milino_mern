@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttributesPrices,
-    AttrItemType, AttrWithoutDescType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
+    AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
     DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
@@ -33,11 +33,12 @@ import {
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
 import productPrices from '../api/prices.json'
+import ro_drawer_prices from '../api/ro_drawer_prices.json'
 import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
 import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
-    DoorAccessoryAPIType, DrawerInsertsType, GrooveAPIType,
+    DoorAccessoryAPIType, DrawerInserts, DrawerROType, GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -502,7 +503,8 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
         }
         case "Kitchen":
         case "Vanity":
-        case "Build In Closet": {
+        case "Build In Closet":
+        {
             if (!box_material || !door_type) return 1;
             switch (door_type as DoorTypesType) {
                 case 'Slab':
@@ -806,9 +808,9 @@ export const getProductPriceRange = (id: number, isStandardCabinet: boolean = fa
 }
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
-    const {width, height, depth, custom, glass} = values;
+    const {width, height, depth, custom, glass, product_id} = values;
     if (!custom) return price;
-    const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_inserts} = custom;
+    const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_accessories} = custom;
     const {door_color, door_type} = materials
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
@@ -1080,8 +1082,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             price = getRibbedCustomPartPrice(material, groove, area);
             break;
         case "drawer-inserts":
-            price = getDrawerInsertsCustomPartPrice(drawer_inserts, width);
+            price = getDrawerInsertsCustomPartPrice(drawer_accessories?.inserts, width);
             break;
+        case "ro_drawer":
+            price = getRoDrawerPrice(drawer_accessories?.drawer_ro, width,materials, product_id)
     }
     return +(price * settings.global_price_coef).toFixed(1);
 }
@@ -1344,9 +1348,9 @@ export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>
     return 0
 }
 
-export const getDrawerInsertsCustomPartPrice = (drawer: MaybeUndefined<DrawerInsertsType>, width: number): number => {
-    if (!drawer || !width) return 0;
-    const {box_type, color} = drawer;
+export const getDrawerInsertsCustomPartPrice = (inserts: MaybeUndefined<DrawerInserts>, width: number): number => {
+    if (!inserts || !width) return 0;
+    const {box_type, color} = inserts;
     if (!color) return 0;
     let colorCoef: number = 0;
     switch (box_type) {
@@ -1361,4 +1365,30 @@ export const getDrawerInsertsCustomPartPrice = (drawer: MaybeUndefined<DrawerIns
             break;
     }
     return Math.round(width * colorCoef * 1.4);
+}
+
+const getRoDrawerTablePrice = (width:number, basePriceType:pricesTypings, ro_drawer:DrawerROType):number => {
+    if (basePriceType === 'wood_veneer') return 0;
+    type PriceType = {
+        "width": number,
+        "Extra RO": number,
+        "Drawer": number
+
+    }
+    const prices:MaybeUndefined<PriceType[]> = ro_drawer_prices.find(el => el.type = basePriceType)?.prices;
+    if (!prices) return 0;
+    return prices.find(el => el[ro_drawer] && el.width === width)?.[ro_drawer] || 0;
+}
+
+export const getRoDrawerPrice = (ro_drawer:MaybeUndefined<DrawerROType>, width: number, materials:RoomMaterialsFormType, product_id:number):number => {
+    if (!ro_drawer || !width) return 0;
+    const {drawer_type, drawer_color, drawer_brand, door_type} = materials
+    const basePriceType = getBasePriceType(materials);
+    const tablePrice = getRoDrawerTablePrice(width, basePriceType, ro_drawer)
+    const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
+    if (ro_drawer === 'Extra RO') return tablePrice + drawerPrice;
+    const materialData = getMaterialData(materials, product_id);
+    const sq = getSquare(width, 6, product_id, false);
+    const doorPrice = getDoorPrice(sq, materialData);
+    return tablePrice + drawerPrice + doorPrice;
 }

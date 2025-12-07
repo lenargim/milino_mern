@@ -6261,6 +6261,14 @@
     "type": "custom-doors",
     "images": ["custom/Standard Shaker Glass Door.webp"]
   },
+  {
+    "id": 929,
+    "product_type": "custom",
+    "name": "Extra RO/Drawer",
+    "type": "ro_drawer",
+    "images": ["custom/Extra_RO.webp"],
+    "width_range": [24,27,30,33,36]
+  },
 
   {
     "id": 1,

@@ -17,7 +17,7 @@ import CartItemDrawerInserts from "./CartItemDrawerInserts";
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_inserts} = custom;
+    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories} = custom;
     switch (subcategory) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>
@@ -44,8 +44,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
             if (!rta_closet) return null
             return <View><CartItemRTAClosetCustom rta_closet={rta_closet}/></View>
         case 'drawer-inserts':
-            if (!drawer_inserts) return null;
-            return <View><CartItemDrawerInserts drawer_inserts={drawer_inserts} width={width}/></View>
+            if (!drawer_accessories?.inserts) return null;
+            return <View><CartItemDrawerInserts inserts={drawer_accessories.inserts} width={width}/></View>
         default:
             return <View>
                 {material &&

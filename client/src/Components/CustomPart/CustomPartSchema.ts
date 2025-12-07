@@ -1,10 +1,8 @@
 import * as Yup from 'yup';
 import {
-    CustomPartMaterialsArraySizeLimitsType, CustomPartMaterialsNames,
-    CustomPartTableDataType,
+    CustomPartMaterialsArraySizeLimitsType,
     CustomPartType,
     materialsCustomPart,
-    materialsLimitsType,
     MaybeEmpty,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -14,14 +12,14 @@ import {
     DrawerInsertsBoxNames,
     DrawerInsertsBoxType,
     DrawerInsertsColor,
-    DrawerInsertsColorNames, DrawerInsertsLetter,
+    DrawerInsertsColorNames, DrawerInsertsLetter, DrawerRONames, DrawerROType,
 } from "./CustomPart";
 import {getCustomPartMaterialsArraySizeLimits, getFraction, glassDoorHasProfile} from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 
-export function getCustomPartSchema(product: CustomPartType, materials:RoomMaterialsFormType): Yup.InferType<any> {
+export function getCustomPartSchema(product: CustomPartType, materials: RoomMaterialsFormType): Yup.InferType<any> {
     const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, materials_array: MaybeUndefined<materialsCustomPart[]>, dimension: 'width' | 'height' | 'depth') => {
         if (!val) return false;
         const numberVal = numericQuantity(val);
@@ -35,7 +33,7 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
         if (numberVal > max) return context.createError({message: `Maximum ${getFraction(max)} inches`})
         return true;
     }
-    const {materials_array, type, id, height, depth} = product;
+    const {materials_array, type, id} = product;
     const customInitialSchema = Yup.object({
         width_string: Yup.string()
             .required('Please write down width')
@@ -162,15 +160,34 @@ export function getCustomPartSchema(product: CustomPartType, materials:RoomMater
                 width_string: Yup.string()
                     .required('Please write down width')
                     .test('limit', (val, context) => testMinMax(val, context, materials_array, 'width')),
-                drawer_inserts: Yup.object().shape({
-                    box_type: Yup.mixed<DrawerInsertsBoxType>().oneOf(DrawerInsertsBoxNames).required().defined(),
-                    color: Yup.mixed<DrawerInsertsColor>().oneOf(DrawerInsertsColorNames).required().defined(),
-                    insert_type: Yup.mixed<MaybeEmpty<DrawerInsertsLetter>>()
-                        .when('type', {
-                            is: 'Inserts',
-                            then: schema => schema.required('Required'),
-                        })
-                })
+                drawer_accessories: Yup.object()
+                    .nullable()
+                    .transform((value) => (value === null ? {} : value))
+                    .shape({
+                        inserts: Yup.object()
+                            .nullable()
+                            .transform(v => v ?? {})
+                            .shape({
+                                box_type: Yup.mixed<DrawerInsertsBoxType>().oneOf(DrawerInsertsBoxNames).required().defined('Required'),
+                                color: Yup.mixed<DrawerInsertsColor>().oneOf(DrawerInsertsColorNames).required().defined('Required'),
+                                insert_type: Yup.mixed<MaybeEmpty<DrawerInsertsLetter>>()
+                                    .when('type', {
+                                        is: 'Inserts',
+                                        then: schema => schema.required('Required'),
+                                    })
+                            })
+                    })
+            })
+        case "ro_drawer":
+            return Yup.object({
+                drawer_accessories: Yup.object()
+                    .nullable()
+                    .transform((value) => (value === null ? {} : value))
+                    .shape({
+                        drawer_ro: Yup.mixed<DrawerROType>()
+                            .oneOf(DrawerRONames)
+                            .required('Type required')
+                    })
             })
         default:
             return undefined

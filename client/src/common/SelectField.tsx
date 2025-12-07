@@ -89,12 +89,16 @@ export const customStyles: StylesConfig<optionType, false> = {
 }
 
 const SelectField: FC<SelectFieldType> = ({options, name, val, label = name}) => {
-    const [field, meta, {setValue}] = useField(name);
+    const [field, meta, {setValue, setTouched}] = useField(name);
     const {error, touched} = meta;
-
     function onChange(value: OnChangeValue<optionType, false>) {
         if (value) setValue(value.value);
     }
+
+
+    useEffect(() => {
+        if (error) setTouched(true)
+    }, [error])
 
     useEffect(() => {
         if (field.value && !val) {

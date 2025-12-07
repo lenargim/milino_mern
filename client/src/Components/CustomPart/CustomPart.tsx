@@ -51,10 +51,16 @@ export type GrooveAPIType = {
 export const DrawerInsertsBoxNames = ['Inserts' , 'Pegs' , 'Spice'] as const;
 export const DrawerInsertsColorNames = ['Maple' , 'Walnut'] as const;
 export const DrawerInsertsLetterNames = ['A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J'] as const;
+export const DrawerRONames = ['Extra RO','Drawer'] as const;
 export type DrawerInsertsBoxType = typeof DrawerInsertsBoxNames[number];
 export type DrawerInsertsColor = typeof DrawerInsertsColorNames[number];
 export type DrawerInsertsLetter = typeof DrawerInsertsLetterNames[number];
-export type DrawerInsertsType = {
+export type DrawerROType = typeof DrawerRONames[number];
+export type DrawerAccessoriesType = {
+    inserts?: DrawerInserts,
+    drawer_ro?: DrawerROType
+}
+export type DrawerInserts = {
     box_type: DrawerInsertsBoxType,
     color: DrawerInsertsColor,
     insert_type: MaybeNull<DrawerInsertsLetter>
@@ -78,11 +84,10 @@ export type CustomPartFormType = {
     standard_panels: MaybeNull<PanelsFormType>,
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
     groove: MaybeNull<GrooveAPIType>,
-    drawer_inserts: MaybeNull<DrawerInsertsType>
+    drawer_accessories: MaybeNull<DrawerAccessoriesType>
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
-
 
 export type RTAClosetAPIType = {
     name: RTAClosetCustomTypes,

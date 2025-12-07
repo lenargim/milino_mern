@@ -2,7 +2,7 @@ import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {
     DoorAccessoryAPIType,
-    DrawerInsertsType,
+    DrawerAccessoriesType,
     GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
@@ -83,7 +83,7 @@ export interface CartItemFrontType extends CartAPIImagedType {
 export type CartCustomType = {
     material?: string,
     groove?: GrooveAPIType,
-    drawer_inserts?: DrawerInsertsType,
+    drawer_accessories?: DrawerAccessoriesType,
     jewelery_inserts?: JeweleryInsertsType[],
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],

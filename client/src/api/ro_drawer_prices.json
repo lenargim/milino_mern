@@ -1,0 +1,92 @@
+[
+  {
+    "type": 1,
+    "prices": [
+      {
+        "width": 24,
+        "Extra RO": 138,
+        "Drawer": 153
+      },
+      {
+        "width": 27,
+        "Extra RO": 149,
+        "Drawer": 165
+      },
+      {
+        "width": 30,
+        "Extra RO": 158,
+        "Drawer": 175
+      },
+      {
+        "width": 33,
+        "Extra RO": 169,
+        "Drawer": 187
+      },
+      {
+        "width": 36,
+        "Extra RO": 178,
+        "Drawer": 198
+      }
+    ]
+  },
+  {
+    "type": 2,
+    "prices": [
+      {
+        "width": 24,
+        "Extra RO": 138,
+        "Drawer": 168
+      },
+      {
+        "width": 27,
+        "Extra RO": 149,
+        "Drawer": 180
+      },
+      {
+        "width": 30,
+        "Extra RO": 158,
+        "Drawer": 194
+      },
+      {
+        "width": 33,
+        "Extra RO": 169,
+        "Drawer": 208
+      },
+      {
+        "width": 36,
+        "Extra RO": 178,
+        "Drawer": 222
+      }
+    ]
+  },
+  {
+    "type": 3,
+    "prices": [
+      {
+        "width": 24,
+        "Extra RO": 138,
+        "Drawer": 185
+      },
+      {
+        "width": 27,
+        "Extra RO": 149,
+        "Drawer": 199
+      },
+      {
+        "width": 30,
+        "Extra RO": 158,
+        "Drawer": 214
+      },
+      {
+        "width": 33,
+        "Extra RO": 169,
+        "Drawer": 230
+      },
+      {
+        "width": 36,
+        "Extra RO": 178,
+        "Drawer": 245
+      }
+    ]
+  }
+]
