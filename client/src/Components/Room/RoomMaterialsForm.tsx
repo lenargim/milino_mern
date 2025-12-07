@@ -237,7 +237,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
         <Form className={s.roomForm}>
             <TextInput type="text" label={roomNameText} name="name" autoFocus={true}/>
             {!!name &&
-            <RoomMaterialsDataType data={categories} value={category} name="category" label="Category"/>}
+            <RoomMaterialsDataType data={categories} value={category} name="category" label="Category" size="large"/>}
             {showGolaType &&
             <RoomMaterialsDataType data={golaTypeArr} value={category_gola_type} name="category_gola_type"
                                    label={`${category} Type`}/>}
@@ -261,13 +261,13 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             <RoomMaterialsDataType data={boxMaterialColor} value={box_color} name="box_color" label="Box Color"/>}
             {showDrawerBrand &&
             <RoomMaterialsDataType data={drawerBrandArr} value={drawer_brand} name="drawer_brand" label="Drawer"
-                                   small={true}/>}
+                                   size="small"/>}
             {showDrawerType &&
             <RoomMaterialsDataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type"
-                                   small={true}/>}
+                                   size="small"/>}
             {showDrawerColor &&
             <RoomMaterialsDataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color"
-                                   small={true}/>}
+                                   size="small"/>}
             {showLeatherType &&
             <RoomMaterialsDataType data={leatherTypeArr} value={leather ?? ''} name="leather" label="Leather"/>}
             {showLeatherNote && <TextInput type="text" value={leather_note} name="leather_note" label="Note"/>}

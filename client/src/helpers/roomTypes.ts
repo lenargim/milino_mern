@@ -2,7 +2,7 @@ import {MaybeEmpty, productCategory} from "./productTypes";
 import {CartAPI} from "./cartTypes";
 
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet", "Cabinet System Closet"] as const;
-export const golaTypeNames = ['Regular Kitchen', 'Gola Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
+export const golaTypeNames = ['Regular Kitchen', 'Handless Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
 export const golaNames = ['Aluminum Gola', 'Black Matte Gola', 'White Gloss Gola', 'Champagne Gola', 'Wood Gola'] as const;
 export const doorTypesNames = ['No Doors','Standard Size White Shaker','Slab', 'Three Piece Door', 'Five piece shaker', 'Finger Pull', 'Micro Shaker', 'Slatted', 'Custom Painted', 'Wood ribbed doors'] as const;
 export const finishNames = ['No Doors No Hinges', 'Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Slab', 'Frame 3/4', 'Frame 1', 'Frame 1 1/2', 'Frame 2', 'Frame 2 1/2', 'Ribbed','Maple','Birch', 'White Oak', 'Walnut', 'Clear Coat Maple', 'Clear Coat Birch', 'Clear Coat White Oak', 'Clear Coat Walnut', 'Wood Veneer'] as const;
@@ -64,7 +64,7 @@ export type OrderFormSelectType = {
     value: any,
     name: string,
     label?: string
-    small?: boolean
+    size?: 'small' | 'large'
 }
 
 export type materialsData = {

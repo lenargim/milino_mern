@@ -6,13 +6,13 @@ import {materialsData, OrderFormSelectType} from "../../helpers/roomTypes";
 import SelectFieldWithImg from "../../common/SelectFieldWithImg";
 
 
-const RoomMaterialsDataType: FC<OrderFormSelectType> = ({data, value, name, label, small}) => {
+const RoomMaterialsDataType: FC<OrderFormSelectType> = ({data, value, name, label, size}) => {
     return (
         <div className={s.orderBlock}>
             <h2>{label ?? name}:</h2>
             {value
                 ? <SelectedField value={value} data={data} name={name}/>
-                : <UnSelectedField value={value} data={data} name={name} small={!!small}/>
+                : <UnSelectedField value={value} data={data} name={name} size={size}/>
             }
         </div>
     );
@@ -33,7 +33,7 @@ const SelectedField: FC<OrderFormSelectType> = ({value, data, name}) => {
     )
 }
 
-const UnSelectedField: FC<OrderFormSelectType> = ({data, name, small}) => {
+const UnSelectedField: FC<OrderFormSelectType> = ({data, name, size}) => {
     return (
         <div className={s.type} role="group">
             {data.map((el, key) => <RadioInput
@@ -42,8 +42,8 @@ const UnSelectedField: FC<OrderFormSelectType> = ({data, name, small}) => {
                 outOfStock={el.outOfStock}
                 value={el.value}
                 name={name}
-                className={[s.typeItem, small ? s.typeItemSmall : ''].join(' ')}
-                />)}
+                className={`${s.typeItem} ${size ? s[`typeItem_${size}`] : ''}`}
+            />)}
         </div>
     )
 }
