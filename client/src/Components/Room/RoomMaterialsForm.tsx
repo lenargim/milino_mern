@@ -34,7 +34,7 @@ import {
     getIsRTAorSystemCloset,
     getIsCloset,
     getIsFilledDrawerBlock,
-    getIsFilledLeatherBlock, getIsLeatherOrRTAorSystemCloset
+    getIsFilledLeatherBlock, getIsLeatherOrRTAorSystemCloset, getGolaCategoryName
 } from "../../helpers/helpers";
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
@@ -139,7 +139,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
 
     useEffect(() => {
         if (!isRoomNew && hasGolaType && !category_gola_type) {
-            setFieldValue('category_gola_type', gola ? `Gola ${category}` : `Regular ${category}`)
+            setFieldValue('category_gola_type', getGolaCategoryName(category, !!gola))
         }
     }, [])
 

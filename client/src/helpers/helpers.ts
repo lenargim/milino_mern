@@ -1776,3 +1776,22 @@ export function checkHeightBlockShownInCustomPart(type:CustomTypes, height: Mayb
     }
     return true
 }
+
+export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, hasGola:boolean):MaybeEmpty<GolaTypesType> => {
+    if (hasGola) {
+        switch (category) {
+            case "Kitchen":
+                return "Handless Kitchen"
+            case "Vanity":
+                return "Gola Vanity"
+        }
+    } else {
+        switch (category) {
+            case "Kitchen":
+                return "Regular Kitchen";
+            case "Vanity":
+                return "Regular Vanity"
+        }
+    }
+    return ""
+}
