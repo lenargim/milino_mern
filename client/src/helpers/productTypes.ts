@@ -89,9 +89,12 @@ export type ProductOrCustomType = {
 export type ProductOptionsType =
     "PTO for drawers"
     | "PTO for doors"
+    | "PTO for Trash Bins"
     | "Box from finish material"
     | "Glass Door"
-    | "Glass Shelf";
+    | "Glass Shelf"
+    | "Farm Sink"
+    | "False Front on top";
 
 export interface ProductType extends ProductOrCustomType {
     category: productCategory,
@@ -114,6 +117,7 @@ export interface ProductType extends ProductOrCustomType {
     hasClosetAccessoriesBlock?: boolean,
     hasJeweleryBlock?: boolean,
     hasMechanism?: MechanismType,
+    farm_sink_height?: number
 
 }
 
@@ -388,7 +392,7 @@ export type ProductFormType = {
     doors_amount: number,
     hinge_opening: hingeTypes,
     corner: MaybeEmpty<cornerTypes>,
-    options: string[],
+    options: ProductOptionsType[],
     middle_section: MaybeEmpty<number>,
     middle_section_string: MaybeEmpty<string>,
     led_borders: string[],
@@ -400,7 +404,8 @@ export type ProductFormType = {
     price: number,
     image_active_number: productTypings,
     custom: MaybeNull<ProductExtraType>,
-    amount: number
+    amount: number,
+    farm_sink_height_string: string
 }
 
 

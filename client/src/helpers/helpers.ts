@@ -29,7 +29,7 @@ import {
     hingeTypes,
     AttrWithoutDescType,
     materialsLimitsType,
-    CustomPartMaterialsArraySizeLimitsType, CustomTypes
+    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -70,7 +70,7 @@ import {
     IsStandardOptionsType, LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
+    colorType, doorType, DoorTypesType, drawer, finishType,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -82,6 +82,8 @@ import {
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
+import {numericQuantity} from "numeric-quantity";
+import {tr} from "date-fns/locale";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -335,6 +337,10 @@ export const checkMiddleSectionStandard = (middleSectionDefault: MaybeUndefined<
     if (!middleSectionDefault) return true;
     return middle_section === middleSectionDefault;
 }
+export const checkFarmSinkStandard = (heightDefault: MaybeUndefined<number>, height: MaybeUndefined<number>): boolean => {
+    if (!heightDefault || !height) return true;
+    return heightDefault === height;
+}
 export const checkOptionsSelected = (options: string[]): boolean => {
     return !options.length
 }
@@ -366,7 +372,8 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         custom_height,
         custom_blind_width,
         middle_section,
-        amount
+        amount,
+        farm_sink_height_string
     } = values;
 
     const realW = width || +custom_width || 0;
@@ -374,6 +381,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realD = depth || +custom_depth || 0;
     const realMiddle = +middle_section || 0
     const realBlind = +blind_width || +custom_blind_width || 0;
+    const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined
 
     return {
         _id: productEditId ?? '',
@@ -397,6 +405,9 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             border: led_borders,
             alignment: led_alignment,
             indent: led_indent_string,
+        },
+        sink: {
+            farm_height: sinkHeight
         },
         note,
         custom: {
@@ -566,7 +577,7 @@ export const isGolaTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGol
 
 export const isGolaShown = (category_gola_type: MaybeEmpty<GolaTypesType>): boolean => {
     if (!category_gola_type) return false
-    return category_gola_type.includes('Gola')
+    return category_gola_type === "Handless Kitchen" || category_gola_type === "Gola Vanity";
 }
 
 export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola: boolean): boolean => {
@@ -860,7 +871,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         product_type,
         blind_width,
         middle_section,
-        led
+        led,
+        sink
     } = item;
     const materialData = getMaterialData(room, product_id);
     const {
@@ -883,7 +895,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 isAngle,
                 isBlind = false,
                 middleSectionDefault,
-                blindArr
+                blindArr,
+                farm_sink_height
             } = product
 
             const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
@@ -908,7 +921,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     blind: checkBlindStandard(isBlind, blind_width, blindArr),
                     led: checkLedSelected(led?.border),
                     options: checkOptionsSelected(options),
-                    middle: checkMiddleSectionStandard(middleSectionDefault, middle_section)
+                    middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
+                    farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
                 }
             }
         }
@@ -931,7 +945,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     led: true,
                     blind: true,
                     middle: true,
-                    options: true
+                    options: true,
+                    farm_sink: true
                 }
             }
         }
@@ -1011,6 +1026,10 @@ export const isShowMiddleSectionBlock = (middleSectionDefault: MaybeUndefined<nu
 export const isShowHingeBlock = (hingeArr: string[]): boolean => {
     if (hingeArr.length < 2) return false;
     return true
+}
+
+export const isShowFarmSinkBlock = (options:ProductOptionsType[]):boolean => {
+    return options.includes("Farm Sink")
 }
 
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
@@ -1300,12 +1319,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             led_indent_string: '',
             glass_door: ['', '', ''],
             glass_shelf: '',
+            farm_sink_height_string: '',
             image_active_number: 1,
             custom: null,
             note: '',
             price: 0,
             amount: 1,
-
         }
     }
     const {
@@ -1323,7 +1342,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         middle_section,
         options,
         custom,
-        amount
+        amount,
+        sink
     } = cartItemValues;
 
     const {customHeight, customDepth, category, isAngle, blindArr} = product;
@@ -1332,14 +1352,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const isStandardHeight = checkHeightStandard(productRange, height)
     const isStandardDepth = checkDepthStandard(productRange, depth, isAngle)
     const isBlindStandard = checkBlindStandard(isBlind, blind_width, blindArr)
-
-    // const {doorValues} = productPriceData;
-    // const doorArr = getDoorMinMaxValuesArr(width, doorValues);
     const doors = checkDoors(hinge);
 
     let customVal = null;
     if (custom?.accessories?.closet) customVal = {closet_accessories: custom.accessories.closet};
     if (custom?.mechanism) customVal = {mechanism: custom.mechanism};
+    const farmSink = sink?.farm_height ? getFraction(sink.farm_height) : '';
 
     return {
         width: isStandardWidth ? width : 0,
@@ -1367,6 +1385,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
         custom: customVal,
+        farm_sink_height_string: farmSink,
         note,
         price,
         amount

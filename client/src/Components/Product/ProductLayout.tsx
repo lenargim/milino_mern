@@ -14,7 +14,7 @@ import ProductHingeBlock from "./ProductHingeBlock";
 import ProductCornerBlock from "./ProductCornerBlock";
 import {
     getHeightRange,
-    isShowBlindWidthBlock, isShowHingeBlock,
+    isShowBlindWidthBlock, isShowFarmSinkBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
 import ProductLED from "./ProductLED";
@@ -22,6 +22,7 @@ import {useParams} from "react-router-dom";
 import ProductClosetAccessories from "./ProductClosetAccessories";
 import ProductJeweleryBlock from "./ProductJeweleryBlock";
 import ProductMechanism from "./ProductMechanism";
+import ProductFarmSink from "./ProductFarmSink";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -48,6 +49,7 @@ const ProductLayout: FC<CabinetFormType> = ({
         category,
         customHeight,
         attributes,
+        farm_sink_height
     } = product;
     const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
     const {cartId} = useParams();
@@ -60,7 +62,8 @@ const ProductLayout: FC<CabinetFormType> = ({
         height,
         depth,
         blind_width,
-        price
+        price,
+        options
     } = values;
 
     const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
@@ -69,6 +72,7 @@ const ProductLayout: FC<CabinetFormType> = ({
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
     const showHingeBlock = isShowHingeBlock(hingeArr);
+    const showFarmSinkBlock = isShowFarmSinkBlock(options)
     return (
         <Form>
             {!hasSolidWidth ?
@@ -134,6 +138,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                                  id={id}
                                  attributes={attributes}
             />
+            {showFarmSinkBlock ? <ProductFarmSink farm_sink_height={farm_sink_height} /> : null}
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

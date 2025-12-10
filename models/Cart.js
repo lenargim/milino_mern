@@ -63,6 +63,11 @@ const CartSchema = new mongoose.Schema({
       type: String,
     },
   },
+  sink: {
+    farm_height: {
+      type: Number,
+    }
+  },
   custom: {
     material: {
       type: String,

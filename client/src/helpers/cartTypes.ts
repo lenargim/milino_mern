@@ -12,7 +12,7 @@ import {
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     MaybeUndefined,
-    ProductApiType,
+    ProductApiType, ProductOptionsType,
     productTypings
 } from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
@@ -30,11 +30,16 @@ export type CartAPI = {
     middle_section: number,
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
-    options: string[],
+    options: ProductOptionsType[],
     glass: MaybeUndefined<GlassAPIType>,
     led?: CartLEDAPI,
+    sink?: SinkAPIType
     custom?: CartCustomType,
     note: string,
+}
+
+export type SinkAPIType = {
+    farm_height?: number
 }
 
 export type GlassAPIType = {
@@ -128,7 +133,8 @@ export type IsStandardOptionsType = {
     blind: boolean,
     middle: boolean,
     led: boolean,
-    options: boolean
+    options: boolean,
+    farm_sink: boolean
 }
 
 export type IsStandardDimentionsType = {

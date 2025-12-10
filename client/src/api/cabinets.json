@@ -589,8 +589,11 @@
     "options": [
       "PTO for doors",
       "Glass Door",
-      "Box from finish material"
-    ]
+      "Box from finish material",
+      "Farm Sink",
+      "False Front on top"
+    ],
+    "farm_sink_height": 9
   },
   {
     "id": 18,
@@ -1463,7 +1466,8 @@
     "options": [
       "PTO for doors",
       "Glass Door",
-      "Box from finish material"
+      "Box from finish material",
+      "False Front on top"
     ]
   },
   {
@@ -3871,7 +3875,8 @@
     "options": [
       "PTO for doors",
       "Glass Door",
-      "Box from finish material"
+      "Box from finish material",
+      "False Front on top"
     ]
   },
   {
