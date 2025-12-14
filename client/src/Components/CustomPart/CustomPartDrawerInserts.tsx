@@ -58,7 +58,6 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
         const showLetters = showType && colorVal && boxVal === 'Inserts';
 
         if (insertVal && ( !showLetters || !drawerInsertsLettersFiltered.includes(insertVal) )) setFieldValue('drawer_accessories.inserts.insert_type', '');
-        // if ((!showLetters && insertVal) || (showLetters && insertVal && !drawerInsertsLettersFiltered.includes(insertVal))) setFieldValue('drawer_accessories.inserts.insert_type', '');
         if (showLetters && !insertVal) setFieldValue('drawer_accessories.inserts.insert_type', drawerInsertsLettersFiltered[0]);
         return (
             <Form>

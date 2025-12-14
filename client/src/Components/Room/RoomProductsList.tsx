@@ -2,14 +2,14 @@ import React, {FC} from 'react';
 import s from './room.module.sass'
 import {NavLink} from "react-router-dom";
 import {
-    getCustomParts,
+    getCustomPartImage,
+    getCustomParts, getImg,
     getImgSize,
     getProductImage, getProductsByCategory
 } from "../../helpers/helpers";
 import {
     CustomPartDataType,
-    productCategory, ProductType,
-    productTypings
+    productCategory, ProductType, productTypings,
 } from "../../helpers/productTypes";
 import {ProductAttributes} from "../Product/ProductAttributes";
 import {RoomType} from "../../helpers/roomTypes";
@@ -46,10 +46,9 @@ export default RoomProductsList;
 
 const Item: FC<{ product: ProductType }> = ({product}) => {
     const {name, attributes, id, category, images} = product;
-    const initialType: productTypings = 1;
-    const img = getProductImage(images, initialType);
+    const initialType:productTypings = 1;
+    const img = getProductImage(product, initialType);
     const imgSize = getImgSize(category);
-
 
     return (
         <NavLink to={`product/${id}`} className={s.item}>
@@ -64,7 +63,7 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
 
 const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
     const {name, images, id} = product;
-    const img = getProductImage(images);
+    const img = getImg('products', images[0])
     return (
         <NavLink to={`product/${id}`} className={s.item}>
             <div className={s.itemImg}><img src={img} alt={name}/></div>

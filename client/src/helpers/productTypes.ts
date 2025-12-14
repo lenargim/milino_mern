@@ -78,13 +78,25 @@ export type productCategory =
 
 export type AngleType = 'flat' | 'corner';
 
-export type ProductOrCustomType = {
+
+interface BaseProduct {
+    // product_type: 'cabinet' | 'standard';
     id: number,
     name: string,
     product_type: ProductApiType,
     images: string[],
-    initial_width?: number
+    initial_width?: number,
+    initial_height?: number
 }
+
+// export type ProductOrCustomType = {
+//     id: number,
+//     name: string,
+//     product_type: ProductApiType,
+//     images: string[],
+//     initial_width?: number,
+//     initial_height?: number
+// }
 
 export type ProductOptionsType =
     "PTO for drawers"
@@ -96,7 +108,8 @@ export type ProductOptionsType =
     | "Farm Sink"
     | "False Front on top";
 
-export interface ProductType extends ProductOrCustomType {
+export interface ProductType extends BaseProduct {
+    product_type: 'cabinet' | 'standard',
     category: productCategory,
     attributes: AttrItemType[],
     options: ProductOptionsType[],
@@ -121,7 +134,8 @@ export interface ProductType extends ProductOrCustomType {
 
 }
 
-export interface CustomPartType extends ProductOrCustomType {
+export interface CustomPartType extends BaseProduct {
+    product_type: 'custom',
     name: CustomPartsNamesType,
     type: CustomTypes,
     width?: number,
@@ -134,7 +148,9 @@ export interface CustomPartType extends ProductOrCustomType {
 
 }
 
-export interface CustomPartDataType extends ProductOrCustomType {
+export type ProductOrCustomType = ProductType | CustomPartType;
+
+export interface CustomPartDataType extends CustomPartType {
     type: CustomTypes,
     category: productCategory,
     width?: number,

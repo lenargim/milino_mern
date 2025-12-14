@@ -1,12 +1,20 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../../helpers/cartTypes";
-import {getProductById, getProductImage, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {
+    getCustomPartImage,
+    getProductById,
+    getProductImage, getProductOrCustomPartImage,
+    textToLink,
+    useAppDispatch,
+    useAppSelector
+} from "../../helpers/helpers";
 import s from "../Sidebar/sidebar.module.sass";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import {removeFromCart, RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
 import Loading from "../../common/Loading";
 import {NavLink, useParams} from "react-router-dom";
+import {CustomPartType} from "../../helpers/productTypes";
 
 const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const dispatch = useAppDispatch();
@@ -15,8 +23,8 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const productAPI = getProductById(product_id, product_type === 'standard');
     const {room_name, purchase_order_name} = useParams();
     if (!productAPI) return null;
-    const {name, images} = productAPI
-    const img = getProductImage(images, image_active_number);
+    const {name, images} = productAPI;
+    const img = getProductOrCustomPartImage(productAPI, item)
 
     function changeAmount(type: changeAmountType) {
         dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))

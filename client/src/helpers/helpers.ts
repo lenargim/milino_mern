@@ -48,7 +48,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, DrawerAccessoriesType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
@@ -128,8 +128,28 @@ export const getAttributes = (attributes: AttrItemType[], type: productTypings =
     })
 }
 
-export const getProductImage = (images: MaybeUndefined<string[]>, imgType: productTypings = 1): string => {
+export function isCustomPart(product: ProductOrCustomType): product is CustomPartType {
+    return product.product_type === 'custom';
+}
+
+export function isCartCustomPartType(values: CartItemFrontType | CustomPartFormType): values is CartItemFrontType {
+    return '_id' in values;
+}
+
+export const getProductOrCustomPartImage = (product: ProductOrCustomType, values: CustomPartFormType | CartItemFrontType): string => {
+    const {images} = product;
     if (!images) return noImg;
+    if (isCustomPart(product)) {
+        if (isCartCustomPartType(values)) return getCustomPartCartImage(product, values);
+        return getCustomPartFormImage(product, values as CustomPartFormType)
+    } else {
+        const prodValues = values as ProductFormType | CartItemFrontType
+        return getProductImage(product, prodValues?.image_active_number)
+    }
+}
+
+export const getProductImage = (product: ProductType, imgType = 1): string => {
+    const {images} = product
     for (let i = imgType; i >= 0; i--) {
         const imgLink = images[i - 1];
         if (imgLink) return getImg('products', imgLink);
@@ -137,13 +157,31 @@ export const getProductImage = (images: MaybeUndefined<string[]>, imgType: produ
     return noImg
 }
 
-export const getCustomPartImage = (product:CustomPartType, values:CustomPartFormType): string => {
+export const getCustomPartFormImage = (product: CustomPartType, values: CustomPartFormType): string => {
+    return getCustomPartImage(product, values?.drawer_accessories)
+}
+
+export const getCustomPartCartImage = (product: CustomPartType, values: CartItemFrontType): string => {
+    return getCustomPartImage(product, values.custom?.drawer_accessories)
+}
+
+export const getCustomPartImage = (product: CustomPartType, drawer_accessories:MaybeNull<MaybeUndefined<DrawerAccessoriesType>>): string => {
     const {images, type} = product;
-    const {drawer_accessories} = values
     if (!images) return noImg;
     if (type === 'drawer-inserts') {
-        if (!drawer_accessories?.inserts?.insert_type || !drawer_accessories?.inserts?.color) return getImg('products', images[0]);
-        return getImg('drawer_inserts', `Type ${drawer_accessories.inserts?.insert_type} ${drawer_accessories.inserts?.color}.jpg`)
+        if (!drawer_accessories || !drawer_accessories.inserts) return getImg('products', images[0]);
+        const {insert_type, box_type, color} = drawer_accessories.inserts
+        if (!box_type || !color) return getImg('products', images[0]);
+        switch (box_type) {
+            case "Inserts": {
+                if (!insert_type) return getImg('products', images[0]);
+                return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
+            }
+            case "Pegs":
+                return getImg('drawer_pegs', `Pegs ${color}.jpg`)
+            case "Spice":
+                return getImg('drawer_spice', `Spice ${color}.jpg`)
+        }
     }
     if (images[0]) return getImg('products', images[0]);
     return noImg
@@ -570,7 +608,7 @@ const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-export const isGolaTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
+export const isGolaCategoryTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
     if (!category) return false;
     return hasGola
 }
@@ -828,7 +866,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category:productCategory): number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category: productCategory): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
     const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
@@ -984,14 +1022,22 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
     if (door_color.includes('Ultra Matte')) return 1.2;
     return 1;
 }
-
-export const getCartItemImgPDF = (images: string[], image_active_number: productTypings): string => {
-    for (let i = image_active_number; i >= 0; i--) {
-        const imgLink = images[i - 1];
-        if (imgLink) return getImg('products-checkout', imgLink.replace('webp', 'jpg'));
-    }
-    return noImg
-}
+//
+// export const getCartItemImgPDF = (product: ProductType|CustomPartType, el: CartItemFrontType): string => {
+//     const {images} = product;
+//     const {image_active_number} = el
+//
+//     for (let i = image_active_number; i >= 0; i--) {
+//         const imgLink = images[i - 1];
+//
+//         // Drawer Inserts img
+//         if (product.id === 928) {
+//             getCustomPartCartImage(product, el)
+//         }
+//         if (imgLink) return getImg('products', imgLink);
+//     }
+//     return noImg
+// }
 
 export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryType => {
     const doorAccessories = DA as DoorAccessoryFront[];
@@ -1028,7 +1074,7 @@ export const isShowHingeBlock = (hingeArr: string[]): boolean => {
     return true
 }
 
-export const isShowFarmSinkBlock = (options:ProductOptionsType[]):boolean => {
+export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
     return options.includes("Farm Sink")
 }
 
@@ -1149,10 +1195,10 @@ export function textToLink(text: MaybeUndefined<string>) {
 export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) => {
     if (!cart) return [];
     return cart.map(el => {
-        const {product_id, product_type, image_active_number} = el
+        const {product_id, product_type} = el
         const product = getProductById(product_id, product_type === 'standard');
         if (!product) return el;
-        const img = getProductImage(product.images, image_active_number)
+        const img = getProductOrCustomPartImage(product, el)
         return ({...el, img: img.replace('webp', 'jpg')})
     })
 }
@@ -1392,11 +1438,11 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     }
 }
 
-const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials:RoomMaterialsFormType): InitialSizesType => {
-    const {width, height, depth, width_range, height_range, initial_width, id} = customPart;
+const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials: RoomMaterialsFormType): InitialSizesType => {
+    const {width, height, depth, width_range, height_range, initial_width, initial_height, id} = customPart;
     const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials.door_color);
-    const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width) );
-    const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
+    const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width));
+    const h = initial_height ?? height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimit?.depth);
     return {
         initial_width: w,
@@ -1467,7 +1513,15 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         }
     } else {
         const {width, height, depth, custom, note, price, glass} = cartItemValues;
-        const {standard_doors, standard_panels, material, rta_closet, accessories, groove, drawer_accessories} = custom!;
+        const {
+            standard_doors,
+            standard_panels,
+            material,
+            rta_closet,
+            accessories,
+            groove,
+            drawer_accessories
+        } = custom!;
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
             alum_profiles: accessories.led.alum_profiles.map(el => ({
                 qty: el.qty,
@@ -1597,9 +1651,9 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 }
 
 
-export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, door_color:string): MaybeUndefined<materialsLimitsType> => {
+export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, door_color: string): MaybeUndefined<materialsLimitsType> => {
     const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(door_color)
-    const checkMilino = (direction: 'width'|'height',limits: materialsLimitsType): materialsLimitsType => {
+    const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
         return is_special_milino ?
             {
@@ -1614,7 +1668,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 904: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('height',{width: [2.5, 48], height: [2.5, 96]})
+                    return checkMilino('height', {width: [2.5, 48], height: [2.5, 96]})
                 case "Plywood":
                     return {width: [2.5, 48], height: [2.5, 96]};
                 case "Luxe":
@@ -1633,7 +1687,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 907: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('height',{width: [3, 48], height: [6, 96], depth: [4, 48]});
+                    return checkMilino('height', {width: [3, 48], height: [6, 96], depth: [4, 48]});
                 case "Plywood":
                     return {width: [3, 48], height: [6, 96], depth: [4, 48]};
                 case "Luxe":
@@ -1654,7 +1708,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 900: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('height',{width: [6, 96], height: [6, 96], depth: [6, 96]})
+                    return checkMilino('height', {width: [6, 96], height: [6, 96], depth: [6, 96]})
                 case "Plywood": {
                     return {width: [6, 96], height: [6, 96], depth: [6, 96]}
                 }
@@ -1675,7 +1729,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 905: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('height',{width: [2.5, 96], height: [2.5, 96]});
+                    return checkMilino('height', {width: [2.5, 96], height: [2.5, 96]});
                 case "Plywood":
                     return {width: [2.5, 96], height: [2.5, 96]};
                 case "Luxe":
@@ -1693,25 +1747,26 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 927: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('width', {width: [5, 99], depth: [5, 99]})
+                    return checkMilino('width', {width: [5, 99], depth: [5, 24]})
             }
-            return {width: [5, 99], depth: [5, 99]}
+            return {width: [5, 99], depth: [5, 24]}
         }
         case 901: {
             switch (material) {
                 case "Milino":
+                    return checkMilino('width', {width: [3, 96], height: [3, 6], depth: [3, 48]})
                 case "Syncron": {
-                    return {width: [3, 96], height: [3, 96], depth: [3, 48]}
+                    return {width: [3, 96], height: [3, 6], depth: [3, 48]}
                 }
                 case "Luxe":
                 case "Zenit":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
-                    return {width: [3, 108], height: [3, 108], depth: [3, 48]}
+                    return {width: [3, 108], height: [3, 6], depth: [3, 48]}
                 }
                 case "Painted": {
-                    return {width: [3, 120], height: [3, 120], depth: [3, 48]}
+                    return {width: [3, 120], height: [3, 6], depth: [3, 48]}
                 }
             }
             break
@@ -1737,10 +1792,11 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 911:
         case 912: {
             switch (material) {
-                case "Milino":  {
-                    return checkMilino('height',{width: [4, 108], height: [4, 108]})
+                case "Milino": {
+                    return checkMilino('height', {width: [4, 108], height: [4, 108]})
                 }
-                default: return {width: [4, 108], height: [4, 108]};
+                default:
+                    return {width: [4, 108], height: [4, 108]};
             }
         }
 
@@ -1767,9 +1823,10 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
     return undefined
 }
 
-export function checkHeightBlockShownInCustomPart(type:CustomTypes, height: MaybeUndefined<number>):boolean {
+export function checkHeightBlockShownInCustomPart(type: CustomTypes, height: MaybeUndefined<number>): boolean {
     switch (type) {
-        case "pvc": return false;
+        case "pvc":
+            return false;
         case "custom": {
             if (height) return false
         }
@@ -1777,7 +1834,7 @@ export function checkHeightBlockShownInCustomPart(type:CustomTypes, height: Mayb
     return true
 }
 
-export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, hasGola:boolean):MaybeEmpty<GolaTypesType> => {
+export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): MaybeEmpty<GolaTypesType> => {
     if (hasGola) {
         switch (category) {
             case "Kitchen":

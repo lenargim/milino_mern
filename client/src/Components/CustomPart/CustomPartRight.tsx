@@ -14,7 +14,6 @@ import {CustomPartFormType} from "./CustomPart";
 import {addToCartCustomPart} from "../../helpers/helpers";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartRibbed from "./CustomPartRibbed";
-import CustomPartFloatingShelf from "./CustomPartFloatingShelf";
 import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
 import CustomPartPanel from "./CustomPartPanel";
 import CustomPartPVC from "./CustomPartPVC";

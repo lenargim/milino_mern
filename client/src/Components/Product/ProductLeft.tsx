@@ -8,9 +8,9 @@ import {ProductAttributes} from "./ProductAttributes";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
 const ProductLeft:FC<{product:ProductType, materials:RoomMaterialsFormType}> = ({product, materials}) => {
-    const {images, category, name, attributes} = product;
+    const {category, name, attributes} = product;
     const {values: {image_active_number, doors_amount}} = useFormikContext<ProductFormType>();
-    const img = getProductImage(images, image_active_number);
+    const img = getProductImage(product, image_active_number);
     const imgSize = getImgSize(category);
     return (
         <div className={s.left}>

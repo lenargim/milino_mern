@@ -23,7 +23,7 @@ import {
     isDrawerColor,
     isDrawerType,
     isGolaShown,
-    isGolaTypeShown,
+    isGolaCategoryTypeShown,
     isGrooveShown,
     isLeatherNote,
     isLeatherType,
@@ -43,7 +43,7 @@ import materialsAPI from "../../api/materials.json";
 import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
 import {
-    colorType,
+    colorType, DoorTypesType,
     finishType,
     materialsData,
     MaterialsType,
@@ -163,6 +163,12 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
                 if (category_gola_type && !isGolaShown(category_gola_type)) setFieldValue('gola', '');
             }
 
+            //Door Type
+            if (gola) {
+                let doorArr = doorTypeArr.map(el => el.value)
+                door_type && !doorArr.includes(door_type) && setFieldValue('door_type', '');
+            }
+
             //Groove
             if (groove && door_type !== 'Wood ribbed doors') setFieldValue('groove', '');
 
@@ -215,7 +221,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             dispatch(updateCartAfterMaterialsChange(newCart))
         }
     }, [values]);
-    const showGolaType = isGolaTypeShown(category, hasGolaType);
+    const showCategoryGolaType = isGolaCategoryTypeShown(category, hasGolaType);
     const showGola = isGolaShown(category_gola_type)
     const showDoorType = isDoorTypeShown(values, showGola)
     const showGroove = isGrooveShown(door_type)
@@ -238,7 +244,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             <TextInput type="text" label={roomNameText} name="name" autoFocus={true}/>
             {!!name &&
             <RoomMaterialsDataType data={categories} value={category} name="category" label="Category" size="large"/>}
-            {showGolaType &&
+            {showCategoryGolaType &&
             <RoomMaterialsDataType data={golaTypeArr} value={category_gola_type} name="category_gola_type"
                                    label={`${category} Type`}/>}
             {showGola && <RoomMaterialsDataType data={golaArr} value={gola} name="gola" label={`Gola Type`}/>}
