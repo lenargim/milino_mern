@@ -107,5 +107,10 @@ start()
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Listening on port ${PORT}`);
 }).on('error', (err) => {
-  console.error('LISTEN ERROR:', err);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });
