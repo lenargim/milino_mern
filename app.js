@@ -20,19 +20,17 @@ import {
   POCreateValidation
 } from './validations.js'
 import {checkAuth, checkAdmin, handleValidationErrors} from './utils/index.js'
-import * as dotenv from 'dotenv';
 import {upload} from "./utils/helpers.js";
-
-const env = dotenv.config().parsed;
-mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
+import dotenv from 'dotenv';
+dotenv.config();
+const PORT = process.env.PORT || 5000;
+mongoose.connect(`mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_DATABASE}`)
   .then(() => console.log('DB is OK'))
   .catch((err) => console.log('DB error', err))
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
-
-const PORT = env.PORT || 5000;
 const corsOptions = {
   origin: 'http://localhost:3000', // <-- React app origin
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -92,7 +90,7 @@ const start = async () => {
     app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
     app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
-    if (env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       app.use('/', express.static(path.join(__dirname, 'client', 'build')));
 
       app.get('*', (req, res) => {
@@ -105,10 +103,6 @@ const start = async () => {
 }
 
 start()
-
-// app.listen(PORT, () => {
-//   console.log(`listening port ${PORT}`);
-// })
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Listening on port ${PORT}`);
