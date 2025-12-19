@@ -23,7 +23,7 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const productAPI = getProductById(product_id, product_type === 'standard');
     const {room_name, purchase_order_name} = useParams();
     if (!productAPI) return null;
-    const {name, images} = productAPI;
+    const {name} = productAPI;
     const img = getProductOrCustomPartImage(productAPI, item)
 
     function changeAmount(type: changeAmountType) {

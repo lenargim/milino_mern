@@ -8,7 +8,7 @@ import {
     MaybeUndefined, MechanismType,
     priceItem,
     pricePart, priceStandardPanel,
-    pricesTypings,
+    pricesTypings, pricesTypingsNumber,
     productCategory,
     productDataToCalculatePriceType,
     productRangeType,
@@ -24,7 +24,7 @@ import {
     getAttributes, getAttributesWithoutDesc,
     getCabinetHeightRangeBasedOnCategory,
     getFinishColorCoefCustomPart, getIsCloset,
-    getIsLeatherOrRTAorSystemCloset,
+    getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset,
     getLEDProductCartPrice,
     getProductById,
     getSquare,
@@ -104,10 +104,9 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
-    const materialsCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
-    console.log(`tablePrice ${tablePrice}`)
-    console.log(`materialsCoef ${materialsCoef}`)
-    return +(tablePrice * materialsCoef).toFixed(1)
+    const totalCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
+    console.log(`total_coef = box_coef(${boxCoef}) * materials_coef(${materials_coef}) * grain_coef(${grain_coef}) = ${totalCoef}`);
+    return +(tablePrice * totalCoef).toFixed(1)
 }
 
 export function addWidthPriceCoef(width: number, maxWidth: number) {
@@ -605,10 +604,10 @@ const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     return 1
 };
 
-const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color: string, product_id: number): number => {
+const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color: string, product_id: number, isRTAOrSystem:boolean): number => {
     // Exceptions
     const noCoefExceptionsArr: number[] = [35];
-    if (noCoefExceptionsArr.includes(product_id) || !box_material) return 1;
+    if (noCoefExceptionsArr.includes(product_id) || !box_material || isRTAOrSystem) return 1;
     switch (box_material) {
         case "Natural Plywood":
         case "White Plywood":
@@ -745,9 +744,10 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const is_standard_room = door_type === "Standard Size White Shaker";
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
-    const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
-    const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const grain_coef = getGrainCoef(door_grain);
+    const isRTAOrSystem = getIsRTAorSystemCloset(category)
+    const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id, isRTAOrSystem);
+    const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
 
     return {
@@ -1375,7 +1375,12 @@ const getRoDrawerTablePrice = (width:number, basePriceType:pricesTypings, ro_dra
         "Drawer": number
 
     }
-    const prices:MaybeUndefined<PriceType[]> = ro_drawer_prices.find(el => el.type = basePriceType)?.prices;
+    interface PriceTypeArrayItem {
+        type: pricesTypingsNumber
+        prices: PriceType[],
+    }
+    const arr = ro_drawer_prices as PriceTypeArrayItem[];
+    const prices = arr.find(el => el.type === basePriceType)?.prices;
     if (!prices) return 0;
     return prices.find(el => el[ro_drawer] && el.width === width)?.[ro_drawer] || 0;
 }
@@ -1384,11 +1389,12 @@ export const getRoDrawerPrice = (ro_drawer:MaybeUndefined<DrawerROType>, width: 
     if (!ro_drawer || !width) return 0;
     const {drawer_type, drawer_color, drawer_brand, door_type} = materials
     const basePriceType = getBasePriceType(materials);
-    const tablePrice = getRoDrawerTablePrice(width, basePriceType, ro_drawer)
-    const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
-    if (ro_drawer === 'Extra RO') return tablePrice + drawerPrice;
     const materialData = getMaterialData(materials, product_id);
+    const tablePrice = getRoDrawerTablePrice(width, basePriceType, ro_drawer)
+    const startPrice = getStartPrice(tablePrice, materialData, [])
+    const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
+    if (ro_drawer === 'Extra RO') return startPrice + drawerPrice;
     const sq = getSquare(width, 6, product_id, false);
     const doorPrice = getDoorPrice(sq, materialData);
-    return tablePrice + drawerPrice + doorPrice;
+    return startPrice + drawerPrice + doorPrice;
 }

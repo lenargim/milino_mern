@@ -50,7 +50,6 @@ const CustomPartRODrawer: FC<CustomPartRODrawer> = ({product}) => {
                 <CustomPartSubmit/>
             </Form>
         );
-    }
-;
+    };
 
 export default CustomPartRODrawer;

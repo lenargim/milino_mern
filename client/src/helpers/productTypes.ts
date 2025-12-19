@@ -9,6 +9,7 @@ import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3 | 'wood_veneer';
+export type pricesTypingsNumber = 1|2|3;
 export type DoorColorType = 1 | 2 | 3;
 export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 

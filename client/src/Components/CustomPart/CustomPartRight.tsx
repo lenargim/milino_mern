@@ -38,7 +38,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number';
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
-    const {price} = values
+    const {price} = values;
     useEffect(() => {
         const APIValues = addToCartCustomPart(values, customPartProduct, '', undefined)
         const newPrice = getCustomPartPrice(customPartProduct, materials, APIValues);

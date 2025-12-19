@@ -1,13 +1,14 @@
 import React, {FC} from "react";
 import {Text} from "@react-pdf/renderer";
 import {s} from "./PDFOrder";
-import {CartItemFrontType, IsStandardDimentionsType} from "../../helpers/cartTypes";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 import {getFraction} from "../../helpers/helpers";
+import {CustomTypes} from "../../helpers/productTypes";
 
 const Dimensions: FC<{ item:CartItemFrontType }> = ({item}) => {
     const {width, height, depth, isStandard: {dimensions: isStandard}, subcategory} = item;
     if (!width && !height && !depth) return null;
-    if (['pvc', 'drawer-inserts'].includes(subcategory)) return null;
+    if (['pvc', 'drawer-inserts', "ro_drawer"].includes(subcategory as CustomTypes)) return null;
     const anyNotStandard = Object.values(isStandard).some(value => !value);
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? ` ${getFraction(height)}"H` : '';
