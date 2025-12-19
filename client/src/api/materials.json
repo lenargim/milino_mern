@@ -1568,6 +1568,7 @@
     {
       "value": "Finger Pull",
       "img": "Finger pull.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Syncron",

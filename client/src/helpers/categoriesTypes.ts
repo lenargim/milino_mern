@@ -1,11 +1,6 @@
 import {MaybeEmpty, productCategory} from "./productTypes";
 import {RoomCategoriesType} from "./roomTypes";
 
-// export type category = {
-//     name: string,
-//     img: string
-// }
-
 export type setCategoryType = (value: productCategory) => void;
 
 export type SliderType = {
