@@ -1,59 +1,99 @@
-import * as dotenv from "dotenv";
-import multer from "multer";
-import {__dirname} from "../app.js";
-import fs from 'fs';
-import path from 'path';
-const env = dotenv.config().parsed;
+import dotenv from 'dotenv'
+import multer from 'multer'
+import fs from 'fs'
+import path from 'path'
 
+dotenv.config()
+
+/* ---------------------------------
+   BASE PATH (apps/prod or apps/test)
+---------------------------------- */
+
+const BASE_DIR = process.cwd()
+
+/* ---------------------------------
+   MAIL TRANSPORT
+---------------------------------- */
 
 export const getTransporterObject = () => {
-  return env.NODE_ENV === 'production' ?
-    {
-      host: env.EMAIL_HOST,
-      secureConnection: true,
-      port: env.EMAIL_PORT,
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: true,
       auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
-      },
-    } :
-    {
-      service: env.EMAIL_SERVICE,
-      secure: env.EMAIL_SECURE,
-      port: env.EMAIL_PORT,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.EMAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     }
+  }
+
+  return {
+    service: process.env.EMAIL_SERVICE,
+    secure: process.env.EMAIL_SECURE === 'true',
+    port: Number(process.env.EMAIL_PORT),
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  }
 }
 
+/* ---------------------------------
+   MULTER STORAGE
+---------------------------------- */
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const company_name = req.params.company_name;
-    const folderPath = path.join(__dirname, 'uploads', 'orders', company_name);
+  destination(req, file, cb) {
+    const companyName = req.params.company_name
+
+    const folderPath = path.join(
+      BASE_DIR,
+      'uploads',
+      'orders',
+      companyName
+    )
+
     if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath, { recursive: true });
+      fs.mkdirSync(folderPath, { recursive: true })
     }
-    cb(null, folderPath);
+
+    cb(null, folderPath)
   },
-  filename: function (req, file, cb) {
-    let name = file.originalname;
-    if (file.fieldname === 'json') name = name.replace('.json', '.txt');
-    cb(null, name);
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.fieldname === 'pdf' && file.mimetype !== 'application/pdf') {
-      return cb(new Error('Invalid file type for PDF'), false);
+
+  filename(req, file, cb) {
+    let filename = file.originalname
+
+    if (file.fieldname === 'json') {
+      filename = filename.replace(/\.json$/i, '.txt')
     }
-    if (file.fieldname === 'json' && file.mimetype !== 'application/json') {
-      return cb(new Error('Invalid file type for JSON'), false);
-    }
-    cb(null, true);
+
+    cb(null, filename)
   },
 })
 
+/* ---------------------------------
+   FILE FILTER
+---------------------------------- */
+
+const fileFilter = (req, file, cb) => {
+  if (file.fieldname === 'pdf' && file.mimetype !== 'application/pdf') {
+    return cb(new Error('Invalid file type for PDF'), false)
+  }
+
+  if (file.fieldname === 'json' && file.mimetype !== 'application/json') {
+    return cb(new Error('Invalid file type for JSON'), false)
+  }
+
+  cb(null, true)
+}
+
+/* ---------------------------------
+   EXPORT
+---------------------------------- */
+
 export const upload = multer({
   storage,
-  limits: { fileSize: 10000000 },
-});
+  fileFilter,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+})
