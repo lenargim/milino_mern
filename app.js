@@ -46,7 +46,7 @@ console.log('NODE_ENV', NODE_ENV);
 /* ================= PATH ================= */
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export const __dirname = path.dirname(__filename);
 
 /* ================= DB ================= */
 
