@@ -1,9 +1,9 @@
-import express from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import express from 'express'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import dotenv from 'dotenv'
 
 import {
   UserController,
@@ -13,7 +13,7 @@ import {
   AdminController,
   PurchaseOrderController,
   CartController
-} from './controllerls/index.js';
+} from './controllerls/index.js'
 
 import {
   registerValidation,
@@ -21,176 +21,127 @@ import {
   roomCreateValidation,
   cartItemValidation,
   POCreateValidation
-} from './validations.js';
+} from './validations.js'
 
 import {
   checkAuth,
   checkAdmin,
   handleValidationErrors
-} from './utils/index.js';
+} from './utils/index.js'
 
-import { upload } from './utils/helpers.js';
+import { upload } from './utils/helpers.js'
 
-/* ================= INIT ================= */
+/* ---------------- INIT ---------------- */
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const __filename = fileURLToPath(import.meta.url)
+export const __dirname = path.dirname(__filename)
 
-console.log('PID', process.pid);
-console.log('PORT', PORT);
-console.log('NODE_ENV', NODE_ENV);
+const PORT = process.env.PORT || 5000
 
-/* ================= PATH ================= */
+console.log('PID', process.pid)
+console.log('PORT', PORT)
+console.log('NODE_ENV', process.env.NODE_ENV)
+console.log('__dirname', __dirname)
 
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
-
-/* ================= DB ================= */
+/* ---------------- DB ---------------- */
 
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_DATABASE}`
   )
   .then(() => console.log('DB is OK'))
-  .catch(err => {
-    console.error('DB error', err);
-    process.exit(1);
-  });
+  .catch(err => console.log('DB error', err))
 
-/* ================= MIDDLEWARE ================= */
+/* ---------------- APP ---------------- */
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+const app = express()
 
-app.use(
-  cors({
-    origin:
-      NODE_ENV === 'development'
-        ? 'http://localhost:3000'
-        : true,
-    credentials: true
-  })
-);
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
-/* ================= API ================= */
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
 
-/* Mail */
-app.post(
-  '/api/email/:company_name',
-  checkAuth,
-  upload.fields([
-    { name: 'pdf', maxCount: 1 },
-    { name: 'json', maxCount: 1 }
-  ]),
-  PDFController.SendPDF
-);
+/* ---------------- API ---------------- */
 
-app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder);
-app.get('/api/email/pdf/amount/:id', checkAuth, PDFController.getPurchaseOrderAmount);
+const start = async () => {
+  try {
+    // Email / PDF
+    app.post(
+      '/api/email/:company_name',
+      checkAuth,
+      upload.fields([
+        { name: 'pdf', maxCount: 1 },
+        { name: 'json', maxCount: 1 }
+      ]),
+      PDFController.SendPDF
+    )
 
-/* Auth */
-app.post(
-  '/api/auth/register',
-  registerValidation,
-  handleValidationErrors,
-  UserController.register
-);
+    app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder)
+    app.get('/api/email/pdf/amount/:id', checkAuth, PDFController.getPurchaseOrderAmount)
 
-app.post(
-  '/api/auth/login',
-  loginValidation,
-  handleValidationErrors,
-  UserController.login
-);
+    // Auth
+    app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
+    app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login)
+    app.get('/api/users/me', checkAuth, UserController.getMe)
+    app.patch('/api/users/me', checkAuth, UserController.patchMe)
 
-app.get('/api/users/me', checkAuth, UserController.getMe);
-app.patch('/api/users/me', checkAuth, UserController.patchMe);
+    // Purchase Order
+    app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)
+    app.post('/api/po', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.create)
+    app.patch('/api/po/delete', checkAuth, PurchaseOrderController.remove, PurchaseOrderController.getAllPO)
+    app.patch('/api/po/:id', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.update)
 
-/* Purchase Order */
-app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO);
-app.post(
-  '/api/po',
-  checkAuth,
-  POCreateValidation,
-  handleValidationErrors,
-  PurchaseOrderController.create
-);
+    // Rooms
+    app.get('/api/rooms/:id', checkAuth, RoomController.getRooms)
+    app.post('/api/rooms', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
+    app.patch('/api/rooms/delete', checkAuth, RoomController.remove, RoomController.getRooms)
+    app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom, RoomController.getRooms)
 
-app.patch('/api/po/delete', checkAuth, PurchaseOrderController.remove);
-app.patch(
-  '/api/po/:id',
-  checkAuth,
-  POCreateValidation,
-  handleValidationErrors,
-  PurchaseOrderController.update
-);
+    // Cart
+    app.get('/api/cart/:id', checkAuth, CartController.getCart)
+    app.post('/api/cart', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart, CartController.getCart)
+    app.delete('/api/cart/all/:roomId', checkAuth, CartController.removeAllFromCart, CartController.getCart)
+    app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.removeFromCart, CartController.getCart)
+    app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.updateCartAmount, CartController.getCart)
+    app.patch('/api/cart', checkAuth, CartController.updateCartItem, CartController.getCart)
 
-/* Rooms */
-app.get('/api/rooms/:id', checkAuth, RoomController.getRooms);
-app.post(
-  '/api/rooms',
-  checkAuth,
-  roomCreateValidation,
-  handleValidationErrors,
-  RoomController.create
-);
+    app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
 
-app.patch('/api/rooms/delete', checkAuth, RoomController.remove);
-app.patch(
-  '/api/rooms/:id',
-  checkAuth,
-  roomCreateValidation,
-  handleValidationErrors,
-  RoomController.updateRoom
-);
+    // Admin
+    app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
+    app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
-/* Cart */
-app.get('/api/cart/:id', checkAuth, CartController.getCart);
-app.post(
-  '/api/cart',
-  checkAuth,
-  cartItemValidation,
-  handleValidationErrors,
-  CartController.addToCart
-);
+    /* -------- React prod / test -------- */
 
-app.delete('/api/cart/all/:roomId', checkAuth, CartController.removeAllFromCart);
-app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.removeFromCart);
-app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.updateCartAmount);
-app.patch('/api/cart', checkAuth, CartController.updateCartItem);
+    if (process.env.NODE_ENV !== 'development') {
+      const clientBuildPath = path.join(__dirname, 'client', 'build')
 
-/* Orders */
-app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder);
+      console.log('Serving React from:', clientBuildPath)
 
-/* Admin */
-app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers);
-app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled);
+      app.use(express.static(clientBuildPath))
 
-/* ================= CLIENT ================= */
+      app.get('*', (_, res) => {
+        res.sendFile(path.join(clientBuildPath, 'index.html'))
+      })
+    }
 
-if (NODE_ENV !== 'development') {
-  const clientPath = path.join(__dirname, 'client', 'build');
-
-  app.use(express.static(clientPath));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(clientPath, 'index.html'));
-  });
+  } catch (e) {
+    console.error('START FAILED', e)
+  }
 }
 
-/* ================= LISTEN ================= */
+start()
 
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`SERVER LISTENING ON ${PORT}`);
-});
+/* ---------------- LISTEN ---------------- */
 
-server.on('error', err => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`PORT ${PORT} IS ALREADY IN USE`);
-    process.exit(1);
-  }
-  throw err;
-});
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Listening on port ${PORT}`)
+}).on('error', err => {
+  console.error('LISTEN ERROR:', err)
+  process.exit(1)
+})
