@@ -1,8 +1,10 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from "mongoose";
-import path from 'path';
-import {fileURLToPath} from 'url';
+import mongoose from 'mongoose'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import dotenv from 'dotenv'
+
 import {
   UserController,
   PDFController,
@@ -11,7 +13,8 @@ import {
   AdminController,
   PurchaseOrderController,
   CartController
-} from './controllerls/index.js';
+} from './controllerls/index.js'
+
 import {
   registerValidation,
   loginValidation,
@@ -19,52 +22,73 @@ import {
   cartItemValidation,
   POCreateValidation
 } from './validations.js'
-import {checkAuth, checkAdmin, handleValidationErrors} from './utils/index.js'
-import * as dotenv from 'dotenv';
-import {upload} from "./utils/helpers.js";
 
-const env = dotenv.config().parsed;
-mongoose.connect(`mongodb+srv://${env.DB_ADMIN}:${env.DB_PASSWORD}@${env.DB_DATABASE}`)
+import {
+  checkAuth,
+  checkAdmin,
+  handleValidationErrors
+} from './utils/index.js'
+
+import { upload } from './utils/helpers.js'
+
+/* ---------------- INIT ---------------- */
+
+dotenv.config()
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const PORT = process.env.PORT || 5000
+
+console.log('PID', process.pid)
+console.log('PORT', PORT)
+console.log('NODE_ENV', process.env.NODE_ENV)
+console.log('__dirname', __dirname)
+
+/* ---------------- DB ---------------- */
+
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_DATABASE}`
+  )
   .then(() => console.log('DB is OK'))
-  .catch((err) => console.log('DB error', err))
-const app = express();
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
+  .catch(err => console.log('DB error', err))
 
-const PORT = env.PORT || 5000;
-const corsOptions = {
-  origin: 'http://localhost:3000', // <-- React app origin
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
+/* ---------------- APP ---------------- */
 
-// app.options('*', cors())
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-app.use(express.static(__dirname));
-// app.use(cookieParser());
+const app = express()
 
-const CORS = cors(corsOptions);
-app.use(CORS);
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
+
+/* ---------------- API ---------------- */
 
 const start = async () => {
   try {
-    // Mail
-    app.post('/api/email/:company_name', checkAuth, upload.fields([
-      {name: 'pdf', maxCount: 1},
-      {name: 'json', maxCount: 1}
-    ]), PDFController.SendPDF);
+    // Email / PDF
+    app.post(
+      '/api/email/:company_name',
+      checkAuth,
+      upload.fields([
+        { name: 'pdf', maxCount: 1 },
+        { name: 'json', maxCount: 1 }
+      ]),
+      PDFController.SendPDF
+    )
+
     app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder)
     app.get('/api/email/pdf/amount/:id', checkAuth, PDFController.getPurchaseOrderAmount)
 
     // Auth
     app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
-    app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login);
+    app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login)
     app.get('/api/users/me', checkAuth, UserController.getMe)
     app.patch('/api/users/me', checkAuth, UserController.patchMe)
-    // app.post('/api/users/refresh', UserController.refresh)
 
     // Purchase Order
     app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)
@@ -72,7 +96,7 @@ const start = async () => {
     app.patch('/api/po/delete', checkAuth, PurchaseOrderController.remove, PurchaseOrderController.getAllPO)
     app.patch('/api/po/:id', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.update)
 
-    // Room
+    // Rooms
     app.get('/api/rooms/:id', checkAuth, RoomController.getRooms)
     app.post('/api/rooms', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
     app.patch('/api/rooms/delete', checkAuth, RoomController.remove, RoomController.getRooms)
@@ -88,34 +112,36 @@ const start = async () => {
 
     app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
 
+    // Admin
     app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
     app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
-    if (env.NODE_ENV === 'production') {
-      app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+    /* -------- React prod / test -------- */
 
-      app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    if (process.env.NODE_ENV !== 'development') {
+      const clientBuildPath = path.join(__dirname, 'client', 'build')
+
+      console.log('Serving React from:', clientBuildPath)
+
+      app.use(express.static(clientBuildPath))
+
+      app.get('*', (_, res) => {
+        res.sendFile(path.join(clientBuildPath, 'index.html'))
       })
     }
+
   } catch (e) {
-    console.log(e)
+    console.error('START FAILED', e)
   }
 }
 
 start()
 
-// app.listen(PORT, () => {
-//   console.log(`listening port ${PORT}`);
-// })
+/* ---------------- LISTEN ---------------- */
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Listening on port ${PORT}`);
-}).on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use`);
-    process.exit(1);
-  } else {
-    throw err;
-  }
-});
+  console.log(`Listening on port ${PORT}`)
+}).on('error', err => {
+  console.error('LISTEN ERROR:', err)
+  process.exit(1)
+})

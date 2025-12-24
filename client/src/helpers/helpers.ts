@@ -67,7 +67,7 @@ import {
     CartAPIImagedType,
     CartItemFrontType,
     CartOrder, IsStandardDimentionsType,
-    IsStandardOptionsType, LEDAccessoriesType
+    LEDAccessoriesType
 } from "./cartTypes";
 import {
     colorType, doorType, DoorTypesType, drawer, finishType,
