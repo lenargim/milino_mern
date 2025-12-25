@@ -16,14 +16,18 @@ const BASE_DIR = process.cwd()
 ---------------------------------- */
 
 export const getTransporterObject = () => {
-  if (process.env.NODE_ENV === 'production') {
+  const isSSL = Number(process.env.EMAIL_PORT) === 465;
+  if (process.env.NODE_ENV !== 'development') {
     return {
       host: process.env.EMAIL_HOST,
       port: Number(process.env.EMAIL_PORT),
-      secure: true,
+      secure: isSSL,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     }
   }
