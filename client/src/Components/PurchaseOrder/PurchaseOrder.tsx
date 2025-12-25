@@ -34,7 +34,7 @@ const PurchaseOrder: FC = () => {
         <div className={s.purchaseOrder}>
             {warningModal ? <ApproveRemovePO po={warningModal} setWarningModal={setWarningModal}/> : null}
             <div>
-                <h1 ref={scrollToRef}>Purchase orders v2</h1>
+                <h1 ref={scrollToRef}>Purchase orders</h1>
                 <nav className={s.nav}>
                     {purchase_orders.length
                         ? purchase_orders.map(item => <PurchaseOrderNavLink key={item._id} item={item}
