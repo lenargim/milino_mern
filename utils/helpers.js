@@ -18,7 +18,7 @@ const BASE_DIR = process.cwd()
 ---------------------------------- */
 
 export const getTransporterObject = () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV !== 'development') {
     return {
       host: process.env.EMAIL_HOST,
       port: Number(process.env.EMAIL_PORT),
