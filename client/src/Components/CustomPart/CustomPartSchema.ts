@@ -25,7 +25,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         const numberVal = numericQuantity(val);
         if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`})
         const material = context.parent.material as MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>;
-        const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, materials.door_color);
+        const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, materials);
         const limit = sizeLimit ? sizeLimit[dimension] : undefined
         const min = (limit && limit[0]) ? limit[0] : 1;
         const max = (limit && limit[1]) ? limit[1] : 999;

@@ -1012,32 +1012,14 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
-export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, door_color: string): number => {
-    // Choose Panels only
-    if (![903].includes(id)) return 1;
+export const getPanelFinishColorCoef = (material: MaybeUndefined<string>, box_color: string): number => {
     // Choose Material (In Product Page)
     if (material !== 'Milino') return 1;
-    // Door Color from Materials page
-    if (isTexturedColor(door_color)) return 1.1;
-    if (door_color.includes('Ultra Matte')) return 1.2;
+    // Box Color from Materials page
+    if (isTexturedColor(box_color)) return 1.1;
+    if (box_color.includes('Ultra Matte')) return 1.2;
     return 1;
 }
-//
-// export const getCartItemImgPDF = (product: ProductType|CustomPartType, el: CartItemFrontType): string => {
-//     const {images} = product;
-//     const {image_active_number} = el
-//
-//     for (let i = image_active_number; i >= 0; i--) {
-//         const imgLink = images[i - 1];
-//
-//         // Drawer Inserts img
-//         if (product.id === 928) {
-//             getCustomPartCartImage(product, el)
-//         }
-//         if (imgLink) return getImg('products', imgLink);
-//     }
-//     return noImg
-// }
 
 export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryType => {
     const doorAccessories = DA as DoorAccessoryFront[];
@@ -1440,7 +1422,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials: RoomMaterialsFormType): InitialSizesType => {
     const {width, height, depth, width_range, height_range, initial_width, initial_height, id} = customPart;
-    const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials.door_color);
+    const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials);
     const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width));
     const h = initial_height ?? height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
     const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimit?.depth);
@@ -1651,8 +1633,9 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 }
 
 
-export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, door_color: string): MaybeUndefined<materialsLimitsType> => {
-    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(door_color)
+export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
+    const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color
+    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(color)
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
         return is_special_milino ?
@@ -1747,9 +1730,11 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 927: {
             switch (material) {
                 case "Milino":
-                    return checkMilino('width', {width: [5, 99], depth: [5, 24]})
+                    return checkMilino('width', {width: [5, 96], depth: [5, 24]})
+                case "Painted":
+                    return {width: [5, 120], depth: [5, 24]}
+                default: return {width: [5, 107.5], depth: [5, 24]}
             }
-            return {width: [5, 99], depth: [5, 24]}
         }
         case 901: {
             switch (material) {
