@@ -644,7 +644,7 @@ export const isGrooveShown = (door_type: MaybeEmpty<DoorTypesType>) => {
 export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove: boolean): boolean => {
     const {category, door_type, groove} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard size shaker') return false;
+    if (door_type === 'Standard Size Shaker') return false;
     if (showGroove && !groove) return false;
     return !!(door_type && finishArr.length)
 }
@@ -652,7 +652,7 @@ export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: fini
 export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth: boolean): boolean => {
     const {category, door_type, door_finish_material, door_frame_width} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard size shaker') return true;
+    if (door_type === 'Standard Size Shaker') return true;
     if (showDoorFrameWidth && !door_frame_width) return false;
     return !!(door_finish_material && colorArr.length)
 }
@@ -735,10 +735,10 @@ export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawe
 export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
     let arr = doors.filter(el => !el.is_hide);
     if (gola) {
-        arr = arr.filter(el => el.value !== 'Standard size shaker');
+        arr = arr.filter(el => el.value !== 'Standard Size Shaker');
     }
     if (isLeather) {
-        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard size shaker"]
+        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard Size Shaker"]
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
@@ -1068,7 +1068,7 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard size shaker') return API['Standard Door'] as SliderCategoriesItemType;
+    if (door_type === 'Standard Size Shaker') return API['Standard Door'] as SliderCategoriesItemType;
     switch (category) {
         case "Kitchen":
             return !gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
@@ -1191,7 +1191,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
 }
 
 export const findIsRoomStandard = (door_type: MaybeEmpty<DoorTypesType>): boolean => {
-    return door_type === 'Standard size shaker'
+    return door_type === 'Standard Size Shaker'
 }
 
 export const findHasGolaTypeByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

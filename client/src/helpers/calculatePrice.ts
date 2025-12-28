@@ -353,7 +353,7 @@ function getSlattedPanelPrice(square: number, material: MaybeUndefined<string>):
 }
 
 function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
-    const isStandardCabinet = door_type === 'Standard size shaker'
+    const isStandardCabinet = door_type === 'Standard Size Shaker'
     if (!qty) return 0;
 
     switch (drawerBrand) {
@@ -742,7 +742,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         leather,
         rod
     } = materials;
-    const is_standard_room = door_type === "Standard size shaker";
+    const is_standard_room = door_type === "Standard Size Shaker";
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
     const grain_coef = getGrainCoef(door_grain);
@@ -1065,7 +1065,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case "standard-panel": {
             if (standard_panels) {
-                const is_price_type_default = door_type === 'Standard size shaker' && door_color === 'Default White';
+                const is_price_type_default = door_type === 'Standard Size Shaker' && door_color === 'Default White';
                 const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
                 price = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
             }

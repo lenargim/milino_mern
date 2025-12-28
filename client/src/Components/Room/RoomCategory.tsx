@@ -30,7 +30,7 @@ const RoomCategory: FC = () => {
                     </div>
                 </div>
             </form>
-            {category_active && <RoomProductsList category_active={category_active} room={room} isStandardCabinet={door_type === 'Standard size shaker'}/>}
+            {category_active && <RoomProductsList category_active={category_active} room={room} isStandardCabinet={door_type === 'Standard Size Shaker'}/>}
         </>
     )
 };

@@ -65,7 +65,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .default('')
                 .when(['category', 'door_type'], {
                     is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>) => {
-                        if (getIsRTAorSystemCloset(category) || door_type === 'Standard size shaker') return false;
+                        if (getIsRTAorSystemCloset(category) || door_type === 'Standard Size Shaker') return false;
                         return true
                     },
                     then: schema => schema.notOneOf([''], 'Please choose door finish material')

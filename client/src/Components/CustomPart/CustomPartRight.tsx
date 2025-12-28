@@ -33,7 +33,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
                                               }) => {
     const {initialMaterialData} = customPartData;
     const {door_color, door_type} = materials
-    const isStandardCabinet = door_type === 'Standard size shaker';
+    const isStandardCabinet = door_type === 'Standard Size Shaker';
     const {depth, type} = customPartProduct;
     const depthApi = initialMaterialData?.depth ?? depth;
     const isDepthIsConst = typeof depthApi === 'number';
