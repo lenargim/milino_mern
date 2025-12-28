@@ -28,22 +28,22 @@
   "doors": [
     {
       "value": "No Doors",
-      "img": "nodoors.jpg",
+      "img": "No Doors.jpg",
       "finish": [
         {
           "value": "No Doors No Hinges",
-          "img": "nodoors.jpg"
+          "img": "No Doors.jpg"
         }
       ]
     },
     {
-      "value": "Standard Size White Shaker",
-      "img": "Standard Shaker Door.jpg",
+      "value": "Standard size shaker",
+      "img": "Doors Shaker Standard.jpg",
       "finish": []
     },
     {
       "value": "Slab",
-      "img": "slab.jpg",
+      "img": "Doors Slab.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -86,6 +86,10 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg"
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
@@ -109,6 +113,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -1050,7 +1058,7 @@
     },
     {
       "value": "Three Piece Door",
-      "img": "threepeacedoor.jpg",
+      "img": "Doors 3pc.jpg",
       "finish": [
         {
           "value": "Syncron",
@@ -1499,6 +1507,7 @@
     {
       "value": "Five piece shaker",
       "img": "shaker.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Syncron",
@@ -1643,8 +1652,8 @@
       ]
     },
     {
-      "value": "Micro Shaker",
-      "img": "microshaker.jpg",
+      "value": "Shaker",
+      "img": "Doors MicroShaker.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -1687,6 +1696,10 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg"
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
@@ -1710,6 +1723,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -2272,13 +2289,26 @@
         },
         {
           "value": "1.25",
-          "img": "frame1.25.jpg"
+          "img": "frame1.25.jpg",
+          "is_hide": true
+        },
+        {
+          "value": "1.5",
+          "img": "frame1.5.jpg"
+        },
+        {
+          "value": "2",
+          "img": "frame2.jpg"
+        },
+        {
+          "value": "2.5",
+          "img": "frame2.5.jpg"
         }
       ]
     },
     {
       "value": "Slatted",
-      "img": "slatted.jpg",
+      "img": "Doors Slatted.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -2321,6 +2351,10 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg"
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
@@ -2344,6 +2378,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -2914,7 +2952,7 @@
     },
     {
       "value": "Custom Painted",
-      "img": "painted.jpg",
+      "img": "Doors Shaker Custom.jpg",
       "finish": [
         {
           "value": "Slab",
@@ -3175,6 +3213,7 @@
     {
       "value": "Wood ribbed doors",
       "img": "Ribbed_door.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Maple",
@@ -3208,8 +3247,7 @@
           "value": "Clear Coat Walnut",
           "img": "Walnut.jpg"
         }
-      ],
-      "is_hide": true
+      ]
     }
   ],
   "groove": [
@@ -3263,6 +3301,10 @@
       "img": "Ivory Woodline.jpg"
     },
     {
+      "value": "Sable Wood",
+      "img": "Sable Wood.jpg"
+    },
+    {
       "value": "Grey Woodline",
       "img": "Grey Woodline.jpg"
     },
@@ -3297,6 +3339,10 @@
     {
       "value": "Ultra Matte Cashmere",
       "img": "Cashmere.jpg"
+    },
+    {
+      "value": "Ultra Matte Gris",
+      "img": "UltraMatte Gris.jpg"
     },
     {
       "value": "White Gloss",
@@ -3494,11 +3540,11 @@
   "golaType": [
     {
       "value": "Regular Kitchen",
-      "img": "Regular Kitchen.jpg"
+      "img": "Regular.jpg"
     },
     {
       "value": "Handless Kitchen",
-      "img": "Handless Kitchen.jpg"
+      "img": "Gola Wood.jpg"
     },
     {
       "value": "Regular Vanity",
@@ -3512,23 +3558,23 @@
   "gola": [
     {
       "value": "Aluminum Gola",
-      "img": "Aluminum Gola.jpg"
+      "img": "Gola Aluminum.jpg"
     },
     {
       "value": "Black Matte Gola",
-      "img": "Black Metal Gloss Gola.jpg"
+      "img": "Gola Black.jpg"
     },
     {
       "value": "White Gloss Gola",
-      "img": "White Metal Gloss Gola.jpg"
+      "img": "Gola White.jpg"
     },
     {
       "value": "Champagne Gola",
-      "img": "Champagne Metal Gola.jpg"
+      "img": "Gola Champagne.jpg"
     },
     {
       "value": "Wood Gola",
-      "img": "Wood Gola.jpg"
+      "img": "Gola Wood.jpg"
     }
   ],
   "rod": [

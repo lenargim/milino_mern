@@ -25,6 +25,7 @@ import PurchaseOrderRooms from "./Components/PurchaseOrder/PurchaseOrderRooms";
 import PrivateRoute from "./common/PrivateRoute";
 import PublicRote from "./common/PublicRoute";
 import RoomEditCartProduct from "./Components/Room/RoomEditCartProduct";
+import ProfileCatalog2020 from "./Components/Profile/ProfileCatalog2020";
 
 function App() {
     return (
@@ -58,6 +59,7 @@ function App() {
                         <Route path="edit" element={<ProfileEdit/>}/>
                         <Route path="constructor" element={<Constructor/>}/>
                         <Route path="catalog" element={<ProfileCatalog/>}/>
+                        <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
                         <Route path="tutorial" element={<ProfileTutorial/>}>
                         </Route>
                     </Route>

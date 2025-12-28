@@ -644,7 +644,7 @@ export const isGrooveShown = (door_type: MaybeEmpty<DoorTypesType>) => {
 export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove: boolean): boolean => {
     const {category, door_type, groove} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard Size White Shaker') return false;
+    if (door_type === 'Standard size shaker') return false;
     if (showGroove && !groove) return false;
     return !!(door_type && finishArr.length)
 }
@@ -652,7 +652,7 @@ export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: fini
 export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth: boolean): boolean => {
     const {category, door_type, door_finish_material, door_frame_width} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard Size White Shaker') return true;
+    if (door_type === 'Standard size shaker') return true;
     if (showDoorFrameWidth && !door_frame_width) return false;
     return !!(door_finish_material && colorArr.length)
 }
@@ -660,7 +660,7 @@ export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorT
 export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeUndefined<materialsData[]>): boolean => {
     const {category, door_type, door_finish_material} = values;
     if (getIsRTAorSystemCloset(category)) return false;
-    if (!frameArr || door_type !== 'Micro Shaker') return false
+    if (!frameArr || door_type !== 'Shaker') return false
     return !!door_finish_material
 }
 
@@ -735,10 +735,10 @@ export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawe
 export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
     let arr = doors.filter(el => !el.is_hide);
     if (gola) {
-        arr = arr.filter(el => el.value !== 'Standard Size White Shaker');
+        arr = arr.filter(el => el.value !== 'Standard size shaker');
     }
     if (isLeather) {
-        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard Size White Shaker"]
+        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard size shaker"]
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
@@ -746,6 +746,11 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
 
 export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): finishType[] => {
     return doors.find(el => el.value === door_type)?.finish ?? [];
+}
+
+export const getFrameWidthArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): materialsData[] => {
+    const frames = doors.find(el => el.value === door_type)?.frame ?? [];
+    return frames.filter(el => !el.is_hide).map(el => ({...el, label: getFraction(+el.value)}));
 }
 
 export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
@@ -1063,7 +1068,7 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard Size White Shaker') return API['Standard Door'] as SliderCategoriesItemType;
+    if (door_type === 'Standard size shaker') return API['Standard Door'] as SliderCategoriesItemType;
     switch (category) {
         case "Kitchen":
             return !gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
@@ -1186,7 +1191,7 @@ export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) =>
 }
 
 export const findIsRoomStandard = (door_type: MaybeEmpty<DoorTypesType>): boolean => {
-    return door_type === 'Standard Size White Shaker'
+    return door_type === 'Standard size shaker'
 }
 
 export const findHasGolaTypeByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
@@ -1635,7 +1640,7 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
     const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color
-    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Ultra Matte White", "Ultra Matte Grey"].includes(color)
+    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey"].includes(color)
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
         return is_special_milino ?
@@ -1763,12 +1768,12 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             switch (material) {
                 case "Shaker Syncron":
                 case "Shaker Zenit":
-                case "Micro Shaker Milino": {
+                case "Shaker Milino": {
                     return {width: [5, 108], height: [5, 108]}
                 }
                 case "Shaker Painted":
-                case "Micro Shaker":
-                case "Micro Shaker Veneer": {
+                case "Shaker":
+                case "Shaker Veneer": {
                     return {width: [5, 120], height: [5, 120]}
                 }
             }

@@ -22,9 +22,15 @@ export default RoomMaterialsDataType;
 
 
 const SelectedField: FC<OrderFormSelectType> = ({value, data, name}) => {
-    const dataWithImgPath:materialsData[] = data.map(el => ({value: el.value.toString(), img: getImg(`materials/${name}`, `${el.img}`), outOfStock: el.outOfStock}))
+    const dataWithImgPath: materialsData[] = data.map(el => (
+        {
+            value: el.value.toString(),
+            img: getImg(`materials/${name}`, `${el.img}`),
+            outOfStock: el.outOfStock,
+            label: el.label
+        }
+    ))
     const curValue = dataWithImgPath.find(el => el.value === value) ?? {value: '', img: ''};
-
     return (
         <SelectFieldWithImg
             name={name}
@@ -41,6 +47,7 @@ const UnSelectedField: FC<OrderFormSelectType> = ({data, name, size}) => {
                 key={key}
                 outOfStock={el.outOfStock}
                 value={el.value}
+                label={el.label}
                 name={name}
                 className={`${s.typeItem} ${size ? s[`typeItem_${size}`] : ''}`}
             />)}

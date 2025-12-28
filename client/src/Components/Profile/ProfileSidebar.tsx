@@ -23,6 +23,7 @@ const ProfileSidebar:FC = () => {
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/constructor">Constructor</NavLink>
                 }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog">Catalog</NavLink>
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/catalog_2020">2020 Catalogs</NavLink>
                 <button type="button" onClick={() => dispatch(logout())}>Log out</button>
             </aside>
         </div>

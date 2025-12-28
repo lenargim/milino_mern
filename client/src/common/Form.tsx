@@ -170,7 +170,7 @@ export const PhoneInput: FC<textInputInterface> = ({
     );
 };
 
-export const RadioInput: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, outOfStock}) => {
+export const RadioInput: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, outOfStock, label}) => {
     const [field] = useField(name)
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
@@ -178,7 +178,7 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
             <label htmlFor={`${name}_${value}`}
                    className={[styles.radioLabel, outOfStock ? styles.outOfStock : ''].join(' ')}>
                 <img src={img} alt={value.toString()}/>
-                <span>{value}</span>
+                <span>{label ?? value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
         </div>

@@ -288,7 +288,7 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
             return 61.8;
         case "Custom Painted":
             return 78;
-        case "Micro Shaker":
+        case "Shaker":
             return 60;
         case "Slatted":
             return 48;
@@ -326,7 +326,7 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Milino":
             return square * 36;
         case "Shaker Syncron":
-        case "Micro Shaker Milino":
+        case "Shaker Milino":
             return square * 48;
         case "Luxe":
         case "Ultrapan PET":
@@ -337,9 +337,9 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
             return square * 60 * 1.03;
         case 'Shaker Painted':
             return square * 78;
-        case "Micro Shaker":
+        case "Shaker":
             return square * 60
-        case "Micro Shaker Veneer":
+        case "Shaker Veneer":
             return square * 96;
         default:
             return 0;
@@ -353,7 +353,7 @@ function getSlattedPanelPrice(square: number, material: MaybeUndefined<string>):
 }
 
 function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
-    const isStandardCabinet = door_type === 'Standard Size White Shaker'
+    const isStandardCabinet = door_type === 'Standard size shaker'
     if (!qty) return 0;
 
     switch (drawerBrand) {
@@ -523,7 +523,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                 case 'Finger Pull':
                     if (door_finish_material === 'Syncron') return 2;
                     break;
-                case 'Micro Shaker':
+                case 'Shaker':
                 case 'Slatted':
                     if (door_finish_material === 'Milino') return 2;
                     break;
@@ -564,7 +564,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                 case 'Custom Painted':
                     if (door_finish_material === 'Slab') return 1;
                     return 1.05;
-                case 'Micro Shaker':
+                case 'Shaker':
                     if (door_finish_material === 'Zenit') return 1.03;
                     if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
                     break;
@@ -585,7 +585,7 @@ const getGrainCoef = (doorGrain: string): number => {
 
 export const isTexturedColor = (color: string): boolean => {
     // New Textured colors
-    return ['Desert Oak', 'White Oak', 'Brown Oak', 'Grey Woodline', 'Ivory Woodline', 'White Gloss'].includes(color)
+    return ['Desert Oak', 'White Oak', 'Brown Oak', 'Grey Woodline', 'Ivory Woodline', 'Sable Wood', 'White Gloss'].includes(color)
 }
 
 const getDoorColorType = (color: string): DoorColorType => {
@@ -624,11 +624,13 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
         case "White Oak":
         case "Grey Woodline":
         case "Ivory Woodline":
+        case "Sable Wood":
         case "White Gloss":
             return 1.1
         case "Ultra Matte Grey":
         case "Ultra Matte White":
         case "Ultra Matte Cashmere":
+        case "Ultra Matte Gris":
             return 1.2;
 
 
@@ -683,7 +685,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 case "Custom Painted":
                     if (door_finish_material === 'Slab') return 30;
                     return 43.2;
-                case "Micro Shaker":
+                case "Shaker":
                     switch (door_finish_material as FinishTypes) {
                         case "Milino":
                             return 30;
@@ -740,7 +742,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
         leather,
         rod
     } = materials;
-    const is_standard_room = door_type === "Standard Size White Shaker";
+    const is_standard_room = door_type === "Standard size shaker";
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
     const grain_coef = getGrainCoef(door_grain);
@@ -1063,7 +1065,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case "standard-panel": {
             if (standard_panels) {
-                const is_price_type_default = door_type === 'Standard Size White Shaker' && door_color === 'Default White';
+                const is_price_type_default = door_type === 'Standard size shaker' && door_color === 'Default White';
                 const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
                 price = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
             }
