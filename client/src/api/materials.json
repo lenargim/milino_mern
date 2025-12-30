@@ -1030,31 +1030,38 @@
             },
             {
               "value": "Frozen Walnut",
-              "img": "wood-veneer/Frozen Walnut.jpg"
+              "img": "wood-veneer/Frozen Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Ivory Oak",
-              "img": "wood-veneer/Ivory Oak.jpg"
+              "img": "wood-veneer/Ivory Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Manhattan Oak",
-              "img": "wood-veneer/Manhattan Oak.jpg"
+              "img": "wood-veneer/Manhattan Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Milk Oak",
-              "img": "wood-veneer/Milk Oak.jpg"
+              "img": "wood-veneer/Milk Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Pebble Triba",
-              "img": "wood-veneer/Pebble Triba.jpg"
+              "img": "wood-veneer/Pebble Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Pure Walnut",
-              "img": "wood-veneer/Pure Walnut.jpg"
+              "img": "wood-veneer/Pure Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Smoked Walnut",
-              "img": "wood-veneer/Smoked Walnut.jpg"
+              "img": "wood-veneer/Smoked Walnut.jpg",
+              "isGrain": true
             }
           ]
         }
@@ -2257,31 +2264,38 @@
             },
             {
               "value": "Frozen Walnut",
-              "img": "wood-veneer/Frozen Walnut.jpg"
+              "img": "wood-veneer/Frozen Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Ivory Oak",
-              "img": "wood-veneer/Ivory Oak.jpg"
+              "img": "wood-veneer/Ivory Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Manhattan Oak",
-              "img": "wood-veneer/Manhattan Oak.jpg"
+              "img": "wood-veneer/Manhattan Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Milk Oak",
-              "img": "wood-veneer/Milk Oak.jpg"
+              "img": "wood-veneer/Milk Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Pebble Triba",
-              "img": "wood-veneer/Pebble Triba.jpg"
+              "img": "wood-veneer/Pebble Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Pure Walnut",
-              "img": "wood-veneer/Pure Walnut.jpg"
+              "img": "wood-veneer/Pure Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Smoked Walnut",
-              "img": "wood-veneer/Smoked Walnut.jpg"
+              "img": "wood-veneer/Smoked Walnut.jpg",
+              "isGrain": true
             }
           ]
         }
