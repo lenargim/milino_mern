@@ -1017,12 +1017,17 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
-export const getPanelFinishColorCoef = (material: MaybeUndefined<string>, box_color: string): number => {
-    // Choose Material (In Product Page)
-    if (material !== 'Milino') return 1;
-    // Box Color from Materials page
-    if (isTexturedColor(box_color)) return 1.1;
-    if (box_color.includes('Ultra Matte')) return 1.2;
+export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
+    switch (id) {
+        case 903: {
+            // Choose Material (In Product Page)
+            if (material !== 'Milino') return 1;
+            // Door Color from Materials page
+            if (isTexturedColor(color)) return 1.1;
+            if (color.includes('Ultra Matte')) return 1.2;
+            break
+        }
+    }
     return 1;
 }
 
@@ -1745,9 +1750,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             switch (material) {
                 case "Milino":
                     return checkMilino('width', {width: [3, 96], height: [3, 6], depth: [3, 48]})
-                case "Syncron": {
-                    return {width: [3, 96], height: [3, 6], depth: [3, 48]}
-                }
+                case "Syncron":
                 case "Luxe":
                 case "Zenit":
                 case "Ultrapan PET":

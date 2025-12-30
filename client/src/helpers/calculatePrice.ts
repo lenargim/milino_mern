@@ -22,10 +22,10 @@ import {
     checkDoors,
     convertDoorAccessories,
     getAttributes, getAttributesWithoutDesc,
-    getCabinetHeightRangeBasedOnCategory,
+    getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart,
     getIsCloset,
     getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset,
-    getLEDProductCartPrice, getPanelFinishColorCoef,
+    getLEDProductCartPrice,
     getProductById,
     getSquare,
     getWidthToCalculateDoor,
@@ -812,7 +812,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
     const {width, height, depth, custom, glass, product_id} = values;
     if (!custom) return price;
     const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_accessories} = custom;
-    const {door_color, door_type, box_color} = materials
+    const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
     switch (type) {
@@ -824,6 +824,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         case "thick_floating_shelf":
         case "glass-shelf": {
             let priceCustom = 0;
+            const color = getIsRTAorSystemCloset(category) ? box_color : door_color
+            const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
             switch (id) {
                 case 900: {
                     switch (material) {
@@ -883,12 +885,13 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     }
                     break;
                 }
-                case 903: {
-                    const boxColorCoef = getPanelFinishColorCoef(material, box_color);
-                    console.log(boxColorCoef)
-                    priceCustom = getPanelPrice(area, material) * boxColorCoef;
-                    break;
-                }
+                // case 903: {
+                //     const boxColorCoef = getPanelFinishColorCoef(material, box_color);
+                //     console.log(boxColorCoef)
+                //     priceCustom = getPanelPrice(area, material) * boxColorCoef;
+                //     break;
+                // }
+                case 903:
                 case 904: {
                     priceCustom = getPanelPrice(area, material);
                     break;
@@ -1047,7 +1050,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
             }
-            price = +(priceCustom).toFixed(1);
+            price = +(priceCustom*finishColorCoef).toFixed(1);
             break;
         }
         case "led-accessories": {

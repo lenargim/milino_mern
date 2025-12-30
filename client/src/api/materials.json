@@ -87,7 +87,8 @@
             },
             {
               "value": "Sable Wood",
-              "img": "Sable Wood.jpg"
+              "img": "Sable Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Grey Woodline",
@@ -96,11 +97,13 @@
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -1022,7 +1025,8 @@
           "colors": [
             {
               "value": "Desert Oak",
-              "img": "wood-veneer/Desert Oak.jpg"
+              "img": "wood-veneer/Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Frozen Walnut",
@@ -1697,7 +1701,8 @@
             },
             {
               "value": "Sable Wood",
-              "img": "Sable Wood.jpg"
+              "img": "Sable Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Grey Woodline",
@@ -1706,11 +1711,13 @@
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -2245,7 +2252,8 @@
           "colors": [
             {
               "value": "Desert Oak",
-              "img": "wood-veneer/Desert Oak.jpg"
+              "img": "wood-veneer/Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Frozen Walnut",
@@ -2352,7 +2360,8 @@
             },
             {
               "value": "Sable Wood",
-              "img": "Sable Wood.jpg"
+              "img": "Sable Wood.jpg",
+              "isGrain": true
             },
             {
               "value": "Grey Woodline",
@@ -2361,11 +2370,13 @@
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -3225,7 +3236,8 @@
         },
         {
           "value": "White Oak",
-          "img": "White Oak.jpg"
+          "img": "White Oak.jpg",
+          "isGrain": true
         },
         {
           "value": "Walnut",
@@ -3557,6 +3569,10 @@
   ],
   "gola": [
     {
+      "value": "Wood Gola",
+      "img": "Gola Wood.jpg"
+    },
+    {
       "value": "Aluminum Gola",
       "img": "Gola Aluminum.jpg"
     },
@@ -3571,10 +3587,6 @@
     {
       "value": "Champagne Gola",
       "img": "Gola Champagne.jpg"
-    },
-    {
-      "value": "Wood Gola",
-      "img": "Gola Wood.jpg"
     }
   ],
   "rod": [
