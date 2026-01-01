@@ -1,25 +1,38 @@
-import React, {FC} from 'react';
-import {MaybeEmpty, productCategory} from "../../helpers/productTypes";
-import RoomProductsList from "./RoomProductsList";
-import {getImg, getSliderCategories, useAppDispatch} from "../../helpers/helpers";
+import React, {FC, useState} from 'react';
+import {getCategoryImg, getSliderCategories, useAppDispatch} from "../../helpers/helpers";
 import s from "./room.module.sass";
-import {roomSetActiveCategory} from "../../store/reducers/roomSlice";
 import {useOutletContext} from "react-router-dom";
-import {RoomFront} from "../../helpers/roomTypes";
+import {customPartsImgList, CustomPartsImgListItem, RoomFront} from "../../helpers/roomTypes";
+import {CatItem} from "../../helpers/categoriesTypes";
+import {MaybeEmpty, MaybeNull, productCategory} from "../../helpers/productTypes";
+import RoomProductsList from "./RoomProductsList";
+import {roomSetActiveCategory} from "../../store/reducers/roomSlice";
+
 
 const RoomCategory: FC = () => {
-    const [room] = useOutletContext<[RoomFront]>()
+    const [room] = useOutletContext<[RoomFront]>();
+    const [hoveredItem, setHoveredItem] = useState<MaybeNull<CustomPartsImgListItem>>(null);
     if (!room) return null;
     const {_id, activeProductCategory: category_active, door_type} = room;
-    const {categories, defaultImg} = getSliderCategories(room);
-    const currentCat = categories.find(cat => cat.name === category_active);
+    const {categories, img, name, type} = getSliderCategories(room);
+    const currentCat: CatItem = categories.find(cat => cat.name === category_active) ?? {name, type, img};
+
+
     return (
         <>
             <form>
                 <div>
                     <div className={s.img}>
-                        <img src={getImg('categories', currentCat?.img ?? defaultImg)} alt={category_active}/>
+                        <img src={getCategoryImg(room, currentCat, hoveredItem)} alt={category_active}/>
                     </div>
+                    <ul className={s.customPartsList}>
+                        {customPartsImgList.map((el, index) => {
+                            return <li key={index}
+                                       onMouseEnter={() => setHoveredItem(el)}
+                                       onMouseLeave={() => setHoveredItem(null)}
+                            >{el.name}</li>
+                        })}
+                    </ul>
                     <div className={s.category}>
                         {categories.map(el => <CategoryItem key={el.name}
                                                             name={el.name}
@@ -30,7 +43,8 @@ const RoomCategory: FC = () => {
                     </div>
                 </div>
             </form>
-            {category_active && <RoomProductsList category_active={category_active} room={room} isStandardCabinet={door_type === 'Standard Size Shaker'}/>}
+            {category_active && <RoomProductsList category_active={category_active} room={room}
+                                                  isStandardCabinet={door_type === 'Standard Size Shaker'}/>}
         </>
     )
 };

@@ -55,9 +55,9 @@ import {
     DoorSizesArrType,
     DoorType,
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import standardColors from '../api/standardColors.json'
-import {SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
+import {CatItem, SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {initialStandardPanels} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -70,7 +70,7 @@ import {
     LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType,
+    colorType, CustomPartsImgListItem, doorType, DoorTypesType, drawer, finishType,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -83,7 +83,6 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity} from "numeric-quantity";
-import {tr} from "date-fns/locale";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -95,6 +94,44 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
         return require(`./../assets/img/${folder}/${img}`)
     } catch (e) {
         return noImg
+    }
+}
+
+export const getCategoryImg = (room:RoomFront, currentCat:CatItem, hover?:MaybeNull<CustomPartsImgListItem>):string => {
+    const {category, door_type, gola} = room;
+    try {
+        const img =  hover?.img ?? currentCat.img;
+        let img_folder = '';
+        switch (category) {
+            case "Kitchen":
+            {
+                const is_folder_is_gola = currentCat.type === 'gola';
+                const category_type = getGolaCategoryName(category, is_folder_is_gola);
+                const gola_folder_type = getGolaFolder(gola);
+                const sub_folder = is_folder_is_gola ? `${category_type}/${gola_folder_type}` : `${category_type}`;
+                img_folder = `${category}/${sub_folder}/${door_type}/${img}`;
+                break
+            }
+            default: {
+                img_folder = img;
+                break
+            }
+        }
+        console.log(img_folder);
+        return require(`./../assets/img/categories/${img_folder}`)
+    } catch (e) {
+        return noImg
+    }
+}
+
+const getGolaFolder = (gola:MaybeEmpty<GolaType>):'Black'|'Wood'|'Aluminum' => {
+    if (!gola) return 'Aluminum';
+    switch (gola) {
+        case "Black Matte Gola":
+            return 'Black';
+        case "Wood Gola":
+            return 'Wood';
+        default: return 'Aluminum'
     }
 }
 
@@ -1073,7 +1110,10 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard Size Shaker') return API['Standard Door'] as SliderCategoriesItemType;
+    if (door_type === 'Standard Size Shaker') {
+        if (category === "Kitchen") return API['Kitchen Standard'] as SliderCategoriesItemType;
+        return API['Standard Door'] as SliderCategoriesItemType;
+    }
     switch (category) {
         case "Kitchen":
             return !gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;

@@ -11,14 +11,18 @@ export type SliderType = {
     noGola: boolean
 }
 
+
+export type CatItemType = 'reqular'|'gola'|'custom'|'standard'
 export type CatItem = {
     name: productCategory,
-    img: string
+    img: string,
+    type: CatItemType
 }
 
 export type SliderCategoriesType = {
     "Kitchen": SliderCategoriesItemType,
     "Kitchen Gola": SliderCategoriesItemType,
+    "Kitchen Standard": SliderCategoriesItemType,
     "Vanity": SliderCategoriesItemType,
     "Vanity Gola": SliderCategoriesItemType,
     "Build In Closet": SliderCategoriesItemType,
@@ -29,6 +33,8 @@ export type SliderCategoriesType = {
 }
 
 export type SliderCategoriesItemType = {
-    "defaultImg": string,
+    name: productCategory,
+    img: string,
+    type: CatItemType,
     categories: CatItem[]
 }

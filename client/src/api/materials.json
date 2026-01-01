@@ -2,11 +2,11 @@
   "categories": [
     {
       "value": "Kitchen",
-      "img": "kitchen.jpg"
+      "img": "Kitchen.jpg"
     },
     {
       "value": "Vanity",
-      "img": "vanity.jpg"
+      "img": "Vanity.jpg"
     },
     {
       "value": "Build In Closet",
@@ -3566,11 +3566,11 @@
   "golaType": [
     {
       "value": "Regular Kitchen",
-      "img": "Regular.jpg"
+      "img": "Regular Kitchen.jpg"
     },
     {
       "value": "Handless Kitchen",
-      "img": "Gola Wood.jpg"
+      "img": "Kitchen Handless.jpg"
     },
     {
       "value": "Regular Vanity",
@@ -3578,7 +3578,7 @@
     },
     {
       "value": "Gola Vanity",
-      "img": "Gola Vanity.jpg"
+      "img": "Handless Vanity.jpg"
     }
   ],
   "gola": [

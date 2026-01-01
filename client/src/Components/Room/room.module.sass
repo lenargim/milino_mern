@@ -1,8 +1,9 @@
 @use 'src/styles/variables' as *
 
 .img
-  max-width: 800px
+  max-width: 1000px
   margin: 0 auto
+  aspect-ratio: 100/48
 
 .category
   display: flex
@@ -204,3 +205,17 @@
     content: '\2190'
     width: 1em
     height: 1em
+.customPartsList
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  gap: 15px 20px
+  margin-top: 1em
+  &>li
+    text-transform: uppercase
+    cursor: pointer
+    font: 500 20px/1.2 $mainFont
+    transition: color .25s ease
+    &:hover
+      color: $accentLight
