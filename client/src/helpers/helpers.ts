@@ -98,18 +98,26 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
 }
 
 export const getCategoryImg = (room:RoomFront, currentCat:CatItem, hover?:MaybeNull<CustomPartsImgListItem>):string => {
-    const {category, door_type, gola} = room;
+    const {category, door_type, gola, door_frame_width} = room;
     try {
         const img =  hover?.img ?? currentCat.img;
         let img_folder = '';
         switch (category) {
             case "Kitchen":
             {
+                let door_type_folder = door_type;
+                if (door_type === "No Doors") {
+                    img_folder = `${category}/Regular Kitchen/${door_type_folder}/${img}`;
+                    break;
+                }
+                if (door_type === "Shaker" && Number(door_frame_width) >= 2) {
+                    door_type_folder = "Five Piece Shaker";
+                }
                 const is_folder_is_gola = currentCat.type === 'gola';
                 const category_type = getGolaCategoryName(category, is_folder_is_gola);
                 const gola_folder_type = getGolaFolder(gola);
                 const sub_folder = is_folder_is_gola ? `${category_type}/${gola_folder_type}` : `${category_type}`;
-                img_folder = `${category}/${sub_folder}/${door_type}/${img}`;
+                img_folder = `${category}/${sub_folder}/${door_type_folder}/${img}`;
                 break
             }
             default: {

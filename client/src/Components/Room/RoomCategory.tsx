@@ -17,7 +17,6 @@ const RoomCategory: FC = () => {
     const {categories, img, name, type} = getSliderCategories(room);
     const currentCat: CatItem = categories.find(cat => cat.name === category_active) ?? {name, type, img};
 
-
     return (
         <>
             <form>

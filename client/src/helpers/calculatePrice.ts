@@ -283,7 +283,7 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
                     return 26.4;
             }
             break;
-        case "Five piece shaker":
+        case "Five Piece Shaker":
             if (material === "Syncron") return 48;
             return 61.8;
         case "Custom Painted":
@@ -518,7 +518,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                     break;
                 case 'No Doors':
                     return 1;
-                case 'Five piece shaker':
+                case 'Five Piece Shaker':
                 case 'Three Piece Door':
                 case 'Finger Pull':
                     if (door_finish_material === 'Syncron') return 2;
@@ -558,7 +558,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     }
                     break;
                 case 'Finger Pull':
-                case 'Five piece shaker':
+                case 'Five Piece Shaker':
                     if (door_finish_material === 'Zenit') return 1.03;
                     break;
                 case 'Custom Painted':
@@ -677,7 +677,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                     return 0;
                 case "No Doors":
                     return -8;
-                case "Five piece shaker":
+                case "Five Piece Shaker":
                 case "Three Piece Door":
                 case "Finger Pull":
                     if (door_finish_material === 'Syncron') return 30;
