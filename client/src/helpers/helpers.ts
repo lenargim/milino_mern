@@ -518,7 +518,8 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         standard_panels,
         rta_closet_custom,
         groove,
-        drawer_accessories
+        drawer_accessories,
+        amount
     } = values;
 
     const {id, product_type, name} = product;
@@ -536,7 +537,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         room_id: roomId,
         product_id: id,
         product_type: product_type,
-        amount: 1,
+        amount,
         width: width,
         height: height,
         depth: depth,
@@ -1548,11 +1549,12 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet_custom: [],
             groove: null,
             drawer_accessories: null,
+            amount: 1,
             note: '',
-            price: 0,
+            price: 0
         }
     } else {
-        const {width, height, depth, custom, note, price, glass} = cartItemValues;
+        const {width, height, depth, custom, note, price, glass, amount} = cartItemValues;
         const {
             standard_doors,
             standard_panels,
@@ -1560,7 +1562,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet,
             accessories,
             groove,
-            drawer_accessories
+            drawer_accessories,
         } = custom!;
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
             alum_profiles: accessories.led.alum_profiles.map(el => ({
@@ -1628,6 +1630,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet_custom: rtaClosetValues,
             groove: groove ?? null,
             drawer_accessories: drawer_accessories ?? null,
+            amount,
             note,
             price: price,
         }

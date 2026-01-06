@@ -84,7 +84,8 @@ export type CustomPartFormType = {
     standard_panels: MaybeNull<PanelsFormType>,
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
     groove: MaybeNull<GrooveAPIType>,
-    drawer_accessories: MaybeNull<DrawerAccessoriesType>
+    drawer_accessories: MaybeNull<DrawerAccessoriesType>,
+    amount: number
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
@@ -125,7 +126,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, custom_part, room_id,productEditId)
+                const cartData = addToCartCustomPart(values, custom_part, room_id,productEditId);
 
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));
