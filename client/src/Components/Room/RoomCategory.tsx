@@ -13,7 +13,7 @@ const RoomCategory: FC = () => {
     const [room] = useOutletContext<[RoomFront]>();
     const [hoveredItem, setHoveredItem] = useState<MaybeNull<CustomPartsImgListItem>>(null);
     if (!room) return null;
-    const {_id, activeProductCategory: category_active, door_type} = room;
+    const {_id, activeProductCategory: category_active, door_type, category} = room;
     const {categories, img, name, type} = getSliderCategories(room);
     const currentCat: CatItem = categories.find(cat => cat.name === category_active) ?? {name, type, img};
 
@@ -24,6 +24,7 @@ const RoomCategory: FC = () => {
                     <div className={s.img}>
                         <img src={getCategoryImg(room, currentCat, hoveredItem)} alt={category_active}/>
                     </div>
+                    {category === "Kitchen" ?
                     <ul className={s.customPartsList}>
                         {customPartsImgList.map((el, index) => {
                             return <li key={index}
@@ -31,7 +32,8 @@ const RoomCategory: FC = () => {
                                        onMouseLeave={() => setHoveredItem(null)}
                             >{el.name}</li>
                         })}
-                    </ul>
+                    </ul> : null
+                    }
                     <div className={s.category}>
                         {categories.map(el => <CategoryItem key={el.name}
                                                             name={el.name}
