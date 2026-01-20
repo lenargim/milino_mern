@@ -7,13 +7,13 @@ import ProductCabinet from "./ProductCabinet";
 import {Formik} from 'formik';
 import ProductLeft from "./ProductLeft";
 import {getProductSchema} from "./ProductSchema";
-import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
 import {useNavigate} from "react-router-dom";
 
 type ProductComponentType = {
     materials: RoomMaterialsFormType,
-    room_id: string,
+    room: RoomFront,
     product: ProductType,
     initialProductValues: ProductFormType,
     productData: ProductTableDataType,
@@ -22,7 +22,7 @@ type ProductComponentType = {
 
 const Product: FC<ProductComponentType> = ({
                                                materials,
-                                               room_id,
+                                               room,
                                                product,
                                                initialProductValues,
                                                productData,
@@ -31,6 +31,7 @@ const Product: FC<ProductComponentType> = ({
     const dispatch = useAppDispatch();
     const {sizeLimit} = productData;
     const navigate = useNavigate();
+    const {_id: room_id} = room
     return (
         <Formik
             initialValues={initialProductValues}
@@ -52,10 +53,11 @@ const Product: FC<ProductComponentType> = ({
             }}
         >
             <div className={st.product}>
-                <ProductLeft product={product} materials={materials}/>
+                <ProductLeft product={product} materials={materials} room={room}/>
                 <div className={s.right}>
                     <ProductCabinet product={product}
                                     productData={productData}
+                                    room={room}
                     />
                 </div>
             </div>

@@ -1,16 +1,21 @@
 import React, {FC} from 'react';
 import s from "./product.module.sass";
-import {getImgSize, getProductImage} from "../../helpers/helpers";
+import {getImgSize, getProductImagePath} from "../../helpers/helpers";
 import {ProductType, ProductFormType} from "../../helpers/productTypes";
 import {useFormikContext} from "formik";
 import Materials from "../../common/Materials";
 import {ProductAttributes} from "./ProductAttributes";
-import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 
-const ProductLeft:FC<{product:ProductType, materials:RoomMaterialsFormType}> = ({product, materials}) => {
-    const {category, name, attributes} = product;
-    const {values: {image_active_number, doors_amount}} = useFormikContext<ProductFormType>();
-    const img = getProductImage(product, image_active_number);
+const ProductLeft: FC<{ product: ProductType, materials: RoomMaterialsFormType, room: RoomFront}> = ({
+                                                                                                                       product,
+                                                                                                                       materials,
+                                                                                                                       room
+                                                                                                                   }) => {
+    const {name, attributes} = product;
+    const {values: {image_active_number, doors_amount, hinge_opening}} = useFormikContext<ProductFormType>();
+    const {category} = room
+    const img = getProductImagePath(room, product, hinge_opening);
     const imgSize = getImgSize(category);
     return (
         <div className={s.left}>

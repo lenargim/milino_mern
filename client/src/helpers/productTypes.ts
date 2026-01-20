@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RodType, RoomCategoriesType} from "./roomTypes";
+import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -89,15 +89,6 @@ interface BaseProduct {
     initial_width?: number,
     initial_height?: number
 }
-
-// export type ProductOrCustomType = {
-//     id: number,
-//     name: string,
-//     product_type: ProductApiType,
-//     images: string[],
-//     initial_width?: number,
-//     initial_height?: number
-// }
 
 export type ProductOptionsType =
     "PTO for drawers"
@@ -313,7 +304,8 @@ export interface drawerInterface {
 
 export type CabinetType = {
     product: ProductType,
-    productData: ProductTableDataType
+    productData: ProductTableDataType,
+    room: RoomFront
 }
 
 export type DepthRangeType = {

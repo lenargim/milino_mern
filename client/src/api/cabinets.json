@@ -5,7 +5,6 @@
     "legsHeight": 4.5,
     "name": "BS Series",
     "category": "Base Cabinets",
-    "images": ["BC/BS.jpg","BC/BS_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -45,7 +44,6 @@
     "legsHeight": 4.5,
     "name": "BD Series",
     "category": "Base Cabinets",
-    "images": ["BC/BD.jpg","BC/BD_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -84,7 +82,6 @@
     "legsHeight": 4.5,
     "name": "B Series",
     "category": "Base Cabinets",
-    "images": ["BC/B.jpg","BC/B_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -134,7 +131,6 @@
     "legsHeight": 4.5,
     "name": "BID Series",
     "category": "Base Cabinets",
-    "images": ["BC/BID.jpg", "BC/BID_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -183,7 +179,6 @@
     "legsHeight": 4.5,
     "name": "BSG Series",
     "category": "Base Cabinets",
-    "images": ["BC/BSG.jpg","BC/BSG.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -221,7 +216,6 @@
     "legsHeight": 4.5,
     "name": "BG Series",
     "category": "Base Cabinets",
-    "images": ["BC/BG.jpg","BC/BG.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -269,7 +263,6 @@
     "legsHeight": 4.5,
     "name": "BSP Series",
     "category": "Base Cabinets",
-    "images": ["BC/BSP.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -302,7 +295,6 @@
     "legsHeight": 4.5,
     "name": "BD2 Series",
     "category": "Base Cabinets",
-    "images": ["BC/BD2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -345,7 +337,6 @@
     "legsHeight": 4.5,
     "name": "B2DE Series",
     "category": "Base Cabinets",
-    "images": ["BC/B2DE.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -368,7 +359,6 @@
     "legsHeight": 4.5,
     "name": "B3DI Series",
     "category": "Base Cabinets",
-    "images": ["BC/B3DI.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -400,7 +390,6 @@
     "legsHeight": 4.5,
     "name": "B3D Series",
     "category": "Base Cabinets",
-    "images": ["BC/B3D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -432,7 +421,6 @@
     "legsHeight": 4.5,
     "name": "B3DE Series",
     "category": "Base Cabinets",
-    "images": ["BC/B3DE.jpg"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -464,7 +452,6 @@
     "legsHeight": 4.5,
     "name": "B3ED Series",
     "category": "Base Cabinets",
-    "images": ["BC/B3ED.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -487,7 +474,6 @@
     "legsHeight": 4.5,
     "name": "B4D Series",
     "category": "Base Cabinets",
-    "images": ["BC/B4D.jpg"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -519,7 +505,6 @@
     "legsHeight": 4.5,
     "name": "B4DE Series",
     "category": "Base Cabinets",
-    "images": ["BC/B4DE.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -542,7 +527,6 @@
     "legsHeight": 4.5,
     "name": "SB2D Series",
     "category": "Base Cabinets",
-    "images": ["BC/SB2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -565,7 +549,6 @@
     "legsHeight": 4.5,
     "name": "SB Series",
     "category": "Base Cabinets",
-    "images": ["BC/SB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -601,7 +584,6 @@
     "legsHeight": 4.5,
     "name": "SBD Series",
     "category": "Base Cabinets",
-    "images": ["BC/SBD.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -643,7 +625,6 @@
     "legsHeight": 4.5,
     "name": "SBT Series",
     "category": "Base Cabinets",
-    "images": ["BC/SBT.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -685,7 +666,6 @@
     "legsHeight": 4.5,
     "name": "SBDT Series",
     "category": "Base Cabinets",
-    "images": ["BC/SBDT.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -737,7 +717,6 @@
     "isBlind": true,
     "name": "BCB Series",
     "category": "Base Cabinets",
-    "images": ["BC/BCB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -780,7 +759,6 @@
     "isBlind": true,
     "name": "BCBL Series",
     "category": "Base Cabinets",
-    "images": ["BC/BCBL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -824,7 +802,6 @@
     "isAngle": "flat",
     "name": "BCA Series",
     "category": "Base Cabinets",
-    "images": ["BC/BCA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -868,7 +845,6 @@
     "isAngle": "flat",
     "name": "BCAL Series",
     "category": "Base Cabinets",
-    "images": ["BC/BCAL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -912,7 +888,6 @@
     "isAngle": "corner",
     "name": "BC Series",
     "category": "Base Cabinets",
-    "images": ["BC/BC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -956,7 +931,6 @@
     "isAngle": "corner",
     "name": "BCL Series",
     "category": "Base Cabinets",
-    "images": ["BC/BCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -998,7 +972,6 @@
     "legsHeight": 4.5,
     "name": "CTB Series",
     "category": "Base Cabinets",
-    "images": ["BC/CTB.jpg"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1039,7 +1012,6 @@
     "legsHeight": 4.5,
     "name": "COB Series",
     "category": "Base Cabinets",
-    "images": ["BC/COB.jpg"],
     "attributes": [
       {
         "name": "Front Panel",
@@ -1079,7 +1051,6 @@
     "legsHeight": 4.5,
     "name": "MB Series",
     "category": "Base Cabinets",
-    "images": ["BC/MB.jpg"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1121,7 +1092,6 @@
     "name": "B1D Series",
     "category": "Base Cabinets",
     "customHeight": 16.5,
-    "images": ["BC/B1D.jpg"],
     "attributes": [
       {
         "name": "Drawer",
@@ -1143,7 +1113,6 @@
     "name": "B1KD Series",
     "category": "Base Cabinets",
     "customHeight": 6,
-    "images": ["BC/B1KD.jpg"],
     "attributes": [
       {
         "name": "Floating Drawer Cabinet",
@@ -1165,7 +1134,6 @@
     "product_type": "cabinet",
     "name": "DDC Series",
     "category": "Base Cabinets",
-    "images": ["BC/DDC.jpg"],
     "attributes": [
       {
         "name": "Empty Drop Down Door Cabinet",
@@ -1186,7 +1154,6 @@
     "customDepth": 13,
     "name": "BW Series",
     "category": "Base Cabinets",
-    "images": ["BC/BW.jpg"],
     "attributes": [
       {
         "name": "Wine Cells Cabinet",
@@ -1207,7 +1174,6 @@
     "isAngle": "flat",
     "name": "BEAC Series",
     "category": "Base Cabinets",
-    "images": ["BC/BEAC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1249,7 +1215,6 @@
     "legsHeight": 4.5,
     "name": "PBS Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBS.jpg","GC/PBS_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1289,7 +1254,6 @@
     "legsHeight": 4.5,
     "name": "PBD Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBD.jpg","GC/PBD_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1328,7 +1292,6 @@
     "legsHeight": 4.5,
     "name": "PBSG Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBSG.jpg","GC/PBSG.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1366,7 +1329,6 @@
     "legsHeight": 4.5,
     "name": "PBG Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBG.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1409,7 +1371,6 @@
     "legsHeight": 4.5,
     "name": "PBSP Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBSP.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1442,7 +1403,6 @@
     "legsHeight": 4.5,
     "name": "PSB Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PSB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1476,7 +1436,6 @@
     "legsHeight": 4.5,
     "name": "PSBD Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PSBD.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1518,7 +1477,6 @@
     "legsHeight": 4.5,
     "name": "PB2D Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PB2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -1541,7 +1499,6 @@
     "legsHeight": 4.5,
     "name": "PB3DI Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PB3DI.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -1573,7 +1530,6 @@
     "legsHeight": 4.5,
     "name": "PSB2D Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PSB2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -1596,7 +1552,6 @@
     "legsHeight": 4.5,
     "name": "PB3D Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PB3D.jpg"],
     "attributes": [
       {
         "name": "Equal Top Drawer",
@@ -1630,7 +1585,6 @@
     "isAngle": "corner",
     "name": "PBC Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBCC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1674,7 +1628,6 @@
     "isAngle": "corner",
     "name": "PBCL Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1717,7 +1670,6 @@
     "isBlind": true,
     "name": "PBCB Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBCB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1760,7 +1712,6 @@
     "isBlind": true,
     "name": "PBCBL Series",
     "category": "Gola Base Cabinets",
-    "images": ["GC/PBCBL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1801,7 +1752,6 @@
     "product_type": "cabinet",
     "name": "W Series",
     "category": "Wall Cabinets",
-    "images": ["WC/W.jpg","WC/W_2.jpg","WC/W.jpg","WC/W_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1866,7 +1816,6 @@
     "product_type": "cabinet",
     "name": "WDA Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WDA.jpg","WC/WDA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1917,7 +1866,6 @@
     "product_type": "cabinet",
     "name": "WA Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1949,7 +1897,6 @@
     "product_type": "cabinet",
     "name": "WBL Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WBL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -1980,7 +1927,6 @@
     "product_type": "cabinet",
     "name": "WBA Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WBA.jpg","WC/WBA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2036,7 +1982,6 @@
     "product_type": "cabinet",
     "name": "WB Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WB.jpg","WC/WB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2089,7 +2034,6 @@
     "customDepth": 24,
     "name": "WRF Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WRF.jpg","WC/WRF.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2146,7 +2090,6 @@
     "customDepth": 24,
     "name": "WRFA Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WRFA.jpg","WC/WRFA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2205,7 +2148,6 @@
     "customDepth": 24,
     "name": "WC Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2260,7 +2202,6 @@
     "customDepth": 24,
     "name": "WCA Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WCA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2313,7 +2254,6 @@
     "isBlind": true,
     "name": "WCB Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WCB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2357,7 +2297,6 @@
     "hasSolidWidth": true,
     "name": "WDC Series",
     "category": "Wall Cabinets",
-    "images": ["WC/WDC.jpg"],
     "attributes": [
       {
         "name": "False Front",
@@ -2388,7 +2327,6 @@
     "customDepth": 24,
     "name": "PWC Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PWC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2443,7 +2381,6 @@
     "customDepth": 24,
     "name": "PWCA Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PWCA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2495,7 +2432,6 @@
     "product_type": "cabinet",
     "name": "PW Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PW.jpg","GC/PW_2.jpg","GC/PW.jpg","GC/PW_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2560,7 +2496,6 @@
     "product_type": "cabinet",
     "name": "PWDA Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PWDA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2611,7 +2546,6 @@
     "product_type": "cabinet",
     "name": "PWA Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PWA.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2644,7 +2578,6 @@
     "isBlind": true,
     "name": "PWCB Series",
     "category": "Gola Wall Cabinets",
-    "images": ["GC/PWCB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2688,7 +2621,6 @@
     "hasSolidWidth": true,
     "name": "WEAC",
     "category": "Wall Cabinets",
-    "images": ["WC/WEAC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2719,7 +2651,6 @@
     "legsHeight": 4.5,
     "name": "PC Series",
     "category": "Tall Cabinets",
-    "images": ["TC/PC.jpg","TC/PC_2.jpg","TC/PC.jpg","TC/PC_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2786,7 +2717,6 @@
     "legsHeight": 4.5,
     "name": "PC2D Series",
     "category": "Tall Cabinets",
-    "images": ["TC/PC2D.jpg","TC/PC2D_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2844,7 +2774,6 @@
     "legsHeight": 4.5,
     "name": "PC3D Series",
     "category": "Tall Cabinets",
-    "images": ["TC/PC3D.jpg","TC/PC3D_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2902,7 +2831,6 @@
     "legsHeight": 4.5,
     "name": "PC4D Series",
     "category": "Tall Cabinets",
-    "images": ["TC/PC4D.jpg","TC/PC4D_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -2961,7 +2889,6 @@
     "isBlind": true,
     "name": "TBC Series",
     "category": "Tall Cabinets",
-    "images": ["TC/TBC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3020,7 +2947,6 @@
     "isBlind": true,
     "name": "TBCL Series",
     "category": "Tall Cabinets",
-    "images": ["TC/TBCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3079,7 +3005,6 @@
     "name": "TDO Series",
     "category": "Tall Cabinets",
     "middleSectionDefault": 49.5,
-    "images": ["TC/TDO.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3124,7 +3049,6 @@
     "name": "TSO Series",
     "middleSectionDefault": 30,
     "category": "Tall Cabinets",
-    "images": ["TC/TSO.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3180,7 +3104,6 @@
     "product_type": "cabinet",
     "name": "T Series",
     "category": "Tall Cabinets",
-    "images": ["TC/T.jpg","TC/T_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3236,7 +3159,6 @@
     "product_type": "cabinet",
     "name": "TD Series",
     "category": "Tall Cabinets",
-    "images": ["TC/TD.jpg","TC/TD_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3305,7 +3227,6 @@
     "product_type": "cabinet",
     "name": "PCSP Series",
     "category": "Tall Cabinets",
-    "images": ["TC/PCSP.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3348,7 +3269,6 @@
     "legsHeight": 4.5,
     "name": "PPC Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PPC.jpg","GC/PPC_2.jpg","GC/PPC.jpg","GC/PPC_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3415,7 +3335,6 @@
     "legsHeight": 4.5,
     "name": "PPCD Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PPCD.jpg","GC/PPCD_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3473,7 +3392,6 @@
     "legsHeight": 4.5,
     "name": "PPCDV Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PPCDV.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3516,7 +3434,6 @@
     "legsHeight": 4.5,
     "name": "PPCV Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PPC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3561,7 +3478,6 @@
     "name": "PTDO Series",
     "category": "Gola Tall Cabinets",
     "middleSectionDefault": 49.5,
-    "images": ["GC/PTDO.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3606,7 +3522,6 @@
     "isBlind": true,
     "name": "PTBC Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PTBC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3665,7 +3580,6 @@
     "isBlind": true,
     "name": "PTBCL Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PTBCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3724,7 +3638,6 @@
     "isBlind": true,
     "name": "PTBCLV Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PTBCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3768,7 +3681,6 @@
     "isBlind": true,
     "name": "PTBCV Series",
     "category": "Gola Tall Cabinets",
-    "images": ["GC/PTBC.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3811,7 +3723,6 @@
     "legsHeight": 4.5,
     "name": "VBS Series",
     "category": "Vanities",
-    "images": ["VC/VBS.jpg","VC/VBS_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3851,7 +3762,6 @@
     "legsHeight": 4.5,
     "name": "VSB Series",
     "category": "Vanities",
-    "images": ["VC/VSB.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3885,7 +3795,6 @@
     "legsHeight": 4.5,
     "name": "VSBD Series",
     "category": "Vanities",
-    "images": ["VC/VSBD.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -3927,7 +3836,6 @@
     "legsHeight": 4.5,
     "name": "VB2D Series",
     "category": "Vanities",
-    "images": ["VC/VB2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -3950,7 +3858,6 @@
     "legsHeight": 4.5,
     "name": "VSB2D Series",
     "category": "Vanities",
-    "images": ["VC/VSB2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer with Sink cut-off",
@@ -3973,7 +3880,6 @@
     "legsHeight": 4.5,
     "name": "VB3D Series",
     "category": "Vanities",
-    "images": ["VC/VB3D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4005,7 +3911,6 @@
     "name": "VF Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VF.jpg","VC/VF_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4045,7 +3950,6 @@
     "name": "VF2D Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VF2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4068,7 +3972,6 @@
     "name": "VF3D Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VF3D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4091,7 +3994,6 @@
     "name": "VSF Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VSF.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4124,7 +4026,6 @@
     "name": "VSFD Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VSFD.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4166,7 +4067,6 @@
     "name": "VSF2D Series",
     "category": "Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VSF2D.jpg"],
     "attributes": [
       {
         "name": "Drawer with Sink Cut-out",
@@ -4189,7 +4089,6 @@
     "name": "VPF Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPF.jpg","VC/VPF_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4229,7 +4128,6 @@
     "name": "VPSF Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPSF.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4262,7 +4160,6 @@
     "name": "VPSFD Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPSFD.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4295,7 +4192,6 @@
     "name": "VPSF2D Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPSF2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawers with Sink Cut-outs",
@@ -4318,7 +4214,6 @@
     "name": "VPF2DI Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPF2DI.jpg"],
     "attributes": [
       {
         "name": "Large Drawer",
@@ -4350,7 +4245,6 @@
     "name": "VPF2D Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPF2D.jpg"],
     "attributes": [
       {
         "name": "Equal Drawer",
@@ -4373,7 +4267,6 @@
     "name": "VPSF1D Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPSF1D.jpg"],
     "attributes": [
       {
         "name": "Drawer with Sink Cut-out",
@@ -4396,7 +4289,6 @@
     "name": "VPF1D Series",
     "category": "Gola Floating Vanities",
     "customHeight": 25.5,
-    "images": ["VC/VPF1D.jpg"],
     "attributes": [
       {
         "name": "Large Drawer",
@@ -4419,7 +4311,6 @@
     "legsHeight": 4.5,
     "name": "CAS Series",
     "category": "Build In",
-    "images": ["CC/CAS.jpg","CC/CAS_2.jpg","CC/CAS.jpg","CC/CAS_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4485,7 +4376,6 @@
     "legsHeight": 4.5,
     "name": "CDH Series",
     "category": "Build In",
-    "images": ["CC/CDH.jpg","CC/CDH_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4542,7 +4432,6 @@
     "legsHeight": 4.5,
     "name": "CLH Series",
     "category": "Build In",
-    "images": ["CC/CLH.jpg","CC/CLH_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4599,7 +4488,6 @@
     "legsHeight": 4.5,
     "name": "CRD Series",
     "category": "Build In",
-    "images": ["CC/CRD.jpg","CC/CRD_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4669,7 +4557,6 @@
     "legsHeight": 4.5,
     "name": "CSS Series",
     "category": "Build In",
-    "images": ["CC/CSS.jpg","CC/CSS_2.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4727,7 +4614,6 @@
     "isBlind": true,
     "name": "CCH Series",
     "category": "Build In",
-    "images": ["CC/CCH.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4761,7 +4647,6 @@
     "isBlind": true,
     "name": "CCL Series",
     "category": "Build In",
-    "images": ["CC/CCL.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4795,7 +4680,6 @@
     "isBlind": true,
     "name": "CCS Series",
     "category": "Build In",
-    "images": ["CC/CCS.jpg"],
     "attributes": [
       {
         "name": "Door",
@@ -4838,7 +4722,6 @@
     "name": "VDH Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VDH.jpg"],
     "attributes": [
       {
         "name": "Double Hanging Section",
@@ -4868,7 +4751,6 @@
     "name": "VLH Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VLH.jpg"],
     "attributes": [
       {
         "name": "Long Hanging Section",
@@ -4907,7 +4789,6 @@
     "name": "VSS Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VSS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
@@ -4936,7 +4817,6 @@
     "name": "VAS Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VAS.jpg"],
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
@@ -4965,7 +4845,6 @@
     "name": "VFSA Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VFAS.jpg"],
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
@@ -5003,7 +4882,6 @@
     "name": "VHS Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VHS.jpg"],
     "attributes": [
       {
         "name": "Hamper Section",
@@ -5042,7 +4920,6 @@
     "category": "Leather",
     "customHeight": 95,
     "hasJeweleryBlock": true,
-    "images": ["CC/VDS.jpg"],
     "attributes": [
       {
         "name": "Drawers Section",
@@ -5081,7 +4958,6 @@
     "category": "Leather",
     "customHeight": 35.5,
     "hasJeweleryBlock": true,
-    "images": ["CC/VDI.jpg"],
     "attributes": [
       {
         "name": "Island Drawers Section",
@@ -5111,7 +4987,6 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
-    "images": ["CC/VLC.jpg"],
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5151,7 +5026,6 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
-    "images": ["CC/VSC.jpg"],
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
@@ -5181,7 +5055,6 @@
     "name": "VDC Series",
     "category": "Leather",
     "customHeight": 95,
-    "images": ["CC/VDC.jpg"],
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
@@ -5210,7 +5083,6 @@
     "product_type": "cabinet",
     "name": "SDH Series",
     "category": "RTA Closets",
-    "images": ["CC/SDH.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5247,7 +5119,6 @@
     "product_type": "cabinet",
     "name": "SLH Series",
     "category": "RTA Closets",
-    "images": ["CC/SLH.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5284,7 +5155,6 @@
     "product_type": "cabinet",
     "name": "SAS Series",
     "category": "RTA Closets",
-    "images": ["CC/SAS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5312,7 +5182,6 @@
     "product_type": "cabinet",
     "name": "SSS Series",
     "category": "RTA Closets",
-    "images": ["CC/SSS.jpg"],
     "attributes": [
       {
         "name": "Angled Shoe Shelf",
@@ -5331,7 +5200,6 @@
     "product_type": "cabinet",
     "name": "SFAS Series",
     "category": "RTA Closets",
-    "images": ["CC/SFAS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5368,7 +5236,6 @@
     "product_type": "cabinet",
     "name": "SHS Series",
     "category": "RTA Closets",
-    "images": ["CC/SHS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5405,7 +5272,6 @@
     "product_type": "cabinet",
     "name": "SDS Series",
     "category": "RTA Closets",
-    "images": ["CC/SDS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelf",
@@ -5442,7 +5308,6 @@
     "product_type": "cabinet",
     "name": "IDH Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WIDH.jpg"],
     "attributes": [
       {
         "name": "Double Hanging Section",
@@ -5465,7 +5330,6 @@
     "product_type": "cabinet",
     "name": "ILH Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WILH.jpg"],
     "attributes": [
       {
         "name": "Long Hanging Section",
@@ -5497,7 +5361,6 @@
     "product_type": "cabinet",
     "name": "IAS Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WIAS.jpg"],
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
@@ -5520,7 +5383,6 @@
     "product_type": "cabinet",
     "name": "ISS Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WISS.jpg"],
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
@@ -5543,7 +5405,6 @@
     "product_type": "cabinet",
     "name": "IFAS Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/IFAS.jpg"],
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
@@ -5575,7 +5436,6 @@
     "product_type": "cabinet",
     "name": "IDS Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WIDS.jpg"],
     "attributes": [
       {
         "name": "Drawers Section",
@@ -5607,7 +5467,6 @@
     "product_type": "cabinet",
     "name": "IHS Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WIHS.jpg"],
     "attributes": [
       {
         "name": "Hamper Section",
@@ -5639,7 +5498,6 @@
     "product_type": "cabinet",
     "name": "IDC Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WIDC.jpg"],
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
@@ -5662,7 +5520,6 @@
     "product_type": "cabinet",
     "name": "ILC Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WILC.jpg"],
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5694,7 +5551,6 @@
     "product_type": "cabinet",
     "name": "ISC Series",
     "category": "Cabinet System Closet",
-    "images": ["WIC/WISC.jpg"],
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
@@ -6270,7 +6126,7 @@
   {
     "id": 929,
     "product_type": "custom",
-    "name": "Extra RO/Drawer",
+    "name": "Extra RO: Drawer",
     "type": "ro_drawer",
     "images": ["custom/Extra_RO.jpg"],
     "width_range": [24,27,30,33,36]

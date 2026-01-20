@@ -55,7 +55,7 @@ const CheckoutForm: FC = () => {
 
         switch (button_type) {
             case "save-room": {
-                const cartWithJPG = checkoutCartItemWithImg(cart_items);
+                const cartWithJPG = checkoutCartItemWithImg(cart_items, room);
                 const room_blob = await pdf(<PDFOrder values={validatedValues}
                                                       materialStrings={materialStrings}
                                                       cart={cartWithJPG}/>).toBlob();
@@ -71,7 +71,7 @@ const CheckoutForm: FC = () => {
                 break;
             }
             case "send-room": {
-                const cartWithJPG = checkoutCartItemWithImg(cart_items);
+                const cartWithJPG = checkoutCartItemWithImg(cart_items, room);
                 const room_blob = await pdf(<PDFOrder values={validatedValues}
                                                       materialStrings={materialStrings}
                                                       cart={cartWithJPG}/>).toBlob();

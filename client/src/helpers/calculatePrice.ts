@@ -105,7 +105,7 @@ function getStartPrice(tablePrice: number, materialData: materialDataType, optio
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
     const totalCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
-    console.log(`total_coef = box_coef(${boxCoef}) * materials_coef(${materials_coef}) * grain_coef(${grain_coef}) = ${totalCoef}`);
+    // console.log(`total_coef = box_coef(${boxCoef}) * materials_coef(${materials_coef}) * grain_coef(${grain_coef}) = ${totalCoef}`);
     return +(tablePrice * totalCoef).toFixed(1)
 }
 
@@ -1171,7 +1171,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 
 export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {width, height, depth, options} = cabinetItem;
-    console.log(materialData)
+    // console.log(materialData)
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;

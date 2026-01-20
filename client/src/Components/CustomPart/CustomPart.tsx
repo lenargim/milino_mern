@@ -48,10 +48,10 @@ export type GrooveAPIType = {
     clear_coat: boolean
 }
 
-export const DrawerInsertsBoxNames = ['Inserts' , 'Pegs' , 'Spice'] as const;
-export const DrawerInsertsColorNames = ['Maple' , 'Walnut'] as const;
-export const DrawerInsertsLetterNames = ['A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J'] as const;
-export const DrawerRONames = ['Extra RO','Drawer'] as const;
+export const DrawerInsertsBoxNames = ['Inserts', 'Pegs', 'Spice'] as const;
+export const DrawerInsertsColorNames = ['Maple', 'Walnut'] as const;
+export const DrawerInsertsLetterNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] as const;
+export const DrawerRONames = ['Extra RO', 'Drawer'] as const;
 export type DrawerInsertsBoxType = typeof DrawerInsertsBoxNames[number];
 export type DrawerInsertsColor = typeof DrawerInsertsColorNames[number];
 export type DrawerInsertsLetter = typeof DrawerInsertsLetterNames[number];
@@ -106,7 +106,7 @@ type CustomPartFCType = {
     custom_part: CustomPartType,
     customPartData: CustomPartTableDataType,
     initialCustomPartValues: CustomPartFormType,
-    productEditId: MaybeUndefined<string>
+    productEditId: MaybeUndefined<string>,
 }
 
 const CustomPart: FC<CustomPartFCType> = ({
@@ -126,7 +126,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, custom_part, room_id,productEditId);
+                const cartData = addToCartCustomPart(values, custom_part, room_id, productEditId);
 
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));

@@ -60,6 +60,7 @@ export interface CartAPIResponse extends CartAPI {
 
 export interface CartAPIImagedType extends CartAPI {
     image_active_number: productTypings,
+    exact_image: string
 }
 
 export interface CartOrder {
@@ -82,7 +83,7 @@ export interface CartOrder {
 export interface CartItemFrontType extends CartAPIImagedType {
     subcategory: string,
     isStandard: IsStandardOptionsType
-    price: number,
+    price: number
 }
 
 export type CartCustomType = {

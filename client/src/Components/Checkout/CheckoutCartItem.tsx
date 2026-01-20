@@ -1,7 +1,8 @@
 import React, {FC} from 'react';
 import s from './checkout.module.sass'
 import {
-    getProductById, getProductImage, getProductOrCustomPartImage,
+    getCartImagePath,
+    getProductById,
     useAppDispatch, useAppSelector
 } from "../../helpers/helpers";
 import {changeAmountType} from "../../helpers/cartTypes";
@@ -20,7 +21,6 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
         note,
         product_id,
         isStandard,
-        image_active_number,
         product_type
     } = el;
     const {rooms} = useAppSelector<RoomsState>(state => state.room);
@@ -28,8 +28,9 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     if (!room) return null;
     const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
-    const {name, images} = product;
-    const img = getProductOrCustomPartImage(product, el);
+    const {name} = product;
+    // const img = getProductOrCustomPartImage(product, el);
+    const img = getCartImagePath(room, product, el);
 
 
     function changeAmount(type: changeAmountType) {

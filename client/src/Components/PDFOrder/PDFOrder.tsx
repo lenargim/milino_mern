@@ -9,7 +9,6 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 import PdfTable from "./PDFTable";
 
-
 export const s = StyleSheet.create({
     page: {
         padding: '2vh 2vw',
