@@ -12,5 +12,6 @@ export const ProfileEditSchema = Yup.object().shape({
     password: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols'),
     compare: Yup.string().required('You should type your password').min(5, 'Minimum 5 symbols')
         .oneOf([Yup.ref('password')], "Does not match password"),
-    website: Yup.string().matches(urlRegex, 'Please provide correct link')
+    website: Yup.string().matches(urlRegex, 'Please provide correct link'),
+    additional_email: Yup.string().email('You should type email')
 })

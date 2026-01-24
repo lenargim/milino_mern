@@ -40,13 +40,25 @@
   display: grid
   grid-template-columns: 1fr 1fr
   gap: 20px
-.item
-  display: flex
-  gap: 10px
+  .item
+    display: grid
+    grid-template-columns: 7fr 3fr
+    gap: 5px
+    border: 2px solid rgba(0,0,0, 0.4)
+    box-shadow: 2px 2px 12px 0 rgba(0,0,0, 0.4)
+    //overflow: hidden
+    border-radius: 6px
+    background-color: #fff
+    padding: 10px
+    //transition: all .2s ease
+    &:hover
+      box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2)
+      z-index: 2
 .itemImg
   width: 100%
-  max-width: 320px
   overflow: hidden
+  display: flex
+  align-items: center
   &.s
     aspect-ratio: 4/3
   &.m
@@ -56,7 +68,7 @@
 
 .name
   font: 500 20px/1.2 $mainFont
-  margin-top: 1em
+  margin-top: 2em
   margin-bottom: 0.6em
 
 .roomForm

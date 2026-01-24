@@ -186,6 +186,7 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
                 <Text>Purchase order: {values.purchase_order}</Text>
                 <Text>Room name: {values.room_name}</Text>
                 <Text>Email: {values.email}</Text>
+                <Text>Additional Email: {values.additional_email}</Text>
                 <Text>Phone: {values.phone}</Text>
                 <Text>Delivery address: {values.delivery}</Text>
                 <Text>Delivery date: {values.delivery_date?.toLocaleString('en-US', {

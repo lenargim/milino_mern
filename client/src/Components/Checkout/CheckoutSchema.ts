@@ -17,6 +17,9 @@ export const CheckoutSchema = Yup.object({
         .default("")
         .email('E-mail is not valid')
         .required('Please write down your e-mail'),
+    additional_email: Yup.string()
+        .default("")
+        .email('E-mail is not valid'),
     phone: Yup.string()
         .default("")
         .required('Please write down your phone number'),

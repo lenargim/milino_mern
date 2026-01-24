@@ -1,5 +1,6 @@
 import {MaybeEmpty, productCategory} from "./productTypes";
-import {CartAPI} from "./cartTypes";
+import {CartAPI, CartOrder} from "./cartTypes";
+import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet", "Cabinet System Closet"] as const;
 export const golaTypeNames = ['Regular Kitchen', 'Handless Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
@@ -57,6 +58,17 @@ export interface RoomFront extends RoomType {
 
 export interface RoomOrderType extends RoomType {
     carts: CartAPI[]
+}
+
+export type DataToJSONType = {
+    date: string,
+    contact: CheckoutSchemaType,
+    rooms: RoomJSONData[]
+}
+
+export type RoomJSONData = {
+    materials: any,
+    orders: CartOrder[]
 }
 
 export type OrderFormSelectType = {

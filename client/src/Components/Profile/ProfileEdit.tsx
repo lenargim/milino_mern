@@ -16,6 +16,7 @@ const ProfileEdit: FC = () => {
         return {...userData, password: '', compare: ''}
     }
     let initialValues = getInitialValues(user);
+    console.log(initialValues)
 
     useEffect(() => {
         //???

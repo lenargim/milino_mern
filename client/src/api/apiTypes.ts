@@ -5,6 +5,7 @@ export type UserDataType = {
     name: string,
     company: string,
     email: string,
+    additional_email: string,
     phone: string,
     website: string
 }
@@ -41,6 +42,7 @@ export interface EditProfileType {
     _id: string,
     name: string,
     company: string,
+    additional_email: string,
     phone: string,
     password: string,
     compare: string,

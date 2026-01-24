@@ -70,7 +70,7 @@ import {
     LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, CustomPartsImgListItem, doorType, DoorTypesType, drawer, finishType,
+    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -194,7 +194,7 @@ export function isCartCustomPartType(values: CartItemFrontType | CustomPartFormT
     return '_id' in values;
 }
 
-export const getProductImage = (room: RoomType, product: ProductOrCustomType, values: ProductFormType|CustomPartFormType): string => {
+export const getProductImage = (room: RoomType, product: ProductOrCustomType, values: ProductFormType | CustomPartFormType): string => {
     if (isCustomPart(product)) {
         const customValues = values as CustomPartFormType;
         return getCustomPartImagePath(product, customValues.drawer_accessories)
@@ -204,7 +204,7 @@ export const getProductImage = (room: RoomType, product: ProductOrCustomType, va
     }
 }
 
-export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType, values: CartItemFrontType|CartAPI): string => {
+export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType, values: CartItemFrontType | CartAPI): string => {
     if (isCustomPart(product)) {
         return getCustomPartImagePath(product, values.custom?.drawer_accessories)
     } else {
@@ -1305,7 +1305,7 @@ export function textToLink(text: MaybeUndefined<string>) {
         .replace(/-+/g, '-');        // Replace multiple hyphens with one
 }
 
-export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>, room:RoomFront) => {
+export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>, room: RoomFront) => {
     if (!cart) return [];
     return cart.map(el => {
         const {product_id, product_type} = el
@@ -1336,7 +1336,7 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, room);
@@ -1354,21 +1354,10 @@ export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob
         contact: values,
         rooms
     };
-    const formData = new FormData();
-    const pdfFile = new File([po_blob], `${fileName}.pdf`, {type: "application/pdf"});
-    const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
-    const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
-
-    formData.append("pdf", pdfFile);
-    formData.append("json", jsonFile);
-    formData.append("client_email", values.email);
-    formData.append("client_name", values.name);
-    formData.append("client_purchase_order", values.purchase_order);
-    formData.append("client_room_name", values.room_name);
-    return formData
+    return await formData(blob, fileName, dataToJSON, values)
 }
 
-export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], room_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const {_id, purchase_order_id, activeProductCategory, name, ...materials} = room;
     const cart_orders: CartOrder[] = cart_items.map((el) => {
         const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
@@ -1378,19 +1367,24 @@ export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartI
     const dataToJSON = {
         date,
         contact: values,
-        room: {
+        rooms: [{
             materials,
             orders: cart_orders
-        }
+        }]
     };
+    return await formData(blob, fileName, dataToJSON, values)
+}
+
+
+async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType, values: CheckoutSchemaType): Promise<FormData> {
     const formData = new FormData();
-    const pdfFile = new File([room_blob], `${fileName}.pdf`, {type: "application/pdf"});
+    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
     const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
     const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
-
     formData.append("pdf", pdfFile);
     formData.append("json", jsonFile);
     formData.append("client_email", values.email);
+    formData.append("additional_email", values.additional_email);
     formData.append("client_name", values.name);
     formData.append("client_purchase_order", values.purchase_order);
     formData.append("client_room_name", values.room_name);

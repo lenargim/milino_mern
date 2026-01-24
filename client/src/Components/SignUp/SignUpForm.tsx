@@ -12,6 +12,7 @@ const initialValues: SignUpFrontType = {
     name: '',
     company: '',
     email: '',
+    additional_email: '',
     phone: '',
     password: '',
     compare: '',

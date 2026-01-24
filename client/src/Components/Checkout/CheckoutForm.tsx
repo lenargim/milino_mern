@@ -95,12 +95,13 @@ const CheckoutForm: FC = () => {
     const total = getCartTotal(cart_items);
     const materialStrings = getMaterialStrings(materials);
     if (!user || !active_po || !cart_items) return null;
-    const {name, company, email, phone} = user;
+    const {name, company, email, additional_email, phone} = user;
     if (!cart_items.length) navigate(-1);
     const initialValues: CheckoutFormValues = {
         name,
         company,
         email,
+        additional_email,
         phone,
         purchase_order: active_po,
         room_name: room.name,
@@ -121,6 +122,7 @@ const CheckoutForm: FC = () => {
                     <TextInput type="text" name="purchase_order" label="PO name"/>
                     <TextInput type="text" name="room_name" label="Room name"/>
                     <TextInput type="email" name="email" label="E-mail"/>
+                    <TextInput type="email" name="additional_email" label="Additional E-mail"/>
                     <PhoneInput type="text" name="phone" label="Phone number"/>
                     <TextInput type="text" name="delivery" label="Delivery address"/>
                     <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
