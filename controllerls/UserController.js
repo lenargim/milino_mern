@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import {getTransporterObject} from "../utils/helpers.js";
+import * as crypto from "crypto";
 
 const env = dotenv.config().parsed;
 
@@ -170,29 +171,69 @@ export const patchMe = async (req, res) => {
   }
 }
 
-// export const refresh = async (req, res) => {
-//   const token = req.cookies.refreshToken;
-//   if (!token) {
-//     return res.sendStatus(401).json({
-//       type: 'token-refresh',
-//       message: "No refresh token"
-//     });
-//   }
-//
-//   try {
-//     const decoded = jwt.verify(token, env.BACKEND_REFRESH_KEY);
-//     const user = await UserModel.findById(decoded._id); // ← validate user exists
-//
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-//
-//     const { accessToken } = generateTokens(decoded._id);
-//     res.json(accessToken);
-//   } catch {
-//     res.sendStatus(401).json({
-//       type: 'token-refresh',
-//       message: "Wrong refresh token"
-//     });
-//   }
-// }
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  // generate token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  // hash token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  user.resetPasswordToken = hashedToken;
+  user.resetPasswordExpire = new Date(Date.now() + 15 * 60 * 1000); // 15 min
+
+  await user.save();
+
+  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+
+  // TODO: send email
+  console.log('RESET LINK:', resetUrl);
+
+  res.json({ message: `Reset link sent` });
+};
+
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  const user = await UserModel.findOne({
+    resetPasswordToken: hashedToken
+  });
+
+  if (!user) {
+    return res.status(400).json({ message: 'Invalid token' });
+  }
+
+  if (!user.resetPasswordExpire || user.resetPasswordExpire < new Date()) {
+    return res.status(400).json({ message: 'Token expired' });
+  }
+
+  if (!user.resetPasswordToken) {
+    return res.status(400).json({ message: 'Token already used' });
+  }
+
+  user.password = await bcrypt.hash(password, 10);
+
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  res.json({ message: 'Password successfully updated' });
+};

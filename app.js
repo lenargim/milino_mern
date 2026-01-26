@@ -89,6 +89,8 @@ const start = async () => {
     app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login)
     app.get('/api/users/me', checkAuth, UserController.getMe)
     app.patch('/api/users/me', checkAuth, UserController.patchMe)
+    app.post('/forgot-password', UserController.forgotPassword);
+    app.post('/reset-password/:token', UserController.resetPassword);
 
     // Purchase Order
     app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)

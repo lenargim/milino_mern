@@ -266,9 +266,19 @@ const getProductImgSrc = (name: string, hinge_type?: MaybeUndefined<hingeTypes>)
     if (!hinge_type) return `${n}.jpg`;
     switch (hinge_type) {
         case "Left":
+        case "Single left door":
             return `${n} L.jpg`;
         case "Right":
+        case "Single right door":
             return `${n} R.jpg`;
+        case "Two left doors":
+            return `${n} 2L.jpg`;
+        case "Two right doors":
+            return `${n} 2R.jpg`;
+        case "Double Doors":
+            return `${n} 2.jpg`;
+        case "Four doors":
+            return `${n} 4.jpg`;
         default:
             return `${n}.jpg`;
     }
@@ -362,7 +372,8 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
             if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
             if (doorArr.includes(4)) tallArr.push(double, four)
         } else if (tall_type_2.includes(product_id)) {
-            tallArr.push(left, right, double)
+            if (doorArr.includes(1)) tallArr.push(left, right);
+            if (doorArr.includes(2)) tallArr.push(double);
         } else if (tall_type_3.includes(product_id)) {
             tallArr.push(left_2, right_2, single_left, single_right)
         } else if (tall_type_4.includes(product_id)) {
@@ -404,11 +415,18 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
 }
 
 export const getProductsByCategory = (room_category: RoomCategoriesType, isStandardCabinet: boolean, category: productCategory): ProductType[] => {
-    const products = cabinets as ProductType[];
-    if (isStandardCabinet && room_category === 'Kitchen') {
-        return products.filter(el => el.category === category && el.product_type === "standard");
+    let products = cabinets as ProductType[];
+    products = products.filter(el => el.category === category);
+    if (isStandardCabinet) {
+        const excludeInStandardShakerCabinets = [211, 309];
+        products = products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
-    return products.filter(el => el.category === category && el.product_type !== "standard");
+    if (isStandardCabinet && room_category === 'Kitchen') {
+        products = products.filter(el => el.product_type === "standard");
+    }
+    return products
+
+
 }
 
 

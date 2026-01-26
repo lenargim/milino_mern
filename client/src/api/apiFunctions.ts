@@ -67,14 +67,6 @@ export const logIn = async (values: LogInType) => {
     }
 }
 
-// export const refreshTokenAPI = async () => {
-//     try {
-//         return (await usersAPI.refreshToken()).data
-//     } catch (error) {
-//         return alertError(error);
-//     }
-// }
-
 export const createRoomAPI = async (room: RoomNewType): Promise<MaybeUndefined<RoomType>> => {
     try {
         return (await roomsAPI.createRoom(room)).data;
@@ -90,15 +82,6 @@ export const deleteRoomAPI = async (purchase_order_id: string, room_id: string):
         alertError(error);
     }
 }
-
-
-// export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
-//     try {
-//         return (await cartAPI.getCart(room_id)).data;
-//     } catch (error) {
-//         alertError(error);
-//     }
-// }
 
 export const removeFromCartInRoomAPI = async (room: string, _id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
@@ -214,14 +197,6 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
         alertError(error);
     }
 }
-
-// export const isTokenValid = (token: string): boolean => {
-//     const decodedToken = jwtDecode(token);
-//     const {exp} = decodedToken;
-//     const currentDate = new Date().getUTCDate();
-//     const expDate = exp ? exp : 0;
-//     return expDate > currentDate / 1000;
-// }
 
 export const isTokenValid = (token: string): boolean => {
     try {

@@ -3275,22 +3275,22 @@
         "values": [
           {
             "type": 1,
-            "value": 2,
+            "value": 1,
             "maxWidth": 27
           },
           {
             "type": 2,
-            "value": 4,
+            "value": 2,
             "minWidth": 24
           },
           {
             "type": 3,
-            "value": 2,
+            "value": 1,
             "maxWidth": 27
           },
           {
             "type": 4,
-            "value": 4,
+            "value": 2,
             "minWidth": 24
           }
         ]
@@ -3341,12 +3341,12 @@
         "values": [
           {
             "type": 1,
-            "value": 2,
+            "value": 1,
             "maxWidth": 27
           },
           {
             "type": 2,
-            "value": 4,
+            "value": 2,
             "minWidth": 24
           }
         ]
@@ -4842,7 +4842,7 @@
   {
     "id": 412,
     "product_type": "cabinet",
-    "name": "VFSA Series",
+    "name": "VFAS Series",
     "category": "Leather",
     "customHeight": 95,
     "attributes": [

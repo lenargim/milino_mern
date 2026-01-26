@@ -13,7 +13,10 @@ const Login = () => {
                 <h1 className="h1">Login</h1>
                 <LoginForm/>
                 <span className={s.signup}>
-                <NavLink to='/signup'>Sign Up here</NavLink> if you don't have account
+                    <nav>
+                        <li><NavLink to='/signup'>Sign Up here</NavLink> if you don't have account</li>
+                        <li><NavLink to='/forgot'>Forgot password</NavLink></li>
+                    </nav>
                 </span>
             </div>
         </main>
