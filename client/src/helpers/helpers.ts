@@ -275,10 +275,9 @@ const getProductImgSrc = (name: string, hinge_type?: MaybeUndefined<hingeTypes>)
             return `${n} 2L.jpg`;
         case "Two right doors":
             return `${n} 2R.jpg`;
-        case "Double Doors":
-            return `${n} 2.jpg`;
         case "Four doors":
             return `${n} 4.jpg`;
+        case "Double Doors":
         default:
             return `${n}.jpg`;
     }

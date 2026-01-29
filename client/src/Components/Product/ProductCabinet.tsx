@@ -6,7 +6,7 @@ import {
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getCartImagePath, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
@@ -78,8 +78,8 @@ const ProductCabinet: FC<CabinetType> = ({
         }
     }, [width]);
     useEffect(() => {
-        setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
-    }, [width, height])
+        setHingeArr(getHingeArr(doorArr || [], id, realWidth, realHeight, product_type))
+    }, [realWidth, realHeight])
     useEffect(() => {
         if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
     }, [hingeArr, hinge_opening])
