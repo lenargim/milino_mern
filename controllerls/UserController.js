@@ -148,7 +148,7 @@ export const patchMe = async (req, res) => {
     const user = await UserModel.findByIdAndUpdate(req.userId, {
       name: req.body.name,
       company: req.body.company,
-      additional_email: req.body.additional_email,
+      additional_emails: req.body.additional_emails.filter(el => el),
       phone: req.body.phone,
       website: req.body.website,
       passwordHash

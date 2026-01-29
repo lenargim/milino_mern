@@ -7,7 +7,7 @@ export const SendPDF = (req, res) => {
   try {
     const env = dotenv.config().parsed;
     const client_email = req.body.client_email;
-    const client_additional_email = req.body.additional_email;
+    const client_additional_emails = req.body.additional_emails;
     const client_name = req.body.client_name;
     const client_purchase_order = req.body.client_purchase_order;
     const client_room_name = req.body.client_room_name;
@@ -37,7 +37,7 @@ export const SendPDF = (req, res) => {
 
     const mailOptions = {
       from: env.EMAIL_USER,
-      to: `${env.EMAIL_TO},${client_email}, ${client_additional_email}`,
+      to: `${env.EMAIL_TO},${client_email}, ${client_additional_emails}`,
       subject: `Order ${client_purchase_order}. Room ${client_room_name}. From ${client_name}(${client_email})`,
       text: "",
       attachments: attachments

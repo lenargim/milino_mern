@@ -1398,10 +1398,11 @@ async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType
     const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
     const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
     const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
+    const additionalEmailsString = values.additional_emails ? values.additional_emails.join(', ') : '';
     formData.append("pdf", pdfFile);
     formData.append("json", jsonFile);
     formData.append("client_email", values.email);
-    formData.append("additional_email", values.additional_email);
+    formData.append("additional_emails", additionalEmailsString);
     formData.append("client_name", values.name);
     formData.append("client_purchase_order", values.purchase_order);
     formData.append("client_room_name", values.room_name);

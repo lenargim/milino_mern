@@ -13,8 +13,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  additional_email: {
-    type: String,
+  additional_emails: {
+    type: [String],
   },
   phone: {
     type: String,
