@@ -56,7 +56,9 @@ export const checkoutAPI = {
 export const AuthAPI = {
     signUp: (data: SignUpType) => instance.post('/auth/register', data),
     logIn: (data: LogInType): Promise<AxiosResponse<UserAndTokenType>> => instance.post('auth/login', data),
-    forgotPassword: (email:string):Promise<AxiosResponse<string>> => instance.post('/auth/forgotPassword', email),
+    forgotPassword: (email:string):Promise<AxiosResponse<{message:string}>> => instance.post('/auth/forgot-password', {email}),
+    resetPassword: (password:string, token:string):Promise<AxiosResponse<{message:string}>> => instance.post(`/auth/reset-password/${token}`, {password}),
+    getTokenName: (token:string):Promise<AxiosResponse<{name:string}>> => instance.get(`/auth/get-token-name/${token}`),
 }
 
 export const usersAPI = {

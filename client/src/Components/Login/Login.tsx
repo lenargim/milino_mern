@@ -14,7 +14,7 @@ const Login = () => {
                 <LoginForm/>
                 <span className={s.signup}>
                     <nav>
-                        <li><NavLink to='/signup'>Sign Up here</NavLink> if you don't have account</li>
+                        <li><NavLink to='/signup'>Sign Up</NavLink></li>
                         <li><NavLink to='/forgot'>Forgot password</NavLink></li>
                     </nav>
                 </span>

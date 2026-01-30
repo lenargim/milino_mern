@@ -26,6 +26,8 @@ import PrivateRoute from "./common/PrivateRoute";
 import PublicRote from "./common/PublicRoute";
 import RoomEditCartProduct from "./Components/Room/RoomEditCartProduct";
 import ProfileCatalog2020 from "./Components/Profile/ProfileCatalog2020";
+import ForgotPassword from "./Components/Login/ForgotPassword";
+import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
     return (
@@ -34,6 +36,8 @@ function App() {
                 <Route element={<PublicRote/>}>
                     <Route path="/" element={<Login/>}/>
                     <Route path="/signup" element={<SignUp/>}/>
+                    <Route path="/forgot" element={<ForgotPassword/>}/>
+                    <Route path="/reset-password/:token" element={<ResetPassword/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Route>
                 <Route element={<PrivateRoute/>}>

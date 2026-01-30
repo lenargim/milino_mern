@@ -172,68 +172,114 @@ export const patchMe = async (req, res) => {
 }
 
 export const forgotPassword = async (req, res) => {
-  const { email } = req.body;
+  try {
+    const {email} = req.body;
 
-  const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({email});
 
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({message: 'User not found'});
+    }
+
+    // generate token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    // hash token
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = new Date(Date.now() + 30 * 60 * 1000); // 30 min
+
+    await user.save();
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+    const transporter = nodemailer.createTransport(getTransporterObject());
+
+    const mailOptions = {
+      from: env.EMAIL_USER,
+      to: email,
+      subject: `milino.us - reset password link`,
+      html: `<a href="${resetUrl}">Reset password</a>`
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error("Error sending email:", err);
+        return res.status(500).json({message: "Error sending email", error: err});
+      }
+      res.json({message: `Reset link sent`, });
+    });
+
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({message: "Internal server error", error});
   }
-
-  // generate token
-  const resetToken = crypto.randomBytes(32).toString('hex');
-
-  // hash token
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
-
-  user.resetPasswordToken = hashedToken;
-  user.resetPasswordExpire = new Date(Date.now() + 15 * 60 * 1000); // 15 min
-
-  await user.save();
-
-  const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-
-
-  // TODO: send email
-  console.log('RESET LINK:', resetUrl);
-
-  res.json({ message: `Reset link sent` });
 };
 
 export const resetPassword = async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
+  try {
+    const {token} = req.params;
+    const {password} = req.body;
 
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(token)
-    .digest('hex');
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
 
-  const user = await UserModel.findOne({
-    resetPasswordToken: hashedToken
-  });
+    const user = await UserModel.findOneAndUpdate(
+      {
+        resetPasswordToken: hashedToken,
+        resetPasswordExpire: {$gt: new Date()}
+      },
+      {
+        $set: {
+          passwordHash: passwordHash
+        },
+        $unset: {
+          resetPasswordToken: '',
+          resetPasswordExpire: ''
+        }
+      },
+      {new: true}
+    );
+    if (!user) {
+      return res.status(400).json({
+        message: 'Invalid or expired token'
+      });
+    }
 
-  if (!user) {
-    return res.status(400).json({ message: 'Invalid token' });
+    res.json({message: 'Password successfully updated'});
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({message: "Internal server error", error});
   }
-
-  if (!user.resetPasswordExpire || user.resetPasswordExpire < new Date()) {
-    return res.status(400).json({ message: 'Token expired' });
-  }
-
-  if (!user.resetPasswordToken) {
-    return res.status(400).json({ message: 'Token already used' });
-  }
-
-  user.password = await bcrypt.hash(password, 10);
-
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpire = undefined;
-
-  await user.save();
-
-  res.json({ message: 'Password successfully updated' });
 };
+
+export const getTokenName = async (req, res) => {
+  try {
+    const {token} = req.params;
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+
+    const user = await UserModel.findOne(
+      {resetPasswordToken: hashedToken}
+    );
+    if (!user) {
+      return res.json({
+        name: 'User'
+      });
+    }
+
+    res.json({name: user.email});
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(500).json({message: "Internal server error", error});
+  }
+}
