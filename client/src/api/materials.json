@@ -3381,8 +3381,8 @@
       "img": "Milino.jpg",
       "types": [
         {
-          "value": "Undermount",
-          "img": "Undermount.jpg",
+          "value": "Same as Box Material",
+          "img": "Same as Box Material.jpg",
           "colors": [
             {
               "value": "Plywood",
@@ -3396,7 +3396,7 @@
         },
         {
           "value": "Legrabox",
-          "img": "Milino Legrabox.jpg",
+          "img": "Legrabox.jpg",
           "colors": [
             {
               "value": "Gray",
@@ -3433,8 +3433,8 @@
       "img": "blum.png",
       "types": [
         {
-          "value": "Undermount",
-          "img": "Undermount.jpg",
+          "value": "Same as Box Material",
+          "img": "Same as Box Material.jpg",
           "colors": [
             {
               "value": "Plywood",
@@ -3448,7 +3448,7 @@
         },
         {
           "value": "Legrabox",
-          "img": "Blum Legrabox.jpg",
+          "img": "Legrabox.jpg",
           "colors": [
             {
               "value": "Orion Gray",

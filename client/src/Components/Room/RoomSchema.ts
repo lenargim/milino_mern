@@ -122,7 +122,7 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
             drawer_color: Yup.string()
                 .default('')
                 .when('drawer_type', {
-                    is: (val: string) => val !== 'Undermount',
+                    is: (val: string) => val !== 'Same as Box Material',
                     then: (schema => schema.required('Please write color'))
                 }),
             leather: Yup.string()

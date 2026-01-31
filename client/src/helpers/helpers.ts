@@ -842,7 +842,7 @@ export const isDrawerType = (showDrawerBrand: boolean, drawer_brand: string, dra
 
 export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
     if (!showDrawerType) return false;
-    return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
+    return !(!drawer_type || drawer_type === 'Same as Box Material' || !drawerColorsArr.length);
 }
 
 export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
@@ -924,7 +924,7 @@ export const isLeatherType = (isLeather: boolean, isFilledDrawerBlock: boolean):
 
 export const getIsFilledDrawerBlock = (drawer_type: MaybeUndefined<string>, drawer_color: MaybeUndefined<string>) => {
     if (!drawer_type) return false;
-    if (drawer_type === 'Undermount') return true;
+    if (drawer_type === 'Same as Box Material') return true;
     return !!drawer_color
 }
 

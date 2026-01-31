@@ -359,7 +359,7 @@ function getDrawerPrice(qty: number, width: number, door_type: string, drawerBra
     switch (drawerBrand) {
         case 'Milino':
             switch (drawerType) {
-                case 'Undermount':
+                case 'Same as Box Material':
                     return isStandardCabinet ? qty * 10 : qty * 15;
                 case 'Legrabox':
                     if (drawerColor === 'LED') {
@@ -374,7 +374,7 @@ function getDrawerPrice(qty: number, width: number, door_type: string, drawerBra
             break
         case 'BLUM':
             switch (drawerType) {
-                case 'Undermount':
+                case 'Same as Box Material':
                     return qty * 55;
                 case 'Legrabox':
                     if (drawerColor === 'Orion Gray') return qty * 150;
