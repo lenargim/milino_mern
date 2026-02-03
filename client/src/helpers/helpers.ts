@@ -137,7 +137,6 @@ export const getCategoryImg = (room: RoomFront, currentCat: CatItem, hover?: May
                 break
             }
         }
-        // console.log(img_folder);
         return require(`./../assets/img/categories/${img_folder}`)
     } catch (e) {
         return noImg
@@ -227,7 +226,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
                     case "Tall Cabinets":
                     case "Gola Tall Cabinets": {
                         category_folder = 'Kitchen';
-                        break
+                        break;
                     }
                 }
                 break
@@ -392,8 +391,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
 }
 
 export const getProductById = (id: MaybeUndefined<number>, isProductStandard: boolean): MaybeNull<ProductType | CustomPartType> => {
-    if (!id) return null;
-    let product_or_custom = cabinets.find(product => product.id === id && product.product_type !== (isProductStandard ? "cabinet" : "standard"));
+    let product_or_custom = getProductOrCustomType(id, isProductStandard)
     if (!product_or_custom) return null;
     const {product_type} = product_or_custom as ProductOrCustomType;
     switch (product_type) {
@@ -411,6 +409,14 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
             return product_or_custom as CustomPartType;
         }
     }
+}
+
+export const getProductOrCustomType = (id: MaybeUndefined<number>, isProductStandard: boolean) => {
+    if (!id) return null;
+    const products = cabinets.filter(p => p.id === id);
+    if (!products) return null;
+    if (products.length === 1) return products[0];
+    return products.find(product =>product.product_type !== (isProductStandard ? "cabinet" : "standard"));
 }
 
 export const getProductsByCategory = (room_category: RoomCategoriesType, isStandardCabinet: boolean, category: productCategory): ProductType[] => {
@@ -1981,3 +1987,19 @@ export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, ha
     }
     return ""
 }
+
+
+export const getVariableType = (value:any) => {
+    if (value === null) {
+        return 'null';
+    }
+    if (Array.isArray(value)) {
+        return 'array';
+    }
+    const type = typeof value;
+    if (type === 'object') {
+        // Distinguish between plain objects, Dates, Regex, etc.
+        return Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
+    }
+    return type;
+};

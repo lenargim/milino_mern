@@ -116,7 +116,7 @@ const CheckoutForm: FC = () => {
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
                 onSubmit={handleSubmit}
-                render={props => {
+                render={({values, errors}) => {
                     return (
                         <Form className={[s.form].join(' ')}>
                             <h1>Checkout</h1>
@@ -127,7 +127,7 @@ const CheckoutForm: FC = () => {
                                 <TextInput type="text" name="purchase_order" label="PO name"/>
                                 <TextInput type="text" name="room_name" label="Room name"/>
                                 <TextInput type="email" name="email" label="E-mail"/>
-                                <AdditionalEmailsArray additional_emails={props.values.additional_emails}/>
+                                <AdditionalEmailsArray additional_emails={values.additional_emails} errors={errors.additional_emails}/>
                                 <PhoneInput type="text" name="phone" label="Phone number"/>
                                 <TextInput type="text" name="delivery" label="Delivery address"/>
                                 <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>

@@ -161,12 +161,12 @@
   },
   "Build In Closet": {
     "name": "Build In Closet",
-    "img": "Built-in-Closet.webp",
+    "img": "BuildIn.jpg",
     "type": "regular",
     "categories": [
       {
         "name": "Build In",
-        "img": "Built-in-Closet.webp",
+        "img": "BuildIn.jpg",
         "type": "regular"
       },
       {
@@ -178,12 +178,12 @@
   },
   "Leather Closet": {
     "name": "Leather Closet",
-    "img": "Leather-Closets.webp",
+    "img": "WalkIn.jpg",
     "type": "regular",
     "categories": [
       {
         "name": "Leather",
-        "img": "Leather-Closets.webp",
+        "img": "WalkIn.jpg",
         "type": "regular"
       },
       {
@@ -195,12 +195,12 @@
   },
   "RTA Closet": {
     "name": "RTA Closet",
-    "img": "rta-closet.webp",
+    "img": "RTA.jpg",
     "type": "regular",
     "categories": [
       {
         "name": "RTA Closets",
-        "img": "rta-closet.webp",
+        "img": "RTA.jpg",
         "type": "regular"
       },
       {
@@ -212,12 +212,12 @@
   },
   "Cabinet System Closet": {
     "name": "Cabinet System Closet",
-    "img": "System_closets.webp",
+    "img": "Cabinet System.jpg",
     "type": "regular",
     "categories": [
       {
         "name": "Cabinet System Closet",
-        "img": "System_closets.webp",
+        "img": "Cabinet System.jpg",
         "type": "regular"
       },
       {

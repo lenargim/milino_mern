@@ -42,10 +42,11 @@ export interface EditProfileType {
     _id: string,
     name: string,
     company: string,
-    additional_emails?: string[],
     phone: string,
     password: string,
     compare: string,
+    // website?: string
+    additional_emails: string[],
 }
 
 export type LogInType = {

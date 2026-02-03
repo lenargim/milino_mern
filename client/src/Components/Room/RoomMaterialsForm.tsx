@@ -270,7 +270,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
                                    size="small"/>}
             {showDrawerType &&
             <RoomMaterialsDataType data={drawerTypesArr} value={drawer_type} name="drawer_type" label="Drawer Type"
-                                   size="small"/>}
+                                   size="small-square"/>}
             {showDrawerColor &&
             <RoomMaterialsDataType data={drawerColorsArr} value={drawer_color} name="drawer_color" label="Drawer Color"
                                    size="small"/>}

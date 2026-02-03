@@ -76,7 +76,7 @@ export type OrderFormSelectType = {
     value: any,
     name: string,
     label?: string
-    size?: 'small' | 'large'
+    size?: 'small' | 'large' | 'small-square'
 }
 
 export type materialsData = {

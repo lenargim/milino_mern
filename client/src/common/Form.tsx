@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
-import {useField, ErrorMessage, Field, FieldArrayRenderProps, FieldArray} from "formik";
+import {useField, ErrorMessage, Field, FieldArray, FieldArrayRenderProps} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
-import {getFraction} from "../helpers/helpers";
+import {getFraction, getVariableType} from "../helpers/helpers";
 import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
@@ -14,8 +14,6 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {addMonths, addWeeks} from 'date-fns';
 import s from "../Components/Profile/profile.module.sass";
-import st from "./Form.module.sass";
-
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -433,36 +431,54 @@ export const MyDatePicker: FC<{ name: string, label?: string, weeks: number }> =
 }
 
 
-export const AdditionalEmailsArray: FC<{ additional_emails: string[] | undefined}> = ({
-                                                                                                                                    additional_emails,
-                                                                                                                                }): JSX.Element => {
+export const AdditionalEmailsArray: FC<{ additional_emails: string[], errors: MaybeUndefined<string | string[]> }> = ({
+                                                                                                                          additional_emails,
+                                                                                                                          errors
+
+                                                                                                                      }): JSX.Element => {
+    const myType = getVariableType(errors);
+    const typeErrorIsString = myType === 'string'
+    console.log(typeErrorIsString)
     return (
         <FieldArray
             name="additional_emails"
-            render={arrayHelpers => (
+            render={(arrayHelpers) => (
                 <div>
                     {additional_emails && additional_emails.length > 0
                         ? <div className={s.additionalEmailsWrap}>
                             {additional_emails.map((el, index) => <AdditionalEmailInput
                                     key={index}
                                     index={index}
+                                    typeErrorIsString={typeErrorIsString}
                                     arrayHelpers={arrayHelpers}
                                 />
                             )}
-                            <div className={st.error}><NestedErrorMessage name="additional_emails"/></div>
+                            {typeErrorIsString &&
+                            <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
                         </div>
                         : null
                     }
-                    <button type="button" className="button yellow small"
-                            onClick={() => arrayHelpers.push('')}>+ Additional E-mail
-                    </button>
+                    {additional_emails?.length < 5 ?
+                        <button type="button" className="button yellow small"
+                                onClick={() => arrayHelpers.push('')}>+ Additional E-mail
+                        </button>
+                        : null
+                    }
                 </div>
             )}
         />
     )
 }
 
-const AdditionalEmailInput: FC<{ index: number, arrayHelpers: FieldArrayRenderProps }> = ({index, arrayHelpers}) => {
+const AdditionalEmailInput: FC<{ index: number, typeErrorIsString: boolean, arrayHelpers: FieldArrayRenderProps }> = ({
+                                                                                                                          index,
+                                                                                                                          typeErrorIsString,
+                                                                                                                          arrayHelpers
+                                                                                                                      }) => {
+    const name = `additional_emails[${index}]`;
+    const [field, meta, helpers] = useField(name);
+    const {error, touched} = meta;
+    const length = field?.value?.length ?? 0;
     return (
         <div className={s.additionalInputWrap}>
             <button
@@ -472,11 +488,18 @@ const AdditionalEmailInput: FC<{ index: number, arrayHelpers: FieldArrayRenderPr
                     arrayHelpers.remove(index)
                 }}>×
             </button>
-            <TextInput
-                type={"email"}
-                autoComplete="off"
-                label={`Additional email (#${index + 1})`}
-                name={`additional_emails.${index}`}/>
+            <div className={[styles.row, error && touched ? 'error' : null].join(' ')}>
+                <Field
+                    className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
+                    type="email"
+                    name={name}
+                    id={name}
+                    onFocus={(e: any) => handleFocus(e.target)}
+                    onBlur={(e: any) => handleBlur(e.target, helpers.setTouched)}
+                />
+                <label className={styles.label} htmlFor={name}>{`Additional Email #${index + 1}`}</label>
+                {!typeErrorIsString && <ErrorMessage name={name} component="div" className={styles.error}/>}
+            </div>
         </div>
     )
 }
