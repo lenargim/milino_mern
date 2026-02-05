@@ -224,7 +224,8 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Vanity": {
                 switch (product_subcategory) {
                     case "Tall Cabinets":
-                    case "Gola Tall Cabinets": {
+                    case "Gola Tall Cabinets":
+                    case "Standard Tall Cabinets": {
                         category_folder = 'Kitchen';
                         break;
                     }
@@ -425,9 +426,9 @@ export const getProductsByCategory = (room_category: RoomCategoriesType, isStand
         const excludeInStandardShakerCabinets = [211, 309];
         products = products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
-    if (isStandardCabinet && room_category === 'Kitchen') {
-        products = products.filter(el => el.product_type === "standard");
-    }
+    // if (isStandardCabinet && ['Kitchen', 'Vanity'].includes(room_category)) {
+    //     products = products.filter(el => el.product_type === "standard");
+    // }
     return products
 
 
@@ -1213,8 +1214,9 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard Size Shaker' && category !== 'Vanity') {
+    if (door_type === 'Standard Size Shaker') {
         if (category === "Kitchen") return API['Kitchen Standard'] as SliderCategoriesItemType;
+        if (category === "Vanity") return API['Vanity Standard'] as SliderCategoriesItemType;
         return API['Standard Door'] as SliderCategoriesItemType;
     }
     switch (category) {
@@ -1304,6 +1306,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
+        case "Standard Vanities":
+        case "Standard Floating Vanities":
             return [34.5];
         case "RTA Closets":
             return [95]

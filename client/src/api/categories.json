@@ -159,6 +159,33 @@
       }
     ]
   },
+  "Vanity Standard": {
+    "name": "Vanity ",
+    "img": "Flatd_01.webp",
+    "type": "regular",
+    "categories": [
+      {
+        "name": "Standard Vanities",
+        "img": "Flatd_02.webp",
+        "type": "regular"
+      },
+      {
+        "name": "Standard Floating Vanities",
+        "img": "Flatd_02.webp",
+        "type": "regular"
+      },
+      {
+        "name": "Tall Cabinets",
+        "img": "Flatd_04.webp",
+        "type": "regular"
+      },
+      {
+        "name": "Custom Parts",
+        "img": "Flatd_05.webp",
+        "type": "regular"
+      }
+    ]
+  },
   "Build In Closet": {
     "name": "Build In Closet",
     "img": "BuildIn.jpg",

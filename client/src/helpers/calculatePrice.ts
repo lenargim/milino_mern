@@ -94,6 +94,8 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
         case "Standard Base Cabinets":
         case "Standard Wall Cabinets":
         case "Standard Tall Cabinets":
+        case "Standard Vanities":
+        case "Standard Floating Vanities":
             const hasHeightDependency = priceData[0].height
             if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
             return priceData.find(el => el.width === width && el.height === height)?.price || 0;
@@ -178,6 +180,8 @@ export function getType(width: number, height: number, widthDivider: number | un
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
+        case "Standard Vanities":
+        case "Standard Floating Vanities":
             if (widthDivider) return width <= widthDivider ? 1 : 2;
             const currentDoorType = doorValues.find(el => el.value === doors)?.type
             return currentDoorType ?? 1;
@@ -469,6 +473,8 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
         case "Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
+        case "Standard Vanities":
+        case "Standard Floating Vanities":
             return [21];
         case "Build In":
             return [23]

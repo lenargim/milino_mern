@@ -65,6 +65,8 @@ export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
     | 'Standard Tall Cabinets'
+    | 'Standard Vanities'
+    | 'Standard Floating Vanities'
     | 'Standard Parts';
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';

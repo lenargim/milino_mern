@@ -25,6 +25,7 @@ export type SliderCategoriesType = {
     "Kitchen Standard": SliderCategoriesItemType,
     "Vanity": SliderCategoriesItemType,
     "Vanity Gola": SliderCategoriesItemType,
+    "Vanity Standard": SliderCategoriesItemType,
     "Build In Closet": SliderCategoriesItemType,
     "Leather Closet": SliderCategoriesItemType,
     "Standard Door": SliderCategoriesItemType,
