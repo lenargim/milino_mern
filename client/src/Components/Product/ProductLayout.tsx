@@ -72,7 +72,7 @@ const ProductLayout: FC<CabinetFormType> = ({
     const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
     const showHingeBlock = isShowHingeBlock(hingeArr);
-    const showFarmSinkBlock = isShowFarmSinkBlock(options)
+    const showFarmSinkBlock = isShowFarmSinkBlock(options);
     return (
         <Form>
             {!hasSolidWidth ?

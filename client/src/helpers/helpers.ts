@@ -198,8 +198,8 @@ export const getProductImage = (room: RoomType, product: ProductOrCustomType, va
         const customValues = values as CustomPartFormType;
         return getCustomPartImagePath(product, customValues.drawer_accessories)
     } else {
-        const customValues = values as ProductFormType;
-        return getProductImagePath(room, product, customValues.hinge_opening);
+        const {hinge_opening, corner} = values as ProductFormType;
+        return getProductImagePath(room, product, hinge_opening ?? corner);
     }
 }
 
@@ -207,7 +207,7 @@ export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType
     if (isCustomPart(product)) {
         return getCustomPartImagePath(product, values.custom?.drawer_accessories)
     } else {
-        return getProductImagePath(room, product, values.hinge);
+        return getProductImagePath(room, product, values.hinge ?? values.corner);
     }
 }
 
@@ -263,7 +263,6 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
 
 const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>): string => {
     let n = name.replace(' Series', '');
-
     switch (hinge_type) {
         case "Left":
         case "Single left door":

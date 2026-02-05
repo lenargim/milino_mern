@@ -13,9 +13,9 @@ const ProductLeft: FC<{ product: ProductType, materials: RoomMaterialsFormType, 
                                                                                                                        room
                                                                                                                    }) => {
     const {name, attributes} = product;
-    const {values: {image_active_number, doors_amount, hinge_opening}} = useFormikContext<ProductFormType>();
-    const {category} = room
-    const img = getProductImagePath(room, product, hinge_opening);
+    const {values: {image_active_number, doors_amount, hinge_opening, corner}} = useFormikContext<ProductFormType>();
+    const {category} = room;
+    const img = getProductImagePath(room, product, hinge_opening ?? corner);
     const imgSize = getImgSize(category);
     return (
         <div className={s.left}>
