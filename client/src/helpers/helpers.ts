@@ -97,17 +97,17 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     }
 }
 
+
 export const getProductImg = (src: string): string => {
-    const n = src.replace('.jpg', ' L.jpg');
-    try {
-        return require(`./../assets/img/products/${src}`);
-    } catch (e) {
+    for (const s of ['', ' L', ' 2L', ' 4'] as const) {
         try {
-            return require(`./../assets/img/products/${n}`);
-        } catch (e) {
-            return noImg
+            const postfix = src.replace('.jpg', `${s}.jpg`);
+            return require(`./../assets/img/products/${postfix}`);
+        } catch (error) {
+            continue;
         }
     }
+    return noImg;
 }
 
 export const getCategoryImg = (room: RoomFront, currentCat: CatItem, hover?: MaybeNull<CustomPartsImgListItem>): string => {
@@ -260,35 +260,33 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
     }
 }
 
-const getProductImgSrc = (name: string, hinge_type?: MaybeUndefined<hingeTypes>): string => {
-    const n = name.replace(' Series', '');
-    if (!hinge_type) return `${n}.jpg`;
+const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>): string => {
+    let n = name.replace(' Series', '');
+
     switch (hinge_type) {
         case "Left":
         case "Single left door":
-            return `${n} L.jpg`;
+            n = `${n} L`;
+            break
         case "Right":
         case "Single right door":
-            return `${n} R.jpg`;
+            n = `${n} R`;
+            break
         case "Two left doors":
-            return `${n} 2L.jpg`;
+            n = `${n} 2L`;
+            break
         case "Two right doors":
-            return `${n} 2R.jpg`;
+            n = `${n} 2R`;
+            break
         case "Four doors":
-            return `${n} 4.jpg`;
+            n = `${n} 4`;
+            break
         case "Double Doors":
         default:
-            return `${n}.jpg`;
+            break;
     }
+    return `${n}.jpg`;
 }
-
-// export const getCustomPartFormImage = (product: CustomPartType, values: CustomPartFormType): string => {
-//     return getCustomPartImage(product, values?.drawer_accessories)
-// }
-
-// export const getCustomPartCartImage = (product: CustomPartType, values: CartItemFrontType): string => {
-//     return getCustomPartImage(product, values.custom?.drawer_accessories)
-// }
 
 export const getCustomPartImagePath = (product: CustomPartType, drawer_accessories: MaybeNull<MaybeUndefined<DrawerAccessoriesType>>): string => {
     const {type} = product;
@@ -378,6 +376,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
             tallArr.push(left, right)
         }
         if (isStandard) {
+            if (tall_type_3) return [left_2, right_2];
             tallArr = tallArr.filter(el => el !== single_left && el !== single_right);
             if (width >= 24) return [four]
         }
@@ -416,7 +415,7 @@ export const getProductOrCustomType = (id: MaybeUndefined<number>, isProductStan
     const products = cabinets.filter(p => p.id === id);
     if (!products) return null;
     if (products.length === 1) return products[0];
-    return products.find(product =>product.product_type !== (isProductStandard ? "cabinet" : "standard"));
+    return products.find(product => product.product_type !== (isProductStandard ? "cabinet" : "standard"));
 }
 
 export const getProductsByCategory = (room_category: RoomCategoriesType, isStandardCabinet: boolean, category: productCategory): ProductType[] => {
@@ -1989,7 +1988,7 @@ export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, ha
 }
 
 
-export const getVariableType = (value:any) => {
+export const getVariableType = (value: any) => {
     if (value === null) {
         return 'null';
     }
