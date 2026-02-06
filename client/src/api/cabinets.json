@@ -7822,22 +7822,22 @@
           {
             "type": 1,
             "value": 2,
-            "maxWidth": 30
+            "maxWidth": 24
           },
           {
             "type": 2,
             "value": 4,
-            "minWidth": 27
+            "minWidth": 24
           },
           {
             "type": 3,
             "value": 2,
-            "maxWidth": 30
+            "maxWidth": 24
           },
           {
             "type": 4,
             "value": 4,
-            "minWidth": 27
+            "minWidth": 24
           }
         ]
       },
@@ -8334,12 +8334,12 @@
           {
             "type": 1,
             "value": 1,
-            "maxWidth": 27
+            "maxWidth": 24
           },
           {
             "type": 2,
             "value": 2,
-            "minWidth": 27
+            "minWidth": 24
           }
         ]
       },
@@ -8387,12 +8387,12 @@
           {
             "type": 1,
             "value": 1,
-            "maxWidth": 27
+            "maxWidth": 24
           },
           {
             "type": 2,
             "value": 2,
-            "minWidth": 27
+            "minWidth": 24
           }
         ]
       },

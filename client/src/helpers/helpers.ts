@@ -236,6 +236,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
+                console.log(`${category_folder}/${img_src}`)
                 return getProductImg(`${category_folder}/${img_src}`);
             }
         }
@@ -346,15 +347,14 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
 
 export function getHingeArr(doorArr: number[], product_id: number, width: number, height: number, product_type: ProductApiType): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
-    let arr: string[] = [];
+    let arr: hingeTypes[] = [];
     const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211, 216];
     const tall_type_1: number[] = [201, 202, 203, 204, 214, 215];
     const tall_type_2: number[] = [212, 213];
     const tall_type_3: number[] = [205, 206];
     const tall_type_4: number[] = [217, 218, 219, 220];
-    const any_tall_type = tall_type_1.concat(tall_type_2, tall_type_3, tall_type_4);
+    const tall_type_exceptions = tall_type_1.concat(tall_type_2, tall_type_3, tall_type_4);
     const isStandard = product_type === 'standard';
-
     if (no_hinge.includes(product_id)) return arr;
     // exceptions in standard products
     if (isStandard) {
@@ -362,23 +362,27 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
         if ([106, 107].includes(product_id) && width <= 21) arr.push(left, right);
     }
     // Tall Cabinets
-    if (any_tall_type.includes(product_id)) {
-        let tallArr = []
-        if (tall_type_1.includes(product_id)) {
-            if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
-            if (doorArr.includes(4)) tallArr.push(double, four)
-        } else if (tall_type_2.includes(product_id)) {
-            if (doorArr.includes(1)) tallArr.push(left, right);
-            if (doorArr.includes(2)) tallArr.push(double);
-        } else if (tall_type_3.includes(product_id)) {
-            tallArr.push(left_2, right_2, single_left, single_right)
-        } else if (tall_type_4.includes(product_id)) {
-            tallArr.push(left, right)
-        }
-        if (isStandard) {
-            if (tall_type_3) return [left_2, right_2];
-            tallArr = tallArr.filter(el => el !== single_left && el !== single_right);
-            if (width >= 24) return [four]
+    if (tall_type_exceptions.includes(product_id)) {
+        let tallArr:hingeTypes[] = []
+        if (!isStandard) {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
+                if (doorArr.includes(4)) tallArr.push(double, four)
+            } else if (tall_type_2.includes(product_id)) {
+                if (doorArr.includes(1)) tallArr.push(left, right);
+                if (doorArr.includes(2)) tallArr.push(double);
+            } else if (tall_type_3.includes(product_id)) {
+                tallArr.push(left_2, right_2, single_left, single_right)
+            } else if (tall_type_4.includes(product_id)) {
+                tallArr.push(left, right)
+            }
+        } else {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2);
+                if (doorArr.includes(4)) tallArr.push(four)
+            } else if (tall_type_3.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2);
+            }
         }
         return tallArr;
     }
@@ -1213,7 +1217,7 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard Size Shaker') {
+    if (door_type === 'Standard Size Shaker' && ['Kitchen', 'Vanity'].includes(category)) {
         if (category === "Kitchen") return API['Kitchen Standard'] as SliderCategoriesItemType;
         if (category === "Vanity") return API['Vanity Standard'] as SliderCategoriesItemType;
         return API['Standard Door'] as SliderCategoriesItemType;
