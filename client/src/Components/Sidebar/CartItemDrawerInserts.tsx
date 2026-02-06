@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {DrawerInsertsType} from "../CustomPart/CustomPart";
+import {DrawerAccessoriesType, DrawerInserts} from "../CustomPart/CustomPart";
 
-const CartItemDrawerInserts: FC<{ drawer_inserts: DrawerInsertsType, width: number }> = ({drawer_inserts, width}) => {
-    const {box_type, color, insert_type} = drawer_inserts;
+const CartItemDrawerInserts: FC<{ inserts: DrawerInserts, width: number }> = ({inserts, width}) => {
+    const {box_type, color, insert_type} = inserts;
     const letter:string = insert_type ? ` (${insert_type})` : '';
     return (
         <div className={s.blocks}>

@@ -5,6 +5,7 @@ export type UserDataType = {
     name: string,
     company: string,
     email: string,
+    additional_emails: string[],
     phone: string,
     website: string
 }
@@ -44,6 +45,8 @@ export interface EditProfileType {
     phone: string,
     password: string,
     compare: string,
+    // website?: string
+    additional_emails: string[],
 }
 
 export type LogInType = {

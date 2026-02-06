@@ -2,7 +2,7 @@ import {AlProfileType} from "../Components/CustomPart/CustomPartAlumProfile";
 import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {
     DoorAccessoryAPIType,
-    DrawerInsertsType,
+    DrawerAccessoriesType,
     GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
@@ -12,7 +12,7 @@ import {
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     MaybeUndefined,
-    ProductApiType,
+    ProductApiType, ProductOptionsType,
     productTypings
 } from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
@@ -30,11 +30,16 @@ export type CartAPI = {
     middle_section: number,
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
-    options: string[],
+    options: ProductOptionsType[],
     glass: MaybeUndefined<GlassAPIType>,
     led?: CartLEDAPI,
+    sink?: SinkAPIType
     custom?: CartCustomType,
     note: string,
+}
+
+export type SinkAPIType = {
+    farm_height?: number
 }
 
 export type GlassAPIType = {
@@ -55,6 +60,7 @@ export interface CartAPIResponse extends CartAPI {
 
 export interface CartAPIImagedType extends CartAPI {
     image_active_number: productTypings,
+    exact_image: string
 }
 
 export interface CartOrder {
@@ -77,13 +83,13 @@ export interface CartOrder {
 export interface CartItemFrontType extends CartAPIImagedType {
     subcategory: string,
     isStandard: IsStandardOptionsType
-    price: number,
+    price: number
 }
 
 export type CartCustomType = {
     material?: string,
     groove?: GrooveAPIType,
-    drawer_inserts?: DrawerInsertsType,
+    drawer_accessories?: DrawerAccessoriesType,
     jewelery_inserts?: JeweleryInsertsType[],
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
@@ -128,7 +134,8 @@ export type IsStandardOptionsType = {
     blind: boolean,
     middle: boolean,
     led: boolean,
-    options: boolean
+    options: boolean,
+    farm_sink: boolean
 }
 
 export type IsStandardDimentionsType = {

@@ -15,7 +15,8 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
         led,
         glass,
         isStandard,
-        custom
+        custom,
+        sink
     } = product;
     return (
         <>
@@ -45,6 +46,12 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
                 </div> : null
             }
             <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
+            {
+                sink?.farm_height ? <div className={[s.itemOption, !isStandard.farm_sink ? s.itemOptionCustom:''].join(' ')}>
+                    <span>Sink Height:</span>
+                    <span>{getFraction(sink.farm_height)}"</span>
+                </div> : null
+            }
             {
                 custom?.accessories?.closet ? <div className={s.itemOption}>
                   <span>Closet Accessories:</span>

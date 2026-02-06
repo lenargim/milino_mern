@@ -24,7 +24,12 @@ import {
     ProductOrCustomType,
     ProductTableDataType,
     CustomPartTableDataType,
-    InitialSizesType, LedAccessoriesFormType, hingeTypes, AttrWithoutDescType, materialsLimitsType, CustomTypes
+    InitialSizesType,
+    LedAccessoriesFormType,
+    hingeTypes,
+    AttrWithoutDescType,
+    materialsLimitsType,
+    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType,
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -43,16 +48,16 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, DrawerAccessoriesType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
     DoorSizesArrType,
     DoorType,
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import standardColors from '../api/standardColors.json'
-import {SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
+import {CatItem, SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
 import DA from '../api/doorAccessories.json'
 import {initialStandardPanels} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -65,18 +70,19 @@ import {
     LEDAccessoriesType
 } from "./cartTypes";
 import {
-    colorType, doorType, DoorTypesType, drawer, finishType,
+    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
     RoomFront,
-    RoomMaterialsFormType,
+    RoomMaterialsFormType, RoomNewType,
     RoomOrderType,
     RoomType
 } from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
+import {numericQuantity} from "numeric-quantity";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -88,6 +94,64 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
         return require(`./../assets/img/${folder}/${img}`)
     } catch (e) {
         return noImg
+    }
+}
+
+
+export const getProductImg = (src: string): string => {
+    for (const s of ['', ' L', ' 2L', ' 4'] as const) {
+        try {
+            const postfix = src.replace('.jpg', `${s}.jpg`);
+            return require(`./../assets/img/products/${postfix}`);
+        } catch (error) {
+            continue;
+        }
+    }
+    return noImg;
+}
+
+export const getCategoryImg = (room: RoomFront, currentCat: CatItem, hover?: MaybeNull<CustomPartsImgListItem>): string => {
+    const {category, door_type, gola, door_frame_width} = room;
+    try {
+        const img = hover?.img ?? currentCat.img;
+        let img_folder = '';
+        switch (category) {
+            case "Kitchen": {
+                let door_type_folder = door_type;
+                if (door_type === "No Doors") {
+                    img_folder = `${category}/Regular Kitchen/${door_type_folder}/${img}`;
+                    break;
+                }
+                if (door_type === "Shaker" && Number(door_frame_width) >= 2) {
+                    door_type_folder = "Five Piece Shaker";
+                }
+                const is_folder_is_gola = currentCat.type === 'gola';
+                const category_type = getGolaCategoryName(category, is_folder_is_gola);
+                const gola_folder_type = getGolaFolder(gola);
+                const sub_folder = is_folder_is_gola ? `${category_type}/${gola_folder_type}` : `${category_type}`;
+                img_folder = `${category}/${sub_folder}/${door_type_folder}/${img}`;
+                break
+            }
+            default: {
+                img_folder = img;
+                break
+            }
+        }
+        return require(`./../assets/img/categories/${img_folder}`)
+    } catch (e) {
+        return noImg
+    }
+}
+
+const getGolaFolder = (gola: MaybeEmpty<GolaType>): 'Black' | 'Wood' | 'Aluminum' => {
+    if (!gola) return 'Aluminum';
+    switch (gola) {
+        case "Black Matte Gola":
+            return 'Black';
+        case "Wood Gola":
+            return 'Wood';
+        default:
+            return 'Aluminum'
     }
 }
 
@@ -121,13 +185,128 @@ export const getAttributes = (attributes: AttrItemType[], type: productTypings =
     })
 }
 
-export const getProductImage = (images: MaybeUndefined<string[]>, imgType: productTypings = 1): string => {
-    if (!images) return noImg;
-    for (let i = imgType; i >= 0; i--) {
-        const imgLink = images[i - 1];
-        if (imgLink) return getImg('products', imgLink);
+export function isCustomPart(product: ProductOrCustomType): product is CustomPartType {
+    return product.product_type === 'custom';
+}
+
+export function isCartCustomPartType(values: CartItemFrontType | CustomPartFormType): values is CartItemFrontType {
+    return '_id' in values;
+}
+
+export const getProductImage = (room: RoomType, product: ProductOrCustomType, values: ProductFormType | CustomPartFormType): string => {
+    if (isCustomPart(product)) {
+        const customValues = values as CustomPartFormType;
+        return getCustomPartImagePath(product, customValues.drawer_accessories)
+    } else {
+        const {hinge_opening, corner} = values as ProductFormType;
+        return getProductImagePath(room, product, hinge_opening ?? corner);
     }
-    return noImg
+}
+
+export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType, values: CartItemFrontType | CartAPI): string => {
+    if (isCustomPart(product)) {
+        return getCustomPartImagePath(product, values.custom?.drawer_accessories)
+    } else {
+        return getProductImagePath(room, product, values.hinge ?? values.corner);
+    }
+}
+
+export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>): string => {
+    const {door_type, category} = room;
+    if (isCustomPart(product)) {
+        return getProductImg(`Custom Parts/${product.name}.jpg`);
+    } else {
+        const {category: product_subcategory, name} = product
+        const img_src = getProductImgSrc(name, hinge_type);
+        let category_folder = category;
+        let material_folder = '';
+        switch (category) {
+            case "Vanity": {
+                switch (product_subcategory) {
+                    case "Tall Cabinets":
+                    case "Gola Tall Cabinets":
+                    case "Standard Tall Cabinets": {
+                        category_folder = 'Kitchen';
+                        break;
+                    }
+                }
+                break
+            }
+            case "Build In Closet":
+            case "Leather Closet":
+            case "RTA Closet":
+            case "Cabinet System Closet": {
+                console.log(`${category_folder}/${img_src}`)
+                return getProductImg(`${category_folder}/${img_src}`);
+            }
+        }
+        switch (door_type as MaybeEmpty<DoorTypesType>) {
+            case "Slab":
+            case "No Doors":
+            case "Slatted":
+            case "Three Piece Door":
+                material_folder = 'Slab';
+                break
+            case "Standard Size Shaker":
+                material_folder = 'Shaker Standard';
+                break;
+            case "Custom Painted":
+                material_folder = 'Shaker Custom';
+                break;
+            case "Shaker":
+                material_folder = 'Shaker Micro';
+                break;
+            case "":
+        }
+        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}/${img_src}`);
+    }
+}
+
+const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>): string => {
+    let n = name.replace(' Series', '');
+    switch (hinge_type) {
+        case "Left":
+        case "Single left door":
+            n = `${n} L`;
+            break
+        case "Right":
+        case "Single right door":
+            n = `${n} R`;
+            break
+        case "Two left doors":
+            n = `${n} 2L`;
+            break
+        case "Two right doors":
+            n = `${n} 2R`;
+            break
+        case "Four doors":
+            n = `${n} 4`;
+            break
+        case "Double Doors":
+        default:
+            break;
+    }
+    return `${n}.jpg`;
+}
+
+export const getCustomPartImagePath = (product: CustomPartType, drawer_accessories: MaybeNull<MaybeUndefined<DrawerAccessoriesType>>): string => {
+    const {type} = product;
+    if (type === 'drawer-inserts') {
+        if (!drawer_accessories || !drawer_accessories.inserts) return getProductImg(`Custom Parts/${product.name}.jpg`);
+        const {insert_type, box_type, color} = drawer_accessories.inserts
+        if (!box_type || !color) return getProductImg(`Custom Parts/${product.name}.jpg`);
+        switch (box_type) {
+            case "Inserts": {
+                if (!insert_type) return getProductImg(`Custom Parts/${product.name}.jpg`);
+                return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
+            }
+            case "Pegs":
+                return getImg('drawer_pegs', `Pegs ${color}.jpg`)
+            case "Spice":
+                return getImg('drawer_spice', `Spice ${color}.jpg`)
+        }
+    }
+    return getProductImg(`Custom Parts/${product.name}.jpg`);
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
@@ -168,15 +347,14 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
 
 export function getHingeArr(doorArr: number[], product_id: number, width: number, height: number, product_type: ProductApiType): string[] {
     const [left, right, double, left_2, right_2, single_left, single_right, four] = hingeArr;
-    let arr: string[] = [];
+    let arr: hingeTypes[] = [];
     const no_hinge: number[] = [5, 6, 7, 42, 43, 44, 104, 105, 108, 208, 211, 216];
     const tall_type_1: number[] = [201, 202, 203, 204, 214, 215];
     const tall_type_2: number[] = [212, 213];
     const tall_type_3: number[] = [205, 206];
     const tall_type_4: number[] = [217, 218, 219, 220];
-    const any_tall_type = tall_type_1.concat(tall_type_2, tall_type_3, tall_type_4);
+    const tall_type_exceptions = tall_type_1.concat(tall_type_2, tall_type_3, tall_type_4);
     const isStandard = product_type === 'standard';
-
     if (no_hinge.includes(product_id)) return arr;
     // exceptions in standard products
     if (isStandard) {
@@ -184,21 +362,27 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
         if ([106, 107].includes(product_id) && width <= 21) arr.push(left, right);
     }
     // Tall Cabinets
-    if (any_tall_type.includes(product_id)) {
-        let tallArr = []
-        if (tall_type_1.includes(product_id)) {
-            if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
-            if (doorArr.includes(4)) tallArr.push(double, four)
-        } else if (tall_type_2.includes(product_id)) {
-            tallArr.push(left, right, double)
-        } else if (tall_type_3.includes(product_id)) {
-            tallArr.push(left_2, right_2, single_left, single_right)
-        } else if (tall_type_4.includes(product_id)) {
-            tallArr.push(left, right)
-        }
-        if (isStandard) {
-            tallArr = tallArr.filter(el => el !== single_left && el !== single_right);
-            if (width >= 24) return [four]
+    if (tall_type_exceptions.includes(product_id)) {
+        let tallArr:hingeTypes[] = []
+        if (!isStandard) {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
+                if (doorArr.includes(4)) tallArr.push(double, four)
+            } else if (tall_type_2.includes(product_id)) {
+                if (doorArr.includes(1)) tallArr.push(left, right);
+                if (doorArr.includes(2)) tallArr.push(double);
+            } else if (tall_type_3.includes(product_id)) {
+                tallArr.push(left_2, right_2, single_left, single_right)
+            } else if (tall_type_4.includes(product_id)) {
+                tallArr.push(left, right)
+            }
+        } else {
+            if (tall_type_1.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2);
+                if (doorArr.includes(4)) tallArr.push(four)
+            } else if (tall_type_3.includes(product_id)) {
+                if (doorArr.includes(2)) tallArr.push(left_2, right_2);
+            }
         }
         return tallArr;
     }
@@ -210,8 +394,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
 }
 
 export const getProductById = (id: MaybeUndefined<number>, isProductStandard: boolean): MaybeNull<ProductType | CustomPartType> => {
-    if (!id) return null;
-    let product_or_custom = cabinets.find(product => product.id === id && product.product_type !== (isProductStandard ? "cabinet" : "standard"));
+    let product_or_custom = getProductOrCustomType(id, isProductStandard)
     if (!product_or_custom) return null;
     const {product_type} = product_or_custom as ProductOrCustomType;
     switch (product_type) {
@@ -231,12 +414,27 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
     }
 }
 
-export const getProductsByCategory = (category: productCategory, isStandardCabinet: boolean): ProductType[] => {
-    const products = cabinets as ProductType[];
+export const getProductOrCustomType = (id: MaybeUndefined<number>, isProductStandard: boolean) => {
+    if (!id) return null;
+    const products = cabinets.filter(p => p.id === id);
+    if (!products) return null;
+    if (products.length === 1) return products[0];
+    return products.find(product => product.product_type !== (isProductStandard ? "cabinet" : "standard"));
+}
+
+export const getProductsByCategory = (room_category: RoomCategoriesType, isStandardCabinet: boolean, category: productCategory): ProductType[] => {
+    let products = cabinets as ProductType[];
+    products = products.filter(el => el.category === category);
     if (isStandardCabinet) {
-        return products.filter(el => el.category === category && el.product_type === "standard");
+        const excludeInStandardShakerCabinets = [211, 309];
+        products = products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
-    return products.filter(el => el.category === category && el.product_type !== "standard");
+    // if (isStandardCabinet && ['Kitchen', 'Vanity'].includes(room_category)) {
+    //     products = products.filter(el => el.product_type === "standard");
+    // }
+    return products
+
+
 }
 
 
@@ -318,6 +516,10 @@ export const checkMiddleSectionStandard = (middleSectionDefault: MaybeUndefined<
     if (!middleSectionDefault) return true;
     return middle_section === middleSectionDefault;
 }
+export const checkFarmSinkStandard = (heightDefault: MaybeUndefined<number>, height: MaybeUndefined<number>): boolean => {
+    if (!heightDefault || !height) return true;
+    return heightDefault === height;
+}
 export const checkOptionsSelected = (options: string[]): boolean => {
     return !options.length
 }
@@ -349,7 +551,8 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         custom_height,
         custom_blind_width,
         middle_section,
-        amount
+        amount,
+        farm_sink_height_string
     } = values;
 
     const realW = width || +custom_width || 0;
@@ -357,6 +560,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realD = depth || +custom_depth || 0;
     const realMiddle = +middle_section || 0
     const realBlind = +blind_width || +custom_blind_width || 0;
+    const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined
 
     return {
         _id: productEditId ?? '',
@@ -380,6 +584,9 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             border: led_borders,
             alignment: led_alignment,
             indent: led_indent_string,
+        },
+        sink: {
+            farm_height: sinkHeight
         },
         note,
         custom: {
@@ -407,7 +614,8 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         standard_panels,
         rta_closet_custom,
         groove,
-        drawer_inserts
+        drawer_accessories,
+        amount
     } = values;
 
     const {id, product_type, name} = product;
@@ -425,7 +633,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         room_id: roomId,
         product_id: id,
         product_type: product_type,
-        amount: 1,
+        amount,
         width: width,
         height: height,
         depth: depth,
@@ -529,9 +737,9 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         forceSetPath(preparedProduct, 'custom.groove', groove);
     }
 
-    //Drawer Inserts
-    if (drawer_inserts) {
-        forceSetPath(preparedProduct, 'custom.drawer_inserts', drawer_inserts);
+    //Drawer Inserts + RO Drawers
+    if (drawer_accessories) {
+        forceSetPath(preparedProduct, 'custom.drawer_accessories', drawer_accessories);
     }
 
     return preparedProduct;
@@ -542,14 +750,14 @@ const isHasLedBlock = (category: productCategory): boolean => {
     return ledCategoryArr.includes(category)
 }
 
-export const isGolaTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
+export const isGolaCategoryTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
     if (!category) return false;
     return hasGola
 }
 
 export const isGolaShown = (category_gola_type: MaybeEmpty<GolaTypesType>): boolean => {
     if (!category_gola_type) return false
-    return category_gola_type.includes('Gola')
+    return category_gola_type === "Handless Kitchen" || category_gola_type === "Gola Vanity";
 }
 
 export const isDoorTypeShown = (values: RoomMaterialsFormType, showGola: boolean): boolean => {
@@ -578,7 +786,7 @@ export const isGrooveShown = (door_type: MaybeEmpty<DoorTypesType>) => {
 export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: finishType[], showGroove: boolean): boolean => {
     const {category, door_type, groove} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard Size White Shaker') return false;
+    if (door_type === 'Standard Size Shaker') return false;
     if (showGroove && !groove) return false;
     return !!(door_type && finishArr.length)
 }
@@ -586,7 +794,7 @@ export const isDoorFinishShown = (values: RoomMaterialsFormType, finishArr: fini
 export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorType[], showDoorFrameWidth: boolean): boolean => {
     const {category, door_type, door_finish_material, door_frame_width} = values
     if (getIsRTAorSystemCloset(category)) return false;
-    if (door_type === 'Standard Size White Shaker') return true;
+    if (door_type === 'Standard Size Shaker') return true;
     if (showDoorFrameWidth && !door_frame_width) return false;
     return !!(door_finish_material && colorArr.length)
 }
@@ -594,7 +802,7 @@ export const isDoorColorShown = (values: RoomMaterialsFormType, colorArr: colorT
 export const isDoorFrameWidth = (values: RoomMaterialsFormType, frameArr: MaybeUndefined<materialsData[]>): boolean => {
     const {category, door_type, door_finish_material} = values;
     if (getIsRTAorSystemCloset(category)) return false;
-    if (!frameArr || door_type !== 'Micro Shaker') return false
+    if (!frameArr || door_type !== 'Shaker') return false
     return !!door_finish_material
 }
 
@@ -643,7 +851,7 @@ export const isDrawerType = (showDrawerBrand: boolean, drawer_brand: string, dra
 
 export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, drawerColorsArr: materialsData[]): boolean => {
     if (!showDrawerType) return false;
-    return !(!drawer_type || drawer_type === 'Undermount' || !drawerColorsArr.length);
+    return !(!drawer_type || drawer_type === 'Same as Box Material' || !drawerColorsArr.length);
 }
 
 export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
@@ -667,12 +875,12 @@ export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawe
 }
 
 export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
-        let arr = doors.filter(el => !el.is_hide);
+    let arr = doors.filter(el => !el.is_hide);
     if (gola) {
-        arr = arr.filter(el => el.value !== 'Standard Size White Shaker');
+        arr = arr.filter(el => el.value !== 'Standard Size Shaker');
     }
     if (isLeather) {
-        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard Size White Shaker"]
+        const exceptions = ["No Doors", "Three Piece Door", "Finger Pull", "Standard Size Shaker"]
         arr = arr.filter(el => !exceptions.includes(el.value));
     }
     return arr;
@@ -680,6 +888,11 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
 
 export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): finishType[] => {
     return doors.find(el => el.value === door_type)?.finish ?? [];
+}
+
+export const getFrameWidthArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): materialsData[] => {
+    const frames = doors.find(el => el.value === door_type)?.frame ?? [];
+    return frames.filter(el => !el.is_hide).map(el => ({...el, label: getFraction(+el.value)}));
 }
 
 export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
@@ -720,7 +933,7 @@ export const isLeatherType = (isLeather: boolean, isFilledDrawerBlock: boolean):
 
 export const getIsFilledDrawerBlock = (drawer_type: MaybeUndefined<string>, drawer_color: MaybeUndefined<string>) => {
     if (!drawer_type) return false;
-    if (drawer_type === 'Undermount') return true;
+    if (drawer_type === 'Same as Box Material') return true;
     return !!drawer_color
 }
 
@@ -786,8 +999,8 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_or_rta_or_system_closet: boolean): number => {
-    if (is_leather_or_rta_or_system_closet) {
+export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_closet: boolean): number => {
+    if (is_leather_closet) {
         // Door exceptions for leather closet
         if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
         if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
@@ -800,9 +1013,10 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, isWallCab: boolean): number => {
+export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category: productCategory): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
+    const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
     const blindCorner = isWallCab ? 13.5 : 24;
     const a = realWidth - blindCorner;
     if (a <= 0) return +(Math.sqrt(2 * Math.pow(realWidth, 2))).toFixed(2);
@@ -815,7 +1029,7 @@ export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, 
     return 0
 }
 
-export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomMaterialsFormType>): CartItemFrontType[] => {
+export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomNewType>): CartItemFrontType[] => {
     if (!room) return []
     const CartFrontItems = cart.map(cart_item => {
         return getCartItemProduct(cart_item, room);
@@ -831,7 +1045,7 @@ export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
     }
 }
 
-const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNull<CartItemFrontType> => {
+const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartItemFrontType> => {
     const {
         product_id,
         width,
@@ -842,7 +1056,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
         product_type,
         blind_width,
         middle_section,
-        led
+        led,
+        sink,
     } = item;
     const materialData = getMaterialData(room, product_id);
     const {
@@ -852,6 +1067,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
 
     const product_or_custom = getProductById(product_id, product_type === 'standard')
     if (!product_or_custom) return null;
+    const exact_image = getCartImagePath(room, product_or_custom, item)
     switch (product_type) {
         case "cabinet":
         case "standard": {
@@ -865,7 +1081,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                 isAngle,
                 isBlind = false,
                 middleSectionDefault,
-                blindArr
+                blindArr,
+                farm_sink_height
             } = product
 
             const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
@@ -877,6 +1094,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             const cabinetItem: CartAPIImagedType = {
                 ...item,
                 image_active_number,
+                exact_image
             }
             const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
             const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
@@ -890,7 +1108,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     blind: checkBlindStandard(isBlind, blind_width, blindArr),
                     led: checkLedSelected(led?.border),
                     options: checkOptionsSelected(options),
-                    middle: checkMiddleSectionStandard(middleSectionDefault, middle_section)
+                    middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
+                    farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
                 }
             }
         }
@@ -898,9 +1117,9 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
             const customPart = product_or_custom as CustomPartType;
             const {type} = customPart;
             let price: number = getCustomPartPrice(customPart, room, item);
-
             return {
                 ...item,
+                exact_image,
                 image_active_number: 1,
                 subcategory: type,
                 price: price,
@@ -913,7 +1132,8 @@ const getCartItemProduct = (item: CartAPI, room: RoomMaterialsFormType): MaybeNu
                     led: true,
                     blind: true,
                     middle: true,
-                    options: true
+                    options: true,
+                    farm_sink: true
                 }
             }
         }
@@ -941,23 +1161,18 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
-export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, door_color: string): number => {
-    // Choose Panels only
-    if (![903].includes(id)) return 1;
-    // Choose Material (In Product Page)
-    if (material !== 'Milino') return 1;
-    // Door Color from Materials page
-    if (isTexturedColor(door_color)) return 1.1;
-    if (door_color.includes('Ultra Matte')) return 1.2;
-    return 1;
-}
-
-export const getCartItemImgPDF = (images: string[], image_active_number: productTypings): string => {
-    for (let i = image_active_number; i >= 0; i--) {
-        const imgLink = images[i - 1];
-        if (imgLink) return getImg('products-checkout', imgLink.replace('webp', 'jpg'));
+export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
+    switch (id) {
+        case 903: {
+            // Choose Material (In Product Page)
+            if (material !== 'Milino') return 1;
+            // Door Color from Materials page
+            if (isTexturedColor(color)) return 1.1;
+            if (color.includes('Ultra Matte')) return 1.2;
+            break
+        }
     }
-    return noImg
+    return 1;
 }
 
 export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryType => {
@@ -995,10 +1210,18 @@ export const isShowHingeBlock = (hingeArr: string[]): boolean => {
     return true
 }
 
+export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
+    return options.includes("Farm Sink")
+}
+
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
     const API = categoriesData as SliderCategoriesType;
     const {category, gola, door_type} = room;
-    if (door_type === 'Standard Size White Shaker') return API['Standard Door'] as SliderCategoriesItemType;
+    if (door_type === 'Standard Size Shaker' && ['Kitchen', 'Vanity'].includes(category)) {
+        if (category === "Kitchen") return API['Kitchen Standard'] as SliderCategoriesItemType;
+        if (category === "Vanity") return API['Vanity Standard'] as SliderCategoriesItemType;
+        return API['Standard Door'] as SliderCategoriesItemType;
+    }
     switch (category) {
         case "Kitchen":
             return !gola ? API['Kitchen'] : API['Kitchen Gola'] as SliderCategoriesItemType;
@@ -1086,6 +1309,8 @@ export const getCabinetHeightRangeBasedOnCategory = (category: productCategory):
         case "Gola Floating Vanities":
         case "Gola Base Cabinets":
         case "Standard Base Cabinets":
+        case "Standard Vanities":
+        case "Standard Floating Vanities":
             return [34.5];
         case "RTA Closets":
             return [95]
@@ -1109,19 +1334,19 @@ export function textToLink(text: MaybeUndefined<string>) {
         .replace(/-+/g, '-');        // Replace multiple hyphens with one
 }
 
-export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>) => {
+export const checkoutCartItemWithImg = (cart: MaybeNull<CartItemFrontType[]>, room: RoomFront) => {
     if (!cart) return [];
     return cart.map(el => {
-        const {product_id, product_type, image_active_number} = el
+        const {product_id, product_type} = el
         const product = getProductById(product_id, product_type === 'standard');
         if (!product) return el;
-        const img = getProductImage(product.images, image_active_number)
-        return ({...el, img: img.replace('webp', 'jpg')})
+        const img = getCartImagePath(room, product, el);
+        return ({...el, exact_image: img})
     })
 }
 
 export const findIsRoomStandard = (door_type: MaybeEmpty<DoorTypesType>): boolean => {
-    return door_type === 'Standard Size White Shaker'
+    return door_type === 'Standard Size Shaker'
 }
 
 export const findHasGolaTypeByCategory = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
@@ -1140,10 +1365,10 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
 }
 
-export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
-        const cartFront = convertCartAPIToFront(carts, materials);
+        const cartFront = convertCartAPIToFront(carts, room);
         const cart_orders: CartOrder[] = cartFront.map((el) => {
             const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
             return cart_order_item;
@@ -1158,21 +1383,10 @@ export const createOrderFormData = async (po_rooms_api: RoomOrderType[], po_blob
         contact: values,
         rooms
     };
-    const formData = new FormData();
-    const pdfFile = new File([po_blob], `${fileName}.pdf`, {type: "application/pdf"});
-    const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
-    const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
-
-    formData.append("pdf", pdfFile);
-    formData.append("json", jsonFile);
-    formData.append("client_email", values.email);
-    formData.append("client_name", values.name);
-    formData.append("client_purchase_order", values.purchase_order);
-    formData.append("client_room_name", values.room_name);
-    return formData
+    return await formData(blob, fileName, dataToJSON, values)
 }
 
-export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], room_blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
     const {_id, purchase_order_id, activeProductCategory, name, ...materials} = room;
     const cart_orders: CartOrder[] = cart_items.map((el) => {
         const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
@@ -1182,19 +1396,25 @@ export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartI
     const dataToJSON = {
         date,
         contact: values,
-        room: {
+        rooms: [{
             materials,
             orders: cart_orders
-        }
+        }]
     };
+    return await formData(blob, fileName, dataToJSON, values)
+}
+
+
+async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType, values: CheckoutSchemaType): Promise<FormData> {
     const formData = new FormData();
-    const pdfFile = new File([room_blob], `${fileName}.pdf`, {type: "application/pdf"});
+    const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
     const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
     const jsonFile = new File([jsonBlob], `${fileName}.json`, {type: 'application/json'});
-
+    const additionalEmailsString = values.additional_emails ? values.additional_emails.join(', ') : '';
     formData.append("pdf", pdfFile);
     formData.append("json", jsonFile);
     formData.append("client_email", values.email);
+    formData.append("additional_emails", additionalEmailsString);
     formData.append("client_name", values.name);
     formData.append("client_purchase_order", values.purchase_order);
     formData.append("client_room_name", values.room_name);
@@ -1282,12 +1502,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             led_indent_string: '',
             glass_door: ['', '', ''],
             glass_shelf: '',
+            farm_sink_height_string: '',
             image_active_number: 1,
             custom: null,
             note: '',
             price: 0,
             amount: 1,
-
         }
     }
     const {
@@ -1305,7 +1525,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         middle_section,
         options,
         custom,
-        amount
+        amount,
+        sink
     } = cartItemValues;
 
     const {customHeight, customDepth, category, isAngle, blindArr} = product;
@@ -1314,14 +1535,12 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const isStandardHeight = checkHeightStandard(productRange, height)
     const isStandardDepth = checkDepthStandard(productRange, depth, isAngle)
     const isBlindStandard = checkBlindStandard(isBlind, blind_width, blindArr)
-
-    // const {doorValues} = productPriceData;
-    // const doorArr = getDoorMinMaxValuesArr(width, doorValues);
     const doors = checkDoors(hinge);
 
     let customVal = null;
     if (custom?.accessories?.closet) customVal = {closet_accessories: custom.accessories.closet};
     if (custom?.mechanism) customVal = {mechanism: custom.mechanism};
+    const farmSink = sink?.farm_height ? getFraction(sink.farm_height) : '';
 
     return {
         width: isStandardWidth ? width : 0,
@@ -1349,18 +1568,19 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
         custom: customVal,
+        farm_sink_height_string: farmSink,
         note,
         price,
         amount
     }
 }
 
-const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>): InitialSizesType => {
-    const {width, height, depth, limits, height_range, initial_width} = customPart
-    const sizeLimitInitial = initialMaterialData?.limits ?? limits ?? {};
-    const w = initial_width ?? width ?? getLimit(sizeLimitInitial.width);
-    const h = height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimitInitial.height));
-    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimitInitial.depth);
+const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials: RoomMaterialsFormType): InitialSizesType => {
+    const {width, height, depth, width_range, height_range, initial_width, initial_height, id} = customPart;
+    const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials);
+    const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width));
+    const h = initial_height ?? height ?? (height_range ? getLimit(height_range) : getLimit(sizeLimit?.height));
+    const d = initialMaterialData?.depth ?? depth ?? getLimit(sizeLimit?.depth);
     return {
         initial_width: w,
         initial_height: h,
@@ -1370,7 +1590,7 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
 
 export const getCustomPartInitialTableData = (custom_part: CustomPartType, materials: RoomMaterialsFormType, isRoomStandard: boolean): CustomPartTableDataType => {
     const initialMaterialData = getInitialMaterialArrayData(custom_part, materials, isRoomStandard);
-    const initialSizes = getInitialSizes(custom_part, initialMaterialData);
+    const initialSizes = getInitialSizes(custom_part, initialMaterialData, materials);
     const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
     const isStandardPanel = ["standard-panel"].includes(custom_part.type);
     const isLEDAccessories = ["led-accessories"].includes(custom_part.type);
@@ -1424,13 +1644,22 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: initialStandardPanels,
             rta_closet_custom: [],
             groove: null,
-            drawer_inserts: null,
+            drawer_accessories: null,
+            amount: 1,
             note: '',
-            price: 0,
+            price: 0
         }
     } else {
-        const {width, height, depth, custom, note, price, glass} = cartItemValues;
-        const {standard_doors, standard_panels, material, rta_closet, accessories, groove, drawer_inserts} = custom!;
+        const {width, height, depth, custom, note, price, glass, amount} = cartItemValues;
+        const {
+            standard_doors,
+            standard_panels,
+            material,
+            rta_closet,
+            accessories,
+            groove,
+            drawer_accessories,
+        } = custom!;
         const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
             alum_profiles: accessories.led.alum_profiles.map(el => ({
                 qty: el.qty,
@@ -1496,7 +1725,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             standard_panels: standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
             groove: groove ?? null,
-            drawer_inserts: drawer_inserts ?? null,
+            drawer_accessories: drawer_accessories ?? null,
+            amount,
             note,
             price: price,
         }
@@ -1511,6 +1741,11 @@ export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>)
 export const getIsLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category === 'Leather Closet' || category === 'RTA Closet' || category === 'Cabinet System Closet'
+}
+
+export const getIsLeatherCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Leather Closet';
 }
 
 export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
@@ -1555,15 +1790,25 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 }
 
 
-const CustomPartMaterialsNames = ["Milino", "Plywood", "Luxe", "Zenit", "Syncron", "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Micro Shaker Milino", "Micro Shaker", "Micro Shaker Veneer"] as const;
-type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
-
-export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeEmpty<CustomPartMaterialsArraySizeLimitsType>, door_color?: MaybeEmpty<string>): MaybeUndefined<materialsLimitsType> => {
+export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
+    const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color
+    const is_special_milino = ["Brown Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey"].includes(color)
+    const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
+        const milino_max = 107.5;
+        return is_special_milino ?
+            {
+                ...limits,
+                [direction]: limits[direction]
+                    ? [...limits[direction]!.slice(0, -1), milino_max]
+                    : undefined,
+            } : limits
+    }
     switch (id) {
         case 903:
         case 904: {
             switch (material) {
                 case "Milino":
+                    return checkMilino('height', {width: [2.5, 48], height: [2.5, 96]})
                 case "Plywood":
                     return {width: [2.5, 48], height: [2.5, 96]};
                 case "Luxe":
@@ -1579,9 +1824,10 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             break;
         }
         case 906:
-        case 907:{
+        case 907: {
             switch (material) {
                 case "Milino":
+                    return checkMilino('height', {width: [3, 48], height: [6, 96], depth: [4, 48]});
                 case "Plywood":
                     return {width: [3, 48], height: [6, 96], depth: [4, 48]};
                 case "Luxe":
@@ -1602,6 +1848,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 900: {
             switch (material) {
                 case "Milino":
+                    return checkMilino('height', {width: [6, 96], height: [6, 96], depth: [6, 96]})
                 case "Plywood": {
                     return {width: [6, 96], height: [6, 96], depth: [6, 96]}
                 }
@@ -1622,6 +1869,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         case 905: {
             switch (material) {
                 case "Milino":
+                    return checkMilino('height', {width: [2.5, 96], height: [2.5, 96]});
                 case "Plywood":
                     return {width: [2.5, 96], height: [2.5, 96]};
                 case "Luxe":
@@ -1637,23 +1885,29 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             break;
         }
         case 927: {
-            return {width: [5, 99], depth: [5, 99]}
+            switch (material) {
+                case "Milino":
+                    return checkMilino('width', {width: [5, 96], depth: [5, 24]})
+                case "Painted":
+                    return {width: [5, 120], depth: [5, 24]}
+                default:
+                    return {width: [5, 107.5], depth: [5, 24]}
+            }
         }
         case 901: {
             switch (material) {
                 case "Milino":
-                case "Syncron": {
-                    return {width: [3, 96], height: [3, 96], depth: [3, 48]}
-                }
+                    return checkMilino('width', {width: [3, 96], height: [3, 6], depth: [3, 48]})
+                case "Syncron":
                 case "Luxe":
                 case "Zenit":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
-                    return {width: [3, 108], height: [3, 108], depth: [3, 48]}
+                    return {width: [3, 108], height: [3, 6], depth: [3, 48]}
                 }
                 case "Painted": {
-                    return {width: [3, 120], height: [3, 120], depth: [3, 48]}
+                    return {width: [3, 120], height: [3, 6], depth: [3, 48]}
                 }
             }
             break
@@ -1665,19 +1919,28 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
             switch (material) {
                 case "Shaker Syncron":
                 case "Shaker Zenit":
-                case "Micro Shaker Milino": {
+                case "Shaker Milino": {
                     return {width: [5, 108], height: [5, 108]}
                 }
                 case "Shaker Painted":
-                case "Micro Shaker":
-                case "Micro Shaker Veneer": {
+                case "Shaker":
+                case "Shaker Veneer": {
                     return {width: [5, 120], height: [5, 120]}
                 }
             }
             break
         }
         case 911:
-        case 912:
+        case 912: {
+            switch (material) {
+                case "Milino": {
+                    return checkMilino('height', {width: [4, 108], height: [4, 108]})
+                }
+                default:
+                    return {width: [4, 108], height: [4, 108]};
+            }
+        }
+
         case 926: {
             return {width: [4, 108], height: [4, 108]};
         }
@@ -1701,12 +1964,48 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
     return undefined
 }
 
-export function checkHeightBlockShownInCustomPart(type:CustomTypes, height: MaybeUndefined<number>):boolean {
+export function checkHeightBlockShownInCustomPart(type: CustomTypes, height: MaybeUndefined<number>): boolean {
     switch (type) {
-        case "pvc": return false;
+        case "pvc":
+            return false;
         case "custom": {
             if (height) return false
         }
     }
     return true
 }
+
+export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): MaybeEmpty<GolaTypesType> => {
+    if (hasGola) {
+        switch (category) {
+            case "Kitchen":
+                return "Handless Kitchen"
+            case "Vanity":
+                return "Gola Vanity"
+        }
+    } else {
+        switch (category) {
+            case "Kitchen":
+                return "Regular Kitchen";
+            case "Vanity":
+                return "Regular Vanity"
+        }
+    }
+    return ""
+}
+
+
+export const getVariableType = (value: any) => {
+    if (value === null) {
+        return 'null';
+    }
+    if (Array.isArray(value)) {
+        return 'array';
+    }
+    const type = typeof value;
+    if (type === 'object') {
+        // Distinguish between plain objects, Dates, Regex, etc.
+        return Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
+    }
+    return type;
+};

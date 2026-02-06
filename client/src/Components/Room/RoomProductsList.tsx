@@ -4,12 +4,11 @@ import {NavLink} from "react-router-dom";
 import {
     getCustomParts,
     getImgSize,
-    getProductImage, getProductsByCategory
+    getProductImagePath, getProductsByCategory
 } from "../../helpers/helpers";
 import {
     CustomPartDataType,
-    productCategory, ProductType,
-    productTypings
+    productCategory, ProductType, productTypings,
 } from "../../helpers/productTypes";
 import {ProductAttributes} from "../Product/ProductAttributes";
 import {RoomType} from "../../helpers/roomTypes";
@@ -26,15 +25,15 @@ const RoomProductsList: FC<{ category_active: productCategory, room: RoomType, i
             if (!customParts.length) return <div>Sorry, there are no custom parts yet</div>;
             return (
                 <div className={s.list}>
-                    {customParts.map((el, index) => <Part key={index} product={el}/>)}
+                    {customParts.map((el, index) => <Part key={index} product={el} room={room}/>)}
                 </div>
             )
         default:
-            const products = getProductsByCategory(category_active, isStandardCabinet);
+            const products = getProductsByCategory(room.category, isStandardCabinet, category_active );
             if (!products.length) return <div>Sorry, there are no products yet</div>;
             return (
                 <div className={s.list}>
-                    {products.map((el, index) => <Item key={index} product={el}/>)}
+                    {products.map((el, index) => <Item key={index} product={el} room={room}/>)}
                 </div>
             )
 
@@ -44,12 +43,13 @@ const RoomProductsList: FC<{ category_active: productCategory, room: RoomType, i
 export default RoomProductsList;
 
 
-const Item: FC<{ product: ProductType }> = ({product}) => {
-    const {name, attributes, id, category, images} = product;
-    const initialType: productTypings = 1;
-    const img = getProductImage(images, initialType);
+const Item: FC<{ product: ProductType,room:RoomType }> = ({product, room}) => {
+    const {name, attributes, id} = product;
+    const initialType:productTypings = 1;
+    // const img = getProductImage(product, initialType);
+    const {category} = room
+    const img = getProductImagePath(room, product);
     const imgSize = getImgSize(category);
-
 
     return (
         <NavLink to={`product/${id}`} className={s.item}>
@@ -62,9 +62,9 @@ const Item: FC<{ product: ProductType }> = ({product}) => {
     )
 }
 
-const Part: FC<{ product: CustomPartDataType }> = ({product}) => {
-    const {name, images, id} = product;
-    const img = getProductImage(images);
+const Part: FC<{ product: CustomPartDataType,room:RoomType  }> = ({product, room}) => {
+    const {name, id} = product;
+    const img = getProductImagePath(room, product);
     return (
         <NavLink to={`product/${id}`} className={s.item}>
             <div className={s.itemImg}><img src={img} alt={name}/></div>

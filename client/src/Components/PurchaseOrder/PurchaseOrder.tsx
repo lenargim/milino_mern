@@ -59,8 +59,12 @@ const PurchaseOrderNavLink: FC<{ item: PurchaseOrderType, setWarningModal: (val:
     const {name} = item
     return (
         <div className={s.linkWrap}>
-            <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>×</button>
-            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>✎</NavLink>
+            <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>
+                <span>&#10005;</span>
+            </button>
+            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>
+                <span>✎</span>
+            </NavLink>
             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                      to={`${textToLink(name)}/rooms`}>{name}</NavLink>
         </div>

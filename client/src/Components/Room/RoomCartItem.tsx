@@ -1,6 +1,12 @@
 import React, {FC} from 'react';
 import {changeAmountType} from "../../helpers/cartTypes";
-import {getProductById, getProductImage, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {
+    getCartImagePath,
+    getProductById,
+    textToLink,
+    useAppDispatch,
+    useAppSelector
+} from "../../helpers/helpers";
 import s from "../Sidebar/sidebar.module.sass";
 import CartItemOptions from "../Sidebar/CartItemOptions";
 import {CartItemFrontType} from "../../helpers/cartTypes";
@@ -10,13 +16,15 @@ import {NavLink, useParams} from "react-router-dom";
 
 const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const dispatch = useAppDispatch();
-    const {loading_cart_items} = useAppSelector<RoomsState>(state => state.room);
-    const {amount, note, _id, price, image_active_number, product_id, product_type, room_id} = item;
+    const {loading_cart_items, rooms} = useAppSelector<RoomsState>(state => state.room);
+    const {amount, note, _id, price, product_id, product_type, room_id} = item;
     const productAPI = getProductById(product_id, product_type === 'standard');
     const {room_name, purchase_order_name} = useParams();
-    if (!productAPI) return null;
-    const {name, images} = productAPI
-    const img = getProductImage(images, image_active_number);
+    const room = rooms.find(el => el._id === room_id );
+    if (!room || !productAPI) return null;
+    const {name} = productAPI;
+    // const img = getProductOrCustomPartImage(productAPI, item)
+    const img = getCartImagePath(room, productAPI, item);
 
     function changeAmount(type: changeAmountType) {
         dispatch(updateCartAmount({room_id, _id, amount: type === 'minus' ? amount - 1 : amount + 1}))

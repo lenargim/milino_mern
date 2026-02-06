@@ -1,12 +1,13 @@
 import {MaybeEmpty, productCategory} from "./productTypes";
-import {CartAPI} from "./cartTypes";
+import {CartAPI, CartOrder} from "./cartTypes";
+import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 
 export const roomCategories = ["Kitchen", "Vanity", "Build In Closet", "Leather Closet", "RTA Closet", "Cabinet System Closet"] as const;
-export const golaTypeNames = ['Regular Kitchen', 'Gola Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
+export const golaTypeNames = ['Regular Kitchen', 'Handless Kitchen', 'Regular Vanity', 'Gola Vanity'] as const;
 export const golaNames = ['Aluminum Gola', 'Black Matte Gola', 'White Gloss Gola', 'Champagne Gola', 'Wood Gola'] as const;
-export const doorTypesNames = ['No Doors','Standard Size White Shaker','Slab', 'Three Piece Door', 'Five piece shaker', 'Finger Pull', 'Micro Shaker', 'Slatted', 'Custom Painted', 'Wood ribbed doors'] as const;
-export const finishNames = ['No Doors No Hinges', 'Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Slab', 'Frame 3/4', 'Frame 1', 'Frame 1 1/2', 'Frame 2', 'Frame 2 1/2', 'Ribbed','Maple','Birch', 'White Oak', 'Walnut', 'Clear Coat Maple', 'Clear Coat Birch', 'Clear Coat White Oak', 'Clear Coat Walnut', 'Wood Veneer'] as const;
-export const boxMaterialNames = ['White Melamine', 'Gray Melamine', 'Gray Linen Melamine', 'Beige Linen Melamine', 'Ash Melamine', 'Walnut Melamine', 'Brown Oak', 'Ivory Woodline', 'Grey Woodline', 'White Oak', 'Desert Oak', 'Natural Plywood', 'White Plywood', 'Gray Plywood', 'Ultra Matte White', 'Ultra Matte Grey', 'Ultra Matte Cashmere', 'White Gloss'] as const;
+export const doorTypesNames = ['No Doors', 'Standard Size Shaker', 'Slab', 'Three Piece Door', 'Five Piece Shaker', 'Finger Pull', 'Shaker', 'Slatted', 'Custom Painted', 'Wood ribbed doors'] as const;
+export const finishNames = ['No Doors No Hinges', 'Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Slab', 'Frame 3/4', 'Frame 1', 'Frame 1 1/2', 'Frame 2', 'Frame 2 1/2', 'Ribbed', 'Maple', 'Birch', 'White Oak', 'Walnut', 'Clear Coat Maple', 'Clear Coat Birch', 'Clear Coat White Oak', 'Clear Coat Walnut', 'Wood Veneer'] as const;
+export const boxMaterialNames = ['White Melamine', 'Gray Melamine', 'Gray Linen Melamine', 'Beige Linen Melamine', 'Ash Melamine', 'Walnut Melamine', 'Brown Oak', 'Ivory Woodline', 'Sable Wood', 'Grey Woodline', 'White Oak', 'Desert Oak', 'Natural Plywood', 'White Plywood', 'Gray Plywood', 'Ultra Matte White', 'Ultra Matte Grey', 'Ultra Matte Cashmere', 'Ultra Matte Gris', 'White Gloss'] as const;
 export const leatherBoxMaterialNames = ['Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Wood Veneer'] as const;
 export const totalBoxMaterialNames = [...boxMaterialNames, ...leatherBoxMaterialNames] as const;
 export const grooveNames = ['1/4 rounded', '1/4 squared', '3/4 squared'] as const;
@@ -59,12 +60,23 @@ export interface RoomOrderType extends RoomType {
     carts: CartAPI[]
 }
 
+export type DataToJSONType = {
+    date: string,
+    contact: CheckoutSchemaType,
+    rooms: RoomJSONData[]
+}
+
+export type RoomJSONData = {
+    materials: any,
+    orders: CartOrder[]
+}
+
 export type OrderFormSelectType = {
     data: materialsData[],
     value: any,
     name: string,
     label?: string
-    small?: boolean
+    size?: 'small' | 'large' | 'small-square'
 }
 
 export type materialsData = {
@@ -108,4 +120,52 @@ export type MaterialsType = {
     grain: materialsData[],
     groove: materialsData[],
     rod: materialsData[]
+}
+
+export const customPartsImgList = [
+    {
+        name: "Panel, Filler",
+        img: "Panel.jpg"
+    },
+    {
+        name: "Toe Kick",
+        img: "Toe Kick.jpg"
+    },
+    {
+        name: "L Shape",
+        img: "L-shape.jpg"
+    },
+    {
+        name: "Double Panel",
+        img: "Double Panel.jpg"
+    },
+    {
+        name: "Column",
+        img: "Column.jpg"
+    },
+    {
+        name: "Open Cabinet",
+        img: "Open Cabinet.jpg"
+    },
+    {
+        name: "Floating Shelf",
+        img: "Floating Shelf.jpg"
+    },
+    {
+        name: "Shaker Glass Door",
+        img: "Shaker Glass.jpg"
+    },
+    {
+        name: "Aluminum Glass Door",
+        img: "Alum Glass.jpg"
+    },
+    {
+        name: "Glass Shelf",
+        img: "Glass.jpg"
+    }
+] as const;
+export type CustomPartsImgListItemNames = typeof customPartsImgList[number]["name"];
+export type CustomPartsImgListItem = {
+    name: CustomPartsImgListItemNames,
+    img: string
 }

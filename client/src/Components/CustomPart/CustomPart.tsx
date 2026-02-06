@@ -48,13 +48,19 @@ export type GrooveAPIType = {
     clear_coat: boolean
 }
 
-export const DrawerInsertsBoxNames = ['Inserts' , 'Pegs' , 'Spice'] as const;
-export const DrawerInsertsColorNames = ['Maple' , 'Walnut'] as const;
-export const DrawerInsertsLetterNames = ['A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H' , 'I' , 'J'] as const;
+export const DrawerInsertsBoxNames = ['Inserts', 'Pegs', 'Spice'] as const;
+export const DrawerInsertsColorNames = ['Maple', 'Walnut'] as const;
+export const DrawerInsertsLetterNames = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'] as const;
+export const DrawerRONames = ['Extra RO', 'Drawer'] as const;
 export type DrawerInsertsBoxType = typeof DrawerInsertsBoxNames[number];
 export type DrawerInsertsColor = typeof DrawerInsertsColorNames[number];
 export type DrawerInsertsLetter = typeof DrawerInsertsLetterNames[number];
-export type DrawerInsertsType = {
+export type DrawerROType = typeof DrawerRONames[number];
+export type DrawerAccessoriesType = {
+    inserts?: DrawerInserts,
+    drawer_ro?: DrawerROType
+}
+export type DrawerInserts = {
     box_type: DrawerInsertsBoxType,
     color: DrawerInsertsColor,
     insert_type: MaybeNull<DrawerInsertsLetter>
@@ -78,11 +84,11 @@ export type CustomPartFormType = {
     standard_panels: MaybeNull<PanelsFormType>,
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
     groove: MaybeNull<GrooveAPIType>,
-    drawer_inserts: MaybeNull<DrawerInsertsType>
+    drawer_accessories: MaybeNull<DrawerAccessoriesType>,
+    amount: number
 }
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
-
 
 export type RTAClosetAPIType = {
     name: RTAClosetCustomTypes,
@@ -100,7 +106,7 @@ type CustomPartFCType = {
     custom_part: CustomPartType,
     customPartData: CustomPartTableDataType,
     initialCustomPartValues: CustomPartFormType,
-    productEditId: MaybeUndefined<string>
+    productEditId: MaybeUndefined<string>,
 }
 
 const CustomPart: FC<CustomPartFCType> = ({
@@ -116,11 +122,11 @@ const CustomPart: FC<CustomPartFCType> = ({
     return (
         <Formik
             initialValues={initialCustomPartValues}
-            validationSchema={getCustomPartSchema(custom_part)}
+            validationSchema={getCustomPartSchema(custom_part, materials)}
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, custom_part, room_id,productEditId)
+                const cartData = addToCartCustomPart(values, custom_part, room_id, productEditId);
 
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));

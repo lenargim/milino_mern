@@ -4,7 +4,7 @@ import Product from "../Product/Product";
 import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {
     getCustomPartInitialFormValues, getCustomPartInitialTableData, getCustomPartMaterialsArraySizeLimits,
-    getProductById,
+    getProductById, getProductImage,
     getProductInitialFormValues,
     getProductInitialTableData
 } from "../../helpers/helpers";
@@ -27,6 +27,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
         case "custom": {
             const customPartData = getCustomPartInitialTableData(product_or_custom as CustomPartType, materials, isRoomStandard);
             const initialCustomPartValues = getCustomPartInitialFormValues(customPartData, cartItemValues);
+            // const img = getProductImage(room, product_or_custom, initialCustomPartValues)
             return <CustomPart materials={materials}
                                room_id={room_id}
                                custom_part={product_or_custom as CustomPartType}
@@ -39,9 +40,9 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
         case "standard": {
             const productData = getProductInitialTableData(product_or_custom as ProductType, materials);
             if (!productData) return <div>Cannot find product data</div>;
-            const initialProductValues = getProductInitialFormValues(productData, cartItemValues, product_or_custom as ProductType)
+            const initialProductValues = getProductInitialFormValues(productData, cartItemValues, product_or_custom as ProductType);
             return <Product materials={materials}
-                            room_id={room_id}
+                            room={room}
                             product={product_or_custom as ProductType}
                             productData={productData}
                             initialProductValues={initialProductValues}

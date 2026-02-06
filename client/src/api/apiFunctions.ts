@@ -67,14 +67,6 @@ export const logIn = async (values: LogInType) => {
     }
 }
 
-// export const refreshTokenAPI = async () => {
-//     try {
-//         return (await usersAPI.refreshToken()).data
-//     } catch (error) {
-//         return alertError(error);
-//     }
-// }
-
 export const createRoomAPI = async (room: RoomNewType): Promise<MaybeUndefined<RoomType>> => {
     try {
         return (await roomsAPI.createRoom(room)).data;
@@ -90,15 +82,6 @@ export const deleteRoomAPI = async (purchase_order_id: string, room_id: string):
         alertError(error);
     }
 }
-
-
-// export const getCartAPI = async (room_id: string):Promise<MaybeUndefined<CartAPIResponse>> => {
-//     try {
-//         return (await cartAPI.getCart(room_id)).data;
-//     } catch (error) {
-//         alertError(error);
-//     }
-// }
 
 export const removeFromCartInRoomAPI = async (room: string, _id: string): Promise<MaybeUndefined<CartAPIResponse>> => {
     try {
@@ -215,14 +198,6 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
     }
 }
 
-// export const isTokenValid = (token: string): boolean => {
-//     const decodedToken = jwtDecode(token);
-//     const {exp} = decodedToken;
-//     const currentDate = new Date().getUTCDate();
-//     const expDate = exp ? exp : 0;
-//     return expDate > currentDate / 1000;
-// }
-
 export const isTokenValid = (token: string): boolean => {
     try {
         const decodedToken = jwtDecode<{ exp: number }>(token);
@@ -285,6 +260,31 @@ export const getPurchaseRoomsOrderAmount = async (purchase_id: string): Promise<
 export const getPurchaseRoomsOrder = async (purchase_id: string): Promise<MaybeUndefined<RoomOrderType[]>> => {
     try {
         return (await checkoutAPI.getCheckoutRooms(purchase_id)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const postForgotPasswordEmail = async (email: string): Promise<MaybeUndefined<number>> => {
+    try {
+        const res = (await AuthAPI.forgotPassword(email));
+        return res.status
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const postResetPasswordEmail = async (password: string, token:string): Promise<MaybeUndefined<{message:string}>> => {
+    try {
+        return (await AuthAPI.resetPassword(password, token)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getEmailByResetPasswordToken = async (token:string): Promise<MaybeUndefined<{name:string}>> => {
+    try {
+        return (await AuthAPI.getTokenName(token)).data;
     } catch (error) {
         alertError(error);
     }

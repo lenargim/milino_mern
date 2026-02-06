@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RodType, RoomCategoriesType} from "./roomTypes";
+import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -9,6 +9,7 @@ import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3 | 'wood_veneer';
+export type pricesTypingsNumber = 1|2|3;
 export type DoorColorType = 1 | 2 | 3;
 export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 
@@ -20,6 +21,9 @@ export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
+
+export const CustomPartMaterialsNames = ["Milino", "Plywood", "Luxe", "Zenit", "Syncron", "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
+export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
@@ -44,7 +48,8 @@ export type CustomTypes =
     | 'custom-doors'
     | 'ribbed'
     | 'drawer-inserts'
-    | 'thick_floating_shelf';
+    | 'thick_floating_shelf'
+    | 'ro_drawer';
 
 const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler', 'Wood Toe Kick', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels', '1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];
@@ -60,6 +65,8 @@ export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
     | 'Standard Tall Cabinets'
+    | 'Standard Vanities'
+    | 'Standard Floating Vanities'
     | 'Standard Parts';
 
 export type VanitiesCategory = 'Vanities' | 'Floating Vanities' | 'Gola Floating Vanities';
@@ -74,22 +81,29 @@ export type productCategory =
 
 export type AngleType = 'flat' | 'corner';
 
-export type ProductOrCustomType = {
+
+interface BaseProduct {
+    // product_type: 'cabinet' | 'standard';
     id: number,
     name: string,
     product_type: ProductApiType,
     images: string[],
-    initial_width?:number
+    initial_width?: number,
+    initial_height?: number
 }
 
 export type ProductOptionsType =
     "PTO for drawers"
     | "PTO for doors"
+    | "PTO for Trash Bins"
     | "Box from finish material"
     | "Glass Door"
-    | "Glass Shelf";
+    | "Glass Shelf"
+    | "Farm Sink"
+    | "False Front on top";
 
-export interface ProductType extends ProductOrCustomType {
+export interface ProductType extends BaseProduct {
+    product_type: 'cabinet' | 'standard',
     category: productCategory,
     attributes: AttrItemType[],
     options: ProductOptionsType[],
@@ -110,23 +124,27 @@ export interface ProductType extends ProductOrCustomType {
     hasClosetAccessoriesBlock?: boolean,
     hasJeweleryBlock?: boolean,
     hasMechanism?: MechanismType,
+    farm_sink_height?: number
 
 }
 
-export interface CustomPartType extends ProductOrCustomType {
+export interface CustomPartType extends BaseProduct {
+    product_type: 'custom',
     name: CustomPartsNamesType,
     type: CustomTypes,
     width?: number,
     height?: number,
     depth?: number,
+    width_range?: number[],
     height_range?: number[],
     materials_array?: materialsCustomPart[],
-    limits?: materialsLimitsType,
     glass_shelf?: string[],
 
 }
 
-export interface CustomPartDataType extends ProductOrCustomType {
+export type ProductOrCustomType = ProductType | CustomPartType;
+
+export interface CustomPartDataType extends CustomPartType {
     type: CustomTypes,
     category: productCategory,
     width?: number,
@@ -145,8 +163,7 @@ export type glassDoorType = {
 }
 
 export type materialsCustomPart = {
-    name: string,
-    limits?: materialsLimitsType,
+    name: CustomPartMaterialsArraySizeLimitsType,
     depth?: number,
     img?: string
 }
@@ -289,7 +306,8 @@ export interface drawerInterface {
 
 export type CabinetType = {
     product: ProductType,
-    productData: ProductTableDataType
+    productData: ProductTableDataType,
+    room: RoomFront
 }
 
 export type DepthRangeType = {
@@ -385,7 +403,7 @@ export type ProductFormType = {
     doors_amount: number,
     hinge_opening: hingeTypes,
     corner: MaybeEmpty<cornerTypes>,
-    options: string[],
+    options: ProductOptionsType[],
     middle_section: MaybeEmpty<number>,
     middle_section_string: MaybeEmpty<string>,
     led_borders: string[],
@@ -397,7 +415,8 @@ export type ProductFormType = {
     price: number,
     image_active_number: productTypings,
     custom: MaybeNull<ProductExtraType>,
-    amount: number
+    amount: number,
+    farm_sink_height_string: string
 }
 
 

@@ -2,48 +2,48 @@
   "categories": [
     {
       "value": "Kitchen",
-      "img": "kitchen.jpg"
+      "img": "Kitchen.jpg"
     },
     {
       "value": "Vanity",
-      "img": "vanity.jpg"
+      "img": "Vanity.jpg"
     },
     {
       "value": "Build In Closet",
-      "img": "build-in.jpg"
+      "img": "BuildIn.jpg"
     },
     {
       "value": "Leather Closet",
-      "img": "Leather Closet.jpg"
+      "img": "WalkIn.jpg"
     },
     {
       "value": "RTA Closet",
-      "img": "RTA Closet.jpg"
+      "img": "RTA.jpg"
     },
     {
       "value": "Cabinet System Closet",
-      "img": "Cabinet_System_Closet.jpg"
+      "img": "Cabinet System.jpg"
     }
   ],
   "doors": [
     {
       "value": "No Doors",
-      "img": "nodoors.jpg",
+      "img": "No Doors.jpg",
       "finish": [
         {
           "value": "No Doors No Hinges",
-          "img": "nodoors.jpg"
+          "img": "No Doors.jpg"
         }
       ]
     },
     {
-      "value": "Standard Size White Shaker",
-      "img": "Standard Shaker Door.jpg",
+      "value": "Standard Size Shaker",
+      "img": "Doors Shaker Standard.jpg",
       "finish": []
     },
     {
       "value": "Slab",
-      "img": "slab.jpg",
+      "img": "Doors Slab.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -86,17 +86,24 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -109,6 +116,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -1014,35 +1025,43 @@
           "colors": [
             {
               "value": "Desert Oak",
-              "img": "wood-veneer/Desert Oak.jpg"
+              "img": "wood-veneer/Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Frozen Walnut",
-              "img": "wood-veneer/Frozen Walnut.jpg"
+              "img": "wood-veneer/Frozen Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Ivory Oak",
-              "img": "wood-veneer/Ivory Oak.jpg"
+              "img": "wood-veneer/Ivory Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Manhattan Oak",
-              "img": "wood-veneer/Manhattan Oak.jpg"
+              "img": "wood-veneer/Manhattan Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Milk Oak",
-              "img": "wood-veneer/Milk Oak.jpg"
+              "img": "wood-veneer/Milk Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Pebble Triba",
-              "img": "wood-veneer/Pebble Triba.jpg"
+              "img": "wood-veneer/Pebble Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Pure Walnut",
-              "img": "wood-veneer/Pure Walnut.jpg"
+              "img": "wood-veneer/Pure Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Smoked Walnut",
-              "img": "wood-veneer/Smoked Walnut.jpg"
+              "img": "wood-veneer/Smoked Walnut.jpg",
+              "isGrain": true
             }
           ]
         }
@@ -1050,7 +1069,7 @@
     },
     {
       "value": "Three Piece Door",
-      "img": "threepeacedoor.jpg",
+      "img": "Doors 3pc.jpg",
       "finish": [
         {
           "value": "Syncron",
@@ -1497,8 +1516,9 @@
       ]
     },
     {
-      "value": "Five piece shaker",
+      "value": "Five Piece Shaker",
       "img": "shaker.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Syncron",
@@ -1568,6 +1588,7 @@
     {
       "value": "Finger Pull",
       "img": "Finger pull.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Syncron",
@@ -1642,8 +1663,8 @@
       ]
     },
     {
-      "value": "Micro Shaker",
-      "img": "microshaker.jpg",
+      "value": "Shaker",
+      "img": "Doors MicroShaker.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -1686,17 +1707,24 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -1709,6 +1737,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -2227,35 +2259,43 @@
           "colors": [
             {
               "value": "Desert Oak",
-              "img": "wood-veneer/Desert Oak.jpg"
+              "img": "wood-veneer/Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Frozen Walnut",
-              "img": "wood-veneer/Frozen Walnut.jpg"
+              "img": "wood-veneer/Frozen Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Ivory Oak",
-              "img": "wood-veneer/Ivory Oak.jpg"
+              "img": "wood-veneer/Ivory Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Manhattan Oak",
-              "img": "wood-veneer/Manhattan Oak.jpg"
+              "img": "wood-veneer/Manhattan Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Milk Oak",
-              "img": "wood-veneer/Milk Oak.jpg"
+              "img": "wood-veneer/Milk Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Pebble Triba",
-              "img": "wood-veneer/Pebble Triba.jpg"
+              "img": "wood-veneer/Pebble Triba.jpg",
+              "isGrain": true
             },
             {
               "value": "Pure Walnut",
-              "img": "wood-veneer/Pure Walnut.jpg"
+              "img": "wood-veneer/Pure Walnut.jpg",
+              "isGrain": true
             },
             {
               "value": "Smoked Walnut",
-              "img": "wood-veneer/Smoked Walnut.jpg"
+              "img": "wood-veneer/Smoked Walnut.jpg",
+              "isGrain": true
             }
           ]
         }
@@ -2271,13 +2311,26 @@
         },
         {
           "value": "1.25",
-          "img": "frame1.25.jpg"
+          "img": "frame1.25.jpg",
+          "is_hide": true
+        },
+        {
+          "value": "1.5",
+          "img": "frame1.5.jpg"
+        },
+        {
+          "value": "2",
+          "img": "frame2.jpg"
+        },
+        {
+          "value": "2.5",
+          "img": "frame2.5.jpg"
         }
       ]
     },
     {
       "value": "Slatted",
-      "img": "slatted.jpg",
+      "img": "Doors Slatted.jpg",
       "finish": [
         {
           "value": "Milino",
@@ -2320,17 +2373,24 @@
               "isGrain": true
             },
             {
+              "value": "Sable Wood",
+              "img": "Sable Wood.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Grey Woodline",
               "img": "Grey Woodline.jpg",
               "isGrain": true
             },
             {
               "value": "White Oak",
-              "img": "White Oak.jpg"
+              "img": "White Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Desert Oak",
-              "img": "Desert Oak.jpg"
+              "img": "Desert Oak.jpg",
+              "isGrain": true
             },
             {
               "value": "Ultra Matte White",
@@ -2343,6 +2403,10 @@
             {
               "value": "Ultra Matte Cashmere",
               "img": "Cashmere.jpg"
+            },
+            {
+              "value": "Ultra Matte Gris",
+              "img": "UltraMatte Gris.jpg"
             },
             {
               "value": "White Gloss",
@@ -2913,7 +2977,7 @@
     },
     {
       "value": "Custom Painted",
-      "img": "painted.jpg",
+      "img": "Doors Shaker Custom.jpg",
       "finish": [
         {
           "value": "Slab",
@@ -3174,6 +3238,7 @@
     {
       "value": "Wood ribbed doors",
       "img": "Ribbed_door.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Maple",
@@ -3185,7 +3250,8 @@
         },
         {
           "value": "White Oak",
-          "img": "White Oak.jpg"
+          "img": "White Oak.jpg",
+          "isGrain": true
         },
         {
           "value": "Walnut",
@@ -3207,8 +3273,7 @@
           "value": "Clear Coat Walnut",
           "img": "Walnut.jpg"
         }
-      ],
-      "is_hide": true
+      ]
     }
   ],
   "groove": [
@@ -3262,6 +3327,10 @@
       "img": "Ivory Woodline.jpg"
     },
     {
+      "value": "Sable Wood",
+      "img": "Sable Wood.jpg"
+    },
+    {
       "value": "Grey Woodline",
       "img": "Grey Woodline.jpg"
     },
@@ -3298,6 +3367,10 @@
       "img": "Cashmere.jpg"
     },
     {
+      "value": "Ultra Matte Gris",
+      "img": "UltraMatte Gris.jpg"
+    },
+    {
       "value": "White Gloss",
       "img": "White.jpg"
     }
@@ -3308,8 +3381,8 @@
       "img": "Milino.jpg",
       "types": [
         {
-          "value": "Undermount",
-          "img": "Undermount.jpg",
+          "value": "Same as Box Material",
+          "img": "Same as Box Material.jpg",
           "colors": [
             {
               "value": "Plywood",
@@ -3323,7 +3396,7 @@
         },
         {
           "value": "Legrabox",
-          "img": "Milino Legrabox.jpg",
+          "img": "Legrabox.jpg",
           "colors": [
             {
               "value": "Gray",
@@ -3360,8 +3433,8 @@
       "img": "blum.png",
       "types": [
         {
-          "value": "Undermount",
-          "img": "Undermount.jpg",
+          "value": "Same as Box Material",
+          "img": "Same as Box Material.jpg",
           "colors": [
             {
               "value": "Plywood",
@@ -3375,7 +3448,7 @@
         },
         {
           "value": "Legrabox",
-          "img": "Blum Legrabox.jpg",
+          "img": "Legrabox.jpg",
           "colors": [
             {
               "value": "Orion Gray",
@@ -3496,8 +3569,8 @@
       "img": "Regular Kitchen.jpg"
     },
     {
-      "value": "Gola Kitchen",
-      "img": "Gola Kitchen.jpg"
+      "value": "Handless Kitchen",
+      "img": "Kitchen Handless.jpg"
     },
     {
       "value": "Regular Vanity",
@@ -3505,29 +3578,29 @@
     },
     {
       "value": "Gola Vanity",
-      "img": "Gola Vanity.jpg"
+      "img": "Handless Vanity.jpg"
     }
   ],
   "gola": [
     {
+      "value": "Wood Gola",
+      "img": "Gola Wood.jpg"
+    },
+    {
       "value": "Aluminum Gola",
-      "img": "Aluminum Gola.jpg"
+      "img": "Gola Aluminum.jpg"
     },
     {
       "value": "Black Matte Gola",
-      "img": "Black Metal Gloss Gola.jpg"
+      "img": "Gola Black.jpg"
     },
     {
       "value": "White Gloss Gola",
-      "img": "White Metal Gloss Gola.jpg"
+      "img": "Gola White.jpg"
     },
     {
       "value": "Champagne Gola",
-      "img": "Champagne Metal Gola.jpg"
-    },
-    {
-      "value": "Wood Gola",
-      "img": "Wood Gola.jpg"
+      "img": "Gola Champagne.jpg"
     }
   ],
   "rod": [

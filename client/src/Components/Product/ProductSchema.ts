@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import settings from './../../api/settings.json'
-import {hingeArr, MaybeUndefined, ProductType, sizeLimitsType} from "../../helpers/productTypes";
+import {hingeArr, MaybeUndefined, ProductOptionsType, ProductType, sizeLimitsType} from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
 import {numericQuantity} from 'numeric-quantity';
 
@@ -18,6 +18,15 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
         const limit = sizeLimit[dimension]
         const min = (limit && limit[0]) ? limit[0] : 1;
         const max = (limit && limit[1]) ? limit[1] : 999;
+        if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
+        if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
+        return true;
+    }
+
+    const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min:number, max:number) => {
+        if (!val) return false;
+        const numberVal = numericQuantity(val);
+        if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
         if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
         if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
         return true;
@@ -69,7 +78,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
 
             }),
         hinge_opening: Yup.string().oneOf(hingeArr),
-        options: Yup.array().of(Yup.string()),
+        options: Yup.array().of(Yup.mixed<ProductOptionsType>()),
         glass_door: Yup.lazy((value, context) => {
             const options = context?.parent?.options ?? [];
 
@@ -183,6 +192,15 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         }
                     )
             }),
+        options: Yup.array().of(Yup.mixed<ProductOptionsType>()),
+        farm_sink_height_string: Yup.string()
+            .when('options', {
+                is: (opts: ProductOptionsType[]) => opts.includes('Farm Sink'),
+                then: (schema) => schema
+                    .required("Farm Sink height is required")
+                    .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, 999)),
+            })
+
     })
     if (product_type === "standard") return schemaBasic;
     return schemaBasic.concat(schemaExtended);

@@ -16,7 +16,8 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
         corner,
         options,
         glass,
-        custom
+        custom,
+        sink
     } = product;
 
     return (
@@ -43,6 +44,11 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                 </View> : null
             }
             <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard} />
+            {
+                sink?.farm_height ? <View style={!isStandard.farm_sink ? s.itemOptionCustom:s.itemOption}>
+                    <Text>Sink Height: {getFraction(sink.farm_height)}"</Text>
+                </View> : null
+            }
             {
                 custom?.accessories?.closet ? <View style={s.itemOption}>
                     <Text>Closet Accessories:</Text>

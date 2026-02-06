@@ -6,7 +6,7 @@ import {
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
@@ -14,7 +14,8 @@ import {CartAPIImagedType, CartCustomType} from "../../helpers/cartTypes";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,
-                                             productData
+                                             productData,
+                                             room
                                          }) => {
     const {
         id,
@@ -77,19 +78,21 @@ const ProductCabinet: FC<CabinetType> = ({
         }
     }, [width]);
     useEffect(() => {
-        setHingeArr(getHingeArr(doorArr || [], id, width, height, product_type))
-    }, [width, height])
+        setHingeArr(getHingeArr(doorArr || [], id, realWidth, realHeight, product_type))
+    }, [realWidth, realHeight])
     useEffect(() => {
         if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
     }, [hingeArr, hinge_opening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
 
-    const customVal:MaybeUndefined<CartCustomType> = custom ? {
+    const customVal: MaybeUndefined<CartCustomType> = custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
         jewelery_inserts: custom.jewelery_inserts,
         mechanism: custom.mechanism
     } : undefined;
+
+    const img = getProductImage(room, product, values);
     const cabinetItem: CartAPIImagedType = {
         _id: '',
         room_id: '',
@@ -115,6 +118,7 @@ const ProductCabinet: FC<CabinetType> = ({
         },
         custom: customVal,
         image_active_number: newType,
+        exact_image: img,
         note,
     };
     const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)

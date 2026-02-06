@@ -57,8 +57,8 @@ const RoomNavLink: FC<{ room: RoomFront, setWarningModal: (val: MaybeNull<RoomFr
     const {name} = room
     return (
         <div className={s.linkWrap}>
-            <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}>×</button>
-            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>✎</NavLink>
+            <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}><span>&#10005;</span></button>
+            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}><span>✎</span></NavLink>
             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                      to={textToLink(name)}>{name}</NavLink>
         </div>

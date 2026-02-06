@@ -26,7 +26,10 @@ const ProfileEdit: FC = () => {
         <Formik initialValues={initialValues}
                 validationSchema={ProfileEditSchema}
                 onSubmit={(values, {resetForm, setValues}) => {
-                    updateProfile(values).then(user => {
+                    const {additional_emails} = values as EditProfileType;
+                    const emails:string[] = additional_emails ? [...new Set(additional_emails.filter(str => str.trim() !== ""))] : [];
+                    const preparedValues = {...values, additional_emails: emails} as EditProfileType;
+                    updateProfile(preparedValues).then(user => {
                         if (user) {
                             dispatch(setUser(user));
                             resetForm();

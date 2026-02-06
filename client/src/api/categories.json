@@ -1,178 +1,288 @@
 {
   "Kitchen": {
-    "defaultImg": "Flatd_01.webp",
+    "name": "Kitchen",
+    "img": "Kitchen.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "Base Cabinets",
-        "img": "Flatd_02.webp"
+        "img": "Base Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Wall Cabinets",
-        "img": "Flatd_03.webp"
+        "img": "Wall Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Tall Cabinets",
-        "img": "Flatd_04.webp"
+        "img": "Tall Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Gola Wall Cabinets",
-        "img": "HL2-scaled.webp"
+        "img": "Wall Cabinets.jpg",
+        "type": "gola"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "Kitchen.jpg",
+        "type": "custom"
       }
     ]
   },
   "Kitchen Gola": {
-    "defaultImg": "HL0-scaled.webp",
+    "name": "Kitchen Gola",
+    "img": "Kitchen.jpg",
+    "type": "gola",
     "categories": [
       {
         "name": "Base Cabinets",
-        "img": "Flatd_02.webp"
+        "img": "Base Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Wall Cabinets",
-        "img": "Flatd_03.webp"
+        "img": "Wall Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Tall Cabinets",
-        "img": "Flatd_04.webp"
+        "img": "Tall Cabinets.jpg",
+        "type": "regular"
       },
       {
         "name": "Gola Base Cabinets",
-        "img": "HL1-scaled.webp"
+        "img": "Base Cabinets.jpg",
+        "type": "gola"
       },
       {
         "name": "Gola Wall Cabinets",
-        "img": "HL2-scaled.webp"
+        "img": "Wall Cabinets.jpg",
+        "type": "gola"
       },
       {
         "name": "Gola Tall Cabinets",
-        "img": "HL3-scaled.webp"
+        "img": "Tall Cabinets.jpg",
+        "type": "gola"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "Kitchen.jpg",
+        "type": "gola"
+      }
+    ]
+  },
+  "Kitchen Standard": {
+    "name": "Standard Door",
+    "img": "Kitchen.jpg",
+    "type": "standard",
+    "categories": [
+      {
+        "name": "Standard Base Cabinets",
+        "img": "Base Cabinets.jpg",
+        "type": "standard"
+      },
+      {
+        "name": "Standard Wall Cabinets",
+        "img": "Wall Cabinets.jpg",
+        "type": "standard"
+      },
+      {
+        "name": "Standard Tall Cabinets",
+        "img": "Tall Cabinets.jpg",
+        "type": "standard"
+      },
+      {
+        "name": "Standard Parts",
+        "img": "Kitchen.jpg",
+        "type": "standard"
+      },
+      {
+        "name": "Custom Parts",
+        "img": "Kitchen.jpg",
+        "type": "custom"
       }
     ]
   },
   "Vanity": {
-    "defaultImg": "Flatd_01.webp",
+    "name": "Vanity",
+    "img": "Flatd_01.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "Vanities",
-        "img": "Flatd_02.webp"
+        "img": "Flatd_02.jpg",
+        "type": "regular"
       },
       {
         "name": "Floating Vanities",
-        "img": "Flatd_02.webp"
+        "img": "Flatd_02.jpg",
+        "type": "regular"
       },
       {
         "name": "Tall Cabinets",
-        "img": "Flatd_04.webp"
+        "img": "Flatd_04.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "Flatd_01.jpg",
+        "type": "regular"
       }
     ]
   },
   "Vanity Gola": {
-    "defaultImg": "HL0-scaled.webp",
+    "name": "Vanity Gola",
+    "img": "HL0-scaled.jpg",
+    "type": "gola",
     "categories": [
       {
         "name": "Gola Floating Vanities",
-        "img": "HL1-scaled.webp"
+        "img": "HL1-scaled.jpg",
+        "type": "gola"
       },
       {
         "name": "Gola Tall Cabinets",
-        "img": "HL3-scaled.webp"
+        "img": "HL3-scaled.jpg",
+        "type": "gola"
       },
       {
         "name": "Tall Cabinets",
-        "img": "Flatd_04.webp"
+        "img": "Flatd_04.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "HL0-scaled.jpg",
+        "type": "gola"
+      }
+    ]
+  },
+  "Vanity Standard": {
+    "name": "Vanity ",
+    "img": "Flatd_01.jpg",
+    "type": "regular",
+    "categories": [
+      {
+        "name": "Standard Vanities",
+        "img": "Flatd_02.jpg",
+        "type": "regular"
+      },
+      {
+        "name": "Standard Floating Vanities",
+        "img": "Flatd_02.jpg",
+        "type": "regular"
+      },
+      {
+        "name": "Tall Cabinets",
+        "img": "Flatd_04.jpg",
+        "type": "regular"
+      },
+      {
+        "name": "Custom Parts",
+        "img": "Flatd_05.jpg",
+        "type": "regular"
       }
     ]
   },
   "Build In Closet": {
-    "defaultImg": "Built-in-Closet.webp",
+    "name": "Build In Closet",
+    "img": "BuildIn.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "Build In",
-        "img": "Built-in-Closet.webp"
+        "img": "BuildIn.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "BuildIn.jpg",
+        "type": "custom"
       }
     ]
   },
   "Leather Closet": {
-    "defaultImg": "Leather-Closets.webp",
+    "name": "Leather Closet",
+    "img": "WalkIn.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "Leather",
-        "img": "Leather-Closets.webp"
+        "img": "WalkIn.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "WalkIn.jpg",
+        "type": "custom"
       }
     ]
   },
   "RTA Closet": {
-    "defaultImg": "rta-closet.webp",
+    "name": "RTA Closet",
+    "img": "RTA.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "RTA Closets",
-        "img": "rta-closet.webp"
+        "img": "RTA.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "RTA.jpg",
+        "type": "custom"
       }
     ]
   },
   "Cabinet System Closet": {
-    "defaultImg": "System_closets.webp",
+    "name": "Cabinet System Closet",
+    "img": "Cabinet System.jpg",
+    "type": "regular",
     "categories": [
       {
         "name": "Cabinet System Closet",
-        "img": "System_closets.webp"
+        "img": "Cabinet System.jpg",
+        "type": "regular"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "Cabinet System.jpg",
+        "type": "custom"
       }
     ]
   },
   "Standard Door": {
-    "defaultImg": "Flatd_01.webp",
+    "name": "Standard Door",
+    "img": "Flatd_01.jpg",
+    "type": "standard",
     "categories": [
       {
         "name": "Standard Base Cabinets",
-        "img": "Flatd_02.webp"
+        "img": "Flatd_02.jpg",
+        "type": "standard"
       },
       {
         "name": "Standard Wall Cabinets",
-        "img": "Flatd_03.webp"
+        "img": "Flatd_03.jpg",
+        "type": "standard"
       },
       {
         "name": "Standard Tall Cabinets",
-        "img": "Flatd_04.webp"
+        "img": "Flatd_04.jpg",
+        "type": "standard"
       },
       {
         "name": "Standard Parts",
-        "img": "Flatd_05.webp"
+        "img": "Flatd_05.jpg",
+        "type": "standard"
       },
       {
         "name": "Custom Parts",
-        "img": "Flatd_05.webp"
+        "img": "Flatd_05.jpg",
+        "type": "custom"
       }
     ]
   }

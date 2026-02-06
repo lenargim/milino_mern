@@ -1,7 +1,7 @@
 import {
     AngleType,
     AttrItemType, CartExtrasType, cornerTypes,
-    hingeTypes,
+    hingeTypes, ProductOptionsType,
     productTypings
 } from "../../helpers/productTypes";
 import {CartItemFrontType, CartLEDAPI} from "../../helpers/cartTypes";
@@ -55,7 +55,7 @@ export interface productChangeMaterialType extends CartItemFrontType {
     depth: number,
     image_active_number: productTypings,
     attributes: AttrItemType[],
-    options: string[],
+    options: ProductOptionsType[],
     isBlind: boolean,
     isAngle: AngleType,
     customHeight?: number,

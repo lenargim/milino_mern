@@ -36,7 +36,7 @@ import { upload } from './utils/helpers.js'
 dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
-export const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(__filename)
 
 const PORT = process.env.PORT || 5000
 
@@ -89,6 +89,9 @@ const start = async () => {
     app.post('/api/auth/login', loginValidation, handleValidationErrors, UserController.login)
     app.get('/api/users/me', checkAuth, UserController.getMe)
     app.patch('/api/users/me', checkAuth, UserController.patchMe)
+    app.post('/api/auth/forgot-password', UserController.forgotPassword);
+    app.post('/api/auth/reset-password/:token', UserController.resetPassword);
+    app.get('/api/auth/get-token-name/:token', UserController.getTokenName);
 
     // Purchase Order
     app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)

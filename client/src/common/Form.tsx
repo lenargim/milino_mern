@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
-import {useField, ErrorMessage, Field} from "formik";
+import {useField, ErrorMessage, Field, FieldArray, FieldArrayRenderProps} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
-import {getFraction} from "../helpers/helpers";
+import {getFraction, getVariableType} from "../helpers/helpers";
 import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
@@ -13,7 +13,7 @@ import {MaybeUndefined} from "../helpers/productTypes";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {addMonths, addWeeks} from 'date-fns';
-
+import s from "../Components/Profile/profile.module.sass";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -170,7 +170,15 @@ export const PhoneInput: FC<textInputInterface> = ({
     );
 };
 
-export const RadioInput: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, outOfStock}) => {
+export const RadioInput: FC<RadioInterface> = ({
+                                                   name,
+                                                   value,
+                                                   className,
+                                                   img = noImg,
+                                                   checked = false,
+                                                   outOfStock,
+                                                   label
+                                               }) => {
     const [field] = useField(name)
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
@@ -178,13 +186,20 @@ export const RadioInput: FC<RadioInterface> = ({name, value, className, img = no
             <label htmlFor={`${name}_${value}`}
                    className={[styles.radioLabel, outOfStock ? styles.outOfStock : ''].join(' ')}>
                 <img src={img} alt={value.toString()}/>
-                <span>{value}</span>
+                <span>{label ?? value}</span>
                 {field.value === value && <CheckSvg classes={styles.checked}/>}
             </label>
         </div>
     )
 }
-export const RadioInputWithImage: FC<RadioInterface> = ({name, value, className, img = noImg, checked = false, label}) => {
+export const RadioInputWithImage: FC<RadioInterface> = ({
+                                                            name,
+                                                            value,
+                                                            className,
+                                                            img = noImg,
+                                                            checked = false,
+                                                            label
+                                                        }) => {
     const [field] = useField(name)
     return (
         <div className={[className, styles.checkboxSelect].join(' ')}>
@@ -403,7 +418,7 @@ export const MyDatePicker: FC<{ name: string, label?: string, weeks: number }> =
                         minDate={addWeeks(new Date(), weeks)}
                         maxDate={addMonths(new Date(), 12)}
                         className={[styles.input, isFilled ? `${styles.focused}` : null, error && touched ? styles.inputError : null].join(' ')}
-                        wrapperClassName={[styles.input, isFilled ? `${styles.focused}` : null,error && touched ? styles.inputError : null].join(' ')}
+                        wrapperClassName={[styles.input, isFilled ? `${styles.focused}` : null, error && touched ? styles.inputError : null].join(' ')}
                         autoComplete={'off'}
                         onFocus={() => helpers.setTouched(true)}
 
@@ -411,6 +426,80 @@ export const MyDatePicker: FC<{ name: string, label?: string, weeks: number }> =
             <label className={styles.label} htmlFor={name}>{label}</label>
             <span style={{fontSize: '12px'}}>{`Approximate delivery date (minimum ${weeks} weeks)`}</span>
             <ErrorMessage name={name} component="div" className={styles.error}/>
+        </div>
+    )
+}
+
+
+export const AdditionalEmailsArray: FC<{ additional_emails: string[], errors: MaybeUndefined<string | string[]> }> = ({
+                                                                                                                          additional_emails,
+                                                                                                                          errors
+
+                                                                                                                      }): JSX.Element => {
+    const myType = getVariableType(errors);
+    const typeErrorIsString = myType === 'string'
+    console.log(typeErrorIsString)
+    return (
+        <FieldArray
+            name="additional_emails"
+            render={(arrayHelpers) => (
+                <div>
+                    {additional_emails && additional_emails.length > 0
+                        ? <div className={s.additionalEmailsWrap}>
+                            {additional_emails.map((el, index) => <AdditionalEmailInput
+                                    key={index}
+                                    index={index}
+                                    typeErrorIsString={typeErrorIsString}
+                                    arrayHelpers={arrayHelpers}
+                                />
+                            )}
+                            {typeErrorIsString &&
+                            <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
+                        </div>
+                        : null
+                    }
+                    {additional_emails?.length < 5 ?
+                        <button type="button" className="button yellow small"
+                                onClick={() => arrayHelpers.push('')}>+ Additional E-mail
+                        </button>
+                        : null
+                    }
+                </div>
+            )}
+        />
+    )
+}
+
+const AdditionalEmailInput: FC<{ index: number, typeErrorIsString: boolean, arrayHelpers: FieldArrayRenderProps }> = ({
+                                                                                                                          index,
+                                                                                                                          typeErrorIsString,
+                                                                                                                          arrayHelpers
+                                                                                                                      }) => {
+    const name = `additional_emails[${index}]`;
+    const [field, meta, helpers] = useField(name);
+    const {error, touched} = meta;
+    const length = field?.value?.length ?? 0;
+    return (
+        <div className={s.additionalInputWrap}>
+            <button
+                className={s.close}
+                type="button"
+                onClick={() => {
+                    arrayHelpers.remove(index)
+                }}>×
+            </button>
+            <div className={[styles.row, error && touched ? 'error' : null].join(' ')}>
+                <Field
+                    className={[styles.input, length ? `${styles.focused}` : null, error && touched ? styles.inputError : null,].join(' ')}
+                    type="email"
+                    name={name}
+                    id={name}
+                    onFocus={(e: any) => handleFocus(e.target)}
+                    onBlur={(e: any) => handleBlur(e.target, helpers.setTouched)}
+                />
+                <label className={styles.label} htmlFor={name}>{`Additional Email #${index + 1}`}</label>
+                {!typeErrorIsString && <ErrorMessage name={name} component="div" className={styles.error}/>}
+            </div>
         </div>
     )
 }
