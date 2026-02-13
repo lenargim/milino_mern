@@ -5498,6 +5498,7 @@
     "product_type": "cabinet",
     "name": "IDC Series",
     "category": "Cabinet System Closet",
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
@@ -5520,6 +5521,7 @@
     "product_type": "cabinet",
     "name": "ILC Series",
     "category": "Cabinet System Closet",
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5551,6 +5553,7 @@
     "product_type": "cabinet",
     "name": "ISC Series",
     "category": "Cabinet System Closet",
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
