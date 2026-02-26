@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
-import {findIsRoomStandard, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {fetchCart, RoomsState, setActiveRoom} from "../../store/reducers/roomSlice";
 import s from './room.module.sass'
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
@@ -36,7 +36,6 @@ const Room: FC = () => {
         ...rest
     } = room;
     const materials: RoomMaterialsFormType = {...rest};
-    const isRoomStandard = findIsRoomStandard(materials.door_type);
     return (
         <div className={s.roomMain}>
             {showBackButton
@@ -44,7 +43,7 @@ const Room: FC = () => {
                     Cabinets</button>
                 : null
             }
-            <Outlet context={[room, materials, isRoomStandard]}/>
+            <Outlet context={[room, materials]}/>
         </div>
     );
 };

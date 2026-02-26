@@ -58,10 +58,10 @@ export interface CartAPIResponse extends CartAPI {
     room_id: string
 }
 
-export interface CartAPIImagedType extends CartAPI {
-    image_active_number: productTypings,
-    exact_image: string
-}
+// export interface CartAPIImagedType extends CartAPI {
+//     image_active_number: productTypings,
+//     exact_image: string
+// }
 
 export interface CartOrder {
     product_type: ProductApiType,
@@ -80,10 +80,12 @@ export interface CartOrder {
 }
 
 // is standard or customized product (size led, options)
-export interface CartItemFrontType extends CartAPIImagedType {
+export interface CartItemFrontType extends CartAPI {
     subcategory: string,
     isStandard: IsStandardOptionsType
     price: number
+    image_active_number: productTypings,
+    exact_image: string
 }
 
 export type CartCustomType = {

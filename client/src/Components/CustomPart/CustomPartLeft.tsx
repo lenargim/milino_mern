@@ -10,7 +10,7 @@ import {getCustomPartImagePath} from "../../helpers/helpers";
 const CustomPartLeft: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
     const {name} = product
     const {values} = useFormikContext<CustomPartFormType>();
-    const img = getCustomPartImagePath(product, values.drawer_accessories);
+    const img = getCustomPartImagePath(product, values);
     return (
         <div className={s.left}>
             <h2>{name}</h2>

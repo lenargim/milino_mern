@@ -1,16 +1,16 @@
 import React, {FC, useEffect, useState} from 'react';
-import {CabinetType, MaybeUndefined, ProductFormType} from "../../helpers/productTypes";
+import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
-    getDoorMinMaxValuesArr,
+    getDoorMinMaxValuesArr, getProductFrontCustomVal,
     getType
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
-import {CartAPIImagedType, CartCustomType} from "../../helpers/cartTypes";
+import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,
@@ -85,15 +85,9 @@ const ProductCabinet: FC<CabinetType> = ({
     }, [hingeArr, hinge_opening])
 
     const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
-
-    const customVal: MaybeUndefined<CartCustomType> = custom ? {
-        accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
-        jewelery_inserts: custom.jewelery_inserts,
-        mechanism: custom.mechanism
-    } : undefined;
-
+    const customVal = getProductFrontCustomVal(custom);
     const img = getProductImage(room, product, values);
-    const cabinetItem: CartAPIImagedType = {
+    const cabinetItem: CartItemFrontType = {
         _id: '',
         room_id: '',
         product_id: id,
@@ -120,6 +114,9 @@ const ProductCabinet: FC<CabinetType> = ({
         image_active_number: newType,
         exact_image: img,
         note,
+        subcategory: '',
+        isStandard: setAllProductFieldIsStandard(),
+        price: 0
     };
     const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
     return (
