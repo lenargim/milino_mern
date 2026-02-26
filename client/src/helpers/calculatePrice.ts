@@ -10,7 +10,7 @@ import {
     pricePart, priceStandardPanel,
     pricesTypings, pricesTypingsNumber,
     productCategory,
-    productDataToCalculatePriceType,
+    productDataToCalculatePriceType, ProductExtraType,
     productRangeType,
     ProductType,
     productTypings,
@@ -36,7 +36,7 @@ import productPrices from '../api/prices.json'
 import ro_drawer_prices from '../api/ro_drawer_prices.json'
 import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
-import {CartAPI, CartAPIImagedType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
+import {CartAPI, CartCustomType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType, DrawerInserts, DrawerROType, GrooveAPIType,
     RTAClosetAPIType
@@ -216,6 +216,14 @@ export function getType(width: number, height: number, widthDivider: number | un
         default:
             return 1
     }
+}
+
+export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomType> => {
+    return custom ? {
+        accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
+        jewelery_inserts: custom.jewelery_inserts,
+        mechanism: custom.mechanism
+    } : undefined
 }
 
 const filterDoorArr = (width: number, doorValues?: valueItemType[]): valueItemType[] => {
@@ -1175,15 +1183,17 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
     });
 }
 
-export const calculateProduct = (cabinetItem: CartAPIImagedType, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
-    const {width, height, depth, options} = cabinetItem;
-    // console.log(materialData)
+export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
+    const {widthDivider, category, attributes} = product
+    const {width, height, depth, options, hinge} = cabinetItem;
+    const doors = checkDoors(hinge)
+    const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
-    const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData);
+    const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData, image_active_number);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     const totalPrice = +(startPrice * size_coef + attrPrice).toFixed(1);
     return totalPrice * settings.global_price_coef
@@ -1202,7 +1212,7 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
     return !(!isFitMinMaxWidth || !isFitMinMaxHeight || !isFitMinMaxDepth || !tablePrice);
 }
 
-const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductType, materialData: materialDataType): AttributesPrices => {
+const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
     const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism} = product;
     const {
         options,
@@ -1210,7 +1220,6 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         height,
         depth,
         blind_width,
-        image_active_number,
         middle_section,
         led,
         glass,
@@ -1249,7 +1258,7 @@ const getAttributesProductPrices = (cart: CartAPIImagedType, product: ProductTyp
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef
     }
 }
-const getSizeCoef = (cartItem: CartAPIImagedType, tablePriceData: pricePart[], product: ProductType): number => {
+const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {
     const {category, isAngle, customHeight, customDepth} = product
     const {width, height, depth} = cartItem
     const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);

@@ -23,7 +23,6 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const room = rooms.find(el => el._id === room_id );
     if (!room || !productAPI) return null;
     const {name} = productAPI;
-    // const img = getProductOrCustomPartImage(productAPI, item)
     const img = getCartImagePath(room, productAPI, item);
 
     function changeAmount(type: changeAmountType) {

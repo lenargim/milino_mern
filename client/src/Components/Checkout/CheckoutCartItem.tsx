@@ -29,7 +29,6 @@ const CheckoutCartItem: FC<{ el: CartItemFrontType }> = ({el}) => {
     const product = getProductById(product_id, product_type === 'standard');
     if (!product) return null;
     const {name} = product;
-    // const img = getProductOrCustomPartImage(product, el);
     const img = getCartImagePath(room, product, el);
 
 

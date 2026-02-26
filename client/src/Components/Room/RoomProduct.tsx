@@ -3,6 +3,7 @@ import {useOutletContext, useParams} from "react-router-dom";
 import Product from "../Product/Product";
 import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {
+    findIsRoomStandard,
     getCustomPartInitialFormValues, getCustomPartInitialTableData, getCustomPartMaterialsArraySizeLimits,
     getProductById, getProductImage,
     getProductInitialFormValues,
@@ -18,16 +19,16 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues}) => {
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
-    const [room, materials, isRoomStandard] = useOutletContext<[RoomFront, RoomMaterialsFormType, boolean]>()
-    const {_id: room_id} = room
+    const [room, materials] = useOutletContext<[RoomFront, RoomMaterialsFormType, boolean]>()
+    const {_id: room_id} = room;
+    const isRoomStandard = findIsRoomStandard(materials.door_type);
     const product_or_custom = getProductById(Number(productId), isRoomStandard);
     if (!product_or_custom) return <div>Product error</div>;
     const productEditId = cartItemValues?._id;
     switch (product_or_custom.product_type) {
         case "custom": {
-            const customPartData = getCustomPartInitialTableData(product_or_custom as CustomPartType, materials, isRoomStandard);
+            const customPartData = getCustomPartInitialTableData(product_or_custom as CustomPartType, materials);
             const initialCustomPartValues = getCustomPartInitialFormValues(customPartData, cartItemValues);
-            // const img = getProductImage(room, product_or_custom, initialCustomPartValues)
             return <CustomPart materials={materials}
                                room_id={room_id}
                                custom_part={product_or_custom as CustomPartType}

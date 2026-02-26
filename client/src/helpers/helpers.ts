@@ -48,14 +48,14 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, DrawerAccessoriesType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
     DoorSizesArrType,
     DoorType,
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {CatItem, SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
@@ -64,9 +64,8 @@ import {initialStandardPanels} from "../Components/CustomPart/CustomPartStandard
 import settings from "../api/settings.json";
 import {
     CartAPI,
-    CartAPIImagedType,
     CartItemFrontType,
-    CartOrder, IsStandardDimentionsType,
+    CartOrder, IsStandardDimentionsType, IsStandardOptionsType,
     LEDAccessoriesType
 } from "./cartTypes";
 import {
@@ -196,16 +195,18 @@ export function isCartCustomPartType(values: CartItemFrontType | CustomPartFormT
 export const getProductImage = (room: RoomType, product: ProductOrCustomType, values: ProductFormType | CustomPartFormType): string => {
     if (isCustomPart(product)) {
         const customValues = values as CustomPartFormType;
-        return getCustomPartImagePath(product, customValues.drawer_accessories)
+        return getCustomPartImagePath(product, customValues)
     } else {
         const {hinge_opening, corner} = values as ProductFormType;
         return getProductImagePath(room, product, hinge_opening ?? corner);
     }
 }
 
-export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType, values: CartItemFrontType | CartAPI): string => {
+export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType, values: CartAPI): string => {
     if (isCustomPart(product)) {
-        return getCustomPartImagePath(product, values.custom?.drawer_accessories)
+        const customPartData = getCustomPartInitialTableData(product, room);
+        const initialCustomPartValues = getCustomPartInitialFormValues(customPartData, values);
+        return getCustomPartImagePath(product, initialCustomPartValues)
     } else {
         return getProductImagePath(room, product, values.hinge ?? values.corner);
     }
@@ -236,7 +237,6 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
-                console.log(`${category_folder}/${img_src}`)
                 return getProductImg(`${category_folder}/${img_src}`);
             }
         }
@@ -289,23 +289,32 @@ const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>):
     return `${n}.jpg`;
 }
 
-export const getCustomPartImagePath = (product: CustomPartType, drawer_accessories: MaybeNull<MaybeUndefined<DrawerAccessoriesType>>): string => {
+export const getCustomPartImagePath = (product: CustomPartType, values: CustomPartFormType): string => {
     const {type} = product;
-    if (type === 'drawer-inserts') {
-        if (!drawer_accessories || !drawer_accessories.inserts) return getProductImg(`Custom Parts/${product.name}.jpg`);
-        const {insert_type, box_type, color} = drawer_accessories.inserts
-        if (!box_type || !color) return getProductImg(`Custom Parts/${product.name}.jpg`);
-        switch (box_type) {
-            case "Inserts": {
-                if (!insert_type) return getProductImg(`Custom Parts/${product.name}.jpg`);
-                return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
+    const {drawer_accessories, glass_door} = values
+    switch (type) {
+        case "drawer-inserts": {
+            if (!drawer_accessories?.inserts) break;
+            const {insert_type, box_type, color} = drawer_accessories.inserts
+            if (!box_type || !color) return getProductImg(`Custom Parts/${product.name}.jpg`);
+            switch (box_type) {
+                case "Inserts": {
+                    if (!insert_type) return getProductImg(`Custom Parts/${product.name}.jpg`);
+                    return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
+                }
+                case "Pegs":
+                    return getImg('drawer_pegs', `Pegs ${color}.jpg`)
+                case "Spice":
+                    return getImg('drawer_spice', `Spice ${color}.jpg`)
             }
-            case "Pegs":
-                return getImg('drawer_pegs', `Pegs ${color}.jpg`)
-            case "Spice":
-                return getImg('drawer_spice', `Spice ${color}.jpg`)
+            break
+        }
+        case "glass-door": {
+            if (!glass_door || !glass_door[0]) break;
+            return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
     }
+
     return getProductImg(`Custom Parts/${product.name}.jpg`);
 }
 
@@ -452,10 +461,11 @@ export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: 
     }
 }
 
-export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType, isStandardRoom: boolean): MaybeNull<materialsCustomPart> => {
+export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
+    const isRoomStandard = findIsRoomStandard(materials.door_type);
     const {door_finish_material, door_type} = materials
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardRoom)
+    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isRoomStandard)
     if (!filtered_materials_array) return null;
     return filtered_materials_array.find(el => door_finish_material.includes(el.name))
         ?? filtered_materials_array.find(el => door_type === el.name)
@@ -1030,11 +1040,11 @@ export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, 
 }
 
 export const convertCartAPIToFront = (cart: CartAPI[], room: MaybeUndefined<RoomNewType>): CartItemFrontType[] => {
-    if (!room) return []
-    const CartFrontItems = cart.map(cart_item => {
+    if (!room) return [];
+    const cartFrontItems = cart.map(cart_item => {
         return getCartItemProduct(cart_item, room);
     })
-    return CartFrontItems.filter((element): element is CartItemFrontType => element !== null)
+    return cartFrontItems.filter((element): element is CartItemFrontType => element !== null)
 }
 
 
@@ -1052,7 +1062,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartIte
         height,
         depth,
         options,
-        hinge,
         product_type,
         blind_width,
         middle_section,
@@ -1074,8 +1083,6 @@ const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartIte
             const product = product_or_custom as ProductType;
             const {
                 category,
-                widthDivider,
-                attributes,
                 customHeight,
                 customDepth,
                 isAngle,
@@ -1087,22 +1094,19 @@ const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartIte
 
             const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
             if (!tablePriceData) return null;
-            const doors = checkDoors(hinge)
+
             const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
             if (!sizeLimit) return null;
-            const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
-            const cabinetItem: CartAPIImagedType = {
-                ...item,
-                image_active_number,
-                exact_image
-            }
-            const totalPrice = calculateProduct(cabinetItem, materialData, tablePriceData, sizeLimit, product)
+
+            const totalPrice = calculateProduct(item, materialData, tablePriceData, sizeLimit, product)
             const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
 
             return {
-                ...cabinetItem,
+                ...item,
                 subcategory: category,
                 price: totalPrice,
+                exact_image: exact_image,
+                image_active_number: 1,
                 isStandard: {
                     dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
                     blind: checkBlindStandard(isBlind, blind_width, blindArr),
@@ -1110,7 +1114,7 @@ const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartIte
                     options: checkOptionsSelected(options),
                     middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
                     farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
-                }
+                },
             }
         }
         case "custom": {
@@ -1119,26 +1123,30 @@ const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartIte
             let price: number = getCustomPartPrice(customPart, room, item);
             return {
                 ...item,
-                exact_image,
-                image_active_number: 1,
                 subcategory: type,
                 price: price,
-                isStandard: {
-                    dimensions: {
-                        width: true,
-                        height: true,
-                        depth: true
-                    },
-                    led: true,
-                    blind: true,
-                    middle: true,
-                    options: true,
-                    farm_sink: true
-                }
+                exact_image,
+                image_active_number: 1,
+                isStandard: setAllProductFieldIsStandard()
             }
         }
     }
 };
+
+export const setAllProductFieldIsStandard = ():IsStandardOptionsType => {
+    return {
+        dimensions: {
+            width: true,
+            height: true,
+            depth: true
+        },
+        led: true,
+        blind: true,
+        middle: true,
+        options: true,
+        farm_sink: true
+    }
+}
 
 export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const {
@@ -1588,8 +1596,8 @@ const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeN
     }
 }
 
-export const getCustomPartInitialTableData = (custom_part: CustomPartType, materials: RoomMaterialsFormType, isRoomStandard: boolean): CustomPartTableDataType => {
-    const initialMaterialData = getInitialMaterialArrayData(custom_part, materials, isRoomStandard);
+export const getCustomPartInitialTableData = (custom_part: CustomPartType, materials: RoomMaterialsFormType): CustomPartTableDataType => {
+    const initialMaterialData = getInitialMaterialArrayData(custom_part, materials);
     const initialSizes = getInitialSizes(custom_part, initialMaterialData, materials);
     const isDoorAccessories = ["door-accessories"].includes(custom_part.type);
     const isStandardPanel = ["standard-panel"].includes(custom_part.type);
@@ -1616,7 +1624,7 @@ export const getCustomPartInitialTableData = (custom_part: CustomPartType, mater
     }
 }
 
-export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>): CustomPartFormType => {
+export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDataType, cartItemValues: MaybeUndefined<CartAPI>): CustomPartFormType => {
     const {
         initialSizes,
         initialMaterialData,
@@ -1650,7 +1658,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             price: 0
         }
     } else {
-        const {width, height, depth, custom, note, price, glass, amount} = cartItemValues;
+        const {width, height, depth, custom, note, glass, amount} = cartItemValues;
         const {
             standard_doors,
             standard_panels,
@@ -1728,7 +1736,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             drawer_accessories: drawer_accessories ?? null,
             amount,
             note,
-            price: price,
+            price: 0,
         }
     }
 }

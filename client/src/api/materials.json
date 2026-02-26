@@ -10,19 +10,19 @@
     },
     {
       "value": "Build In Closet",
-      "img": "BuildIn.jpg"
+      "img": "build-in.jpg"
     },
     {
       "value": "Leather Closet",
-      "img": "WalkIn.jpg"
+      "img": "Leather Closet.jpg"
     },
     {
       "value": "RTA Closet",
-      "img": "RTA.jpg"
+      "img": "RTA Closet.jpg"
     },
     {
       "value": "Cabinet System Closet",
-      "img": "Cabinet System.jpg"
+      "img": "Cabinet_System_Closet.jpg"
     }
   ],
   "doors": [
