@@ -67,8 +67,7 @@ const CheckoutForm: FC = () => {
             case "save-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
-                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues}
-                                                            po_rooms_api={po_rooms_api}/>).toBlob();
+                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues} po_rooms_api={po_rooms_api}/>).toBlob();
                 saveAs(po_blob, `${fileName}.pdf`);
                 break;
             }
