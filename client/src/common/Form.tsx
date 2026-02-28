@@ -438,7 +438,6 @@ export const AdditionalEmailsArray: FC<{ additional_emails: string[], errors: Ma
                                                                                                                       }): JSX.Element => {
     const myType = getVariableType(errors);
     const typeErrorIsString = myType === 'string'
-    console.log(typeErrorIsString)
     return (
         <FieldArray
             name="additional_emails"
