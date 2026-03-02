@@ -12,7 +12,6 @@
     "client:build": "npm run build --prefix client",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
   },
-  "proxy": "http://127.0.0.1:5002",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -39,6 +38,7 @@
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/node": "^22.15.29",
+    "baseline-browser-mapping": "^2.10.0",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.4",
