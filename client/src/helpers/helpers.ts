@@ -29,7 +29,7 @@ import {
     hingeTypes,
     AttrWithoutDescType,
     materialsLimitsType,
-    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType,
+    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType, materialDataType,
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -314,7 +314,6 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
     }
-
     return getProductImg(`Custom Parts/${product.name}.jpg`);
 }
 
@@ -372,7 +371,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
     }
     // Tall Cabinets
     if (tall_type_exceptions.includes(product_id)) {
-        let tallArr:hingeTypes[] = []
+        let tallArr: hingeTypes[] = []
         if (!isStandard) {
             if (tall_type_1.includes(product_id)) {
                 if (doorArr.includes(2)) tallArr.push(left_2, right_2, single_left, single_right);
@@ -438,9 +437,6 @@ export const getProductsByCategory = (room_category: RoomCategoriesType, isStand
         const excludeInStandardShakerCabinets = [211, 309];
         products = products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
-    // if (isStandardCabinet && ['Kitchen', 'Vanity'].includes(room_category)) {
-    //     products = products.filter(el => el.product_type === "standard");
-    // }
     return products
 
 
@@ -1056,84 +1052,64 @@ export const convertRoomAPIToFront = (room: RoomType): RoomFront => {
 }
 
 const getCartItemProduct = (item: CartAPI, room: RoomNewType): MaybeNull<CartItemFrontType> => {
-    const {
-        product_id,
-        width,
-        height,
-        depth,
-        options,
-        product_type,
-        blind_width,
-        middle_section,
-        led,
-        sink,
-    } = item;
+    const {product_id, product_type} = item;
     const materialData = getMaterialData(room, product_id);
-    const {
-        is_standard_room,
-        base_price_type,
-    } = materialData;
-
     const product_or_custom = getProductById(product_id, product_type === 'standard')
     if (!product_or_custom) return null;
-    const exact_image = getCartImagePath(room, product_or_custom, item)
-    switch (product_type) {
-        case "cabinet":
-        case "standard": {
-            const product = product_or_custom as ProductType;
-            const {
-                category,
-                customHeight,
-                customDepth,
-                isAngle,
-                isBlind = false,
-                middleSectionDefault,
-                blindArr,
-                farm_sink_height
-            } = product
 
-            const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
-            if (!tablePriceData) return null;
+    return {
+        ...item,
+        exact_image: getCartImagePath(room, product_or_custom, item),
+        image_active_number: 1,
+        isStandard: isStandardProductOptions(product_or_custom, item, materialData),
+        price: getProductPriceAPI(item, room, materialData),
+        subcategory: isCustomPart(product_or_custom) ? product_or_custom.type : product_or_custom.category,
+    }
+}
 
-            const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
-            if (!sizeLimit) return null;
-
-            const totalPrice = calculateProduct(item, materialData, tablePriceData, sizeLimit, product)
-            const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
-
-            return {
-                ...item,
-                subcategory: category,
-                price: totalPrice,
-                exact_image: exact_image,
-                image_active_number: 1,
-                isStandard: {
-                    dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
-                    blind: checkBlindStandard(isBlind, blind_width, blindArr),
-                    led: checkLedSelected(led?.border),
-                    options: checkOptionsSelected(options),
-                    middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
-                    farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
-                },
-            }
-        }
-        case "custom": {
-            const customPart = product_or_custom as CustomPartType;
-            const {type} = customPart;
-            let price: number = getCustomPartPrice(customPart, room, item);
-            return {
-                ...item,
-                subcategory: type,
-                price: price,
-                exact_image,
-                image_active_number: 1,
-                isStandard: setAllProductFieldIsStandard()
-            }
+export const isStandardProductOptions = (product_or_custom: ProductType | CustomPartType, item: CartAPI, materialData: materialDataType): IsStandardOptionsType => {
+    if (isCustomPart(product_or_custom)) {
+        return setAllProductFieldIsStandard()
+    } else {
+        const {
+            category,
+            customHeight,
+            customDepth,
+            isAngle,
+            blindArr,
+            isBlind = false,
+            middleSectionDefault,
+            farm_sink_height
+        } = product_or_custom
+        const {width, height, depth, blind_width, sink, led, options, middle_section, product_id} = item
+        const tablePriceData = getProductPriceRange(product_id, materialData);
+        const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
+        return {
+            dimensions: checkDimensionsStandard(productRange, width, height, depth, isAngle),
+            blind: checkBlindStandard(isBlind, blind_width, blindArr),
+            led: checkLedSelected(led?.border),
+            options: checkOptionsSelected(options),
+            middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
+            farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
         }
     }
-};
+}
 
-export const setAllProductFieldIsStandard = ():IsStandardOptionsType => {
+export const getProductPriceAPI = (cart_item: CartAPI, room: RoomNewType, materialData: materialDataType): number => {
+    const {product_id, product_type} = cart_item;
+    const product_or_custom = getProductById(product_id, product_type === 'standard');
+    if (!product_or_custom) return 0;
+    if (isCustomPart(product_or_custom)) {
+        return getCustomPartPrice(product_or_custom, room, cart_item);
+    } else {
+        const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
+        const tablePriceData = getProductPriceRange(product_id, materialData);
+        if (!tablePriceData || !sizeLimit) return 0;
+        return calculateProduct(cart_item, materialData, tablePriceData, sizeLimit, product_or_custom)
+    }
+}
+
+export const setAllProductFieldIsStandard = (): IsStandardOptionsType => {
     return {
         dimensions: {
             width: true,
@@ -1444,8 +1420,7 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
         isAngle
     } = product
     const materialData = getMaterialData(materials, product_id);
-    const {base_price_type, is_standard_room} = materialData;
-    const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
+    const tablePriceData = getProductPriceRange(product_id, materialData);
     const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
     const sizeLimit = getSizeLimitsFromData(product_id, isAngle);
     const middleSectionNumber = middleSectionDefault ?? 0;
@@ -1653,8 +1628,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet_custom: [],
             groove: null,
             drawer_accessories: null,
-            amount: 1,
             note: '',
+            amount: 1,
             price: 0
         }
     } else {
@@ -1668,46 +1643,59 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             groove,
             drawer_accessories,
         } = custom!;
-        const LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = accessories?.led ? {
-            alum_profiles: accessories.led.alum_profiles.map(el => ({
-                qty: el.qty,
-                length_string: getFraction(el.length),
-                length: el.length
-            })),
-            gola_profiles: accessories.led.gola_profiles.map(el => ({
-                qty: el.qty,
-                length_string: getFraction(el.length),
-                length: el.length,
-                color: el.color
-            })),
-            transformer_60_W: accessories.led.transformer_60_W,
-            transformer_100_W: accessories.led.transformer_100_W,
-            remote_control: accessories.led.remote_control,
-            door_sensor_single: accessories.led.door_sensor_single,
-            door_sensor_double: accessories.led.door_sensor_double
-        } : null;
-
-        const doorAccessories = DA as DoorAccessoryFront[]
+        let LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = null;
         let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
-        if (accessories && accessories.door) {
-            doorAccessoriesValues = doorAccessories.map(el => {
-                const {value, id, price, label, filter} = el;
-                let qty: number = 0;
-                if (accessories.door) {
-                    qty = accessories.door.find(el => el.value === value)?.qty ?? 0;
+        let standardDoorValues: MaybeNull<DoorType[]> = null;
+        const doorAccessories = DA as DoorAccessoryFront[]
+        if (accessories) {
+            const {led, door, closet} = accessories;
+            if (led) {
+                const {
+                    alum_profiles,
+                    gola_profiles,
+                    transformer_60_W,
+                    transformer_100_W,
+                    remote_control,
+                    door_sensor_single,
+                    door_sensor_double
+                } = led
+                LEDAccessoriesValues = {
+                    alum_profiles: alum_profiles ? alum_profiles.map(el => ({
+                        qty: el.qty,
+                        length_string: getFraction(el.length),
+                        length: el.length
+                    })) : [],
+                    gola_profiles: gola_profiles ? gola_profiles.map(el => ({
+                        qty: el.qty,
+                        length_string: getFraction(el.length),
+                        length: el.length,
+                        color: el.color
+                    })) : [],
+                    transformer_60_W: transformer_60_W ?? 0,
+                    transformer_100_W: transformer_100_W ?? 0,
+                    door_sensor_double: door_sensor_double ?? 0,
+                    door_sensor_single: door_sensor_single ?? 0,
+                    remote_control: remote_control ?? 0
                 }
-                return {
-                    id,
-                    label,
-                    filter,
-                    price,
-                    value,
-                    qty
-                }
-            })
-        }
 
-        const standardDoorValues: MaybeNull<DoorType[]> = standardDoorData && standard_doors ?
+            }
+            if (door) {
+                doorAccessoriesValues = doorAccessories.map(el => {
+                    const {value, id, price, label, filter} = el;
+                    let qty: number = 0;
+                    qty = door.find(el => el.value === value)?.qty ?? 0;
+                    return {
+                        id,
+                        label,
+                        filter,
+                        price,
+                        value,
+                        qty
+                    }
+                })
+            }
+        }
+        standardDoorValues= standardDoorData && standard_doors ?
             standard_doors.map(el => ({
                 ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
             })) : null;

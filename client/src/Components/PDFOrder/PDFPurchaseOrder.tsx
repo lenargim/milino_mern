@@ -21,10 +21,9 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
     type ProcessedRoom = {
         name: string;
         materialStrings: MaterialStringsType;
-        cart: CartItemFrontType[];
+        cartsFront: CartItemFrontType[];
         totalRoomPrice: number;
     };
-
     const {processedRooms, totalPOPrice} = useMemo(() => {
         return po_rooms_api.reduce<{
             processedRooms: ProcessedRoom[];
@@ -34,15 +33,15 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
                 const {carts, ...materials} = room;
 
                 const materialStrings = getMaterialStrings(materials);
-                const cart = convertCartAPIToFront(carts, materials);
-                const totalRoomPrice = getCartTotal(cart);
+                const cartsFront = convertCartAPIToFront(carts, materials);
+                const totalRoomPrice = getCartTotal(cartsFront);
 
-                acc.processedRooms.push({
-                    name: room.name,
-                    materialStrings,
-                    cart,
-                    totalRoomPrice,
-                });
+                    acc.processedRooms.push({
+                        name: room.name,
+                        materialStrings,
+                        cartsFront,
+                        totalRoomPrice,
+                    });
                 acc.totalPOPrice += totalRoomPrice;
                 return acc;
             },
@@ -52,7 +51,6 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
             }
         );
     }, [po_rooms_api]);
-
     return (
         <Document language="en">
             <Page orientation="landscape" style={s.page}>
@@ -72,29 +70,37 @@ const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrder
                         day: '2-digit'
                     })}</Text>
                     <Text>Rooms in Purchase order: {po_rooms_api.length}</Text>
-                    <Text>Total price (All rooms): ${totalPOPrice}</Text>
+                    <Text>Total price (All rooms): ${totalPOPrice.toFixed(1)}</Text>
                 </View>
             </Page>
-            {processedRooms.map((room, index) => (
-                <Page orientation="landscape" style={s.page} key={index}>
-                    <View>
-                        <Text style={s.h1}>Room Name: {room.name}</Text>
-                        <View style={s.categoryBlock}>
-                            <Text>Category: {room.materialStrings.categoryString}</Text>
-                            <Text>Door: {room.materialStrings.doorString}</Text>
-                            <Text>Box Material: {room.materialStrings.boxString}</Text>
-                            <Text>Drawer: {room.materialStrings.drawerString}</Text>
-                            {room.materialStrings.leatherString && (
-                                <Text>Leather: {room.materialStrings.leatherString}</Text>
-                            )}
+            {processedRooms.map((room, index) => {
+                const {
+                    materialStrings: {categoryString, doorString, boxString, drawerString, leatherString},
+                    cartsFront,
+                    totalRoomPrice,
+                    name
+                } = room;
+                return (
+                    <Page orientation="landscape" style={s.page} key={index}>
+                        <View>
+                            <Text style={s.h1}>Room Name: {name}</Text>
+                            <View style={s.categoryBlock}>
+                                <Text>Category: {categoryString}</Text>
+                                <Text>Door: {doorString}</Text>
+                                <Text>Box Material: {boxString}</Text>
+                                <Text>Drawer: {drawerString}</Text>
+                                {leatherString && (
+                                    <Text>Leather: {leatherString}</Text>
+                                )}
+                            </View>
+                            <PdfTable cart={cartsFront}/>
+                            <View style={s.cartTotal}>
+                                <Text>Total ${totalRoomPrice}</Text>
+                            </View>
                         </View>
-                        <PdfTable cart={room.cart}/>
-                        <View style={s.cartTotal}>
-                            <Text>Total ${room.totalRoomPrice}</Text>
-                        </View>
-                    </View>
-                </Page>
-            ))}
+                    </Page>
+                )
+            })}
         </Document>
     )
 };

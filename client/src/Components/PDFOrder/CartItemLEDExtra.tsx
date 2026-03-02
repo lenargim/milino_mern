@@ -12,10 +12,10 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
         remote_control,
         door_sensor_single,
         door_sensor_double
-    } = led
+    } = led;
     return (
         <>
-            {alum_profiles.length ?
+            {alum_profiles && alum_profiles.length ?
                 <View style={s.row}>
                     <Text>LED Aluminum Profiles:</Text>
                     <Text style={s.list}>
@@ -23,7 +23,7 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
                     </Text>
                 </View>
                 : null}
-            {gola_profiles.length ?
+            {gola_profiles && gola_profiles.length ?
                 <View style={s.row}>
                     <Text>LED Gola Profiles:</Text>
                     <Text style={s.list}>

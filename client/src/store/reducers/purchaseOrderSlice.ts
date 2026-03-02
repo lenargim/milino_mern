@@ -26,17 +26,11 @@ const purchase_order_slice = createSlice({
         addPO: (state, action: PayloadAction<PurchaseOrderType>) => {
             state.purchase_orders.push(action.payload)
         },
-        // setPO: (state, action: PayloadAction<PurchaseOrder>) => {
-        //     state.purchase_orders = state.purchase_orders.find(el => el._id === action.payload._id)
-        // },
         editPO: (state, action: PayloadAction<PurchaseOrderType>) => {
             state.purchase_orders = state.purchase_orders.map(el => {
                 return el._id === action.payload._id ? action.payload : el;
             })
         },
-        // deletePO: (state, action: PayloadAction<POTypeAPI>) => {
-        //     state.rooms = state.rooms.filter(room => room._id !== action.payload._id);
-        // },
         setActivePO: (state, action: PayloadAction<string>) => {
             state.active_po = action.payload
         }

@@ -809,17 +809,18 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         rodsQty
     }
 }
-export const getProductPriceRange = (id: number, isStandardCabinet: boolean = false, type: pricesTypings = 1): MaybeUndefined<pricePart[]> => {
-    if (isStandardCabinet) return standardProductsPrices.find(el => el.id === id)?.prices;
+export const getProductPriceRange = (id: number, materialData: materialDataType): MaybeUndefined<pricePart[]> => {
+    const {is_standard_room, base_price_type} = materialData
+    if (is_standard_room) return standardProductsPrices.find(el => el.id === id)?.prices;
     const data = productPrices.find(el => el.id === id)?.prices as MaybeUndefined<priceItem[]>;
     if (!data) return undefined;
-    if (type === 'wood_veneer') {
+    if (base_price_type === 'wood_veneer') {
         const maxData = data.find(i => i.type === 3)?.data
         const minData = data.find(i => i.type === 1)?.data
         if (!minData || !maxData) return undefined;
         return minData.map((el, index) => ({...el, price: maxData[index].price * 2 - el.price}))
     }
-    return data.find(i => i.type === type)?.data || undefined
+    return data.find(i => i.type === base_price_type)?.data || undefined
 }
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
@@ -1173,8 +1174,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
         if (product_type === 'custom') return cartItem;
         const product = product_or_custom as unknown as ProductType;
         const materialData = getMaterialData(materials, product_id)
-        const {is_standard_room, base_price_type} = materialData;
-        const tablePriceData = getProductPriceRange(product_id, is_standard_room, base_price_type);
+        const tablePriceData = getProductPriceRange(product_id, materialData);
         if (!tablePriceData) return cartItem;
         const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
         if (!sizeLimit) return cartItem;

@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import path from 'path'
-import { fileURLToPath } from 'url'
+import {fileURLToPath} from 'url'
 import dotenv from 'dotenv'
 
 import {
@@ -29,7 +29,7 @@ import {
   handleValidationErrors
 } from './utils/index.js'
 
-import { upload } from './utils/helpers.js'
+import {upload} from './utils/helpers.js'
 
 /* ---------------- INIT ---------------- */
 
@@ -48,8 +48,11 @@ console.log('__dirname', __dirname)
 /* ---------------- DB ---------------- */
 
 mongoose
+  // .connect(
+  //   `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_DATABASE}`
+  // )
   .connect(
-    `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@${process.env.DB_DATABASE}`
+    `${process.env.MONGO_URI}`
   )
   .then(() => console.log('DB is OK'))
   .catch(err => console.log('DB error', err))
@@ -58,7 +61,7 @@ mongoose
 
 const app = express()
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 app.use(cors({
@@ -75,8 +78,8 @@ const start = async () => {
       '/api/email/:company_name',
       checkAuth,
       upload.fields([
-        { name: 'pdf', maxCount: 1 },
-        { name: 'json', maxCount: 1 }
+        {name: 'pdf', maxCount: 1},
+        {name: 'json', maxCount: 1}
       ]),
       PDFController.SendPDF
     )
