@@ -1147,7 +1147,8 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
 
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
     switch (id) {
-        case 903: {
+        case 903:
+        case 904:{
             // Choose Material (In Product Page)
             if (material !== 'Milino') return 1;
             // Door Color from Materials page

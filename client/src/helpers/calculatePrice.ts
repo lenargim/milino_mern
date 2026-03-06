@@ -900,12 +900,6 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     }
                     break;
                 }
-                // case 903: {
-                //     const boxColorCoef = getPanelFinishColorCoef(material, box_color);
-                //     console.log(boxColorCoef)
-                //     priceCustom = getPanelPrice(area, material) * boxColorCoef;
-                //     break;
-                // }
                 case 903:
                 case 904: {
                     priceCustom = getPanelPrice(area, material);
