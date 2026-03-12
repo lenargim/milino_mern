@@ -4,12 +4,12 @@ import {NavLink} from "react-router-dom";
 import s from './profile.module.sass'
 
 const catalogs: CatalogItem[] = [
-    {label: 'Milino Regular Kitchen Catalog', link: 'd/1DtaIIof60RULiDkAYILcS5DuD6F6q2aG/view', img: 'Regular.jpg'},
-    {label: 'Milino Handleless Kitchen Catalog', link: 'd/18KmiCoVUZ1BcEpXfwVAAZJzTnrBbBGTo/view?usp=drive_link', img: 'Handle Less.jpg'},
-    {label: 'Milino Standard White Shaker Catalog', link: 'd/13MP7Ea8chVnGNyIjp8mquqbDCItcvrs_/view', img: 'Standard Shaker.jpg'},
-    {label: 'Milino WALK IN Closets Catalog', link: 'd/1OUaEwqSbLZ26RJ0qGfiNLcWn7Plrjtb3/view', img: 'WIC Closet.jpg'},
-    {label: 'Milino RTA Closet Catalog', link: 'd/1IR6y378298mrKPkTD7T3W3vGz9xwb35m/view', img: 'RTA Closet.jpg'},
-    {label: 'Cabinet System Closet Catalog', link: 'd/1213i5V3_cG1br9tFCAzyWkvjt85WVc0W/view', img: 'Cabinet_System_Closet.jpg'},
+    {label: 'Milino Regular Kitchen Catalog', link: '1WLguo3HpjDCBs15kNW9B4tjyQZIFyUb5/view?pli=1', img: 'Regular.jpg'},
+    {label: 'Milino Handleless Kitchen Catalog', link: 'd/1pSY3cd5D2R_0qYnkOECQ97JqlaLOVu23/view', img: 'Handle Less.jpg'},
+    {label: 'Milino Standard White Shaker Catalog', link: 'd/1EtzSQj9xPw0ykqX9-CokZ_zu1dzVKQK9/view', img: 'Standard Shaker.jpg'},
+    {label: 'Milino WALK IN Closets Catalog', link: 'd/1DHfsqlh1RlPiQcGF5BztV39aT4DzbYjV/view', img: 'WIC Closet.jpg'},
+    {label: 'Milino RTA Closet Catalog', link: 'd/1yt7ArteH_ANAa9i8h9NGagFTlmLrVAFo/view', img: 'RTA Closet.jpg'},
+    {label: 'Cabinet System Closet Catalog', link: 'd/16zYIReRGn89HLKcL0Jmj9zA4NqqnJedF/view', img: 'Cabinet_System_Closet.jpg'},
 ];
 
 type CatalogItem = {
