@@ -2,10 +2,11 @@ import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {filterCustomPartsMaterialsArray,} from "../../helpers/helpers";
+import {filterCustomPartsMaterialsArray, isHingeHolesBlock,} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
+import CustomPartHingeHoles from "./CustomPartHingeHoles";
 
 type CustomPartPanel = {
     product: CustomPartType,
@@ -20,6 +21,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
     } = values;
     const {materials_array, id} = product;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
+    const showHingeHoles = isHingeHolesBlock(id)
 
     return (
         <Form>
@@ -35,6 +37,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
+            {showHingeHoles ? <CustomPartHingeHoles/> : null}
             {filtered_materials_array &&
             <div className={s.block}>
               <h3>Material</h3>
@@ -45,6 +48,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
               </div>
             </div>
             }
+
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>

@@ -1145,6 +1145,15 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
+export const isHingeHolesBlock = (id: number):boolean => {
+    switch (id) {
+        case 903: {
+            return true
+        }
+    }
+    return false
+}
+
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
     switch (id) {
         case 903:
