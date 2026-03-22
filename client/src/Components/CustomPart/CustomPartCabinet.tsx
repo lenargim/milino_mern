@@ -1,13 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType, CustomTypes, MaybeUndefined} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {
-    checkHeightBlockShownInCustomPart,
-    filterCustomPartsMaterialsArray,
-} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
-import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
+import {ProductInputCustom, TextInput} from "../../common/Form";
 import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
 import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import CustomPartSubmit from "./CustomPartSubmit";

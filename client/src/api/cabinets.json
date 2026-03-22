@@ -5602,6 +5602,8 @@
     "product_type": "custom",
     "name": "Panel, Filler",
     "type": "panel",
+    "initial_width": 3,
+    "initial_height": 30,
     "materials_array": [
       {
         "name": "Milino"

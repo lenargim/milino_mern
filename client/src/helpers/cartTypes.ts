@@ -3,7 +3,7 @@ import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {
     DoorAccessoryAPIType,
     DrawerAccessoriesType,
-    GrooveAPIType,
+    GrooveAPIType, HingesOrHolesType, HingesOrHolesTypesType, PanelAccessoriesType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {
@@ -34,7 +34,7 @@ export type CartAPI = {
     glass: MaybeUndefined<GlassAPIType>,
     led?: CartLEDAPI,
     sink?: SinkAPIType
-    custom?: CartCustomType,
+    custom?: CartCustomTypeAPI,
     note: string,
 }
 
@@ -57,11 +57,6 @@ export interface CartAPIResponse extends CartAPI {
     cart: CartAPI[],
     room_id: string
 }
-
-// export interface CartAPIImagedType extends CartAPI {
-//     image_active_number: productTypings,
-//     exact_image: string
-// }
 
 export interface CartOrder {
     product_type: ProductApiType,
@@ -88,16 +83,26 @@ export interface CartItemFrontType extends CartAPI {
     exact_image: string
 }
 
-export type CartCustomType = {
+export type CartCustomTypeAPI = {
     material?: string,
     groove?: GrooveAPIType,
     drawer_accessories?: DrawerAccessoriesType,
+    panel_accessories?: PanelAccessoriesTypeAPI,
     jewelery_inserts?: JeweleryInsertsType[],
     accessories?: CustomAccessoriesType,
     standard_doors?: StandardDoorAPIType[],
     standard_panels?: PanelsFormAPIType,
     rta_closet?: RTAClosetAPIType[],
     mechanism?: string
+}
+
+export type PanelAccessoriesTypeAPI = {
+    hinges_or_holes?: HingesOrHolesTypeAPI,
+}
+export type HingesOrHolesTypeAPI = {
+    type: HingesOrHolesTypesType
+    top: number
+    bottom: number
 }
 
 export type PanelsFormAPIType = {

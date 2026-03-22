@@ -3,6 +3,7 @@ import settings from './../../api/settings.json'
 import {hingeArr, MaybeUndefined, ProductOptionsType, ProductType, sizeLimitsType} from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
 import {numericQuantity} from 'numeric-quantity';
+import {testMinMaxCustomLimit} from "../../helpers/helpers";
 
 export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
@@ -23,14 +24,6 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
         return true;
     }
 
-    const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min:number, max:number) => {
-        if (!val) return false;
-        const numberVal = numericQuantity(val);
-        if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
-        if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
-        if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
-        return true;
-    }
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
