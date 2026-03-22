@@ -14,7 +14,12 @@ import {
     DrawerInsertsColor,
     DrawerInsertsColorNames, DrawerInsertsLetter, DrawerRONames, DrawerROType,
 } from "./CustomPart";
-import {getCustomPartMaterialsArraySizeLimits, getFraction, glassDoorHasProfile} from "../../helpers/helpers";
+import {
+    getCustomPartMaterialsArraySizeLimits,
+    getFraction,
+    glassDoorHasProfile,
+    testMinMaxCustomLimit
+} from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 
@@ -55,12 +60,67 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         material: Yup.string().required(),
     })
     const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
+    const getHingeMaxIndentAuto = (
+        context: TestContext<AnyObject>
+    ): number => {
+        const parent = context.parent;
+
+        const root =
+            context.options?.context ??
+            context.from?.[context.from.length - 1]?.value;
+
+        const height = root?.height;
+
+        if (!height || isNaN(height)) return Infinity;
+
+        const path = context.path;
+        const isTop = path.includes("hh_top");
+
+        const otherValue = isTop ? parent?.hh_bottom : parent?.hh_top;
+
+        // 🔥 защита от невалидных значений соседнего поля
+        if (
+            otherValue == null ||
+            isNaN(otherValue) ||
+            otherValue < 0 ||
+            otherValue > height
+        ) {
+            return height; // fallback → максимум = вся высота
+        }
+
+        const max = height - otherValue;
+
+        // 🔥 защита от отрицательного результата
+        if (max < 0) return 0;
+
+        return max;
+    };
+
+    const panelAccessoriesSchema = Yup.object({
+        panel_accessories: Yup.object({
+            hinges_or_holes: Yup.object({
+                has_hh: Yup.boolean(),
+                hh_top_string: Yup.string().when("has_hh", {
+                    is: true,
+                    then: s => s.required("Enter value")
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 2, getHingeMaxIndentAuto(context))),
+                }),
+                hh_bottom_string: Yup.string().when("has_hh", {
+                    is: true,
+                    then: s => s.required("Enter value")
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 2, getHingeMaxIndentAuto(context))),
+                }),
+                hh_top: Yup.number().nullable(),
+                hh_bottom: Yup.number().nullable(),
+            })
+        })
+    })
 
     switch (type) {
         case "custom":
             return customSchema;
         case "panel":
-            return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema);
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema).concat(panelAccessoriesSchema);
         case "backing":
             return customInitialSchema.concat(customPartWithHeightSchema);
         case "pvc":

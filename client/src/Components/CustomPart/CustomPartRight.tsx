@@ -11,7 +11,7 @@ import CustomPartRTACloset from "./CustomPartRTACloset";
 import CustomPartCustomDoors from "./CustomPartCustomDoors";
 import {useFormikContext} from "formik";
 import {CustomPartFormType} from "./CustomPart";
-import {addToCartCustomPart} from "../../helpers/helpers";
+import {addToCartCustomPartAPI} from "../../helpers/helpers";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartRibbed from "./CustomPartRibbed";
 import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
@@ -40,7 +40,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values;
     useEffect(() => {
-        const APIValues = addToCartCustomPart(values, customPartProduct, '', undefined)
+        const APIValues = addToCartCustomPartAPI(values, customPartProduct, '', undefined)
         const newPrice = getCustomPartPrice(customPartProduct, materials, APIValues);
         if (price !== newPrice) {
             setFieldValue('price', newPrice)

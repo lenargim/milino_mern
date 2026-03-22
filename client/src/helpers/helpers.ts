@@ -40,7 +40,7 @@ import {
     getProductDataToCalculatePrice,
     getProductPriceRange,
     getProductRange, getSizeLimitsFromData,
-    getType, isTexturedColor
+    isTexturedColor
 } from "./calculatePrice";
 import sizes from "../api/sizes.json";
 import {MaterialStringsType} from "../common/Materials";
@@ -48,7 +48,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, PanelAccessoriesType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
@@ -82,6 +82,8 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity} from "numeric-quantity";
+import {useFormikContext} from "formik";
+import {AnyObject, TestContext} from "yup";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -605,7 +607,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     }
 }
 
-export const addToCartCustomPart = (values: CustomPartFormType, product: CustomPartType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
+export const addToCartCustomPartAPI = (values: CustomPartFormType, product: CustomPartType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
     let {
         width,
         height,
@@ -621,6 +623,7 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         rta_closet_custom,
         groove,
         drawer_accessories,
+        panel_accessories,
         amount
     } = values;
 
@@ -652,7 +655,6 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
             door: glass_door,
             shelf: glass_shelf,
         },
-        custom: {},
         note: note
     }
 
@@ -748,7 +750,24 @@ export const addToCartCustomPart = (values: CustomPartFormType, product: CustomP
         forceSetPath(preparedProduct, 'custom.drawer_accessories', drawer_accessories);
     }
 
+    // Panel accessories
+    forceSetPath(preparedProduct, 'custom.panel_accessories', panelAccessoriesAPI(panel_accessories));
+
     return preparedProduct;
+}
+
+
+export const panelAccessoriesAPI = (panel_accessories: PanelAccessoriesType) => {
+    const hh = panel_accessories.hinges_or_holes;
+    if (!hh.has_hh) return undefined;
+
+    return {
+        hinges_or_holes: {
+            type: hh.hh_type,
+            top: hh.hh_top,
+            bottom: hh.hh_bottom
+        }
+    }
 }
 
 const isHasLedBlock = (category: productCategory): boolean => {
@@ -1145,7 +1164,7 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
-export const isHingeHolesBlock = (id: number):boolean => {
+export const isHingeHolesBlock = (id: number): boolean => {
     switch (id) {
         case 903: {
             return true
@@ -1157,7 +1176,7 @@ export const isHingeHolesBlock = (id: number):boolean => {
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
     switch (id) {
         case 903:
-        case 904:{
+        case 904: {
             // Choose Material (In Product Page)
             if (material !== 'Milino') return 1;
             // Door Color from Materials page
@@ -1609,6 +1628,30 @@ export const getCustomPartInitialTableData = (custom_part: CustomPartType, mater
     }
 }
 
+
+export function useFormikDefault<T>(
+    value: T | null | undefined,
+    path: string,
+    defaultValue: T
+) {
+    const { setFieldValue } = useFormikContext();
+
+    useEffect(() => {
+        if (value == null) {
+            setFieldValue(path, defaultValue);
+        }
+    }, [value]);
+}
+
+export const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min:number, max:number) => {
+    if (!val) return false;
+    const numberVal = numericQuantity(val);
+    if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
+    if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
+    if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
+    return true;
+}
+
 export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDataType, cartItemValues: MaybeUndefined<CartAPI>): CustomPartFormType => {
     const {
         initialSizes,
@@ -1638,6 +1681,11 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet_custom: [],
             groove: null,
             drawer_accessories: null,
+            panel_accessories: {
+                hinges_or_holes: {
+                    has_hh: false,
+                }
+            },
             note: '',
             amount: 1,
             price: 0
@@ -1652,6 +1700,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             accessories,
             groove,
             drawer_accessories,
+            panel_accessories,
         } = custom!;
         let LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = null;
         let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
@@ -1705,7 +1754,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 })
             }
         }
-        standardDoorValues= standardDoorData && standard_doors ?
+        standardDoorValues = standardDoorData && standard_doors ?
             standard_doors.map(el => ({
                 ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
             })) : null;
@@ -1714,6 +1763,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             ...el,
             width_string: getFraction(el.width)
         })) : null;
+
 
         return {
             width_string: getFraction(width),
@@ -1732,6 +1782,14 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             rta_closet_custom: rtaClosetValues,
             groove: groove ?? null,
             drawer_accessories: drawer_accessories ?? null,
+            panel_accessories: {
+                hinges_or_holes: {
+                    has_hh: !!panel_accessories?.hinges_or_holes,
+                    hh_type: panel_accessories?.hinges_or_holes?.type,
+                    hh_top: panel_accessories?.hinges_or_holes?.top,
+                    hh_bottom: panel_accessories?.hinges_or_holes?.bottom
+                }
+            },
             amount,
             note,
             price: 0,

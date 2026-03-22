@@ -201,6 +201,19 @@ const CartSchema = new mongoose.Schema({
     mechanism: {
       type: String,
     },
+    panel_accessories: {
+      hinges_or_holes: {
+        type: {
+          type: String
+        },
+        top: {
+          type: Number
+        },
+        bottom: {
+          type: Number
+        }
+      }
+    }
   },
   note: {
     type: String,

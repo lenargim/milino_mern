@@ -28,7 +28,7 @@ import {
     getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor,
+    getWidthToCalculateDoor, isHingeHolesBlock,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -36,7 +36,7 @@ import productPrices from '../api/prices.json'
 import ro_drawer_prices from '../api/ro_drawer_prices.json'
 import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
-import {CartAPI, CartCustomType, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
+import {CartAPI, CartCustomTypeAPI, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType, DrawerInserts, DrawerROType, GrooveAPIType,
     RTAClosetAPIType
@@ -218,7 +218,7 @@ export function getType(width: number, height: number, widthDivider: number | un
     }
 }
 
-export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomType> => {
+export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
         jewelery_inserts: custom.jewelery_inserts,
@@ -822,6 +822,22 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
     }
     return data.find(i => i.type === base_price_type)?.data || undefined
 }
+
+const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI):number => {
+    const {id} = product
+    const hingeHolesPrice = getHingeHolesPrice(id, values);
+    // Possible to add extra additions here
+    const additionsPrice = hingeHolesPrice;
+    return additionsPrice
+}
+
+const getHingeHolesPrice = (id: number, values:CartAPI):number => {
+    if (!isHingeHolesBlock(id)) return 0;
+    const {custom} = values;
+    if (!custom || !custom.panel_accessories?.hinges_or_holes?.type) return 0;
+    return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32:12
+}
+
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
     const {width, height, depth, custom, glass, product_id} = values;
@@ -841,6 +857,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             let priceCustom = 0;
             const color = getIsRTAorSystemCloset(category) ? box_color : door_color
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
+            const additions = getCustomPriceAdditions(product, values);
             switch (id) {
                 case 900: {
                     switch (material) {
@@ -1059,7 +1076,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
             }
-            price = +(priceCustom*finishColorCoef).toFixed(1);
+            console.log(priceCustom)
+            console.log(finishColorCoef)
+            console.log(additions)
+            price = +(priceCustom*finishColorCoef + additions).toFixed(1);
             break;
         }
         case "led-accessories": {

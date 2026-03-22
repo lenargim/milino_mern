@@ -1,7 +1,7 @@
 import {Formik} from 'formik';
 import React, {FC} from 'react';
 import {
-    addToCartCustomPart,
+    addToCartCustomPartAPI,
     useAppDispatch
 } from "../../helpers/helpers";
 import {
@@ -85,8 +85,23 @@ export type CustomPartFormType = {
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
     groove: MaybeNull<GrooveAPIType>,
     drawer_accessories: MaybeNull<DrawerAccessoriesType>,
+    panel_accessories: PanelAccessoriesType
     amount: number
 }
+
+
+export type PanelAccessoriesType = {
+    hinges_or_holes: HingesOrHolesType,
+}
+
+export type HingesOrHolesType = {
+    has_hh: boolean
+    hh_type?: HingesOrHolesTypesType
+    hh_top?: number
+    hh_bottom?: number
+}
+
+export type HingesOrHolesTypesType = 'Hinges'|'Holes Only';
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
 
@@ -126,7 +141,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
-                const cartData = addToCartCustomPart(values, custom_part, room_id, productEditId);
+                const cartData = addToCartCustomPartAPI(values, custom_part, room_id, productEditId);
 
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));

@@ -18,7 +18,7 @@ import CartItemDrawerRO from "./CartItemDrawerRO";
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories} = custom;
+    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>
@@ -70,6 +70,20 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                       </View>
                     </View>
                 }
+                {panel_accessories && panel_accessories.hinges_or_holes && <>
+                  <View style={s.itemOption}>
+                    <Text>Add Hinges or Hinge holes:</Text>
+                    <Text>{panel_accessories.hinges_or_holes.type}</Text>
+                  </View>
+                  <View style={s.itemOption}>
+                    <Text>From Top:</Text>
+                    <Text>{panel_accessories.hinges_or_holes.top}''</Text>
+                  </View>
+                  <View style={s.itemOption}>
+                    <Text>From Bottom:</Text>
+                    <Text>{panel_accessories.hinges_or_holes.bottom}''</Text>
+                  </View>
+                </>}
             </View>
     }
 }
