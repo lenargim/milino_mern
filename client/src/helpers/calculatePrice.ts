@@ -617,10 +617,10 @@ const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     return 1
 };
 
-const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color: string, product_id: number, isRTAOrSystem: boolean): number => {
+const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color: string, product_id: number): number => {
     // Exceptions
     const noCoefExceptionsArr: number[] = [35];
-    if (noCoefExceptionsArr.includes(product_id) || !box_material || isRTAOrSystem) return 1;
+    if (noCoefExceptionsArr.includes(product_id) || !box_material) return 1;
     switch (box_material) {
         case "Natural Plywood":
         case "White Plywood":
@@ -760,8 +760,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const base_price_type = getBasePriceType(materials);
     const materials_coef = getMaterialCoef(materials);
     const grain_coef = getGrainCoef(door_grain);
-    const isRTAOrSystem = getIsRTAorSystemCloset(category)
-    const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id, isRTAOrSystem);
+    const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
 
