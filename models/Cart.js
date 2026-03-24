@@ -213,6 +213,9 @@ const CartSchema = new mongoose.Schema({
           type: Number
         }
       }
+    },
+    extra_rollouts: {
+      type: Number
     }
   },
   note: {

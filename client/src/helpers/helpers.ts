@@ -602,7 +602,11 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
                 closet: custom?.closet_accessories
             },
             jewelery_inserts: custom?.jewelery_inserts,
-            mechanism: custom?.mechanism
+            mechanism: custom?.mechanism,
+            // Delete zero value
+            ...(custom?.extra_rollouts !== 0 && {
+                extra_rollouts: custom?.extra_rollouts
+            })
         }
     }
 }

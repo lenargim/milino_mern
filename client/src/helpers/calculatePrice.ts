@@ -107,7 +107,6 @@ function getStartPrice(tablePrice: number, materialData: materialDataType, optio
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
     const totalCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
-    // console.log(`total_coef = box_coef(${boxCoef}) * materials_coef(${materials_coef}) * grain_coef(${grain_coef}) = ${totalCoef}`);
     return +(tablePrice * totalCoef).toFixed(1)
 }
 
@@ -222,7 +221,8 @@ export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):May
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
         jewelery_inserts: custom.jewelery_inserts,
-        mechanism: custom.mechanism
+        mechanism: custom.mechanism,
+        extra_rollouts: custom.extra_rollouts
     } : undefined
 }
 
@@ -432,6 +432,19 @@ export function getMechanismPrice(mechanism: MaybeUndefined<string>, hasMechanis
 export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width: number, rod: MaybeEmpty<RodType>, qty: number): number => {
     if (!getIsCloset(room_category) || rod === 'Oval Chrome (Default)') return 0;
     return 3 * width * qty;
+}
+
+export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:CartAPI, materialData:materialDataType):number => {
+    const {custom, width} = cart
+    if (!hasBlock || !custom?.extra_rollouts) return 0;
+    const {base_price_type, door_type, drawer_type, drawer_brand, drawer_color} = materialData
+    // Get price for custom part 'Extra RO drawer'
+    const ro_drawer = "Extra RO";
+    const tablePrice = getRoDrawerTablePrice(width, base_price_type, ro_drawer)
+    const startPrice = getStartPrice(tablePrice, materialData, [])
+    const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
+    const rolloutPrice = startPrice + drawerPrice;
+    return custom.extra_rollouts*rolloutPrice;
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1075,9 +1088,6 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
             }
-            console.log(priceCustom)
-            console.log(finishColorCoef)
-            console.log(additions)
             price = +(priceCustom*finishColorCoef + additions).toFixed(1);
             break;
         }
@@ -1226,7 +1236,7 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
 }
 
 const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
-    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism} = product;
+    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism, hasExtraRolloutsBlock} = product;
     const {
         options,
         width,
@@ -1268,7 +1278,8 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
-        rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef
+        rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
+        extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData)
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {

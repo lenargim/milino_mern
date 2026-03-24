@@ -57,6 +57,10 @@ interface ProductRadioInterface extends InputInterface {
     value: string,
 }
 
+interface ProductRadioInterfaceNumber extends InputInterface {
+    value: number,
+}
+
 interface ProductDimensionRadioCustomInterface extends InputInterface {
     value: null | number,
     nullable?: boolean,
@@ -263,41 +267,28 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
 }
 
 
-export const ProductRadioInputStandardCustom: FC<ProductDimensionRadioCustomInterface> = ({
-                                                                                              name,
-                                                                                              value,
-                                                                                              className
-                                                                                          }) => {
-    const stringFieldName = name;
-    const numberName = name.replace('_string', '');
-    const [, , helpers] = useField(numberName);
-    const [, , helpersString] = useField(stringFieldName);
-
-    function convert(input: HTMLInputElement): void {
-        helpers.setValue(+input.value)
-        helpersString.setValue(+input.value.toString());
-    }
-
-    return (
-        <div className={[className, styles.productRadio].join(' ')}>
-            <Field
-                onChange={(e: any) => convert(e.target)}
-                type="radio"
-                name={numberName}
-                value={value}
-                id={`${numberName}_${value}`}/>
-            <label htmlFor={`${numberName}_${value}`}
-                   className={styles.radioLabel}><span>{value}</span></label>
-        </div>
-    )
-}
-
-
 export const ProductRadioInput: FC<ProductRadioInterface> = ({name, value, className}) => {
 
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
+                type="radio" name={name} value={value}
+                id={`${name}_${value}`}/>
+            <label htmlFor={`${name}_${value}`}
+                   className={styles.radioLabel}><span>{value}</span></label>
+        </div>
+    )
+}
+
+export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, value, className}) => {
+    const [, , helpers] = useField(name)
+    function convert(input: HTMLInputElement): void {
+        helpers.setValue(+input.value)
+    }
+    return (
+        <div className={[className, styles.productRadio].join(' ')}>
+            <Field
+                onChange={(e: any) => convert(e.target)}
                 type="radio" name={name} value={value}
                 id={`${name}_${value}`}/>
             <label htmlFor={`${name}_${value}`}
