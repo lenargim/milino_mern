@@ -614,7 +614,7 @@ const getGrainCoef = (doorGrain: string): number => {
 
 export const isTexturedColor = (color: string): boolean => {
     // New Textured colors
-    return ['Desert Oak', 'White Oak', 'Brown Oak', 'Grey Woodline', 'Ivory Woodline', 'Sable Wood', 'White Gloss'].includes(color)
+    return ['Desert Oak', 'White Oak', 'Brown Oak', 'Glacier Oak', 'Grey Woodline', 'Ivory Woodline', 'Sable Wood', 'White Gloss'].includes(color)
 }
 
 const getDoorColorType = (color: string): DoorColorType => {
@@ -649,6 +649,7 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
         case "Walnut Melamine":
             return 1
         case "Brown Oak":
+        case "Glacier Oak":
         case "Desert Oak":
         case "White Oak":
         case "Grey Woodline":
@@ -660,6 +661,7 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
         case "Ultra Matte White":
         case "Ultra Matte Cashmere":
         case "Ultra Matte Gris":
+        case "Ultra Matte Volcano":
             return 1.2;
 
 
