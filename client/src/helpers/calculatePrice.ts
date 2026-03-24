@@ -151,17 +151,19 @@ export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<st
 }
 
 export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>>): number => {
+    // Min price area
+    const areaForPrice = area >= 3 ? area : 3;
     switch (glassShelf) {
         case "Clear Glass":
-            return area * 25.5;
+            return areaForPrice * 25.5;
         case "Bronze Glass":
         case "Gray Glass":
         case "Clear Mirror":
-            return area * 45;
+            return areaForPrice * 45;
         case "Frosted Glass":
         case "Bronze Mirror":
         case "Gray Mirror":
-            return area * 57;
+            return areaForPrice * 57;
     }
     return 0
 }
