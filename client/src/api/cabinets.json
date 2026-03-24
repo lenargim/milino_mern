@@ -31,6 +31,7 @@
         ]
       }
     ],
+    "hasExtraRolloutsBlock": true,
     "options": [
       "PTO for doors",
       "Box from finish material",
@@ -44,6 +45,7 @@
     "legsHeight": 4.5,
     "name": "BD Series",
     "category": "Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -82,6 +84,7 @@
     "legsHeight": 4.5,
     "name": "B Series",
     "category": "Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -179,6 +182,7 @@
     "legsHeight": 4.5,
     "name": "BSG Series",
     "category": "Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -295,6 +299,7 @@
     "legsHeight": 4.5,
     "name": "BD2 Series",
     "category": "Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -717,6 +722,7 @@
     "isBlind": true,
     "name": "BCB Series",
     "category": "Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -1585,6 +1591,7 @@
     "isAngle": "corner",
     "name": "PBC Series",
     "category": "Gola Base Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -3269,6 +3276,7 @@
     "legsHeight": 4.5,
     "name": "PPC Series",
     "category": "Gola Tall Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",
@@ -8035,6 +8043,7 @@
     "legsHeight": 4.5,
     "name": "PC4D Series",
     "category": "Standard Tall Cabinets",
+    "hasExtraRolloutsBlock": true,
     "attributes": [
       {
         "name": "Door",

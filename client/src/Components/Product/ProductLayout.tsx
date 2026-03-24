@@ -23,6 +23,7 @@ import ProductClosetAccessories from "./ProductClosetAccessories";
 import ProductJeweleryBlock from "./ProductJeweleryBlock";
 import ProductMechanism from "./ProductMechanism";
 import ProductFarmSink from "./ProductFarmSink";
+import ProductExtraRolloutsBlock from "./ProductExtraRolloutsBlock";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -49,7 +50,8 @@ const ProductLayout: FC<CabinetFormType> = ({
         category,
         customHeight,
         attributes,
-        farm_sink_height
+        farm_sink_height,
+        hasExtraRolloutsBlock
     } = product;
     const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
     const {cartId} = useParams();
@@ -133,6 +135,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}
             {hasMechanism ? <ProductMechanism hasMechanism={hasMechanism}/> : null}
+            {hasExtraRolloutsBlock ? <ProductExtraRolloutsBlock/> : null}
             <ProductOptionsBlock filteredOptions={filteredOptions}
                                  isProductStandard={product_type === "standard"}
                                  id={id}

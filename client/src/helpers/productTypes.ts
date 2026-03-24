@@ -83,7 +83,6 @@ export type AngleType = 'flat' | 'corner';
 
 
 interface BaseProduct {
-    // product_type: 'cabinet' | 'standard';
     id: number,
     name: string,
     product_type: ProductApiType,
@@ -124,6 +123,7 @@ export interface ProductType extends BaseProduct {
     hasClosetAccessoriesBlock?: boolean,
     hasJeweleryBlock?: boolean,
     hasMechanism?: MechanismType,
+    hasExtraRolloutsBlock?: boolean,
     farm_sink_height?: number
 
 }
@@ -376,7 +376,8 @@ export type AttributesPrices = {
     closetAccessoriesPrice: number,
     jeweleryInsertsPrice: number,
     mechanismPrice: number,
-    rodPrice: number
+    rodPrice: number,
+    extra_rollouts: number
 }
 
 export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;
@@ -384,7 +385,8 @@ export type JeweleryInsertsType = typeof jeweleryInsertsNames[number];
 export type ProductExtraType = {
     closet_accessories?: ClosetAccessoriesTypes,
     jewelery_inserts?: JeweleryInsertsType[],
-    mechanism?: string
+    mechanism?: string,
+    extra_rollouts?: number
 }
 
 export type ProductFormType = {

@@ -67,6 +67,12 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                     <Text>{custom.mechanism}</Text>
                 </View> : null
             }
+            {
+                custom?.extra_rollouts ? <View style={s.itemOption}>
+                    <Text>Extra Rollouts:</Text>
+                    <Text>{custom.extra_rollouts}</Text>
+                </View> : null
+            }
         </View>
     )
 }
