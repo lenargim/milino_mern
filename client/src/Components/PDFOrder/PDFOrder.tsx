@@ -169,6 +169,13 @@ export const s = StyleSheet.create({
     non: {
         fontSize: '14px',
         color: '#CB4141'
+    },
+    bold: {
+        fontSize: 12,
+        fontWeight: 500
+    },
+    offset: {
+        marginLeft: 7
     }
 })
 
