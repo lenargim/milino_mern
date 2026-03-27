@@ -66,7 +66,7 @@ import {
     CartAPI,
     CartItemFrontType,
     CartOrder, IsStandardDimentionsType, IsStandardOptionsType,
-    LEDAccessoriesType
+    LEDAccessoriesType, PanelAccessoriesTypeAPI
 } from "./cartTypes";
 import {
     colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType,
@@ -761,18 +761,26 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 }
 
 
-export const panelAccessoriesAPI = (panel_accessories: PanelAccessoriesType) => {
-    const hh = panel_accessories.hinges_or_holes;
-    if (!hh.has_hh) return undefined;
-
-    return {
-        hinges_or_holes: {
-            type: hh.hh_type,
-            top: hh.hh_top,
-            bottom: hh.hh_bottom
-        }
-    }
-}
+export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccessoriesType>): MaybeUndefined<PanelAccessoriesTypeAPI> => {
+    if (!panelAccessories) return undefined;
+    const {hinges_or_holes, cutout} = panelAccessories
+    const result: PanelAccessoriesTypeAPI = {
+        ...(hinges_or_holes?.has_hh && {
+            hinges_or_holes: {
+                type: hinges_or_holes.hh_type!,
+                top: hinges_or_holes.hh_top!,
+                bottom: hinges_or_holes.hh_bottom!,
+            },
+        }),
+        ...(cutout?.has_cutout && {
+            cutout: {
+                width: cutout.width!,
+                height: cutout.height!,
+            },
+        }),
+    };
+    return Object.keys(result).length ? result : undefined;
+};
 
 const isHasLedBlock = (category: productCategory): boolean => {
     const ledCategoryArr = ['Wall Cabinets', 'Gola Wall Cabinets'];
@@ -1169,12 +1177,13 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
 }
 
 export const isHingeHolesBlock = (id: number): boolean => {
-    switch (id) {
-        case 903: {
-            return true
-        }
-    }
-    return false
+    const IDsArr:number[] = [903];
+    return IDsArr.includes(id)
+}
+
+export const isPanelCutoutBlock = (id: number): boolean => {
+    const IDsArr:number[] = [903];
+    return IDsArr.includes(id)
 }
 
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
@@ -1688,6 +1697,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             panel_accessories: {
                 hinges_or_holes: {
                     has_hh: false,
+                },
+                cutout: {
+                    has_cutout: false
                 }
             },
             note: '',
@@ -1792,6 +1804,11 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     hh_type: panel_accessories?.hinges_or_holes?.type,
                     hh_top: panel_accessories?.hinges_or_holes?.top,
                     hh_bottom: panel_accessories?.hinges_or_holes?.bottom
+                },
+                cutout: {
+                    has_cutout: !!panel_accessories?.cutout,
+                    width: panel_accessories?.cutout?.width,
+                    height: panel_accessories?.cutout?.height
                 }
             },
             amount,

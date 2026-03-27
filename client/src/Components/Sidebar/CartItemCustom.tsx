@@ -12,6 +12,7 @@ import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 import CartItemDrawerInserts from "./CartItemDrawerInserts";
 import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
+import CartItemPanelAccessories from "./CartItemPanelAccessories";
 
 const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
     const {subcategory, product_id, custom, width} = product;
@@ -64,20 +65,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
                         <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
                       </div>
                     </>}
-                {panel_accessories && panel_accessories.hinges_or_holes && <>
-                  <div className={s.itemOption}>
-                    <span>Add Hinges or Hinge holes:</span>
-                    <span>{panel_accessories.hinges_or_holes.type}</span>
-                  </div>
-                  <div className={s.itemOption}>
-                    <span>From Top:</span>
-                    <span>{panel_accessories.hinges_or_holes.top}''</span>
-                  </div>
-                  <div className={s.itemOption}>
-                    <span>From Bottom:</span>
-                    <span>{panel_accessories.hinges_or_holes.bottom}''</span>
-                  </div>
-                </>}
+                <CartItemPanelAccessories panel_accessories={panel_accessories} />
             </>
     }
 }

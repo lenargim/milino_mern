@@ -92,6 +92,7 @@ export type CustomPartFormType = {
 
 export type PanelAccessoriesType = {
     hinges_or_holes: HingesOrHolesType,
+    cutout: PanelCutoutType
 }
 
 export type HingesOrHolesType = {
@@ -99,6 +100,12 @@ export type HingesOrHolesType = {
     hh_type?: HingesOrHolesTypesType
     hh_top?: number
     hh_bottom?: number
+}
+
+export type PanelCutoutType = {
+    has_cutout: boolean
+    width?: number,
+    height?: number
 }
 
 export type HingesOrHolesTypesType = 'Hinges'|'Holes Only';

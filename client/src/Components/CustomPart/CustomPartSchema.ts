@@ -60,11 +60,8 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         material: Yup.string().required(),
     })
     const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
-    const getHingeMaxIndentAuto = (
-        context: TestContext<AnyObject>
-    ): number => {
+    const getHingeMaxIndentAuto = (context: TestContext<AnyObject>): number => {
         const parent = context.parent;
-
         const root =
             context.options?.context ??
             context.from?.[context.from.length - 1]?.value;
@@ -96,6 +93,14 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         return max;
     };
 
+    const getPanelCutoutMaxSize = (context: TestContext<AnyObject>, axis:'width'|'height'):number => {
+        // const childAxis = context.parent[axis];
+        const root = context.options?.context ?? context.from?.[context.from.length - 1]?.value;
+        const parentAxis = root[axis];
+        return parentAxis-2;
+
+    }
+
     const panelAccessoriesSchema = Yup.object({
         panel_accessories: Yup.object({
             hinges_or_holes: Yup.object({
@@ -112,6 +117,21 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                 }),
                 hh_top: Yup.number().nullable(),
                 hh_bottom: Yup.number().nullable(),
+            }),
+            cutout: Yup.object({
+                has_cutout: Yup.boolean(),
+                width_string: Yup.string().when("has_cutout", {
+                    is: true,
+                    then: s => s.required("Enter value")
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 3, getPanelCutoutMaxSize(context, 'width'))),
+                }),
+                height_string: Yup.string().when("has_cutout", {
+                    is: true,
+                    then: s => s.required("Enter value")
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 3, getPanelCutoutMaxSize(context, 'height'))),
+                }),
+                width: Yup.number().nullable(),
+                height: Yup.number().nullable(),
             })
         })
     })

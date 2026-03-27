@@ -212,6 +212,12 @@ const CartSchema = new mongoose.Schema({
         bottom: {
           type: Number
         }
+      },
+      cutout: {
+        width: {
+          type: Number
+        },
+        height: Number
       }
     },
     extra_rollouts: {
