@@ -13,6 +13,7 @@ import CartItemRTAClosetCustom from "./CartItemRTAClosetCustom";
 import CartItemDrawerInserts from "./CartItemDrawerInserts";
 import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
+import CartItemPanelAccessories from "./CartItemPanelAccessories";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
@@ -70,20 +71,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                       </View>
                     </View>
                 }
-                {panel_accessories && panel_accessories.hinges_or_holes && <>
-                  <View style={s.itemOption}>
-                    <Text>Add Hinges or Hinge holes:</Text>
-                    <Text>{panel_accessories.hinges_or_holes.type}</Text>
-                  </View>
-                  <View style={s.itemOption}>
-                    <Text>From Top:</Text>
-                    <Text>{panel_accessories.hinges_or_holes.top}''</Text>
-                  </View>
-                  <View style={s.itemOption}>
-                    <Text>From Bottom:</Text>
-                    <Text>{panel_accessories.hinges_or_holes.bottom}''</Text>
-                  </View>
-                </>}
+                {<CartItemPanelAccessories panel_accessories={panel_accessories} />}
             </View>
     }
 }
