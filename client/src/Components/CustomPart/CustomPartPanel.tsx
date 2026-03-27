@@ -2,11 +2,12 @@ import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {filterCustomPartsMaterialsArray, isHingeHolesBlock,} from "../../helpers/helpers";
+import {filterCustomPartsMaterialsArray, isHingeHolesBlock, isPanelCutoutBlock,} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartHingeHoles from "./CustomPartHingeHoles";
+import CustomPartCutoutBlock from "./CustomPartCutoutBlock";
 
 type CustomPartPanel = {
     product: CustomPartType,
@@ -22,6 +23,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
     const {materials_array, id} = product;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
     const showHingeHoles = isHingeHolesBlock(id)
+    const showCutout = isPanelCutoutBlock(id)
 
     return (
         <Form>
@@ -38,6 +40,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
                 </div>
             </div>
             {showHingeHoles ? <CustomPartHingeHoles/> : null}
+            {showCutout ? <CustomPartCutoutBlock/> : null}
             {filtered_materials_array &&
             <div className={s.block}>
               <h3>Material</h3>

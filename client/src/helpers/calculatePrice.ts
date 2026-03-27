@@ -28,7 +28,7 @@ import {
     getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor, isHingeHolesBlock,
+    getWidthToCalculateDoor, isHingeHolesBlock, isPanelCutoutBlock,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -839,11 +839,12 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
     return data.find(i => i.type === base_price_type)?.data || undefined
 }
 
-const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI):number => {
+const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI, customPartPrice:number):number => {
     const {id} = product
     const hingeHolesPrice = getHingeHolesPrice(id, values);
+    const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
     // Possible to add extra additions here
-    const additionsPrice = hingeHolesPrice;
+    const additionsPrice = hingeHolesPrice+panelCutoutPrice;
     return additionsPrice
 }
 
@@ -852,6 +853,13 @@ const getHingeHolesPrice = (id: number, values:CartAPI):number => {
     const {custom} = values;
     if (!custom || !custom.panel_accessories?.hinges_or_holes?.type) return 0;
     return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32:12
+}
+
+const getPanelCutoutPrice = (id: number, values:CartAPI, custom_part_price:number):number => {
+    if (!isPanelCutoutBlock(id)) return 0;
+    const {custom} = values;
+    if (!custom || !custom.panel_accessories?.cutout) return 0;
+    return custom_part_price/2
 }
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
@@ -872,8 +880,6 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         case "glass-shelf": {
             let priceCustom = 0;
             const color = getIsRTAorSystemCloset(category) ? box_color : door_color
-            const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
-            const additions = getCustomPriceAdditions(product, values);
             switch (id) {
                 case 900: {
                     switch (material) {
@@ -1092,7 +1098,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
             }
-            price = +(priceCustom*finishColorCoef + additions).toFixed(1);
+            const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
+            const finishedColorPrice = priceCustom*finishColorCoef;
+            const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
+            price = +(finishedColorPrice + additions).toFixed(1);
             break;
         }
         case "led-accessories": {

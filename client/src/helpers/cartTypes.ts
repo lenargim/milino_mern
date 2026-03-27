@@ -16,6 +16,7 @@ import {
     productTypings
 } from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
+import {number} from "yup";
 
 export type CartAPI = {
     _id: string,
@@ -99,11 +100,17 @@ export type CartCustomTypeAPI = {
 
 export type PanelAccessoriesTypeAPI = {
     hinges_or_holes?: HingesOrHolesTypeAPI,
+    cutout?: PanelCutoutAPI
 }
 export type HingesOrHolesTypeAPI = {
     type: HingesOrHolesTypesType
     top: number
     bottom: number
+}
+
+export type PanelCutoutAPI = {
+    width: number,
+    height: number
 }
 
 export type PanelsFormAPIType = {
