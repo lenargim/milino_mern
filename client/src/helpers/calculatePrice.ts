@@ -43,6 +43,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
+import {ta} from "date-fns/locale";
 
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
     const maxData = priceData[priceData.length - 1];
@@ -442,7 +443,7 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const {base_price_type, door_type, drawer_type, drawer_brand, drawer_color} = materialData
     // Get price for custom part 'Extra RO drawer'
     const ro_drawer = "Extra RO";
-    const tablePrice = getRoDrawerTablePrice(width, base_price_type, ro_drawer)
+    const tablePrice = getRoDrawerTablePrice(width, base_price_type, ro_drawer);
     const startPrice = getStartPrice(tablePrice, materialData, [])
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     const rolloutPrice = startPrice + drawerPrice;
@@ -1433,7 +1434,6 @@ const getRoDrawerTablePrice = (width: number, basePriceType: pricesTypings, ro_d
         "width": number,
         "Extra RO": number,
         "Drawer": number
-
     }
 
     interface PriceTypeArrayItem {
@@ -1444,7 +1444,14 @@ const getRoDrawerTablePrice = (width: number, basePriceType: pricesTypings, ro_d
     const arr = ro_drawer_prices as PriceTypeArrayItem[];
     const prices = arr.find(el => el.type === basePriceType)?.prices;
     if (!prices) return 0;
-    return prices.find(el => el[ro_drawer] && el.width === width)?.[ro_drawer] || 0;
+    if (width < prices[0].width) return prices[0][ro_drawer];
+    const maxData = prices[prices.length -1];
+    if (width > maxData.width) {
+        // size coef
+        const w_coef = 1+addWidthPriceCoef(width, maxData.width);
+        return maxData[ro_drawer] * w_coef;
+    }
+    return prices.find((el, index) => el[ro_drawer] && (el.width >= width))?.[ro_drawer] || 0;
 }
 
 export const getRoDrawerPrice = (ro_drawer: MaybeUndefined<DrawerROType>, width: number, materials: RoomMaterialsFormType, product_id: number): number => {
@@ -1452,7 +1459,7 @@ export const getRoDrawerPrice = (ro_drawer: MaybeUndefined<DrawerROType>, width:
     const {drawer_type, drawer_color, drawer_brand, door_type} = materials
     const basePriceType = getBasePriceType(materials);
     const materialData = getMaterialData(materials, product_id);
-    const tablePrice = getRoDrawerTablePrice(width, basePriceType, ro_drawer)
+    const tablePrice = getRoDrawerTablePrice(width, basePriceType, ro_drawer);
     const startPrice = getStartPrice(tablePrice, materialData, [])
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     if (ro_drawer === 'Extra RO') return startPrice + drawerPrice;
