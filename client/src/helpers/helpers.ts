@@ -34,13 +34,12 @@ import {
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
 import {
-    calculateProduct,
+    calculateProduct, getBoxMaterialCoefByColorType, getBoxMaterialColorType,
     getCustomPartPrice,
     getMaterialData,
     getProductDataToCalculatePrice,
     getProductPriceRange,
-    getProductRange, getSizeLimitsFromData,
-    isTexturedColor
+    getProductRange, getSizeLimitsFromData
 } from "./calculatePrice";
 import sizes from "../api/sizes.json";
 import {MaterialStringsType} from "../common/Materials";
@@ -1193,9 +1192,11 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
             // Choose Material (In Product Page)
             if (material !== 'Milino') return 1;
             // Door Color from Materials page
-            if (isTexturedColor(color)) return 1.1;
-            if (color.includes('Ultra Matte')) return 1.2;
-            break
+            // if (isTexturedColor(color)) return 1.1;
+            // if (color.includes('Ultra Matte')) return 1.2;
+            // break
+            const boxColorType = getBoxMaterialColorType(color)
+            return getBoxMaterialCoefByColorType(boxColorType);
         }
     }
     return 1;
