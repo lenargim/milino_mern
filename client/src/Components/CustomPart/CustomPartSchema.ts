@@ -16,12 +16,13 @@ import {
 } from "./CustomPart";
 import {
     getCustomPartMaterialsArraySizeLimits,
-    getFraction,
+    getFraction, getSchemaRootValues,
     glassDoorHasProfile,
     testMinMaxCustomLimit
 } from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {alignmentOptions, borderOptions} from "../Product/ProductSchema";
 
 
 export function getCustomPartSchema(product: CustomPartType, materials: RoomMaterialsFormType): Yup.InferType<any> {
@@ -62,10 +63,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
     const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
     const getHingeMaxIndentAuto = (context: TestContext<AnyObject>): number => {
         const parent = context.parent;
-        const root =
-            context.options?.context ??
-            context.from?.[context.from.length - 1]?.value;
-
+        const root = getSchemaRootValues(context)
         const height = root?.height;
 
         if (!height || isNaN(height)) return Infinity;
@@ -94,11 +92,9 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
     };
 
     const getPanelCutoutMaxSize = (context: TestContext<AnyObject>, axis:'width'|'height'):number => {
-        // const childAxis = context.parent[axis];
-        const root = context.options?.context ?? context.from?.[context.from.length - 1]?.value;
+        const root = getSchemaRootValues(context)
         const parentAxis = root[axis];
         return parentAxis-2;
-
     }
 
     const panelAccessoriesSchema = Yup.object({
@@ -132,15 +128,43 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                 }),
                 width: Yup.number().nullable(),
                 height: Yup.number().nullable(),
-            })
+            }),
         })
+    })
+
+    const getMaxIndent = (context:TestContext<AnyObject>) => {
+        const root = getSchemaRootValues(context);
+        return (root['height'])-1;
+    }
+
+    const ledSchema = Yup.object({
+        led: Yup.object({
+            border: Yup.array().of(Yup.string().oneOf(borderOptions, 'Error')),
+            alignment: Yup.string()
+                .when('border', {
+                    is: (val: string[]) => val.length,
+                    then: (schema) => schema
+                        .required('Please choose alignment')
+                        .oneOf(alignmentOptions, 'Error')
+                        .default('Center')
+                }),
+            indent_string: Yup.string()
+                .when('alignment', {
+                    is: (val: string) => val && val !== 'Center',
+                    then: (schema) => schema
+                        .required('Required')
+                        .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, getMaxIndent(context))),
+                }),
+            indent: Yup.number().nullable()
+        }),
     })
 
     switch (type) {
         case "custom":
             return customSchema;
         case "panel":
-            return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema).concat(panelAccessoriesSchema);
+            return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema).concat(panelAccessoriesSchema).concat(ledSchema);
         case "backing":
             return customInitialSchema.concat(customPartWithHeightSchema);
         case "pvc":

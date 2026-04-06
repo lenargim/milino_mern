@@ -13,9 +13,10 @@ import CartItemDrawerInserts from "./CartItemDrawerInserts";
 import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
+import CartItemLED from "./CartItemLED";
 
 const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
-    const {subcategory, product_id, custom, width} = product;
+    const {subcategory, product_id, custom, width, led} = product;
     if (!custom) return null;
     const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
     switch (subcategory as CustomTypes) {
@@ -65,6 +66,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
                         <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
                       </div>
                     </>}
+                {led && <CartItemLED led={led} />}
                 <CartItemPanelAccessories panel_accessories={panel_accessories} />
             </>
     }

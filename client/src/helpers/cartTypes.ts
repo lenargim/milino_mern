@@ -51,7 +51,7 @@ export type GlassAPIType = {
 export type CartLEDAPI = {
     border: string[],
     alignment: MaybeEmpty<ledAlignmentType>,
-    indent: string
+    indent: number
 }
 
 export interface CartAPIResponse extends CartAPI {

@@ -4,8 +4,8 @@ import Product from "../Product/Product";
 import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {
     findIsRoomStandard,
-    getCustomPartInitialFormValues, getCustomPartInitialTableData, getCustomPartMaterialsArraySizeLimits,
-    getProductById, getProductImage,
+    getCustomPartInitialFormValues, getCustomPartInitialTableData,
+    getProductById,
     getProductInitialFormValues,
     getProductInitialTableData
 } from "../../helpers/helpers";

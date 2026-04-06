@@ -849,10 +849,12 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
 
 const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI, customPartPrice:number):number => {
     const {id} = product
+    const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
+    const ledPrice = getLedPrice(width, height, led?.border)
     // Possible to add extra additions here
-    const additionsPrice = hingeHolesPrice+panelCutoutPrice;
+    const additionsPrice = hingeHolesPrice+panelCutoutPrice+ledPrice;
     return additionsPrice
 }
 
@@ -872,7 +874,7 @@ const getPanelCutoutPrice = (id: number, values:CartAPI, custom_part_price:numbe
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
-    const {width, height, depth, custom, glass, product_id} = values;
+    const {width, height, depth, custom, glass, product_id, led} = values;
     if (!custom) return price;
     const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_accessories} = custom;
     const {door_color, door_type, box_color, category} = materials

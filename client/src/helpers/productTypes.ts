@@ -9,7 +9,7 @@ import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
 export type pricesTypings = 1 | 2 | 3 | 'wood_veneer';
-export type pricesTypingsNumber = 1|2|3;
+export type pricesTypingsNumber = 1 | 2 | 3;
 export type DoorColorType = 1 | 2 | 3;
 export type BoxMaterialColorType = 1 | 2 | 3 | 4;
 
@@ -389,6 +389,13 @@ export type ProductExtraType = {
     extra_rollouts?: number
 }
 
+export type LEDType = {
+    border: string[],
+    alignment: MaybeEmpty<ledAlignmentType>,
+    indent_string: string,
+    indent?: MaybeEmpty<number>
+}
+
 export type ProductFormType = {
     width: number,
     custom_width: MaybeEmpty<number>,
@@ -408,9 +415,7 @@ export type ProductFormType = {
     options: ProductOptionsType[],
     middle_section: MaybeEmpty<number>,
     middle_section_string: MaybeEmpty<string>,
-    led_borders: string[],
-    led_alignment: MaybeEmpty<ledAlignmentType>,
-    led_indent_string: string,
+    led: LEDType,
     glass_door: string[],
     glass_shelf: MaybeEmpty<GlassAndMirrorTypes>
     note: string,
@@ -433,7 +438,7 @@ export type ProductTableDataType = {
     middleSection: string,
     blindWidth: MaybeEmpty<number>,
     corner: MaybeEmpty<cornerTypes>,
-    ledAlignment: MaybeEmpty<ledAlignmentType>,
+    // ledAlignment: MaybeEmpty<ledAlignmentType>,
     productPriceData: productDataToCalculatePriceType
     isBlind: boolean,
 }

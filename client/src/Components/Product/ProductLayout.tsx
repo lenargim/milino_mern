@@ -65,9 +65,9 @@ const ProductLayout: FC<CabinetFormType> = ({
         depth,
         blind_width,
         price,
-        options
+        options,
+        led
     } = values;
-
     const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
     const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category, customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
@@ -131,7 +131,7 @@ const ProductLayout: FC<CabinetFormType> = ({
 
             {showHingeBlock ? <ProductHingeBlock hingeArr={hingeArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
-            {hasLedBlock ? <ProductLED/> : null}
+            {hasLedBlock ? <ProductLED  /> : null}
             {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}
             {hasMechanism ? <ProductMechanism hasMechanism={hasMechanism}/> : null}

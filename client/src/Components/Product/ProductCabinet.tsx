@@ -11,6 +11,7 @@ import {
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
 import {CartItemFrontType} from "../../helpers/cartTypes";
+import {numericQuantity} from "numeric-quantity";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,
@@ -44,9 +45,7 @@ const ProductCabinet: FC<CabinetType> = ({
         glass_door: [door_profile, door_glass_type, door_glass_color],
         glass_shelf: shelf_glass_color,
         hinge_opening,
-        led_borders,
-        led_alignment,
-        led_indent_string,
+        led,
         note,
         image_active_number,
         price,
@@ -106,9 +105,9 @@ const ProductCabinet: FC<CabinetType> = ({
             shelf: shelf_glass_color,
         },
         led: {
-            border: led_borders,
-            alignment: led_alignment,
-            indent: led_indent_string
+            border: led.border,
+            alignment: led.alignment,
+            indent: numericQuantity(led.indent_string),
         },
         custom: customVal,
         image_active_number: newType,
