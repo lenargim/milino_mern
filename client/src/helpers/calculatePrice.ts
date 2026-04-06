@@ -625,13 +625,23 @@ const getDoorColorType = (color: string): DoorColorType => {
     return 1
 };
 
-const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
+export const getBoxMaterialColorType = (color: string): BoxMaterialColorType => {
     if (color.includes('Melamine')) return 1;
     if (isTexturedColor(color)) return 2;
     if (color.includes('Ultra Matte')) return 3;
     if (color.includes('Plywood')) return 4;
     return 1
 };
+
+export const getBoxMaterialCoefByColorType = (box_color_type: BoxMaterialColorType): number => {
+    switch (box_color_type) {
+        case 1: return 1;
+        case 2: return 1.1
+        case 3: return 1.2
+        case 4: return 1.15
+    }
+    return 1;
+}
 
 const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color: string, product_id: number): number => {
     // Exceptions
@@ -669,10 +679,7 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
         // Leather, RTA and System
         case 'Milino': {
             const boxColorType = getBoxMaterialColorType(box_color)
-            if (boxColorType === 2) return 1.1;
-            if (boxColorType === 3) return 1.2;
-            if (boxColorType === 4) return 1.15
-            break;
+            return getBoxMaterialCoefByColorType(boxColorType);
         }
         case 'Zenit':
             return 1.03;
