@@ -29,7 +29,7 @@ import {
     hingeTypes,
     AttrWithoutDescType,
     materialsLimitsType,
-    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType, materialDataType,
+    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType, materialDataType, LEDType,
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -535,7 +535,7 @@ export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
 }
 
 export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
-    const {id, product_type} = product
+    const {id, product_type, hasLedBlock} = product
     const {
         width,
         blind_width,
@@ -548,9 +548,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         glass_door,
         glass_shelf,
         note,
-        led_borders,
-        led_alignment,
-        led_indent_string,
+        led,
         custom,
 
         // Excluded in standard cabinet
@@ -567,7 +565,12 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realD = depth || +custom_depth || 0;
     const realMiddle = +middle_section || 0
     const realBlind = +blind_width || +custom_blind_width || 0;
-    const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined
+    const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined;
+    const ledAPI = led.border.length ? {
+        border: led.border,
+        alignment: led.alignment,
+        indent: numericQuantity(led.indent_string),
+    } : undefined
 
     return {
         _id: productEditId ?? '',
@@ -587,11 +590,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
             door: glass_door,
             shelf: glass_shelf,
         },
-        led: {
-            border: led_borders,
-            alignment: led_alignment,
-            indent: led_indent_string,
-        },
+        led: ledAPI,
         sink: {
             farm_height: sinkHeight
         },
@@ -627,6 +626,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         groove,
         drawer_accessories,
         panel_accessories,
+        led,
         amount
     } = values;
 
@@ -755,6 +755,14 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
     // Panel accessories
     forceSetPath(preparedProduct, 'custom.panel_accessories', panelAccessoriesAPI(panel_accessories));
+
+    //LED Block
+    const ledAPI = led.border.length ? {
+        border: led.border,
+        alignment: led.alignment,
+        indent: numericQuantity(led.indent_string),
+    } : undefined
+    if (ledAPI) forceSetPath(preparedProduct, 'led', ledAPI);
 
     return preparedProduct;
 }
@@ -1176,12 +1184,17 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
 }
 
 export const isHingeHolesBlock = (id: number): boolean => {
-    const IDsArr:number[] = [903];
+    const IDsArr: number[] = [903];
     return IDsArr.includes(id)
 }
 
 export const isPanelCutoutBlock = (id: number): boolean => {
-    const IDsArr:number[] = [903];
+    const IDsArr: number[] = [903];
+    return IDsArr.includes(id)
+}
+
+export const isLedBlock = (id: number): boolean => {
+    const IDsArr: number[] = [903];
     return IDsArr.includes(id)
 }
 
@@ -1458,7 +1471,6 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
         middleSectionDefault,
         blindArr,
         isCornerChoose,
-        hasLedBlock,
         isBlind = false,
         isAngle
     } = product
@@ -1470,7 +1482,7 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
     const middleSection = middleSectionNumber ? getFraction(middleSectionNumber) : '';
     const blindWidth = blindArr ? blindArr[0] : '';
     const corner = isCornerChoose ? 'Left' : '';
-    const ledAlignment = hasLedBlock ? 'Center' : '';
+    // const ledAlignment = hasLedBlock ? 'Center' : '';
     const productPriceData = getProductDataToCalculatePrice(product, materials.drawer_brand);
     if (!sizeLimit || !tablePriceData || !productRange.widthRange.length) return undefined
     return {
@@ -1484,10 +1496,16 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
         middleSection,
         blindWidth,
         corner,
-        ledAlignment,
         isBlind,
         productPriceData
     }
+}
+
+export const ledEmpty:LEDType = {
+    border: [],
+    alignment: '',
+    indent_string: '',
+    indent: ''
 }
 
 export const getProductInitialFormValues = (productData: ProductTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>, product: ProductType): ProductFormType => {
@@ -1498,11 +1516,11 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         middleSection,
         middleSectionNumber,
         corner: cornerTable,
-        ledAlignment,
         isBlind,
         blindWidth,
         tablePriceData,
     } = productData
+
     if (!cartItemValues) {
         return {
             width: widthRange[0],
@@ -1523,9 +1541,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             hinge_opening: '',
             corner: cornerTable,
             options: [],
-            led_borders: [],
-            led_alignment: ledAlignment,
-            led_indent_string: '',
+            led: ledEmpty,
             glass_door: ['', '', ''],
             glass_shelf: '',
             farm_sink_height_string: '',
@@ -1587,9 +1603,11 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         hinge_opening: hinge,
         corner,
         options,
-        led_borders: led?.border || [],
-        led_alignment: led?.alignment || '',
-        led_indent_string: led?.indent || '',
+        led: led ? {
+            border: led.border,
+            alignment: led.alignment,
+            indent_string: getFraction(led.indent)
+        } : ledEmpty,
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',
         image_active_number: image_active_number,
@@ -1648,7 +1666,7 @@ export function useFormikDefault<T>(
     path: string,
     defaultValue: T
 ) {
-    const { setFieldValue } = useFormikContext();
+    const {setFieldValue} = useFormikContext();
 
     useEffect(() => {
         if (value == null) {
@@ -1657,7 +1675,11 @@ export function useFormikDefault<T>(
     }, [value]);
 }
 
-export const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min:number, max:number) => {
+export const getSchemaRootValues = (context: TestContext<AnyObject>) => {
+    return context.options?.context ?? context.from?.[context.from.length - 1]?.value;
+}
+
+export const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min: number, max: number) => {
     if (!val) return false;
     const numberVal = numericQuantity(val);
     if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
@@ -1703,12 +1725,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     has_cutout: false
                 }
             },
+            led: ledEmpty,
             note: '',
             amount: 1,
             price: 0
         }
     } else {
-        const {width, height, depth, custom, note, glass, amount} = cartItemValues;
+        const {width, height, depth, custom, note, glass, amount, led: ledBlock} = cartItemValues;
         const {
             standard_doors,
             standard_panels,
@@ -1810,8 +1833,13 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     has_cutout: !!panel_accessories?.cutout,
                     width: panel_accessories?.cutout?.width,
                     height: panel_accessories?.cutout?.height
-                }
+                },
             },
+            led: ledBlock ? {
+                border: ledBlock.border,
+                alignment: ledBlock.alignment,
+                indent_string: getFraction(ledBlock.indent)
+            } : ledEmpty,
             amount,
             note,
             price: 0,

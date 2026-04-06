@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import {
     CustomPartTableDataType,
-    CustomPartType, GlassAndMirrorTypes, LedAccessoriesFormType, MaybeEmpty,
+    CustomPartType, GlassAndMirrorTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -85,7 +85,8 @@ export type CustomPartFormType = {
     rta_closet_custom: MaybeNull<RTAPartCustomType[]>,
     groove: MaybeNull<GrooveAPIType>,
     drawer_accessories: MaybeNull<DrawerAccessoriesType>,
-    panel_accessories: PanelAccessoriesType
+    panel_accessories: PanelAccessoriesType,
+    led: LEDType,
     amount: number
 }
 

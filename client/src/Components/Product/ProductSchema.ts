@@ -3,7 +3,7 @@ import settings from './../../api/settings.json'
 import {hingeArr, MaybeUndefined, ProductOptionsType, ProductType, sizeLimitsType} from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
 import {numericQuantity} from 'numeric-quantity';
-import {testMinMaxCustomLimit} from "../../helpers/helpers";
+import {getSchemaRootValues, testMinMaxCustomLimit} from "../../helpers/helpers";
 
 export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
@@ -24,6 +24,10 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
         return true;
     }
 
+    const getMaxIndent = (context:TestContext<AnyObject>) => {
+        const root = getSchemaRootValues(context);
+        return (root['depth'] || root['custom_depth'])-1;
+    }
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
@@ -42,34 +46,28 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     .test('limit', (val, context) => testMinMax(val, context,'depth')),
 
             }),
-        led_borders: Yup.array()
-            .of(Yup.string().oneOf(borderOptions, 'Error')),
-        led_alignment: Yup.string()
-            .when('led_borders', {
-                is: (val: string[]) => val.length,
-                then: (schema) => schema
-                    .required('Please choose alignment')
-                    .oneOf(alignmentOptions, 'Error')
-                    .default('Center')
-            })
-        ,
-        led_indent_string: Yup.string()
-            .when('led_alignment', {
-                is: (val: string) => val && val !== 'Center',
-                then: (schema) => schema
-                    .required('Required')
-                    .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    .test(
-                        "is-max",
-                        `Indent should be lower than Depth`,
-                        (val: any, {parent}) => {
-                            const numberVal = numericQuantity(val);
-                            const fullDepth = parent['depth'] || parent['custom_depth'];
-                            return numberVal < fullDepth
-                        }
-                    )
+        custom_depth: Yup.number().nullable(),
+        led: Yup.object({
+            border: Yup.array().of(Yup.string().oneOf(borderOptions, 'Error')),
+            alignment: Yup.string()
+                .when('border', {
+                    is: (val: string[]) => val.length,
+                    then: (schema) => schema
+                        .required('Please choose alignment')
+                        .oneOf(alignmentOptions, 'Error')
+                        .default('Center')
+                }),
+            indent_string: Yup.string()
+                .when('alignment', {
+                    is: (val: string) => val && val !== 'Center',
+                    then: (schema) => schema
+                        .required('Required')
+                        .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
 
-            }),
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, getMaxIndent(context))),
+                }),
+            indent: Yup.number().nullable()
+        }),
         hinge_opening: Yup.string().oneOf(hingeArr),
         options: Yup.array().of(Yup.mixed<ProductOptionsType>()),
         glass_door: Yup.lazy((value, context) => {
@@ -160,7 +158,6 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                             }
                         }
                     )
-
             }),
         custom_height_string: Yup.string()
             .when('height', {
