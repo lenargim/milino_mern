@@ -1826,6 +1826,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         })) : null;
 
 
+        const hasHH = !!panel_accessories?.hinges_or_holes;
+        const hasCutout = !!panel_accessories?.cutout
+
         return {
             width_string: getFraction(width),
             height_string: getFraction(height),
@@ -1845,15 +1848,19 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             drawer_accessories: drawer_accessories ?? null,
             panel_accessories: {
                 hinges_or_holes: {
-                    has_hh: !!panel_accessories?.hinges_or_holes,
+                    has_hh: hasHH,
                     hh_type: panel_accessories?.hinges_or_holes?.type,
                     hh_top: panel_accessories?.hinges_or_holes?.top,
-                    hh_bottom: panel_accessories?.hinges_or_holes?.bottom
+                    hh_bottom: panel_accessories?.hinges_or_holes?.bottom,
+                    hh_top_string: hasHH ? getFraction(panel_accessories?.hinges_or_holes?.top || 0) : undefined,
+                    hh_bottom_string: hasHH ? getFraction(panel_accessories?.hinges_or_holes?.bottom || 0) : undefined,
                 },
                 cutout: {
-                    has_cutout: !!panel_accessories?.cutout,
+                    has_cutout: hasCutout,
                     width: panel_accessories?.cutout?.width,
-                    height: panel_accessories?.cutout?.height
+                    height: panel_accessories?.cutout?.height,
+                    width_string: hasCutout ? getFraction(panel_accessories?.cutout?.width || 0):undefined,
+                    height_string: hasCutout ? getFraction(panel_accessories?.cutout?.height || 0):undefined
                 },
             },
             led: ledBlock ? {

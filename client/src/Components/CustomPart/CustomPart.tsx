@@ -101,12 +101,16 @@ export type HingesOrHolesType = {
     hh_type?: HingesOrHolesTypesType
     hh_top?: number
     hh_bottom?: number
+    hh_top_string?: string
+    hh_bottom_string?: string
 }
 
 export type PanelCutoutType = {
     has_cutout: boolean
     width?: number,
     height?: number
+    width_string?: string,
+    height_string?: string
 }
 
 export type HingesOrHolesTypesType = 'Hinges'|'Holes Only';
