@@ -53,8 +53,7 @@ const CartSchema = new mongoose.Schema({
   },
   led: {
     border: {
-      type: Array,
-      default: [],
+      type: Array
     },
     alignment: {
       type: String,
