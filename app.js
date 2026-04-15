@@ -116,8 +116,6 @@ const start = async () => {
     app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.updateCartAmount, CartController.getCart)
     app.patch('/api/cart', checkAuth, CartController.updateCartItem, CartController.getCart)
 
-    app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
-
     // Admin
     app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
     app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
