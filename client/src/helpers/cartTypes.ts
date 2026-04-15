@@ -34,7 +34,7 @@ export type CartAPI = {
     led?: CartLEDAPI,
     sink?: SinkAPIType
     custom?: CartCustomTypeAPI,
-    note: string,
+    note?: string,
 }
 
 export type SinkAPIType = {
@@ -70,7 +70,7 @@ export interface CartOrder {
     options: string[],
     glass?: GlassAPIType,
     led?: CartLEDAPI,
-    note: string,
+    note?: string,
 }
 
 // is standard or customized product (size led, options)

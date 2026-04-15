@@ -624,7 +624,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         glass: glassAPI,
         led: ledAPI,
         sink: sinkAPI,
-        note,
+        note: note || undefined,
         custom: customAPI
     }
 }
@@ -674,7 +674,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         hinge: "",
         corner: "",
         options: [],
-        note: note
+        note: note || undefined
     }
 
     function forceSetPath<T extends object>(
@@ -1634,7 +1634,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         image_active_number: image_active_number,
         custom: customVal,
         farm_sink_height_string: farmSink,
-        note,
+        note: note || '',
         price,
         amount
     }
@@ -1862,7 +1862,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 indent_string: getFraction(ledBlock.indent)
             } : ledEmpty,
             amount,
-            note,
+            note: note || '',
             price: 0,
         }
     }

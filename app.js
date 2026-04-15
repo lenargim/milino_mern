@@ -9,7 +9,6 @@ import {
   UserController,
   PDFController,
   RoomController,
-  OrderController,
   AdminController,
   PurchaseOrderController,
   CartController
