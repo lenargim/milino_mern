@@ -102,7 +102,7 @@ const ProductCabinet: FC<CabinetType> = ({
         options: chosenOptions,
         glass: {
             door: [door_profile, door_glass_type, door_glass_color],
-            shelf: shelf_glass_color,
+            shelf: shelf_glass_color ? shelf_glass_color : undefined,
         },
         led: {
             border: led.border,

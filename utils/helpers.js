@@ -101,3 +101,42 @@ export const upload = multer({
   fileFilter,
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
 })
+
+
+export const cleanObject = (obj) => {
+  if (Array.isArray(obj)) {
+    const cleanedArray = obj
+      .map(cleanObject)
+      .filter(v =>
+        v !== undefined &&
+        v !== null &&
+        !(Array.isArray(v) && v.length === 0) &&
+        !(typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0)
+      );
+
+    return cleanedArray.length ? cleanedArray : undefined;
+  }
+
+  if (obj && typeof obj === 'object') {
+    const newObj = {};
+
+    Object.entries(obj).forEach(([key, value]) => {
+      const cleanedValue = cleanObject(value);
+
+      if (
+        cleanedValue !== undefined &&
+        cleanedValue !== null &&
+        !(Array.isArray(cleanedValue) && cleanedValue.length === 0) &&
+        !(typeof cleanedValue === 'object' &&
+          !Array.isArray(cleanedValue) &&
+          Object.keys(cleanedValue).length === 0)
+      ) {
+        newObj[key] = cleanedValue;
+      }
+    });
+
+    return Object.keys(newObj).length ? newObj : undefined;
+  }
+
+  return obj;
+}

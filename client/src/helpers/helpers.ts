@@ -62,7 +62,7 @@ import DA from '../api/doorAccessories.json'
 import {initialStandardPanels} from "../Components/CustomPart/CustomPartStandardPanel";
 import settings from "../api/settings.json";
 import {
-    CartAPI,
+    CartAPI, CartCustomTypeAPI,
     CartItemFrontType,
     CartOrder, IsStandardDimentionsType, IsStandardOptionsType,
     LEDAccessoriesType, PanelAccessoriesTypeAPI
@@ -534,8 +534,24 @@ export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
     return !led?.length
 }
 
+export function isEmptyOrZeroValue(value: any): boolean {
+    if (value === undefined || value === null) return true;
+    if (value === "") return true;
+    if (value === 0) return true;
+
+    if (Array.isArray(value)) {
+        return value.length === 0 || value.every(isEmptyOrZeroValue);
+    }
+
+    if (typeof value === "object") {
+        return Object.values(value).every(isEmptyOrZeroValue);
+    }
+
+    return false;
+}
+
 export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
-    const {id, product_type, hasLedBlock} = product
+    const {id, product_type} = product
     const {
         width,
         blind_width,
@@ -566,10 +582,29 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realMiddle = +middle_section || 0
     const realBlind = +blind_width || +custom_blind_width || 0;
     const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined;
+    const sinkAPI = sinkHeight ? {
+        farm_height: sinkHeight
+    } : undefined
+
     const ledAPI = led.border.length ? {
         border: led.border,
         alignment: led.alignment,
         indent: numericQuantity(led.indent_string),
+    } : undefined
+
+    const glassAPI = chosenOptions.includes('Glass Door') || chosenOptions.includes('Glass Shelf') ? {
+        door: chosenOptions.includes('Glass Door') ? glass_door : undefined,
+        shelf: chosenOptions.includes('Glass Shelf') && !!glass_shelf ? glass_shelf : undefined,
+    } : undefined
+
+
+    const customAPI:MaybeUndefined<CartCustomTypeAPI> = custom && !isEmptyOrZeroValue(custom) ? {
+        accessories: custom.closet_accessories ? {
+            closet: custom.closet_accessories
+        } : undefined,
+        jewelery_inserts: custom.jewelery_inserts?.length ? custom.jewelery_inserts : undefined,
+        mechanism: custom?.mechanism,
+        extra_rollouts: !isEmptyOrZeroValue(custom.extra_rollouts) ? custom.extra_rollouts : undefined
     } : undefined
 
     return {
@@ -586,26 +621,11 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         hinge: hinge_opening,
         corner: corner,
         options: chosenOptions,
-        glass: {
-            door: glass_door,
-            shelf: glass_shelf,
-        },
+        glass: glassAPI,
         led: ledAPI,
-        sink: {
-            farm_height: sinkHeight
-        },
+        sink: sinkAPI,
         note,
-        custom: {
-            accessories: {
-                closet: custom?.closet_accessories
-            },
-            jewelery_inserts: custom?.jewelery_inserts,
-            mechanism: custom?.mechanism,
-            // Delete zero value
-            ...(custom?.extra_rollouts !== 0 && {
-                extra_rollouts: custom?.extra_rollouts
-            })
-        }
+        custom: customAPI
     }
 }
 
@@ -654,10 +674,6 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         hinge: "",
         corner: "",
         options: [],
-        glass: {
-            door: glass_door,
-            shelf: glass_shelf,
-        },
         note: note
     }
 
@@ -681,6 +697,11 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
         current[keys[keys.length - 1]] = value;
     }
+
+
+    // Glass
+    if (glass_door && !!glass_door[0]) forceSetPath(preparedProduct, 'glass.door', glass_door);
+    if (glass_shelf) forceSetPath(preparedProduct, 'glass.shelf', glass_shelf);
 
     if (material) forceSetPath(preparedProduct, 'custom.material', material);
 

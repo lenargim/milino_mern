@@ -223,7 +223,7 @@ export function getType(width: number, height: number, widthDivider: number | un
 export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
-        jewelery_inserts: custom.jewelery_inserts,
+        jewelery_inserts: custom.jewelery_inserts?.length ? custom.jewelery_inserts : undefined,
         mechanism: custom.mechanism,
         extra_rollouts: custom.extra_rollouts
     } : undefined

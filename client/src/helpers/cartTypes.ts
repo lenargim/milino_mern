@@ -3,7 +3,7 @@ import {golaProfileType} from "../Components/CustomPart/CustomPartGolaProfile";
 import {
     DoorAccessoryAPIType,
     DrawerAccessoriesType,
-    GrooveAPIType, HingesOrHolesType, HingesOrHolesTypesType, PanelAccessoriesType,
+    GrooveAPIType, HingesOrHolesTypesType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {
@@ -11,12 +11,10 @@ import {
     cornerTypes, GlassAndMirrorTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
-    MaybeUndefined,
     ProductApiType, ProductOptionsType,
     productTypings
 } from "./productTypes";
 import {ledAlignmentType} from "../Components/Product/ProductLED";
-import {number} from "yup";
 
 export type CartAPI = {
     _id: string,
@@ -32,7 +30,7 @@ export type CartAPI = {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: ProductOptionsType[],
-    glass: MaybeUndefined<GlassAPIType>,
+    glass?: GlassAPIType,
     led?: CartLEDAPI,
     sink?: SinkAPIType
     custom?: CartCustomTypeAPI,
@@ -44,8 +42,8 @@ export type SinkAPIType = {
 }
 
 export type GlassAPIType = {
-    door: MaybeUndefined<string[]>,
-    shelf: MaybeEmpty<GlassAndMirrorTypes>,
+    door?: string[],
+    shelf?: GlassAndMirrorTypes,
 }
 
 export type CartLEDAPI = {
@@ -70,7 +68,7 @@ export interface CartOrder {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: string[],
-    glass: MaybeUndefined<GlassAPIType>,
+    glass?: GlassAPIType,
     led?: CartLEDAPI,
     note: string,
 }

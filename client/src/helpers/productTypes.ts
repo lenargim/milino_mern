@@ -438,7 +438,6 @@ export type ProductTableDataType = {
     middleSection: string,
     blindWidth: MaybeEmpty<number>,
     corner: MaybeEmpty<cornerTypes>,
-    // ledAlignment: MaybeEmpty<ledAlignmentType>,
     productPriceData: productDataToCalculatePriceType
     isBlind: boolean,
 }
