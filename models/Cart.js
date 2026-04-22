@@ -219,6 +219,10 @@ const CartSchema = new mongoose.Schema({
   hinge: {
     type: String,
   },
+  finish_sides: {
+    type: Array,
+    default: undefined
+  },
   options: {
     type: Array,
     default: [],

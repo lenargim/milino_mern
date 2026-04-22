@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
-    DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
+    DoorColorType, FinishSidesTypes, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined, MechanismType,
@@ -448,6 +448,21 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     const rolloutPrice = startPrice + drawerPrice;
     return custom.extra_rollouts*rolloutPrice;
+}
+
+export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, materialData:materialDataType):number => {
+    const calcMap: Record<string, number> = {
+        Left: (height * depth) / 144,
+        Right: (height * depth) / 144,
+        Bottom: (width * depth) / 144,
+    };
+
+    const sq = finish_sides.reduce((sum, side) => {
+        return sum + (calcMap[side] || 0);
+    }, 0);
+    console.log(getDoorPrice(sq, materialData))
+    console.log(materialData)
+    return getDoorPrice(sq, materialData)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1271,6 +1286,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         glass,
         custom,
         hinge,
+        finish_sides
     } = cart;
     const {
         drawer_brand,
@@ -1280,6 +1296,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         room_category,
         rod
     } = materialData;
+
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
@@ -1302,7 +1319,8 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
-        extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData)
+        extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, materialData) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {

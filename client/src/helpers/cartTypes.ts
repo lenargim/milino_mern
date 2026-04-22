@@ -8,7 +8,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {
     ClosetAccessoriesTypes,
-    cornerTypes, GlassAndMirrorTypes,
+    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     ProductApiType, ProductOptionsType,
@@ -30,6 +30,7 @@ export type CartAPI = {
     corner: MaybeEmpty<cornerTypes>,
     hinge: hingeTypes,
     options: ProductOptionsType[],
+    finish_sides?: FinishSidesTypes[],
     glass?: GlassAPIType,
     led?: CartLEDAPI,
     sink?: SinkAPIType

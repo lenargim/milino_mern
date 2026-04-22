@@ -29,7 +29,12 @@ import {
     hingeTypes,
     AttrWithoutDescType,
     materialsLimitsType,
-    CustomPartMaterialsArraySizeLimitsType, CustomTypes, ProductOptionsType, materialDataType, LEDType,
+    CustomPartMaterialsArraySizeLimitsType,
+    CustomTypes,
+    ProductOptionsType,
+    materialDataType,
+    LEDType,
+    FinishSidesTypes,
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -559,6 +564,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         depth,
         custom_depth,
         hinge_opening,
+        finish_sides,
         corner,
         options: chosenOptions,
         glass_door,
@@ -619,6 +625,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
         blind_width: realBlind,
         middle_section: realMiddle,
         hinge: hinge_opening,
+        finish_sides: finish_sides.length ? finish_sides : undefined,
         corner: corner,
         options: chosenOptions,
         glass: glassAPI,
@@ -1078,11 +1085,14 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
+const isWallCabinet = (category:productCategory):boolean => {
+    return ["Wall Cabinets", "Gola Wall Cabinets", "Standard Wall Cabinets"].includes(category)
+}
+
 export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category: productCategory): number => {
     if (!isAngle) return realWidth - blind_width;
     // 24 is a standard blind with for corner base cabinets; 13 for wall cabines
-    const isWallCab = category === 'Wall Cabinets' || category === 'Gola Wall Cabinets' || category === 'Standard Wall Cabinets';
-    const blindCorner = isWallCab ? 13.5 : 24;
+    const blindCorner = isWallCabinet(category) ? 13.5 : 24;
     const a = realWidth - blindCorner;
     if (a <= 0) return +(Math.sqrt(2 * Math.pow(realWidth, 2))).toFixed(2);
     switch (isAngle) {
@@ -1273,6 +1283,15 @@ export const isShowHingeBlock = (hingeArr: string[]): boolean => {
 
 export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
     return options.includes("Farm Sink")
+}
+
+export const isShowFinishSidesBlock = (category: productCategory): boolean => {
+    // return [].includes(category)
+    return true
+}
+
+export const getFinishSidesArr = (category: productCategory): FinishSidesTypes[] => {
+    return isWallCabinet(category) ? ["Left", "Right", "Bottom"] : ["Left", "Right"];
 }
 
 export const getSliderCategories = (room: RoomType): SliderCategoriesItemType => {
@@ -1560,6 +1579,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
             middle_section: middleSectionNumber,
             doors_amount: 0,
             hinge_opening: '',
+            finish_sides: [],
             corner: cornerTable,
             options: [],
             led: ledEmpty,
@@ -1589,7 +1609,8 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         options,
         custom,
         amount,
-        sink
+        sink,
+        finish_sides
     } = cartItemValues;
 
     const {customHeight, customDepth, category, isAngle, blindArr} = product;
@@ -1622,6 +1643,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         middle_section: middle_section,
         doors_amount: doors,
         hinge_opening: hinge,
+        finish_sides: finish_sides ?? [],
         corner,
         options,
         led: led ? {

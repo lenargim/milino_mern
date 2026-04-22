@@ -45,11 +45,12 @@ const ProductCabinet: FC<CabinetType> = ({
         glass_door: [door_profile, door_glass_type, door_glass_color],
         glass_shelf: shelf_glass_color,
         hinge_opening,
+        finish_sides,
         led,
         note,
         image_active_number,
         price,
-        custom
+        custom,
     } = values;
     const realWidth = width || +custom_width || 0;
     const realBlindWidth = +blind_width || +custom_blind_width || 0;
@@ -99,6 +100,7 @@ const ProductCabinet: FC<CabinetType> = ({
         middle_section: realMiddleSection,
         corner,
         hinge: hinge_opening,
+        finish_sides,
         options: chosenOptions,
         glass: {
             door: [door_profile, door_glass_type, door_glass_color],
