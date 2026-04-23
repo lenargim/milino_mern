@@ -1286,8 +1286,22 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
 }
 
 export const isShowFinishSidesBlock = (category: productCategory): boolean => {
-    // return [].includes(category)
-    return true
+    switch (category) {
+        case "Base Cabinets":
+        case "Wall Cabinets":
+        case "Tall Cabinets":
+        case "Gola Base Cabinets":
+        case "Gola Wall Cabinets":
+        case "Gola Tall Cabinets":
+        case "Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
+        case "Cabinet System Closet":
+        case "Build In":
+            return true;
+        default:
+            return false
+    }
 }
 
 export const getFinishSidesArr = (category: productCategory): FinishSidesTypes[] => {
