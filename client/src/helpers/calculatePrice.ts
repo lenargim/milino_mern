@@ -449,8 +449,8 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const rolloutPrice = startPrice + drawerPrice;
     return custom.extra_rollouts*rolloutPrice;
 }
-
-export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, materialData:materialDataType):number => {
+const isPositive = (n:number):boolean => n > 0;
+export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, door_price_multiplier:number):number => {
     const calcMap: Record<string, number> = {
         Left: (height * depth) / 144,
         Right: (height * depth) / 144,
@@ -460,9 +460,11 @@ export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:numbe
     const sq = finish_sides.reduce((sum, side) => {
         return sum + (calcMap[side] || 0);
     }, 0);
-    console.log(getDoorPrice(sq, materialData))
-    console.log(materialData)
-    return getDoorPrice(sq, materialData)
+
+    const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
+    console.log(`sq ${sq}`)
+    console.log(`multiplier ${m}`)
+    return +(sq*m).toFixed(1);
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1294,7 +1296,8 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         drawer_color,
         door_type,
         room_category,
-        rod
+        rod,
+        door_price_multiplier
     } = materialData;
 
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
@@ -1320,7 +1323,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
         extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
-        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, materialData) : 0
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_price_multiplier) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {
