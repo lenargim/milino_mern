@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import s from './profile.module.sass'
 
 const catalogs: CatalogItem[] = [
-    {label: 'Milino Regular Kitchen Catalog (03_2026)', link: 'd/1WLguo3HpjDCBs15kNW9B4tjyQZIFyUb5/view', img: 'Regular.jpg'},
+    {label: 'Milino Regular Kitchen Catalog (03_2026)', link: 'd/1Z-Wx60tO2gCgAHnuivFV9o9bgdkC6IBm/view', img: 'Regular.jpg'},
     {label: 'Milino Handleless Kitchen Catalog (03_2026)', link: 'd/1pSY3cd5D2R_0qYnkOECQ97JqlaLOVu23/view', img: 'Handle Less.jpg'},
     {label: 'Milino Standard White Shaker Catalog (03_2026)', link: 'd/1EtzSQj9xPw0ykqX9-CokZ_zu1dzVKQK9/view', img: 'Standard Shaker.jpg'},
     {label: 'Milino WALK IN Closets Catalog (03_2026)', link: 'd/1DHfsqlh1RlPiQcGF5BztV39aT4DzbYjV/view', img: 'WIC Closet.jpg'},
