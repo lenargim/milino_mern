@@ -1755,6 +1755,61 @@
     ]
   },
   {
+    "id": 55,
+    "name": "O2 Series",
+    "category": "Base Cabinets",
+    "product_type": "cabinet",
+    "legsHeight": 4.5,
+    "customHeight": 30,
+    "attributes": [
+      {
+        "name": "File Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "O3 Series",
+    "category": "Base Cabinets",
+    "product_type": "cabinet",
+    "legsHeight": 4.5,
+    "customHeight": 30,
+    "attributes": [
+      {
+        "name": "File Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers",
+      "Box from finish material"
+    ]
+  },
+  {
     "id": 101,
     "product_type": "cabinet",
     "name": "W Series",

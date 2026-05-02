@@ -126,8 +126,11 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(hinge_opening: hingeTypes): number {
-    const doorQty = checkDoors(hinge_opening)
+function addPTODoorsPrice(hinge_opening: hingeTypes, id:number): number {
+    let doorQty = checkDoors(hinge_opening);
+
+    // Stationary door qty
+    if ([105,108].includes(id)) doorQty = 1;
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
 
@@ -449,8 +452,8 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const rolloutPrice = startPrice + drawerPrice;
     return custom.extra_rollouts*rolloutPrice;
 }
-const isPositive = (n:number):boolean => n > 0;
-export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, door_price_multiplier:number):number => {
+// const isPositive = (n:number):boolean => n > 0;
+export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, door_finish_material:string):number => {
     const calcMap: Record<string, number> = {
         Left: (height * depth) / 144,
         Right: (height * depth) / 144,
@@ -461,10 +464,10 @@ export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:numbe
         return sum + (calcMap[side] || 0);
     }, 0);
 
-    const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
-    console.log(`sq ${sq}`)
-    console.log(`multiplier ${m}`)
-    return +(sq*m).toFixed(1);
+    // const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
+    const p = getPanelPrice(sq, door_finish_material)
+    console.log(`panel price ${p}`)
+    return p
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1295,9 +1298,9 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         drawer_type,
         drawer_color,
         door_type,
+        door_finish_material,
         room_category,
-        rod,
-        door_price_multiplier
+        rod
     } = materialData;
 
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
@@ -1309,7 +1312,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     return {
-        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge) : 0,
+        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
@@ -1323,7 +1326,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
         extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
-        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_price_multiplier) : 0
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_finish_material) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {

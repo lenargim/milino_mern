@@ -73,7 +73,7 @@ import {
     LEDAccessoriesType, PanelAccessoriesTypeAPI
 } from "./cartTypes";
 import {
-    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType,
+    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -967,11 +967,19 @@ export const getFrameWidthArr = (doors: doorType[], door_type: MaybeEmpty<DoorTy
     return frames.filter(el => !el.is_hide).map(el => ({...el, label: getFraction(+el.value)}));
 }
 
-export const getDoorColorsArr = (doorFinishMaterial: string, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
+export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, doorType: MaybeEmpty<DoorTypesType>, finishArr: finishType[]): colorType[] => {
     const isStandardDoor = findIsRoomStandard(doorType);
     if (isStandardDoor) return standardColors.colors as colorType[] || [];
     if (doorType === 'Custom Painted') return finishArr?.[0].colors || [];
-    return finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    const colors = finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    switch (doorFinishMaterial) {
+        case "Syncron":
+        case "Zenit":
+        case "Luxe":
+            return colors.sort((a, b) => a.value.localeCompare(b.value));
+        default:
+            return colors
+    }
 }
 
 export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], leatherBoxMaterialArr: U[]): (T | U)[] => {
@@ -1536,7 +1544,6 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
     const middleSection = middleSectionNumber ? getFraction(middleSectionNumber) : '';
     const blindWidth = blindArr ? blindArr[0] : '';
     const corner = isCornerChoose ? 'Left' : '';
-    // const ledAlignment = hasLedBlock ? 'Center' : '';
     const productPriceData = getProductDataToCalculatePrice(product, materials.drawer_brand);
     if (!sizeLimit || !tablePriceData || !productRange.widthRange.length) return undefined
     return {
