@@ -3,7 +3,7 @@ import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr, getProductFrontCustomVal,
-    getType
+    getType, resolveTypeByDimensions
 } from "../../helpers/calculatePrice";
 import {
     checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard
@@ -84,7 +84,8 @@ const ProductCabinet: FC<CabinetType> = ({
         if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
     }, [hingeArr, hinge_opening])
 
-    const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
+    // const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
+    const newType = resolveTypeByDimensions(attributes, realWidth, realHeight)
     const customVal = getProductFrontCustomVal(custom);
     const img = getProductImage(room, product, values);
     const cabinetItem: CartItemFrontType = {

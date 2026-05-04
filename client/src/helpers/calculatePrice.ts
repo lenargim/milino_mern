@@ -126,11 +126,11 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(hinge_opening: hingeTypes, id:number): number {
+function addPTODoorsPrice(hinge_opening: hingeTypes, id: number): number {
     let doorQty = checkDoors(hinge_opening);
 
     // Stationary door qty
-    if ([105,108].includes(id)) doorQty = 1;
+    if ([105, 108].includes(id)) doorQty = 1;
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
 
@@ -172,58 +172,125 @@ export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUnd
     return 0
 }
 
-export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
-    const filteredAttrs = getAttributesWithoutDesc(attributes)
-    const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values ?? [];
-    const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
-    if (!filteredAttrs.length || filteredAttrs[0].values.length < 2) return 1;
+// const filterAttrByDimension = (attrArr: MaybeUndefined<valueItemType[]>,width: number, height: number): MaybeUndefined<valueItemType[]> => {
+//     if (!attrArr) return undefined;
+//     if (!attrArr[0].type) return undefined;
+//
+//     const filter = attrArr.filter(val => {
+//         const isMaxWidth = val.maxWidth
+//         const isMinWidth = val.minWidth
+//         const isMaxHeight = val.maxHeight
+//         const isMinHeight = val.minHeight
+//
+//         if (isMaxWidth && isMaxWidth <= width) return false;
+//         if (isMinWidth && isMinWidth > width) return false;
+//         if (isMaxHeight && isMaxHeight <= height) return false;
+//         if (isMinHeight && isMinHeight > height) return false;
+//         return true
+//     })
+//     return filter;
+// }
 
-    switch (category) {
-        case 'Base Cabinets':
-        case "Vanities":
-        case "Floating Vanities":
-        case "Gola Floating Vanities":
-        case "Gola Base Cabinets":
-        case "Standard Base Cabinets":
-        case "Standard Vanities":
-        case "Standard Floating Vanities":
-            if (widthDivider) return width <= widthDivider ? 1 : 2;
-            const currentDoorType = doorValues.find(el => el.value === doors)?.type
-            return currentDoorType ?? 1;
-        case 'Wall Cabinets':
-        case 'Tall Cabinets':
-        case "Gola Wall Cabinets":
-        case "Gola Tall Cabinets":
-        case "Build In":
-        case "Leather":
-        case "Standard Wall Cabinets":
-        case "Standard Tall Cabinets":
-            if (!shelfValues) return 1;
-            const doorsArr = filterDoorArr(width, doorValues);
+export const resolveTypeByDimensions = (
+    attributes: AttrItemType[],
+    width: number,
+    height: number
+): productTypings => {
+    let common: Set<productTypings> | null = null;
 
-            const shelfsArr = shelfValues.filter(val => {
-                const isMaxWidth = val.maxWidth
-                const isMinWidth = val.minWidth
-                const isMaxHeight = val.maxHeight
-                const isMinHeight = val.minHeight
+    for (const attr of attributes) {
+        const filtered = (attr.values ?? []).filter(v => {
+            // ❗ value = 0 → не влияет
+            if (v.value === 0) return false;
 
-                if (isMaxWidth && isMaxWidth <= width) return false;
-                if (isMinWidth && isMinWidth > width) return false;
-                if (isMaxHeight && isMaxHeight <= height) return false;
-                if (isMinHeight && isMinHeight > height) return false;
-                return true
-            })
+            // max включительно
+            if (v.maxWidth !== undefined && width > v.maxWidth) return false;
+            if (v.maxHeight !== undefined && height >= v.maxHeight) return false;
 
-            let doorTypes = doorsArr.map(el => el.type);
-            const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
-            return currentType ? currentType.type : 1
+            // min строго
+            if (v.minWidth !== undefined && width <= v.minWidth) return false;
+            if (v.minHeight !== undefined && height < v.minHeight) return false;
 
-        default:
-            return 1
+            return true;
+        });
+
+        const types = filtered.map(v => v.type);
+
+        // 👉 если после фильтра ничего не осталось — атрибут не влияет
+        if (!types.length) continue;
+
+        const current = new Set(types);
+
+        if (common === null) {
+            common = current;
+            continue;
+        }
+
+        // пересечение
+        common = new Set([...common].filter(t => current.has(t)));
+
+        if (common.size === 0) return 1;
     }
+
+    return [...(common ?? [])][0] ?? 1;
+};
+
+export function getType(width: number, height: number, widthDivider: MaybeUndefined<number>, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
+    const filteredAttrs = getAttributesWithoutDesc(attributes)
+    if (!filteredAttrs.length) return 1;
+    // const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values;
+    // const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values;
+    // const trashBinValues = filteredAttrs.find(el => el.name === 'Trash Bin')?.values;
+    // const filterDimension = filteredAttrs.filter(el => !!filterAttrByDimension(el.values, width, height)).map(el => filterAttrByDimension(el.values, width, height));
+
+
+    return 1;
+    // switch (category) {
+    //     case 'Base Cabinets':
+    //     case "Vanities":
+    //     case "Floating Vanities":
+    //     case "Gola Floating Vanities":
+    //     case "Gola Base Cabinets":
+    //     case "Standard Base Cabinets":
+    //     case "Standard Vanities":
+    //     case "Standard Floating Vanities":
+    //         if (widthDivider) return width <= widthDivider ? 1 : 2;
+    //         const currentDoorType = doorValues.find(el => el.value === doors)?.type
+    //         return currentDoorType ?? 1;
+    //     case 'Wall Cabinets':
+    //     case 'Tall Cabinets':
+    //     case "Gola Wall Cabinets":
+    //     case "Gola Tall Cabinets":
+    //     case "Build In":
+    //     case "Leather":
+    //     case "Standard Wall Cabinets":
+    //     case "Standard Tall Cabinets":
+    //         if (!shelfValues.length) return 1;
+    //         const doorsArr = filterDoorArr(width, doorValues);
+    //
+    //         const shelfsArr = shelfValues.filter(val => {
+    //             const isMaxWidth = val.maxWidth
+    //             const isMinWidth = val.minWidth
+    //             const isMaxHeight = val.maxHeight
+    //             const isMinHeight = val.minHeight
+    //
+    //             if (isMaxWidth && isMaxWidth <= width) return false;
+    //             if (isMinWidth && isMinWidth > width) return false;
+    //             if (isMaxHeight && isMaxHeight <= height) return false;
+    //             if (isMinHeight && isMinHeight > height) return false;
+    //             return true
+    //         })
+    //
+    //         let doorTypes = doorsArr.map(el => el.type);
+    //         const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
+    //         return currentType ? currentType.type : 1
+    //
+    //     default:
+    //         return 1
+    // }
 }
 
-export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomTypeAPI> => {
+export const getProductFrontCustomVal = (custom: MaybeNull<ProductExtraType>): MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
         jewelery_inserts: custom.jewelery_inserts?.length ? custom.jewelery_inserts : undefined,
@@ -440,7 +507,7 @@ export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width
     return 3 * width * qty;
 }
 
-export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:CartAPI, materialData:materialDataType):number => {
+export const getExtraRolloutsPrice = (hasBlock: MaybeUndefined<boolean>, cart: CartAPI, materialData: materialDataType): number => {
     const {custom, width} = cart
     if (!hasBlock || !custom?.extra_rollouts) return 0;
     const {base_price_type, door_type, drawer_type, drawer_brand, drawer_color} = materialData
@@ -450,10 +517,10 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const startPrice = getStartPrice(tablePrice, materialData, [])
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     const rolloutPrice = startPrice + drawerPrice;
-    return custom.extra_rollouts*rolloutPrice;
+    return custom.extra_rollouts * rolloutPrice;
 }
 // const isPositive = (n:number):boolean => n > 0;
-export const getFinishSidesPrice = (finish_sides:FinishSidesTypes[], width:number, height: number, depth: number, door_finish_material:string):number => {
+export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, door_finish_material: string): number => {
     const calcMap: Record<string, number> = {
         Left: (height * depth) / 144,
         Right: (height * depth) / 144,
@@ -654,10 +721,14 @@ export const getBoxMaterialColorType = (color: string): BoxMaterialColorType => 
 
 export const getBoxMaterialCoefByColorType = (box_color_type: BoxMaterialColorType): number => {
     switch (box_color_type) {
-        case 1: return 1;
-        case 2: return 1.1
-        case 3: return 1.2
-        case 4: return 1.15
+        case 1:
+            return 1;
+        case 2:
+            return 1.1
+        case 3:
+            return 1.2
+        case 4:
+            return 1.15
     }
     return 1;
 }
@@ -866,29 +937,29 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
     return data.find(i => i.type === base_price_type)?.data || undefined
 }
 
-const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI, customPartPrice:number):number => {
+const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, customPartPrice: number): number => {
     const {id} = product
     const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
     const ledPrice = getLedPrice(width, height, led?.border)
     // Possible to add extra additions here
-    const additionsPrice = hingeHolesPrice+panelCutoutPrice+ledPrice;
+    const additionsPrice = hingeHolesPrice + panelCutoutPrice + ledPrice;
     return additionsPrice
 }
 
-const getHingeHolesPrice = (id: number, values:CartAPI):number => {
+const getHingeHolesPrice = (id: number, values: CartAPI): number => {
     if (!isHingeHolesBlock(id)) return 0;
     const {custom} = values;
     if (!custom || !custom.panel_accessories?.hinges_or_holes?.type) return 0;
-    return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32:12
+    return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32 : 12
 }
 
-const getPanelCutoutPrice = (id: number, values:CartAPI, custom_part_price:number):number => {
+const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: number): number => {
     if (!isPanelCutoutBlock(id)) return 0;
     const {custom} = values;
     if (!custom || !custom.panel_accessories?.cutout) return 0;
-    return custom_part_price/2
+    return custom_part_price / 2
 }
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
@@ -1128,7 +1199,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
             }
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
-            const finishedColorPrice = priceCustom*finishColorCoef;
+            const finishedColorPrice = priceCustom * finishColorCoef;
             const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
             price = +(finishedColorPrice + additions).toFixed(1);
             break;
@@ -1278,7 +1349,16 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
 }
 
 const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
-    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism, hasExtraRolloutsBlock} = product;
+    const {
+        legsHeight = 0,
+        horizontal_line = 2,
+        isAngle,
+        category,
+        id,
+        product_type,
+        hasMechanism,
+        hasExtraRolloutsBlock
+    } = product;
     const {
         options,
         width,
@@ -1477,10 +1557,10 @@ const getRoDrawerTablePrice = (width: number, basePriceType: pricesTypings, ro_d
     const prices = arr.find(el => el.type === basePriceType)?.prices;
     if (!prices) return 0;
     if (width < prices[0].width) return prices[0][ro_drawer];
-    const maxData = prices[prices.length -1];
+    const maxData = prices[prices.length - 1];
     if (width > maxData.width) {
         // size coef
-        const w_coef = 1+addWidthPriceCoef(width, maxData.width);
+        const w_coef = 1 + addWidthPriceCoef(width, maxData.width);
         return maxData[ro_drawer] * w_coef;
     }
     return prices.find((el, index) => el[ro_drawer] && (el.width >= width))?.[ro_drawer] || 0;

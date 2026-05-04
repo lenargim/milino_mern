@@ -20,8 +20,8 @@ const ProductLeft: FC<{ product: ProductType, materials: RoomMaterialsFormType, 
     return (
         <div className={s.left}>
             <h2>{name}</h2>
-            <div className={[s.img, s[imgSize]].join(' ')}><img src={img}
-                                                                alt={name}/>
+            <div className={[s.img, s[imgSize]].join(' ')}>
+                <img src={img} alt={name}/>
             </div>
             <ProductAttributes doors_amount={doors_amount} attributes={attributes} type={image_active_number}/>
             <Materials materials={materials}/>
