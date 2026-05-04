@@ -20,7 +20,7 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues}) => {
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
     const [room, materials] = useOutletContext<[RoomFront, RoomMaterialsFormType, boolean]>()
-    const {_id: room_id} = room;
+    const {_id: room_id, activeProductCategory} = room;
     const isRoomStandard = findIsRoomStandard(materials.door_type);
     const product_or_custom = getProductById(Number(productId), isRoomStandard);
     if (!product_or_custom) return <div>Product error</div>;
@@ -39,7 +39,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
         }
         case "cabinet":
         case "standard": {
-            const productData = getProductInitialTableData(product_or_custom as ProductType, materials);
+            const productData = getProductInitialTableData(product_or_custom as ProductType, materials, activeProductCategory);
             if (!productData) return <div>Cannot find product data</div>;
             const initialProductValues = getProductInitialFormValues(productData, cartItemValues, product_or_custom as ProductType);
             return <Product materials={materials}

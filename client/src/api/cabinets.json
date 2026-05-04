@@ -1118,6 +1118,7 @@
     "product_type": "cabinet",
     "name": "B1KD Series",
     "category": "Base Cabinets",
+    "extra_categories": ["Vanities","Floating Vanities"],
     "customHeight": 6,
     "attributes": [
       {

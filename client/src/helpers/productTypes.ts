@@ -106,6 +106,7 @@ export type ProductOptionsType =
 export interface ProductType extends BaseProduct {
     product_type: 'cabinet' | 'standard',
     category: productCategory,
+    extra_categories?: productCategory[],
     attributes: AttrItemType[],
     options: ProductOptionsType[],
     legsHeight?: number,

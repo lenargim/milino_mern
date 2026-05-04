@@ -218,14 +218,43 @@ export const getCartImagePath = (room: RoomNewType, product: ProductOrCustomType
     }
 }
 
+
+const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty<RoomCategoriesType> => {
+    switch (prod_cat) {
+        case "Base Cabinets":
+        case 'Wall Cabinets':
+        case 'Tall Cabinets':
+        case 'Gola Base Cabinets':
+        case 'Gola Wall Cabinets':
+        case 'Gola Tall Cabinets':
+        case 'Standard Base Cabinets':
+        case 'Standard Wall Cabinets':
+        case 'Standard Tall Cabinets':
+            return "Kitchen";
+        case "Vanities":
+        case "Floating Vanities":
+        case "Gola Floating Vanities":
+        case 'Standard Vanities':
+        case 'Standard Floating Vanities':
+            return "Vanity"
+        case "Build In":
+            return "Build In Closet"
+        case "Leather":
+            return "Leather Closet"
+        case "Cabinet System Closet":
+            return "Cabinet System Closet"
+    }
+    return ''
+}
+
 export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
         return getProductImg(`Custom Parts/${product.name}.jpg`);
     } else {
-        const {category: product_subcategory, name} = product
+        const {category: product_subcategory, name, extra_categories} = product
         const img_src = getProductImgSrc(name, hinge_type);
-        let category_folder = category;
+        let category_folder = extra_categories ? getRoomCategoryByProductCategory(product_subcategory) : category;
         let material_folder = '';
         switch (category) {
             case "Vanity": {
@@ -436,16 +465,13 @@ export const getProductOrCustomType = (id: MaybeUndefined<number>, isProductStan
     return products.find(product => product.product_type !== (isProductStandard ? "cabinet" : "standard"));
 }
 
-export const getProductsByCategory = (room_category: RoomCategoriesType, isStandardCabinet: boolean, category: productCategory): ProductType[] => {
-    let products = cabinets as ProductType[];
-    products = products.filter(el => el.category === category);
+export const getProductsByCategory = (isStandardCabinet: boolean, category: productCategory): ProductType[] => {
+    let products = cabinets.filter(el => el.product_type === 'cabinet' || el.product_type === 'standard') as ProductType[];
     if (isStandardCabinet) {
         const excludeInStandardShakerCabinets = [211, 309];
-        products = products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
+        return products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
-    return products
-
-
+    return products.filter(el => el.category === category || (el.extra_categories && el.extra_categories.includes(category)));
 }
 
 
@@ -604,7 +630,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     } : undefined
 
 
-    const customAPI:MaybeUndefined<CartCustomTypeAPI> = custom && !isEmptyOrZeroValue(custom) ? {
+    const customAPI: MaybeUndefined<CartCustomTypeAPI> = custom && !isEmptyOrZeroValue(custom) ? {
         accessories: custom.closet_accessories ? {
             closet: custom.closet_accessories
         } : undefined,
@@ -1093,7 +1119,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-const isWallCabinet = (category:productCategory):boolean => {
+const isWallCabinet = (category: productCategory): boolean => {
     return ["Wall Cabinets", "Gola Wall Cabinets", "Standard Wall Cabinets"].includes(category)
 }
 
@@ -1524,7 +1550,7 @@ async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType
 }
 
 
-export const getProductInitialTableData = (product: ProductType, materials: RoomMaterialsFormType): MaybeUndefined<ProductTableDataType> => {
+export const getProductInitialTableData = (product: ProductType, materials: RoomMaterialsFormType, activeCat:MaybeEmpty<productCategory>): MaybeUndefined<ProductTableDataType> => {
     const {
         id: product_id,
         category,
@@ -1538,7 +1564,7 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
     } = product
     const materialData = getMaterialData(materials, product_id);
     const tablePriceData = getProductPriceRange(product_id, materialData);
-    const productRange = getProductRange(tablePriceData, category as productCategory, customHeight, customDepth);
+    const productRange = getProductRange(tablePriceData, activeCat || category as productCategory, customHeight, customDepth);
     const sizeLimit = getSizeLimitsFromData(product_id, isAngle);
     const middleSectionNumber = middleSectionDefault ?? 0;
     const middleSection = middleSectionNumber ? getFraction(middleSectionNumber) : '';
@@ -1562,7 +1588,7 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
     }
 }
 
-export const ledEmpty:LEDType = {
+export const ledEmpty: LEDType = {
     border: [],
     alignment: '',
     indent_string: '',
@@ -1902,8 +1928,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     has_cutout: hasCutout,
                     width: panel_accessories?.cutout?.width,
                     height: panel_accessories?.cutout?.height,
-                    width_string: hasCutout ? getFraction(panel_accessories?.cutout?.width || 0):undefined,
-                    height_string: hasCutout ? getFraction(panel_accessories?.cutout?.height || 0):undefined
+                    width_string: hasCutout ? getFraction(panel_accessories?.cutout?.width || 0) : undefined,
+                    height_string: hasCutout ? getFraction(panel_accessories?.cutout?.height || 0) : undefined
                 },
             },
             led: ledBlock ? {

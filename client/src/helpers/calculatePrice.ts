@@ -501,7 +501,6 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
         })
         return [...new Set<number>(arr)];
     }
-
     switch (category) {
         case "Base Cabinets":
         case "Tall Cabinets":
