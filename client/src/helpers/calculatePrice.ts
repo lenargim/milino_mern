@@ -45,64 +45,126 @@ import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPane
 import {BoxMaterialType} from "./roomTypes";
 import {ta} from "date-fns/locale";
 
-export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
-    const maxData = priceData[priceData.length - 1];
-    const {width: maxDataWidth, price: maxDataPrice} = maxData
-    const {category} = product
-    switch (category) {
-        case 'Base Cabinets':
-        case "Vanities":
-        case "Floating Vanities":
-        case "Gola Floating Vanities":
-        case "Gola Base Cabinets":
-            // Round +1 inch to width
-            if (width > maxDataWidth + 1) return maxDataPrice;
-            const lastElIndex = priceData.length - 1;
-            return priceData.find((data_el, index, arr) => {
-                const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
-                let round_width = delta_with_next_width > 1 ? 1 : 0.95;
-                return data_el.width + round_width >= width
-            })?.price || 0
 
-        case 'Wall Cabinets':
-        case "Gola Wall Cabinets":
-        case 'Tall Cabinets':
-        case "Gola Tall Cabinets":
-        case "Build In":
-        case "Custom Parts":
-            const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
-            if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
-            if (!maxData.height) return 0;
-            if (width > maxData.width && height > maxData.height) return maxData.price;
-            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
-            if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
-            return 0;
-        case "Leather":
-        case "RTA Closets":
-        case "Cabinet System Closet":
-            if (!priceData[0]?.depth) {
-                const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
-                if (widthTablePrice) return widthTablePrice;
-                if (width > maxData.width) return maxData.price;
-                return 0;
-            }
-            const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
-            if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
-            if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
-            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
-            if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
-            return 0;
-        case "Standard Base Cabinets":
-        case "Standard Wall Cabinets":
-        case "Standard Tall Cabinets":
-        case "Standard Vanities":
-        case "Standard Floating Vanities":
-            const hasHeightDependency = priceData[0].height
-            if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
-            return priceData.find(el => el.width === width && el.height === height)?.price || 0;
-    }
-    return 0
+
+// собираем уникальные значения
+export const getAllowedValues = (data: pricePart[], key: keyof pricePart): number[] => {
+    return [...new Set(
+        data
+            .map(el => el[key])
+            .filter((v): v is number => typeof v === 'number')
+    )].sort((a, b) => a - b);
 };
+
+// логика округления
+const normalizeValue = (value: number, allowed: number[]): number => {
+    for (let i = 0; i < allowed.length; i++) {
+        const current = allowed[i];
+        const next = allowed[i + 1];
+
+        const delta = next ? next - current : Infinity;
+        const threshold = delta > 1 ? 1 : 0.95;
+        if (value < current + threshold) {
+            return current;
+        }
+    }
+    return allowed[allowed.length - 1];
+};
+
+
+export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[]): number => {
+    if (!priceData.length) return 0;
+
+    const hasHeight = priceData.some(el => el.height !== undefined);
+    const hasDepth = priceData.some(el => el.depth !== undefined);
+
+    const widths = getAllowedValues(priceData, 'width');
+    const heights = hasHeight ? getAllowedValues(priceData, 'height') : [];
+    const depths = hasDepth ? getAllowedValues(priceData, 'depth') : [];
+
+    const normWidth = normalizeValue(width, widths);
+
+    const normHeight =
+        hasHeight && height !== 0
+            ? normalizeValue(height, heights)
+            : undefined;
+
+    const normDepth =
+        hasDepth && depth !== 0
+            ? normalizeValue(depth, depths)
+            : undefined;
+
+    const found = priceData.find(el => {
+        if (el.width !== normWidth) return false;
+
+        if (hasHeight && height !== 0 && el.height !== normHeight) return false;
+        if (hasDepth && depth !== 0 && el.depth !== normDepth) return false;
+
+        return true;
+    });
+
+    return found?.price ?? 0;
+};
+
+// export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
+//     console.log(`${width} ${height} ${depth}`)
+//     const maxData = priceData[priceData.length - 1];
+//     const {width: maxDataWidth, price: maxDataPrice} = maxData
+//     const {category} = product
+//     switch (category) {
+//         case 'Base Cabinets':
+//         case "Vanities":
+//         case "Floating Vanities":
+//         case "Gola Floating Vanities":
+//         case "Gola Base Cabinets":
+//             // Round +1 inch to width
+//             if (width > maxDataWidth + 1) return maxDataPrice;
+//             const lastElIndex = priceData.length - 1;
+//             return priceData.find((data_el, index, arr) => {
+//                 const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
+//                 let round_width = delta_with_next_width > 1 ? 1 : 0.95;
+//                 return data_el.width + round_width >= width
+//             })?.price || 0
+//
+//         case 'Wall Cabinets':
+//         case "Gola Wall Cabinets":
+//         case 'Tall Cabinets':
+//         case "Gola Tall Cabinets":
+//         case "Build In":
+//         case "Custom Parts":
+//             const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
+//             if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
+//             if (!maxData.height) return 0;
+//             if (width > maxData.width && height > maxData.height) return maxData.price;
+//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
+//             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
+//             return 0;
+//         case "Leather":
+//         case "RTA Closets":
+//         case "Cabinet System Closet":
+//             if (!priceData[0]?.depth) {
+//                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
+//                 if (widthTablePrice) return widthTablePrice;
+//                 if (width > maxData.width) return maxData.price;
+//                 return 0;
+//             }
+//             const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
+//             if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
+//             if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
+//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
+//             if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
+//             return 0;
+//         case "Standard Base Cabinets":
+//         case "Standard Wall Cabinets":
+//         case "Standard Tall Cabinets":
+//         case "Standard Vanities":
+//         case "Standard Floating Vanities":
+//             const hasHeightDependency = priceData[0].height
+//             if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
+//             return priceData.find(el => el.width === width && el.height === height)?.price || 0;
+//     }
+//     return 0
+// };
 
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
@@ -532,41 +594,28 @@ export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: num
     }, 0);
 
     // const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
-    const p = getPanelPrice(sq, door_finish_material)
-    console.log(`panel price ${p}`)
-    return p
+    return getPanelPrice(sq, door_finish_material)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
     if (!priceData) return [];
-    const arr: number[] = priceData.map(el => el.width);
-    return [...new Set<number>(arr)];
+    // const arr: number[] = priceData.map(el => el.width);
+    // return [...new Set<number>(arr)];
+    return getAllowedValues(priceData, 'width')
 }
 
 export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category: productCategory, customHeight: MaybeUndefined<number>): number[] {
     if (customHeight) return [customHeight];
-    const isHeightData = priceData && priceData.find((el) => el.height)
-    if (isHeightData) {
-        let arr: number[] = []
-        priceData && priceData.forEach((el) => {
-            if (el.height) arr.push(el.height);
-            arr.sort((a, b) => a - b)
-        })
-        return [...new Set<number>(arr)];
+    if (priceData && priceData.find((el) => el.height)) {
+        return getAllowedValues(priceData, 'height')
     }
     return getCabinetHeightRangeBasedOnCategory(category)
 }
 
 function getDepthRange(priceData: pricePart[] | undefined, category: productCategory, customDepth: number | undefined): number[] {
     if (customDepth) return [customDepth];
-    const isDepthData = priceData && priceData.find((el) => el.depth);
-    if (isDepthData) {
-        let arr: number[] = []
-        priceData && priceData.forEach((el) => {
-            if (el.depth) arr.push(el.depth);
-            arr.sort((a, b) => a - b)
-        })
-        return [...new Set<number>(arr)];
+    if (priceData && priceData.find((el) => el.depth)) {
+        return getAllowedValues(priceData, 'depth')
     }
     switch (category) {
         case "Base Cabinets":
@@ -934,7 +983,7 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
         if (!minData || !maxData) return undefined;
         return minData.map((el, index) => ({...el, price: maxData[index].price * 2 - el.price}))
     }
-    return data.find(i => i.type === base_price_type)?.data || undefined
+    return data.find(i => i.type === base_price_type)?.data;
 }
 
 const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, customPartPrice: number): number => {
@@ -1324,7 +1373,7 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const {width, height, depth, options, hinge} = cabinetItem;
     const doors = checkDoors(hinge)
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
-    const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
+    const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
