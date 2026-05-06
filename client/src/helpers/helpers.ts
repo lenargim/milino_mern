@@ -465,13 +465,13 @@ export const getProductOrCustomType = (id: MaybeUndefined<number>, isProductStan
     return products.find(product => product.product_type !== (isProductStandard ? "cabinet" : "standard"));
 }
 
-export const getProductsByCategory = (isStandardCabinet: boolean, category: productCategory): ProductType[] => {
-    let products = cabinets.filter(el => el.product_type === 'cabinet' || el.product_type === 'standard') as ProductType[];
-    if (isStandardCabinet) {
+export const getProductsByCategory = (is_standard: boolean, category: productCategory): ProductType[] => {
+    const filtered_by_product_categories = cabinets.filter(el => el.category === category || (el.extra_categories && el.extra_categories.includes(category))) as ProductType[];
+    if (is_standard) {
         const excludeInStandardShakerCabinets = [211, 309];
-        return products.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
+        return filtered_by_product_categories.filter(el => el.product_type === 'standard' && !excludeInStandardShakerCabinets.includes(el.id));
     }
-    return products.filter(el => el.category === category || (el.extra_categories && el.extra_categories.includes(category)));
+    return filtered_by_product_categories.filter(el => el.product_type === 'cabinet');
 }
 
 

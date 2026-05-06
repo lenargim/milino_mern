@@ -3,7 +3,7 @@ import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr, getProductFrontCustomVal,
-    getType, resolveTypeByDimensions
+    resolveTypeByDimensions
 } from "../../helpers/calculatePrice";
 import {
     checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard

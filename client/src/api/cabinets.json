@@ -1128,11 +1128,11 @@
     "customHeight": 6,
     "attributes": [
       {
-        "name": "Floating Drawer Cabinet",
+        "name": "Knee Drawer",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
@@ -7376,11 +7376,11 @@
     "customHeight": 6,
     "attributes": [
       {
-        "name": "Floating Drawer Cabinet",
+        "name": "Knee Drawer",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
