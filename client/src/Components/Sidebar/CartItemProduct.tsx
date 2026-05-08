@@ -5,7 +5,7 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemChosenOptions from "./CartItemChosenOptions";
 import CartItemLED from "./CartItemLED";
 
-const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
+const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {
         middle_section,
         blind_width,
@@ -16,19 +16,20 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
         glass,
         isStandard,
         custom,
-        sink
+        sink,
+        finish_sides
     } = product;
     return (
         <>
             {blind_width ?
-                <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom:''].join(' ')}>
+                <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom : ''].join(' ')}>
                     <span>Blind Width:</span>
                     <span>{getFraction(blind_width)}"</span>
                 </div>
                 : null}
 
             {middle_section ?
-                <div className={[s.itemOption, !isStandard.middle ? s.itemOptionCustom:''].join(' ')}>
+                <div className={[s.itemOption, !isStandard.middle ? s.itemOptionCustom : ''].join(' ')}>
                     <span>Cutout Height:</span>
                     <span>{getFraction(middle_section)}"</span>
                 </div> : null
@@ -38,7 +39,11 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
                     <span>Hinge opening:</span>
                     <span>{hinge}</span>
                 </div> : null}
-            {led && <CartItemLED led={led} />}
+            {finish_sides?.length ? <div className={s.itemOption}>
+                <span>Finish Sides:</span>
+                <span>{finish_sides.join(', ')}</span>
+            </div> : null}
+            {led && <CartItemLED led={led}/>}
             {corner ?
                 <div className={s.itemOption}>
                     <span>Corner:</span>
@@ -47,15 +52,16 @@ const CartItemProduct: FC<{ product: CartItemFrontType}> = ({product}) => {
             }
             <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
             {
-                sink?.farm_height ? <div className={[s.itemOption, !isStandard.farm_sink ? s.itemOptionCustom:''].join(' ')}>
-                    <span>Sink Height:</span>
-                    <span>{getFraction(sink.farm_height)}"</span>
-                </div> : null
+                sink?.farm_height ?
+                    <div className={[s.itemOption, !isStandard.farm_sink ? s.itemOptionCustom : ''].join(' ')}>
+                        <span>Sink Height:</span>
+                        <span>{getFraction(sink.farm_height)}"</span>
+                    </div> : null
             }
             {
                 custom?.accessories?.closet ? <div className={s.itemOption}>
-                  <span>Closet Accessories:</span>
-                  <span>{custom.accessories.closet}</span>
+                    <span>Closet Accessories:</span>
+                    <span>{custom.accessories.closet}</span>
                 </div> : null
             }
             {

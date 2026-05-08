@@ -19,6 +19,7 @@ export type MaybeNull<T> = T | null;
 
 export const cornerArr = ["Left", "Right"] as const;
 export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two right doors', 'Single left door', 'Single right door', 'Four doors', ''] as const;
+export const finishSidesArr = ["Left", "Right", "Bottom"] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
 
@@ -27,6 +28,7 @@ export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsN
 
 export type cornerTypes = typeof cornerArr[number];
 export type hingeTypes = typeof hingeArr[number];
+export type FinishSidesTypes = typeof finishSidesArr[number];
 export type ClosetAccessoriesTypes = typeof closetAccessoriesNames[number];
 export type GlassAndMirrorTypes = typeof glassAndMirrorNames[number];
 
@@ -104,6 +106,7 @@ export type ProductOptionsType =
 export interface ProductType extends BaseProduct {
     product_type: 'cabinet' | 'standard',
     category: productCategory,
+    extra_categories?: productCategory[],
     attributes: AttrItemType[],
     options: ProductOptionsType[],
     legsHeight?: number,
@@ -377,7 +380,8 @@ export type AttributesPrices = {
     jeweleryInsertsPrice: number,
     mechanismPrice: number,
     rodPrice: number,
-    extra_rollouts: number
+    extra_rollouts: number,
+    finish_sides: number
 }
 
 export const jeweleryInsertsNames = ['Top Drawer', 'Second Drawer'] as const;
@@ -423,7 +427,8 @@ export type ProductFormType = {
     image_active_number: productTypings,
     custom: MaybeNull<ProductExtraType>,
     amount: number,
-    farm_sink_height_string: string
+    farm_sink_height_string: string,
+    finish_sides: FinishSidesTypes[]
 }
 
 
@@ -438,7 +443,6 @@ export type ProductTableDataType = {
     middleSection: string,
     blindWidth: MaybeEmpty<number>,
     corner: MaybeEmpty<cornerTypes>,
-    // ledAlignment: MaybeEmpty<ledAlignmentType>,
     productPriceData: productDataToCalculatePriceType
     isBlind: boolean,
 }

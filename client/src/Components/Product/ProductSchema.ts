@@ -1,6 +1,13 @@
 import * as Yup from 'yup';
 import settings from './../../api/settings.json'
-import {hingeArr, MaybeUndefined, ProductOptionsType, ProductType, sizeLimitsType} from "../../helpers/productTypes";
+import {
+    finishSidesArr,
+    hingeArr,
+    MaybeUndefined,
+    ProductOptionsType,
+    ProductType,
+    sizeLimitsType
+} from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
 import {numericQuantity} from 'numeric-quantity';
 import {getSchemaRootValues, testMinMaxCustomLimit} from "../../helpers/helpers";
@@ -69,6 +76,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             indent: Yup.number().nullable()
         }),
         hinge_opening: Yup.string().oneOf(hingeArr),
+        finish_sides: Yup.array().of(Yup.string().oneOf(finishSidesArr)),
         options: Yup.array().of(Yup.mixed<ProductOptionsType>()),
         glass_door: Yup.lazy((value, context) => {
             const options = context?.parent?.options ?? [];

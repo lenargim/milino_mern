@@ -3,7 +3,7 @@ import {CabinetType, ProductFormType} from "../../helpers/productTypes";
 import {
     calculateProduct,
     getDoorMinMaxValuesArr, getProductFrontCustomVal,
-    getType
+    resolveTypeByDimensions
 } from "../../helpers/calculatePrice";
 import {
     checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard
@@ -45,11 +45,12 @@ const ProductCabinet: FC<CabinetType> = ({
         glass_door: [door_profile, door_glass_type, door_glass_color],
         glass_shelf: shelf_glass_color,
         hinge_opening,
+        finish_sides,
         led,
         note,
         image_active_number,
         price,
-        custom
+        custom,
     } = values;
     const realWidth = width || +custom_width || 0;
     const realBlindWidth = +blind_width || +custom_blind_width || 0;
@@ -83,7 +84,8 @@ const ProductCabinet: FC<CabinetType> = ({
         if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
     }, [hingeArr, hinge_opening])
 
-    const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
+    // const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
+    const newType = resolveTypeByDimensions(attributes, realWidth, realHeight)
     const customVal = getProductFrontCustomVal(custom);
     const img = getProductImage(room, product, values);
     const cabinetItem: CartItemFrontType = {
@@ -99,10 +101,11 @@ const ProductCabinet: FC<CabinetType> = ({
         middle_section: realMiddleSection,
         corner,
         hinge: hinge_opening,
+        finish_sides,
         options: chosenOptions,
         glass: {
             door: [door_profile, door_glass_type, door_glass_color],
-            shelf: shelf_glass_color,
+            shelf: shelf_glass_color ? shelf_glass_color : undefined,
         },
         led: {
             border: led.border,

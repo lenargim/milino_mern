@@ -1,4 +1,5 @@
 import CartModel from './../models/Cart.js'
+import {cleanObject} from "../utils/helpers.js";
 
 export const getCart = async (req, res) => {
   try {
@@ -25,7 +26,8 @@ export const getCart = async (req, res) => {
 export const addToCart = async (req, res, next) => {
   try {
     const {_id, ...newCart} = req.body
-    const doc = new CartModel(newCart)
+    const cleanedCart = cleanObject(newCart);
+    const doc = new CartModel(cleanedCart)
     await doc.save();
     req.params.id = newCart.room_id;
     next();
@@ -110,9 +112,10 @@ export const updateCartAmount = async (req, res, next) => {
 export const updateCartItem = async (req, res, next) => {
   try {
     const cart = req.body;
+    const cleanedCart = cleanObject(cart);
 
     const doc = await CartModel.findByIdAndUpdate(cart._id,
-      cart, {
+      cleanedCart, {
         returnDocument: "after",
       })
 

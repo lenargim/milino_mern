@@ -17,7 +17,8 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
         options,
         glass,
         custom,
-        sink
+        sink,
+        finish_sides
     } = product;
 
     return (
@@ -36,6 +37,10 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
             {hinge ?
                 <View style={s.itemOption}>
                     <Text>Hinge opening: {hinge}</Text>
+                </View> : null}
+            {finish_sides?.length ?
+                <View style={s.itemOption}>
+                    <Text>Finish Sides: {finish_sides.join(', ')}</Text>
                 </View> : null}
             {led && <CartItemLED led={led} />}
             {corner ?

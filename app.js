@@ -9,7 +9,6 @@ import {
   UserController,
   PDFController,
   RoomController,
-  OrderController,
   AdminController,
   PurchaseOrderController,
   CartController
@@ -115,8 +114,6 @@ const start = async () => {
     app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.removeFromCart, CartController.getCart)
     app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.updateCartAmount, CartController.getCart)
     app.patch('/api/cart', checkAuth, CartController.updateCartItem, CartController.getCart)
-
-    app.post('/api/order/:roomId', checkAuth, OrderController.placeOrder)
 
     // Admin
     app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)

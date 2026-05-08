@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
-    DoorColorType, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
+    DoorColorType, FinishSidesTypes, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined, MechanismType,
@@ -45,64 +45,126 @@ import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPane
 import {BoxMaterialType} from "./roomTypes";
 import {ta} from "date-fns/locale";
 
-export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
-    const maxData = priceData[priceData.length - 1];
-    const {width: maxDataWidth, price: maxDataPrice} = maxData
-    const {category} = product
-    switch (category) {
-        case 'Base Cabinets':
-        case "Vanities":
-        case "Floating Vanities":
-        case "Gola Floating Vanities":
-        case "Gola Base Cabinets":
-            // Round +1 inch to width
-            if (width > maxDataWidth + 1) return maxDataPrice;
-            const lastElIndex = priceData.length - 1;
-            return priceData.find((data_el, index, arr) => {
-                const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
-                let round_width = delta_with_next_width > 1 ? 1 : 0.95;
-                return data_el.width + round_width >= width
-            })?.price || 0
 
-        case 'Wall Cabinets':
-        case "Gola Wall Cabinets":
-        case 'Tall Cabinets':
-        case "Gola Tall Cabinets":
-        case "Build In":
-        case "Custom Parts":
-            const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
-            if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
-            if (!maxData.height) return 0;
-            if (width > maxData.width && height > maxData.height) return maxData.price;
-            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
-            if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
-            return 0;
-        case "Leather":
-        case "RTA Closets":
-        case "Cabinet System Closet":
-            if (!priceData[0]?.depth) {
-                const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
-                if (widthTablePrice) return widthTablePrice;
-                if (width > maxData.width) return maxData.price;
-                return 0;
-            }
-            const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
-            if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
-            if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
-            if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
-            if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
-            return 0;
-        case "Standard Base Cabinets":
-        case "Standard Wall Cabinets":
-        case "Standard Tall Cabinets":
-        case "Standard Vanities":
-        case "Standard Floating Vanities":
-            const hasHeightDependency = priceData[0].height
-            if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
-            return priceData.find(el => el.width === width && el.height === height)?.price || 0;
-    }
-    return 0
+
+// собираем уникальные значения
+export const getAllowedValues = (data: pricePart[], key: keyof pricePart): number[] => {
+    return [...new Set(
+        data
+            .map(el => el[key])
+            .filter((v): v is number => typeof v === 'number')
+    )].sort((a, b) => a - b);
 };
+
+// логика округления
+const normalizeValue = (value: number, allowed: number[]): number => {
+    for (let i = 0; i < allowed.length; i++) {
+        const current = allowed[i];
+        const next = allowed[i + 1];
+
+        const delta = next ? next - current : Infinity;
+        const threshold = delta > 1 ? 1 : 0.95;
+        if (value < current + threshold) {
+            return current;
+        }
+    }
+    return allowed[allowed.length - 1];
+};
+
+
+export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[]): number => {
+    if (!priceData.length) return 0;
+
+    const hasHeight = priceData.some(el => el.height !== undefined);
+    const hasDepth = priceData.some(el => el.depth !== undefined);
+
+    const widths = getAllowedValues(priceData, 'width');
+    const heights = hasHeight ? getAllowedValues(priceData, 'height') : [];
+    const depths = hasDepth ? getAllowedValues(priceData, 'depth') : [];
+
+    const normWidth = normalizeValue(width, widths);
+
+    const normHeight =
+        hasHeight && height !== 0
+            ? normalizeValue(height, heights)
+            : undefined;
+
+    const normDepth =
+        hasDepth && depth !== 0
+            ? normalizeValue(depth, depths)
+            : undefined;
+
+    const found = priceData.find(el => {
+        if (el.width !== normWidth) return false;
+
+        if (hasHeight && height !== 0 && el.height !== normHeight) return false;
+        if (hasDepth && depth !== 0 && el.depth !== normDepth) return false;
+
+        return true;
+    });
+
+    return found?.price ?? 0;
+};
+
+// export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
+//     console.log(`${width} ${height} ${depth}`)
+//     const maxData = priceData[priceData.length - 1];
+//     const {width: maxDataWidth, price: maxDataPrice} = maxData
+//     const {category} = product
+//     switch (category) {
+//         case 'Base Cabinets':
+//         case "Vanities":
+//         case "Floating Vanities":
+//         case "Gola Floating Vanities":
+//         case "Gola Base Cabinets":
+//             // Round +1 inch to width
+//             if (width > maxDataWidth + 1) return maxDataPrice;
+//             const lastElIndex = priceData.length - 1;
+//             return priceData.find((data_el, index, arr) => {
+//                 const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
+//                 let round_width = delta_with_next_width > 1 ? 1 : 0.95;
+//                 return data_el.width + round_width >= width
+//             })?.price || 0
+//
+//         case 'Wall Cabinets':
+//         case "Gola Wall Cabinets":
+//         case 'Tall Cabinets':
+//         case "Gola Tall Cabinets":
+//         case "Build In":
+//         case "Custom Parts":
+//             const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
+//             if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
+//             if (!maxData.height) return 0;
+//             if (width > maxData.width && height > maxData.height) return maxData.price;
+//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
+//             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
+//             return 0;
+//         case "Leather":
+//         case "RTA Closets":
+//         case "Cabinet System Closet":
+//             if (!priceData[0]?.depth) {
+//                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
+//                 if (widthTablePrice) return widthTablePrice;
+//                 if (width > maxData.width) return maxData.price;
+//                 return 0;
+//             }
+//             const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
+//             if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
+//             if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
+//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
+//             if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
+//             return 0;
+//         case "Standard Base Cabinets":
+//         case "Standard Wall Cabinets":
+//         case "Standard Tall Cabinets":
+//         case "Standard Vanities":
+//         case "Standard Floating Vanities":
+//             const hasHeightDependency = priceData[0].height
+//             if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
+//             return priceData.find(el => el.width === width && el.height === height)?.price || 0;
+//     }
+//     return 0
+// };
 
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
@@ -126,8 +188,11 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(hinge_opening: hingeTypes): number {
-    const doorQty = checkDoors(hinge_opening)
+function addPTODoorsPrice(hinge_opening: hingeTypes, id: number): number {
+    let doorQty = checkDoors(hinge_opening);
+
+    // Stationary door qty
+    if ([105, 108].includes(id)) doorQty = 1;
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
 
@@ -169,61 +234,128 @@ export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUnd
     return 0
 }
 
-export function getType(width: number, height: number, widthDivider: number | undefined, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
-    const filteredAttrs = getAttributesWithoutDesc(attributes)
-    const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values ?? [];
-    const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values ?? [];
-    if (!filteredAttrs.length || filteredAttrs[0].values.length < 2) return 1;
+// const filterAttrByDimension = (attrArr: MaybeUndefined<valueItemType[]>,width: number, height: number): MaybeUndefined<valueItemType[]> => {
+//     if (!attrArr) return undefined;
+//     if (!attrArr[0].type) return undefined;
+//
+//     const filter = attrArr.filter(val => {
+//         const isMaxWidth = val.maxWidth
+//         const isMinWidth = val.minWidth
+//         const isMaxHeight = val.maxHeight
+//         const isMinHeight = val.minHeight
+//
+//         if (isMaxWidth && isMaxWidth <= width) return false;
+//         if (isMinWidth && isMinWidth > width) return false;
+//         if (isMaxHeight && isMaxHeight <= height) return false;
+//         if (isMinHeight && isMinHeight > height) return false;
+//         return true
+//     })
+//     return filter;
+// }
 
-    switch (category) {
-        case 'Base Cabinets':
-        case "Vanities":
-        case "Floating Vanities":
-        case "Gola Floating Vanities":
-        case "Gola Base Cabinets":
-        case "Standard Base Cabinets":
-        case "Standard Vanities":
-        case "Standard Floating Vanities":
-            if (widthDivider) return width <= widthDivider ? 1 : 2;
-            const currentDoorType = doorValues.find(el => el.value === doors)?.type
-            return currentDoorType ?? 1;
-        case 'Wall Cabinets':
-        case 'Tall Cabinets':
-        case "Gola Wall Cabinets":
-        case "Gola Tall Cabinets":
-        case "Build In":
-        case "Leather":
-        case "Standard Wall Cabinets":
-        case "Standard Tall Cabinets":
-            if (!shelfValues) return 1;
-            const doorsArr = filterDoorArr(width, doorValues);
+export const resolveTypeByDimensions = (
+    attributes: AttrItemType[],
+    width: number,
+    height: number
+): productTypings => {
+    let common: Set<productTypings> | null = null;
 
-            const shelfsArr = shelfValues.filter(val => {
-                const isMaxWidth = val.maxWidth
-                const isMinWidth = val.minWidth
-                const isMaxHeight = val.maxHeight
-                const isMinHeight = val.minHeight
+    for (const attr of attributes) {
+        const filtered = (attr.values ?? []).filter(v => {
+            // ❗ value = 0 → не влияет
+            if (v.value === 0) return false;
 
-                if (isMaxWidth && isMaxWidth <= width) return false;
-                if (isMinWidth && isMinWidth > width) return false;
-                if (isMaxHeight && isMaxHeight <= height) return false;
-                if (isMinHeight && isMinHeight > height) return false;
-                return true
-            })
+            // max включительно
+            if (v.maxWidth !== undefined && width > v.maxWidth) return false;
+            if (v.maxHeight !== undefined && height >= v.maxHeight) return false;
 
-            let doorTypes = doorsArr.map(el => el.type);
-            const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
-            return currentType ? currentType.type : 1
+            // min строго
+            if (v.minWidth !== undefined && width <= v.minWidth) return false;
+            if (v.minHeight !== undefined && height < v.minHeight) return false;
 
-        default:
-            return 1
+            return true;
+        });
+
+        const types = filtered.map(v => v.type);
+
+        // 👉 если после фильтра ничего не осталось — атрибут не влияет
+        if (!types.length) continue;
+
+        const current = new Set(types);
+
+        if (common === null) {
+            common = current;
+            continue;
+        }
+
+        // пересечение
+        common = new Set([...common].filter(t => current.has(t)));
+
+        if (common.size === 0) return 1;
     }
+
+    return [...(common ?? [])][0] ?? 1;
+};
+
+export function getType(width: number, height: number, widthDivider: MaybeUndefined<number>, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
+    const filteredAttrs = getAttributesWithoutDesc(attributes)
+    if (!filteredAttrs.length) return 1;
+    // const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values;
+    // const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values;
+    // const trashBinValues = filteredAttrs.find(el => el.name === 'Trash Bin')?.values;
+    // const filterDimension = filteredAttrs.filter(el => !!filterAttrByDimension(el.values, width, height)).map(el => filterAttrByDimension(el.values, width, height));
+
+
+    return 1;
+    // switch (category) {
+    //     case 'Base Cabinets':
+    //     case "Vanities":
+    //     case "Floating Vanities":
+    //     case "Gola Floating Vanities":
+    //     case "Gola Base Cabinets":
+    //     case "Standard Base Cabinets":
+    //     case "Standard Vanities":
+    //     case "Standard Floating Vanities":
+    //         if (widthDivider) return width <= widthDivider ? 1 : 2;
+    //         const currentDoorType = doorValues.find(el => el.value === doors)?.type
+    //         return currentDoorType ?? 1;
+    //     case 'Wall Cabinets':
+    //     case 'Tall Cabinets':
+    //     case "Gola Wall Cabinets":
+    //     case "Gola Tall Cabinets":
+    //     case "Build In":
+    //     case "Leather":
+    //     case "Standard Wall Cabinets":
+    //     case "Standard Tall Cabinets":
+    //         if (!shelfValues.length) return 1;
+    //         const doorsArr = filterDoorArr(width, doorValues);
+    //
+    //         const shelfsArr = shelfValues.filter(val => {
+    //             const isMaxWidth = val.maxWidth
+    //             const isMinWidth = val.minWidth
+    //             const isMaxHeight = val.maxHeight
+    //             const isMinHeight = val.minHeight
+    //
+    //             if (isMaxWidth && isMaxWidth <= width) return false;
+    //             if (isMinWidth && isMinWidth > width) return false;
+    //             if (isMaxHeight && isMaxHeight <= height) return false;
+    //             if (isMinHeight && isMinHeight > height) return false;
+    //             return true
+    //         })
+    //
+    //         let doorTypes = doorsArr.map(el => el.type);
+    //         const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
+    //         return currentType ? currentType.type : 1
+    //
+    //     default:
+    //         return 1
+    // }
 }
 
-export const getProductFrontCustomVal = (custom:MaybeNull<ProductExtraType>):MaybeUndefined<CartCustomTypeAPI> => {
+export const getProductFrontCustomVal = (custom: MaybeNull<ProductExtraType>): MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
-        jewelery_inserts: custom.jewelery_inserts,
+        jewelery_inserts: custom.jewelery_inserts?.length ? custom.jewelery_inserts : undefined,
         mechanism: custom.mechanism,
         extra_rollouts: custom.extra_rollouts
     } : undefined
@@ -437,7 +569,7 @@ export const getRodPrice = (room_category: MaybeEmpty<RoomCategoriesType>, width
     return 3 * width * qty;
 }
 
-export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:CartAPI, materialData:materialDataType):number => {
+export const getExtraRolloutsPrice = (hasBlock: MaybeUndefined<boolean>, cart: CartAPI, materialData: materialDataType): number => {
     const {custom, width} = cart
     if (!hasBlock || !custom?.extra_rollouts) return 0;
     const {base_price_type, door_type, drawer_type, drawer_brand, drawer_color} = materialData
@@ -447,41 +579,44 @@ export const getExtraRolloutsPrice = (hasBlock:MaybeUndefined<boolean>, cart:Car
     const startPrice = getStartPrice(tablePrice, materialData, [])
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     const rolloutPrice = startPrice + drawerPrice;
-    return custom.extra_rollouts*rolloutPrice;
+    return custom.extra_rollouts * rolloutPrice;
+}
+// const isPositive = (n:number):boolean => n > 0;
+export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, door_finish_material: string): number => {
+    const calcMap: Record<string, number> = {
+        Left: (height * depth) / 144,
+        Right: (height * depth) / 144,
+        Bottom: (width * depth) / 144,
+    };
+
+    const sq = finish_sides.reduce((sum, side) => {
+        return sum + (calcMap[side] || 0);
+    }, 0);
+
+    // const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
+    return getPanelPrice(sq, door_finish_material)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
     if (!priceData) return [];
-    const arr: number[] = priceData.map(el => el.width);
-    return [...new Set<number>(arr)];
+    // const arr: number[] = priceData.map(el => el.width);
+    // return [...new Set<number>(arr)];
+    return getAllowedValues(priceData, 'width')
 }
 
 export function getHeightRange(priceData: MaybeUndefined<pricePart[]>, category: productCategory, customHeight: MaybeUndefined<number>): number[] {
     if (customHeight) return [customHeight];
-    const isHeightData = priceData && priceData.find((el) => el.height)
-    if (isHeightData) {
-        let arr: number[] = []
-        priceData && priceData.forEach((el) => {
-            if (el.height) arr.push(el.height);
-            arr.sort((a, b) => a - b)
-        })
-        return [...new Set<number>(arr)];
+    if (priceData && priceData.find((el) => el.height)) {
+        return getAllowedValues(priceData, 'height')
     }
     return getCabinetHeightRangeBasedOnCategory(category)
 }
 
 function getDepthRange(priceData: pricePart[] | undefined, category: productCategory, customDepth: number | undefined): number[] {
     if (customDepth) return [customDepth];
-    const isDepthData = priceData && priceData.find((el) => el.depth);
-    if (isDepthData) {
-        let arr: number[] = []
-        priceData && priceData.forEach((el) => {
-            if (el.depth) arr.push(el.depth);
-            arr.sort((a, b) => a - b)
-        })
-        return [...new Set<number>(arr)];
+    if (priceData && priceData.find((el) => el.depth)) {
+        return getAllowedValues(priceData, 'depth')
     }
-
     switch (category) {
         case "Base Cabinets":
         case "Tall Cabinets":
@@ -635,10 +770,14 @@ export const getBoxMaterialColorType = (color: string): BoxMaterialColorType => 
 
 export const getBoxMaterialCoefByColorType = (box_color_type: BoxMaterialColorType): number => {
     switch (box_color_type) {
-        case 1: return 1;
-        case 2: return 1.1
-        case 3: return 1.2
-        case 4: return 1.15
+        case 1:
+            return 1;
+        case 2:
+            return 1.1
+        case 3:
+            return 1.2
+        case 4:
+            return 1.15
     }
     return 1;
 }
@@ -844,32 +983,32 @@ export const getProductPriceRange = (id: number, materialData: materialDataType)
         if (!minData || !maxData) return undefined;
         return minData.map((el, index) => ({...el, price: maxData[index].price * 2 - el.price}))
     }
-    return data.find(i => i.type === base_price_type)?.data || undefined
+    return data.find(i => i.type === base_price_type)?.data;
 }
 
-const getCustomPriceAdditions = (product: CustomPartType, values:CartAPI, customPartPrice:number):number => {
+const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, customPartPrice: number): number => {
     const {id} = product
     const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
     const ledPrice = getLedPrice(width, height, led?.border)
     // Possible to add extra additions here
-    const additionsPrice = hingeHolesPrice+panelCutoutPrice+ledPrice;
+    const additionsPrice = hingeHolesPrice + panelCutoutPrice + ledPrice;
     return additionsPrice
 }
 
-const getHingeHolesPrice = (id: number, values:CartAPI):number => {
+const getHingeHolesPrice = (id: number, values: CartAPI): number => {
     if (!isHingeHolesBlock(id)) return 0;
     const {custom} = values;
     if (!custom || !custom.panel_accessories?.hinges_or_holes?.type) return 0;
-    return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32:12
+    return custom.panel_accessories.hinges_or_holes.type === 'Hinges' ? 32 : 12
 }
 
-const getPanelCutoutPrice = (id: number, values:CartAPI, custom_part_price:number):number => {
+const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: number): number => {
     if (!isPanelCutoutBlock(id)) return 0;
     const {custom} = values;
     if (!custom || !custom.panel_accessories?.cutout) return 0;
-    return custom_part_price/2
+    return custom_part_price / 2
 }
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
@@ -1109,7 +1248,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
             }
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
-            const finishedColorPrice = priceCustom*finishColorCoef;
+            const finishedColorPrice = priceCustom * finishColorCoef;
             const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
             price = +(finishedColorPrice + additions).toFixed(1);
             break;
@@ -1234,7 +1373,7 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const {width, height, depth, options, hinge} = cabinetItem;
     const doors = checkDoors(hinge)
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
-    const tablePrice = getTablePrice(width, height, depth, tablePriceData, product);
+    const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
@@ -1259,7 +1398,16 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
 }
 
 const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
-    const {legsHeight = 0, horizontal_line = 2, isAngle, category, id, product_type, hasMechanism, hasExtraRolloutsBlock} = product;
+    const {
+        legsHeight = 0,
+        horizontal_line = 2,
+        isAngle,
+        category,
+        id,
+        product_type,
+        hasMechanism,
+        hasExtraRolloutsBlock
+    } = product;
     const {
         options,
         width,
@@ -1271,15 +1419,18 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         glass,
         custom,
         hinge,
+        finish_sides
     } = cart;
     const {
         drawer_brand,
         drawer_type,
         drawer_color,
         door_type,
+        door_finish_material,
         room_category,
         rod
     } = materialData;
+
     const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
@@ -1289,7 +1440,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     return {
-        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge) : 0,
+        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
@@ -1302,7 +1453,8 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
-        extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData)
+        extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_finish_material) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {
@@ -1454,10 +1606,10 @@ const getRoDrawerTablePrice = (width: number, basePriceType: pricesTypings, ro_d
     const prices = arr.find(el => el.type === basePriceType)?.prices;
     if (!prices) return 0;
     if (width < prices[0].width) return prices[0][ro_drawer];
-    const maxData = prices[prices.length -1];
+    const maxData = prices[prices.length - 1];
     if (width > maxData.width) {
         // size coef
-        const w_coef = 1+addWidthPriceCoef(width, maxData.width);
+        const w_coef = 1 + addWidthPriceCoef(width, maxData.width);
         return maxData[ro_drawer] * w_coef;
     }
     return prices.find((el, index) => el[ro_drawer] && (el.width >= width))?.[ro_drawer] || 0;

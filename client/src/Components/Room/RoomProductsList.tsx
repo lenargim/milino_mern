@@ -29,7 +29,7 @@ const RoomProductsList: FC<{ category_active: productCategory, room: RoomType, i
                 </div>
             )
         default:
-            const products = getProductsByCategory(room.category, isStandardCabinet, category_active );
+            const products = getProductsByCategory(isStandardCabinet, category_active );
             if (!products.length) return <div>Sorry, there are no products yet</div>;
             return (
                 <div className={s.list}>

@@ -190,6 +190,10 @@
           {
             "type": 1,
             "value": 1
+          },
+          {
+            "type": 2,
+            "value": 1
           }
         ]
       },
@@ -198,16 +202,18 @@
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 1,
+            "maxWidth": 18
           },
           {
             "type": 2,
-            "value": 2
+            "value": 2,
+            "minWidth": 18
           }
         ]
       }
     ],
-    "widthDivider": 15,
+
     "options": [
       "PTO for Trash Bins",
       "Box from finish material",
@@ -1118,14 +1124,15 @@
     "product_type": "cabinet",
     "name": "B1KD Series",
     "category": "Base Cabinets",
+    "extra_categories": ["Vanities","Floating Vanities"],
     "customHeight": 6,
     "attributes": [
       {
-        "name": "Floating Drawer Cabinet",
+        "name": "Knee Drawer",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
@@ -1751,6 +1758,61 @@
     "options": [
       "PTO for doors",
       "Glass Door",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 55,
+    "name": "O2 Series",
+    "category": "Base Cabinets",
+    "product_type": "cabinet",
+    "legsHeight": 4.5,
+    "customHeight": 30,
+    "attributes": [
+      {
+        "name": "File Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers",
+      "Box from finish material"
+    ]
+  },
+  {
+    "id": 56,
+    "name": "O3 Series",
+    "category": "Base Cabinets",
+    "product_type": "cabinet",
+    "legsHeight": 4.5,
+    "customHeight": 30,
+    "attributes": [
+      {
+        "name": "File Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Drawer",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for drawers",
       "Box from finish material"
     ]
   },
@@ -3914,6 +3976,81 @@
     ]
   },
   {
+    "id": 313,
+    "product_type": "cabinet",
+    "name": "WM Series",
+    "category": "Vanities",
+    "extra_categories": ["Floating Vanities"],
+    "customDepth": 6,
+    "attributes": [
+      {
+        "name": "Medicine cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minWidth": 24
+          },
+          {
+            "type": 3,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 4,
+            "value": 2,
+            "minWidth": 24
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "maxHeight": 42
+          },
+          {
+            "type": 3,
+            "value": 4,
+            "minHeight": 42
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minHeight": 42
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "Glass Shelf",
+      "Box from finish material"
+    ]
+  },
+  {
     "id": 307,
     "product_type": "cabinet",
     "name": "VF Series",
@@ -4313,6 +4450,82 @@
       "Box from finish material"
     ]
   },
+  {
+    "id": 327,
+    "product_type": "cabinet",
+    "name": "PWM Series",
+    "category": "Gola Floating Vanities",
+    "customDepth": 6,
+    "attributes": [
+      {
+        "name": "Medicine cabinet",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 2,
+            "value": 2,
+            "minWidth": 24
+          },
+          {
+            "type": 3,
+            "value": 1,
+            "maxWidth": 27
+          },
+          {
+            "type": 4,
+            "value": 2,
+            "minWidth": 24
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 3,
+            "maxHeight": 42
+          },
+          {
+            "type": 2,
+            "value": 3,
+            "maxHeight": 42
+          },
+          {
+            "type": 3,
+            "value": 4,
+            "minHeight": 42
+          },
+          {
+            "type": 4,
+            "value": 4,
+            "minHeight": 42
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door",
+      "Glass Shelf",
+      "Box from finish material"
+    ]
+  },
+
+
   {
     "id": 400,
     "product_type": "cabinet",
@@ -7163,11 +7376,11 @@
     "customHeight": 6,
     "attributes": [
       {
-        "name": "Floating Drawer Cabinet",
+        "name": "Knee Drawer",
         "values": [
           {
             "type": 1,
-            "value": 1
+            "value": 0
           }
         ]
       }
