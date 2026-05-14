@@ -1490,7 +1490,9 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     const converted = array_of_objects_with_name_field.map(el => {
         return el.name.trim().toLowerCase()
     });
-    return exclude ? converted.filter(el => textToLink(el) !== exclude) : converted
+    const excluded = exclude ? converted.filter(el => textToLink(el) !== exclude) : converted;
+    excluded.push('new')
+    return excluded;
 }
 
 export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {

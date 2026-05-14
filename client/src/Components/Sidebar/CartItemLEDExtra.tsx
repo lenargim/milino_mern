@@ -13,9 +13,12 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
         door_sensor_single,
         door_sensor_double
     } = led;
+    const hasAlumArr = alum_profiles && alum_profiles.length;
+    const hasGolaArr = gola_profiles && gola_profiles.length;
+
     return (
         <>
-            {alum_profiles.length ?
+            {hasAlumArr ?
                 <div className={s.itemOption}>
                     <span>LED Aluminum Profiles:</span>
                     <span>{alum_profiles.map((profile, index) =>
@@ -24,7 +27,7 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
                     )}</span>
                 </div>
                 : null}
-            {gola_profiles.length ?
+            {hasGolaArr ?
                 <div className={s.itemOption}>
                     <span>LED Gola Profiles:</span>
                     <span>{gola_profiles.map((profile, index) =>

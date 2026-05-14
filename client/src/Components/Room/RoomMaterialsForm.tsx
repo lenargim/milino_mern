@@ -43,9 +43,7 @@ import materialsAPI from "../../api/materials.json";
 import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
 import {
-    colorType, DoorTypesType,
     finishType,
-    materialsData,
     MaterialsType,
     RoomCategoriesType,
     RoomMaterialsFormType
