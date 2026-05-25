@@ -23,7 +23,7 @@ export const finishSidesArr = ["Left", "Right", "Bottom"] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
 
-export const CustomPartMaterialsNames = ["Milino", "Plywood", "Luxe", "Zenit", "Syncron", "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
+export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
 export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
 
 export type cornerTypes = typeof cornerArr[number];

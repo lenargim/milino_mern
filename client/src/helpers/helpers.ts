@@ -492,12 +492,17 @@ export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: 
 export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
     const isRoomStandard = findIsRoomStandard(materials.door_type);
-    const {door_finish_material, door_type} = materials
+    const {door_finish_material, door_type} = materials;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isRoomStandard)
     if (!filtered_materials_array) return null;
-    return filtered_materials_array.find(el => door_finish_material.includes(el.name))
-        ?? filtered_materials_array.find(el => door_type === el.name)
-        ?? filtered_materials_array[0];
+
+    const filteredName = filtered_materials_array.find(el => door_finish_material.includes(el.name) || door_type === el.name)
+    if (filteredName) return filteredName
+
+    if (door_type === "Custom Painted") return filtered_materials_array.find(el => el.name === "Painted") || null;
+    if (door_finish_material.includes('Ultrapan')) return filtered_materials_array.find(el => el.name === "Luxe") || null;
+
+    return filtered_materials_array[0];
 }
 
 export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<materialsCustomPart[]>, custom_part_id: number, is_standard: boolean): MaybeNull<materialsCustomPart[]> => {
@@ -2130,14 +2135,14 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         }
         case 910: {
             switch (material) {
-                case "Shaker Syncron":
-                case "Shaker Zenit":
-                case "Shaker Milino": {
+                case "Milino":
+                case "Syncron":
+                case "Luxe":
+                case "Zenit": {
                     return {width: [5, 108], height: [5, 108]}
                 }
-                case "Shaker Painted":
-                case "Shaker":
-                case "Shaker Veneer": {
+                case "Painted":
+                case "Wood Veneer": {
                     return {width: [5, 120], height: [5, 120]}
                 }
             }

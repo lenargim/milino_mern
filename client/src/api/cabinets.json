@@ -6122,27 +6122,27 @@
     "type": "panel",
     "materials_array": [
       {
-        "name": "Shaker Syncron",
+        "name": "Milino",
         "depth": 0.75
       },
       {
-        "name": "Shaker Zenit",
-        "depth": 0.75
-      },
-      {
-        "name": "Shaker Painted",
-        "depth": 0.875
-      },
-      {
-        "name": "Shaker Milino",
-        "depth": 0.75
-      },
-      {
-        "name": "Shaker",
+        "name": "Syncron",
         "depth": 1
       },
       {
-        "name": "Shaker Veneer",
+        "name": "Luxe",
+        "depth": 1
+      },
+      {
+        "name": "Zenit",
+        "depth": 0.75
+      },
+      {
+        "name": "Painted",
+        "depth": 0.875
+      },
+      {
+        "name": "Wood Veneer",
         "depth": 1
       }
     ]
@@ -6157,13 +6157,13 @@
         "name": "Milino"
       },
       {
+        "name": "Syncron"
+      },
+      {
         "name": "Luxe"
       },
       {
         "name": "Zenit"
-      },
-      {
-        "name": "Syncron"
       },
       {
         "name": "Ultrapan PET"

@@ -471,22 +471,18 @@ function getPanelPrice(square: number, door_finish_material: MaybeUndefined<stri
 function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefined<string>): number {
     switch (door_finish_material) {
         case "Milino":
-            return square * 36;
-        case "Shaker Syncron":
-        case "Shaker Milino":
             return square * 48;
         case "Luxe":
+        case "Syncron":
         case "Ultrapan PET":
             return square * 60;
         case "Ultrapan Acrylic":
             return square * 60 * 1.1;
-        case "Shaker Zenit":
+        case "Zenit":
             return square * 60 * 1.03;
-        case 'Shaker Painted':
+        case 'Painted':
             return square * 78;
-        case "Shaker":
-            return square * 60
-        case "Shaker Veneer":
+        case "Wood Veneer":
             return square * 96;
         default:
             return 0;
