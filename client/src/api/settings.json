@@ -341,6 +341,7 @@
     "gola_profiles": 5.5,
     "transformer_60_W": 40,
     "transformer_100_W": 50,
+    "transformer_dimmable_96_W": 260,
     "remote_control": 30,
     "door_sensor_single": 30,
     "door_sensor_double": 40

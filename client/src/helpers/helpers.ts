@@ -748,8 +748,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         const {
             alum_profiles,
             gola_profiles,
-            transformer_60_W,
             transformer_100_W,
+            transformer_dimmable_96_W,
             remote_control,
             door_sensor_single,
             door_sensor_double
@@ -767,7 +767,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
         if (alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.alum_profiles', alum_profiles_api);
         if (gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.gola_profiles', gola_profiles_api);
-        if (transformer_60_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_60_W', transformer_60_W);
+        if (transformer_dimmable_96_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_dimmable_96_W', transformer_dimmable_96_W);
         if (transformer_100_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_100_W', transformer_100_W);
         if (remote_control) forceSetPath(preparedProduct, 'custom.accessories.led.remote_control', remote_control);
         if (door_sensor_single) forceSetPath(preparedProduct, 'custom.accessories.led.door_sensor_single', door_sensor_single);
@@ -1236,8 +1236,8 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const {
         alum_profiles = [],
         gola_profiles = [],
-        transformer_60_W = 0,
         transformer_100_W = 0,
+        transformer_dimmable_96_W = 0,
         remote_control = 0,
         door_sensor_single = 0,
         door_sensor_double = 0,
@@ -1245,12 +1245,12 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const pricesAPI = settings.led_custom_part;
     const alumProfPrice = alum_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.alum_profiles * profile.qty), 0);
     const golaProfPrice = gola_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.gola_profiles * profile.qty), 0);
-    const transformer60Price = transformer_60_W * pricesAPI.transformer_60_W || 0;
+    const transformer96 = transformer_dimmable_96_W * pricesAPI.transformer_dimmable_96_W || 0;
     const transformer100Price = transformer_100_W * pricesAPI.transformer_100_W || 0;
     const remoteControlPrice = remote_control * pricesAPI.remote_control || 0;
     const doorSensorSinglePrice = door_sensor_single * pricesAPI.door_sensor_single || 0;
     const doorSensorDoublePrice = door_sensor_double * pricesAPI.door_sensor_double || 0;
-    return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
+    return alumProfPrice + golaProfPrice + transformer100Price + transformer96 +  remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
 export const isHingeHolesBlock = (id: number): boolean => {
@@ -1849,8 +1849,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 const {
                     alum_profiles,
                     gola_profiles,
-                    transformer_60_W,
                     transformer_100_W,
+                    transformer_dimmable_96_W,
                     remote_control,
                     door_sensor_single,
                     door_sensor_double
@@ -1867,8 +1867,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                         length: el.length,
                         color: el.color
                     })) : [],
-                    transformer_60_W: transformer_60_W ?? 0,
                     transformer_100_W: transformer_100_W ?? 0,
+                    transformer_dimmable_96_W: transformer_dimmable_96_W ?? 0,
                     door_sensor_double: door_sensor_double ?? 0,
                     door_sensor_single: door_sensor_single ?? 0,
                     remote_control: remote_control ?? 0

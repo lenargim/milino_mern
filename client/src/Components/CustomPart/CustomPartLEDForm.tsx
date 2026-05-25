@@ -12,8 +12,8 @@ import {LedAccessoriesFormType} from "../../helpers/productTypes";
 export const initialLEDAccessories:LedAccessoriesFormType = {
     alum_profiles: [],
     gola_profiles: [],
-    transformer_60_W: 0,
     transformer_100_W: 0,
+    transformer_dimmable_96_W: 0,
     remote_control: 0,
     door_sensor_single: 0,
     door_sensor_double: 0,
@@ -67,8 +67,8 @@ const CustomPartLEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <LEDNumberPart el={'led_accessories.transformer_60_W'} label="Transformer 60W"/>
-                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
+                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer"/>
+                <LEDNumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W"/>
                 <LEDNumberPart el={'led_accessories.remote_control'} label="Remote control"/>
                 <LEDNumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>
                 <LEDNumberPart el={'led_accessories.door_sensor_double'} label='Door sensor double'/>

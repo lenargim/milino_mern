@@ -130,8 +130,8 @@ export type CustomAccessoriesType = {
 export type LEDAccessoriesType = {
     alum_profiles: AlProfileType[],
     gola_profiles: golaProfileType[],
-    transformer_60_W: number,
     transformer_100_W: number,
+    transformer_dimmable_96_W: number,
     remote_control: number,
     door_sensor_single: number,
     door_sensor_double: number,

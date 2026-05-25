@@ -7,8 +7,8 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
     const {
         alum_profiles,
         gola_profiles,
-        transformer_60_W,
         transformer_100_W,
+        transformer_dimmable_96_W,
         remote_control,
         door_sensor_single,
         door_sensor_double
@@ -36,16 +36,16 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
                     )}</span>
                 </div>
                 : null}
-            {transformer_60_W ?
-                <div className={s.itemOption}>
-                    <span>Transformer 60W:</span>
-                    <span>{transformer_60_W}</span>
-                </div>
-                : null}
             {transformer_100_W ?
                 <div className={s.itemOption}>
-                    <span>Transformer 100W:</span>
+                    <span>Transformer:</span>
                     <span>{transformer_100_W}</span>
+                </div>
+                : null}
+            {transformer_dimmable_96_W ?
+                <div className={s.itemOption}>
+                    <span>Dimmable Transformer 96W:</span>
+                    <span>{transformer_dimmable_96_W}</span>
                 </div>
                 : null}
             {remote_control ?

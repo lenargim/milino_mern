@@ -77,8 +77,8 @@ const AccessoriesSchema = new mongoose.Schema({
         type: [GolaProfileSchema],
         default: undefined
       },
-      transformer_60_W: Number,
       transformer_100_W: Number,
+      transformer_dimmable_96_W: Number,
       remote_control: Number,
       door_sensor_single: Number,
       door_sensor_double: Number
