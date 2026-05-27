@@ -39,10 +39,11 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                     <span>Hinge opening:</span>
                     <span>{hinge}</span>
                 </div> : null}
-            {finish_sides?.length ? <div className={s.itemOption}>
-                <span>Finish Sides:</span>
-                <span>{finish_sides.join(', ')}</span>
-            </div> : null}
+            {finish_sides?.length ?
+                <div className={[s.itemOption, !isStandard.finish_sides ? s.itemOptionCustom : ''].join(' ')}>
+                    <span>Finish Sides:</span>
+                    <span>{finish_sides.join(', ')}</span>
+                </div> : null}
             {led && <CartItemLED led={led}/>}
             {corner ?
                 <div className={s.itemOption}>

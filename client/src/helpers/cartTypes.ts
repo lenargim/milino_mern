@@ -149,7 +149,8 @@ export type IsStandardOptionsType = {
     middle: boolean,
     led: boolean,
     options: boolean,
-    farm_sink: boolean
+    farm_sink: boolean,
+    finish_sides: boolean
 }
 
 export type IsStandardDimentionsType = {

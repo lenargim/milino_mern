@@ -24,13 +24,13 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
     return (
         <View>
             {blind_width ?
-                <View style={!isStandard.blind ? s.itemOptionCustom:s.itemOption}>
+                <View style={!isStandard.blind ? s.itemOptionCustom : s.itemOption}>
                     <Text>Blind Width: {getFraction(blind_width)}"</Text>
                 </View>
                 : null}
 
             {middle_section ?
-                <View style={!isStandard.middle ? s.itemOptionCustom:s.itemOption}>
+                <View style={!isStandard.middle ? s.itemOptionCustom : s.itemOption}>
                     <Text>Cutout Height: {getFraction(middle_section)}"</Text>
                 </View> : null
             }
@@ -39,20 +39,21 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                     <Text>Hinge opening: {hinge}</Text>
                 </View> : null}
             {finish_sides?.length ?
-                <View style={s.itemOption}>
+                <View style={!isStandard.finish_sides ? s.itemOptionCustom : s.itemOption}>
                     <Text>Finish Sides: {finish_sides.join(', ')}</Text>
                 </View> : null}
-            {led && <CartItemLED led={led} />}
+            {led && <CartItemLED led={led}/>}
             {corner ?
                 <View style={s.itemOption}>
                     <Text>Corner: {corner}</Text>
                 </View> : null
             }
-            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard} />
+            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
             {
-                sink?.farm_height ? <View style={!isStandard.farm_sink ? s.itemOptionCustom:s.itemOption}>
-                    <Text>Sink Height: {getFraction(sink.farm_height)}"</Text>
-                </View> : null
+                sink?.farm_height ?
+                    <View style={!isStandard.farm_sink ? s.itemOptionCustom : s.itemOption}>
+                        <Text>Sink Height: {getFraction(sink.farm_height)}"</Text>
+                    </View> : null
             }
             {
                 custom?.accessories?.closet ? <View style={s.itemOption}>

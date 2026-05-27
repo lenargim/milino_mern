@@ -569,7 +569,9 @@ export const checkOptionsSelected = (options: string[]): boolean => {
 export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
     return !led?.length
 }
-
+export const checkFinishedSidesStandard = (sides:MaybeUndefined<FinishSidesTypes[]>):boolean => {
+    return !(sides && sides.length)
+}
 export function isEmptyOrZeroValue(value: any): boolean {
     if (value === undefined || value === null) return true;
     if (value === "") return true;
@@ -1189,7 +1191,7 @@ export const isStandardProductOptions = (product_or_custom: ProductType | Custom
             middleSectionDefault,
             farm_sink_height
         } = product_or_custom
-        const {width, height, depth, blind_width, sink, led, options, middle_section, product_id} = item
+        const {width, height, depth, blind_width, sink, led, options, middle_section, product_id, finish_sides} = item
         const tablePriceData = getProductPriceRange(product_id, materialData);
         const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
         return {
@@ -1198,7 +1200,8 @@ export const isStandardProductOptions = (product_or_custom: ProductType | Custom
             led: checkLedSelected(led?.border),
             options: checkOptionsSelected(options),
             middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
-            farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
+            farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height),
+            finish_sides: checkFinishedSidesStandard(finish_sides)
         }
     }
 }
@@ -1228,7 +1231,8 @@ export const setAllProductFieldIsStandard = (): IsStandardOptionsType => {
         blind: true,
         middle: true,
         options: true,
-        farm_sink: true
+        farm_sink: true,
+        finish_sides: true
     }
 }
 
