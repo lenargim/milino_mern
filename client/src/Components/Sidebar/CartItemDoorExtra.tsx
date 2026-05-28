@@ -9,9 +9,14 @@ const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessor
     if (!door) return null;
     const front = splitFrontDoorAccessories(door);
     const {aventos, PTO, hinge, servo} = front;
+
+    const hasAventos = aventos && aventos.length;
+    const hasPTO = PTO && PTO.length;
+    const hasHinge = hinge && hinge.length
+    const hasServo = servo && servo.length
     return (
         <>
-            {aventos.length ? <span className={s.part}>
+            {hasAventos ? <span className={s.part}>
                 <span>Aventos:</span>
                 {aventos.map((el, index) =>
                     <span className={s.itemOption} key={index}>
@@ -20,7 +25,7 @@ const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessor
                 )}
             </span> : null}
 
-            {hinge.length ? <span className={s.part}>
+            {hasHinge ? <span className={s.part}>
                 <span>Hinge:</span>
                 {hinge.map((el, index) =>
                     <span className={s.itemOption} key={index}>
@@ -29,7 +34,7 @@ const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessor
                 )}
             </span> : null}
 
-            {PTO.length ? <span className={s.part}>
+            {hasPTO ? <span className={s.part}>
                 <span>Push to Open:</span>
                 {PTO.map((el, index) =>
                     <span className={s.itemOption} key={index}>
@@ -38,7 +43,7 @@ const CartItemDoorExtra: FC<{ accessories: CustomAccessoriesType }> = ({accessor
                 )}
             </span> : null}
 
-            {servo.length ? <span className={s.part}>
+            {hasServo ? <span className={s.part}>
                 <span>Servo System:</span>
                 {servo.map((el, index) =>
                     <span className={s.itemOption} key={index}>

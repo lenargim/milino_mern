@@ -14,17 +14,18 @@ import CartItemDrawerInserts from "./CartItemDrawerInserts";
 import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
+import CartItemLED from "./CartItemLED";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
-    const {subcategory, product_id, custom, width} = product;
+    const {subcategory, product_id, custom, width, glass, led} = product;
     if (!custom) return null;
     const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>
         case 'glass-shelf':
-            return <View><CartItemShelfExtra product={product}/></View>
+            return <View><CartItemShelfExtra glass={glass}/></View>
         case 'pvc':
             return <View><CartItemPVCExtra product={product}/></View>
         case 'door-accessories': {
@@ -37,13 +38,13 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
         }
         case 'standard-doors':
         case 'standard-glass-doors':
-            if (!standard_doors) return null;
+            if (!standard_doors?.length) return null;
             return <View><CartItemDoor standard_doors={standard_doors}/></View>
         case 'standard-panel':
             if (!standard_panels) return null;
             return <View><CartItemPanel standard_panels={standard_panels} prod_id={product_id}/></View>
         case 'rta-closets':
-            if (!rta_closet) return null
+            if (!rta_closet?.length) return null
             return <View><CartItemRTAClosetCustom rta_closet={rta_closet}/></View>
         case 'drawer-inserts':
             if (!drawer_accessories?.inserts) return null;
@@ -71,6 +72,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                       </View>
                     </View>
                 }
+                {led && <CartItemLED led={led} />}
                 {<CartItemPanelAccessories panel_accessories={panel_accessories} />}
             </View>
     }

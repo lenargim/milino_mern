@@ -16,14 +16,14 @@ import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
 
 const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
-    const {subcategory, product_id, custom, width, led} = product;
+    const {subcategory, product_id, custom, width, led, glass} = product;
     if (!custom) return null;
     const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product}/>
         case 'glass-shelf':
-            return <CartItemShelfExtra product={product}/>
+            return <CartItemShelfExtra glass={glass}/>
         case 'pvc':
             return <CartItemPVCExtra product={product}/>
         case 'door-accessories':
@@ -34,13 +34,13 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
             return <CartItemLEDExtra led={accessories.led}/>
         case 'standard-doors':
         case 'standard-glass-doors':
-            if (!standard_doors) return null;
+            if (!standard_doors?.length) return null;
             return <CartItemDoor standard_doors={standard_doors}/>
         case 'standard-panel':
             if (!standard_panels) return null;
             return <CartItemPanel standard_panels={standard_panels} prod_id={product_id}/>
         case 'rta-closets':
-            if (!rta_closet) return null
+            if (!rta_closet?.length) return null
             return <CartItemRTAClosetCustom rta_closet={rta_closet}/>
         case 'drawer-inserts':
             if (!drawer_accessories?.inserts) return null;

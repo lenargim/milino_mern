@@ -14,11 +14,16 @@ const CartItemPanel: FC<{ standard_panels: PanelsFormAPIType, prod_id: number }>
         const apiPanelData = standardProductsPrices.find(el => el.id === prod_id) as priceStandardPanel;
         if (!apiPanelData) return null;
         const {standard_panel, shape_panel, wtk, crown_molding} = standard_panels;
-        const {standard_panel: standard_panelAPI, shape_panel: shape_panelAPI, wtk: wtkAPI} = apiPanelData
+        const {standard_panel: standard_panelAPI, shape_panel: shape_panelAPI, wtk: wtkAPI} = apiPanelData;
+
+    const hasStandardPanel = standard_panel && standard_panel.length;
+    const hasShapedPanel = shape_panel && shape_panel.length;
+    const hasWTK = wtk && wtk.length;
+
         return (
             <View style={s.blocks}>
                 <View>
-                    {standard_panel.length ?
+                    {hasStandardPanel ?
                         <View>
                             <Text style={s.itemOptionBold}>Standard Panel:</Text>
                             {standard_panel.map((el, index) => {
@@ -36,7 +41,7 @@ const CartItemPanel: FC<{ standard_panels: PanelsFormAPIType, prod_id: number }>
                     }
                 </View>
                 <View>
-                    {shape_panel.length ?
+                    {hasShapedPanel ?
                         <View>
                             <Text style={s.itemOptionBold}>L-Shape Panel:</Text>
                             {shape_panel.map((el, index) => {
@@ -54,7 +59,7 @@ const CartItemPanel: FC<{ standard_panels: PanelsFormAPIType, prod_id: number }>
                     }
                 </View>
                 <View>
-                    {wtk.length ?
+                    {hasWTK ?
                         <View>
                             <Text style={s.itemOptionBold}>WTK:</Text>
                             {wtk.map((el, index) => {
