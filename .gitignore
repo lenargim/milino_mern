@@ -8,3 +8,4 @@ client/build/
 /uploads/
 .DS_Store
 client/.env
+client/.env.development

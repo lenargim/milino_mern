@@ -8,19 +8,15 @@ const CartItemRTAClosetCustom: FC<{ rta_closet: RTAClosetAPIType[] }> = ({rta_cl
         return (
             <View style={s.blocks}>
                 <View>
-                    {rta_closet.length ?
-                        <View>
-                            <Text style={s.itemOptionBold}>RTA Closet additional parts:</Text>
-                            {rta_closet.map((el, index) => {
-                                if (!el.name) return null;
-                                return (
-                                    <View key={index} style={s.itemOption}>
-                                        <Text>{el.name}</Text>
-                                        <Text>Width: {el.width}. Amount: {el.qty}</Text>
-                                    </View>)
-                            })
-                            }
-                        </View> : null
+                    <Text style={s.itemOptionBold}>RTA Closet additional parts:</Text>
+                    {rta_closet.map((el, index) => {
+                        if (!el.name) return null;
+                        return (
+                            <View key={index} style={s.itemOption}>
+                                <Text>{el.name}</Text>
+                                <Text>Width: {el.width}. Amount: {el.qty}</Text>
+                            </View>)
+                    })
                     }
                 </View>
             </View>
