@@ -5525,6 +5525,121 @@
     "options": ["PTO for drawers"]
   },
   {
+    "id": 507,
+    "product_type": "cabinet",
+    "name": "SDC Series",
+    "category": "RTA Closets",
+    "isCornerChoose": true,
+
+    "attributes": [
+      {
+        "name": "Corner Double Hanging",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": ["Box from finish material","Glass Shelf"]
+  },
+  {
+    "id": 508,
+    "product_type": "cabinet",
+    "name": "SLC Series",
+    "category": "RTA Closets",
+    "attributes": [
+      {
+        "name": "Corner Long Hanging",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Hanging rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": ["Box from finish material","Glass Shelf"],
+    "isCornerChoose": true
+  },
+  {
+    "id": 509,
+    "product_type": "cabinet",
+    "name": "SSC Series",
+    "category": "RTA Closets",
+    "attributes": [
+      {
+        "name": "Corner Shelves",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 7
+          }
+        ]
+      },
+      {
+        "name": "Fixed Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": ["Box from finish material","Glass Shelf"],
+    "isCornerChoose": true
+  },
+  {
     "id": 600,
     "product_type": "cabinet",
     "name": "IDH Series",
@@ -5778,6 +5893,84 @@
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
+        "desc": true
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 6
+          }
+        ]
+      }
+    ],
+    "options": ["Glass Shelf"]
+  },
+  {
+    "id": 610,
+    "product_type": "cabinet",
+    "name": "IDB Series",
+    "category": "Cabinet System Closet",
+    "isBlind": true,
+    "attributes": [
+      {
+        "name": "Blind Corner Double Hanging",
+        "desc": true
+      },
+      {
+        "name": "Hanging rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      }
+    ],
+    "options": []
+  },
+  {
+    "id": 611,
+    "product_type": "cabinet",
+    "name": "ILB Series",
+    "category": "Cabinet System Closet",
+    "isBlind": true,
+    "attributes": [
+      {
+        "name": "Blind Corner Long Hanging",
+        "desc": true
+      },
+      {
+        "name": "Hanging rod",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Adjustable Shelf",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "options": ["Glass Shelf"]
+  },
+  {
+    "id": 612,
+    "product_type": "cabinet",
+    "name": "ISB Series",
+    "category": "Cabinet System Closet",
+    "isBlind": true,
+    "attributes": [
+      {
+        "name": "Blind Corner Adjustable Shelves",
         "desc": true
       },
       {
