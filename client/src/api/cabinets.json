@@ -6325,7 +6325,7 @@
   {
     "id": 929,
     "product_type": "custom",
-    "name": "Extra RO: Drawer",
+    "name": "Extra RO/Drawer",
     "type": "ro_drawer",
     "width_range": [24,27,30,33,36]
   },
