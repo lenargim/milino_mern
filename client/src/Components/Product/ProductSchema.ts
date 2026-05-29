@@ -133,8 +133,8 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     .test('limit', (val, context) => testMinMax(val, context,'width')),
             }),
         custom_blind_width_string: Yup.string()
-            .when(['isBlind', 'blind_width'], {
-                is: (isBlind: boolean, blindWidth: number) => isBlind && blindWidth === 0,
+            .when('blind_width', {
+                is: (blindWidth: number) => isBlind && blindWidth === 0,
                 then: (schema) => schema
                     .required('Please write down blind width')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
