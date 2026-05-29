@@ -3,7 +3,7 @@
     "Profile": [
       {
         "value": "Wood Shaker",
-        "type": 1
+        "type": 4
       },
       {
         "value": "1021 Black",
@@ -195,6 +195,11 @@
         "id": 3,
         "minPrice": 300,
         "multiplier": 120
+      },
+      {
+        "id": 4,
+        "minPrice": 200,
+        "multiplier": 80
       }
     ]
   },
