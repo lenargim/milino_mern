@@ -220,7 +220,8 @@
     "Tall Cabinets": 27,
     "Gola Tall Cabinets": 27,
     "Standard Tall Cabinets": 27,
-    "Build In": 27
+    "Build In": 27,
+    "Cabinet System Closet": 20
   },
   "blindDoor": [9,27],
   "angleDoor": [9,27],

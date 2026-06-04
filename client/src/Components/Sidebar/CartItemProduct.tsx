@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {getFraction} from "../../helpers/helpers";
+import {getFraction, hasSideWidth} from "../../helpers/helpers";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemChosenOptions from "./CartItemChosenOptions";
 import CartItemLED from "./CartItemLED";
@@ -17,13 +17,15 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
         isStandard,
         custom,
         sink,
-        finish_sides
+        finish_sides,
+        product_id
     } = product;
+    const blindOrSideWidthLabel = hasSideWidth(product_id) ? `Side Width`: `Blind Width`;
     return (
         <>
             {blind_width ?
                 <div className={[s.itemOption, !isStandard.blind ? s.itemOptionCustom : ''].join(' ')}>
-                    <span>Blind Width:</span>
+                    <span>{blindOrSideWidthLabel}:</span>
                     <span>{getFraction(blind_width)}"</span>
                 </div>
                 : null}

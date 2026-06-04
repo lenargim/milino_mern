@@ -373,6 +373,11 @@ export const getFraction = (numberFraction: number): string => {
     return new Fraction(numberFraction).simplify(0.001).toFraction(true);
 }
 
+export const hasSideWidth = (id:number):boolean => {
+    //RTA Cabinets
+    return [507,508,509].includes(id)
+}
+
 function getBlindArr(category: string, product_id: number, isBlind: boolean): MaybeUndefined<number[]> {
     if (!isBlind) return undefined;
     type rangeType = {
@@ -385,6 +390,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     // Base Cabinet Exceptions
     const baseProductExceptionsArr: number[] = [23, 24, 25, 26, 51, 52];
     if (baseProductExceptionsArr.includes(product_id)) return [24, 0];
+    if (hasSideWidth(product_id)) return [14,18,22, 0];
     return range[category] ? [range[category], 0] : [0];
 }
 
@@ -444,11 +450,11 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
         case "cabinet":
         case "standard": {
             const product = product_or_custom as ProductType;
-            const {category, isBlind = false} = product;
+            const {category, isBlind = false, hasCornerSideWidth = false} = product;
             return {
                 ...product,
                 hasLedBlock: isHasLedBlock(category),
-                blindArr: getBlindArr(category, product.id, isBlind),
+                blindArr: getBlindArr(category, product.id, isBlind || hasCornerSideWidth),
             }
         }
         case "custom": {
@@ -1311,7 +1317,8 @@ export const getdimensionsRow = (width: number, height: number, depth: number): 
     return `${widthPart}${heightPart}${depthPart}`
 }
 
-export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType): boolean => {
+export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType, hasCornerSideWidth:MaybeUndefined<boolean>): boolean => {
+    if (hasCornerSideWidth) return false
     return (!(product_type === 'standard' || !blindArr || !blindArr.length));
 }
 
@@ -1345,6 +1352,10 @@ export const isShowFinishSidesBlock = (category: productCategory): boolean => {
         default:
             return false
     }
+}
+
+export const isShowCornerSideWidthBlock = (hasCornerSideWidth:MaybeUndefined<boolean>):boolean => {
+    return !!hasCornerSideWidth
 }
 
 export const getFinishSidesArr = (category: productCategory): FinishSidesTypes[] => {

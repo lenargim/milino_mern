@@ -15,7 +15,7 @@ import ProductCornerBlock from "./ProductCornerBlock";
 import {
     getFinishSidesArr,
     getHeightRange,
-    isShowBlindWidthBlock, isShowFarmSinkBlock, isShowFinishSidesBlock, isShowHingeBlock,
+    isShowBlindWidthBlock, isShowCornerSideWidthBlock, isShowFarmSinkBlock, isShowFinishSidesBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
 import ProductLED from "./ProductLED";
@@ -26,6 +26,7 @@ import ProductMechanism from "./ProductMechanism";
 import ProductFarmSink from "./ProductFarmSink";
 import ProductExtraRolloutsBlock from "./ProductExtraRolloutsBlock";
 import ProductFinishSidesBlock from "./ProductFinishSidesBlock";
+import ProductCornerSideWidthBlock from "./ProductCornerSideWidthBlock";
 
 export type CabinetFormType = {
     product: ProductType,
@@ -53,7 +54,8 @@ const ProductLayout: FC<CabinetFormType> = ({
         customHeight,
         attributes,
         farm_sink_height,
-        hasExtraRolloutsBlock
+        hasExtraRolloutsBlock,
+        hasCornerSideWidth
     } = product;
     const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
     const {cartId} = useParams();
@@ -72,11 +74,12 @@ const ProductLayout: FC<CabinetFormType> = ({
     const widthRangeWithCustom = product_type === "standard" ? widthRange : widthRange.concat([0]);
     const heightRangeWithCustom = getHeightRange(heightRange, product_type === "standard", width, tablePriceData, category, customHeight)
     const depthRangeWithCustom = depthRange.concat([0]);
-    const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type)
+    const showBlindWidthBlock = isShowBlindWidthBlock(blindArr, product_type, hasCornerSideWidth)
     const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
     const showHingeBlock = isShowHingeBlock(hingeArr);
     const showFarmSinkBlock = isShowFarmSinkBlock(options);
     const showFinishSidesBlock = isShowFinishSidesBlock(category)
+    const showCornerSideWidth = isShowCornerSideWidthBlock(hasCornerSideWidth)
     const finishSidesArr = getFinishSidesArr(category)
     return (
         <Form>
@@ -135,6 +138,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             {showHingeBlock ? <ProductHingeBlock hingeArr={hingeArr}/> : null}
             {showFinishSidesBlock ? <ProductFinishSidesBlock arr={finishSidesArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
+            {showCornerSideWidth ? <ProductCornerSideWidthBlock arr={blindArr} blind_width={blind_width}/> : null}
             {hasLedBlock ? <ProductLED  /> : null}
             {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}

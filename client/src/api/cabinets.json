@@ -5530,7 +5530,7 @@
     "name": "SDC Series",
     "category": "RTA Closets",
     "isCornerChoose": true,
-
+    "hasCornerSideWidth": true,
     "attributes": [
       {
         "name": "Corner Double Hanging",
@@ -5571,6 +5571,8 @@
     "product_type": "cabinet",
     "name": "SLC Series",
     "category": "RTA Closets",
+    "isCornerChoose": true,
+    "hasCornerSideWidth": true,
     "attributes": [
       {
         "name": "Corner Long Hanging",
@@ -5604,14 +5606,15 @@
         ]
       }
     ],
-    "options": ["Box from finish material","Glass Shelf"],
-    "isCornerChoose": true
+    "options": ["Box from finish material","Glass Shelf"]
   },
   {
     "id": 509,
     "product_type": "cabinet",
     "name": "SSC Series",
     "category": "RTA Closets",
+    "isCornerChoose": true,
+    "hasCornerSideWidth": true,
     "attributes": [
       {
         "name": "Corner Shelves",
@@ -5636,8 +5639,7 @@
         ]
       }
     ],
-    "options": ["Box from finish material","Glass Shelf"],
-    "isCornerChoose": true
+    "options": ["Box from finish material","Glass Shelf"]
   },
   {
     "id": 600,

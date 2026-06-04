@@ -127,6 +127,7 @@ export interface ProductType extends BaseProduct {
     hasJeweleryBlock?: boolean,
     hasMechanism?: MechanismType,
     hasExtraRolloutsBlock?: boolean,
+    hasCornerSideWidth?:boolean,
     farm_sink_height?: number
 
 }

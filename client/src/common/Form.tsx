@@ -64,7 +64,7 @@ interface ProductRadioInterfaceNumber extends InputInterface {
 interface ProductDimensionRadioCustomInterface extends InputInterface {
     value: null | number,
     nullable?: boolean,
-    label?: string
+    label_custom?: string
 }
 
 interface ProductOptionsRadioInterface extends InputInterface {
@@ -241,17 +241,21 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
                                                                                       name,
                                                                                       value,
                                                                                       className,
-                                                                                      nullable = false
+                                                                                      nullable = false,
+                                                                                      label_custom
                                                                                   }) => {
-    const labelName = name.replace('_', ' ')
-    const [, , helpers] = useField(name)
-    const labelCustom = nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
-
+    const [, , helpers] = useField(name);
+    const getCustomLabel = (): string => {
+        // nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
+        const labelName = name.replace('_', ' ')
+        if (nullable || !value) return label_custom || `Custom ${labelName}`;
+        return getFraction(value);
+    }
+    const labelCustom = getCustomLabel();
 
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
-
 
     return (
         <div className={[className, styles.productRadio].join(' ')}>
@@ -282,9 +286,11 @@ export const ProductRadioInput: FC<ProductRadioInterface> = ({name, value, class
 
 export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, value, className}) => {
     const [, , helpers] = useField(name)
+
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
+
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
@@ -444,7 +450,7 @@ export const AdditionalEmailsArray: FC<{ additional_emails: string[], errors: Ma
                                 />
                             )}
                             {typeErrorIsString &&
-                            <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
+                                <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
                         </div>
                         : null
                     }

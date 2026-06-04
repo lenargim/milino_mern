@@ -16,7 +16,7 @@ export const borderOptions = ['Sides', 'Top', 'Bottom'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
-    const {isAngle, product_type, middleSectionDefault, isBlind} = product
+    const {isAngle, product_type, middleSectionDefault, isBlind, hasCornerSideWidth} = product
     const blindDoorMinMax = settings.blindDoor;
 
     const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, dimension: 'width' | 'height' | 'depth') => {
@@ -31,16 +31,38 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
         return true;
     }
 
-    const getMaxIndent = (context:TestContext<AnyObject>) => {
+    const getMaxIndent = (context: TestContext<AnyObject>) => {
         const root = getSchemaRootValues(context);
-        return (root['depth'] || root['custom_depth'])-1;
+        return (root['depth'] || root['custom_depth']) - 1;
     }
+
+
+    const getBlindLimits = (fullWidth: number) => {
+        if (isAngle) {
+            const angleCoef = Math.cos(45);
+            return {
+                min: Math.floor(fullWidth - blindDoorMinMax[1] * angleCoef),
+                max: Math.floor(fullWidth - blindDoorMinMax[0] * angleCoef),
+            };
+        }
+        if (hasCornerSideWidth) {
+            return {
+                min: 0,
+                max: 99
+            }
+        }
+
+        return {
+            min: fullWidth - blindDoorMinMax[1],
+            max: fullWidth - blindDoorMinMax[0],
+        };
+    };
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
         blind_width: Yup.number()
             .test("isRequired", "Blind width is a required field", (val, {parent}) => {
-                if (isBlind) return !!val || parent.custom_blind_width
+                if (isBlind || hasCornerSideWidth) return !!val || parent.custom_blind_width
                 return true;
             }),
         height: Yup.number().required(),
@@ -50,7 +72,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down depth')
-                    .test('limit', (val, context) => testMinMax(val, context,'depth')),
+                    .test('limit', (val, context) => testMinMax(val, context, 'depth')),
 
             }),
         custom_depth: Yup.number().nullable(),
@@ -71,7 +93,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         .required('Required')
                         .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
 
-                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, getMaxIndent(context))),
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 1, getMaxIndent(context))),
                 }),
             indent: Yup.number().nullable()
         }),
@@ -130,49 +152,49 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down width')
-                    .test('limit', (val, context) => testMinMax(val, context,'width')),
+                    .test('limit', (val, context) => testMinMax(val, context, 'width')),
             }),
         custom_blind_width_string: Yup.string()
             .when('blind_width', {
-                is: (blindWidth: number) => isBlind && blindWidth === 0,
+                is: (blindWidth: number) => (isBlind || hasCornerSideWidth) && blindWidth === 0,
                 then: (schema) => schema
                     .required('Please write down blind width')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                    .test(
-                        "is-min",
-                        `Width is too small`,
-                        (val: any, {parent}) => {
-                            const numberVal = numericQuantity(val);
-                            const fullWidth = parent['width'] || parent['custom_width'];
-                            if (isAngle) {
-                                const maxCorner = blindDoorMinMax[1] * Math.cos(45);
-                                return numberVal >= Math.floor(fullWidth - maxCorner)
-                            } else {
-                                return numberVal >= fullWidth - blindDoorMinMax[1]
-                            }
-                        }
-                    )
-                    .test(
-                        "is-max",
-                        `Width is too big`,
-                        (val: any, {parent}) => {
-                            const numberVal = numericQuantity(val);
-                            const fullWidth = parent['width'] || parent['custom_width'];
+                    .test('min-max', function (val, context){
+                        const {parent, createError} = context;
+                        const cabinet_width = parent.width || parent.custom_width;
+                        const numberVal = numericQuantity(val)
+                        let min = 0;
+                        let max = Infinity;
+                        if (isBlind) {
                             if (isAngle) {
                                 const minCorner = blindDoorMinMax[0] * Math.cos(45);
-                                return numberVal <= Math.floor(fullWidth - minCorner)
+                                const maxCorner = blindDoorMinMax[1] * Math.cos(45);
+                                min = Math.floor(cabinet_width - maxCorner);
+                                max = Math.floor(cabinet_width - minCorner);
                             } else {
-                                return numberVal <= (fullWidth - blindDoorMinMax[0])
+                                min = cabinet_width - blindDoorMinMax[1];
+                                max = cabinet_width - blindDoorMinMax[0];
                             }
+
                         }
-                    )
+                        if (hasCornerSideWidth) {
+                            /// Unknown
+                            min = 5;
+                            max = cabinet_width
+                        }
+
+                        if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
+                        if (numberVal > max) return context.createError({message: `Maximum ${max} inches`});
+                        return true;
+                    })
             }),
         custom_height_string: Yup.string()
             .when('height', {
                 is: 0,
                 then: (schema) => schema
                     .required('Please write down height')
-                    .test('limit', (val, context) => testMinMax(val, context,'height')),
+                    .test('limit', (val, context) => testMinMax(val, context, 'height')),
             }),
         middle_section_string: Yup.string()
             .when([], {
@@ -196,7 +218,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                 is: (opts: ProductOptionsType[]) => opts.includes('Farm Sink'),
                 then: (schema) => schema
                     .required("Farm Sink height is required")
-                    .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, 999)),
+                    .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 1, 999)),
             })
 
     })

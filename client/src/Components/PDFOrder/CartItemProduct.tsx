@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
-import {getFraction} from "../../helpers/helpers";
+import {getFraction, hasSideWidth} from "../../helpers/helpers";
 import {s} from "./PDFOrder";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemLED from "./CartItemLED";
@@ -18,14 +18,15 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
         glass,
         custom,
         sink,
-        finish_sides
+        finish_sides,
+        product_id
     } = product;
-
+    const blindOrSideWidthLabel = hasSideWidth(product_id) ? `Side Width`: `Blind Width`;
     return (
         <View>
             {blind_width ?
                 <View style={!isStandard.blind ? s.itemOptionCustom : s.itemOption}>
-                    <Text>Blind Width: {getFraction(blind_width)}"</Text>
+                    <Text>{blindOrSideWidthLabel}: {getFraction(blind_width)}"</Text>
                 </View>
                 : null}
 
