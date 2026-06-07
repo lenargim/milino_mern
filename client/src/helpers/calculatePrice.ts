@@ -520,8 +520,8 @@ function getDrawerPrice(qty: number, width: number, door_type: string, drawerBra
                 case 'Same as Box Material':
                     return qty * 55;
                 case 'Legrabox':
-                    if (drawerColor === 'Orion Gray') return qty * 150;
-                    if (drawerColor === 'Stainless Steel') return qty * 200;
+                    if (drawerColor === 'Orion Gray') return qty * 170;
+                    if (drawerColor === 'Stainless Steel') return qty * 220;
                     break;
                 case 'Dovetail':
                     if (drawerColor === 'Maple') return qty * (width * 2 + 65);

@@ -6812,7 +6812,7 @@
         },
         {
           "name": "Kessebohmer",
-          "price": 320
+          "price": 400
         }
       ]
     }
@@ -7320,11 +7320,11 @@
       "attributes": [
         {
           "name": "Rev-A-Shelf",
-          "price": 140
+          "price": 180
         },
         {
           "name": "Kessebohmer",
-          "price": 500
+          "price": 730
         }
       ]
     }
@@ -7417,11 +7417,11 @@
       "attributes": [
         {
           "name": "Rev-A-Shelf",
-          "price": 140
+          "price": 180
         },
         {
           "name": "Kessebohmer",
-          "price": 500
+          "price": 730
         }
       ]
     }
