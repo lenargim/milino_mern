@@ -202,20 +202,14 @@
         "values": [
           {
             "type": 1,
-            "value": 1,
-            "maxWidth": 18
-          },
-          {
-            "type": 2,
-            "value": 2,
-            "minWidth": 18
+            "value": 1
           }
         ]
       }
     ],
 
     "options": [
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Box from finish material",
       "Glass Door"
     ]
@@ -251,10 +245,6 @@
           {
             "type": 1,
             "value": 1
-          },
-          {
-            "type": 2,
-            "value": 2
           }
         ]
       }
@@ -262,7 +252,7 @@
     "widthDivider": 15,
     "options": [
       "PTO for drawers",
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Box from finish material",
       "Glass Door"
     ]
@@ -1321,17 +1311,13 @@
           {
             "type": 1,
             "value": 1
-          },
-          {
-            "type": 2,
-            "value": 2
           }
         ]
       }
     ],
     "widthDivider": 15,
     "options": [
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Box from finish material",
       "Glass Door"
     ]
@@ -1373,7 +1359,7 @@
     ],
     "widthDivider": 15,
     "options": [
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Box from finish material",
       "Glass Door"
     ]
@@ -6714,16 +6700,12 @@
           {
             "type": 1,
             "value": 1
-          },
-          {
-            "type": 2,
-            "value": 2
           }
         ]
       }
     ],
     "options": [
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Glass Door"
     ]
   },
@@ -6759,17 +6741,13 @@
           {
             "type": 1,
             "value": 1
-          },
-          {
-            "type": 2,
-            "value": 2
           }
         ]
       }
     ],
     "options": [
       "PTO for drawers",
-      "PTO for Trash Bins",
+      "Servo-Drive",
       "Glass Door"
     ]
   },

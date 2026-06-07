@@ -40,7 +40,8 @@ export interface DoorAccessoryType extends DoorAccessoryAPIType {
     id: number,
     label: string,
     filter: FilterAccessory,
-    price: number
+    price: number,
+    deleted?: boolean
 }
 
 export type GrooveAPIType = {

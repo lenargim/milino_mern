@@ -96,7 +96,7 @@ interface BaseProduct {
 export type ProductOptionsType =
     "PTO for drawers"
     | "PTO for doors"
-    | "PTO for Trash Bins"
+    | "Servo-Drive"
     | "Box from finish material"
     | "Glass Door"
     | "Glass Shelf"

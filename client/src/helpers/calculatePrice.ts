@@ -201,7 +201,7 @@ export function addPTODrawerPrice(prodType: productTypings, drawersQty: number):
 }
 
 export function addPTOTrashBinsPrice(): number {
-    return settings.fixPrices['PTO for trash bins'] || 0
+    return settings.fixPrices['Servo-Drive'] || 0
 }
 
 export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<string>, is_standard: boolean, hasGlassDoor: boolean): number {
@@ -1087,8 +1087,6 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 case 903:
                 case 904: {
                     const ledPrice = getLedPrice(width, height, led);
-                    console.log(led)
-                    console.log(ledPrice)
                     priceCustom = getPanelPrice(area, material) + ledPrice;
                     break;
                 }
@@ -1443,7 +1441,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
-        ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
+        ptoTrashBins: options.includes('Servo-Drive') ? addPTOTrashBinsPrice() : 0,
         ledPrice: getLedPrice(width, height, led),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),
         doorPrice: getDoorPrice(frontSquare, materialData),

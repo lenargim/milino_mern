@@ -206,7 +206,7 @@
   "fixPrices": {
     "PTO for doors": 30,
     "PTO for drawers": 80,
-    "PTO for trash bins": 350,
+    "Servo-Drive": 1000,
     "plastic_toe": 91,
     "clear_coat": 21.5
   },
