@@ -13,9 +13,9 @@ import {
 import {getCustomPartSchema} from "./CustomPartSchema";
 import s from "../Product/product.module.sass";
 import CustomPartLeft from "./CustomPartLeft";
+import CustomPartRight from "./CustomPartRight";
 import {DoorType} from "./CustomPartStandardDoorForm";
 import {PanelsFormType} from "./CustomPartStandardPanel";
-import CustomPartRight from "./CustomPartRight";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
 import st from "../Profile/profile.module.sass";

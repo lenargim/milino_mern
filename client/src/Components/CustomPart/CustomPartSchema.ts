@@ -23,6 +23,7 @@ import {
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {alignmentOptions, borderOptions} from "../Product/ProductSchema";
+import {borderType} from "../Product/ProductLED";
 
 
 export function getCustomPartSchema(product: CustomPartType, materials: RoomMaterialsFormType): Yup.InferType<any> {
@@ -136,10 +137,9 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         const root = getSchemaRootValues(context);
         return (root['height'])-1;
     }
-
     const ledSchema = Yup.object({
         led: Yup.object({
-            border: Yup.array().of(Yup.string().oneOf(borderOptions, 'Error')),
+            border: Yup.array().of(Yup.mixed<borderType>().oneOf(borderOptions, 'Error')).ensure(),
             alignment: Yup.string()
                 .when('border', {
                     is: (val: string[]) => val.length,

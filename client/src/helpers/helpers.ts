@@ -1718,7 +1718,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         led: led ? {
             border: led.border,
             alignment: led.alignment,
-            indent_string: getFraction(led.indent)
+            indent_string: getFraction(led.indent),
         } : ledEmpty,
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',

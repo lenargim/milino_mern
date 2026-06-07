@@ -1,5 +1,5 @@
 import {optionType} from "../common/SelectField";
-import {ledAlignmentType} from "../Components/Product/ProductLED";
+import {borderType, ledAlignmentType} from "../Components/Product/ProductLED";
 import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -395,7 +395,7 @@ export type ProductExtraType = {
 }
 
 export type LEDType = {
-    border: string[],
+    border: borderType[],
     alignment: MaybeEmpty<ledAlignmentType>,
     indent_string: string,
     indent?: MaybeEmpty<number>

@@ -36,7 +36,7 @@ import productPrices from '../api/prices.json'
 import ro_drawer_prices from '../api/ro_drawer_prices.json'
 import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
-import {CartAPI, CartCustomTypeAPI, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
+import {CartAPI, CartCustomTypeAPI, CartItemFrontType, CartLEDAPI, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType, DrawerInserts, DrawerROType, GrooveAPIType,
     RTAClosetAPIType
@@ -589,14 +589,11 @@ export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: num
         return sum + (calcMap[side] || 0);
     }, 0);
 
-    // const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
     return getPanelPrice(sq, door_finish_material)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
     if (!priceData) return [];
-    // const arr: number[] = priceData.map(el => el.width);
-    // return [...new Set<number>(arr)];
     return getAllowedValues(priceData, 'width')
 }
 
@@ -640,12 +637,15 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
     }
 }
 
-function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUndefined<string[]>): number {
-    if (!ledBorders || !ledBorders.length) return 0;
+function getLedPrice(realWidth: number, realHeight: number, led: MaybeUndefined<CartLEDAPI>): number {
+    if (!led) return 0;
+    const {border} = led
+    if (border.includes('LED Panel')) return realHeight * 2.55;
+
     let sum: number = 0;
-    if (ledBorders.includes('Sides')) sum = realHeight * 2 * 2.55
-    if (ledBorders.includes('Top')) sum += (realWidth - 1.5) * 2.55
-    if (ledBorders.includes('Bottom')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Sides')) sum = realHeight * 2 * 2.55
+    if (border.includes('Top')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Bottom')) sum += (realWidth - 1.5) * 2.55
     return Math.round(sum)
 }
 
@@ -987,7 +987,7 @@ const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, custo
     const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
-    const ledPrice = getLedPrice(width, height, led?.border)
+    const ledPrice = getLedPrice(width, height, led)
     // Possible to add extra additions here
     const additionsPrice = hingeHolesPrice + panelCutoutPrice + ledPrice;
     return additionsPrice
@@ -1086,7 +1086,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
                 case 903:
                 case 904: {
-                    priceCustom = getPanelPrice(area, material);
+                    const ledPrice = getLedPrice(width, height, led);
+                    console.log(led)
+                    console.log(ledPrice)
+                    priceCustom = getPanelPrice(area, material) + ledPrice;
                     break;
                 }
                 case 905: {
@@ -1245,6 +1248,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             }
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
             const finishedColorPrice = priceCustom * finishColorCoef;
+
             const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
             price = +(finishedColorPrice + additions).toFixed(1);
             break;
@@ -1440,7 +1444,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led?.border),
+        ledPrice: getLedPrice(width, height, led),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),

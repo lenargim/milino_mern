@@ -305,21 +305,38 @@ export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, 
 
 type checkboxType = {
     name: string,
-    value: string,
+    value: string|boolean,
     className?: string,
-    inputIndex: number
+    inputIndex: number,
+    label?: string,
 }
-export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, inputIndex}) => {
+export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, inputIndex, label}) => {
 
     const [, meta,] = useField(name);
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
                 type="checkbox" name={name} value={value}
-                id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`}
-                   className={styles.radioLabel}><span>{value}</span></label>
+                id={`${name}_${value.toString()}`}/>
+            <label htmlFor={`${name}_${value.toString()}`}
+                   className={styles.radioLabel}><span>{label ?? value}</span></label>
             {inputIndex === 0 && meta.error && <div className={styles.error}>{meta.error}</div>}
+        </div>
+    )
+}
+
+type ProductCheckboxBooleanType = {
+    name: string,
+    value: string|boolean,
+    className?: string,
+    label: string
+}
+export const ProductCheckboxBoolean: FC<ProductCheckboxBooleanType> = ({name, value, className, label}) => {
+
+    return (
+        <div className={[className, styles.productRadio].join(' ')}>
+            <Field type="checkbox" name={name} checked={value} id={name}/>
+            <label htmlFor={name} className={styles.radioLabel}><span>{label}</span></label>
         </div>
     )
 }
