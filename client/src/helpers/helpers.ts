@@ -88,6 +88,7 @@ import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity} from "numeric-quantity";
 import {useFormikContext} from "formik";
 import {AnyObject, TestContext} from "yup";
+import {BorderType} from "../Components/Product/ProductLED";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -1964,6 +1965,11 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             price: 0,
         }
     }
+}
+
+export const getBorderOptions = (id: number):BorderType[] => {
+    const panel_ids = [903];
+    return panel_ids.includes(id) ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
 }
 
 export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

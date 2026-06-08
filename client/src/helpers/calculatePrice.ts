@@ -643,7 +643,8 @@ function getLedPrice(realWidth: number, realHeight: number, led: MaybeUndefined<
     let sum: number = 0;
     if (border.includes('Sides')) sum = realHeight * 2 * 2.55
     if (border.includes('Top')) sum += (realWidth - 1.5) * 2.55
-    if (border.includes('Bottom')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Bottom Inside')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Bottom Outside')) sum += (realWidth - 1.5) * 2.55
     return Math.round(sum)
 }
 

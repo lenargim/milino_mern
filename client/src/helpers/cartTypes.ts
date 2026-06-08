@@ -14,7 +14,7 @@ import {
     ProductApiType, ProductOptionsType,
     productTypings
 } from "./productTypes";
-import {borderType, ledAlignmentType} from "../Components/Product/ProductLED";
+import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
 
 export type CartAPI = {
     _id: string,
@@ -48,7 +48,7 @@ export type GlassAPIType = {
 }
 
 export type CartLEDAPI = {
-    border: borderType[],
+    border: BorderType[],
     alignment: MaybeEmpty<ledAlignmentType>,
     indent: number
 }

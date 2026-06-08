@@ -7,11 +7,12 @@ import {LEDType, MaybeEmpty} from "../../helpers/productTypes";
 import {useField} from "formik";
 import {ledEmpty} from "../../helpers/helpers";
 
-export type borderType = 'Sides' | 'Top' | 'Bottom' | 'LED Panel';
+const borderArr = ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside', 'LED Panel'] as const;
+export type BorderType = typeof borderArr[number];
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 const ProductLED: FC<{ isCustomPartPanel?: boolean }> = ({isCustomPartPanel = false}) => {
     const [field, {error}, {setValue}] = useField<LEDType>('led');
-    const borderOptions = isCustomPartPanel ? ['LED Panel'] : ['Sides', 'Top', 'Bottom']
+    const borderOptions:BorderType[] = isCustomPartPanel ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
     const {value: {border, indent_string, alignment}} = field;
     const alignmentOpt: optionType[] = alignmentOptions.map(el => ({value: el, label: el}));
     const isAlignmentShown = !!border.length;
