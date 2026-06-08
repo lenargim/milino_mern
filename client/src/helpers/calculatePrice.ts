@@ -43,7 +43,6 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
-import {ta} from "date-fns/locale";
 
 
 
@@ -828,7 +827,7 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
     switch (door_finish_material) {
         case "Milino":
             const colorType = getDoorColorType(door_color);
-            if (colorType === 1) return 2.706;
+            if (colorType === 1) return 1;
             if (colorType === 2) return 1.1;
             return 1.2
         case "Syncron":
@@ -923,7 +922,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
-
     return {
         is_standard_room,
         room_category: category,
