@@ -45,7 +45,6 @@ import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPane
 import {BoxMaterialType} from "./roomTypes";
 
 
-
 // собираем уникальные значения
 export const getAllowedValues = (data: pricePart[], key: keyof pricePart): number[] => {
     return [...new Set(
@@ -442,9 +441,9 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
     return 0;
 }
 
-function getPanelPrice(square: number, door_finish_material: MaybeUndefined<string>): number {
+function getPanelPrice(square: number, material: MaybeUndefined<string>): number {
     const k = square > 1 ? 1 : 1.8;
-    switch (door_finish_material) {
+    switch (material) {
         case "Milino":
             return square * k * 8;
         case "Plywood":
@@ -577,7 +576,7 @@ export const getExtraRolloutsPrice = (hasBlock: MaybeUndefined<boolean>, cart: C
     return custom.extra_rollouts * rolloutPrice;
 }
 // const isPositive = (n:number):boolean => n > 0;
-export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, door_finish_material: string): number => {
+export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, material: string): number => {
     const calcMap: Record<string, number> = {
         Left: (height * depth) / 144,
         Right: (height * depth) / 144,
@@ -588,7 +587,7 @@ export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: num
         return sum + (calcMap[side] || 0);
     }, 0);
 
-    return getPanelPrice(sq, door_finish_material)
+    return getPanelPrice(sq, material)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
@@ -1435,6 +1434,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
+    const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
@@ -1450,7 +1450,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
         extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
-        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_finish_material) : 0
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, finishSidesMaterial) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {
