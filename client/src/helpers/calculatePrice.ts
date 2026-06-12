@@ -985,7 +985,7 @@ const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, custo
     const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
-    const ledPrice = getLedPrice(width, height, led)
+    const ledPrice = getLedPrice(width, height, led);
     // Possible to add extra additions here
     const additionsPrice = hingeHolesPrice + panelCutoutPrice + ledPrice;
     return additionsPrice
@@ -1084,8 +1084,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
                 case 903:
                 case 904: {
-                    const ledPrice = getLedPrice(width, height, led);
-                    priceCustom = getPanelPrice(area, material) + ledPrice;
+                    // const ledPrice = getLedPrice(width, height, led);
+                    priceCustom = getPanelPrice(area, material);
                     break;
                 }
                 case 905: {

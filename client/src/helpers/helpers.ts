@@ -104,11 +104,11 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
 }
 
 
-export const getProductImg = (src: string): string => {
+export const getProductImg = (folder: string, img:string): string => {
     for (const s of ['', ' L', ' 2L', ' 4'] as const) {
         try {
-            const postfix = src.replace('.jpg', `${s}.jpg`);
-            return require(`./../assets/img/products/${postfix}`);
+            const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
+            return require(`./../assets/img/products/${folder}/${postfix}`);
         } catch (error) {
             continue;
         }
@@ -251,7 +251,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
 export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
-        return getProductImg(`Custom Parts/${product.name}.jpg`);
+        return getProductImg(`Custom Parts`, `${product.name}.jpg`);
     } else {
         const {category: product_subcategory, name, extra_categories} = product
         const img_src = getProductImgSrc(name, hinge_type);
@@ -273,7 +273,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
-                return getProductImg(`${category_folder}/${img_src}`);
+                return getProductImg(category_folder,img_src);
             }
         }
         switch (door_type as MaybeEmpty<DoorTypesType>) {
@@ -294,7 +294,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
                 break;
             case "":
         }
-        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}/${img_src}`);
+        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}`, img_src);
     }
 }
 
@@ -332,10 +332,10 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
         case "drawer-inserts": {
             if (!drawer_accessories?.inserts) break;
             const {insert_type, box_type, color} = drawer_accessories.inserts
-            if (!box_type || !color) return getProductImg(`Custom Parts/${product.name}.jpg`);
+            if (!box_type || !color) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
             switch (box_type) {
                 case "Inserts": {
-                    if (!insert_type) return getProductImg(`Custom Parts/${product.name}.jpg`);
+                    if (!insert_type) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
                     return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
                 }
                 case "Pegs":
@@ -350,7 +350,7 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
     }
-    return getProductImg(`Custom Parts/${product.name}.jpg`);
+    return getProductImg(`Custom Parts`, `${product.name}.jpg`);
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {

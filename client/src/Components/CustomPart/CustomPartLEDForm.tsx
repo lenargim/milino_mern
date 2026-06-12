@@ -67,7 +67,7 @@ const CustomPartLEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer"/>
+                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
                 <LEDNumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W"/>
                 <LEDNumberPart el={'led_accessories.remote_control'} label="Remote control"/>
                 <LEDNumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>

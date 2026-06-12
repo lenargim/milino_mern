@@ -41,7 +41,7 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                 </View> : null}
             {finish_sides?.length ?
                 <View style={!isStandard.finish_sides ? s.itemOptionCustom : s.itemOption}>
-                    <Text>Finish Sides: {finish_sides.join(', ')}</Text>
+                    <Text>Finished: {finish_sides.join(', ')}</Text>
                 </View> : null}
             {led && <CartItemLED led={led}/>}
             {corner ?

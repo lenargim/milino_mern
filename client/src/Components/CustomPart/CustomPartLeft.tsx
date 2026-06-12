@@ -14,7 +14,7 @@ const CustomPartLeft: FC<{ product: CustomPartType, materials: RoomMaterialsForm
     return (
         <div className={s.left}>
             <h2>{name}</h2>
-            <div className={[s.img, s['s']].join(' ')}>
+            <div className={[s.img].join(' ')}>
                 <img src={img} alt={name}/>
             </div>
             <Materials materials={materials}/>

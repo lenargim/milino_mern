@@ -38,7 +38,7 @@ const CartItemLedExtra: FC<{ led: LEDAccessoriesType }> = ({led}) => {
                 : null}
             {transformer_100_W ?
                 <div className={s.itemOption}>
-                    <span>Transformer:</span>
+                    <span>Transformer 100W:</span>
                     <span>{transformer_100_W}</span>
                 </div>
                 : null}
