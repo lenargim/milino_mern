@@ -5901,6 +5901,7 @@
     "name": "IDB Series",
     "category": "Cabinet System Closet",
     "isBlind": true,
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Blind Corner Double Hanging",
@@ -5924,6 +5925,7 @@
     "name": "ILB Series",
     "category": "Cabinet System Closet",
     "isBlind": true,
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Blind Corner Long Hanging",
@@ -5956,6 +5958,7 @@
     "name": "ISB Series",
     "category": "Cabinet System Closet",
     "isBlind": true,
+    "isCornerChoose": true,
     "attributes": [
       {
         "name": "Blind Corner Adjustable Shelves",

@@ -181,8 +181,8 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         }
                         if (hasCornerSideWidth) {
                             /// Unknown
-                            min = 5;
-                            max = cabinet_width
+                            min = 9;
+                            max = 25
                         }
 
                         if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
