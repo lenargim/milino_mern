@@ -188,19 +188,19 @@
     "prices": [
       {
         "width": 15,
-        "price": 445
+        "price": 522
       },
       {
         "width": 18,
-        "price": 459
+        "price": 536
       },
       {
         "width": 21,
-        "price": 471
+        "price": 548
       },
       {
         "width": 24,
-        "price": 574
+        "price": 651
       }
     ]
   },
@@ -209,19 +209,19 @@
     "prices": [
       {
         "width": 15,
-        "price": 559
+        "price": 636
       },
       {
         "width": 18,
-        "price": 577
+        "price": 654
       },
       {
         "width": 21,
-        "price": 593
+        "price": 670
       },
       {
         "width": 24,
-        "price": 612
+        "price": 689
       }
     ]
   },
@@ -592,15 +592,15 @@
     "prices": [
       {
         "width": 46,
-        "price": 812
+        "price": 1043
       },
       {
         "width": 48,
-        "price": 856
+        "price": 1087
       },
       {
         "width": 50,
-        "price": 924
+        "price": 1155
       }
     ]
   },
@@ -1055,57 +1055,57 @@
       {
         "width": 27,
         "height": 30,
-        "price": 782
+        "price": 859
       },
       {
         "width": 30,
         "height": 30,
-        "price": 800
+        "price": 877
       },
       {
         "width": 30,
         "height": 36,
-        "price": 828
+        "price": 905
       },
       {
         "width": 30,
         "height": 42,
-        "price": 856
+        "price": 933
       },
       {
         "width": 33,
         "height": 30,
-        "price": 818
+        "price": 895
       },
       {
         "width": 36,
         "height": 30,
-        "price": 830
+        "price": 907
       },
       {
         "width": 36,
         "height": 36,
-        "price": 860
+        "price": 937
       },
       {
         "width": 36,
         "height": 42,
-        "price": 890
+        "price": 967
       },
       {
         "width": 42,
         "height": 30,
-        "price": 1195
+        "price": 1272
       },
       {
         "width": 42,
         "height": 36,
-        "price": 1238
+        "price": 1315
       },
       {
         "width": 42,
         "height": 42,
-        "price": 1281
+        "price": 1358
       }
     ]
   },
@@ -1115,57 +1115,57 @@
       {
         "width": 27,
         "height": 30,
-        "price": 670
+        "price": 824
       },
       {
         "width": 30,
         "height": 30,
-        "price": 692
+        "price": 846
       },
       {
         "width": 30,
         "height": 36,
-        "price": 720
+        "price": 874
       },
       {
         "width": 30,
         "height": 42,
-        "price": 780
+        "price": 934
       },
       {
         "width": 33,
         "height": 30,
-        "price": 714
+        "price": 868
       },
       {
         "width": 36,
         "height": 30,
-        "price": 722
+        "price": 876
       },
       {
         "width": 36,
         "height": 36,
-        "price": 752
+        "price": 906
       },
       {
         "width": 36,
         "height": 42,
-        "price": 814
+        "price": 968
       },
       {
         "width": 42,
         "height": 30,
-        "price": 1039
+        "price": 1193
       },
       {
         "width": 42,
         "height": 36,
-        "price": 1082
+        "price": 1236
       },
       {
         "width": 42,
         "height": 42,
-        "price": 1171
+        "price": 1325
       }
     ]
   },
@@ -1175,87 +1175,87 @@
       {
         "width": 24,
         "height": 12,
-        "price": 702
+        "price": 779
       },
       {
         "width": 24,
         "height": 15,
-        "price": 710
+        "price": 787
       },
       {
         "width": 24,
         "height": 18,
-        "price": 722
+        "price": 799
       },
       {
         "width": 24,
         "height": 21,
-        "price": 708
+        "price": 785
       },
       {
         "width": 27,
         "height": 12,
-        "price": 716
+        "price": 793
       },
       {
         "width": 27,
         "height": 15,
-        "price": 728
+        "price": 805
       },
       {
         "width": 30,
         "height": 12,
-        "price": 714
+        "price": 791
       },
       {
         "width": 30,
         "height": 15,
-        "price": 722
+        "price": 799
       },
       {
         "width": 30,
         "height": 18,
-        "price": 732
+        "price": 809
       },
       {
         "width": 30,
         "height": 21,
-        "price": 750
+        "price": 827
       },
       {
         "width": 30,
         "height": 24,
-        "price": 770
+        "price": 847
       },
       {
         "width": 33,
         "height": 12,
-        "price": 720
+        "price": 797
       },
       {
         "width": 33,
         "height": 15,
-        "price": 728
+        "price": 805
       },
       {
         "width": 36,
         "height": 12,
-        "price": 726
+        "price": 803
       },
       {
         "width": 36,
         "height": 15,
-        "price": 736
+        "price": 813
       },
       {
         "width": 36,
         "height": 18,
-        "price": 744
+        "price": 821
       },
       {
         "width": 36,
         "height": 21,
-        "price": 766
+        "price": 843
       }
     ]
   },
@@ -1265,88 +1265,93 @@
       {
         "width": 24,
         "height": 12,
-        "price": 328
+        "price": 405
       },
       {
         "width": 24,
         "height": 15,
-        "price": 336
+        "price": 403
       },
       {
         "width": 24,
         "height": 18,
-        "price": 336
+        "price": 413
       },
       {
         "width": 24,
         "height": 21,
-        "price": 348
+        "price": 425
+      },
+      {
+        "width": 24,
+        "height": 24,
+        "price": 455
       },
       {
         "width": 27,
         "height": 12,
-        "price": 338
+        "price": 415
       },
       {
         "width": 27,
         "height": 15,
-        "price": 356
+        "price": 433
       },
 
       {
         "width": 30,
         "height": 12,
-        "price": 348
+        "price": 425
       },
       {
         "width": 30,
         "height": 15,
-        "price": 356
+        "price": 433
       },
       {
         "width": 30,
         "height": 18,
-        "price": 366
+        "price": 443
       },
       {
         "width": 30,
         "height": 21,
-        "price": 396
+        "price": 473
       },
       {
         "width": 30,
         "height": 24,
-        "price": 448
+        "price": 525
       },
       {
         "width": 33,
         "height": 12,
-        "price": 354
+        "price": 431
       },
       {
         "width": 33,
         "height": 15,
-        "price": 364
+        "price": 441
       },
       {
         "width": 36,
         "height": 12,
-        "price": 362
+        "price": 439
       },
       {
         "width": 36,
         "height": 15,
-        "price": 370
+        "price": 447
       },
       {
         "width": 36,
         "height": 18,
-        "price": 378
+        "price": 455
       },
       {
         "width": 36,
         "height": 21,
-        "price": 388
+        "price": 465
       }
     ]
   },
@@ -1727,88 +1732,93 @@
       {
         "width": 24,
         "height": 12,
-        "price": 352.0
+        "price": 429
       },
       {
         "width": 24,
         "height": 15,
-        "price": 366.4
+        "price": 443.4
       },
       {
         "width": 24,
         "height": 18,
-        "price": 383.2
+        "price": 460.2
       },
       {
         "width": 24,
         "height": 21,
-        "price": 413.0
+        "price": 490
+      },
+      {
+        "width": 24,
+        "height": 24,
+        "price": 520
       },
       {
         "width": 27,
         "height": 12,
-        "price": 362.0
+        "price": 439
       },
       {
         "width": 27,
         "height": 15,
-        "price": 376.0
+        "price": 453
       },
 
       {
         "width": 30,
         "height": 12,
-        "price": 372.0
+        "price": 449
       },
       {
         "width": 30,
         "height": 15,
-        "price": 386.4
+        "price": 463.4
       },
       {
         "width": 30,
         "height": 18,
-        "price": 403.2
+        "price": 480.2
       },
       {
         "width": 30,
         "height": 21,
-        "price": 463.0
+        "price": 540
       },
       {
         "width": 30,
         "height": 24,
-        "price": 511.2
+        "price": 588.2
       },
       {
         "width": 33,
         "height": 12,
-        "price": 381.6
+        "price": 458.6
       },
       {
         "width": 33,
         "height": 15,
-        "price": 398.4
+        "price": 475.4
       },
       {
         "width": 36,
         "height": 12,
-        "price": 398.4
+        "price": 475.4
       },
       {
         "width": 36,
         "height": 15,
-        "price": 489.6
+        "price": 566.6
       },
       {
         "width": 36,
         "height": 18,
-        "price": 506.4
+        "price": 583.4
       },
       {
         "width": 36,
         "height": 21,
-        "price": 526.4
+        "price": 603.4
       }
     ]
   },
@@ -2388,17 +2398,17 @@
       {
         "width": 45,
         "height": 84,
-        "price": 1884
+        "price": 2346
       },
       {
         "width": 45,
         "height": 90,
-        "price": 1914
+        "price": 2376
       },
       {
         "width": 45,
         "height": 96,
-        "price": 1944
+        "price": 2406
       }
     ]
   },

@@ -14,7 +14,7 @@ import {
     ProductApiType, ProductOptionsType,
     productTypings
 } from "./productTypes";
-import {ledAlignmentType} from "../Components/Product/ProductLED";
+import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
 
 export type CartAPI = {
     _id: string,
@@ -48,7 +48,7 @@ export type GlassAPIType = {
 }
 
 export type CartLEDAPI = {
-    border: string[],
+    border: BorderType[],
     alignment: MaybeEmpty<ledAlignmentType>,
     indent: number
 }
@@ -130,8 +130,8 @@ export type CustomAccessoriesType = {
 export type LEDAccessoriesType = {
     alum_profiles: AlProfileType[],
     gola_profiles: golaProfileType[],
-    transformer_60_W: number,
     transformer_100_W: number,
+    transformer_dimmable_96_W: number,
     remote_control: number,
     door_sensor_single: number,
     door_sensor_double: number,
@@ -149,7 +149,8 @@ export type IsStandardOptionsType = {
     middle: boolean,
     led: boolean,
     options: boolean,
-    farm_sink: boolean
+    farm_sink: boolean,
+    finish_sides: boolean
 }
 
 export type IsStandardDimentionsType = {

@@ -28,7 +28,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
     const showHingeHoles = isHingeHolesBlock(id)
     const showCutout = isPanelCutoutBlock(id)
-    const showLed = isLedBlock(id)
+    const showLedBlock = isLedBlock(id)
     return (
         <Form>
             <div className={s.block}>
@@ -43,7 +43,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
-            {showLed ? <ProductLED /> : null}
+            {showLedBlock ? <ProductLED isCustomPartPanel={true} /> : null}
             {showHingeHoles ? <CustomPartHingeHoles/> : null}
             {showCutout ? <CustomPartCutoutBlock/> : null}
             {filtered_materials_array &&

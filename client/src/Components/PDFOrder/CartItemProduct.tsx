@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Text, View} from "@react-pdf/renderer";
-import {getFraction} from "../../helpers/helpers";
+import {getFraction, hasSideWidth} from "../../helpers/helpers";
 import {s} from "./PDFOrder";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import CartItemLED from "./CartItemLED";
@@ -18,19 +18,20 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
         glass,
         custom,
         sink,
-        finish_sides
+        finish_sides,
+        product_id
     } = product;
-
+    const blindOrSideWidthLabel = hasSideWidth(product_id) ? `Side Width`: `Blind Width`;
     return (
         <View>
             {blind_width ?
-                <View style={!isStandard.blind ? s.itemOptionCustom:s.itemOption}>
-                    <Text>Blind Width: {getFraction(blind_width)}"</Text>
+                <View style={!isStandard.blind ? s.itemOptionCustom : s.itemOption}>
+                    <Text>{blindOrSideWidthLabel}: {getFraction(blind_width)}"</Text>
                 </View>
                 : null}
 
             {middle_section ?
-                <View style={!isStandard.middle ? s.itemOptionCustom:s.itemOption}>
+                <View style={!isStandard.middle ? s.itemOptionCustom : s.itemOption}>
                     <Text>Cutout Height: {getFraction(middle_section)}"</Text>
                 </View> : null
             }
@@ -39,20 +40,21 @@ const CartItemProduct: FC<{ product: CartItemFrontType }> = ({product}) => {
                     <Text>Hinge opening: {hinge}</Text>
                 </View> : null}
             {finish_sides?.length ?
-                <View style={s.itemOption}>
-                    <Text>Finish Sides: {finish_sides.join(', ')}</Text>
+                <View style={!isStandard.finish_sides ? s.itemOptionCustom : s.itemOption}>
+                    <Text>Finished: {finish_sides.join(', ')}</Text>
                 </View> : null}
-            {led && <CartItemLED led={led} />}
+            {led && <CartItemLED led={led}/>}
             {corner ?
                 <View style={s.itemOption}>
                     <Text>Corner: {corner}</Text>
                 </View> : null
             }
-            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard} />
+            <CartItemChosenOptions options={options} glass={glass} isStandard={isStandard}/>
             {
-                sink?.farm_height ? <View style={!isStandard.farm_sink ? s.itemOptionCustom:s.itemOption}>
-                    <Text>Sink Height: {getFraction(sink.farm_height)}"</Text>
-                </View> : null
+                sink?.farm_height ?
+                    <View style={!isStandard.farm_sink ? s.itemOptionCustom : s.itemOption}>
+                        <Text>Sink Height: {getFraction(sink.farm_height)}"</Text>
+                    </View> : null
             }
             {
                 custom?.accessories?.closet ? <View style={s.itemOption}>

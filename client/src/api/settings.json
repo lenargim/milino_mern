@@ -3,7 +3,7 @@
     "Profile": [
       {
         "value": "Wood Shaker",
-        "type": 1
+        "type": 4
       },
       {
         "value": "1021 Black",
@@ -195,13 +195,18 @@
         "id": 3,
         "minPrice": 300,
         "multiplier": 120
+      },
+      {
+        "id": 4,
+        "minPrice": 200,
+        "multiplier": 80
       }
     ]
   },
   "fixPrices": {
     "PTO for doors": 30,
     "PTO for drawers": 80,
-    "PTO for trash bins": 350,
+    "Servo-Drive": 1000,
     "plastic_toe": 91,
     "clear_coat": 21.5
   },
@@ -215,7 +220,8 @@
     "Tall Cabinets": 27,
     "Gola Tall Cabinets": 27,
     "Standard Tall Cabinets": 27,
-    "Build In": 27
+    "Build In": 27,
+    "Cabinet System Closet": 20
   },
   "blindDoor": [9,27],
   "angleDoor": [9,27],
@@ -341,6 +347,7 @@
     "gola_profiles": 5.5,
     "transformer_60_W": 40,
     "transformer_100_W": 50,
+    "transformer_dimmable_96_W": 260,
     "remote_control": 30,
     "door_sensor_single": 30,
     "door_sensor_double": 40

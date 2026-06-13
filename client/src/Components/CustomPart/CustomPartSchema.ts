@@ -15,6 +15,7 @@ import {
     DrawerInsertsColorNames, DrawerInsertsLetter, DrawerRONames, DrawerROType,
 } from "./CustomPart";
 import {
+    getBorderOptions,
     getCustomPartMaterialsArraySizeLimits,
     getFraction, getSchemaRootValues,
     glassDoorHasProfile,
@@ -22,7 +23,8 @@ import {
 } from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
-import {alignmentOptions, borderOptions} from "../Product/ProductSchema";
+import {alignmentOptions} from "../Product/ProductSchema";
+import {BorderType} from "../Product/ProductLED";
 
 
 export function getCustomPartSchema(product: CustomPartType, materials: RoomMaterialsFormType): Yup.InferType<any> {
@@ -136,10 +138,9 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         const root = getSchemaRootValues(context);
         return (root['height'])-1;
     }
-
     const ledSchema = Yup.object({
         led: Yup.object({
-            border: Yup.array().of(Yup.string().oneOf(borderOptions, 'Error')),
+            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptions(product.id), 'Error')),
             alignment: Yup.string()
                 .when('border', {
                     is: (val: string[]) => val.length,

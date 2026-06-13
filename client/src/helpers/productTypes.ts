@@ -1,5 +1,5 @@
 import {optionType} from "../common/SelectField";
-import {ledAlignmentType} from "../Components/Product/ProductLED";
+import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
 import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
@@ -23,7 +23,7 @@ export const finishSidesArr = ["Left", "Right", "Bottom"] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
 
-export const CustomPartMaterialsNames = ["Milino", "Plywood", "Luxe", "Zenit", "Syncron", "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
+export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
 export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
 
 export type cornerTypes = typeof cornerArr[number];
@@ -96,7 +96,7 @@ interface BaseProduct {
 export type ProductOptionsType =
     "PTO for drawers"
     | "PTO for doors"
-    | "PTO for Trash Bins"
+    | "Servo-Drive"
     | "Box from finish material"
     | "Glass Door"
     | "Glass Shelf"
@@ -127,6 +127,7 @@ export interface ProductType extends BaseProduct {
     hasJeweleryBlock?: boolean,
     hasMechanism?: MechanismType,
     hasExtraRolloutsBlock?: boolean,
+    hasCornerSideWidth?:boolean,
     farm_sink_height?: number
 
 }
@@ -394,7 +395,7 @@ export type ProductExtraType = {
 }
 
 export type LEDType = {
-    border: string[],
+    border: BorderType[],
     alignment: MaybeEmpty<ledAlignmentType>,
     indent_string: string,
     indent?: MaybeEmpty<number>
@@ -474,8 +475,8 @@ export type LedAccessoriesFormType = {
         color: colorOption,
         qty: number,
     }[],
-    transformer_60_W: number,
     transformer_100_W: number,
+    transformer_dimmable_96_W: number,
     remote_control: number,
     door_sensor_single: number,
     door_sensor_double: number,

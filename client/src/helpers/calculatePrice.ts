@@ -36,15 +36,13 @@ import productPrices from '../api/prices.json'
 import ro_drawer_prices from '../api/ro_drawer_prices.json'
 import sizes from './../api/sizes.json'
 import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomMaterialsFormType} from "./roomTypes";
-import {CartAPI, CartCustomTypeAPI, CartItemFrontType, StandardDoorAPIType} from "./cartTypes";
+import {CartAPI, CartCustomTypeAPI, CartItemFrontType, CartLEDAPI, StandardDoorAPIType} from "./cartTypes";
 import {
     DoorAccessoryAPIType, DrawerInserts, DrawerROType, GrooveAPIType,
     RTAClosetAPIType
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
-import {ta} from "date-fns/locale";
-
 
 
 // собираем уникальные значения
@@ -201,7 +199,7 @@ export function addPTODrawerPrice(prodType: productTypings, drawersQty: number):
 }
 
 export function addPTOTrashBinsPrice(): number {
-    return settings.fixPrices['PTO for trash bins'] || 0
+    return settings.fixPrices['Servo-Drive'] || 0
 }
 
 export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<string>, is_standard: boolean, hasGlassDoor: boolean): number {
@@ -443,9 +441,9 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
     return 0;
 }
 
-function getPanelPrice(square: number, door_finish_material: MaybeUndefined<string>): number {
+function getPanelPrice(square: number, material: MaybeUndefined<string>): number {
     const k = square > 1 ? 1 : 1.8;
-    switch (door_finish_material) {
+    switch (material) {
         case "Milino":
             return square * k * 8;
         case "Plywood":
@@ -471,22 +469,18 @@ function getPanelPrice(square: number, door_finish_material: MaybeUndefined<stri
 function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefined<string>): number {
     switch (door_finish_material) {
         case "Milino":
-            return square * 36;
-        case "Shaker Syncron":
-        case "Shaker Milino":
             return square * 48;
         case "Luxe":
+        case "Syncron":
         case "Ultrapan PET":
             return square * 60;
         case "Ultrapan Acrylic":
             return square * 60 * 1.1;
-        case "Shaker Zenit":
+        case "Zenit":
             return square * 60 * 1.03;
-        case 'Shaker Painted':
+        case 'Painted':
             return square * 78;
-        case "Shaker":
-            return square * 60
-        case "Shaker Veneer":
+        case "Wood Veneer":
             return square * 96;
         default:
             return 0;
@@ -522,14 +516,14 @@ function getDrawerPrice(qty: number, width: number, door_type: string, drawerBra
         case 'BLUM':
             switch (drawerType) {
                 case 'Same as Box Material':
-                    return qty * 55;
+                    return qty * 60;
                 case 'Legrabox':
-                    if (drawerColor === 'Orion Gray') return qty * 150;
-                    if (drawerColor === 'Stainless Steel') return qty * 200;
+                    if (drawerColor === 'Orion Gray') return qty * 170;
+                    if (drawerColor === 'Stainless Steel') return qty * 220;
                     break;
                 case 'Dovetail':
-                    if (drawerColor === 'Maple') return qty * (width * 2 + 65);
-                    if (drawerColor === 'Walnut') return qty * (width * 2 + 85);
+                    if (drawerColor === 'Maple') return qty * (width * 2 + 70);
+                    if (drawerColor === 'Walnut') return qty * (width * 2 + 90);
                     break;
             }
             break;
@@ -582,7 +576,7 @@ export const getExtraRolloutsPrice = (hasBlock: MaybeUndefined<boolean>, cart: C
     return custom.extra_rollouts * rolloutPrice;
 }
 // const isPositive = (n:number):boolean => n > 0;
-export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, door_finish_material: string): number => {
+export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: number, height: number, depth: number, material: string): number => {
     const calcMap: Record<string, number> = {
         Left: (height * depth) / 144,
         Right: (height * depth) / 144,
@@ -593,14 +587,11 @@ export const getFinishSidesPrice = (finish_sides: FinishSidesTypes[], width: num
         return sum + (calcMap[side] || 0);
     }, 0);
 
-    // const m = isPositive(door_price_multiplier) ? door_price_multiplier : 0;
-    return getPanelPrice(sq, door_finish_material)
+    return getPanelPrice(sq, material)
 }
 
 function getWidthRange(priceData: MaybeUndefined<pricePart[]>): number[] {
     if (!priceData) return [];
-    // const arr: number[] = priceData.map(el => el.width);
-    // return [...new Set<number>(arr)];
     return getAllowedValues(priceData, 'width')
 }
 
@@ -644,12 +635,16 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
     }
 }
 
-function getLedPrice(realWidth: number, realHeight: number, ledBorders: MaybeUndefined<string[]>): number {
-    if (!ledBorders || !ledBorders.length) return 0;
+function getLedPrice(realWidth: number, realHeight: number, led: MaybeUndefined<CartLEDAPI>): number {
+    if (!led) return 0;
+    const {border} = led
+    if (border.includes('LED Panel')) return realHeight * 2.55;
+
     let sum: number = 0;
-    if (ledBorders.includes('Sides')) sum = realHeight * 2 * 2.55
-    if (ledBorders.includes('Top')) sum += (realWidth - 1.5) * 2.55
-    if (ledBorders.includes('Bottom')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Sides')) sum = realHeight * 2 * 2.55
+    if (border.includes('Top')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Bottom Inside')) sum += (realWidth - 1.5) * 2.55
+    if (border.includes('Bottom Outside')) sum += (realWidth - 1.5) * 2.55
     return Math.round(sum)
 }
 
@@ -832,7 +827,7 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
     switch (door_finish_material) {
         case "Milino":
             const colorType = getDoorColorType(door_color);
-            if (colorType === 1) return 2.706;
+            if (colorType === 1) return 1;
             if (colorType === 2) return 1.1;
             return 1.2
         case "Syncron":
@@ -927,7 +922,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
-
     return {
         is_standard_room,
         room_category: category,
@@ -991,7 +985,7 @@ const getCustomPriceAdditions = (product: CustomPartType, values: CartAPI, custo
     const {width, height, led} = values
     const hingeHolesPrice = getHingeHolesPrice(id, values);
     const panelCutoutPrice = getPanelCutoutPrice(id, values, customPartPrice);
-    const ledPrice = getLedPrice(width, height, led?.border)
+    const ledPrice = getLedPrice(width, height, led);
     // Possible to add extra additions here
     const additionsPrice = hingeHolesPrice + panelCutoutPrice + ledPrice;
     return additionsPrice
@@ -1090,6 +1084,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 }
                 case 903:
                 case 904: {
+                    // const ledPrice = getLedPrice(width, height, led);
                     priceCustom = getPanelPrice(area, material);
                     break;
                 }
@@ -1249,6 +1244,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             }
             const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
             const finishedColorPrice = priceCustom * finishColorCoef;
+
             const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
             price = +(finishedColorPrice + additions).toFixed(1);
             break;
@@ -1439,12 +1435,13 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
+    const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
-        ptoTrashBins: options.includes('PTO for Trash Bins') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led?.border),
+        ptoTrashBins: options.includes('Servo-Drive') ? addPTOTrashBinsPrice() : 0,
+        ledPrice: getLedPrice(width, height, led),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
@@ -1454,7 +1451,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
         rodPrice: getRodPrice(room_category, width, rod, rodsQty) / settings.global_price_coef,
         extra_rollouts: getExtraRolloutsPrice(hasExtraRolloutsBlock, cart, materialData),
-        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, door_finish_material) : 0
+        finish_sides: finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, finishSidesMaterial) : 0
     }
 }
 const getSizeCoef = (cartItem: CartAPI, tablePriceData: pricePart[], product: ProductType): number => {

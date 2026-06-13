@@ -942,10 +942,6 @@
               "img": "Black-Metallic-Gloss-300x300.jpg"
             },
             {
-              "value": "Champagne Mettalic",
-              "img": "Champagne-Metallic-Gloss-300x300.jpg"
-            },
-            {
               "value": "Dark Grey Mettalic",
               "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
             },
@@ -2031,10 +2027,6 @@
           "value": "Ultrapan Acrylic",
           "img": "ultrapan.jpg",
           "colors": [
-            {
-              "value": "Champagne Mettalic",
-              "img": "Champagne-Metallic-Gloss-300x300.jpg"
-            },
             {
               "value": "Silver Mettalic",
               "img": "Silver-Metallic-Gloss-300x300.jpg"

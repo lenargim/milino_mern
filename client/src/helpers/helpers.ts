@@ -88,6 +88,7 @@ import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity} from "numeric-quantity";
 import {useFormikContext} from "formik";
 import {AnyObject, TestContext} from "yup";
+import {BorderType} from "../Components/Product/ProductLED";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -96,19 +97,18 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     if (!folder || !img) return noImg;
     try {
-        return require(`./../assets/img/${folder}/${img}`);
+        return require(`./../assets/img/${folder}/${img}`)
     } catch (e) {
         return noImg
     }
 }
 
 
-export const getProductImg = (src: string, img:string): string => {
+export const getProductImg = (folder: string, img:string): string => {
     for (const s of ['', ' L', ' 2L', ' 4'] as const) {
         try {
-            console.log(img)
             const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
-            return require(`./../assets/img/products/${src}/${postfix}`);
+            return require(`./../assets/img/products/${folder}/${postfix}`);
         } catch (error) {
             continue;
         }
@@ -251,7 +251,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
 export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
-        return getProductImg(`Custom Parts`,`${product.name}.jpg`);
+        return getProductImg(`Custom Parts`, `${product.name}.jpg`);
     } else {
         const {category: product_subcategory, name, extra_categories} = product
         const img_src = getProductImgSrc(name, hinge_type);
@@ -273,7 +273,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
-                return getProductImg(`${category_folder}`,`${img_src}`);
+                return getProductImg(category_folder,img_src);
             }
         }
         switch (door_type as MaybeEmpty<DoorTypesType>) {
@@ -294,7 +294,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
                 break;
             case "":
         }
-        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}`,`${img_src}`);
+        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}`, img_src);
     }
 }
 
@@ -332,10 +332,10 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
         case "drawer-inserts": {
             if (!drawer_accessories?.inserts) break;
             const {insert_type, box_type, color} = drawer_accessories.inserts
-            if (!box_type || !color) return getProductImg(`Custom Parts`,`${product.name}.jpg`);
+            if (!box_type || !color) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
             switch (box_type) {
                 case "Inserts": {
-                    if (!insert_type) return getProductImg(`Custom Parts`,`${product.name}.jpg`);
+                    if (!insert_type) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
                     return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
                 }
                 case "Pegs":
@@ -350,7 +350,7 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
     }
-    return getProductImg(`Custom Parts`,`${product.name}.jpg`);
+    return getProductImg(`Custom Parts`, `${product.name}.jpg`);
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
@@ -374,6 +374,11 @@ export const getFraction = (numberFraction: number): string => {
     return new Fraction(numberFraction).simplify(0.001).toFraction(true);
 }
 
+export const hasSideWidth = (id:number):boolean => {
+    //RTA Cabinets
+    return [507,508,509].includes(id)
+}
+
 function getBlindArr(category: string, product_id: number, isBlind: boolean): MaybeUndefined<number[]> {
     if (!isBlind) return undefined;
     type rangeType = {
@@ -386,6 +391,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     // Base Cabinet Exceptions
     const baseProductExceptionsArr: number[] = [23, 24, 25, 26, 51, 52];
     if (baseProductExceptionsArr.includes(product_id)) return [24, 0];
+    if (hasSideWidth(product_id)) return [14,18,22, 0];
     return range[category] ? [range[category], 0] : [0];
 }
 
@@ -445,11 +451,11 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
         case "cabinet":
         case "standard": {
             const product = product_or_custom as ProductType;
-            const {category, isBlind = false} = product;
+            const {category, isBlind = false, hasCornerSideWidth = false} = product;
             return {
                 ...product,
                 hasLedBlock: isHasLedBlock(category),
-                blindArr: getBlindArr(category, product.id, isBlind),
+                blindArr: getBlindArr(category, product.id, isBlind || hasCornerSideWidth),
             }
         }
         case "custom": {
@@ -493,12 +499,17 @@ export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: 
 export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
     const isRoomStandard = findIsRoomStandard(materials.door_type);
-    const {door_finish_material, door_type} = materials
+    const {door_finish_material, door_type} = materials;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isRoomStandard)
     if (!filtered_materials_array) return null;
-    return filtered_materials_array.find(el => door_finish_material.includes(el.name))
-        ?? filtered_materials_array.find(el => door_type === el.name)
-        ?? filtered_materials_array[0];
+
+    const filteredName = filtered_materials_array.find(el => door_finish_material.includes(el.name) || door_type === el.name)
+    if (filteredName) return filteredName
+
+    if (door_type === "Custom Painted") return filtered_materials_array.find(el => el.name === "Painted") || null;
+    if (door_finish_material.includes('Ultrapan')) return filtered_materials_array.find(el => el.name === "Luxe") || null;
+
+    return filtered_materials_array[0];
 }
 
 export const filterCustomPartsMaterialsArray = (materials_array: MaybeUndefined<materialsCustomPart[]>, custom_part_id: number, is_standard: boolean): MaybeNull<materialsCustomPart[]> => {
@@ -565,7 +576,9 @@ export const checkOptionsSelected = (options: string[]): boolean => {
 export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
     return !led?.length
 }
-
+export const checkFinishedSidesStandard = (sides:MaybeUndefined<FinishSidesTypes[]>):boolean => {
+    return !(sides && sides.length)
+}
 export function isEmptyOrZeroValue(value: any): boolean {
     if (value === undefined || value === null) return true;
     if (value === "") return true;
@@ -744,8 +757,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         const {
             alum_profiles,
             gola_profiles,
-            transformer_60_W,
             transformer_100_W,
+            transformer_dimmable_96_W,
             remote_control,
             door_sensor_single,
             door_sensor_double
@@ -763,7 +776,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
         if (alum_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.alum_profiles', alum_profiles_api);
         if (gola_profiles_api.length) forceSetPath(preparedProduct, 'custom.accessories.led.gola_profiles', gola_profiles_api);
-        if (transformer_60_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_60_W', transformer_60_W);
+        if (transformer_dimmable_96_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_dimmable_96_W', transformer_dimmable_96_W);
         if (transformer_100_W) forceSetPath(preparedProduct, 'custom.accessories.led.transformer_100_W', transformer_100_W);
         if (remote_control) forceSetPath(preparedProduct, 'custom.accessories.led.remote_control', remote_control);
         if (door_sensor_single) forceSetPath(preparedProduct, 'custom.accessories.led.door_sensor_single', door_sensor_single);
@@ -1185,7 +1198,7 @@ export const isStandardProductOptions = (product_or_custom: ProductType | Custom
             middleSectionDefault,
             farm_sink_height
         } = product_or_custom
-        const {width, height, depth, blind_width, sink, led, options, middle_section, product_id} = item
+        const {width, height, depth, blind_width, sink, led, options, middle_section, product_id, finish_sides} = item
         const tablePriceData = getProductPriceRange(product_id, materialData);
         const productRange = getProductRange(tablePriceData, category, customHeight, customDepth);
         return {
@@ -1194,7 +1207,8 @@ export const isStandardProductOptions = (product_or_custom: ProductType | Custom
             led: checkLedSelected(led?.border),
             options: checkOptionsSelected(options),
             middle: checkMiddleSectionStandard(middleSectionDefault, middle_section),
-            farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height)
+            farm_sink: checkFarmSinkStandard(farm_sink_height, sink?.farm_height),
+            finish_sides: checkFinishedSidesStandard(finish_sides)
         }
     }
 }
@@ -1224,7 +1238,8 @@ export const setAllProductFieldIsStandard = (): IsStandardOptionsType => {
         blind: true,
         middle: true,
         options: true,
-        farm_sink: true
+        farm_sink: true,
+        finish_sides: true
     }
 }
 
@@ -1232,8 +1247,8 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const {
         alum_profiles = [],
         gola_profiles = [],
-        transformer_60_W = 0,
         transformer_100_W = 0,
+        transformer_dimmable_96_W = 0,
         remote_control = 0,
         door_sensor_single = 0,
         door_sensor_double = 0,
@@ -1241,12 +1256,12 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const pricesAPI = settings.led_custom_part;
     const alumProfPrice = alum_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.alum_profiles * profile.qty), 0);
     const golaProfPrice = gola_profiles.reduce((acc, profile) => acc + (profile.length * pricesAPI.gola_profiles * profile.qty), 0);
-    const transformer60Price = transformer_60_W * pricesAPI.transformer_60_W || 0;
+    const transformer96 = transformer_dimmable_96_W * pricesAPI.transformer_dimmable_96_W || 0;
     const transformer100Price = transformer_100_W * pricesAPI.transformer_100_W || 0;
     const remoteControlPrice = remote_control * pricesAPI.remote_control || 0;
     const doorSensorSinglePrice = door_sensor_single * pricesAPI.door_sensor_single || 0;
     const doorSensorDoublePrice = door_sensor_double * pricesAPI.door_sensor_double || 0;
-    return alumProfPrice + golaProfPrice + transformer60Price + transformer100Price + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
+    return alumProfPrice + golaProfPrice + transformer100Price + transformer96 +  remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
 export const isHingeHolesBlock = (id: number): boolean => {
@@ -1303,7 +1318,8 @@ export const getdimensionsRow = (width: number, height: number, depth: number): 
     return `${widthPart}${heightPart}${depthPart}`
 }
 
-export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType): boolean => {
+export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType, hasCornerSideWidth:MaybeUndefined<boolean>): boolean => {
+    if (hasCornerSideWidth) return false
     return (!(product_type === 'standard' || !blindArr || !blindArr.length));
 }
 
@@ -1337,6 +1353,10 @@ export const isShowFinishSidesBlock = (category: productCategory): boolean => {
         default:
             return false
     }
+}
+
+export const isShowCornerSideWidthBlock = (hasCornerSideWidth:MaybeUndefined<boolean>):boolean => {
+    return !!hasCornerSideWidth
 }
 
 export const getFinishSidesArr = (category: productCategory): FinishSidesTypes[] => {
@@ -1699,7 +1719,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         led: led ? {
             border: led.border,
             alignment: led.alignment,
-            indent_string: getFraction(led.indent)
+            indent_string: getFraction(led.indent),
         } : ledEmpty,
         glass_door: glass?.door || [],
         glass_shelf: glass?.shelf || '',
@@ -1845,8 +1865,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 const {
                     alum_profiles,
                     gola_profiles,
-                    transformer_60_W,
                     transformer_100_W,
+                    transformer_dimmable_96_W,
                     remote_control,
                     door_sensor_single,
                     door_sensor_double
@@ -1863,8 +1883,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                         length: el.length,
                         color: el.color
                     })) : [],
-                    transformer_60_W: transformer_60_W ?? 0,
                     transformer_100_W: transformer_100_W ?? 0,
+                    transformer_dimmable_96_W: transformer_dimmable_96_W ?? 0,
                     door_sensor_double: door_sensor_double ?? 0,
                     door_sensor_single: door_sensor_single ?? 0,
                     remote_control: remote_control ?? 0
@@ -1945,6 +1965,11 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             price: 0,
         }
     }
+}
+
+export const getBorderOptions = (id: number):BorderType[] => {
+    const panel_ids = [903];
+    return panel_ids.includes(id) ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
 }
 
 export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
@@ -2131,14 +2156,14 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
         }
         case 910: {
             switch (material) {
-                case "Shaker Syncron":
-                case "Shaker Zenit":
-                case "Shaker Milino": {
+                case "Milino":
+                case "Syncron":
+                case "Luxe":
+                case "Zenit": {
                     return {width: [5, 108], height: [5, 108]}
                 }
-                case "Shaker Painted":
-                case "Shaker":
-                case "Shaker Veneer": {
+                case "Painted":
+                case "Wood Veneer": {
                     return {width: [5, 120], height: [5, 120]}
                 }
             }

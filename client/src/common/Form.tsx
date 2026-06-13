@@ -64,7 +64,7 @@ interface ProductRadioInterfaceNumber extends InputInterface {
 interface ProductDimensionRadioCustomInterface extends InputInterface {
     value: null | number,
     nullable?: boolean,
-    label?: string
+    label_custom?: string
 }
 
 interface ProductOptionsRadioInterface extends InputInterface {
@@ -241,17 +241,21 @@ export const ProductRadioInputCustom: FC<ProductDimensionRadioCustomInterface> =
                                                                                       name,
                                                                                       value,
                                                                                       className,
-                                                                                      nullable = false
+                                                                                      nullable = false,
+                                                                                      label_custom
                                                                                   }) => {
-    const labelName = name.replace('_', ' ')
-    const [, , helpers] = useField(name)
-    const labelCustom = nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
-
+    const [, , helpers] = useField(name);
+    const getCustomLabel = (): string => {
+        // nullable ? value : value ? getFraction(value) : `Custom ${labelName}`;
+        const labelName = name.replace('_', ' ')
+        if (nullable || !value) return label_custom || `Custom ${labelName}`;
+        return getFraction(value);
+    }
+    const labelCustom = getCustomLabel();
 
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
-
 
     return (
         <div className={[className, styles.productRadio].join(' ')}>
@@ -282,9 +286,11 @@ export const ProductRadioInput: FC<ProductRadioInterface> = ({name, value, class
 
 export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, value, className}) => {
     const [, , helpers] = useField(name)
+
     function convert(input: HTMLInputElement): void {
         helpers.setValue(+input.value)
     }
+
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
@@ -299,21 +305,38 @@ export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, 
 
 type checkboxType = {
     name: string,
-    value: string,
+    value: string|boolean,
     className?: string,
-    inputIndex: number
+    inputIndex: number,
+    label?: string,
 }
-export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, inputIndex}) => {
+export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, inputIndex, label}) => {
 
     const [, meta,] = useField(name);
     return (
         <div className={[className, styles.productRadio].join(' ')}>
             <Field
                 type="checkbox" name={name} value={value}
-                id={`${name}_${value}`}/>
-            <label htmlFor={`${name}_${value}`}
-                   className={styles.radioLabel}><span>{value}</span></label>
+                id={`${name}_${value.toString()}`}/>
+            <label htmlFor={`${name}_${value.toString()}`}
+                   className={styles.radioLabel}><span>{label ?? value}</span></label>
             {inputIndex === 0 && meta.error && <div className={styles.error}>{meta.error}</div>}
+        </div>
+    )
+}
+
+type ProductCheckboxBooleanType = {
+    name: string,
+    value: string|boolean,
+    className?: string,
+    label: string
+}
+export const ProductCheckboxBoolean: FC<ProductCheckboxBooleanType> = ({name, value, className, label}) => {
+
+    return (
+        <div className={[className, styles.productRadio].join(' ')}>
+            <Field type="checkbox" name={name} checked={value} id={name}/>
+            <label htmlFor={name} className={styles.radioLabel}><span>{label}</span></label>
         </div>
     )
 }
@@ -444,7 +467,7 @@ export const AdditionalEmailsArray: FC<{ additional_emails: string[], errors: Ma
                                 />
                             )}
                             {typeErrorIsString &&
-                            <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
+                                <ErrorMessage name="additional_emails" component="div" className={styles.error}/>}
                         </div>
                         : null
                     }

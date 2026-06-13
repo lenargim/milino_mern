@@ -19,10 +19,11 @@ const DoorAccessoriesForm: FC = () => {
     }, [door_accessories])
 
     if (!door_accessories) return null;
-    const aventos = door_accessories.filter(el => el.filter === 'aventos');
-    const hinge = door_accessories.filter(el => el.filter === 'hinge');
-    const PTO = door_accessories.filter(el => el.filter === 'PTO');
-    const servo = door_accessories.filter(el => el.filter === 'servo');
+    const availableDoorAccessories = door_accessories.filter(el => !el?.deleted);
+    const aventos = availableDoorAccessories.filter(el => el.filter === 'aventos');
+    const hinge = availableDoorAccessories.filter(el => el.filter === 'hinge');
+    const PTO = availableDoorAccessories.filter(el => el.filter === 'PTO');
+    const servo = availableDoorAccessories.filter(el => el.filter === 'servo');
 
     return (
         <Form className={s.accessories}>

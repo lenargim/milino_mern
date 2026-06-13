@@ -3,8 +3,6 @@ import s from "./product.module.sass";
 import {jeweleryInsertsNames} from "../../helpers/productTypes";
 import {ProductOptionsInput} from "../../common/Form";
 
-export type borderType = 'Sides' | 'Top' | 'Bottom';
-export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 
 const ProductJeweleryBlock: FC = () => {
     return (
