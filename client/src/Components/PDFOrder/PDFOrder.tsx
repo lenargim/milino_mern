@@ -8,6 +8,8 @@ import {MaterialStringsType} from "../../common/Materials";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 import PdfTable from "./PDFTable";
+import PdfRoomMaterials from "./PDFRoomMaterials";
+import PDFRoomUserData from "./PDFRoomUserData";
 
 export const s = StyleSheet.create({
     page: {
@@ -187,29 +189,8 @@ const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], mate
     <Document language="en">
         <Page orientation="landscape" style={s.page}>
             <Image style={s.logo} src={logo}/>
-            <View>
-                <Text>Name: {values.name}</Text>
-                <Text>Company: {values.company}</Text>
-                <Text>Purchase order: {values.purchase_order}</Text>
-                <Text>Room name: {values.room_name}</Text>
-                <Text>Email: {values.email}</Text>
-                {values.additional_emails ? values.additional_emails.map((el, index) => <Text>Additional Email(#{index+1}): {el}</Text>):null}
-                <Text>Phone: {values.phone}</Text>
-                <Text>Delivery address: {values.delivery}</Text>
-                <Text>Delivery date: {values.delivery_date?.toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: '2-digit'
-                })}</Text>
-            </View>
-            <View>
-                <Text>Category: {materialStrings.categoryString}</Text>
-                {materialStrings.doorString ? <Text>Door: {materialStrings.doorString}</Text> : null}
-                {materialStrings.boxString ? <Text>Box Material: {materialStrings.boxString}</Text> : null}
-                {materialStrings.drawerString ? <Text>Drawer: {materialStrings.drawerString}</Text> : null}
-                {materialStrings.leatherString ? <Text>Leather: {materialStrings.leatherString}</Text> : null}
-                {materialStrings.rod ? <Text>Hanging Rod: {materialStrings.rod}</Text> : null}
-            </View>
+            <PDFRoomUserData values={values} />
+            <PdfRoomMaterials materialStrings={materialStrings} />
         </Page>
         <Page orientation="landscape" style={s.page}>
             <PdfTable cart={cart} />

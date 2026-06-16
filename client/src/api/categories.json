@@ -180,6 +180,11 @@
         "type": "regular"
       },
       {
+        "name": "Standard Parts",
+        "img": "Flatd_05.jpg",
+        "type": "standard"
+      },
+      {
         "name": "Custom Parts",
         "img": "Flatd_05.jpg",
         "type": "regular"
