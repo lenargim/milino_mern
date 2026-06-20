@@ -171,6 +171,7 @@ export const constructorGetCustomerToken = async (user: UserType): Promise<Maybe
     try {
         const token = localStorage.getItem('customer_token');
         if (token && isTokenValid(token)) return token;
+        console.log(user.email)
         const res = await ConstructorAPI.getCustomerToken(user.email)
         if (res.status === 200) {
             localStorage.setItem('customer_token', res.data);
