@@ -16,7 +16,7 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
 
             const board = window.prodboard(containerRef.current, {
                 company: 'milino',
-                instance: 'closet',
+                instance: process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
                 environment: process.env.REACT_APP_CONSTRUCTOR_URL,
             });
 
