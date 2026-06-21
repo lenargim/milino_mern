@@ -18,7 +18,7 @@ import {store} from "../store/store";
 // 403 Forbidden
 export const alertError = (error: unknown, shouldLogout = false) => {
     const axiosError = error as AxiosError;
-    const data:any = axiosError?.response?.data;
+    const data: any = axiosError?.response?.data;
     const resStatus = axiosError.response?.status;
     const msg = data?.message ?? axiosError.message;
     alert(msg);
@@ -30,7 +30,7 @@ export const alertError = (error: unknown, shouldLogout = false) => {
 export const me = async (): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await usersAPI.me()).data ?? null;
-    } catch (error:any) {
+    } catch (error: any) {
         const status = error?.response?.status;
         status === 404 ? alertError(error, true) : alertError(error)
     }
@@ -116,13 +116,6 @@ export const adminUserToggleEnabled = async (_id: string, data: UserAccessData):
     }
 }
 
-export const getConstructorCustomers = async () => {
-    try {
-        return (await ConstructorAPI.getCustomers()).data
-    } catch (error) {
-        alertError(error);
-    }
-}
 
 export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {
     try {
@@ -138,7 +131,7 @@ export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => 
     }
 }
 
-export const constructorSetCustomer = async (user: UserType): Promise<any> => {
+export const constructorSetCustomer = async (user: UserType): Promise<MaybeUndefined<Customer>> => {
     try {
         const {name, email, phone} = user;
         return (await ConstructorAPI.setCustomer({
@@ -154,27 +147,20 @@ export const constructorSetCustomer = async (user: UserType): Promise<any> => {
     }
 }
 
-export const constructorRegisteredCustomer = async (user: UserType): Promise<MaybeUndefined<Customer>> => {
-    try {
-        return (await ConstructorAPI.getCustomer(user.email)).data
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            if (error.response?.data?.code === 'entity-not-found') {
-                return await constructorSetCustomer(user);
-            }
-        }
-        alertError(error);
-    }
-}
+// export const constructorGetCustomer = async (user: UserType): Promise<MaybeUndefined<Customer>> => {
+//     const { name, email, phone } = user;
+//     console.log(email)
+//     try {
+//         return (await ConstructorAPI.getCustomer(email)).data;
+//     } catch (error) {
+//         alertError(error);
+//     }
+// };
 
 export const constructorGetCustomerToken = async (user: UserType): Promise<MaybeUndefined<string>> => {
     try {
-        const token = localStorage.getItem('customer_token');
-        if (token && isTokenValid(token)) return token;
-        console.log(user.email)
         const res = await ConstructorAPI.getCustomerToken(user.email)
         if (res.status === 200) {
-            localStorage.setItem('customer_token', res.data);
             return res.data;
         }
     } catch (error) {
@@ -187,7 +173,7 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
         if (!user.is_active_in_constructor) return undefined;
         const constructor_token = await constructorGetToken();
         if (constructor_token) {
-            const customer = await constructorRegisteredCustomer(user)
+            const customer = await constructorSetCustomer(user)
             if (customer && customer.identityProvider === 'own') {
                 const customer_token = await constructorGetCustomerToken(user);
                 if (customer_token) return customer_token;
@@ -202,7 +188,7 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
 export const isTokenValid = (token: string): boolean => {
     try {
         const decodedToken = jwtDecode<{ exp: number }>(token);
-        const { exp } = decodedToken;
+        const {exp} = decodedToken;
         const now = Date.now() / 1000;
         return exp > now;
     } catch {
@@ -275,7 +261,9 @@ export const postForgotPasswordEmail = async (email: string): Promise<MaybeUndef
     }
 }
 
-export const postResetPasswordEmail = async (password: string, token:string): Promise<MaybeUndefined<{message:string}>> => {
+export const postResetPasswordEmail = async (password: string, token: string): Promise<MaybeUndefined<{
+    message: string
+}>> => {
     try {
         return (await AuthAPI.resetPassword(password, token)).data;
     } catch (error) {
@@ -283,7 +271,7 @@ export const postResetPasswordEmail = async (password: string, token:string): Pr
     }
 }
 
-export const getEmailByResetPasswordToken = async (token:string): Promise<MaybeUndefined<{name:string}>> => {
+export const getEmailByResetPasswordToken = async (token: string): Promise<MaybeUndefined<{ name: string }>> => {
     try {
         return (await AuthAPI.getTokenName(token)).data;
     } catch (error) {

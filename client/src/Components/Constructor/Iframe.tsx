@@ -15,8 +15,9 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
             if (!containerRef.current) return;
 
             const board = window.prodboard(containerRef.current, {
-                company: 'milino',
+                company: process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
                 instance: process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
+                host: process.env.REACT_APP_CONSTRUCTOR_HOST,
                 environment: process.env.REACT_APP_CONSTRUCTOR_URL,
             });
 

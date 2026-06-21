@@ -110,7 +110,7 @@ export const ConstructorAPI = {
         "privateKey": process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_PRIVATE
     }),
     setCustomer: (customer: Customer) => prodboard_instance.post('customers', customer, {headers: getConstructorHeaders()}),
-    getCustomers: () => prodboard_instance.get('customers'),
+    // getCustomers: () => prodboard_instance.get('customers'),
     getCustomer: (id: string) => prodboard_instance.get(`customers/${id}`, {headers: getConstructorHeaders()}),
     signIn: (token: string) => prodboard_instance.post('sign-in', {token: token}),
     getCustomerToken: (email: string) => prodboard_instance.get(`customers/${email}/token`, {headers: getConstructorHeaders()})
