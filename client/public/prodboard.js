@@ -132,6 +132,8 @@ window.prodboard = function (element, options) {
         signOut: function () {
             const win = frame.contentWindow;
 
+            if (!win) return;
+
             win.postMessage(
                 { command: 'sign-out' },
                 options.environment);
