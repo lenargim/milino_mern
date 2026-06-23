@@ -495,6 +495,7 @@ function getSlattedPanelPrice(square: number, material: MaybeUndefined<string>):
 
 function getDrawerPrice(qty: number, width: number, door_type: string, drawerBrand: string, drawerType: string, drawerColor: string): number {
     const isStandardCabinet = door_type === 'Standard Size Shaker'
+
     if (!qty) return 0;
 
     switch (drawerBrand) {
@@ -951,6 +952,7 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Drawer') ? current.value : 0
         return acc + qty;
     }, 0);
+
     const rolloutsQty = attrArr.reduce((acc, current) => {
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
@@ -1436,6 +1438,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
+
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,

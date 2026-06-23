@@ -30,15 +30,13 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
 
         if (window.prodboard) {
             initProdboard();
-            return;
+        } else {
+            const script = document.createElement('script');
+            script.src = '/prodboard.js';
+            script.onload = initProdboard;
+
+            document.body.appendChild(script);
         }
-
-        const script = document.createElement('script');
-        script.src = '/prodboard.js';
-
-        script.onload = initProdboard;
-
-        document.body.appendChild(script);
 
         return () => {
             boardRef.current?.signOut();
