@@ -4613,15 +4613,15 @@
         ]
       },
       {
-        "name": "Double Hanging",
+        "name": "Double Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           },
           {
             "type": 2,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -4669,15 +4669,15 @@
         ]
       },
       {
-        "name": "Long Hanging",
+        "name": "Long Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           },
           {
             "type": 2,
-            "value": 0
+            "value": 1
           }
         ]
       }
@@ -4832,11 +4832,11 @@
         ]
       },
       {
-        "name": "Corner 2xHanging",
+        "name": "Corner Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -4865,11 +4865,11 @@
         ]
       },
       {
-        "name": "Corner Long Hanging",
+        "name": "Corner Long Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }

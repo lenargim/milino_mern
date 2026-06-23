@@ -960,6 +960,7 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
     const rodsQty = getRodsQty(attrArr)
+    console.log(rodsQty)
     return {
         doorValues,
         drawersQty: drawersQty + rolloutsQty,
@@ -1347,7 +1348,7 @@ const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
 }
 
 const getRodsQty = (attrArr: { name: string, value: number }[]): number => {
-    return attrArr.find(el => el.name === 'Hanging Rod')?.value ?? 0;
+    return attrArr.find(el => el.name.includes('Hanging Rod'))?.value ?? 0;
 }
 export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartItemFrontType[] => {
     return cart.map(cartItem => {
