@@ -1,33 +1,20 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
 import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
-import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
 
-type CustomPartCabinet = {
-    product: CustomPartType,
-    isDepthIsConst: boolean,
-    isStandardCabinet: boolean
-}
-
-const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+const CustomPartGlassDoorForm: FC<{product:CustomPartType}> = ({product}) => {
+    const {values} = useFormikContext<CustomPartFormType>();
     const {
-        material,
-        depth,
+        glass_door,
         price
     } = values;
-    const {materials_array} = product;
-
-    useEffect(() => {
-        const new_depth = materials_array && materials_array.find(el => el.name === material)?.depth;
-        if (new_depth && depth !== new_depth) setFieldValue('depth', new_depth);
-    }, [material])
+    const {id} = product;
 
     return (
         <Form>
@@ -43,13 +30,9 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
-            <div className={s.block}>
-                <h3>Depth</h3>
-                <div className={s.options}>
-                    <ProductInputCustom name="depth_string"/>
-                </div>
-            </div>
-            <CustomPartMaterialsArray product={product} isStandardCabinet={isStandardCabinet} />
+            <CustomPartMaterialsArray product={product} isStandardCabinet={false} />
+            <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true} product_id={id}/>
+
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>
@@ -62,4 +45,4 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
     );
 };
 
-export default CustomPartCabinet;
+export default CustomPartGlassDoorForm;

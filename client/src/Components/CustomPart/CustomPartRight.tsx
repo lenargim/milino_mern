@@ -20,6 +20,7 @@ import CustomPartPVC from "./CustomPartPVC";
 import CustomPartThickFloatingShelf from "./CustomPartFloatingShelf";
 import CustomPartRODrawer from "./CustomPartRODrawer";
 import CustomPartGlassShelfForm from "./CustomPartGlassShelfForm";
+import CustomPartGlassDoorForm from "./CustomPartGlassDoorForm";
 
 
 type CustomPartRight = {
@@ -51,11 +52,12 @@ const CustomPartRight: FC<CustomPartRight> = ({
 
     switch (type) {
         case "custom":
-        case "glass-door":
             return <CustomPartCabinet product={customPartProduct}
                                       isDepthIsConst={isDepthIsConst}
                                       isStandardCabinet={isStandardCabinet}
             />
+        case "glass-door":
+            return <CustomPartGlassDoorForm product={customPartProduct} />
         case "glass-shelf":
             return <CustomPartGlassShelfForm />
         case "panel":
