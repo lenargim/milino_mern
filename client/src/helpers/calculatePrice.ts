@@ -1010,7 +1010,7 @@ const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: num
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
-    const {width, height, depth, custom, glass, product_id, led} = values;
+    const {width, height, depth, custom, glass, product_id} = values;
     const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
@@ -1043,6 +1043,11 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                 case "Wood Veneer":
                     price = ((width * height * depth / 10) + 120);
                     break;
+            }
+            if (custom?.shelves?.qty) {
+                const sq = (width - 1.5) * (depth - 0.75) / 144;
+                const shelfsPrice = getPanelPrice(sq, custom?.material) * custom.shelves.qty;
+                price += shelfsPrice;
             }
             break;
         }

@@ -4,10 +4,10 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
-import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
-import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
+import {isShowShelvesBlock} from "../../helpers/helpers";
+import CustomPartShelvesBlock from "./CustomPartShelvesBlock";
 
 type CustomPartCabinet = {
     product: CustomPartType,
@@ -29,6 +29,8 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
         if (new_depth && depth !== new_depth) setFieldValue('depth', new_depth);
     }, [material])
 
+
+    const showShelvesBlock = isShowShelvesBlock(product.id)
     return (
         <Form>
             <div className={s.block}>
@@ -49,6 +51,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
                     <ProductInputCustom name="depth_string"/>
                 </div>
             </div>
+            {showShelvesBlock ? <CustomPartShelvesBlock /> : null}
             <CustomPartMaterialsArray product={product} isStandardCabinet={isStandardCabinet} />
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>

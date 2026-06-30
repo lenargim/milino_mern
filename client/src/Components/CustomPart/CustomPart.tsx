@@ -67,6 +67,12 @@ export type DrawerInserts = {
     insert_type: MaybeNull<DrawerInsertsLetter>
 }
 
+export type CustomPartShelvesType = {
+    has_shelves: boolean,
+    qty?: number,
+    index?: number,
+}
+
 export type CustomPartFormType = {
     width: number,
     height: number,
@@ -87,6 +93,7 @@ export type CustomPartFormType = {
     groove: MaybeNull<GrooveAPIType>,
     drawer_accessories: MaybeNull<DrawerAccessoriesType>,
     panel_accessories: PanelAccessoriesType,
+    shelves: CustomPartShelvesType,
     led: LEDType,
     amount: number
 }

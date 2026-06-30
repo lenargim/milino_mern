@@ -14,8 +14,9 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
+import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
 
-const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
+const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {subcategory, product_id, custom, width, led, glass} = product;
 
     switch (subcategory as CustomTypes) {
@@ -50,23 +51,30 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
         default:
             return <>
                 {custom?.material &&
-                <div className={s.itemOption}>
-                  <span>Material:</span>
-                  <span>{custom.material}</span>
-                </div>}
+                    <div className={s.itemOption}>
+                        <span>Material:</span>
+                        <span>{custom.material}</span>
+                    </div>}
                 {custom?.groove &&
                     <>
-                      <div className={s.itemOption}>
-                        <span>Groove Styles:</span>
-                        <span>{custom.groove.style}</span>
-                      </div>
-                      <div className={s.itemOption}>
-                        <span>Clear Coat:</span>
-                        <span>{custom.groove.clear_coat ? 'Yes' : 'No'}</span>
-                      </div>
+                        <div className={s.itemOption}>
+                            <span>Groove Styles:</span>
+                            <span>{custom.groove.style}</span>
+                        </div>
+                        <div className={s.itemOption}>
+                            <span>Clear Coat:</span>
+                            <span>{custom.groove.clear_coat ? 'Yes' : 'No'}</span>
+                        </div>
                     </>}
-                {led && <CartItemLED led={led} />}
-                <CartItemPanelAccessories panel_accessories={custom?.panel_accessories} />
+                {led && <CartItemLED led={led}/>}
+                {custom?.shelves &&
+                    <div className={s.itemOption}>
+                        <span>Shelf Type:</span>
+                        <span>{getCustomPartShelvesNameByIndex(custom.shelves.index)}. </span>
+                        <span>Quantity: {custom.shelves.qty}</span>
+                    </div>
+                }
+                <CartItemPanelAccessories panel_accessories={custom?.panel_accessories}/>
             </>
     }
 }

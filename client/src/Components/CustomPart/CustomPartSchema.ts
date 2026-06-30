@@ -62,7 +62,22 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
     const customPartWithMaterialSchema = Yup.object({
         material: Yup.string().required(),
     })
-    const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
+    const customPartWithShelvesSchema = Yup.object({
+        shelves: Yup.object().shape({
+            has_shelves: Yup.boolean(),
+            qty: Yup.number().integer().positive('Enter quantity')
+                .when('has_shelves', {
+                    is: true,
+                    then: s => s.required("Enter quantity").max(10, 'Too many items'),
+                }),
+            index: Yup.string()
+                .when('has_shelves', {
+                    is: true,
+                    then: s => s.required("Choose shelve type"),
+                }),
+        })
+    })
+    const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema).concat(customPartWithShelvesSchema);
     const getHingeMaxIndentAuto = (context: TestContext<AnyObject>): number => {
         const parent = context.parent;
         const root = getSchemaRootValues(context)

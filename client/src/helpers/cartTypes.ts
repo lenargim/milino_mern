@@ -94,7 +94,11 @@ export type CartCustomTypeAPI = {
     standard_panels?: PanelsFormAPIType,
     rta_closet?: RTAClosetAPIType[],
     mechanism?: string,
-    extra_rollouts?: number
+    extra_rollouts?: number,
+    shelves?: {
+        qty: number,
+        index: number
+    }
 }
 
 export type PanelAccessoriesTypeAPI = {

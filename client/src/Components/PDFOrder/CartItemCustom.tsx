@@ -15,6 +15,7 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
+import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
@@ -74,6 +75,13 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                 }
                 {led && <CartItemLED led={led} />}
                 {<CartItemPanelAccessories panel_accessories={panel_accessories} />}
+                {custom?.shelves &&
+                    <View style={s.itemOption}>
+                        <Text>Shelf Type:</Text>
+                        <Text>{getCustomPartShelvesNameByIndex(custom.shelves.index)}. </Text>
+                        <Text>Quantity: {custom.shelves.qty}</Text>
+                    </View>
+                }
             </View>
     }
 }

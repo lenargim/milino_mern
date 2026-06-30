@@ -49,7 +49,7 @@ import {
 import sizes from "../api/sizes.json";
 import {MaterialStringsType} from "../common/Materials";
 import {
-    CustomPartFormType,
+    CustomPartFormType, CustomPartShelvesType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
     DoorAccessoryType, HingesOrHolesType, PanelAccessoriesType, PanelCutoutType, RTAClosetAPIType, RTAPartCustomType,
@@ -89,6 +89,7 @@ import {numericQuantity} from "numeric-quantity";
 import {useFormikContext} from "formik";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
+import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -695,7 +696,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         drawer_accessories,
         panel_accessories,
         led,
-        amount
+        amount,
+        shelves
     } = values;
 
     const {id, product_type, name} = product;
@@ -832,6 +834,13 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         indent: numericQuantity(led.indent_string),
     } : undefined
     if (ledAPI) forceSetPath(preparedProduct, 'led', ledAPI);
+
+    if (shelves.has_shelves) {
+        forceSetPath(preparedProduct, 'custom.shelves', {
+            qty: shelves.qty,
+            index: Number(shelves.index),
+        });
+    }
 
     return preparedProduct;
 }
@@ -1388,6 +1397,15 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
     }
 }
 
+export const getCustomPartShelvesNameByIndex = (index:number):MaybeEmpty<CustomPartShelvesEnumType> => {
+    if (index in CustomPartShelves) return CustomPartShelves[index as keyof typeof CustomPartShelves];
+    return '';
+}
+
+export const isShowShelvesBlock = (id:number):boolean => {
+    const arr:number[] = [900];
+    return arr.includes(id)
+}
 export const formatDateToTextShort = (dateApi: Date): string => {
     const date = new Date(dateApi);
     const options: Intl.DateTimeFormatOptions = {
@@ -1619,6 +1637,10 @@ export const ledEmpty: LEDType = {
     indent: ''
 }
 
+export const shelvesEmpty:CustomPartShelvesType = {
+    has_shelves: false,
+}
+
 export const getProductInitialFormValues = (productData: ProductTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>, product: ProductType): ProductFormType => {
     const {
         widthRange,
@@ -1840,6 +1862,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 }
             },
             led: ledEmpty,
+            shelves: shelvesEmpty,
             note: '',
             amount: 1,
             price: 0
@@ -1860,12 +1883,17 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             has_cutout: false
         }
 
+        let shelvesValues:CustomPartShelvesType = {
+            has_shelves: false,
+        }
+
         if (custom) {
             const {
                 accessories,
                 standard_doors,
                 rta_closet,
                 panel_accessories,
+                shelves: shelvesAPI
             } = custom;
 
             if (accessories) {
@@ -1953,6 +1981,14 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     }
                 }
             }
+
+            if (shelvesAPI) {
+                shelvesValues = {
+                    has_shelves: true,
+                    qty: shelvesAPI.qty || 0,
+                    index: shelvesAPI.index || 0,
+                }
+            }
         }
 
         return {
@@ -1981,6 +2017,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 alignment: ledBlock.alignment,
                 indent_string: getFraction(ledBlock.indent)
             } : ledEmpty,
+            shelves: shelvesValues,
             amount,
             note: note || '',
             price: 0,

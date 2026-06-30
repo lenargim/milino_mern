@@ -5,7 +5,7 @@ import {TextInput} from "../../common/Form";
 import CustomPartAlumProfile from "./CustomPartAlumProfile";
 import CustomPartGolaProfile from "./CustomPartGolaProfile";
 import {CustomPartFormType} from "./CustomPart";
-import LEDNumberPart from "./CustomPartNumberPart";
+import NumberPart from "./CustomPartNumberPart";
 import CustomPartSubmit from "./CustomPartSubmit";
 import {LedAccessoriesFormType} from "../../helpers/productTypes";
 
@@ -67,11 +67,11 @@ const CustomPartLEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <LEDNumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
-                <LEDNumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W"/>
-                <LEDNumberPart el={'led_accessories.remote_control'} label="Remote control"/>
-                <LEDNumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>
-                <LEDNumberPart el={'led_accessories.door_sensor_double'} label='Door sensor double'/>
+                <NumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
+                <NumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W"/>
+                <NumberPart el={'led_accessories.remote_control'} label="Remote control"/>
+                <NumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>
+                <NumberPart el={'led_accessories.door_sensor_double'} label='Door sensor double'/>
             </div>
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
