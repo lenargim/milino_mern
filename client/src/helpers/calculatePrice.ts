@@ -1011,288 +1011,282 @@ const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: num
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
     const {width, height, depth, custom, glass, product_id, led} = values;
-    if (!custom) return price;
-    const {material, accessories, standard_doors, standard_panels, rta_closet, groove, drawer_accessories} = custom;
     const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
-    switch (type) {
-        case "custom":
-        case "panel":
-        case "pvc":
-        case "backing":
-        case "glass-door":
-        case "thick_floating_shelf":
-        case "glass-shelf": {
-            let priceCustom = 0;
-            const color = getIsRTAorSystemCloset(category) ? box_color : door_color
-            switch (id) {
-                case 900: {
-                    switch (material) {
-                        case "Milino":
-                            priceCustom = (width * height * depth / 100) + 120;
-                            break;
-                        case "Plywood":
-                            priceCustom = (width * height * depth / 80) + 120;
-                            break;
-                        case "Syncron":
-                            priceCustom = (width * height * depth / 50) + 120;
-                            break;
-                        case "Luxe":
-                        case "Ultrapan PET":
-                            priceCustom = (width * height * depth / 20) + 120;
-                            break;
-                        case "Ultrapan Acrylic":
-                            priceCustom = ((width * height * depth / 20) + 120) * 1.1;
-                            break;
-                        case "Zenit":
-                            priceCustom = ((width * height * depth / 20) + 120) * 1.03;
-                            break;
-                        case "Painted":
-                            priceCustom = ((width * height * depth / 20) + 120) * 1.3 * 1.05;
-                            break;
-                        case "Wood Veneer":
-                            priceCustom = ((width * height * depth / 10) + 120);
-                            break;
-                    }
+    const color = getIsRTAorSystemCloset(category) ? box_color : door_color;
+    switch (id) {
+        case 900: {
+            switch (custom?.material) {
+                case "Milino":
+                    price = (width * height * depth / 100) + 120;
                     break;
-                }
-                case 901: {
-                    const opetCabinetCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
-                    switch (material) {
-                        case "Milino":
-                            priceCustom = opetCabinetCoef * 20;
-                            break;
-                        case "Syncron":
-                            priceCustom = opetCabinetCoef * 22;
-                            break;
-                        case "Luxe":
-                        case "Ultrapan PET":
-                            priceCustom = opetCabinetCoef * 24;
-                            break;
-                        case "Ultrapan Acrylic":
-                            priceCustom = opetCabinetCoef * 24 * 1.1;
-                            break;
-                        case "Zenit":
-                            priceCustom = opetCabinetCoef * 24 * 1.03;
-                            break;
-                        case "Painted":
-                            priceCustom = opetCabinetCoef * 31.2 * 1.05;
-                            break;
-                        case "Wood Veneer":
-                            priceCustom = opetCabinetCoef * 34;
-                            break;
-                    }
+                case "Plywood":
+                    price = (width * height * depth / 80) + 120;
                     break;
-                }
-                case 903:
-                case 904: {
-                    // const ledPrice = getLedPrice(width, height, led);
-                    priceCustom = getPanelPrice(area, material);
+                case "Syncron":
+                    price = (width * height * depth / 50) + 120;
                     break;
-                }
-                case 905: {
-                    switch (material) {
-                        case "Milino":
-                            priceCustom = area * 36;
-                            break;
-                        case "Plywood":
-                            priceCustom = area * 40;
-                            break;
-                        case "Syncron":
-                            priceCustom = area * 48;
-                            break;
-                        case "Luxe":
-                        case "Ultrapan PET":
-                            priceCustom = area * 60;
-                            break;
-                        case "Ultrapan Acrylic":
-                            priceCustom = area * 60 * 1.1;
-                            break;
-                        case "Zenit":
-                            priceCustom = area * 60 * 1.03;
-                            break;
-                        case "Painted":
-                            priceCustom = area * 78;
-                            break;
-                        case "Wood Veneer":
-                            priceCustom = area * 90;
-                            break;
-                    }
+                case "Luxe":
+                case "Ultrapan PET":
+                    price = (width * height * depth / 20) + 120;
                     break;
-                }
-                case 906: {
-                    const min = Math.min(width, height);
-                    const max = Math.max(width, height);
-                    const lSHapeArea = (min + depth) * max / 144
-                    switch (material) {
-                        case "Milino":
-                            priceCustom = lSHapeArea * 19;
-                            break
-                        case "Plywood":
-                            priceCustom = lSHapeArea * 21;
-                            break
-                        case "Syncron":
-                            priceCustom = lSHapeArea * 39;
-                            break
-                        case "Luxe":
-                        case "Ultrapan PET":
-                            priceCustom = lSHapeArea * 58;
-                            break
-                        case "Ultrapan Acrylic":
-                            priceCustom = lSHapeArea * 58 * 1.1;
-                            break
-                        case "Zenit":
-                            priceCustom = lSHapeArea * 58 * 1.03;
-                            break
-                        case "Painted":
-                            priceCustom = lSHapeArea * 74.4;
-                            break
-                        case "Wood Veneer":
-                            priceCustom = lSHapeArea * 100;
-                            break
-                    }
-                    break
-                }
-                case 907: {
-                    const columnArea = (width * height + width * depth + height * depth) / 144 * 2 * 2.3;
-                    switch (material) {
-                        case "Milino":
-                            priceCustom = columnArea * 15.2;
-                            break
-                        case "Syncron":
-                            priceCustom = columnArea * 16.8;
-                            break
-                        case "Luxe":
-                        case "Ultrapan PET":
-                            priceCustom = columnArea * 18.4;
-                            break
-                        case "Ultrapan Acrylic":
-                            priceCustom = columnArea * 18.4 * 1.1;
-                            break
-                        case "Zenit":
-                            priceCustom = columnArea * 18.4 * 1.03;
-                            break
-                        case "Painted":
-                            priceCustom = columnArea * 23.92;
-                            break
-                        case "Wood Veneer":
-                            priceCustom = columnArea * 26;
-                            break
-                    }
-                    break
-                }
-                case 909: {
-                    priceCustom = width * height / 144 * 4.6;
-                    break
-                }
-                case 910: {
-                    priceCustom = getShakerPanelPrice(area, material);
-                    break
-                }
-                case 911: {
-                    let decorPrice = area > 4 ? area * 64 : 240;
-                    priceCustom = material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
-                    switch (material) {
-                        case "Ultrapan Acrylic":
-                            priceCustom = decorPrice * 1.1;
-                            break;
-                        case "Wood Veneer":
-                            priceCustom = area > 4 ? area * 105 : 240;
-                            break;
-                        default:
-                            priceCustom = decorPrice;
-                    }
-                    break
-                }
-                case 912: {
-                    priceCustom = getSlattedPanelPrice(area, material);
-                    break
-                }
-                case 913: {
-                    let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
-                    switch (material) {
-                        case "Ultrapan Acrylic": {
-                            priceCustom = shakerDoorPrice * 1.1;
-                            break;
-                        }
-                        case "Painted": {
-                            priceCustom = shakerDoorPrice * 1.3;
-                            break;
-                        }
-                        default:
-                            priceCustom = shakerDoorPrice;
-                    }
-                    break
-                }
-                case 914: {
-                    const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0]
-                    priceCustom = addGlassDoorPrice(area, doorProfileVal, false, true);
+                case "Ultrapan Acrylic":
+                    price = ((width * height * depth / 20) + 120) * 1.1;
                     break;
-                }
-                case 915: {
-                    priceCustom = material === 'Ultrapan Acrylic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+                case "Zenit":
+                    price = ((width * height * depth / 20) + 120) * 1.03;
                     break;
-                }
-                case 916: {
-                    const glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>> = glass?.shelf;
-                    priceCustom = addGlassAndMirroredShelfPrice(area, glassShelf)
-                    break
-                }
-                case 927: {
-                    const sq = width * depth / 144;
-                    priceCustom = getFloatingShelfCustomPartPrice(material, sq);
+                case "Painted":
+                    price = ((width * height * depth / 20) + 120) * 1.3 * 1.05;
                     break;
-                }
+                case "Wood Veneer":
+                    price = ((width * height * depth / 10) + 120);
+                    break;
             }
-            const finishColorCoef = getFinishColorCoefCustomPart(id, material, color);
-            const finishedColorPrice = priceCustom * finishColorCoef;
-
+            break;
+        }
+        case 901: {
+            const opetCabinetCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
+            switch (custom?.material) {
+                case "Milino":
+                    price = opetCabinetCoef * 20;
+                    break;
+                case "Syncron":
+                    price = opetCabinetCoef * 22;
+                    break;
+                case "Luxe":
+                case "Ultrapan PET":
+                    price = opetCabinetCoef * 24;
+                    break;
+                case "Ultrapan Acrylic":
+                    price = opetCabinetCoef * 24 * 1.1;
+                    break;
+                case "Zenit":
+                    price = opetCabinetCoef * 24 * 1.03;
+                    break;
+                case "Painted":
+                    price = opetCabinetCoef * 31.2 * 1.05;
+                    break;
+                case "Wood Veneer":
+                    price = opetCabinetCoef * 34;
+                    break;
+            }
+            break;
+        }
+        case 903: {
+            const panel = getPanelPrice(area, custom?.material);
+            const finishColorCoef = getFinishColorCoefCustomPart(id, custom?.material, color);
+            const finishedColorPrice = panel * finishColorCoef;
             const additions = getCustomPriceAdditions(product, values, finishedColorPrice);
-            price = +(finishedColorPrice + additions).toFixed(1);
+            price = finishedColorPrice + additions;
             break;
         }
-        case "led-accessories": {
-            if (accessories?.led) price = getLEDProductCartPrice(accessories.led);
+        case 904: {
+            const panel = getPanelPrice(area, custom?.material);
+            const finishColorCoef = getFinishColorCoefCustomPart(id, custom?.material, color);
+            price = panel * finishColorCoef;
             break;
         }
-        case "door-accessories": {
-            if (accessories?.door) price = addToCartDoorAccessories(accessories.door);
+        case 905: {
+            switch (custom?.material) {
+                case "Milino":
+                    price = area * 36;
+                    break;
+                case "Plywood":
+                    price = area * 40;
+                    break;
+                case "Syncron":
+                    price = area * 48;
+                    break;
+                case "Luxe":
+                case "Ultrapan PET":
+                    price = area * 60;
+                    break;
+                case "Ultrapan Acrylic":
+                    price = area * 60 * 1.1;
+                    break;
+                case "Zenit":
+                    price = area * 60 * 1.03;
+                    break;
+                case "Painted":
+                    price = area * 78;
+                    break;
+                case "Wood Veneer":
+                    price = area * 90;
+                    break;
+            }
+            break;
+        }
+        case 906: {
+            const min = Math.min(width, height);
+            const max = Math.max(width, height);
+            const lSHapeArea = (min + depth) * max / 144
+            switch (custom?.material) {
+                case "Milino":
+                    price = lSHapeArea * 19;
+                    break
+                case "Plywood":
+                    price = lSHapeArea * 21;
+                    break
+                case "Syncron":
+                    price = lSHapeArea * 39;
+                    break
+                case "Luxe":
+                case "Ultrapan PET":
+                    price = lSHapeArea * 58;
+                    break
+                case "Ultrapan Acrylic":
+                    price = lSHapeArea * 58 * 1.1;
+                    break
+                case "Zenit":
+                    price = lSHapeArea * 58 * 1.03;
+                    break
+                case "Painted":
+                    price = lSHapeArea * 74.4;
+                    break
+                case "Wood Veneer":
+                    price = lSHapeArea * 100;
+                    break
+            }
             break
         }
-        case "standard-doors":
-        case "standard-glass-doors": {
-            if (standard_doors) price = getCustomPartStandardDoorPrice(standard_doors, type, door_color);
+        case 907: {
+            const columnArea = (width * height + width * depth + height * depth) / 144 * 2 * 2.3;
+            switch (custom?.material) {
+                case "Milino":
+                    price = columnArea * 15.2;
+                    break
+                case "Syncron":
+                    price = columnArea * 16.8;
+                    break
+                case "Luxe":
+                case "Ultrapan PET":
+                    price = columnArea * 18.4;
+                    break
+                case "Ultrapan Acrylic":
+                    price = columnArea * 18.4 * 1.1;
+                    break
+                case "Zenit":
+                    price = columnArea * 18.4 * 1.03;
+                    break
+                case "Painted":
+                    price = columnArea * 23.92;
+                    break
+                case "Wood Veneer":
+                    price = columnArea * 26;
+                    break
+            }
+            break
+        }
+        case 909: {
+            price = width * height / 144 * 4.6;
+            break
+        }
+        case 910: {
+            price = getShakerPanelPrice(area, custom?.material);
+            break
+        }
+        case 911: {
+            let decorPrice = area > 4 ? area * 64 : 240;
+            price = custom?.material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
+            switch (custom?.material) {
+                case "Ultrapan Acrylic":
+                    price = decorPrice * 1.1;
+                    break;
+                case "Wood Veneer":
+                    price = area > 4 ? area * 105 : 240;
+                    break;
+                default:
+                    price = decorPrice;
+            }
+            break
+        }
+        case 912: {
+            price = getSlattedPanelPrice(area, custom?.material);
+            break
+        }
+        case 913: {
+            let shakerDoorPrice = area * 80 > 240 ? area * 80 : 240;
+            switch (custom?.material) {
+                case "Ultrapan Acrylic": {
+                    price = shakerDoorPrice * 1.1;
+                    break;
+                }
+                case "Painted": {
+                    price = shakerDoorPrice * 1.3;
+                    break;
+                }
+                default:
+                    price = shakerDoorPrice;
+            }
+            break
+        }
+        case 914: {
+            const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0]
+            price = addGlassDoorPrice(area, doorProfileVal, false, true);
             break;
         }
-        case "standard-panel": {
-            if (standard_panels) {
+        case 915: {
+            price = custom?.material === 'Ultrapan Acrylic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+            break;
+        }
+        case 916: {
+            const glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>> = glass?.shelf;
+            price = addGlassAndMirroredShelfPrice(area, glassShelf)
+            break
+        }
+        case 927: {
+            const sq = width * depth / 144;
+            price = getFloatingShelfCustomPartPrice(custom?.material, sq);
+            break;
+        }
+        case 917: {
+            if (custom?.accessories?.led) price = getLEDProductCartPrice(custom.accessories.led);
+            break;
+        }
+        case 918: {
+            if (custom?.accessories?.door) price = addToCartDoorAccessories(custom.accessories.door);
+            break;
+        }
+        case 919:
+        case 920: {
+            if (custom?.standard_doors) price = getCustomPartStandardDoorPrice(custom.standard_doors, type, door_color);
+            break
+        }
+        case 921: {
+            if (custom?.standard_panels) {
                 const is_price_type_default = door_type === 'Standard Size Shaker' && door_color === 'Default White';
                 const apiPanelData = standardProductsPrices.find(el => el.id === id) as priceStandardPanel;
-                price = getStandardPanelsPrice(standard_panels, is_price_type_default, apiPanelData)
+                price = getStandardPanelsPrice(custom?.standard_panels, is_price_type_default, apiPanelData)
             }
-            break
+            break;
         }
-        case "plastic_toe": {
+        case 922: {
             price = settings.fixPrices.plastic_toe;
             break;
         }
-        case "rta-closets": {
-            if (rta_closet) price = getRTAClosetCustomPartPrice(rta_closet, materials);
+        case 923: {
+            if (custom?.rta_closet) price = getRTAClosetCustomPartPrice(custom.rta_closet, materials);
             break;
         }
-        case "custom-doors": {
+        case 924:
+        case 925: {
             price = getCustomDoorsPrice(area, id);
             break;
         }
-        case "ribbed":
-            price = getRibbedCustomPartPrice(material, groove, area);
+        case 926: {
+            price = getRibbedCustomPartPrice(custom?.material, custom?.groove, area);
             break;
-        case "drawer-inserts":
-            price = getDrawerInsertsCustomPartPrice(drawer_accessories?.inserts, width);
+        }
+        case 928: {
+            price = getDrawerInsertsCustomPartPrice(custom?.drawer_accessories?.inserts, width);
             break;
-        case "ro_drawer":
-            price = getRoDrawerPrice(drawer_accessories?.drawer_ro, width, materials, product_id)
+        }
+        case 929: {
+            price = getRoDrawerPrice(custom?.drawer_accessories?.drawer_ro, width, materials, product_id);
+            break;
+        }
     }
     return +(price * settings.global_price_coef).toFixed(1);
 }

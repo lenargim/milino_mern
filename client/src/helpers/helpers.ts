@@ -52,7 +52,7 @@ import {
     CustomPartFormType,
     DoorAccessoryAPIType,
     DoorAccessoryFront,
-    DoorAccessoryType, PanelAccessoriesType, RTAClosetAPIType, RTAPartCustomType,
+    DoorAccessoryType, HingesOrHolesType, PanelAccessoriesType, PanelCutoutType, RTAClosetAPIType, RTAPartCustomType,
 } from "../Components/CustomPart/CustomPart";
 import {initialDoorAccessories} from "../Components/CustomPart/CustomPartDoorAccessoiresForm";
 import {
@@ -104,7 +104,7 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
 }
 
 
-export const getProductImg = (folder: string, img:string): string => {
+export const getProductImg = (folder: string, img: string): string => {
     for (const s of ['', ' L', ' 2L', ' 4'] as const) {
         try {
             const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
@@ -273,7 +273,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
-                return getProductImg(category_folder,img_src);
+                return getProductImg(category_folder, img_src);
             }
         }
         switch (door_type as MaybeEmpty<DoorTypesType>) {
@@ -374,9 +374,9 @@ export const getFraction = (numberFraction: number): string => {
     return new Fraction(numberFraction).simplify(0.001).toFraction(true);
 }
 
-export const hasSideWidth = (id:number):boolean => {
+export const hasSideWidth = (id: number): boolean => {
     //RTA Cabinets
-    return [507,508,509].includes(id)
+    return [507, 508, 509].includes(id)
 }
 
 function getBlindArr(category: string, product_id: number, isBlind: boolean): MaybeUndefined<number[]> {
@@ -391,7 +391,7 @@ function getBlindArr(category: string, product_id: number, isBlind: boolean): Ma
     // Base Cabinet Exceptions
     const baseProductExceptionsArr: number[] = [23, 24, 25, 26, 51, 52];
     if (baseProductExceptionsArr.includes(product_id)) return [24, 0];
-    if (hasSideWidth(product_id)) return [14,18,22, 0];
+    if (hasSideWidth(product_id)) return [14, 18, 22, 0];
     return range[category] ? [range[category], 0] : [0];
 }
 
@@ -576,9 +576,10 @@ export const checkOptionsSelected = (options: string[]): boolean => {
 export const checkLedSelected = (led: MaybeUndefined<string[]>): boolean => {
     return !led?.length
 }
-export const checkFinishedSidesStandard = (sides:MaybeUndefined<FinishSidesTypes[]>):boolean => {
+export const checkFinishedSidesStandard = (sides: MaybeUndefined<FinishSidesTypes[]>): boolean => {
     return !(sides && sides.length)
 }
+
 export function isEmptyOrZeroValue(value: any): boolean {
     if (value === undefined || value === null) return true;
     if (value === "") return true;
@@ -1261,7 +1262,7 @@ export const getLEDProductCartPrice = (led: LEDAccessoriesType): number => {
     const remoteControlPrice = remote_control * pricesAPI.remote_control || 0;
     const doorSensorSinglePrice = door_sensor_single * pricesAPI.door_sensor_single || 0;
     const doorSensorDoublePrice = door_sensor_double * pricesAPI.door_sensor_double || 0;
-    return alumProfPrice + golaProfPrice + transformer100Price + transformer96 +  remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
+    return alumProfPrice + golaProfPrice + transformer100Price + transformer96 + remoteControlPrice + doorSensorSinglePrice + doorSensorDoublePrice
 }
 
 export const isHingeHolesBlock = (id: number): boolean => {
@@ -1318,7 +1319,7 @@ export const getdimensionsRow = (width: number, height: number, depth: number): 
     return `${widthPart}${heightPart}${depthPart}`
 }
 
-export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType, hasCornerSideWidth:MaybeUndefined<boolean>): boolean => {
+export const isShowBlindWidthBlock = (blindArr: MaybeUndefined<number[]>, product_type: ProductApiType, hasCornerSideWidth: MaybeUndefined<boolean>): boolean => {
     if (hasCornerSideWidth) return false
     return (!(product_type === 'standard' || !blindArr || !blindArr.length));
 }
@@ -1355,7 +1356,7 @@ export const isShowFinishSidesBlock = (category: productCategory): boolean => {
     }
 }
 
-export const isShowCornerSideWidthBlock = (hasCornerSideWidth:MaybeUndefined<boolean>):boolean => {
+export const isShowCornerSideWidthBlock = (hasCornerSideWidth: MaybeUndefined<boolean>): boolean => {
     return !!hasCornerSideWidth
 }
 
@@ -1573,7 +1574,7 @@ async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType
 }
 
 
-export const getProductInitialTableData = (product: ProductType, materials: RoomMaterialsFormType, activeCat:MaybeEmpty<productCategory>): MaybeUndefined<ProductTableDataType> => {
+export const getProductInitialTableData = (product: ProductType, materials: RoomMaterialsFormType, activeCat: MaybeEmpty<productCategory>): MaybeUndefined<ProductTableDataType> => {
     const {
         id: product_id,
         category,
@@ -1845,81 +1846,114 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         }
     } else {
         const {width, height, depth, custom, note, glass, amount, led: ledBlock} = cartItemValues;
-        const {
-            standard_doors,
-            standard_panels,
-            material,
-            rta_closet,
-            accessories,
-            groove,
-            drawer_accessories,
-            panel_accessories,
-        } = custom!;
+
         let LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = null;
         let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
         let standardDoorValues: MaybeNull<DoorType[]> = null;
+        let rtaClosetValues: MaybeNull<RTAPartCustomType[]> = null;
         const doorAccessories = DA as DoorAccessoryFront[]
-        if (accessories) {
-            const {led, door, closet} = accessories;
-            if (led) {
-                const {
-                    alum_profiles,
-                    gola_profiles,
-                    transformer_100_W,
-                    transformer_dimmable_96_W,
-                    remote_control,
-                    door_sensor_single,
-                    door_sensor_double
-                } = led
-                LEDAccessoriesValues = {
-                    alum_profiles: alum_profiles ? alum_profiles.map(el => ({
-                        qty: el.qty,
-                        length_string: getFraction(el.length),
-                        length: el.length
-                    })) : [],
-                    gola_profiles: gola_profiles ? gola_profiles.map(el => ({
-                        qty: el.qty,
-                        length_string: getFraction(el.length),
-                        length: el.length,
-                        color: el.color
-                    })) : [],
-                    transformer_100_W: transformer_100_W ?? 0,
-                    transformer_dimmable_96_W: transformer_dimmable_96_W ?? 0,
-                    door_sensor_double: door_sensor_double ?? 0,
-                    door_sensor_single: door_sensor_single ?? 0,
-                    remote_control: remote_control ?? 0
-                }
 
-            }
-            if (door) {
-                doorAccessoriesValues = doorAccessories.map(el => {
-                    const {value, id, price, label, filter} = el;
-                    let qty: number = 0;
-                    qty = door.find(el => el.value === value)?.qty ?? 0;
-                    return {
-                        id,
-                        label,
-                        filter,
-                        price,
-                        value,
-                        qty
+        let hhValues: HingesOrHolesType = {
+            has_hh: false
+        }
+        let cutoutValues: PanelCutoutType = {
+            has_cutout: false
+        }
+
+        if (custom) {
+            const {
+                accessories,
+                standard_doors,
+                rta_closet,
+                panel_accessories,
+            } = custom;
+
+            if (accessories) {
+                const {led, door} = accessories;
+                if (led) {
+                    const {
+                        alum_profiles,
+                        gola_profiles,
+                        transformer_100_W,
+                        transformer_dimmable_96_W,
+                        remote_control,
+                        door_sensor_single,
+                        door_sensor_double
+                    } = led
+                    LEDAccessoriesValues = {
+                        alum_profiles: alum_profiles ? alum_profiles.map(el => ({
+                            qty: el.qty,
+                            length_string: getFraction(el.length),
+                            length: el.length
+                        })) : [],
+                        gola_profiles: gola_profiles ? gola_profiles.map(el => ({
+                            qty: el.qty,
+                            length_string: getFraction(el.length),
+                            length: el.length,
+                            color: el.color
+                        })) : [],
+                        transformer_100_W: transformer_100_W ?? 0,
+                        transformer_dimmable_96_W: transformer_dimmable_96_W ?? 0,
+                        door_sensor_double: door_sensor_double ?? 0,
+                        door_sensor_single: door_sensor_single ?? 0,
+                        remote_control: remote_control ?? 0
                     }
-                })
+
+                }
+                if (door) {
+                    doorAccessoriesValues = doorAccessories.map(el => {
+                        const {value, id, price, label, filter} = el;
+                        let qty: number = 0;
+                        qty = door.find(el => el.value === value)?.qty ?? 0;
+                        return {
+                            id,
+                            label,
+                            filter,
+                            price,
+                            value,
+                            qty
+                        }
+                    })
+                }
+            }
+
+            if (standard_doors && standardDoorData) {
+                standardDoorValues = standard_doors.map(el => ({
+                    ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
+                }));
+            }
+            if (rta_closet) {
+                rtaClosetValues = rta_closet.map(el => ({
+                    ...el,
+                    width_string: getFraction(el.width)
+                }))
+            }
+
+            if (panel_accessories) {
+                const {hinges_or_holes, cutout} = panel_accessories
+                const hasHH = !!hinges_or_holes;
+                const hasCutout = !!cutout
+                if (hasHH) {
+                    hhValues = {
+                        has_hh: hasHH,
+                        hh_type: hinges_or_holes?.type,
+                        hh_top: hinges_or_holes?.top,
+                        hh_bottom: hinges_or_holes?.bottom,
+                        hh_top_string: getFraction(hinges_or_holes?.top || 0),
+                        hh_bottom_string: getFraction(hinges_or_holes?.bottom || 0),
+                    }
+                }
+                if (hasCutout) {
+                    cutoutValues = {
+                        has_cutout: hasCutout,
+                        width: cutout?.width,
+                        height: cutout?.height,
+                        width_string: getFraction(cutout?.width || 0),
+                        height_string: getFraction(cutout?.height || 0)
+                    }
+                }
             }
         }
-        standardDoorValues = standardDoorData && standard_doors ?
-            standard_doors.map(el => ({
-                ...el, name: standardDoorData.find(d => d.width === el.width && d.height === el.height)?.value || ''
-            })) : null;
-
-        const rtaClosetValues: MaybeNull<RTAPartCustomType[]> = rta_closet ? rta_closet.map(el => ({
-            ...el,
-            width_string: getFraction(el.width)
-        })) : null;
-
-
-        const hasHH = !!panel_accessories?.hinges_or_holes;
-        const hasCutout = !!panel_accessories?.cutout
 
         return {
             width_string: getFraction(width),
@@ -1928,32 +1962,19 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             width,
             height,
             depth,
-            material: material ?? '',
+            material: custom?.material ?? '',
             glass_door: glass?.door ?? ['', '', ''],
             glass_shelf: glass?.shelf ?? '',
             led_accessories: LEDAccessoriesValues,
             door_accessories: doorAccessoriesValues,
             standard_doors: standardDoorValues,
-            standard_panels: standard_panels ?? null,
+            standard_panels: custom?.standard_panels ?? null,
             rta_closet_custom: rtaClosetValues,
-            groove: groove ?? null,
-            drawer_accessories: drawer_accessories ?? null,
+            groove: custom?.groove ?? null,
+            drawer_accessories: custom?.drawer_accessories ?? null,
             panel_accessories: {
-                hinges_or_holes: {
-                    has_hh: hasHH,
-                    hh_type: panel_accessories?.hinges_or_holes?.type,
-                    hh_top: panel_accessories?.hinges_or_holes?.top,
-                    hh_bottom: panel_accessories?.hinges_or_holes?.bottom,
-                    hh_top_string: hasHH ? getFraction(panel_accessories?.hinges_or_holes?.top || 0) : undefined,
-                    hh_bottom_string: hasHH ? getFraction(panel_accessories?.hinges_or_holes?.bottom || 0) : undefined,
-                },
-                cutout: {
-                    has_cutout: hasCutout,
-                    width: panel_accessories?.cutout?.width,
-                    height: panel_accessories?.cutout?.height,
-                    width_string: hasCutout ? getFraction(panel_accessories?.cutout?.width || 0) : undefined,
-                    height_string: hasCutout ? getFraction(panel_accessories?.cutout?.height || 0) : undefined
-                },
+                hinges_or_holes: hhValues,
+                cutout: cutoutValues,
             },
             led: ledBlock ? {
                 border: ledBlock.border,
@@ -1967,7 +1988,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
     }
 }
 
-export const getBorderOptions = (id: number):BorderType[] => {
+export const getBorderOptions = (id: number): BorderType[] => {
     const panel_ids = [903];
     return panel_ids.includes(id) ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
 }
