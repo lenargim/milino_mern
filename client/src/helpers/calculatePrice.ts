@@ -387,9 +387,10 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
     } = materialData;
     if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(room_category) || door_type === 'Wood ribbed doors') return 0;
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
-    const pvcPrice = per * 2.5;
-    const is_acrylic = door_finish_material === 'Ultrapan Acrylic';
-    return +(is_acrylic ? pvcPrice * 1.1 : pvcPrice).toFixed(1)
+    let coef = 2.5;
+    if (door_type === 'Custom Painted') coef = 2.63;
+    if (door_finish_material === 'Ultrapan Acrylic') coef = 2.75;
+    return +(per * coef).toFixed(2);
 }
 
 function getDoorPrice(square: number, materialData: materialDataType): number {
@@ -458,7 +459,7 @@ function getPanelPrice(square: number, material: MaybeUndefined<string>): number
         case "Zenit":
             return square * k * 24 * 1.03;
         case "Painted":
-            return square * k * 31.2 * 1.3;
+            return square * k * 40.56 * 1.05;
         case "Wood Veneer":
             return square * k * 42;
         default:
@@ -479,7 +480,7 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Zenit":
             return square * 60 * 1.03;
         case 'Painted':
-            return square * 78;
+            return square * 81.9;
         case "Wood Veneer":
             return square * 96;
         default:
@@ -723,8 +724,8 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     if (door_finish_material === 'Zenit') return 1.03;
                     break;
                 case 'Custom Painted':
-                    if (door_finish_material === 'Slab') return 1;
-                    return 1.05;
+                    if (door_finish_material === 'Slab') return 1.05;
+                    return 1.10;
                 case 'Shaker':
                     if (door_finish_material === 'Zenit') return 1.03;
                     if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
@@ -857,8 +858,8 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                     if (door_finish_material === 'Syncron') return 30;
                     return 36;
                 case "Custom Painted":
-                    if (door_finish_material === 'Slab') return 30;
-                    return 43.2;
+                    if (door_finish_material === 'Slab') return 31.5;
+                    return 45.36;
                 case "Shaker":
                     switch (door_finish_material as FinishTypes) {
                         case "Milino":
@@ -960,7 +961,6 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
     const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
     const shelfsQty = getShelfsQty(attrArr);
     const rodsQty = getRodsQty(attrArr)
-    console.log(rodsQty)
     return {
         doorValues,
         drawersQty: drawersQty + rolloutsQty,
@@ -1038,7 +1038,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = ((width * height * depth / 20) + 120) * 1.03;
                     break;
                 case "Painted":
-                    price = ((width * height * depth / 20) + 120) * 1.3 * 1.05;
+                    price = ((width * height * depth / 20) * 1.3 + 156) * 1.05 * 1.05;
                     break;
                 case "Wood Veneer":
                     price = ((width * height * depth / 10) + 120);
@@ -1071,7 +1071,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = opetCabinetCoef * 24 * 1.03;
                     break;
                 case "Painted":
-                    price = opetCabinetCoef * 31.2 * 1.05;
+                    price = opetCabinetCoef * 32.76 * 1.05;
                     break;
                 case "Wood Veneer":
                     price = opetCabinetCoef * 34;
@@ -1115,7 +1115,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = area * 60 * 1.03;
                     break;
                 case "Painted":
-                    price = area * 78;
+                    price = area * 81.9;
                     break;
                 case "Wood Veneer":
                     price = area * 90;
@@ -1148,7 +1148,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = lSHapeArea * 58 * 1.03;
                     break
                 case "Painted":
-                    price = lSHapeArea * 74.4;
+                    price = lSHapeArea * 79.17;
                     break
                 case "Wood Veneer":
                     price = lSHapeArea * 100;
@@ -1176,7 +1176,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = columnArea * 18.4 * 1.03;
                     break
                 case "Painted":
-                    price = columnArea * 23.92;
+                    price = columnArea * 25.12;
                     break
                 case "Wood Veneer":
                     price = columnArea * 26;
@@ -1219,7 +1219,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     break;
                 }
                 case "Painted": {
-                    price = shakerDoorPrice * 1.3;
+                    price = shakerDoorPrice * 1.365;
                     break;
                 }
                 default:
@@ -1369,7 +1369,7 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {widthDivider, category, attributes} = product
     const {width, height, depth, options, hinge} = cabinetItem;
-    const doors = checkDoors(hinge)
+    const doors = checkDoors(hinge);
     const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
@@ -1438,7 +1438,6 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
-
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
@@ -1563,7 +1562,7 @@ export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>
         case "Ultrapan Acrylic":
             return area * 102 * 1.1;
         case "Painted":
-            return area * 132.6;
+            return area * 139.2;
         case "Wood Veneer":
             return area * 153;
     }

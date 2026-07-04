@@ -7,7 +7,7 @@ import {useFormikContext} from "formik";
 import {CustomPartFormType} from "./CustomPart";
 import {getCustomPartImagePath} from "../../helpers/helpers";
 
-const CustomPartLeft: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({product, materials}) => {
+const CustomPartLeft: FC<{ product: CustomPartType}> = ({product}) => {
     const {name} = product
     const {values} = useFormikContext<CustomPartFormType>();
     const img = getCustomPartImagePath(product, values);
@@ -17,7 +17,6 @@ const CustomPartLeft: FC<{ product: CustomPartType, materials: RoomMaterialsForm
             <div className={[s.img].join(' ')}>
                 <img src={img} alt={name}/>
             </div>
-            <Materials materials={materials}/>
         </div>
     );
 };

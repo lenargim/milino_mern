@@ -175,7 +175,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             }}
         >
             <div className={st.product}>
-                <CustomPartLeft product={custom_part} materials={materials}/>
+                <CustomPartLeft product={custom_part}/>
                 <div className={s.right}>
                     <CustomPartRight customPartProduct={custom_part}
                                      customPartData={customPartData}
