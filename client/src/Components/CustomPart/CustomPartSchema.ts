@@ -18,7 +18,7 @@ import {
     getBorderOptions,
     getCustomPartMaterialsArraySizeLimits,
     getFraction, getSchemaRootValues,
-    glassDoorHasProfile,
+    glassDoorHasProfile, NumericQuantityRounded,
     testMinMaxCustomLimit
 } from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
@@ -30,7 +30,7 @@ import {BorderType} from "../Product/ProductLED";
 export function getCustomPartSchema(product: CustomPartType, materials: RoomMaterialsFormType): Yup.InferType<any> {
     const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, materials_array: MaybeUndefined<materialsCustomPart[]>, dimension: 'width' | 'height' | 'depth') => {
         if (!val) return false;
-        const numberVal = numericQuantity(val);
+        const numberVal = NumericQuantityRounded(val);
         if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`})
         const material = context.parent.material as MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>;
         const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, material, materials);

@@ -6,7 +6,8 @@ import {
     resolveTypeByDimensions
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage,
+    NumericQuantityRounded, setAllProductFieldIsStandard
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
@@ -110,7 +111,7 @@ const ProductCabinet: FC<CabinetType> = ({
         led: {
             border: led.border,
             alignment: led.alignment,
-            indent: numericQuantity(led.indent_string),
+            indent: NumericQuantityRounded(led.indent_string),
         },
         custom: customVal,
         image_active_number: newType,

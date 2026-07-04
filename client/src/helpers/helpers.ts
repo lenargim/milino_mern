@@ -85,7 +85,7 @@ import {
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
-import {numericQuantity} from "numeric-quantity";
+import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
 import {useFormikContext} from "formik";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
@@ -94,6 +94,17 @@ import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useAppDispatch: () => AppDispatch = useDispatch;
+
+
+export function NumericQuantityRounded(
+    value: string | number,
+    options: NumericQuantityOptions = {}
+) {
+    return numericQuantity(value, {
+        round: 5,
+        ...options,
+    });
+}
 
 export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     if (!folder || !img) return noImg;
@@ -629,7 +640,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const realD = depth || +custom_depth || 0;
     const realMiddle = +middle_section || 0
     const realBlind = +blind_width || +custom_blind_width || 0;
-    const sinkHeight = farm_sink_height_string ? numericQuantity(farm_sink_height_string) : undefined;
+    const sinkHeight = farm_sink_height_string ? NumericQuantityRounded(farm_sink_height_string) : undefined;
     const sinkAPI = sinkHeight ? {
         farm_height: sinkHeight
     } : undefined
@@ -637,7 +648,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     const ledAPI = led.border.length ? {
         border: led.border,
         alignment: led.alignment,
-        indent: numericQuantity(led.indent_string),
+        indent: NumericQuantityRounded(led.indent_string),
     } : undefined
 
     const glassAPI = chosenOptions.includes('Glass Door') || chosenOptions.includes('Glass Shelf') ? {
@@ -831,7 +842,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
     const ledAPI = led.border.length ? {
         border: led.border,
         alignment: led.alignment,
-        indent: numericQuantity(led.indent_string),
+        indent: NumericQuantityRounded(led.indent_string),
     } : undefined
     if (ledAPI) forceSetPath(preparedProduct, 'led', ledAPI);
 
@@ -1817,7 +1828,7 @@ export const getSchemaRootValues = (context: TestContext<AnyObject>) => {
 
 export const testMinMaxCustomLimit = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, min: number, max: number) => {
     if (!val) return false;
-    const numberVal = numericQuantity(val);
+    const numberVal = NumericQuantityRounded(val);
     if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
     if (numberVal < min) return context.createError({message: `Minimum ${min} inches`})
     if (numberVal > max) return context.createError({message: `Maximum ${max} inches`})
