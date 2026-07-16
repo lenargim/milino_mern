@@ -850,6 +850,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         forceSetPath(preparedProduct, 'custom.shelves', {
             qty: shelves.qty,
             index: Number(shelves.index),
+            color: shelves.color,
         });
     }
 
@@ -1296,7 +1297,7 @@ export const isPanelCutoutBlock = (id: number): boolean => {
 }
 
 export const isLedBlock = (id: number): boolean => {
-    const IDsArr: number[] = [903];
+    const IDsArr: number[] = [903, 901, 900];
     return IDsArr.includes(id)
 }
 
@@ -1306,10 +1307,6 @@ export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefine
         case 904: {
             // Choose Material (In Product Page)
             if (material !== 'Milino') return 1;
-            // Door Color from Materials page
-            // if (isTexturedColor(color)) return 1.1;
-            // if (color.includes('Ultra Matte')) return 1.2;
-            // break
             const boxColorType = getBoxMaterialColorType(color)
             return getBoxMaterialCoefByColorType(boxColorType);
         }
@@ -1408,13 +1405,13 @@ export const getSliderCategories = (room: RoomType): SliderCategoriesItemType =>
     }
 }
 
-export const getCustomPartShelvesNameByIndex = (index:number):MaybeEmpty<CustomPartShelvesEnumType> => {
+export const getCustomPartShelvesNameByIndex = (index: number): MaybeEmpty<CustomPartShelvesEnumType> => {
     if (index in CustomPartShelves) return CustomPartShelves[index as keyof typeof CustomPartShelves];
     return '';
 }
 
-export const isShowShelvesBlock = (id:number):boolean => {
-    const arr:number[] = [900];
+export const isShowShelvesBlock = (id: number): boolean => {
+    const arr: number[] = [900];
     return arr.includes(id)
 }
 export const formatDateToTextShort = (dateApi: Date): string => {
@@ -1648,8 +1645,10 @@ export const ledEmpty: LEDType = {
     indent: ''
 }
 
-export const shelvesEmpty:CustomPartShelvesType = {
+export const shelvesEmpty: CustomPartShelvesType = {
     has_shelves: false,
+    qty: 0,
+    color: ''
 }
 
 export const getProductInitialFormValues = (productData: ProductTableDataType, cartItemValues: MaybeUndefined<CartItemFrontType>, product: ProductType): ProductFormType => {
@@ -1894,7 +1893,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             has_cutout: false
         }
 
-        let shelvesValues:CustomPartShelvesType = {
+        let shelvesValues: CustomPartShelvesType = {
             has_shelves: false,
         }
 
@@ -2036,9 +2035,15 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
     }
 }
 
-export const getBorderOptions = (id: number): BorderType[] => {
-    const panel_ids = [903];
-    return panel_ids.includes(id) ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
+export const getBorderOptionsById = (id: number): BorderType[] => {
+    switch (id) {
+        case 901:
+            return ['LED Shelf'];
+        case 903:
+            return ['LED Panel'];
+        default:
+            return ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside']
+    }
 }
 
 export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
@@ -2317,3 +2322,7 @@ export const getVariableType = (value: any) => {
     }
     return type;
 };
+
+export const hasGlassShelfColor = (index: MaybeUndefined<number>): boolean => {
+    return index !== undefined && [3, 4].includes(+index);
+}

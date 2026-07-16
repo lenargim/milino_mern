@@ -22,6 +22,7 @@ export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two
 export const finishSidesArr = ["Left", "Right", "Bottom"] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
+export const glassNames = ['Clear', 'Bronze', 'Gray', 'Frosted'];
 
 export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
 export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
@@ -31,6 +32,7 @@ export type hingeTypes = typeof hingeArr[number];
 export type FinishSidesTypes = typeof finishSidesArr[number];
 export type ClosetAccessoriesTypes = typeof closetAccessoriesNames[number];
 export type GlassAndMirrorTypes = typeof glassAndMirrorNames[number];
+export type GlassNamesTypes = typeof glassNames[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =

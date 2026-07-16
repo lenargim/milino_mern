@@ -6,7 +6,6 @@ import {
     MaybeEmpty,
     MaybeUndefined
 } from "../../helpers/productTypes";
-import {numericQuantity} from 'numeric-quantity';
 import {colorsArr} from "./CustomPartGolaProfile";
 import {
     DrawerInsertsBoxNames,
@@ -15,10 +14,10 @@ import {
     DrawerInsertsColorNames, DrawerInsertsLetter, DrawerRONames, DrawerROType,
 } from "./CustomPart";
 import {
-    getBorderOptions,
+    getBorderOptionsById,
     getCustomPartMaterialsArraySizeLimits,
     getFraction, getSchemaRootValues,
-    glassDoorHasProfile, NumericQuantityRounded,
+    glassDoorHasProfile, hasGlassShelfColor, NumericQuantityRounded,
     testMinMaxCustomLimit
 } from "../../helpers/helpers";
 import {AnyObject, TestContext} from "yup";
@@ -75,6 +74,11 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                     is: true,
                     then: s => s.required("Choose shelve type"),
                 }),
+            color: Yup.string()
+                .when('index', {
+                    is: (index:MaybeUndefined<number>) => hasGlassShelfColor(index),
+                    then: s => s.required("Choose glass color"),
+                })
         })
     })
     const customSchema = customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema).concat(customPartWithShelvesSchema);
@@ -108,10 +112,10 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         return max;
     };
 
-    const getPanelCutoutMaxSize = (context: TestContext<AnyObject>, axis:'width'|'height'):number => {
+    const getPanelCutoutMaxSize = (context: TestContext<AnyObject>, axis: 'width' | 'height'): number => {
         const root = getSchemaRootValues(context)
         const parentAxis = root[axis];
-        return parentAxis-2;
+        return parentAxis - 2;
     }
 
     const panelAccessoriesSchema = Yup.object({
@@ -149,13 +153,23 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         })
     })
 
-    const getMaxIndent = (context:TestContext<AnyObject>) => {
+    const getMaxIndentBasedOnId = (context: TestContext<AnyObject>, id: number) => {
         const root = getSchemaRootValues(context);
-        return (root['height'])-1;
+        switch (id) {
+            case 900:
+                return (root['depth'] || root['custom_depth']) - 1;
+            case 901:
+                return (root['depth']) - 1;
+            case 903:
+                return (root['height']) - 1;
+            default:
+                return 999;
+        }
     }
+
     const ledSchema = Yup.object({
         led: Yup.object({
-            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptions(product.id), 'Error')),
+            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptionsById(product.id), 'Error')),
             alignment: Yup.string()
                 .when('border', {
                     is: (val: string[]) => val.length,
@@ -170,7 +184,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                     then: (schema) => schema
                         .required('Required')
                         .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
-                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context,1, getMaxIndent(context))),
+                        .test('limit', (val, context) => testMinMaxCustomLimit(val, context, 1, getMaxIndentBasedOnId(context, product.id))),
                 }),
             indent: Yup.number().nullable()
         }),
@@ -178,7 +192,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
 
     switch (type) {
         case "custom":
-            return customSchema;
+            return customSchema.concat(ledSchema);
         case "panel":
             return customInitialSchema.concat(customPartWithHeightSchema).concat(customPartWithMaterialSchema).concat(panelAccessoriesSchema).concat(ledSchema);
         case "backing":

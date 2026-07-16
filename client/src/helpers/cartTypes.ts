@@ -8,7 +8,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {
     ClosetAccessoriesTypes,
-    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes,
+    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     ProductApiType, ProductOptionsType,
@@ -97,7 +97,8 @@ export type CartCustomTypeAPI = {
     extra_rollouts?: number,
     shelves?: {
         qty: number,
-        index: number
+        index: number,
+        color: MaybeEmpty<GlassNamesTypes>
     }
 }
 

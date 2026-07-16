@@ -9,16 +9,14 @@ import {
     sizeLimitsType
 } from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
-import {numericQuantity} from 'numeric-quantity';
 import {
-    getBorderOptions,
+    getBorderOptionsById,
     getSchemaRootValues,
     NumericQuantityRounded,
     testMinMaxCustomLimit
 } from "../../helpers/helpers";
 import {BorderType} from "./ProductLED";
 
-// export const borderOptions = ['Sides', 'Top', 'Bottom', 'LED Panel'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
@@ -83,7 +81,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             }),
         custom_depth: Yup.number().nullable(),
         led: Yup.object({
-            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptions(product.id), 'Error')),
+            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptionsById(product.id), 'Error')),
             alignment: Yup.string()
                 .when('border', {
                     is: (val: string[]) => val.length,

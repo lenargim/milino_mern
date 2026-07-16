@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import {
     CustomPartTableDataType,
-    CustomPartType, GlassAndMirrorTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
+    CustomPartType, GlassAndMirrorTypes, GlassNamesTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -71,6 +71,7 @@ export type CustomPartShelvesType = {
     has_shelves: boolean,
     qty?: number,
     index?: number,
+    color?: GlassNamesTypes
 }
 
 export type CustomPartFormType = {

@@ -2,7 +2,7 @@ import {
     AngleType,
     AttributesPrices,
     AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
-    DoorColorType, FinishSidesTypes, GlassAndMirrorTypes, hingeTypes, JeweleryInsertsType,
+    DoorColorType, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined, MechanismType,
@@ -28,7 +28,7 @@ import {
     getLEDProductCartPrice,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor, isHingeHolesBlock, isPanelCutoutBlock,
+    getWidthToCalculateDoor, hasGlassShelfColor, isHingeHolesBlock, isPanelCutoutBlock,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -214,19 +214,23 @@ export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<st
     return p > minPrice ? p : minPrice
 }
 
-export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>>): number => {
+export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes|GlassNamesTypes>>): number => {
     // Min price area
     const areaForPrice = area >= 3 ? area : 3;
     switch (glassShelf) {
         case "Clear Glass":
+        case 'Clear':
             return areaForPrice * 25.5;
         case "Bronze Glass":
         case "Gray Glass":
         case "Clear Mirror":
+        case 'Bronze':
+        case 'Gray':
             return areaForPrice * 45;
         case "Frosted Glass":
         case "Bronze Mirror":
         case "Gray Mirror":
+        case 'Frosted':
             return areaForPrice * 57;
     }
     return 0
@@ -641,6 +645,7 @@ function getLedPrice(realWidth: number, realHeight: number, led: MaybeUndefined<
     if (!led) return 0;
     const {border} = led
     if (border.includes('LED Panel')) return realHeight * 2.55;
+    if (border.includes('LED Shelf')) return (realWidth-1.5) * 2.55;
 
     let sum: number = 0;
     if (border.includes('Sides')) sum = realHeight * 2 * 2.55
@@ -1010,7 +1015,7 @@ const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: num
 
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
-    const {width, height, depth, custom, glass, product_id} = values;
+    const {width, height, depth, custom, glass, product_id, led} = values;
     const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
     const area = +(width * height / 144).toFixed(2);
@@ -1044,39 +1049,47 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = ((width * height * depth / 10) + 120);
                     break;
             }
-            if (custom?.shelves?.qty) {
+            const shelves = custom?.shelves;
+            if (shelves) {
+                const {qty, color, index} = shelves
                 const sq = (width - 1.5) * (depth - 0.75) / 144;
-                const shelfsPrice = getPanelPrice(sq, custom?.material) * custom.shelves.qty;
+                const shelfsPrice = (hasGlassShelfColor(index) ? addGlassAndMirroredShelfPrice(sq, color) : getPanelPrice(sq, custom?.material) ) * qty;
                 price += shelfsPrice;
+            }
+            if (led?.border.length) {
+                price += getLedPrice(width, height, led);
             }
             break;
         }
         case 901: {
-            const opetCabinetCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
+            const shelfCoef = (width * height + width * depth + height * depth) / 144 * 2 * 2.3
+            let materialCoef = 0;
             switch (custom?.material) {
                 case "Milino":
-                    price = opetCabinetCoef * 20;
+                    materialCoef = 20;
                     break;
                 case "Syncron":
-                    price = opetCabinetCoef * 22;
+                    materialCoef = 22;
                     break;
                 case "Luxe":
                 case "Ultrapan PET":
-                    price = opetCabinetCoef * 24;
+                    materialCoef = 24;
                     break;
                 case "Ultrapan Acrylic":
-                    price = opetCabinetCoef * 24 * 1.1;
+                    materialCoef = 24 * 1.1;
                     break;
                 case "Zenit":
-                    price = opetCabinetCoef * 24 * 1.03;
+                    materialCoef = 24 * 1.03;
                     break;
                 case "Painted":
-                    price = opetCabinetCoef * 32.76 * 1.05;
+                    materialCoef = 32.76 * 1.05;
                     break;
                 case "Wood Veneer":
-                    price = opetCabinetCoef * 34;
+                    materialCoef = 34;
                     break;
             }
+            const ledPrice = getLedPrice(width, height, led);
+            price = shelfCoef * materialCoef + ledPrice;
             break;
         }
         case 903: {

@@ -15,6 +15,7 @@ import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
 import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
+import {Text} from "@react-pdf/renderer";
 
 const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {subcategory, product_id, custom, width, led, glass} = product;
@@ -70,7 +71,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
                 {custom?.shelves &&
                     <div className={s.itemOption}>
                         <span>Shelf Type:</span>
-                        <span>{getCustomPartShelvesNameByIndex(custom.shelves.index)}. </span>
+                        <span>{getCustomPartShelvesNameByIndex(custom.shelves.index)}</span>
+                        {custom.shelves.color && <span>({custom.shelves.color})</span>}
                         <span>Quantity: {custom.shelves.qty}</span>
                     </div>
                 }
