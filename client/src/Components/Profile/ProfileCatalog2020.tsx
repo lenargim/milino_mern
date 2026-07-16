@@ -4,12 +4,12 @@ import {NavLink} from "react-router-dom";
 import s from './profile.module.sass'
 
 const catalogs: CatalogItem[] = [
-    {label: 'Milino Regular Kitchen Catalog (June 2026)', link: 'd/1XZPXRSDJA6MU9TlcLIJncdkCtXHgHcQl/view', img: 'Regular.jpg'},
-    {label: 'Milino Handleless Kitchen Catalog (June 2026)', link: 'd/1-nKo1YSIR01PSwfgLpPWx_4_vHPKq8Gi/view', img: 'Handle Less.jpg'},
-    {label: 'Milino Standard White Shaker Catalog (03_2026)', link: 'd/1EtzSQj9xPw0ykqX9-CokZ_zu1dzVKQK9/view', img: 'Standard Shaker.jpg'},
-    {label: 'Milino WALK IN Closets Catalog (03_2026)', link: 'd/1DHfsqlh1RlPiQcGF5BztV39aT4DzbYjV/view', img: 'WIC Closet.jpg'},
-    {label: 'Milino RTA Closet Catalog (June 2026)', link: 'd/191-dpH55PDdEooX3FELF6NRdhDAQL_Jn/view', img: 'RTA Closet.jpg'},
-    {label: 'Cabinet System Closet Catalog (03_2026)', link: 'd/16zYIReRGn89HLKcL0Jmj9zA4NqqnJedF/view', img: 'Cabinet_System_Closet.jpg'},
+    {label: 'Milino Regular Kitchen Catalog (July 2026)', link: 'd/1-EJelvKI0iBkGUEYzprJVAVhlJeVeo5E/view', img: 'Regular.jpg'},
+    {label: 'Milino Handleless Kitchen Catalog (July 2026)', link: 'd/1jw7yixDpRsYV1BlQV7PigsuAdvnxD73o/view', img: 'Handle Less.jpg'},
+    {label: 'Milino Standard White Shaker Catalog (July 2026)', link: 'd/1y2O8QpekCK44nwaaGoY8e_FwZXM2_ZLp/view', img: 'Standard Shaker.jpg'},
+    {label: 'Milino WALK IN Closets Catalog (July 2026)', link: 'd/1orM41J2V39AVTbBwqWsaMC9KcBpdF3YJ/view', img: 'WIC Closet.jpg'},
+    {label: 'Milino RTA Closet Catalog (July 2026)', link: 'd/1UypvbN7WtDZaTXJ0rk4CfnJ-KNvrewUM/view', img: 'RTA Closet.jpg'},
+    {label: 'Cabinet System Closet Catalog (July 2026)', link: 'd/1LdOWQiz293WW2APSA2gsjQUAOlN5x181/view', img: 'Cabinet_System_Closet.jpg'},
 ];
 
 type CatalogItem = {
