@@ -94,6 +94,11 @@
         "type": "standard"
       },
       {
+        "name": "Gola Wall Cabinets",
+        "img": "Wall Cabinets.jpg",
+        "type": "standard"
+      },
+      {
         "name": "Standard Parts",
         "img": "Kitchen.jpg",
         "type": "standard"
@@ -175,7 +180,7 @@
         "type": "regular"
       },
       {
-        "name": "Tall Cabinets",
+        "name": "Standard Tall Cabinets",
         "img": "Flatd_04.jpg",
         "type": "regular"
       },

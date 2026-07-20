@@ -488,7 +488,9 @@ export const getProductsByCategory = (is_standard: boolean, category: productCat
     const filtered_by_product_categories = cabinets.filter(el => el.category === category || (el.extra_categories && el.extra_categories.includes(category))) as ProductType[];
     if (is_standard) {
         const excludeInStandardShakerCabinets = [211, 309];
-        return filtered_by_product_categories.filter(el => el.product_type === 'standard' && !excludeInStandardShakerCabinets.includes(el.id));
+        //
+        // return filtered_by_product_categories.filter(el => el.product_type === 'standard' && !excludeInStandardShakerCabinets.includes(el.id));
+        return filtered_by_product_categories.filter(el => !excludeInStandardShakerCabinets.includes(el.id));
     }
     return filtered_by_product_categories.filter(el => el.product_type === 'cabinet');
 }
@@ -1458,23 +1460,18 @@ export const getColorsList = (glassType: string): optionType[] => {
 export const getHeightRange = (heightRange: number[], isProductStandard: boolean, width: number, tablePriceData: pricePart[], category: productCategory, customHeight: MaybeUndefined<number>) => {
     if (!isProductStandard) return heightRange.concat([0]);
     if (customHeight) return [customHeight];
-    const isHeightData = tablePriceData.find((el) => el.height);
-    if (isHeightData) return getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
-    return getCabinetHeightRangeBasedOnCategory(category)
+    return getHeightRangeBasedOnCurrentWidth(tablePriceData, width) ?? getCabinetHeightRangeBasedOnCategory(category)
 }
 
-export const getHeightRangeBasedOnCurrentWidth = (tablePriceData: pricePart[], width: number, category: productCategory): number[] => {
+export const getHeightRangeBasedOnCurrentWidth = (tablePriceData: pricePart[], width: number): MaybeNull<number[]> => {
     const isHeightData = tablePriceData.find((el) => el.height);
-    if (isHeightData) {
-        let arr: number[] = []
-        tablePriceData.forEach((el) => {
-            if (el.height && el.width === width) arr.push(el.height);
-            arr.sort((a, b) => a - b)
-        })
-        return [...new Set<number>(arr)];
-    }
-    return getCabinetHeightRangeBasedOnCategory(category)
-
+    if (!isHeightData) return null;
+    let arr: number[] = []
+    tablePriceData.forEach((el) => {
+        if (el.height && el.width === width) arr.push(el.height);
+        arr.sort((a, b) => a - b)
+    })
+    return [...new Set<number>(arr)];
 }
 
 export const getCabinetHeightRangeBasedOnCategory = (category: productCategory): number[] => {
@@ -2303,16 +2300,6 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
     return undefined
 }
 
-export function checkHeightBlockShownInCustomPart(type: CustomTypes, height: MaybeUndefined<number>): boolean {
-    switch (type) {
-        case "pvc":
-            return false;
-        case "custom": {
-            if (height) return false
-        }
-    }
-    return true
-}
 
 export const getGolaCategoryName = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): MaybeEmpty<GolaTypesType> => {
     if (hasGola) {

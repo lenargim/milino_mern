@@ -978,7 +978,10 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
 }
 export const getProductPriceRange = (id: number, materialData: materialDataType): MaybeUndefined<pricePart[]> => {
     const {is_standard_room, base_price_type} = materialData
-    if (is_standard_room) return standardProductsPrices.find(el => el.id === id)?.prices;
+    if (is_standard_room) {
+        const data = standardProductsPrices.find(el => el.id === id)?.prices;
+        if (data && data.length) return data;
+    }
     const data = productPrices.find(el => el.id === id)?.prices as MaybeUndefined<priceItem[]>;
     if (!data) return undefined;
     if (base_price_type === 'wood_veneer') {
@@ -1455,7 +1458,6 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
-    console.log(getLedPrice(led_width, led_height, led))
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,

@@ -27,7 +27,7 @@ const ProductCabinet: FC<CabinetType> = ({
         isAngle,
         product_type,
     } = product;
-    const {materialData, tablePriceData, sizeLimit, productPriceData} = productData
+    const {materialData, tablePriceData, sizeLimit, productPriceData, heightRange} = productData
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {doorValues} = productPriceData;
     const {
@@ -74,7 +74,8 @@ const ProductCabinet: FC<CabinetType> = ({
     }, [values]);
     useEffect(() => {
         if (product_type === 'standard') {
-            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
+            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width);
+            if (!newHeightRange) return;
             if (!newHeightRange.includes(height)) setFieldValue('height', newHeightRange[0]);
         }
     }, [width]);

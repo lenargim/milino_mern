@@ -42,6 +42,7 @@ const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues
             const productData = getProductInitialTableData(product_or_custom as ProductType, materials, activeProductCategory);
             if (!productData) return <div>Cannot find product data</div>;
             const initialProductValues = getProductInitialFormValues(productData, cartItemValues, product_or_custom as ProductType);
+
             return <Product materials={materials}
                             room={room}
                             product={product_or_custom as ProductType}
