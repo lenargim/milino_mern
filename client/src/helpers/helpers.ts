@@ -880,7 +880,7 @@ export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccess
 };
 
 const isHasLedBlock = (category: productCategory): boolean => {
-    const ledCategoryArr = ['Wall Cabinets', 'Gola Wall Cabinets'];
+    const ledCategoryArr = ['Wall Cabinets', 'Gola Wall Cabinets', 'Leather'];
     return ledCategoryArr.includes(category)
 }
 
@@ -2037,6 +2037,14 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
 
 export const getBorderOptionsById = (id: number): BorderType[] => {
     switch (id) {
+        case 408:
+        case 409:
+        case 410:
+        case 411:
+        case 413:
+        case 414:
+        case 416:
+            return ['Sides', 'Top', 'Bottom']
         case 901:
             return ['LED Shelf'];
         case 903:
@@ -2044,6 +2052,24 @@ export const getBorderOptionsById = (id: number): BorderType[] => {
         default:
             return ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside']
     }
+}
+
+export const getLedWidth = (width:number, rodQty:number):number => {
+    if (!rodQty) return width;
+    return width * rodQty;
+}
+
+export const getLedHeight = (height:number, id:number):number => {
+    switch (id) {
+        case 409:
+        case 416:
+            return height - 73;
+        case 413:
+            return height - 26;
+        case 414:
+            return height - 47;
+    }
+    return height;
 }
 
 export const getIsRTAorSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

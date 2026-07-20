@@ -24,8 +24,8 @@ import {
     getAttributes, getAttributesWithoutDesc,
     getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart,
     getIsCloset,
-    getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset,
-    getLEDProductCartPrice,
+    getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset, getLedHeight,
+    getLEDProductCartPrice, getLedWidth,
     getProductById,
     getSquare,
     getWidthToCalculateDoor, hasGlassShelfColor, isHingeHolesBlock, isPanelCutoutBlock,
@@ -641,18 +641,20 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
     }
 }
 
-function getLedPrice(realWidth: number, realHeight: number, led: MaybeUndefined<CartLEDAPI>): number {
+function getLedPrice (width: number, height: number, led: MaybeUndefined<CartLEDAPI>): number {
     if (!led) return 0;
-    const {border} = led
-    if (border.includes('LED Panel')) return realHeight * 2.55;
-    if (border.includes('LED Shelf')) return (realWidth-1.5) * 2.55;
+    const {border} = led;
+    let length: number = 0;
 
-    let sum: number = 0;
-    if (border.includes('Sides')) sum = realHeight * 2 * 2.55
-    if (border.includes('Top')) sum += (realWidth - 1.5) * 2.55
-    if (border.includes('Bottom Inside')) sum += (realWidth - 1.5) * 2.55
-    if (border.includes('Bottom Outside')) sum += (realWidth - 1.5) * 2.55
-    return Math.round(sum)
+    if (border.includes('LED Panel')) return height * 2.55;
+    if (border.includes('LED Shelf')) return (width-1.5) * 2.55;
+
+    if (border.includes('Sides')) length = height * 2
+    if (border.includes('Top')) length += (width - 1.5)
+    if (border.includes('Bottom')) length += (width - 1.5)
+    if (border.includes('Bottom Inside')) length += (width - 1.5)
+    if (border.includes('Bottom Outside')) length += (width - 1.5)
+    return +(length*2.55).toFixed(1);
 }
 
 const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
@@ -730,7 +732,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     break;
                 case 'Custom Painted':
                     if (door_finish_material === 'Slab') return 1.05;
-                    return 1.10;
+                    return 1.1025;
                 case 'Shaker':
                     if (door_finish_material === 'Zenit') return 1.03;
                     if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
@@ -1451,12 +1453,15 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
+    const led_width = getLedWidth(width, rodsQty);
+    const led_height = getLedHeight(height, id);
+    console.log(getLedPrice(led_width, led_height, led))
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('Servo-Drive') ? addPTOTrashBinsPrice() : 0,
-        ledPrice: getLedPrice(width, height, led),
+        ledPrice: getLedPrice(led_width, led_height, led),
         pvcPrice: getPvcPrice(doorWidth, doorHeight, product, materialData),
         doorPrice: getDoorPrice(frontSquare, materialData),
         glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),

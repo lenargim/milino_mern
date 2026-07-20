@@ -7,7 +7,7 @@ import {LEDType, MaybeEmpty} from "../../helpers/productTypes";
 import {useField} from "formik";
 import {getBorderOptionsById, ledEmpty} from "../../helpers/helpers";
 
-const borderArr = ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside', 'LED Panel', 'LED Shelf'] as const;
+const borderArr = ['Sides', 'Top', 'Bottom', 'Bottom Inside', 'Bottom Outside', 'LED Panel', 'LED Shelf'] as const;
 export type BorderType = typeof borderArr[number];
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
 
