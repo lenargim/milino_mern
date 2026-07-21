@@ -99,7 +99,8 @@ export type CartCustomTypeAPI = {
         qty: number,
         index: number,
         color: MaybeEmpty<GlassNamesTypes>
-    }
+    },
+    painted_molding?: number
 }
 
 export type PanelAccessoriesTypeAPI = {

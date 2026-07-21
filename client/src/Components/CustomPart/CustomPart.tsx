@@ -96,7 +96,8 @@ export type CustomPartFormType = {
     panel_accessories: PanelAccessoriesType,
     shelves: CustomPartShelvesType,
     led: LEDType,
-    amount: number
+    painted_molding: MaybeNull<number>,
+    amount: number,
 }
 
 

@@ -21,7 +21,7 @@ const RoomProductsList: FC<{ category_active: productCategory, room: RoomType, i
     switch (category_active) {
         case "Custom Parts":
         case "Standard Parts":
-            const customParts = getCustomParts(room.category, isStandardCabinet,category_active);
+            const customParts = getCustomParts(room,category_active);
             if (!customParts.length) return <div>Sorry, there are no custom parts yet</div>;
             return (
                 <div className={s.list}>

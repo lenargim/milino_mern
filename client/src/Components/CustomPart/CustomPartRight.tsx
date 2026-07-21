@@ -21,6 +21,8 @@ import CustomPartThickFloatingShelf from "./CustomPartFloatingShelf";
 import CustomPartRODrawer from "./CustomPartRODrawer";
 import CustomPartGlassShelfForm from "./CustomPartGlassShelfForm";
 import CustomPartGlassDoorForm from "./CustomPartGlassDoorForm";
+import CustomPartQtyOnly from "./CustomPartQtyOnly";
+import product from "../Product/Product";
 
 
 type CustomPartRight = {
@@ -88,6 +90,8 @@ const CustomPartRight: FC<CustomPartRight> = ({
             return <CustomPartDrawerInserts product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "ro_drawer":
             return <CustomPartRODrawer product={customPartProduct} />
+        case "qty_only":
+            return <CustomPartQtyOnly product={customPartProduct} />
         default:
             return null;
     }

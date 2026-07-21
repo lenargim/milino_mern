@@ -1310,6 +1310,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             price = getRoDrawerPrice(custom?.drawer_accessories?.drawer_ro, width, materials, product_id);
             break;
         }
+        case 930: {
+            if (custom?.painted_molding) price = 168*custom.painted_molding;
+
+        }
     }
     return +(price * settings.global_price_coef).toFixed(1);
 }

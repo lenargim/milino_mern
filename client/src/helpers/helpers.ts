@@ -496,16 +496,24 @@ export const getProductsByCategory = (is_standard: boolean, category: productCat
 }
 
 
-export const getCustomParts = (category: RoomCategoriesType, isStandardCabinet: boolean, customPartType: "Standard Parts" | "Custom Parts"): CustomPartDataType[] => {
+export const getCustomParts = (room: RoomType, customPartType: "Standard Parts" | "Custom Parts"): CustomPartDataType[] => {
+    const {category, door_type} = room;
+
     const customParts = cabinets.filter(el => el.product_type === 'custom') as ProductOrCustomType[];
-    const standardIds = [919, 920, 921, 924, 925];
+    const standardPartIds = [919, 920, 921, 924, 925];
     switch (customPartType) {
         case 'Standard Parts':
-            return customParts.filter(el => standardIds.includes(el.id)) as CustomPartDataType[];
+            return customParts.filter(el => standardPartIds.includes(el.id)) as CustomPartDataType[];
         case "Custom Parts":
-            let exceptionIds = standardIds;
-            if (isStandardCabinet) exceptionIds.push(910, 913)
-            if (category !== 'RTA Closet') exceptionIds.push(923)
+            let exceptionIds = standardPartIds;
+            const is_standard_shaker = door_type === 'Standard Size Shaker';
+            const is_painted = door_type === 'Custom Painted';
+            const is_rta = category !== 'RTA Closet';
+
+            if (is_standard_shaker) exceptionIds.push(910, 913);
+            if (!is_painted) exceptionIds.push(930);
+            if (is_rta) exceptionIds.push(923);
+
             return customParts.filter(el => !exceptionIds.includes(el.id)) as CustomPartDataType[];
     }
 }
@@ -710,7 +718,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         panel_accessories,
         led,
         amount,
-        shelves
+        shelves,
+        painted_molding
     } = values;
 
     const {id, product_type, name} = product;
@@ -855,6 +864,9 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
             color: shelves.color,
         });
     }
+
+    // painted molding
+    if (painted_molding) forceSetPath(preparedProduct, 'custom.painted_molding', painted_molding);
 
     return preparedProduct;
 }
@@ -1870,6 +1882,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             },
             led: ledEmpty,
             shelves: shelvesEmpty,
+            painted_molding: null,
             note: '',
             amount: 1,
             price: 0
@@ -1894,13 +1907,16 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             has_shelves: false,
         }
 
+        let paintedMoldingValues = null
+
         if (custom) {
             const {
                 accessories,
                 standard_doors,
                 rta_closet,
                 panel_accessories,
-                shelves: shelvesAPI
+                shelves: shelvesAPI,
+                painted_molding
             } = custom;
 
             if (accessories) {
@@ -1996,6 +2012,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                     index: shelvesAPI.index || 0,
                 }
             }
+
+            if (painted_molding) paintedMoldingValues = painted_molding;
         }
 
         return {
@@ -2025,6 +2043,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                 indent_string: getFraction(ledBlock.indent)
             } : ledEmpty,
             shelves: shelvesValues,
+            painted_molding: paintedMoldingValues,
             amount,
             note: note || '',
             price: 0,

@@ -167,6 +167,10 @@ const CustomSchema = new mongoose.Schema({
     shelves: {
         type: Object,
         default: undefined,
+    },
+    painted_molding: {
+        type: Number,
+        default: undefined,
     }
 }, {
     _id: false

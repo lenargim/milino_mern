@@ -30,7 +30,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
         groove,
         drawer_accessories,
         panel_accessories,
-        shelves
+        shelves,
+        painted_molding
     } = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
@@ -91,6 +92,11 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                         <Text>{getCustomPartShelvesNameByIndex(shelves.index)}</Text>
                         {shelves.color && <Text>({shelves.color})</Text>}
                         <Text>Quantity: {shelves.qty}</Text>
+                    </View>
+                }
+                {painted_molding &&
+                    <View style={s.itemOption}>
+                        <Text>Quantity: {painted_molding}</Text>
                     </View>
                 }
             </View>

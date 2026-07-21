@@ -6113,6 +6113,12 @@
     ]
   },
   {
+    "id": 930,
+    "product_type": "custom",
+    "name": "Painted Crown Molding",
+    "type": "qty_only"
+  },
+  {
     "id": 928,
     "product_type": "custom",
     "name": "Drawer Inserts",
