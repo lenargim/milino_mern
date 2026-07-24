@@ -9,11 +9,14 @@ import {
     sizeLimitsType
 } from "../../helpers/productTypes";
 import {AnyObject, ObjectSchema, TestContext} from "yup";
-import {numericQuantity} from 'numeric-quantity';
-import {getBorderOptions, getSchemaRootValues, testMinMaxCustomLimit} from "../../helpers/helpers";
+import {
+    getBorderOptionsById,
+    getSchemaRootValues,
+    NumericQuantityRounded,
+    testMinMaxCustomLimit
+} from "../../helpers/helpers";
 import {BorderType} from "./ProductLED";
 
-// export const borderOptions = ['Sides', 'Top', 'Bottom', 'LED Panel'] as const;
 export const alignmentOptions = ['Center', 'From Face', 'From Back'] as const;
 
 export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType): ObjectSchema<any> {
@@ -22,7 +25,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
 
     const testMinMax = (val: MaybeUndefined<string>, context: TestContext<AnyObject>, dimension: 'width' | 'height' | 'depth') => {
         if (!val) return false;
-        const numberVal = numericQuantity(val);
+        const numberVal = NumericQuantityRounded(val);
         if (isNaN(numberVal)) return context.createError({message: `Type error. Example: 12 3/8`});
         const limit = sizeLimit[dimension]
         const min = (limit && limit[0]) ? limit[0] : 1;
@@ -78,7 +81,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
             }),
         custom_depth: Yup.number().nullable(),
         led: Yup.object({
-            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptions(product.id), 'Error')),
+            border: Yup.array().of(Yup.mixed<BorderType>().oneOf(getBorderOptionsById(product.id), 'Error')),
             alignment: Yup.string()
                 .when('border', {
                     is: (val: string[]) => val.length,
@@ -164,7 +167,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     .test('min-max', function (val, context){
                         const {parent, createError} = context;
                         const cabinet_width = parent.width || parent.custom_width;
-                        const numberVal = numericQuantity(val)
+                        const numberVal = NumericQuantityRounded(val)
                         let min = 0;
                         let max = Infinity;
                         if (isBlind) {
@@ -207,7 +210,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                         "is-max",
                         `Cutout height should be lower than cabinet height`,
                         (val: any, {parent}) => {
-                            const numberVal = numericQuantity(val);
+                            const numberVal = NumericQuantityRounded(val);
                             const fullHeight = parent['height'] || parent['custom_height'];
                             return numberVal < fullHeight
                         }

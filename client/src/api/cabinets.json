@@ -1122,7 +1122,7 @@
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }
@@ -4613,15 +4613,15 @@
         ]
       },
       {
-        "name": "Double Hanging",
+        "name": "Double Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           },
           {
             "type": 2,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -4669,15 +4669,15 @@
         ]
       },
       {
-        "name": "Long Hanging",
+        "name": "Long Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           },
           {
             "type": 2,
-            "value": 0
+            "value": 1
           }
         ]
       }
@@ -4832,11 +4832,11 @@
         ]
       },
       {
-        "name": "Corner 2xHanging",
+        "name": "Corner Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 2
           }
         ]
       }
@@ -4865,11 +4865,11 @@
         ]
       },
       {
-        "name": "Corner Long Hanging",
+        "name": "Corner Long Hanging Rod",
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }
@@ -5164,6 +5164,7 @@
     "name": "VDI Series",
     "category": "Leather",
     "customHeight": 35.5,
+    "customDepth": 18,
     "hasJeweleryBlock": true,
     "attributes": [
       {
@@ -6110,6 +6111,12 @@
         "name": "Wood Veneer"
       }
     ]
+  },
+  {
+    "id": 930,
+    "product_type": "custom",
+    "name": "Painted Crown Molding",
+    "type": "qty_only"
   },
   {
     "id": 928,
@@ -7556,7 +7563,7 @@
         "values": [
           {
             "type": 1,
-            "value": 0
+            "value": 1
           }
         ]
       }

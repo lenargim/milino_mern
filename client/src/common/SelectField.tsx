@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import Select, {OnChangeValue, StylesConfig} from "react-select";
-import {useField} from "formik";
+import {useField, useFormikContext} from "formik";
 import styles from "./Form.module.sass";
 import {MaybeNull} from "../helpers/productTypes";
 
@@ -95,10 +95,14 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name}) =>
         if (value) setValue(value.value);
     }
 
+    const { submitCount } = useFormikContext();
 
-    useEffect(() => {
-        if (error) setTouched(true)
-    }, [error])
+    const showError = !!error && (submitCount > 0 || touched)
+
+
+    // useEffect(() => {
+    //     if (error) setTouched(true)
+    // }, [error])
 
     useEffect(() => {
         if (field.value && !val) {
@@ -108,7 +112,7 @@ const SelectField: FC<SelectFieldType> = ({options, name, val, label = name}) =>
     return (
         <div
             className={[styles.row, styles.select, field.value && styles.active, error && touched ? 'error' : ''].join(' ')}>
-            {error && touched ? <div className={styles.error}>{error}</div> : ''}
+            {showError ? <div className={styles.error}>{error}</div> : ''}
             <Select options={options}
                     onChange={onChange}
                     placeholder={label}

@@ -43,7 +43,7 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
-            {showLedBlock ? <ProductLED isCustomPartPanel={true} /> : null}
+            {showLedBlock ? <ProductLED id={id} /> : null}
             {showHingeHoles ? <CustomPartHingeHoles/> : null}
             {showCutout ? <CustomPartCutoutBlock/> : null}
             {filtered_materials_array &&

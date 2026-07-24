@@ -21,12 +21,13 @@ type CustomPartDrawerInserts = {
 }
 
 const filterLetterTypeByWidth = (width: number, drawerInsertsLetters: string[]): string[] => {
+    if (width < 15) return drawerInsertsLetters.filter(el => ['A', 'B'].includes(el));
     if (width < 18) return drawerInsertsLetters.filter(el => ['A', 'B', 'C'].includes(el));
-    if (width < 21) return drawerInsertsLetters.filter(el => ['B', 'C', 'D', 'E'].includes(el));
-    if (width < 24) return drawerInsertsLetters.filter(el => ['C', 'D', 'E', 'F'].includes(el));
-    if (width < 27) return drawerInsertsLetters.filter(el => ['D', 'E', 'F', 'G'].includes(el));
-    if (width < 30) return drawerInsertsLetters.filter(el => ['E', 'F', 'G', 'H'].includes(el));
-    if (width < 48) return drawerInsertsLetters.filter(el => ['F', 'G', 'H', 'I'].includes(el));
+    if (width < 21) return drawerInsertsLetters.filter(el => ['B', 'C', 'D'].includes(el));
+    if (width < 24) return drawerInsertsLetters.filter(el => ['C', 'D', 'E'].includes(el));
+    if (width < 30) return drawerInsertsLetters.filter(el => ['D', 'E', 'F'].includes(el));
+    if (width < 33) return drawerInsertsLetters.filter(el => ['F','G','H'].includes(el));
+    if (width < 48) return drawerInsertsLetters.filter(el => ['G', 'H', 'I'].includes(el));
     return []
 }
 

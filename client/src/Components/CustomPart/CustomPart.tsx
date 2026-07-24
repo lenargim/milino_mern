@@ -6,7 +6,7 @@ import {
 } from "../../helpers/helpers";
 import {
     CustomPartTableDataType,
-    CustomPartType, GlassAndMirrorTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
+    CustomPartType, GlassAndMirrorTypes, GlassNamesTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined
 } from "../../helpers/productTypes";
@@ -67,6 +67,13 @@ export type DrawerInserts = {
     insert_type: MaybeNull<DrawerInsertsLetter>
 }
 
+export type CustomPartShelvesType = {
+    has_shelves: boolean,
+    qty?: number,
+    index?: number,
+    color?: GlassNamesTypes
+}
+
 export type CustomPartFormType = {
     width: number,
     height: number,
@@ -87,8 +94,10 @@ export type CustomPartFormType = {
     groove: MaybeNull<GrooveAPIType>,
     drawer_accessories: MaybeNull<DrawerAccessoriesType>,
     panel_accessories: PanelAccessoriesType,
+    shelves: CustomPartShelvesType,
     led: LEDType,
-    amount: number
+    painted_molding: MaybeNull<number>,
+    amount: number,
 }
 
 
@@ -168,7 +177,7 @@ const CustomPart: FC<CustomPartFCType> = ({
             }}
         >
             <div className={st.product}>
-                <CustomPartLeft product={custom_part} materials={materials}/>
+                <CustomPartLeft product={custom_part}/>
                 <div className={s.right}>
                     <CustomPartRight customPartProduct={custom_part}
                                      customPartData={customPartData}

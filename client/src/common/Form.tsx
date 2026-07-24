@@ -4,7 +4,7 @@ import {useField, ErrorMessage, Field, FieldArray, FieldArrayRenderProps} from "
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
-import {getFraction, getVariableType} from "../helpers/helpers";
+import {getFraction, getVariableType, NumericQuantityRounded} from "../helpers/helpers";
 import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
@@ -349,7 +349,7 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
     const numberName = name.replace('_string', '')
     const [field] = useField(name);
     const [fieldNumber, , helpers] = useField(numberName);
-    const result = numericQuantity(field.value) || '';
+    const result = NumericQuantityRounded(field.value) || '';
 
     useEffect(() => {
         if (fieldNumber.value !== result) helpers.setValue(result);

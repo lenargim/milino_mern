@@ -6,7 +6,8 @@ import {
     resolveTypeByDimensions
 } from "../../helpers/calculatePrice";
 import {
-    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage, setAllProductFieldIsStandard
+    checkDoors, getHeightRangeBasedOnCurrentWidth, getHingeArr, getProductImage,
+    NumericQuantityRounded, setAllProductFieldIsStandard
 } from "../../helpers/helpers";
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
@@ -26,7 +27,7 @@ const ProductCabinet: FC<CabinetType> = ({
         isAngle,
         product_type,
     } = product;
-    const {materialData, tablePriceData, sizeLimit, productPriceData} = productData
+    const {materialData, tablePriceData, sizeLimit, productPriceData, heightRange} = productData
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {doorValues} = productPriceData;
     const {
@@ -73,7 +74,8 @@ const ProductCabinet: FC<CabinetType> = ({
     }, [values]);
     useEffect(() => {
         if (product_type === 'standard') {
-            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width, category)
+            const newHeightRange = getHeightRangeBasedOnCurrentWidth(tablePriceData, width);
+            if (!newHeightRange) return;
             if (!newHeightRange.includes(height)) setFieldValue('height', newHeightRange[0]);
         }
     }, [width]);
@@ -110,7 +112,7 @@ const ProductCabinet: FC<CabinetType> = ({
         led: {
             border: led.border,
             alignment: led.alignment,
-            indent: numericQuantity(led.indent_string),
+            indent: NumericQuantityRounded(led.indent_string),
         },
         custom: customVal,
         image_active_number: newType,

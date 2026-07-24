@@ -14,11 +14,25 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
+import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
+import {Text, View} from "@react-pdf/renderer";
 
-const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
+const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {subcategory, product_id, custom, width, led, glass} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
+    const {
+        accessories,
+        standard_doors,
+        standard_panels,
+        material,
+        rta_closet,
+        groove,
+        drawer_accessories,
+        panel_accessories,
+        shelves,
+        painted_molding
+    } = custom;
+
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product}/>
@@ -30,7 +44,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
             if (!accessories) return null;
             return <CartItemDoorExtra accessories={accessories}/>
         case 'led-accessories':
-            if (!accessories || !accessories.led) return null;
+            if (!accessories?.led) return null;
             return <CartItemLEDExtra led={accessories.led}/>
         case 'standard-doors':
         case 'standard-glass-doors':
@@ -51,23 +65,36 @@ const CartItemCustom: FC<{ product: CartItemFrontType}> = ({product}) => {
         default:
             return <>
                 {material &&
-                <div className={s.itemOption}>
-                  <span>Material:</span>
-                  <span>{material}</span>
-                </div>}
+                    <div className={s.itemOption}>
+                        <span>Material:</span>
+                        <span>{material}</span>
+                    </div>}
                 {groove &&
                     <>
-                      <div className={s.itemOption}>
-                        <span>Groove Styles:</span>
-                        <span>{groove.style}</span>
-                      </div>
-                      <div className={s.itemOption}>
-                        <span>Clear Coat:</span>
-                        <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
-                      </div>
+                        <div className={s.itemOption}>
+                            <span>Groove Styles:</span>
+                            <span>{groove.style}</span>
+                        </div>
+                        <div className={s.itemOption}>
+                            <span>Clear Coat:</span>
+                            <span>{groove.clear_coat ? 'Yes' : 'No'}</span>
+                        </div>
                     </>}
-                {led && <CartItemLED led={led} />}
-                <CartItemPanelAccessories panel_accessories={panel_accessories} />
+                {led && <CartItemLED led={led}/>}
+                {shelves &&
+                    <div className={s.itemOption}>
+                        <span>Shelf Type:</span>
+                        <span>{getCustomPartShelvesNameByIndex(shelves.index)}</span>
+                        {shelves.color && <span>({shelves.color})</span>}
+                        <span>Quantity: {shelves.qty}</span>
+                    </div>
+                }
+                <CartItemPanelAccessories panel_accessories={panel_accessories}/>
+                {painted_molding &&
+                    <div className={s.itemOption}>
+                        <span>Quantity: {painted_molding}</span>
+                    </div>
+                }
             </>
     }
 }

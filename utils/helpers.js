@@ -16,32 +16,18 @@ const BASE_DIR = process.cwd()
 ---------------------------------- */
 
 export const getTransporterObject = () => {
-  const isSSL = Number(process.env.EMAIL_PORT) === 465;
-  if (process.env.NODE_ENV !== 'development') {
-    return {
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: isSSL,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    }
-  }
+    const port = Number(process.env.EMAIL_PORT);
 
-  return {
-    service: process.env.EMAIL_SERVICE,
-    secure: process.env.EMAIL_SECURE === 'true',
-    port: Number(process.env.EMAIL_PORT),
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  }
-}
+    return {
+        host: process.env.EMAIL_HOST,
+        port,
+        secure: port === 465,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    };
+};
 
 /* ---------------------------------
    MULTER STORAGE

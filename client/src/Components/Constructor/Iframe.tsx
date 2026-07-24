@@ -1,39 +1,55 @@
-import React, {FC, RefObject, useEffect, useRef, useState} from 'react';
-import {MaybeNull} from "../../helpers/productTypes";
-import {UserType} from "../../api/apiTypes";
+import React, {FC, useEffect, useRef} from 'react';
 
-const Iframe: FC<{ user: UserType,isConstructorSigned:boolean }> = ({user, isConstructorSigned}) => {
-    const frame_src = process.env.REACT_APP_CONSTRUCTOR_ENV;
-    const api_url = process.env.REACT_APP_CONSTRUCTOR_URL;
-    const iframeRef = useRef<MaybeNull<HTMLIFrameElement>>(null);
-    const customer_token = localStorage.getItem('customer_token');
-    const [isIFrameLoaded, setIsIFrameLoaded] = useState<boolean>(false);
+declare global {
+    interface Window {
+        prodboard: any;
+    }
+}
 
-    const signIn = (frame: RefObject<HTMLIFrameElement>, api_url: string) => {
-        if (!frame.current) return null;
-        frame.current.contentWindow?.postMessage({
-            command: 'sign-in',
-            payload: {token: customer_token}
-        }, api_url);
-    };
+const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const boardRef = useRef<any>(null);
 
     useEffect(() => {
-        iframeRef.current?.addEventListener('load', () => setIsIFrameLoaded(true));
-        return () => {
-            iframeRef.current?.removeEventListener('load', () => setIsIFrameLoaded(true));
+        const initProdboard = () => {
+            if (!containerRef.current) return;
+
+            const board = window.prodboard(containerRef.current, {
+                company: process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
+                instance: process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
+                host: process.env.REACT_APP_CONSTRUCTOR_HOST,
+                environment: process.env.REACT_APP_CONSTRUCTOR_URL,
+            });
+
+            boardRef.current = board;
+
+            board.onInitCompleted(() => {
+                board.signIn(customer_token);
+            });
         };
-    }, [iframeRef]);
 
-    useEffect(() => {
-        if (isIFrameLoaded && isConstructorSigned && api_url) signIn(iframeRef, api_url);
-    }, [isIFrameLoaded])
+        if (window.prodboard) {
+            initProdboard();
+        } else {
+            const script = document.createElement('script');
+            script.src = '/prodboard.js';
+            script.onload = initProdboard;
+
+            document.body.appendChild(script);
+        }
+
+        return () => {
+            boardRef.current?.signOut();
+        };
+    }, [customer_token]);
 
     return (
-        <iframe
-            src={frame_src}
-            ref={iframeRef}
-            style={{width: '100%', height: '100%', padding: 0, margin: 0, border: 'none'}}
-            allowFullScreen={true}
+        <div
+            ref={containerRef}
+            style={{
+                width: '100%',
+                height: '100%',
+            }}
         />
     );
 };

@@ -5,14 +5,15 @@ import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
 import {LEDType, MaybeEmpty} from "../../helpers/productTypes";
 import {useField} from "formik";
-import {ledEmpty} from "../../helpers/helpers";
+import {getBorderOptionsById, ledEmpty} from "../../helpers/helpers";
 
-const borderArr = ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside', 'LED Panel'] as const;
+const borderArr = ['Sides', 'Top', 'Bottom', 'Bottom Inside', 'Bottom Outside', 'LED Panel', 'LED Shelf'] as const;
 export type BorderType = typeof borderArr[number];
 export type ledAlignmentType = 'Center' | 'From Face' | 'From Back';
-const ProductLED: FC<{ isCustomPartPanel?: boolean }> = ({isCustomPartPanel = false}) => {
+
+const ProductLED: FC<{id:number}> = ({id}) => {
     const [field, {error}, {setValue}] = useField<LEDType>('led');
-    const borderOptions:BorderType[] = isCustomPartPanel ? ['LED Panel'] : ['Sides', 'Top', 'Bottom Inside', 'Bottom Outside'];
+    const borderOptions = getBorderOptionsById(id);
     const {value: {border, indent_string, alignment}} = field;
     const alignmentOpt: optionType[] = alignmentOptions.map(el => ({value: el, label: el}));
     const isAlignmentShown = !!border.length;
@@ -25,7 +26,7 @@ const ProductLED: FC<{ isCustomPartPanel?: boolean }> = ({isCustomPartPanel = fa
 
     return (
         <div className={s.block}>
-            <h3>LED</h3>
+            {![901,903].includes(id) && <h3>LED</h3>}
             <div className={s.led}>
                 <div className={s.options}>
                     {borderOptions.map((b, index) => <ProductCheckboxInput key={index}

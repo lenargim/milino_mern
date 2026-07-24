@@ -2,33 +2,34 @@ import React, {FC, useEffect, useState} from 'react';
 import Iframe from "./Iframe";
 import {constructorLogin} from "../../api/apiFunctions";
 import {useAppSelector} from "../../helpers/helpers";
-import {MaybeNull} from "../../helpers/productTypes";
 import {UserType} from "../../api/apiTypes";
+import {Navigate} from "react-router-dom";
 
 const Constructor: FC = () => {
-    const user = useAppSelector<MaybeNull<UserType>>(state => state.user.user);
-    const [hasPermission, setHasPermission] = useState<boolean>(false);
-    const [isConstructorSigned, setIsConstructorSigned] = useState<boolean>(false);
-    useEffect(() => {
-        if (user) {
-            const {is_active_in_constructor, is_super_user} = user;
-            if (is_super_user || is_active_in_constructor) setHasPermission(true);
-        }
-    }, [user]);
-    useEffect(() => {
-        if (user) constructorLogin(user).then(customer_token => {
-            customer_token && setIsConstructorSigned(true)
-        })
-    },[])
+    const user = useAppSelector<UserType>(state => state.user.user!);
+    const hasPermission = user.is_active_in_constructor || user.is_super_user;
 
-    if (!user) return null;
+    const [isLoading, setIsLoading] = useState(true);
+    const [customerToken, setCustomerToken] = useState<string>();
+
+    useEffect(() => {
+        if (!hasPermission) return;
+
+        constructorLogin(user)
+            .then(token => {
+                setCustomerToken(token);
+            })
+            .catch(console.error)
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, [])
+
+    if (!hasPermission) return <Navigate to="/"/>
+    if (isLoading) return <div>Loading...</div>;
+    if (!customerToken) return <div>Constructor login failed</div>
     return (
-        <>
-            {hasPermission ?
-                <Iframe user={user} isConstructorSigned={isConstructorSigned}/>
-                : <h3>Need to grant permission</h3>
-            }
-        </>
+        <Iframe customer_token={customerToken}/>
     );
 };
 

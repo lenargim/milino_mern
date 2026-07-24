@@ -4,10 +4,11 @@ import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
-import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
-import CustomPartGlassShelfBlock from "./CustomPartGlassShelfBlock";
 import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
+import {isLedBlock, isShowShelvesBlock} from "../../helpers/helpers";
+import CustomPartShelvesBlock from "./CustomPartShelvesBlock";
+import ProductLED from "../Product/ProductLED";
 
 type CustomPartCabinet = {
     product: CustomPartType,
@@ -15,70 +16,22 @@ type CustomPartCabinet = {
     isStandardCabinet: boolean
 }
 
-export type CustomPartFormTypeLayout = {
-    width_string: string,
-    height_string: string,
-    depth_string: string,
-    width: number,
-    height: number,
-    depth: number,
-    material: string,
-    note: string,
-    price: number,
-    glass_door: string[],
-    glass_shelf: string
-}
-
-export type HingeType = {
-    title: string,
-    label: string,
-    qty: number,
-    price: number
-}
-
-export type hingeHoleCustomType = {
-    title: string,
-    qty: number,
-    price: 6
-}
-
-export type DoorAccessoriesType = {
-    aventos: HingeType[],
-    door_hinge: number,
-    hinge_holes: number,
-    PTO: HingeType[],
-    servo: HingeType[]
-
-}
-
-export interface DoorAccessoriesValuesType extends DoorAccessoriesType {
-    price: number,
-    Note: string,
-}
-
-export type CustomPartLayout = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
-
-
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) => {
     const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
     const {
         material,
-        glass_door,
         depth,
         price
     } = values;
-    const {materials_array, type, id} = product;
+    const {materials_array, id} = product;
 
     useEffect(() => {
         const new_depth = materials_array && materials_array.find(el => el.name === material)?.depth;
         if (new_depth && depth !== new_depth) setFieldValue('depth', new_depth);
     }, [material])
-    const showGlassDoorBlock = type === 'glass-door';
-    const showGlassShelfBlock = type === 'glass-shelf';
-    const showDepthBlock = type === 'custom';
+
+    const showLedBlock = isLedBlock(id)
+    const showShelvesBlock = isShowShelvesBlock(product.id)
     return (
         <Form>
             <div className={s.block}>
@@ -93,15 +46,15 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
-            {showDepthBlock ? <div className={s.block}>
+            <div className={s.block}>
                 <h3>Depth</h3>
                 <div className={s.options}>
                     <ProductInputCustom name="depth_string"/>
                 </div>
-            </div> : null}
+            </div>
+            {showShelvesBlock ? <CustomPartShelvesBlock /> : null}
+            {showLedBlock ? <ProductLED id={id} /> : null}
             <CustomPartMaterialsArray product={product} isStandardCabinet={isStandardCabinet} />
-            {showGlassDoorBlock && <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true} product_id={id}/>}
-            {showGlassShelfBlock && <CustomPartGlassShelfBlock/>}
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

@@ -3,7 +3,7 @@ import s from "../Product/product.module.sass";
 import {changeAmountType} from "../../helpers/cartTypes";
 import {useField} from "formik";
 
-const LEDNumberPart: FC<{ el: string,label?:string }> = ({el, label}) => {
+const NumberPart: FC<{ el: string,label?:string }> = ({el, label}) => {
     const [{value}, , helpers] = useField(el);
     const qty = value ?? 0;
     const changeAmount = (type: changeAmountType) => {
@@ -26,4 +26,4 @@ const LEDNumberPart: FC<{ el: string,label?:string }> = ({el, label}) => {
     );
 };
 
-export default LEDNumberPart;
+export default NumberPart;

@@ -8,7 +8,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {
     ClosetAccessoriesTypes,
-    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes,
+    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     ProductApiType, ProductOptionsType,
@@ -94,7 +94,13 @@ export type CartCustomTypeAPI = {
     standard_panels?: PanelsFormAPIType,
     rta_closet?: RTAClosetAPIType[],
     mechanism?: string,
-    extra_rollouts?: number
+    extra_rollouts?: number,
+    shelves?: {
+        qty: number,
+        index: number,
+        color: MaybeEmpty<GlassNamesTypes>
+    },
+    painted_molding?: number
 }
 
 export type PanelAccessoriesTypeAPI = {

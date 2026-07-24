@@ -22,6 +22,7 @@ export const hingeArr = ['Left', 'Right', 'Double Doors', 'Two left doors', 'Two
 export const finishSidesArr = ["Left", "Right", "Bottom"] as const;
 export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pant Rack'] as const;
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
+export const glassNames = ['Clear', 'Bronze', 'Gray', 'Frosted'];
 
 export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
 export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
@@ -31,6 +32,7 @@ export type hingeTypes = typeof hingeArr[number];
 export type FinishSidesTypes = typeof finishSidesArr[number];
 export type ClosetAccessoriesTypes = typeof closetAccessoriesNames[number];
 export type GlassAndMirrorTypes = typeof glassAndMirrorNames[number];
+export type GlassNamesTypes = typeof glassNames[number];
 
 export type ProductApiType = 'cabinet' | 'standard' | 'custom';
 export type CustomTypes =
@@ -51,7 +53,8 @@ export type CustomTypes =
     | 'ribbed'
     | 'drawer-inserts'
     | 'thick_floating_shelf'
-    | 'ro_drawer';
+    | 'ro_drawer'
+    | 'qty_only';
 
 const customPartsNames = ['RTA Closet additional parts', 'Standard Panel, L-shapes, Wood Toe Kick, Crown Molding', 'Standard Door', 'Glass Door', 'Open Cabinet', 'Floating Shelf', 'Panel, Filler', 'Wood Toe Kick', 'Double Panel', 'L Shape', 'Column', 'Plastic Toe Kick', 'Backing', 'Shaker Panel', 'Decor Panel', 'Slatted Panel', 'Shaker Glass Door', 'Glass Aluminum Door', 'PVC', 'Glass shelf', 'LED Accessories', 'Door Accessories', 'Custom Size Door', 'Custom Size Glass Door', 'Ribbed panels', '1½” Thick Floating Shelves'] as const;
 export type CustomPartsNamesType = typeof customPartsNames[number];

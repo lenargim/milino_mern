@@ -15,12 +15,24 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
+import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width, glass, led} = product;
     if (!custom) return null;
-    const {accessories, standard_doors, standard_panels, material, rta_closet, groove, drawer_accessories, panel_accessories} = custom;
+    const {
+        accessories,
+        standard_doors,
+        standard_panels,
+        material,
+        rta_closet,
+        groove,
+        drawer_accessories,
+        panel_accessories,
+        shelves,
+        painted_molding
+    } = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>
@@ -55,25 +67,38 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
         default:
             return <View>
                 {material &&
-                <Text style={s.itemOption}>
-                  <Text>Material: {material}</Text>
-                </Text>
+                    <Text style={s.itemOption}>
+                        <Text>Material: {material}</Text>
+                    </Text>
                 }
                 {
                     groove &&
                     <View>
-                      <View style={s.itemOption}>
-                        <Text>Groove Styles:</Text>
-                        <Text>{groove.style}</Text>
-                      </View>
-                      <View style={s.itemOption}>
-                        <Text>Clear Coat:</Text>
-                        <Text>{groove.clear_coat ? 'Yes' : 'No'}</Text>
-                      </View>
+                        <View style={s.itemOption}>
+                            <Text>Groove Styles:</Text>
+                            <Text>{groove.style}</Text>
+                        </View>
+                        <View style={s.itemOption}>
+                            <Text>Clear Coat:</Text>
+                            <Text>{groove.clear_coat ? 'Yes' : 'No'}</Text>
+                        </View>
                     </View>
                 }
-                {led && <CartItemLED led={led} />}
-                {<CartItemPanelAccessories panel_accessories={panel_accessories} />}
+                {led && <CartItemLED led={led}/>}
+                {<CartItemPanelAccessories panel_accessories={panel_accessories}/>}
+                {shelves &&
+                    <View style={s.itemOption}>
+                        <Text>Shelf Type:</Text>
+                        <Text>{getCustomPartShelvesNameByIndex(shelves.index)}</Text>
+                        {shelves.color && <Text>({shelves.color})</Text>}
+                        <Text>Quantity: {shelves.qty}</Text>
+                    </View>
+                }
+                {painted_molding &&
+                    <View style={s.itemOption}>
+                        <Text>Quantity: {painted_molding}</Text>
+                    </View>
+                }
             </View>
     }
 }

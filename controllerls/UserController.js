@@ -56,6 +56,7 @@ export const register = async (req, res) => {
       html: `<p>User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}</p>`,
     };
 
+
     transporter.sendMail(mailOptions, function (error) {
       if (error) {
         res.status(500).json({
