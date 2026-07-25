@@ -174,7 +174,8 @@ export const constructorLogin = async (user: UserType): Promise<MaybeUndefined<s
         const constructor_token = await constructorGetToken();
         if (constructor_token) {
             const customer = await constructorSetCustomer(user)
-            if (customer && customer.identityProvider === 'own') {
+            // customer.identityProvider === 'own'
+            if (customer) {
                 const customer_token = await constructorGetCustomerToken(user);
                 if (customer_token) return customer_token;
             }
