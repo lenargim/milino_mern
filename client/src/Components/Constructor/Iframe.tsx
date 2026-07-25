@@ -13,7 +13,8 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
     useEffect(() => {
         const initProdboard = () => {
             if (!containerRef.current) return;
-
+            console.log(process.env.REACT_APP_CONSTRUCTOR_URL)
+            console.log(process.env.REACT_APP_CONSTRUCTOR_INSTANCE)
             const board = window.prodboard(containerRef.current, {
                 company: process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
                 instance: process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
