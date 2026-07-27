@@ -28,6 +28,7 @@ import RoomEditCartProduct from "./Components/Room/RoomEditCartProduct";
 import ProfileCatalog2020 from "./Components/Profile/ProfileCatalog2020";
 import ForgotPassword from "./Components/Login/ForgotPassword";
 import ResetPassword from "./Components/Login/ResetPassword";
+import ProfileDoorTypes from "./Components/Profile/ProfileDoorTypes";
 
 function App() {
     return (
@@ -60,6 +61,7 @@ function App() {
                                 </Route>
                             </Route>
                         </Route>
+                        <Route path="door_types" element={<ProfileDoorTypes/>}/>
                         <Route path="edit" element={<ProfileEdit/>}/>
                         <Route path="constructor" element={<Constructor/>}/>
                         <Route path="catalog" element={<ProfileCatalog/>}/>

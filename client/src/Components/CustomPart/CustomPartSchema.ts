@@ -159,6 +159,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
             case 900:
                 return (root['depth'] || root['custom_depth']) - 1;
             case 901:
+            case 927:
                 return (root['depth']) - 1;
             case 903:
                 return (root['height']) - 1;
@@ -200,7 +201,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         case "pvc":
             return customInitialSchema.concat(customPartWithMaterialSchema);
         case "thick_floating_shelf":
-            return customInitialSchema.concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
+            return customInitialSchema.concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema).concat(ledSchema);
         case "glass-door":
             const glassDoorSchema = Yup.object({
                 glass_door: Yup.lazy((value, context) => {

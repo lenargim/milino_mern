@@ -3,11 +3,13 @@ import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import {
-    filterCustomPartsMaterialsArray,
+    filterCustomPartsMaterialsArray, isLedBlock,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
+import CustomPartLEDForm from "./CustomPartLEDForm";
+import ProductLED from "../Product/ProductLED";
 
 type CustomPartThickFloatingShelf = {
     product: CustomPartType,
@@ -20,7 +22,7 @@ const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product
         price
     } = values;
     const {materials_array, id} = product;
-
+    const showLedBlock = isLedBlock(id)
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
 
     return (
@@ -38,6 +40,7 @@ const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product
                 </div>
             </div>
 
+            {showLedBlock ? <ProductLED id={id} /> : null}
             {filtered_materials_array &&
             <div className={s.block}>
               <h3>Material</h3>

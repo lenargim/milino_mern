@@ -22,7 +22,6 @@ import CustomPartRODrawer from "./CustomPartRODrawer";
 import CustomPartGlassShelfForm from "./CustomPartGlassShelfForm";
 import CustomPartGlassDoorForm from "./CustomPartGlassDoorForm";
 import CustomPartQtyOnly from "./CustomPartQtyOnly";
-import product from "../Product/Product";
 
 
 type CustomPartRight = {

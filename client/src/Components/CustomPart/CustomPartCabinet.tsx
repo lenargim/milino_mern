@@ -31,7 +31,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
     }, [material])
 
     const showLedBlock = isLedBlock(id)
-    const showShelvesBlock = isShowShelvesBlock(product.id)
+    const showShelvesBlock = isShowShelvesBlock(id)
     return (
         <Form>
             <div className={s.block}>

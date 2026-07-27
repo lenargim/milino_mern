@@ -1311,7 +1311,7 @@ export const isPanelCutoutBlock = (id: number): boolean => {
 }
 
 export const isLedBlock = (id: number): boolean => {
-    const IDsArr: number[] = [903, 901, 900];
+    const IDsArr: number[] = [903, 901, 900,927];
     return IDsArr.includes(id)
 }
 
@@ -2062,6 +2062,7 @@ export const getBorderOptionsById = (id: number): BorderType[] => {
         case 416:
             return ['Sides', 'Top', 'Bottom']
         case 901:
+        case 927:
             return ['LED Shelf'];
         case 903:
             return ['LED Panel'];

@@ -17,6 +17,7 @@ const ProfileSidebar:FC = () => {
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/admin">Admin</NavLink>
                 }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/purchase">Purchase orders</NavLink>
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/door_types">Door Types</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/tutorial">Tutorial</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>
                 {(is_active_in_constructor || is_super_user) &&
