@@ -16,23 +16,24 @@ import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
 import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
+import CartItemShelves from "./CartItemShelves";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width, glass, led} = product;
-    if (!custom) return null;
-    const {
-        accessories,
-        standard_doors,
-        standard_panels,
-        material,
-        rta_closet,
-        groove,
-        drawer_accessories,
-        panel_accessories,
-        shelves,
-        painted_molding
-    } = custom;
+    // if (!custom) return null;
+    // const {
+    //     accessories,
+    //     standard_doors,
+    //     standard_panels,
+    //     material,
+    //     rta_closet,
+    //     groove,
+    //     drawer_accessories,
+    //     panel_accessories,
+    //     shelves,
+    //     painted_molding
+    // } = custom;
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>
@@ -41,62 +42,55 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
         case 'pvc':
             return <View><CartItemPVCExtra product={product}/></View>
         case 'door-accessories': {
-            if (!accessories) return null;
-            return <View><CartItemDoorExtra accessories={accessories}/></View>
+            if (!custom?.accessories) return null;
+            return <View><CartItemDoorExtra accessories={custom?.accessories}/></View>
         }
         case 'led-accessories': {
-            if (!accessories || !accessories.led) return null;
-            return <View><CartItemLEDExtra led={accessories.led}/></View>
+            if (!custom?.accessories || !custom?.accessories.led) return null;
+            return <View><CartItemLEDExtra led={custom?.accessories.led}/></View>
         }
         case 'standard-doors':
         case 'standard-glass-doors':
-            if (!standard_doors?.length) return null;
-            return <View><CartItemDoor standard_doors={standard_doors}/></View>
+            if (!custom?.standard_doors?.length) return null;
+            return <View><CartItemDoor standard_doors={custom?.standard_doors}/></View>
         case 'standard-panel':
-            if (!standard_panels) return null;
-            return <View><CartItemPanel standard_panels={standard_panels} prod_id={product_id}/></View>
+            if (!custom?.standard_panels) return null;
+            return <View><CartItemPanel standard_panels={custom?.standard_panels} prod_id={product_id}/></View>
         case 'rta-closets':
-            if (!rta_closet?.length) return null
-            return <View><CartItemRTAClosetCustom rta_closet={rta_closet}/></View>
+            if (!custom?.rta_closet?.length) return null
+            return <View><CartItemRTAClosetCustom rta_closet={custom?.rta_closet}/></View>
         case 'drawer-inserts':
-            if (!drawer_accessories?.inserts) return null;
-            return <View><CartItemDrawerInserts inserts={drawer_accessories.inserts} width={width}/></View>
+            if (!custom?.drawer_accessories?.inserts) return null;
+            return <View><CartItemDrawerInserts inserts={custom?.drawer_accessories.inserts} width={width}/></View>
         case "ro_drawer":
-            if (!drawer_accessories?.drawer_ro) return null;
-            return <View><CartItemDrawerRO drawer_ro={drawer_accessories.drawer_ro} width={width}/></View>
+            if (!custom?.drawer_accessories?.drawer_ro) return null;
+            return <View><CartItemDrawerRO drawer_ro={custom?.drawer_accessories.drawer_ro} width={width}/></View>
         default:
             return <View>
-                {material &&
+                {custom?.material &&
                     <Text style={s.itemOption}>
-                        <Text>Material: {material}</Text>
+                        <Text>Material: {custom?.material}</Text>
                     </Text>
                 }
                 {
-                    groove &&
+                    custom?.groove &&
                     <View>
                         <View style={s.itemOption}>
                             <Text>Groove Styles:</Text>
-                            <Text>{groove.style}</Text>
+                            <Text>{custom?.groove.style}</Text>
                         </View>
                         <View style={s.itemOption}>
                             <Text>Clear Coat:</Text>
-                            <Text>{groove.clear_coat ? 'Yes' : 'No'}</Text>
+                            <Text>{custom?.groove.clear_coat ? 'Yes' : 'No'}</Text>
                         </View>
                     </View>
                 }
                 {led && <CartItemLED led={led}/>}
-                {<CartItemPanelAccessories panel_accessories={panel_accessories}/>}
-                {shelves &&
+                {<CartItemPanelAccessories panel_accessories={custom?.panel_accessories}/>}
+                {custom?.shelves && <CartItemShelves shelves={custom.shelves} />}
+                {custom?.painted_molding &&
                     <View style={s.itemOption}>
-                        <Text>Shelf Type:</Text>
-                        <Text>{getCustomPartShelvesNameByIndex(shelves.index)}</Text>
-                        {shelves.color && <Text>({shelves.color})</Text>}
-                        <Text>Quantity: {shelves.qty}</Text>
-                    </View>
-                }
-                {painted_molding &&
-                    <View style={s.itemOption}>
-                        <Text>Quantity: {painted_molding}</Text>
+                        <Text>Quantity: {custom?.painted_molding}</Text>
                     </View>
                 }
             </View>

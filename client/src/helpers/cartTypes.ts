@@ -95,12 +95,14 @@ export type CartCustomTypeAPI = {
     rta_closet?: RTAClosetAPIType[],
     mechanism?: string,
     extra_rollouts?: number,
-    shelves?: {
-        qty: number,
-        index: number,
-        color: MaybeEmpty<GlassNamesTypes>
-    },
+    shelves?: CartCustomShelvesAPI,
     painted_molding?: number
+}
+
+export type CartCustomShelvesAPI = {
+    qty: number,
+    index: number,
+    color: MaybeEmpty<GlassNamesTypes>
 }
 
 export type PanelAccessoriesTypeAPI = {
