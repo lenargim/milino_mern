@@ -7,15 +7,20 @@ import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers"
 import {PurchaseOrdersState, PurchaseOrderType, setPOs} from "../../store/reducers/purchaseOrderSlice";
 import {deletePO, getAllPOs} from "../../api/apiFunctions";
 import checkoutStyle from "../Checkout/checkout.module.sass";
+import {useAdmin} from "../../helpers/AdminContext";
+import {clearCart} from "../../store/reducers/roomSlice";
+
 
 const PurchaseOrder: FC = () => {
     const location = useLocation();
-    const user = useAppSelector(state => state.user.user)!
+    const user = useAppSelector(state => state.user.user);
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
-    const {_id} = user;
+    const {editable_user} = useAppSelector(state => state.admin);
     const dispatch = useAppDispatch();
     const scrollToRef = useRef<MaybeNull<HTMLDivElement>>(null);
     const [warningModal, setWarningModal] = useState<MaybeNull<PurchaseOrderType>>(null);
+    const is_admin = useAdmin();
+    const user_id = !is_admin ? user?._id : editable_user?._id;
 
     useEffect(() => {
         const scrollEl = scrollToRef.current;
@@ -24,12 +29,13 @@ const PurchaseOrder: FC = () => {
 
     // eslint-disable-next-line
     useEffect(() => {
-        _id && getAllPOs(_id).then(data => {
+        dispatch(clearCart())
+        user_id && getAllPOs(user_id).then(data => {
             data && dispatch(setPOs(data));
         })
-    }, [_id]);
+    }, [user_id]);
 
-    if (!_id) return null;
+    if (!user_id) return null;
     return (
         <div className={s.purchaseOrder}>
             {warningModal ? <ApproveRemovePO po={warningModal} setWarningModal={setWarningModal}/> : null}
@@ -38,33 +44,44 @@ const PurchaseOrder: FC = () => {
                 <nav className={s.nav}>
                     {purchase_orders.length
                         ? purchase_orders.map(item => <PurchaseOrderNavLink key={item._id} item={item}
-                                                                            setWarningModal={setWarningModal}/>)
+                                                                            setWarningModal={setWarningModal}
+                                                                            is_admin={is_admin}/>)
                         : null}
-                    <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
-                             to="new">Add PO +</NavLink>
+                    {!is_admin &&
+                        <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
+                                 to="new">Add PO +</NavLink>}
                 </nav>
-                <Outlet context={{user_id: _id, purchase_orders}}/>
+                <Outlet context={{user_id, purchase_orders, is_admin}}/>
             </div>
-            <RoomSidebar />
+            <RoomSidebar/>
         </div>
     );
 };
 
 export default PurchaseOrder;
 
-const PurchaseOrderNavLink: FC<{ item: PurchaseOrderType, setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void }> = ({
-                                                                                                                                 item,
-                                                                                                                                 setWarningModal
-                                                                                                                             }) => {
+const PurchaseOrderNavLink: FC<{
+    item: PurchaseOrderType,
+    setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void,
+    is_admin: boolean
+}> = ({
+          item,
+          setWarningModal,
+          is_admin
+      }) => {
     const {name} = item
     return (
         <div className={s.linkWrap}>
-            <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>
-                <span>&#10005;</span>
-            </button>
-            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>
-                <span>✎</span>
-            </NavLink>
+            {!is_admin &&
+                <>
+                    <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>
+                        <span>&#10005;</span>
+                    </button>
+                    <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>
+                        <span>✎</span>
+                    </NavLink>
+                </>
+            }
             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                      to={`${textToLink(name)}/rooms`}>{name}</NavLink>
         </div>
@@ -72,9 +89,9 @@ const PurchaseOrderNavLink: FC<{ item: PurchaseOrderType, setWarningModal: (val:
 }
 
 const ApproveRemovePO: FC<{ po: PurchaseOrderType, setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void }> = ({
-                                                                                                                        po,
-                                                                                                                        setWarningModal
-                                                                                                                    }) => {
+                                                                                                                          po,
+                                                                                                                          setWarningModal
+                                                                                                                      }) => {
     const {_id, user_id, name} = po
     const dispatch = useAppDispatch();
     const navigate = useNavigate();

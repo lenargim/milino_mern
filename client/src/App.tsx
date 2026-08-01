@@ -29,6 +29,8 @@ import ProfileCatalog2020 from "./Components/Profile/ProfileCatalog2020";
 import ForgotPassword from "./Components/Login/ForgotPassword";
 import ResetPassword from "./Components/Login/ResetPassword";
 import ProfileDoorTypes from "./Components/Profile/ProfileDoorTypes";
+import ProfileAdminEdit from "./Components/Profile/ProfileAdminEdit";
+import ProfileAdminLayout from "./Components/Profile/ProfileAdminProvider";
 
 function App() {
     return (
@@ -44,29 +46,52 @@ function App() {
                 <Route element={<PrivateRoute/>}>
                     <Route path='/profile' element={<Profile/>}>
                         <Route index element={<ProfileMain/>}/>
-                        <Route path="admin" element={<ProfileAdmin/>}/>
-                        <Route path="purchase" element={<PurchaseOrder/>}>
-                            <Route path="new" element={<PurchaseOrderNew/>}/>
-                            <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
-                                <Route path="edit" element={<PurchaseOrderEdit/>}/>
-                                <Route path="rooms" element={<PurchaseOrderRooms/>}>
-                                    <Route path="new" element={<RoomNew/>}/>
-                                    <Route path=":room_name" element={<Room/>}>
-                                        <Route path="edit" element={<RoomEdit/>}/>
-                                        <Route index element={<RoomCategory/>}/>
-                                        <Route path="product/:productId/edit/:cartId" element={<RoomEditCartProduct />}/>
-                                        <Route path="product/:productId" element={<RoomProduct/>}/>
-                                        <Route path="checkout" element={<CheckoutForm/>}/>
+                        <Route element={<ProfileAdminLayout is_admin={true}/>}>
+                            <Route path="admin" element={<ProfileAdmin/>}/>
+                            <Route path="admin/edit/:user_id" element={<ProfileAdminEdit/>}>
+                                <Route path="purchase" element={<PurchaseOrder/>}>
+                                    <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
+
+                                        <Route path="rooms" element={<PurchaseOrderRooms/>}>
+
+                                            <Route path=":room_name" element={<Room/>}>
+                                                <Route path="edit" element={<RoomEdit/>}/>
+                                                <Route index element={<RoomCategory/>}/>
+                                                <Route path="product/:productId/edit/:cartId"
+                                                       element={<RoomEditCartProduct/>}/>
+                                                <Route path="product/:productId" element={<RoomProduct/>}/>
+
+                                            </Route>
+                                        </Route>
                                     </Route>
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="door_types" element={<ProfileDoorTypes/>}/>
-                        <Route path="edit" element={<ProfileEdit/>}/>
-                        <Route path="constructor" element={<Constructor/>}/>
-                        <Route path="catalog" element={<ProfileCatalog/>}/>
-                        <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
-                        <Route path="tutorial" element={<ProfileTutorial/>}>
+                        <Route element={<ProfileAdminLayout is_admin={false}/>}>
+                            <Route path="purchase" element={<PurchaseOrder/>}>
+                                <Route path="new" element={<PurchaseOrderNew/>}/>
+                                <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
+                                    <Route path="edit" element={<PurchaseOrderEdit/>}/>
+                                    <Route path="rooms" element={<PurchaseOrderRooms/>}>
+                                        <Route path="new" element={<RoomNew/>}/>
+                                        <Route path=":room_name" element={<Room/>}>
+                                            <Route path="edit" element={<RoomEdit/>}/>
+                                            <Route index element={<RoomCategory/>}/>
+                                            <Route path="product/:productId/edit/:cartId"
+                                                   element={<RoomEditCartProduct/>}/>
+                                            <Route path="product/:productId" element={<RoomProduct/>}/>
+                                            <Route path="checkout" element={<CheckoutForm/>}/>
+                                        </Route>
+                                    </Route>
+                                </Route>
+                            </Route>
+                            <Route path="door_types" element={<ProfileDoorTypes/>}/>
+                            <Route path="edit" element={<ProfileEdit/>}/>
+                            <Route path="constructor" element={<Constructor/>}/>
+                            <Route path="catalog" element={<ProfileCatalog/>}/>
+                            <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
+                            <Route path="tutorial" element={<ProfileTutorial/>}>
+                            </Route>
                         </Route>
                     </Route>
                 </Route>

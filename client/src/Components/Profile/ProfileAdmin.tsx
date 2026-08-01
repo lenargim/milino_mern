@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import s from './profile.module.sass'
 import {AdminUsersRes, AdminUsersType} from "../../api/apiTypes";
 import {formatDateToTextShort, useAppDispatch, useAppSelector} from "../../helpers/helpers";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {adminUserToggleEnabled, getAdminUsers} from "../../api/apiFunctions";
 import {setAdminUserEnabled, setAdminUsers} from "../../store/reducers/adminSlice";
 import EnabledSvg from "../../assets/img/EnabledSVG";
@@ -20,7 +20,6 @@ const ProfileEdit: FC = () => {
     const admin = useAppSelector<AdminUsersRes>(state => state.admin);
     const user = useAppSelector(state => state.user.user)!;
     const {users, sort, page, hasNextPage} = admin;
-
     useEffect(() => {
         if (!user.is_super_user) {
             navigate('/profile')
@@ -97,6 +96,7 @@ const ProfileEdit: FC = () => {
                     </button>
                     <div>Enabled</div>
                     <div>Constructor</div>
+                    <div>Edit</div>
                 </div>
                 <div className={s.tableBody}>
                     {users.map(el => <ListItem key={el._id} user={el}/>)}
@@ -125,7 +125,7 @@ export default ProfileEdit;
 export type UserAccessData = { is_active: boolean, is_active_in_constructor: boolean };
 
 const ListItem: FC<{ user: AdminUsersType }> = ({user}) => {
-    const {is_active, email, name, _id, is_active_in_constructor, company, createdAt} = user
+    const {is_active, email, name, _id, is_active_in_constructor, company, createdAt, is_cart_filled} = user
     const dispatch = useAppDispatch();
     const toggleUserEnabled = (data: UserAccessData) => {
         adminUserToggleEnabled(_id, data).then(res => {
@@ -156,6 +156,11 @@ const ListItem: FC<{ user: AdminUsersType }> = ({user}) => {
                     {is_active_in_constructor ? <EnabledSvg classes={s.svgEnabled}/> :
                         <DisabledSVG classes={s.svgDisabled}/>}
                 </label>
+            </div>
+            <div>
+                {
+                    is_cart_filled && <NavLink to={`/profile/admin/edit/${_id}/purchase`}>Edit Order</NavLink>
+                }
             </div>
         </div>
     )

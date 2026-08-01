@@ -176,7 +176,6 @@ const CustomSchema = new mongoose.Schema({
     _id: false
 });
 
-
 const LedSchema = new mongoose.Schema({
     border: {
         type: Array,

@@ -6,15 +6,18 @@ import {removeAllFromCart, RoomsState} from "../../store/reducers/roomSlice";
 import {MiniCart} from "../../common/MiniCart";
 import {NavLink} from "react-router-dom";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
+import {useAdmin} from "../../helpers/AdminContext";
 
 const RoomSidebar: FC = () => {
     const dispatch = useAppDispatch()
     const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const {cart_items, rooms, active_room} = useAppSelector<RoomsState>(state => state.room)
+    const is_admin = useAdmin();
     if (!cart_items?.length) return null;
     const total = getCartTotal(cart_items);
     const room = rooms.find(el => el._id === cart_items[0].room_id);
     if (!room || !active_po || !active_room) return null;
+
 
     return (
         <aside className={s.sidebar}>
@@ -22,7 +25,7 @@ const RoomSidebar: FC = () => {
                 <div className={s.sidebarList}>
                     <div className={s.sidebarTitle}>
                         <h3>Cart<span>{cart_items.length}</span></h3>
-                        <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button>
+                        {!is_admin && <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button>}
                     </div>
                     {cart_items.map((item, key) => {
                         return (
@@ -30,11 +33,18 @@ const RoomSidebar: FC = () => {
                         )
                     })}
                 </div>
-                <NavLink to={`/profile/purchase/${textToLink(active_po)}/rooms/${textToLink(room.name)}/checkout`}
-                         className={s.total}>
-                    <MiniCart length={cart_items.length}/>
-                    <div>Total: {total}$</div>
-                </NavLink>
+                {
+                    !is_admin ?
+                        <NavLink to={`/profile/purchase/${textToLink(active_po)}/rooms/${textToLink(room.name)}/checkout`}
+                                 className={s.total}>
+                            <MiniCart length={cart_items.length}/>
+                            <div>Total: {total}$</div>
+                        </NavLink> :
+                        <div className={s.total}>
+                            <span></span>
+                            <div>Total: {total}$</div>
+                        </div>
+                }
             </div>
         </aside>
     );

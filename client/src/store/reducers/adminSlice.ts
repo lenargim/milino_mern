@@ -1,12 +1,23 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { AdminUsersRes, AdminUsersType} from "../../api/apiTypes";
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {AdminUsersRes, AdminUsersType, UserType} from "../../api/apiTypes";
+import {MaybeUndefined} from "../../helpers/productTypes";
+import {getUser} from "../../api/apiFunctions";
 
 const initialState: AdminUsersRes = {
     users: [],
     hasNextPage: false,
     page: 1,
-    sort: {"createdAt": 1}
+    sort: {"createdAt": 1},
+    editable_user: null,
+    loading: false,
 }
+
+export const getEditableUser = createAsyncThunk<MaybeUndefined<UserType>, {_id:string}>(
+    'admin/loadUser',
+    async ({_id}) => {
+        return await getUser(_id);
+    }
+);
 
 export const adminSlice = createSlice({
     name: 'admin',
@@ -25,6 +36,20 @@ export const adminSlice = createSlice({
                 return action.payload
             })
         },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(getEditableUser.pending, state => {
+                state.loading = true;
+            })
+            .addCase(getEditableUser.fulfilled, (state, action) => {
+                state.editable_user = action.payload ?? null;
+                state.loading = false;
+            })
+            .addCase(getEditableUser.rejected, state => {
+                state.editable_user = null;
+                state.loading = false;
+            });
     }
 })
 

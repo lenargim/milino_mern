@@ -34,7 +34,7 @@ import {
     ProductOptionsType,
     materialDataType,
     LEDType,
-    FinishSidesTypes,
+    FinishSidesTypes, ProductExtraType,
 } from "./productTypes";
 import {optionType, optionTypeDoor} from "../common/SelectField";
 import cabinets from '../api/cabinets.json';
@@ -722,6 +722,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         painted_molding
     } = values;
 
+
     const {id, product_type, name} = product;
 
     // Update L-Shape
@@ -772,7 +773,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
 
     // Glass
-    if (glass_door && !!glass_door[0]) forceSetPath(preparedProduct, 'glass.door', glass_door);
+    if (glass_door && (!!glass_door[0] || !!glass_door[1])) forceSetPath(preparedProduct, 'glass.door', glass_door);
     if (glass_shelf) forceSetPath(preparedProduct, 'glass.shelf', glass_shelf);
 
     if (material) forceSetPath(preparedProduct, 'custom.material', material);
@@ -1733,9 +1734,14 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const isBlindStandard = checkBlindStandard(isBlind, blind_width, blindArr)
     const doors = checkDoors(hinge);
 
-    let customVal = null;
-    if (custom?.accessories?.closet) customVal = {closet_accessories: custom.accessories.closet};
-    if (custom?.mechanism) customVal = {mechanism: custom.mechanism};
+    let customVal:MaybeNull<ProductExtraType> = null;
+    if (custom) {
+        const {accessories, mechanism, extra_rollouts} = custom;
+        if (mechanism) customVal = {mechanism: custom.mechanism};
+        if (accessories?.closet) customVal = {closet_accessories: accessories.closet};
+        if (extra_rollouts) customVal = {extra_rollouts};
+    }
+
     const farmSink = sink?.farm_height ? getFraction(sink.farm_height) : '';
 
     return {

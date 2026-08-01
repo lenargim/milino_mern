@@ -21,19 +21,6 @@ import CartItemShelves from "./CartItemShelves";
 const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {subcategory, product_id, custom, width, led, glass} = product;
 
-    // const {
-    //     accessories,
-    //     standard_doors,
-    //     standard_panels,
-    //     material,
-    //     rta_closet,
-    //     groove,
-    //     drawer_accessories,
-    //     panel_accessories,
-    //     shelves,
-    //     painted_molding
-    // } = custom;
-
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <CartItemGlassDoorExtra product={product}/>

@@ -19,7 +19,6 @@ const RoomEditCartProduct: FC = () => {
         navigate(`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`);
         return null;
     }
-
     return (
         <RoomProduct cartItemValues={cartItemValues}/>
     );

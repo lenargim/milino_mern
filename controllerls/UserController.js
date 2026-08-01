@@ -141,6 +141,30 @@ export const getMe = async (req, res) => {
   }
 }
 
+export const getUser = async (req, res) => {
+    try {
+        const {user_id} = req.params;
+        const user = await UserModel.findById(user_id);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+        if (!user._doc.is_active) {
+            return res.status(403).json({
+                message: "User is not activated"
+            })
+        }
+
+        const {passwordHash: hash, ...userData} = user._doc;
+        res.json(userData);
+    } catch (e) {
+        res.status(401).json({
+            message: 'Cannot auth'
+        })
+    }
+}
+
 export const patchMe = async (req, res) => {
   try {
     const password = req.body.password;

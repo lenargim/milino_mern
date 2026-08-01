@@ -65,6 +65,7 @@ export const usersAPI = {
     me: (): Promise<AxiosResponse<UserType>> => instance.get('/users/me', {headers: getHeaders()}),
     patchMe: (data: EditProfileType): Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/me', data, {headers: getHeaders()}),
     refreshToken: (): Promise<AxiosResponse<string>> => instance.post('/users/refresh'),
+    getUser: (_id:string): Promise<AxiosResponse<UserType>> => instance.get(`/users/${_id}`, {headers: getHeaders()}),
 }
 
 export const PurchaseOrdersAPI = {

@@ -278,3 +278,11 @@ export const getEmailByResetPasswordToken = async (token: string): Promise<Maybe
         alertError(error);
     }
 }
+
+export const getUser = async (_id: string): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.getUser(_id)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}

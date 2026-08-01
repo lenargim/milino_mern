@@ -1,5 +1,6 @@
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
 import {CartOrder} from "../helpers/cartTypes";
+import {MaybeNull, MaybeUndefined} from "../helpers/productTypes";
 
 export type UserDataType = {
     name: string,
@@ -69,7 +70,9 @@ export type AdminUsersRes = {
     users: AdminUsersType[],
     hasNextPage: boolean,
     sort: SortAdminUsers,
-    page: number
+    page: number,
+    editable_user: MaybeNull<UserType>,
+    loading: boolean,
 }
 
 export type AdminUsersType = {
@@ -79,5 +82,6 @@ export type AdminUsersType = {
     email: string,
     name: string,
     is_active: boolean,
-    is_active_in_constructor: boolean
+    is_active_in_constructor: boolean,
+    is_cart_filled: boolean
 }

@@ -1,35 +1,26 @@
 import React, {FC} from "react";
-import {Text} from '@react-pdf/renderer';
+import {Text, View} from '@react-pdf/renderer';
 import {s} from './PDFOrder'
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import Dimensions from "./Dimensions";
 
-const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType}> = ({product}) => {
-    const {glass: glassObj, custom} = product;
-    if (!glassObj || !custom) return null;
-    const {door: glass_door} = glassObj;
-    if (!glass_door) return null;
-    const {material} = custom
+const CartItemGlassDoorExtra: FC<{ product: CartItemFrontType }> = ({product}) => {
+    const {glass, custom} = product;
+    const door = glass?.door
     return (
         <>
-            {material &&
-            <Text style={s.itemOption}>
-              <Text>Material:</Text><Text>{material}</Text>
-            </Text>}
-            {glass_door[0] &&
-            <Text style={s.itemOption}>
-              <Text>Door Profile: </Text><Text>{glass_door[0]}</Text>
-            </Text>
+            {custom?.material &&
+                <Text style={s.itemOption}>
+                    <Text>Material:</Text><Text>{custom.material}</Text>
+                </Text>
             }
-            {glass_door[1] &&
-            <Text style={s.itemOption}>
-              <Text>Door Type: </Text><Text>{glass_door[1]}</Text>
-            </Text>
-            }
-            {glass_door[2] &&
-            <Text style={s.itemOption}>
-              <Text>Door Color: </Text><Text>{glass_door[2]}</Text>
-            </Text>
+            {
+                door &&
+                <View>
+                    {door[0] && <Text style={s.itemOption}>Door Profile: {door[0]}</Text>}
+                    {door[1] && <Text style={s.itemOption}>Door Type: {door[1]}</Text>}
+                    {door[2] && <Text style={s.itemOption}>Door Color: {door[2]}</Text>}
+                </View>
             }
         </>
     )

@@ -126,6 +126,9 @@ export const roomSlice = createSlice({
             const room = state.rooms.find(el => el._id === action.payload.room_id);
             state.cart_items = convertCartAPIToFront(cart, room)
         },
+        clearCart: (state) => {
+            state.cart_items = null;
+        },
         updateCartAfterMaterialsChange: (state, action: PayloadAction<CartItemFrontType[]>) => {
             state.cart_items = action.payload
         },
@@ -168,6 +171,7 @@ export const roomSlice = createSlice({
 export const {
     addRoom,
     setCart,
+    clearCart,
     updateCartAfterMaterialsChange,
     roomSetActiveCategory,
     setActiveRoom

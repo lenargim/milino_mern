@@ -9,6 +9,7 @@ import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import checkoutStyle from "../Checkout/checkout.module.sass";
 import Loading from "../../common/Loading";
+import {useAdmin} from "../../helpers/AdminContext";
 
 const PurchaseOrderRooms: FC = () => {
     const {purchase_order_name} = useParams();
@@ -17,17 +18,17 @@ const PurchaseOrderRooms: FC = () => {
     const {rooms, loading_rooms, active_room} = useAppSelector<RoomsState>(state => state.room);
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
     const purchase_order = purchase_orders.find(el => textToLink(el.name) === purchase_order_name);
-
+    const is_admin = useAdmin();
     useEffect(() => {
         purchase_order && dispatch(fetchRooms({_id: purchase_order._id}))
-    }, [purchase_order,dispatch]);
+    }, [purchase_order, dispatch]);
 
     useEffect(() => {
         active_room && dispatch(setActiveRoom(''));
-    },[active_po])
+    }, [active_po])
 
     if (!purchase_order) return null;
-    if (loading_rooms) return <Loading />
+    if (loading_rooms) return <Loading/>
     return (
         <>
             <h2>Rooms</h2>
@@ -35,29 +36,32 @@ const PurchaseOrderRooms: FC = () => {
                 <div>
                     <nav className={s.nav}>
                         {rooms.map(room => <RoomNavLink room={room} setWarningModal={setWarningModal}
+                                                        is_admin={is_admin}
                                                         key={room._id}/>)}
-                        <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
-                                 to="new">Add Room +</NavLink>
+                        {!is_admin &&
+                            <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
+                                     to="new">Add Room +</NavLink>}
                     </nav>
                     {warningModal ? <ApproveRemoveRoom room={warningModal} setWarningModal={setWarningModal}
                                                        purchase_name={purchase_order.name}/> : null}
                 </div>
                 : <RoomNew/>}
-            <Outlet />
+            <Outlet/>
         </>
     );
 };
 
 export default PurchaseOrderRooms;
 
-const RoomNavLink: FC<{ room: RoomFront, setWarningModal: (val: MaybeNull<RoomFront>) => void }> = ({
-                                                                                                        room,
-                                                                                                        setWarningModal
-                                                                                                    }) => {
+const RoomNavLink: FC<{ room: RoomFront, setWarningModal: (val: MaybeNull<RoomFront>) => void, is_admin: boolean }> = ({
+                                                                                                                           room,
+                                                                                                                           setWarningModal,
+                                                                                                                           is_admin
+                                                                                                                       }) => {
     const {name} = room
     return (
         <div className={s.linkWrap}>
-            <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}><span>&#10005;</span></button>
+            {!is_admin && <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}><span>&#10005;</span></button>}
             <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}><span>✎</span></NavLink>
             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                      to={textToLink(name)}>{name}</NavLink>
@@ -65,11 +69,15 @@ const RoomNavLink: FC<{ room: RoomFront, setWarningModal: (val: MaybeNull<RoomFr
     )
 }
 
-const ApproveRemoveRoom: FC<{ room: RoomFront, purchase_name: string, setWarningModal: (val: MaybeNull<RoomFront>) => void }> = ({
-                                                                                                                                     room,
-                                                                                                                                     purchase_name,
-                                                                                                                                     setWarningModal
-                                                                                                                                 }) => {
+const ApproveRemoveRoom: FC<{
+    room: RoomFront,
+    purchase_name: string,
+    setWarningModal: (val: MaybeNull<RoomFront>) => void
+}> = ({
+          room,
+          purchase_name,
+          setWarningModal
+      }) => {
     const {_id, purchase_order_id, name} = room
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -78,7 +86,7 @@ const ApproveRemoveRoom: FC<{ room: RoomFront, purchase_name: string, setWarning
     const handleDelete = async () => {
         try {
             setWarningModal(null);
-            await dispatch(removeRoom({ purchase_order_id, _id })).unwrap();
+            await dispatch(removeRoom({purchase_order_id, _id})).unwrap();
             navigate(`/profile/purchase/${textToLink(purchase_name)}/rooms`);
         } catch (error) {
             console.error('Failed to delete room:', error);
