@@ -1261,7 +1261,9 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case 927: {
             const sq = width * depth / 144;
-            price = getFloatingShelfCustomPartPrice(custom?.material, sq);
+            const floatingShelfCustomPartPrice = getFloatingShelfCustomPartPrice(custom?.material, sq);
+            const ledPrice = getLedPrice(width, height, led);
+            price = floatingShelfCustomPartPrice + ledPrice;
             break;
         }
         case 917: {

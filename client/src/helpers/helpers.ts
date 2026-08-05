@@ -115,6 +115,15 @@ export const getImg = (folder: string, img: MaybeUndefined<string>): string => {
     }
 }
 
+export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): MaybeNull<string> => {
+    if (!folder || !img) return null;
+    try {
+        return require(`./../assets/img/${folder}/${img}`)
+    } catch (e) {
+        return null
+    }
+}
+
 
 export const getProductImg = (folder: string, img: string): string => {
     for (const s of ['', ' L', ' 2L', ' 4'] as const) {
