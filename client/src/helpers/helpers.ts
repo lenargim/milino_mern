@@ -2167,8 +2167,8 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
-    const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color
-    const is_special_milino = ["Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+    const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color;
+    const is_special_milino = ["Desert Oak", "White Oak", "White Gloss","Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
         return is_special_milino ?
