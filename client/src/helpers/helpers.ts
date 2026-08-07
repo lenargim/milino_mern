@@ -1615,6 +1615,11 @@ async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType
     formData.append("client_name", values.name);
     formData.append("client_purchase_order", values.purchase_order);
     formData.append("client_room_name", values.room_name);
+    if (values.files?.length) {
+        values.files.forEach(file => {
+            formData.append("attachments", file);
+        });
+    }
     return formData
 }
 

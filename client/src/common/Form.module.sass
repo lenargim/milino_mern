@@ -8,7 +8,7 @@
   display: grid
   grid-template-columns: 1fr
   gap: 15px
-  max-width: 600px
+  max-width: 650px
   margin: 50px auto 30px
 
 .row
@@ -227,3 +227,120 @@
   position: absolute
   right: 15px
   top: 16px
+
+.file
+  position: relative
+  padding-top: 16px
+  .container
+    width: 100%
+
+  .row
+    display: flex
+    align-items: center
+    gap: 12px
+
+  .fileInput
+    position: absolute
+    width: 1px
+    height: 1px
+    opacity: 0
+    pointer-events: none
+
+  .fileLabel
+    display: flex
+    align-items: center
+    gap: 12px
+    cursor: pointer
+
+  .list
+    display: grid
+    max-width: 100%
+    grid-template-columns: repeat(5, minmax(120px, 200px))
+    gap: 8px
+    margin-top: 10px
+
+  .fileItem
+    position: relative
+    aspect-ratio: 3/4
+
+
+    &:hover
+      .linkDelete
+        opacity: 1
+  .fileBg
+    display: block
+    background: #f5f5f5
+    font-size: 12px
+    padding: 20px 10px 10px
+    border-radius: 0 5px 5px 5px
+    width: 100%
+    height: 100%
+    overflow: hidden
+    box-shadow: 0px -40px 6px -12px rgba(34, 60, 80, 0.3) inset
+
+  .fileImg
+    display: block
+    background-size: cover
+    background-position: center
+    box-shadow: 0px -40px 6px -12px rgba(34, 60, 80, 0.6) inset
+  .fileName
+    position: absolute
+    bottom: 10px
+    left: 10px
+    font-size: 10px
+    max-width: calc(100% - 20px)
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+  .fileType
+    position: absolute
+    top: 0
+    left: 0
+    border-radius: 0 3px 3px 0
+    background: #fff
+    border: 1px solid #000
+    padding: 3px
+    font-size: 8px
+
+.linkDelete
+  display: flex
+  align-items: center
+  width: 18px
+  height: 18px
+  border-radius: 9px
+  position: absolute
+  top: -9px
+  color: #fff
+  z-index: 1
+  opacity: 0
+  font: 400 13px/1 $mainFont
+  box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.30)
+  padding: 0 4px
+  text-align: center
+  transition: all 0.3s ease
+  transform: scale(1)
+  right: -6px
+  background-color: $red
+  transform-origin: right
+  justify-content: right
+  span
+    display: block
+    width: 10px
+    height: 13px
+    text-align: center
+  &:hover
+    width: 54px
+    z-index: 2
+    box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.40)
+    transform: scale(1.2)
+    &:after
+      opacity: 1
+      width: 100%
+      margin-left: 2px
+  &:after
+    content: 'Delete'
+    width: 0
+    opacity: .9
+    overflow: hidden
+    transition: all 0.3s ease
+    letter-spacing: -0.07em

@@ -12,7 +12,7 @@ import PDFOrder from "../PDFOrder/PDFOrder";
 import {saveAs} from "file-saver";
 import {Form, Formik} from "formik";
 import s from "./checkout.module.sass";
-import {AdditionalEmailsArray, MyDatePicker, PhoneInput, TextInput} from "../../common/Form";
+import {AdditionalEmailsArray, FileInput, MyDatePicker, PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
@@ -130,6 +130,7 @@ const CheckoutForm: FC = () => {
                                 <PhoneInput type="text" name="phone" label="Phone number"/>
                                 <TextInput type="text" name="delivery" label="Delivery address"/>
                                 <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
+                                <FileInput name="files" label="Attachments" multiple={true} accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"  />
                             </div>
                             <CheckoutCart cart={cart_items} total={total}/>
                             <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}

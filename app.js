@@ -78,7 +78,8 @@ const start = async () => {
             checkAuth,
             upload.fields([
                 {name: 'pdf', maxCount: 1},
-                {name: 'json', maxCount: 1}
+                {name: 'json', maxCount: 1},
+                { name: 'attachments', maxCount: 5 },
             ]),
             PDFController.SendPDF
         )

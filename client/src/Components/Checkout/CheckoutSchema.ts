@@ -1,5 +1,22 @@
 import * as Yup from 'yup';
 
+const MAX_FILES = 5;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+const ALLOWED_TYPES = [
+    'application/pdf',
+
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+
+    'image/jpeg',
+    'image/png',
+];
+
+
 export const CheckoutSchema = Yup.object({
     name: Yup.string()
         .default("")
@@ -46,6 +63,24 @@ export const CheckoutSchema = Yup.object({
         )
         .defined()
         .default([]),
+
+    files: Yup.array()
+        .of(Yup.mixed<File>().required())
+        .max(MAX_FILES, `You can upload up to ${MAX_FILES} files.`)
+        .test(
+            'fileSize',
+            'Each file must be no larger than 10 MB.',
+            (files) =>
+                !files ||
+                files.every(file => file.size <= MAX_FILE_SIZE)
+        )
+        .test(
+            'fileType',
+            'Only PDF, DOC, DOCX, XLS, XLSX, JPG and PNG files are allowed.',
+            (files) =>
+                !files ||
+                files.every(file => ALLOWED_TYPES.includes(file.type))
+        ),
 })
 
 export type CheckoutSchemaType = Yup.InferType<typeof CheckoutSchema>;
