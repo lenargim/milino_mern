@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, useRef, useState} from 'react';
-import {useNavigate, useOutletContext, useParams} from "react-router-dom";
+import {NavLink, useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {
     checkoutCartItemWithImg, createOrderFormData, createOrderFormRoomData,
     getCartTotal,
@@ -32,17 +32,24 @@ type WithNullableFields<T, K extends keyof T> = Omit<T, K> & {
 export type CheckoutFormValues = WithNullableFields<CheckoutSchemaType, 'delivery_date'>;
 
 const CheckoutForm: FC = () => {
+    const {purchase_order_name, room_name} = useParams()
     const navigate = useNavigate();
-    const {purchase_order_name} = useParams()
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
-    const active_po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name)?.name
-    const [room] = useOutletContext<[RoomFront]>();
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
+    const {room} = useOutletContext<{ room: RoomFront }>();
     const {user} = useAppSelector<UserState>(state => state.user)!
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
-    const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
 
+    const active_po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name && !po.is_archived)?.name
+    const {
+        _id,
+        purchase_order_id,
+        activeProductCategory,
+        ...materials
+    } = room;
+    const total = getCartTotal(cart_items);
+    const materialStrings = getMaterialStrings(materials);
 
     const handleSubmit = async (values: CheckoutFormValues) => {
         if (!values.delivery_date) return;
@@ -69,7 +76,8 @@ const CheckoutForm: FC = () => {
             case "save-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
-                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues} po_rooms_api={po_rooms_api}/>).toBlob();
+                const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues}
+                                                            po_rooms_api={po_rooms_api}/>).toBlob();
                 saveAs(po_blob, `${fileName}.pdf`);
                 break;
             }
@@ -96,11 +104,11 @@ const CheckoutForm: FC = () => {
             }
         }
     }
-    const total = getCartTotal(cart_items);
-    const materialStrings = getMaterialStrings(materials);
+
     if (!user || !active_po || !cart_items) return null;
     const {name, company, email, additional_emails, phone} = user;
-    if (!cart_items.length) navigate(-1);
+    if (!cart_items.length || !active_po) navigate(-1);
+
     const initialValues: CheckoutFormValues = {
         name,
         company,
@@ -110,38 +118,40 @@ const CheckoutForm: FC = () => {
         purchase_order: active_po,
         room_name: room.name,
         delivery: '',
-        delivery_date: null
+        delivery_date: null,
+        files: []
     };
 
     return (
         <Formik initialValues={initialValues}
                 validationSchema={CheckoutSchema}
                 onSubmit={handleSubmit}
-                render={({values, errors}) => {
-                    return (
-                        <Form className={[s.form].join(' ')}>
-                            <h1>Checkout</h1>
-                            <div className={s.block}>
-                                {isModalOpen ? <EmailWasSent setIsModalOpen={setIsModalOpen}/> : null}
-                                <TextInput type="text" name="name" label="Name"/>
-                                <TextInput type="text" name="company" label="Company"/>
-                                <TextInput type="text" name="purchase_order" label="PO name"/>
-                                <TextInput type="text" name="room_name" label="Room name"/>
-                                <TextInput type="email" name="email" label="E-mail"/>
-                                <AdditionalEmailsArray additional_emails={values.additional_emails} errors={errors.additional_emails}/>
-                                <PhoneInput type="text" name="phone" label="Phone number"/>
-                                <TextInput type="text" name="delivery" label="Delivery address"/>
-                                <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
-                                <FileInput name="files" label="Attachments" multiple={true} accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"  />
-                            </div>
-                            <CheckoutCart cart={cart_items} total={total}/>
-                            <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}
-                                               purchase_order_id={purchase_order_id}/>
-                        </Form>
-                    )
-                }}
         >
-
+            {({values, errors}) => {
+                return (
+                    <Form className={[s.form].join(' ')}>
+                        <h1>Checkout</h1>
+                        <div className={s.block}>
+                            {isModalOpen ? <EmailWasSent setIsModalOpen={setIsModalOpen}/> : null}
+                            <TextInput type="text" name="name" label="Name"/>
+                            <TextInput type="text" name="company" label="Company"/>
+                            <TextInput type="text" name="purchase_order" label="PO name"/>
+                            <TextInput type="text" name="room_name" label="Room name"/>
+                            <TextInput type="email" name="email" label="E-mail"/>
+                            <AdditionalEmailsArray additional_emails={values.additional_emails}
+                                                   errors={errors.additional_emails}/>
+                            <PhoneInput type="text" name="phone" label="Phone number"/>
+                            <TextInput type="text" name="delivery" label="Delivery address"/>
+                            <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
+                            <FileInput name="files" label="Attachments" multiple={true}
+                                       accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"/>
+                        </div>
+                        <CheckoutCart cart={cart_items} total={total}/>
+                        <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}
+                                           purchase_order_id={purchase_order_id}/>
+                    </Form>
+                )
+            }}
         </Formik>
     );
 };

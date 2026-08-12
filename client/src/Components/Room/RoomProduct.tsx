@@ -19,7 +19,7 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues}) => {
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
-    const [room, materials] = useOutletContext<[RoomFront, RoomMaterialsFormType, boolean]>()
+    const {room, materials} = useOutletContext<{room:RoomFront, materials:RoomMaterialsFormType}>()
     const {_id: room_id, activeProductCategory} = room;
     const isRoomStandard = findIsRoomStandard(materials.door_type);
     const product_or_custom = getProductById(Number(productId), isRoomStandard);

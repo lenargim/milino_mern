@@ -24,20 +24,20 @@ const Room: FC = () => {
         ? `/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`
         : `/profile/admin/edit/${user_id}/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`;
     const showBackButton = location.pathname !== cabinetLink;
-    const {
-        _id: room_id,
-        activeProductCategory,
-        purchase_order_id,
-        ...rest
-    } = room;
-    const materials: RoomMaterialsFormType = {...rest};
+    // const {
+    //     _id: room_id,
+    //     activeProductCategory,
+    //     purchase_order_id,
+    //     ...rest
+    // } = room;
+    // const materials: RoomMaterialsFormType = {...rest};
     return (
         <div className={s.roomMain}>
             {showBackButton
                 ? <button className={s.back} type="button" tabIndex={-1} onClick={() => navigate(cabinetLink)}>Back to Cabinets</button>
                 : null
             }
-            <Outlet context={[room, materials]}/>
+            <Outlet context={{room}}/>
         </div>
     );
 };
