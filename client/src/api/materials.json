@@ -942,6 +942,10 @@
               "img": "Black-Metallic-Gloss-300x300.jpg"
             },
             {
+              "value": "Champagne Mettalic",
+              "img": "Champagne-Metallic-Gloss-300x300.jpg"
+            },
+            {
               "value": "Dark Grey Mettalic",
               "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
             },
@@ -952,10 +956,6 @@
             {
               "value": "Frost White Mettalic",
               "img": "Frost-White-Metallic-Gloss-300x300.jpg"
-            },
-            {
-              "value": "Gold Mettalic",
-              "img": "Gold-1024x1024.jpg"
             },
             {
               "value": "Obsidian Mettalic",
@@ -1022,6 +1022,7 @@
     {
       "value": "Three Piece Door",
       "img": "Doors 3pc.jpg",
+      "is_hide": true,
       "finish": [
         {
           "value": "Syncron",
@@ -2027,6 +2028,10 @@
           "value": "Ultrapan Acrylic",
           "img": "ultrapan.jpg",
           "colors": [
+            {
+              "value": "Champagne Mettalic",
+              "img": "Champagne-Metallic-Gloss-300x300.jpg"
+            },
             {
               "value": "Silver Mettalic",
               "img": "Silver-Metallic-Gloss-300x300.jpg"

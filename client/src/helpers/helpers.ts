@@ -340,6 +340,8 @@ const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>):
             n = `${n} 4`;
             break
         case "Double Doors":
+            n = `${n} 2`;
+            break
         default:
             break;
     }
