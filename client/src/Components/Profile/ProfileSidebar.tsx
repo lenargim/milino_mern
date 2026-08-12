@@ -7,7 +7,7 @@ import {logout} from "../../store/reducers/userSlice";
 
 const ProfileSidebar:FC = () => {
     const user = useAppSelector(state => state.user.user)!;
-    const {is_super_user, is_active_in_constructor} = user;
+    const {is_super_user, is_active_in_constructor, has_archives} = user;
     const dispatch = useAppDispatch()
     return (
         <div className={s.profileSidebar}>
@@ -17,6 +17,9 @@ const ProfileSidebar:FC = () => {
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/admin">Admin</NavLink>
                 }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/purchase">Purchase orders</NavLink>
+                {has_archives &&
+                <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/archive">Archive </NavLink>
+                }
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/door_types">Door Types</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/tutorial">Tutorial</NavLink>
                 <NavLink className={({isActive}) => isActive ? s.active : ""} to="/profile/edit">Edit Profile</NavLink>

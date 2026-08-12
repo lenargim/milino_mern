@@ -220,7 +220,7 @@ export const deletePO = async (user_id: string, purchase_order_id: string): Prom
     }
 }
 
-export const editPOAPI = async (purchase_order: PurchaseOrderType): Promise<MaybeUndefined<PurchaseOrderType>> => {
+export const editPOAPI = async (purchase_order: PurchaseOrderType): Promise<MaybeUndefined<PurchaseOrderType[]>> => {
     try {
         return (await PurchaseOrdersAPI.editPO(purchase_order)).data
     } catch (error) {

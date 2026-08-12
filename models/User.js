@@ -41,7 +41,13 @@ const UserSchema = new Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date
-}, {timestamps: true})
+}, {
+    timestamps: {
+        createdAt: true,
+        updatedAt: false
+    },
+    versionKey: false,
+})
 
 
 export default model('User', UserSchema);

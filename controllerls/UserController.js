@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import UserModel from "../models/User.js";
+import PurchaseOrderModel from "../models/PurchaseOrder.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import nodemailer from "nodemailer";
@@ -9,136 +10,142 @@ import * as crypto from "crypto";
 const env = dotenv.config().parsed;
 
 function generateTokens(userId) {
-  const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
-  return accessToken;
+    const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
+    return accessToken;
 }
 
 export const register = async (req, res) => {
-  try {
-    const password = req.body.password;
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
-    const checkUserName = await UserModel.findOne({name: req.body.name});
-    if (checkUserName) {
-      return res.status(500).json({
-        message: "Username occupied"
-      })
-    }
-    const checkUserEmail = await UserModel.findOne({email: req.body.email});
-    if (checkUserEmail) {
-      return res.status(500).json({
-        message: "Email already in use"
-      })
-    }
+    try {
+        const password = req.body.password;
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+        const checkUserName = await UserModel.findOne({name: req.body.name});
+        if (checkUserName) {
+            return res.status(500).json({
+                message: "Username occupied"
+            })
+        }
+        const checkUserEmail = await UserModel.findOne({email: req.body.email});
+        if (checkUserEmail) {
+            return res.status(500).json({
+                message: "Email already in use"
+            })
+        }
 
-    const doc = new UserModel({
-      name: req.body.name,
-      company: req.body.company,
-      email: req.body.email,
-      phone: req.body.phone,
-      website: req.body.website,
-      is_active: false,
-      is_active_in_constructor: false,
-      constructor_id: req.body.email,
-      is_super_user: false,
-      passwordHash,
-    })
-
-    await doc.save();
-
-    // Different smtp access for DEV/PROD
-    let transporter = nodemailer.createTransport(getTransporterObject())
-    let mailOptions = {
-      from: env.EMAIL_USER,
-      to: env.EMAIL_TO,
-      subject: "Order Form access request",
-      text: `User name: ${req.body.name} Email: ${req.body.email} Company: ${req.body.company} Phone: ${req.body.phone}`,
-      html: `<p>User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}</p>`,
-    };
-
-
-    transporter.sendMail(mailOptions, function (error) {
-      if (error) {
-        res.status(500).json({
-          message: 'User saved but email was not sent'
-        });
-      } else {
-        res.status(201).json({
-          message: "User saved"
+        const doc = new UserModel({
+            name: req.body.name,
+            company: req.body.company,
+            email: req.body.email,
+            phone: req.body.phone,
+            website: req.body.website,
+            is_active: false,
+            is_active_in_constructor: false,
+            constructor_id: req.body.email,
+            is_super_user: false,
+            passwordHash,
         })
-      }
-      return res.end();
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: "Registration failed"
-    })
-  }
+
+        await doc.save();
+
+        // Different smtp access for DEV/PROD
+        let transporter = nodemailer.createTransport(getTransporterObject())
+        let mailOptions = {
+            from: env.EMAIL_USER,
+            to: env.EMAIL_TO,
+            subject: "Order Form access request",
+            text: `User name: ${req.body.name} Email: ${req.body.email} Company: ${req.body.company} Phone: ${req.body.phone}`,
+            html: `<p>User name: ${req.body.name}<br>Email: ${req.body.email}<br>Company: ${req.body.company}<br>Phone: ${req.body.phone}</p>`,
+        };
+
+
+        transporter.sendMail(mailOptions, function (error) {
+            if (error) {
+                res.status(500).json({
+                    message: 'User saved but email was not sent'
+                });
+            } else {
+                res.status(201).json({
+                    message: "User saved"
+                })
+            }
+            return res.end();
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Registration failed"
+        })
+    }
 }
 
 export const login = async (req, res) => {
-  try {
-    const user = await UserModel.findOne({email: new RegExp('^' + req.body.email + '$', 'i')});
-    if (!user) {
-      return res.status(401).json({
-        message: "Wrong email or password"
-      })
+    try {
+        const user = await UserModel.findOne({email: new RegExp('^' + req.body.email + '$', 'i')});
+        if (!user) {
+            return res.status(401).json({
+                message: "Wrong email or password"
+            })
+        }
+        const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
+
+        if (!isValidPass) {
+            return res.status(401).json({
+                message: "Incorrect password"
+            })
+        }
+
+        if (!user._doc.is_active) {
+            return res.status(403).json({
+                message: "User is not activated"
+            })
+        }
+
+        const {passwordHash: hash, ...userData} = user._doc;
+        const accessToken = generateTokens(user._id);
+
+        res.status(200)
+            // .cookie('refreshToken', refreshToken, {
+            //   httpOnly: true,
+            //   // sameSite: 'Strict',
+            //   secure: isCookieSecure(), // set true in production with HTTPS
+            //   maxAge: getCookieDays() * 24 * 60 * 60 * 1000
+            // })
+            .json({...userData, token: accessToken});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "User not authorized"
+        })
     }
-    const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
-
-    if (!isValidPass) {
-      return res.status(401).json({
-        message: "Incorrect password"
-      })
-    }
-
-    if (!user._doc.is_active) {
-      return res.status(403).json({
-        message: "User is not activated"
-      })
-    }
-
-    const {passwordHash: hash, ...userData} = user._doc;
-    const accessToken = generateTokens(user._id);
-
-    res.status(200)
-      // .cookie('refreshToken', refreshToken, {
-      //   httpOnly: true,
-      //   // sameSite: 'Strict',
-      //   secure: isCookieSecure(), // set true in production with HTTPS
-      //   maxAge: getCookieDays() * 24 * 60 * 60 * 1000
-      // })
-      .json({...userData, token: accessToken});
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: "User not authorized"
-    })
-  }
 }
 
 export const getMe = async (req, res) => {
-  try {
-    const user = await UserModel.findById(req.userId);
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found"
-      })
-    }
-    if (!user._doc.is_active) {
-      return res.status(403).json({
-        message: "User is not activated"
-      })
-    }
+    try {
+        const user = await UserModel.findById(req.userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+        if (!user._doc.is_active) {
+            return res.status(403).json({
+                message: "User is not activated"
+            })
+        }
 
-    const {passwordHash: hash, ...userData} = user._doc;
-    res.json(userData);
-  } catch (e) {
-    res.status(401).json({
-      message: 'Cannot auth'
-    })
-  }
+        const count = await PurchaseOrderModel.countDocuments({
+            user_id: req.userId,
+            is_deleted: {$ne: true},
+            is_archived: true,
+        });
+
+        const {passwordHash: hash, ...userData} = user._doc;
+        res.json({...userData, has_archives: !!count});
+    } catch (e) {
+        res.status(401).json({
+            message: 'Cannot auth'
+        })
+    }
 }
 
 export const getUser = async (req, res) => {
@@ -166,145 +173,145 @@ export const getUser = async (req, res) => {
 }
 
 export const patchMe = async (req, res) => {
-  try {
-    const password = req.body.password;
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
-    const user = await UserModel.findByIdAndUpdate(req.userId, {
-      name: req.body.name,
-      company: req.body.company,
-      additional_emails: req.body.additional_emails.filter(el => el),
-      phone: req.body.phone,
-      website: req.body.website,
-      passwordHash
-    }, {
-      new: true
-    });
+    try {
+        const password = req.body.password;
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+        const user = await UserModel.findByIdAndUpdate(req.userId, {
+            name: req.body.name,
+            company: req.body.company,
+            additional_emails: req.body.additional_emails.filter(el => el),
+            phone: req.body.phone,
+            website: req.body.website,
+            passwordHash
+        }, {
+            new: true
+        });
 
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found"
-      })
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        const {passwordHash: hash, ...userData} = user._doc;
+        res.json(userData);
+    } catch (e) {
+        res.status(403).json({
+            message: 'Cannot update'
+        })
     }
-
-    const {passwordHash: hash, ...userData} = user._doc;
-    res.json(userData);
-  } catch (e) {
-    res.status(403).json({
-      message: 'Cannot update'
-    })
-  }
 }
 
 export const forgotPassword = async (req, res) => {
-  try {
-    const {email} = req.body;
+    try {
+        const {email} = req.body;
 
-    const user = await UserModel.findOne({email});
+        const user = await UserModel.findOne({email});
 
-    if (!user) {
-      return res.status(404).json({message: 'User not found'});
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        // generate token
+        const resetToken = crypto.randomBytes(32).toString('hex');
+
+        // hash token
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(resetToken)
+            .digest('hex');
+
+        user.resetPasswordToken = hashedToken;
+        user.resetPasswordExpire = new Date(Date.now() + 30 * 60 * 1000); // 30 min
+
+        await user.save();
+        const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+        const transporter = nodemailer.createTransport(getTransporterObject());
+
+        const mailOptions = {
+            from: env.EMAIL_USER,
+            to: email,
+            subject: `milino.us - reset password link`,
+            html: `<a href="${resetUrl}">Reset password</a>`
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.error("Error sending email:", err);
+                return res.status(500).json({message: "Error sending email", error: err});
+            }
+            res.json({message: `Reset link sent`,});
+        });
+
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(500).json({message: "Internal server error", error});
     }
-
-    // generate token
-    const resetToken = crypto.randomBytes(32).toString('hex');
-
-    // hash token
-    const hashedToken = crypto
-      .createHash('sha256')
-      .update(resetToken)
-      .digest('hex');
-
-    user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpire = new Date(Date.now() + 30 * 60 * 1000); // 30 min
-
-    await user.save();
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-
-    const transporter = nodemailer.createTransport(getTransporterObject());
-
-    const mailOptions = {
-      from: env.EMAIL_USER,
-      to: email,
-      subject: `milino.us - reset password link`,
-      html: `<a href="${resetUrl}">Reset password</a>`
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error("Error sending email:", err);
-        return res.status(500).json({message: "Error sending email", error: err});
-      }
-      res.json({message: `Reset link sent`, });
-    });
-
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    res.status(500).json({message: "Internal server error", error});
-  }
 };
 
 export const resetPassword = async (req, res) => {
-  try {
-    const {token} = req.params;
-    const {password} = req.body;
+    try {
+        const {token} = req.params;
+        const {password} = req.body;
 
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
-    const hashedToken = crypto
-      .createHash('sha256')
-      .update(token)
-      .digest('hex');
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(token)
+            .digest('hex');
 
-    const user = await UserModel.findOneAndUpdate(
-      {
-        resetPasswordToken: hashedToken,
-        resetPasswordExpire: {$gt: new Date()}
-      },
-      {
-        $set: {
-          passwordHash: passwordHash
-        },
-        $unset: {
-          resetPasswordToken: '',
-          resetPasswordExpire: ''
+        const user = await UserModel.findOneAndUpdate(
+            {
+                resetPasswordToken: hashedToken,
+                resetPasswordExpire: {$gt: new Date()}
+            },
+            {
+                $set: {
+                    passwordHash: passwordHash
+                },
+                $unset: {
+                    resetPasswordToken: '',
+                    resetPasswordExpire: ''
+                }
+            },
+            {new: true}
+        );
+        if (!user) {
+            return res.status(400).json({
+                message: 'Invalid or expired token'
+            });
         }
-      },
-      {new: true}
-    );
-    if (!user) {
-      return res.status(400).json({
-        message: 'Invalid or expired token'
-      });
-    }
 
-    res.json({message: 'Password successfully updated'});
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    res.status(500).json({message: "Internal server error", error});
-  }
+        res.json({message: 'Password successfully updated'});
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(500).json({message: "Internal server error", error});
+    }
 };
 
 export const getTokenName = async (req, res) => {
-  try {
-    const {token} = req.params;
-    const hashedToken = crypto
-      .createHash('sha256')
-      .update(token)
-      .digest('hex');
+    try {
+        const {token} = req.params;
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(token)
+            .digest('hex');
 
-    const user = await UserModel.findOne(
-      {resetPasswordToken: hashedToken}
-    );
-    if (!user) {
-      return res.json({
-        name: 'User'
-      });
+        const user = await UserModel.findOne(
+            {resetPasswordToken: hashedToken}
+        );
+        if (!user) {
+            return res.json({
+                name: 'User'
+            });
+        }
+
+        res.json({name: user.email});
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        res.status(500).json({message: "Internal server error", error});
     }
-
-    res.json({name: user.email});
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    res.status(500).json({message: "Internal server error", error});
-  }
 }

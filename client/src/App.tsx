@@ -31,6 +31,9 @@ import ResetPassword from "./Components/Login/ResetPassword";
 import ProfileDoorTypes from "./Components/Profile/ProfileDoorTypes";
 import ProfileAdminEdit from "./Components/Profile/ProfileAdminEdit";
 import ProfileAdminLayout from "./Components/Profile/ProfileAdminProvider";
+import Archive from "./Components/Archive/Archive";
+import ArchiveItem from "./Components/Archive/ArchiveItem";
+import ArchiveRoom from "./Components/Archive/ArchiveRoom";
 
 function App() {
     return (
@@ -83,6 +86,11 @@ function App() {
                                             <Route path="checkout" element={<CheckoutForm/>}/>
                                         </Route>
                                     </Route>
+                                </Route>
+                            </Route>
+                            <Route path="archive" element={<Archive />}>
+                                <Route path=":purchase_order_name/rooms" element={<ArchiveItem/>}>
+                                    <Route path=":room_name" element={<ArchiveRoom/>}/>
                                 </Route>
                             </Route>
                             <Route path="door_types" element={<ProfileDoorTypes/>}/>

@@ -9,7 +9,6 @@ import {withTryCatch} from "../../utils/withTryCatch";
 export interface RoomsState {
     rooms: RoomFront[],
     cart_items: MaybeNull<CartItemFrontType[]>,
-    active_room: MaybeNull<string>,
     loading_rooms: boolean;
     loading_cart_items: boolean,
     loading_sidebar: boolean,
@@ -19,7 +18,6 @@ export interface RoomsState {
 const initialState: RoomsState = {
     rooms: [],
     cart_items: null,
-    active_room: null,
     loading_rooms: false,
     loading_cart_items: false,
     loading_sidebar: false,
@@ -131,9 +129,6 @@ export const roomSlice = createSlice({
         },
         updateCartAfterMaterialsChange: (state, action: PayloadAction<CartItemFrontType[]>) => {
             state.cart_items = action.payload
-        },
-        setActiveRoom: (state, action: PayloadAction<string>) => {
-            state.active_room = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -173,8 +168,7 @@ export const {
     setCart,
     clearCart,
     updateCartAfterMaterialsChange,
-    roomSetActiveCategory,
-    setActiveRoom
+    roomSetActiveCategory
 } = roomSlice.actions
 
 export default roomSlice.reducer

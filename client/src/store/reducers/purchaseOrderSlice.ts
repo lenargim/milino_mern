@@ -1,19 +1,18 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {MaybeNull} from "../../helpers/productTypes";
 
 export type PurchaseOrdersState = {
-    purchase_orders: PurchaseOrderType[],
-    active_po: MaybeNull<string>
+    purchase_orders: PurchaseOrderType[]
 }
 export type PurchaseOrderType = {
-    _id:string,
-    name:string,
-    user_id: string
+    _id: string,
+    name: string,
+    user_id: string,
+    is_deleted: boolean,
+    is_archived: boolean,
 }
 
 const initialState: PurchaseOrdersState = {
     purchase_orders: [],
-    active_po: null
 }
 
 const purchase_order_slice = createSlice({
@@ -26,22 +25,16 @@ const purchase_order_slice = createSlice({
         addPO: (state, action: PayloadAction<PurchaseOrderType>) => {
             state.purchase_orders.push(action.payload)
         },
-        editPO: (state, action: PayloadAction<PurchaseOrderType>) => {
-            state.purchase_orders = state.purchase_orders.map(el => {
-                return el._id === action.payload._id ? action.payload : el;
-            })
+        editPO: (state, action: PayloadAction<PurchaseOrderType[]>) => {
+            state.purchase_orders = action.payload
         },
-        setActivePO: (state, action: PayloadAction<string>) => {
-            state.active_po = action.payload
-        }
     }
 })
 
 export const {
     addPO,
     setPOs,
-    editPO,
-    setActivePO
+    editPO
 } = purchase_order_slice.actions
 
 export default purchase_order_slice.reducer

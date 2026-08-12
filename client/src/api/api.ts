@@ -75,7 +75,7 @@ export const PurchaseOrdersAPI = {
         user_id,
         purchase_order_id
     }, {headers: getHeaders()}),
-    editPO: (purchase_order: PurchaseOrderType): Promise<AxiosResponse<PurchaseOrderType>> => instance.patch(`/po/${purchase_order._id}`, purchase_order, {headers: getHeaders()}),
+    editPO: (purchase_order: PurchaseOrderType): Promise<AxiosResponse<PurchaseOrderType[]>> => instance.patch(`/po/${purchase_order._id}`, purchase_order, {headers: getHeaders()}),
 }
 
 export const roomsAPI = {

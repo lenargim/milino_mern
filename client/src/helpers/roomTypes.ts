@@ -49,7 +49,7 @@ export interface RoomNewType extends RoomMaterialsFormType {
 }
 
 export interface RoomType extends RoomNewType {
-    _id: string,
+    _id: string
 }
 
 export interface RoomFront extends RoomType {

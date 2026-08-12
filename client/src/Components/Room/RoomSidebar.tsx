@@ -1,31 +1,36 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import s from "../Sidebar/sidebar.module.sass";
 import {getCartTotal, textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import RoomCartItem from "./RoomCartItem";
-import {removeAllFromCart, RoomsState} from "../../store/reducers/roomSlice";
+import {clearCart, fetchCart, removeAllFromCart, RoomsState} from "../../store/reducers/roomSlice";
 import {MiniCart} from "../../common/MiniCart";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 import {useAdmin} from "../../helpers/AdminContext";
 
 const RoomSidebar: FC = () => {
+    const {room_name, purchase_order_name} = useParams();
     const dispatch = useAppDispatch()
-    const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
-    const {cart_items, rooms, active_room} = useAppSelector<RoomsState>(state => state.room)
+    const {cart_items, rooms} = useAppSelector<RoomsState>(state => state.room)
     const is_admin = useAdmin();
-    if (!cart_items?.length) return null;
     const total = getCartTotal(cart_items);
-    const room = rooms.find(el => el._id === cart_items[0].room_id);
-    if (!room || !active_po || !active_room) return null;
+    const room = rooms.find(room => textToLink(room.name) === room_name);
+    useEffect(() => {
+        if (!room?._id) return;
+        dispatch(fetchCart({_id: room?._id}));
 
+        return () => {dispatch(clearCart())}
+    }, [room?._id, dispatch]);
 
+    if (!room || !cart_items?.length) return null;
     return (
         <aside className={s.sidebar}>
             <div className={s.sidebarContent}>
                 <div className={s.sidebarList}>
                     <div className={s.sidebarTitle}>
                         <h3>Cart<span>{cart_items.length}</span></h3>
-                        {!is_admin && <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove all</button>}
+                        {!is_admin && <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove
+                            all</button>}
                     </div>
                     {cart_items.map((item, key) => {
                         return (
@@ -35,8 +40,9 @@ const RoomSidebar: FC = () => {
                 </div>
                 {
                     !is_admin ?
-                        <NavLink to={`/profile/purchase/${textToLink(active_po)}/rooms/${textToLink(room.name)}/checkout`}
-                                 className={s.total}>
+                        <NavLink
+                            to={`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room.name)}/checkout`}
+                            className={s.total}>
                             <MiniCart length={cart_items.length}/>
                             <div>Total: {total}$</div>
                         </NavLink> :

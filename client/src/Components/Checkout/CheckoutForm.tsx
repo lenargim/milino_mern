@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, useRef, useState} from 'react';
-import {useNavigate, useOutletContext} from "react-router-dom";
+import {useNavigate, useOutletContext, useParams} from "react-router-dom";
 import {
     checkoutCartItemWithImg, createOrderFormData, createOrderFormRoomData,
     getCartTotal,
@@ -33,11 +33,13 @@ export type CheckoutFormValues = WithNullableFields<CheckoutSchemaType, 'deliver
 
 const CheckoutForm: FC = () => {
     const navigate = useNavigate();
+    const {purchase_order_name} = useParams()
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
+    const active_po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name)?.name
     const [room] = useOutletContext<[RoomFront]>();
     const {user} = useAppSelector<UserState>(state => state.user)!
-    const {active_po} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
     const {_id, purchase_order_id, activeProductCategory, ...materials} = room;
 
