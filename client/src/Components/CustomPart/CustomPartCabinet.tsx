@@ -24,7 +24,6 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
         price
     } = values;
     const {materials_array, id} = product;
-
     useEffect(() => {
         const new_depth = materials_array && materials_array.find(el => el.name === material)?.depth;
         if (new_depth && depth !== new_depth) setFieldValue('depth', new_depth);

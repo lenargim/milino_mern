@@ -8,9 +8,7 @@ import {
 import s from "../Product/product.module.sass";
 import {
     CustomPartAttrCheckbox,
-    ProductCheckboxInput,
-    ProductInputCustom, ProductOptionsInput,
-    ProductRadioInput,
+    ProductInputCustom,
     RadioInputWithImage,
     TextInput
 } from "../../common/Form";
@@ -26,6 +24,7 @@ type CustomPartRibbed = {
 const isPaintedMaterial = (material: string): boolean => {
     return material === 'Painted';
 }
+
 let grooveArr = materialsAPI.groove as materialsData[];
 grooveArr = grooveArr.map(el => ({...el, img: getImg('materials/groove', el.img)}));
 

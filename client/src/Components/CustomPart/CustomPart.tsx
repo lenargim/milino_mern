@@ -161,7 +161,6 @@ const CustomPart: FC<CustomPartFCType> = ({
             initialValues={initialCustomPartValues}
             validationSchema={getCustomPartSchema(custom_part, materials)}
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
-                console.log(values)
                 if (!custom_part || !values.price) return;
                 setSubmitting(true)
                 const cartData = addToCartCustomPartAPI(values, custom_part, room_id, productEditId);

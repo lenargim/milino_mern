@@ -16,7 +16,7 @@ const PurchaseOrderRooms: FC = () => {
     const dispatch = useAppDispatch();
     const {rooms, loading_rooms} = useAppSelector<RoomsState>(state => state.room);
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
-    const {purchase_order} = useOutletContext<{ purchase_order: PurchaseOrderType }>();
+    const {purchase_order} = useOutletContext<{ purchase_order: PurchaseOrderType}>();
     const is_admin = useAdmin();
     useEffect(() => {
         if (!purchase_order) return;

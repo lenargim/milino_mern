@@ -64,10 +64,10 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
     const customPartWithShelvesSchema = Yup.object({
         shelves: Yup.object().shape({
             has_shelves: Yup.boolean(),
-            qty: Yup.number().integer().positive('Enter quantity')
+            qty: Yup.number().integer().nullable()
                 .when('has_shelves', {
                     is: true,
-                    then: s => s.required("Enter quantity").max(10, 'Too many items'),
+                    then: s => s.required("Enter quantity").max(10, 'Too many items').positive('Enter quantity!'),
                 }),
             index: Yup.string()
                 .when('has_shelves', {

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
@@ -29,6 +29,24 @@ const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
     const showHingeHoles = isHingeHolesBlock(id)
     const showCutout = isPanelCutoutBlock(id)
     const showLedBlock = isLedBlock(id)
+
+    useEffect(() => {
+        // Change depth for shaker panel
+        if (id === 910) {
+            switch (values?.material) {
+                case "Milino":
+                case "Zenit":
+                    setFieldValue('depth', 0.75);
+                    break;
+                case "Painted":
+                    setFieldValue('depth', 0.825)
+                    break;
+                default:
+                    setFieldValue('depth', 1)
+            }
+        }
+
+    }, [values.material]);
     return (
         <Form>
             <div className={s.block}>

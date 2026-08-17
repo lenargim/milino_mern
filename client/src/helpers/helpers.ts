@@ -1064,6 +1064,9 @@ export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, do
         case "Syncron":
         case "Zenit":
         case "Luxe":
+        case "Finsa":
+        case "Egger":
+        case "Cleaf":
             return colors.sort((a, b) => a.value.localeCompare(b.value));
         default:
             return colors
@@ -1797,6 +1800,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials: RoomMaterialsFormType): InitialSizesType => {
+    console.log(initialMaterialData?.depth)
     const {width, height, depth, width_range, height_range, initial_width, initial_height, id} = customPart;
     const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials);
     const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width));
@@ -2191,10 +2195,13 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                     return {width: [2.5, 48], height: [2.5, 96]};
                 case "Luxe":
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                 case "Syncron":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer":
+                case "Finsa":
                     return {width: [2.5, 48], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 48], height: [2.5, 120]};
@@ -2214,6 +2221,9 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer":
+                case "Finsa":
+                case "Egger":
+                case "Cleaf":
                     return {width: [3, 48], height: [6, 108], depth: [4, 48]};
                 case "Painted":
                     return {width: [3, 48], height: [6, 120], depth: [4, 48]};
@@ -2233,6 +2243,9 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Luxe":
                 case "Zenit":
                 case "Syncron":
+                case "Finsa":
+                case "Egger":
+                case "Cleaf":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
@@ -2256,6 +2269,9 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer":
+                case "Finsa":
+                case "Egger":
+                case "Cleaf":
                     return {width: [2.5, 108], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 120], height: [2.5, 120]};
@@ -2277,8 +2293,11 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Milino":
                     return checkMilino('width', {width: [3, 96], height: [3, 6], depth: [3, 48]})
                 case "Syncron":
+                case "Finsa":
                 case "Luxe":
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
@@ -2298,7 +2317,10 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Milino":
                 case "Syncron":
                 case "Luxe":
-                case "Zenit": {
+                case "Zenit":
+                case "Finsa":
+                case "Egger":
+                case "Cleaf": {
                     return {width: [5, 108], height: [5, 108]}
                 }
                 case "Painted":

@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {useOutletContext, useParams} from "react-router-dom";
 import Product from "../Product/Product";
-import {RoomFront, RoomMaterialsFormType} from "../../helpers/roomTypes";
+import {RoomFront} from "../../helpers/roomTypes";
 import {
     findIsRoomStandard,
     getCustomPartInitialFormValues, getCustomPartInitialTableData,
@@ -19,9 +19,9 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 
 const RoomProduct: FC<{ cartItemValues?: CartItemFrontType }> = ({cartItemValues}) => {
     let {productId} = useParams<{ productId: MaybeUndefined<string> }>();
-    const {room, materials} = useOutletContext<{room:RoomFront, materials:RoomMaterialsFormType}>()
-    const {_id: room_id, activeProductCategory} = room;
-    const isRoomStandard = findIsRoomStandard(materials.door_type);
+    const {room} = useOutletContext<{room:RoomFront}>()
+    const {_id: room_id, activeProductCategory, purchase_order_id, ...materials} = room;
+    const isRoomStandard = findIsRoomStandard(room.door_type);
     const product_or_custom = getProductById(Number(productId), isRoomStandard);
     if (!product_or_custom) return <div>Product error</div>;
     const productEditId = cartItemValues?._id;

@@ -6037,6 +6037,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6074,6 +6083,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6109,6 +6127,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6156,6 +6183,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6191,6 +6227,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6223,6 +6268,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ],
     "height": 1.5
@@ -6256,6 +6310,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6288,6 +6351,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6313,28 +6385,31 @@
     "type": "panel",
     "materials_array": [
       {
-        "name": "Milino",
-        "depth": 0.75
+        "name": "Milino"
       },
       {
-        "name": "Syncron",
-        "depth": 1
+        "name": "Syncron"
       },
       {
-        "name": "Luxe",
-        "depth": 1
+        "name": "Luxe"
       },
       {
-        "name": "Zenit",
-        "depth": 0.75
+        "name": "Zenit"
       },
       {
-        "name": "Painted",
-        "depth": 0.875
+        "name": "Painted"
       },
       {
-        "name": "Wood Veneer",
-        "depth": 1
+        "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6364,6 +6439,15 @@
       },
       {
         "name": "Wood Veneer"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6384,6 +6468,15 @@
       },
       {
         "name": "Syncron"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6442,6 +6535,15 @@
       },
       {
         "name": "Painted"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ]
   },
@@ -6478,6 +6580,15 @@
       },
       {
         "name": "Ultrapan Acrylic"
+      },
+      {
+        "name": "Finsa"
+      },
+      {
+        "name": "Egger"
+      },
+      {
+        "name": "Cleaf"
       }
     ],
     "initial_width": 1

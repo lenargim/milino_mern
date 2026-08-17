@@ -12,7 +12,7 @@ const Dimensions: FC<{ item: CartItemFrontType }> = ({item}) => {
     const anyNotStandard = Object.values(isStandard).some(value => !value);
     const widthPart = width ? `${getFraction(width)}"W x` : '';
     const heightPart = height ? ` ${getFraction(height)}"H` : '';
-    const depthPart = depth && depth > 1 ? ` x ${getFraction(depth)}"D` : '';
+    const depthPart = depth && depth > 0 ? ` x ${getFraction(depth)}"D` : '';
     return (
         <div className={[s.itemOption].join(' ')}>
             <span className={[anyNotStandard && 'red'].join(' ')}>Dimensions:</span>

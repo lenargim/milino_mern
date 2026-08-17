@@ -423,18 +423,21 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
                     break;
                 }
                 case "Syncron":
+                case "Finsa":
                     return 18;
                 case 'Luxe':
                 case 'Ultrapan PET':
                     return 24;
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     return 24.72;
                 case "Ultrapan Acrylic":
                     return 26.4;
             }
             break;
         case "Five Piece Shaker":
-            if (material === "Syncron") return 48;
+            if (material === "Syncron" || material === 'Finsa') return 48;
             return 61.8;
         case "Custom Painted":
             return 78;
@@ -454,6 +457,7 @@ function getPanelPrice(square: number, material: MaybeUndefined<string>): number
         case "Plywood":
             return square * k * 10;
         case "Syncron":
+        case "Finsa":
             return square * k * 18;
         case "Luxe":
         case "Ultrapan PET":
@@ -461,6 +465,8 @@ function getPanelPrice(square: number, material: MaybeUndefined<string>): number
         case "Ultrapan Acrylic":
             return square * k * 24 * 1.1;
         case "Zenit":
+        case "Egger":
+        case "Cleaf":
             return square * k * 24 * 1.03;
         case "Painted":
             return square * k * 40.56 * 1.05;
@@ -478,10 +484,13 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Luxe":
         case "Syncron":
         case "Ultrapan PET":
+        case "Finsa":
             return square * 60;
         case "Ultrapan Acrylic":
             return square * 60 * 1.1;
         case "Zenit":
+        case "Egger":
+        case "Cleaf":
             return square * 60 * 1.03;
         case 'Painted':
             return square * 81.9;
@@ -682,6 +691,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                             if (colorType === 1 || colorType === 2) return 1;
                             return 2;
                         case 'Syncron':
+                        case 'Finsa':
                             return 2;
                     }
                     break;
@@ -690,7 +700,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                 case 'Five Piece Shaker':
                 case 'Three Piece Door':
                 case 'Finger Pull':
-                    if (door_finish_material === 'Syncron') return 2;
+                    if (door_finish_material === 'Syncron' || door_finish_material === 'Finsa') return 2;
                     break;
                 case 'Shaker':
                 case 'Slatted':
@@ -721,6 +731,8 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                         case 'Milino':
                             return getDoorColorType(door_color) === 2 ? 1.05 : 1;
                         case 'Zenit':
+                        case "Egger":
+                        case "Cleaf":
                             return 1.03;
                         case 'Ultrapan Acrylic':
                             return 1.1;
@@ -728,13 +740,13 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     break;
                 case 'Finger Pull':
                 case 'Five Piece Shaker':
-                    if (door_finish_material === 'Zenit') return 1.03;
+                    if (door_finish_material === 'Zenit' || door_finish_material === 'Egger' || door_finish_material === 'Cleaf') return 1.03;
                     break;
                 case 'Custom Painted':
                     if (door_finish_material === 'Slab') return 1.05;
                     return 1.1025;
                 case 'Shaker':
-                    if (door_finish_material === 'Zenit') return 1.03;
+                    if (door_finish_material === 'Zenit' || door_finish_material === 'Egger' || door_finish_material === 'Cleaf') return 1.03;
                     if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
                     break;
                 case 'Slatted':
@@ -840,6 +852,7 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
             if (colorType === 2) return 1.1;
             return 1.2
         case "Syncron":
+        case "Finsa":
             return 1.845
         default:
             return 2.706
@@ -862,7 +875,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                 case "Five Piece Shaker":
                 case "Three Piece Door":
                 case "Finger Pull":
-                    if (door_finish_material === 'Syncron') return 30;
+                    if (door_finish_material === 'Syncron' || door_finish_material === 'Finsa') return 30;
                     return 36;
                 case "Custom Painted":
                     if (door_finish_material === 'Slab') return 31.5;
@@ -1035,6 +1048,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = (width * height * depth / 80) + 120;
                     break;
                 case "Syncron":
+                case "Finsa":
                     price = (width * height * depth / 50) + 120;
                     break;
                 case "Luxe":
@@ -1045,6 +1059,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = ((width * height * depth / 20) + 120) * 1.1;
                     break;
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     price = ((width * height * depth / 20) + 120) * 1.03;
                     break;
                 case "Painted":
@@ -1074,6 +1090,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 20;
                     break;
                 case "Syncron":
+                case "Finsa":
                     materialCoef = 22;
                     break;
                 case "Luxe":
@@ -1084,6 +1101,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 24 * 1.1;
                     break;
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     materialCoef = 24 * 1.03;
                     break;
                 case "Painted":
@@ -1120,6 +1139,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = area * 40;
                     break;
                 case "Syncron":
+                case "Finsa":
                     price = area * 48;
                     break;
                 case "Luxe":
@@ -1130,6 +1150,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = area * 60 * 1.1;
                     break;
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     price = area * 60 * 1.03;
                     break;
                 case "Painted":
@@ -1153,6 +1175,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = lSHapeArea * 21;
                     break
                 case "Syncron":
+                case "Finsa":
                     price = lSHapeArea * 39;
                     break
                 case "Luxe":
@@ -1163,6 +1186,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = lSHapeArea * 58 * 1.1;
                     break
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     price = lSHapeArea * 58 * 1.03;
                     break
                 case "Painted":
@@ -1181,6 +1206,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = columnArea * 15.2;
                     break
                 case "Syncron":
+                case "Finsa":
                     price = columnArea * 16.8;
                     break
                 case "Luxe":
@@ -1191,6 +1217,8 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = columnArea * 18.4 * 1.1;
                     break
                 case "Zenit":
+                case "Egger":
+                case "Cleaf":
                     price = columnArea * 18.4 * 1.03;
                     break
                 case "Painted":
@@ -1579,11 +1607,14 @@ export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>
         case "Milino":
             return area * 72;
         case "Syncron":
+        case "Finsa":
             return area * 86.4;
         case "Luxe":
         case "Ultrapan PET":
             return area * 102;
         case "Zenit":
+        case "Egger":
+        case "Cleaf":
             return area * 102 * 1.03;
         case "Ultrapan Acrylic":
             return area * 102 * 1.1;
