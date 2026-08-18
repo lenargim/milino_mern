@@ -1,0 +1,36 @@
+.wrapper, .container
+  width: 100%
+  height: 100%
+  position: relative
+
+.button
+  position: absolute
+  width: 40px
+  height: 40px
+  display: flex
+  justify-content: center
+  align-items: center
+  top: 20px
+  right: 20px
+  font-size: 26px
+  transform-origin: center center
+  z-index: 999
+  &::after
+    content: "⛶"
+    animation: pulse 3s infinite
+  &.full::after
+    content: "×"
+    animation: none
+    opacity: 1
+    font-size: 28px
+
+  @keyframes pulse
+    0%
+      opacity: 0.5
+      font-size: 26px
+    50%
+      opacity: .7
+      font-size: 30px
+    100%
+      opacity: 0.5
+      font-size: 26px

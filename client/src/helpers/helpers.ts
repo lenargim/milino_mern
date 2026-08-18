@@ -1692,7 +1692,6 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
         blindWidth,
         tablePriceData,
     } = productData
-
     if (!cartItemValues) {
         return {
             width: widthRange[0],
@@ -1800,7 +1799,6 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
 }
 
 const getInitialSizes = (customPart: CustomPartType, initialMaterialData: MaybeNull<materialsCustomPart>, materials: RoomMaterialsFormType): InitialSizesType => {
-    console.log(initialMaterialData?.depth)
     const {width, height, depth, width_range, height_range, initial_width, initial_height, id} = customPart;
     const sizeLimit = getCustomPartMaterialsArraySizeLimits(id, initialMaterialData?.name, materials);
     const w = initial_width ?? width ?? (width_range ? getLimit(width_range) : getLimit(sizeLimit?.width));

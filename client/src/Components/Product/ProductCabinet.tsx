@@ -23,7 +23,6 @@ const ProductCabinet: FC<CabinetType> = ({
         id,
         attributes,
         widthDivider,
-        category,
         isAngle,
         product_type,
     } = product;

@@ -1,4 +1,11 @@
-import React, {FC, useEffect, useRef} from 'react';
+import React, {
+    FC,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
+
+import s from './styles.module.sass';
 
 declare global {
     interface Window {
@@ -6,24 +13,72 @@ declare global {
     }
 }
 
-const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
+interface IframeProps {
+    customer_token: string;
+}
+
+const Iframe: FC<IframeProps> = ({customer_token}) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
     const boardRef = useRef<any>(null);
+    const isInitializedRef = useRef(false);
+    const isUnmountedRef = useRef(false);
 
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const toggleFullscreen = async () => {
+        if (!wrapperRef.current) return;
+
+        try {
+            if (document.fullscreenElement) {
+                await document.exitFullscreen();
+            } else {
+                await wrapperRef.current.requestFullscreen();
+            }
+        } catch (error) {
+            console.error('Fullscreen error:', error);
+        }
+    };
+
+    // Prodboard
     useEffect(() => {
-        const initProdboard = () => {
-            if (!containerRef.current) return;
+        isUnmountedRef.current = false;
+        isInitializedRef.current = false;
 
-            const board = window.prodboard(containerRef.current, {
-                company: process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
-                instance: process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
-                host: process.env.REACT_APP_CONSTRUCTOR_HOST,
-                environment: process.env.REACT_APP_CONSTRUCTOR_URL,
-            });
+        const initProdboard = () => {
+            if (
+                isUnmountedRef.current ||
+                !containerRef.current ||
+                !window.prodboard ||
+                boardRef.current
+            ) {
+                return;
+            }
+
+            const board = window.prodboard(
+                containerRef.current,
+                {
+                    company:
+                    process.env.REACT_APP_CONSTRUCTOR_PRODBOARD_COMPANY,
+                    instance:
+                    process.env.REACT_APP_CONSTRUCTOR_INSTANCE,
+                    host:
+                    process.env.REACT_APP_CONSTRUCTOR_HOST,
+                    environment:
+                    process.env.REACT_APP_CONSTRUCTOR_URL,
+                }
+            );
 
             boardRef.current = board;
 
             board.onInitCompleted(() => {
+                if (isUnmountedRef.current) {
+                    return;
+                }
+
+                isInitializedRef.current = true;
+
                 board.signIn(customer_token);
             });
         };
@@ -32,6 +87,7 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
             initProdboard();
         } else {
             const script = document.createElement('script');
+
             script.src = '/prodboard.js';
             script.onload = initProdboard;
 
@@ -39,18 +95,66 @@ const Iframe: FC<{ customer_token:string }> = ({customer_token}) => {
         }
 
         return () => {
-            boardRef.current?.signOut();
+            isUnmountedRef.current = true;
+
+            const board = boardRef.current;
+
+            boardRef.current = null;
+            isInitializedRef.current = false;
+
+            if (board) {
+                try {
+                    board.signOut();
+                } catch (error) {
+                    console.error(
+                        'Prodboard sign-out error:',
+                        error
+                    );
+                }
+            }
         };
-    }, [customer_token]);
+    }, []);
+
+    // Fullscreen
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(
+                document.fullscreenElement === wrapperRef.current
+            );
+        };
+
+        document.addEventListener(
+            'fullscreenchange',
+            handleFullscreenChange
+        );
+
+        return () => {
+            document.removeEventListener(
+                'fullscreenchange',
+                handleFullscreenChange
+            );
+        };
+    }, []);
 
     return (
         <div
-            ref={containerRef}
-            style={{
-                width: '100%',
-                height: '100%',
-            }}
-        />
+            ref={wrapperRef}
+            className={s.wrapper}
+        >
+            <button
+                type="button"
+                onClick={toggleFullscreen}
+                className={[
+                    s.button,
+                    isFullscreen ? s.full : ''
+                ].join(' ')}
+            />
+
+            <div
+                ref={containerRef}
+                className={s.container}
+            />
+        </div>
     );
 };
 

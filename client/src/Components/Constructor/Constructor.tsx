@@ -13,7 +13,10 @@ const Constructor: FC = () => {
     const [customerToken, setCustomerToken] = useState<string>();
 
     useEffect(() => {
-        if (!hasPermission) return;
+        if (!hasPermission) {
+            setIsLoading(false);
+            return;
+        }
 
         constructorLogin(user)
             .then(token => {
@@ -23,7 +26,7 @@ const Constructor: FC = () => {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [])
+    }, [hasPermission, user])
 
     if (!hasPermission) return <Navigate to="/"/>
     if (isLoading) return <div>Loading...</div>;

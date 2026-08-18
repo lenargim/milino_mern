@@ -104,66 +104,6 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
     return found?.price ?? 0;
 };
 
-// export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
-//     console.log(`${width} ${height} ${depth}`)
-//     const maxData = priceData[priceData.length - 1];
-//     const {width: maxDataWidth, price: maxDataPrice} = maxData
-//     const {category} = product
-//     switch (category) {
-//         case 'Base Cabinets':
-//         case "Vanities":
-//         case "Floating Vanities":
-//         case "Gola Floating Vanities":
-//         case "Gola Base Cabinets":
-//             // Round +1 inch to width
-//             if (width > maxDataWidth + 1) return maxDataPrice;
-//             const lastElIndex = priceData.length - 1;
-//             return priceData.find((data_el, index, arr) => {
-//                 const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
-//                 let round_width = delta_with_next_width > 1 ? 1 : 0.95;
-//                 return data_el.width + round_width >= width
-//             })?.price || 0
-//
-//         case 'Wall Cabinets':
-//         case "Gola Wall Cabinets":
-//         case 'Tall Cabinets':
-//         case "Gola Tall Cabinets":
-//         case "Build In":
-//         case "Custom Parts":
-//             const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
-//             if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
-//             if (!maxData.height) return 0;
-//             if (width > maxData.width && height > maxData.height) return maxData.price;
-//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
-//             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
-//             return 0;
-//         case "Leather":
-//         case "RTA Closets":
-//         case "Cabinet System Closet":
-//             if (!priceData[0]?.depth) {
-//                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
-//                 if (widthTablePrice) return widthTablePrice;
-//                 if (width > maxData.width) return maxData.price;
-//                 return 0;
-//             }
-//             const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
-//             if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
-//             if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
-//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
-//             if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
-//             return 0;
-//         case "Standard Base Cabinets":
-//         case "Standard Wall Cabinets":
-//         case "Standard Tall Cabinets":
-//         case "Standard Vanities":
-//         case "Standard Floating Vanities":
-//             const hasHeightDependency = priceData[0].height
-//             if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
-//             return priceData.find(el => el.width === width && el.height === height)?.price || 0;
-//     }
-//     return 0
-// };
-
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
