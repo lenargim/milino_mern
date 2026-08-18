@@ -128,7 +128,6 @@ export const getMe = async (req, res) => {
 
         const count = await PurchaseOrderModel.countDocuments({
             user_id: req.user_id,
-            is_deleted: {$ne: true},
             is_archived: true,
         });
 

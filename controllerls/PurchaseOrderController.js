@@ -1,10 +1,11 @@
 import PurchaseOrder from "../models/PurchaseOrder.js";
+import RoomModel from "../models/Room.js";
+import CartModel from "../models/Cart.js";
 
 export const getAllPO = async (req, res) => {
     try {
         const PurchaseOrders = await PurchaseOrder.find({
             user_id: req.params.user_id,
-            is_deleted: {$ne: true},
         });
 
         if (!PurchaseOrders) {
@@ -23,17 +24,14 @@ export const getAllPO = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
-        console.log(req.body)
         const doc = new PurchaseOrder({
             ...req.body,
-            is_deleted: false,
             is_archived: false
         })
         // Проверяем, есть ли в бд PO с таким именем (без учета регистра) у конкретного пользователя;
         const PO = await PurchaseOrder.findOne({
             name: {$regex: `^${req.body.name}$`, $options: 'i'},
-            user_id: req.body.user_id,
-            is_deleted: false
+            user_id: req.body.user_id
         }).exec();
         if (PO) {
             res.status(409).json({message: 'Purchase order name occupied'});
@@ -59,21 +57,31 @@ export const create = async (req, res) => {
 
 export const remove = async (req, res, next) => {
     try {
-        await PurchaseOrder.findByIdAndUpdate(req.body.purchase_order_id,
-            {is_deleted: true},
-            {returnDocument: "after"},
-        ).then((resPO) => {
-            if (!resPO) {
-                return res.status(404).json({
-                    message: 'Purchase orders not found'
-                })
-            }
-            req.params.user_id = req.body.user_id;
-            next();
-        });
+        const purchase_order_id = req.body.purchase_order_id;
+        const deletedPO = await PurchaseOrder.findByIdAndDelete(purchase_order_id);
+        if (!deletedPO) {
+            return res.status(404).json({
+                message: 'Purchase orders not found'
+            })
+        }
+
+        const rooms = await RoomModel.find({ purchase_order_id: purchase_order_id })
+            .select('_id')
+            .lean();
+
+        const roomIds = rooms.map(room => room._id);
+        if (roomIds.length > 0) {
+            await CartModel.deleteMany({ room_id: { $in: roomIds } });
+        }
+
+        await RoomModel.deleteMany({ purchase_order_id: purchase_order_id });
+
+        req.params.user_id = req.body.user_id;
+        next();
     } catch (e) {
+        console.error('Error during cascading delete:', e);
         res.status(500).json({
-            message: 'Cannot remove Purchase order'
+            message: 'Error during cascading delete'
         })
     }
 }
@@ -96,8 +104,7 @@ export const update = async (req, res) => {
         }
 
         const data = await PurchaseOrder.find({
-            user_id: updatedPO.user_id,
-            is_deleted: false
+            user_id: updatedPO.user_id
         });
 
         return res.status(200).json(data);

@@ -7,7 +7,6 @@ export type PurchaseOrderType = {
     _id: string,
     name: string,
     user_id: string,
-    is_deleted: boolean,
     is_archived: boolean,
 }
 

@@ -3,14 +3,14 @@ import RoomModel from "../models/Room.js";
 
 export const getRooms = async (req, res) => {
     try {
-        const rooms = await RoomModel.find({purchase_order_id: req.params.purchase_order_id, is_deleted: false});
+        const rooms = await RoomModel.find({purchase_order_id: req.params.purchase_order_id});
         if (!rooms) {
             return res.status(404).json({
                 message: 'Rooms not found'
             })
         }
         const frontData = rooms.map(el => {
-            const {is_deleted, createdAt, updatedAt, ...front} = el._doc;
+            const {createdAt, updatedAt, ...front} = el._doc;
             return front
         })
         res.json(frontData)
@@ -24,16 +24,12 @@ export const getRooms = async (req, res) => {
 export const create = async (req, res) => {
     try {
 
-        const doc = new RoomModel({
-            ...req.body,
-            is_deleted: false
-        })
+        const doc = new RoomModel(req.body)
 
         // Проверяем, есть ли в бд у PO комната с таким именем (без учета регистра и из неудаленных);
         const Room = await RoomModel.findOne({
             purchase_order_id: req.body.purchase_order_id,
             name: {$regex: `^${req.body.name}$`, $options: 'i'},
-            is_deleted: false
         }).exec();
 
         if (Room) {

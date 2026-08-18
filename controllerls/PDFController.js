@@ -30,20 +30,6 @@ export const SendPDF = async (req, res) => {
         // Setup Nodemailer
         const transporter = nodemailer.createTransport(getTransporterObject());
 
-        // const attachments = [
-        //     {
-        //         filename: json.filename.replace('.txt', '.json'),
-        //         path: json.path,
-        //         contentType: json.mimetype,
-        //         encoding: "utf-8",
-        //     },
-        //     {
-        //         filename: pdf.filename,
-        //         path: pdf.path,
-        //         contentType: pdf.mimetype,
-        //     }
-        // ]
-
         const attachments = [
             {
                 filename: json.originalname,
@@ -95,8 +81,7 @@ export const getPurchaseOrder = async (req, res) => {
         const orderRooms = await RoomModel.aggregate([
             {
                 $match: {
-                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id),
-                    is_deleted: false
+                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id)
                 }
             },
             {
@@ -120,7 +105,7 @@ export const getPurchaseOrder = async (req, res) => {
             })
         }
         const frontData = orderRooms.map(el => {
-            const {is_deleted, updatedAt, ...front} = el;
+            const {updatedAt, ...front} = el;
             return front
         })
         res.status(200).json(frontData)
@@ -136,8 +121,7 @@ export const getPurchaseOrderAmount = async (req, res) => {
         const orderRooms = await RoomModel.aggregate([
             {
                 $match: {
-                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id),
-                    is_deleted: false
+                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id)
                 }
             },
             {

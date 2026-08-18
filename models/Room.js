@@ -60,10 +60,6 @@ const RoomSchema = new mongoose.Schema({
     },
     rod: {
         type: String
-    },
-    is_deleted: {
-        type: Boolean,
-        default: false
     }
 }, {
     timestamps: true,
