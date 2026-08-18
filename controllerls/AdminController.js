@@ -28,15 +28,15 @@ export const getUsers = async (req, res) => {
             hasNextPage = true;
             doc.pop();
         }
-        const users = doc.map(user => ({
-            _id: user._doc._id,
-            email: user._doc.email,
-            name: user._doc.name,
-            company: user._doc.company,
-            is_active: user._doc.is_active,
-            is_active_in_constructor: user._doc.is_active_in_constructor || false,
-            createdAt: user._doc.createdAt
-        }));
+        // const users = doc.map(user => ({
+        //     _id: user._doc._id,
+        //     email: user._doc.email,
+        //     name: user._doc.name,
+        //     company: user._doc.company,
+        //     is_active: user._doc.is_active,
+        //     is_active_in_constructor: user._doc.is_active_in_constructor || false,
+        //     createdAt: user._doc.createdAt
+        // }));
 
 
         const usersWithCartFilled = await Promise.all(
@@ -101,7 +101,7 @@ export const getUsers = async (req, res) => {
 export const toggleUserEnabled = async (req, res) => {
     try {
 
-        const doc = await UserModel.findByIdAndUpdate(req.params.userId, {
+        const doc = await UserModel.findByIdAndUpdate(req.params.user_id, {
             $set: {
                 "is_active": req.body.is_active,
                 "is_active_in_constructor": req.body.is_active_in_constructor

@@ -89,7 +89,7 @@ export const roomsAPI = {
 }
 
 export const cartAPI = {
-    getCart: (roomId: string): Promise<AxiosResponse<CartAPIResponse>> => instance.get(`/cart/${roomId}`, {headers: getHeaders()}),
+    getCart: (room_id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.get(`/cart/${room_id}`, {headers: getHeaders()}),
     addToCart: (cart: CartAPI): Promise<AxiosResponse<CartAPIResponse>> => instance.post(`/cart`, cart, {headers: getHeaders()}),
     removeAll: (room_id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/all/${room_id}`, {headers: getHeaders()}),
     remove: (room_id: string, _id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/${room_id}/${_id}`, {headers: getHeaders()}),

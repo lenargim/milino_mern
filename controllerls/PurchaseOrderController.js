@@ -3,7 +3,7 @@ import PurchaseOrder from "../models/PurchaseOrder.js";
 export const getAllPO = async (req, res) => {
     try {
         const PurchaseOrders = await PurchaseOrder.find({
-            user_id: req.params.userId,
+            user_id: req.params.user_id,
             is_deleted: {$ne: true},
         });
 
@@ -23,6 +23,7 @@ export const getAllPO = async (req, res) => {
 
 export const create = async (req, res) => {
     try {
+        console.log(req.body)
         const doc = new PurchaseOrder({
             ...req.body,
             is_deleted: false,
@@ -67,7 +68,7 @@ export const remove = async (req, res, next) => {
                     message: 'Purchase orders not found'
                 })
             }
-            req.params.userId = req.body.user_id;
+            req.params.user_id = req.body.user_id;
             next();
         });
     } catch (e) {
@@ -80,7 +81,7 @@ export const remove = async (req, res, next) => {
 export const update = async (req, res) => {
     try {
         const updatedPO = await PurchaseOrder.findByIdAndUpdate(
-            req.params.id,
+            req.params.purchase_order_id,
             { $set: req.body },
             {
                 new: true,

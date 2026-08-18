@@ -9,8 +9,8 @@ import * as crypto from "crypto";
 
 const env = dotenv.config().parsed;
 
-function generateTokens(userId) {
-    const accessToken = jwt.sign({_id: userId}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
+function generateTokens(user_id) {
+    const accessToken = jwt.sign({_id: user_id}, env.BACKEND_SECRET_KEY, {expiresIn: env.BACKEND_SECRET_KEY_EXPIRES});
     return accessToken;
 }
 
@@ -103,14 +103,7 @@ export const login = async (req, res) => {
         const {passwordHash: hash, ...userData} = user._doc;
         const accessToken = generateTokens(user._id);
 
-        res.status(200)
-            // .cookie('refreshToken', refreshToken, {
-            //   httpOnly: true,
-            //   // sameSite: 'Strict',
-            //   secure: isCookieSecure(), // set true in production with HTTPS
-            //   maxAge: getCookieDays() * 24 * 60 * 60 * 1000
-            // })
-            .json({...userData, token: accessToken});
+        res.status(200).json({...userData, token: accessToken});
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -121,7 +114,7 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.userId);
+        const user = await UserModel.findById(req.user_id);
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
@@ -134,7 +127,7 @@ export const getMe = async (req, res) => {
         }
 
         const count = await PurchaseOrderModel.countDocuments({
-            user_id: req.userId,
+            user_id: req.user_id,
             is_deleted: {$ne: true},
             is_archived: true,
         });
@@ -177,7 +170,7 @@ export const patchMe = async (req, res) => {
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
-        const user = await UserModel.findByIdAndUpdate(req.userId, {
+        const user = await UserModel.findByIdAndUpdate(req.user_id, {
             name: req.body.name,
             company: req.body.company,
             additional_emails: req.body.additional_emails.filter(el => el),

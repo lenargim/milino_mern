@@ -8,13 +8,13 @@ import RoomProduct from "./RoomProduct";
 const RoomEditCartProduct: FC = () => {
     const navigate = useNavigate();
     let {
-        cartId,
+        cart_id,
         purchase_order_name,
         room_name
-    } = useParams<{ cartId: MaybeUndefined<string>, purchase_order_name: MaybeUndefined<string>, room_name: MaybeUndefined<string> }>();
+    } = useParams<{ cart_id: MaybeUndefined<string>, purchase_order_name: MaybeUndefined<string>, room_name: MaybeUndefined<string> }>();
     const {cart_items} = useAppSelector<RoomsState>(state => state.room);
     if (!cart_items) return null;
-    const cartItemValues = cart_items.find(el => el._id === cartId);
+    const cartItemValues = cart_items.find(el => el._id === cart_id);
     if (!cartItemValues) {
         navigate(`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}`);
         return null;

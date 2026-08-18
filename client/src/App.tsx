@@ -60,7 +60,7 @@ function App() {
                                             <Route path=":room_name" element={<Room/>}>
                                                 <Route path="edit" element={<RoomEdit/>}/>
                                                 <Route index element={<RoomCategory/>}/>
-                                                <Route path="product/:productId/edit/:cartId"
+                                                <Route path="product/:productId/edit/:cart_id"
                                                        element={<RoomEditCartProduct/>}/>
                                                 <Route path="product/:productId" element={<RoomProduct/>}/>
 
@@ -80,7 +80,7 @@ function App() {
                                         <Route path=":room_name" element={<Room/>}>
                                             <Route path="edit" element={<RoomEdit/>}/>
                                             <Route index element={<RoomCategory/>}/>
-                                            <Route path="product/:productId/edit/:cartId"
+                                            <Route path="product/:productId/edit/:cart_id"
                                                    element={<RoomEditCartProduct/>}/>
                                             <Route path="product/:productId" element={<RoomProduct/>}/>
                                             <Route path="checkout" element={<CheckoutForm/>}/>

@@ -52,7 +52,7 @@ const PurchaseOrder: FC = () => {
                         <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                                  to="new">Add PO +</NavLink>}
                 </nav>
-                <Outlet context={{purchase_orders: po_filtered}}/>
+                <Outlet context={{purchase_orders: po_filtered, user_id}}/>
             </div>
             <RoomSidebar/>
         </div>

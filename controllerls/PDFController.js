@@ -95,7 +95,7 @@ export const getPurchaseOrder = async (req, res) => {
         const orderRooms = await RoomModel.aggregate([
             {
                 $match: {
-                    purchase_order_id: new mongoose.Types.ObjectId(req.params.id),
+                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id),
                     is_deleted: false
                 }
             },
@@ -136,7 +136,7 @@ export const getPurchaseOrderAmount = async (req, res) => {
         const orderRooms = await RoomModel.aggregate([
             {
                 $match: {
-                    purchase_order_id: new mongoose.Types.ObjectId(req.params.id),
+                    purchase_order_id: new mongoose.Types.ObjectId(req.params.purchase_order_id),
                     is_deleted: false
                 }
             },

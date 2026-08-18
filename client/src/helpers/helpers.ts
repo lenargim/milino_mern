@@ -629,7 +629,7 @@ export function isEmptyOrZeroValue(value: any): boolean {
     return false;
 }
 
-export const addProductToCart = (product: ProductType, values: ProductFormType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
+export const addProductToCart = (product: ProductType, values: ProductFormType, room_id: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {id, product_type} = product
     const {
         width,
@@ -689,7 +689,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
 
     return {
         _id: productEditId ?? '',
-        room_id: roomId,
+        room_id,
         product_id: id,
         product_type: product_type,
         amount,
@@ -710,7 +710,7 @@ export const addProductToCart = (product: ProductType, values: ProductFormType, 
     }
 }
 
-export const addToCartCustomPartAPI = (values: CustomPartFormType, product: CustomPartType, roomId: string, productEditId: MaybeUndefined<string>): CartAPI => {
+export const addToCartCustomPartAPI = (values: CustomPartFormType, product: CustomPartType, room_id: string, productEditId: MaybeUndefined<string>): CartAPI => {
     let {
         width,
         height,
@@ -746,7 +746,7 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
     let preparedProduct: CartAPI = {
         _id: productEditId ?? '',
-        room_id: roomId,
+        room_id,
         product_id: id,
         product_type: product_type,
         amount,

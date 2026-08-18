@@ -58,8 +58,8 @@ const ProductLayout: FC<CabinetFormType> = ({
         hasCornerSideWidth
     } = product;
     const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
-    const {cartId} = useParams();
-    const buttonText = !cartId ? 'Add to cart' : 'Update Product'
+    const {cart_id} = useParams();
+    const buttonText = !cart_id ? 'Add to cart' : 'Update Product'
     const {values, isSubmitting} = useFormikContext<ProductFormType>();
     const {filteredOptions} = productPriceData;
     const {

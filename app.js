@@ -29,6 +29,7 @@ import {
 } from './utils/index.js'
 
 import {upload} from './utils/helpers.js'
+import {removeAllFromCart} from "./controllerls/CartController.js";
 
 /* ---------------- INIT ---------------- */
 
@@ -84,8 +85,8 @@ const start = async () => {
             PDFController.SendPDF
         )
 
-        app.get('/api/email/pdf/:id', checkAuth, PDFController.getPurchaseOrder)
-        app.get('/api/email/pdf/amount/:id', checkAuth, PDFController.getPurchaseOrderAmount)
+        app.get('/api/email/pdf/:purchase_order_id', checkAuth, PDFController.getPurchaseOrder)
+        app.get('/api/email/pdf/amount/:purchase_order_id', checkAuth, PDFController.getPurchaseOrderAmount)
 
         // Auth
         app.post('/api/auth/register', registerValidation, handleValidationErrors, UserController.register)
@@ -100,28 +101,28 @@ const start = async () => {
         app.get('/api/users/:user_id', checkAuth, UserController.getUser)
 
         // Purchase Order
-        app.get('/api/po/:userId', checkAuth, PurchaseOrderController.getAllPO)
+        app.get('/api/po/:user_id', checkAuth, PurchaseOrderController.getAllPO)
         app.post('/api/po', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.create)
         app.patch('/api/po/delete', checkAuth, PurchaseOrderController.remove, PurchaseOrderController.getAllPO)
-        app.patch('/api/po/:id', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.update)
+        app.patch('/api/po/:purchase_order_id', checkAuth, POCreateValidation, handleValidationErrors, PurchaseOrderController.update)
 
         // Rooms
-        app.get('/api/rooms/:id', checkAuth, RoomController.getRooms)
+        app.get('/api/rooms/:purchase_order_id', checkAuth, RoomController.getRooms)
         app.post('/api/rooms', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.create)
-        app.patch('/api/rooms/delete', checkAuth, RoomController.remove, RoomController.getRooms)
-        app.patch('/api/rooms/:id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom, RoomController.getRooms)
+        app.patch('/api/rooms/delete', checkAuth, RoomController.remove, CartController.removeAllFromCart, RoomController.getRooms)
+        app.patch('/api/rooms/:room_id', checkAuth, roomCreateValidation, handleValidationErrors, RoomController.updateRoom, RoomController.getRooms)
 
         // Cart
-        app.get('/api/cart/:id', checkAuth, CartController.getCart)
+        app.get('/api/cart/:room_id', checkAuth, CartController.getCart)
         app.post('/api/cart', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart, CartController.getCart)
-        app.delete('/api/cart/all/:roomId', checkAuth, CartController.removeAllFromCart, CartController.getCart)
-        app.delete('/api/cart/:roomId/:cartId', checkAuth, CartController.removeFromCart, CartController.getCart)
-        app.patch('/api/cart/:roomId/:cartId', checkAuth, CartController.updateCartAmount, CartController.getCart)
+        app.delete('/api/cart/all/:room_id', checkAuth, CartController.removeAllFromCart, CartController.getCart)
+        app.delete('/api/cart/:room_id/:cart_id', checkAuth, CartController.removeFromCart, CartController.getCart)
+        app.patch('/api/cart/:room_id/:cart_id', checkAuth, CartController.updateCartAmount, CartController.getCart)
         app.patch('/api/cart', checkAuth, CartController.updateCartItem, CartController.getCart)
 
         // Admin
         app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
-        app.patch('/api/admin/user/:userId', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
+        app.patch('/api/admin/user/:user_id', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
         /* -------- React prod / test -------- */
 
