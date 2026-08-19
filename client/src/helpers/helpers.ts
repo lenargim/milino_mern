@@ -30,7 +30,6 @@ import {
     AttrWithoutDescType,
     materialsLimitsType,
     CustomPartMaterialsArraySizeLimitsType,
-    CustomTypes,
     ProductOptionsType,
     materialDataType,
     LEDType,
@@ -59,7 +58,6 @@ import {
     DoorSizesArrType,
     DoorType,
 } from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {useEffect, useRef} from "react";
 import standardColors from '../api/standardColors.json'
 import {CatItem, SliderCategoriesItemType, SliderCategoriesType} from './categoriesTypes';
 import categoriesData from "../api/categories.json";
@@ -86,7 +84,6 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
 import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
-import {useFormikContext} from "formik";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
 import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
@@ -123,7 +120,6 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
         return null
     }
 }
-
 
 export const getProductImg = (folder: string, img: string): string => {
     for (const s of ['', ' L', ' 2L', ' 4'] as const) {
@@ -1326,7 +1322,7 @@ export const isPanelCutoutBlock = (id: number): boolean => {
 }
 
 export const isLedBlock = (id: number): boolean => {
-    const IDsArr: number[] = [903, 901, 900,927];
+    const IDsArr: number[] = [903, 901, 900, 927];
     return IDsArr.includes(id)
 }
 
@@ -1348,14 +1344,6 @@ export const convertDoorAccessories = (el: DoorAccessoryAPIType): DoorAccessoryT
     const item = doorAccessories.find(ac => ac.value === el.value);
     if (!item) return {...doorAccessories[0], qty: el.qty}
     return {...item, qty: el.qty}
-}
-
-export function usePrevious<T>(data: T) {
-    const prev = useRef<T>()
-    useEffect(() => {
-        if (data) prev.current = data;
-    }, [data])
-    return prev.current
 }
 
 export const getdimensionsRow = (width: number, height: number, depth: number): string => {
@@ -1752,7 +1740,7 @@ export const getProductInitialFormValues = (productData: ProductTableDataType, c
     const isBlindStandard = checkBlindStandard(isBlind, blind_width, blindArr)
     const doors = checkDoors(hinge);
 
-    let customVal:MaybeNull<ProductExtraType> = null;
+    let customVal: MaybeNull<ProductExtraType> = null;
     if (custom) {
         const {accessories, mechanism, extra_rollouts} = custom;
         if (mechanism) customVal = {mechanism: custom.mechanism};
@@ -1837,21 +1825,6 @@ export const getCustomPartInitialTableData = (custom_part: CustomPartType, mater
         initialLEDAccessories: initialLEDAccessoriesData,
         standardDoorData
     }
-}
-
-
-export function useFormikDefault<T>(
-    value: T | null | undefined,
-    path: string,
-    defaultValue: T
-) {
-    const {setFieldValue} = useFormikContext();
-
-    useEffect(() => {
-        if (value == null) {
-            setFieldValue(path, defaultValue);
-        }
-    }, [value]);
 }
 
 export const getSchemaRootValues = (context: TestContext<AnyObject>) => {
@@ -2095,12 +2068,12 @@ export const getBorderOptionsById = (id: number): BorderType[] => {
     }
 }
 
-export const getLedWidth = (width:number, rodQty:number):number => {
+export const getLedWidth = (width: number, rodQty: number): number => {
     if (!rodQty) return width;
     return width * rodQty;
 }
 
-export const getLedHeight = (height:number, id:number):number => {
+export const getLedHeight = (height: number, id: number): number => {
     switch (id) {
         case 409:
         case 416:
@@ -2172,7 +2145,7 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
     const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color;
-    const is_special_milino = ["Desert Oak", "White Oak", "White Gloss","Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+    const is_special_milino = ["Desert Oak", "White Oak", "White Gloss", "Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
         return is_special_milino ?
@@ -2400,4 +2373,9 @@ export const getVariableType = (value: any) => {
 
 export const hasGlassShelfColor = (index: MaybeUndefined<number>): boolean => {
     return index !== undefined && [3, 4].includes(+index);
+}
+
+
+export const prepareAdditionEmailsArrayToAPI = (emails: string[]): string[] => {
+    return [...new Set(emails.filter(str => str.trim() !== ""))];
 }

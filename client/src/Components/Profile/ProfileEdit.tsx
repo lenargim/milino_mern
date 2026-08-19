@@ -1,40 +1,42 @@
 import {Formik} from 'formik';
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import s from './profile.module.sass'
-import {EditProfileType, UserType} from "../../api/apiTypes";
+import {EditProfileAPIType, EditProfileType, UserType} from "../../api/apiTypes";
 import {updateProfile} from "../../api/apiFunctions";
 import {setUser} from "../../store/reducers/userSlice";
-import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {prepareAdditionEmailsArrayToAPI, useAppDispatch} from "../../helpers/helpers";
 import ProfileEditForm from "./ProfileEditForm";
 import {ProfileEditSchema} from "./ProfileEditSchema";
+import {useAuthUser} from "../../utils/customHooks";
 
 const ProfileEdit: FC = () => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user.user)!;
+    const user = useAuthUser();
     const getInitialValues = (user: UserType): EditProfileType => {
-        const {is_active, is_active_in_constructor, is_super_user, email, ...userData} = user
+        const {is_active, is_active_in_constructor, is_super_user, email, createdAt, has_archives, constructor_id, ...userData} = user
         return {...userData, password: '', compare: ''}
     }
     let initialValues = getInitialValues(user);
 
-    useEffect(() => {
-        //???
-        initialValues = getInitialValues(user);
-    }, [user]);
     if (!initialValues._id) return null;
     return (
         <Formik initialValues={initialValues}
                 validationSchema={ProfileEditSchema}
                 onSubmit={(values, {resetForm, setValues}) => {
-                    const {additional_emails} = values as EditProfileType;
-                    const emails:string[] = additional_emails ? [...new Set(additional_emails.filter(str => str.trim() !== ""))] : [];
-                    const preparedValues = {...values, additional_emails: emails} as EditProfileType;
+                    const {compare, additional_emails, name, company, ...rest} = values;
+                    const filtered_emails = prepareAdditionEmailsArrayToAPI(additional_emails)
+                    const preparedValues: EditProfileAPIType = {
+                        additional_emails: filtered_emails,
+                        name: name.trim(),
+                        company: company.trim(),
+                        ...rest,
+                    };
+
                     updateProfile(preparedValues).then(user => {
                         if (user) {
                             dispatch(setUser(user));
                             resetForm();
                             setValues({...user, password: '', compare: ''});
-                            // constructorLogin(user)
                         }
                     })
                 }}>

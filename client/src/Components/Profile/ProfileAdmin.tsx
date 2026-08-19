@@ -7,6 +7,7 @@ import {adminUserToggleEnabled, getAdminUsers} from "../../api/apiFunctions";
 import {setAdminUserEnabled, setAdminUsers} from "../../store/reducers/adminSlice";
 import EnabledSvg from "../../assets/img/EnabledSVG";
 import DisabledSVG from "../../assets/img/DisabledSVG";
+import {useAuthUser} from "../../utils/customHooks";
 
 
 type SortTypes = 'createdAt' | 'name' | 'email' | 'company';
@@ -17,9 +18,8 @@ export type SortAdminUsers = Partial<{
 const ProfileEdit: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const admin = useAppSelector<AdminUsersRes>(state => state.admin);
-    const user = useAppSelector(state => state.user.user)!;
-    const {users, sort, page, hasNextPage} = admin;
+    const {users, sort, page, hasNextPage} = useAppSelector<AdminUsersRes>(state => state.admin);
+    const user = useAuthUser();
     useEffect(() => {
         if (!user.is_super_user) {
             navigate('/profile')

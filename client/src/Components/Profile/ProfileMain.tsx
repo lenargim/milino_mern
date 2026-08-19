@@ -1,9 +1,10 @@
 import React, {FC} from 'react';
 import s from './profile.module.sass'
 import {useAppSelector} from "../../helpers/helpers";
+import {useAuthUser} from "../../utils/customHooks";
 
 const ProfileMain:FC = () => {
-    const user = useAppSelector(state => state.user.user)!;
+    const user = useAuthUser();
     const {name, email} = user
     return (
         <div className={s.profileMain}>

@@ -1,4 +1,12 @@
-import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
+import {
+    AdminUsersRes,
+    AdminUsersType,
+    EditProfileAPIType,
+    EditProfileType,
+    LogInType,
+    SignUpType,
+    UserType
+} from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, checkoutAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
 import {AxiosError, AxiosResponse} from "axios";
 import {
@@ -47,7 +55,7 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
     }
 }
 
-export const updateProfile = async (values: EditProfileType): Promise<MaybeUndefined<UserType>> => {
+export const updateProfile = async (values: EditProfileAPIType): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await usersAPI.patchMe(values)).data;
     } catch (error) {

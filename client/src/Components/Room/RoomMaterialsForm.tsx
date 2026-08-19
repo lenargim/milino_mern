@@ -29,7 +29,6 @@ import {
     isLeatherType,
     useAppDispatch,
     useAppSelector,
-    usePrevious,
     isClosetRod,
     getIsRTAorSystemCloset,
     getIsCloset,
@@ -49,6 +48,7 @@ import {
     RoomMaterialsFormType
 } from "../../helpers/roomTypes";
 import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
+import {usePrevious} from "../../utils/customHooks";
 
 const {
     categories,

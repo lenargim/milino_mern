@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import s from "../Product/product.module.sass";
 import { useFormikContext } from "formik";
 import {
@@ -6,7 +6,7 @@ import {
     ProductInputCustom
 } from "../../common/Form";
 import { CustomPartFormType } from "./CustomPart";
-import {useFormikDefault} from "../../helpers/helpers";
+import {useFormikDefault} from "../../utils/customHooks";
 
 const CustomPartCutoutBlock: FC = () => {
     const { values } = useFormikContext<CustomPartFormType>();

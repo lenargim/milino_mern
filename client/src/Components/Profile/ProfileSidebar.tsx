@@ -4,11 +4,12 @@ import {NavLink} from "react-router-dom";
 import logo from "../../assets/img/SiteLogo.jpg";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {logout} from "../../store/reducers/userSlice";
+import {useAuthUser} from "../../utils/customHooks";
 
 const ProfileSidebar:FC = () => {
-    const user = useAppSelector(state => state.user.user)!;
-    const {is_super_user, is_active_in_constructor, has_archives} = user;
+    const {is_super_user, is_active_in_constructor, has_archives} = useAuthUser();
     const dispatch = useAppDispatch()
+
     return (
         <div className={s.profileSidebar}>
             <NavLink to={'/'} className={s.logo}><img src={logo} alt="Milino"/></NavLink>

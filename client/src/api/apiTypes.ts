@@ -25,6 +25,8 @@ export interface UserType extends UserDataType {
     is_super_user: boolean,
     is_active_in_constructor: boolean,
     has_archives: boolean,
+    createdAt: Date,
+    constructor_id: string,
 }
 
 export interface UserAndTokenType extends UserType {
@@ -50,6 +52,8 @@ export interface EditProfileType {
     // website?: string
     additional_emails: string[],
 }
+
+export type EditProfileAPIType = Omit<EditProfileType, "compare">;
 
 export type LogInType = {
     email: string,
