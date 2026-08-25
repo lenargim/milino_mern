@@ -13,6 +13,7 @@ import {MaybeUndefined} from "../helpers/productTypes";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {addMonths, addWeeks} from 'date-fns';
+import {UserBasicTypesType, UserTypesType} from "../api/apiTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -629,3 +630,23 @@ export const FileInput: FC<FileInputInterface> = ({
         </div>
     );
 };
+
+export const UserTypeRadioInput: FC<{ name: string }> = ({name
+                                                                                                           }) => {
+    const [field] = useField(name);
+    const arr:UserBasicTypesType[] = ['designer', 'manager'];
+
+    return (
+        <div className={styles.userType}>{
+            arr.map((value, i) => (
+                <div key={i} className={[styles.userTypeItem].join(' ')}>
+                    <Field type="radio" name={name} value={value} id={`${name}_${value}`}/>
+                    <label htmlFor={`${name}_${value}`}
+                           className={['button small', styles.userLabel, field.value === value ? styles.userLabelActive: ''].join(' ')}>
+                        <span>I'm a {value}</span>
+                    </label>
+                </div>
+            ))
+        }</div>
+    )
+}

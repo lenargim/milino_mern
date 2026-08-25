@@ -3,7 +3,7 @@ import {
     EditProfileType,
     LogInType,
     SignUpType,
-    UserAndTokenType,
+    UserAndTokenType, UserBasicTypesType,
     UserType
 } from "./apiTypes";
 import axios, {AxiosResponse} from "axios";
@@ -13,6 +13,7 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
 import {CartAPIResponse, CartAPI} from "../helpers/cartTypes";
+import {linkManager} from "./apiFunctions";
 
 const instanceFormData = axios.create({
     headers: {
@@ -64,6 +65,8 @@ export const AuthAPI = {
 export const usersAPI = {
     me: (): Promise<AxiosResponse<UserType>> => instance.get('/users/me', {headers: getHeaders()}),
     patchMe: (data: EditProfileAPIType): Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/me', data, {headers: getHeaders()}),
+    linkManager: (email:string): Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/link', {email}, {headers: getHeaders()}),
+    unlinkManager: (): Promise<AxiosResponse<UserType>> => instance.patch<UserType>('/users/unlink',{}, {headers: getHeaders()}),
     refreshToken: (): Promise<AxiosResponse<string>> => instance.post('/users/refresh'),
     getUser: (_id:string): Promise<AxiosResponse<UserType>> => instance.get(`/users/${_id}`, {headers: getHeaders()}),
 }
@@ -98,11 +101,12 @@ export const cartAPI = {
 }
 
 export const AdminAPI = {
-    getUsers: (sort: SortAdminUsers, page: number): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
+    getUsers: (sort: SortAdminUsers, page: number,user_type: UserBasicTypesType): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
         sort,
-        page
+        page,
+        user_type
     }, {headers: getHeaders()}),
-    toggleUserEnabled: (_id: string, user_data: UserAccessData) => instance.patch(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
+    toggleUserEnabled: (_id: string, user_data: UserAccessData):Promise<AxiosResponse<UserType>> => instance.patch(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
 }
 
 export const ConstructorAPI = {

@@ -7,10 +7,20 @@ export const getUsers = async (req, res) => {
     try {
         const sort = req.body.sort;
         const page = req.body.page;
-        let resultsPerPage = 50;
+        const user_type = req.body.user_type;
+        let resultsPerPage = 20;
+
+        const designerFilter = user_type === 'designer' ? {
+            $or: [
+                { user_type: 'designer' },
+                { user_type: { $exists: false } }
+            ]
+        } : {
+            user_type: 'manager'
+        }
 
         const doc = await UserModel
-            .find({is_super_user: {$ne: true}})
+            .find(designerFilter)
             .skip((page - 1) * resultsPerPage)
             .limit(resultsPerPage + 1)
             .sort(sort)
@@ -28,17 +38,7 @@ export const getUsers = async (req, res) => {
             hasNextPage = true;
             doc.pop();
         }
-        // const users = doc.map(user => ({
-        //     _id: user._doc._id,
-        //     email: user._doc.email,
-        //     name: user._doc.name,
-        //     company: user._doc.company,
-        //     is_active: user._doc.is_active,
-        //     is_active_in_constructor: user._doc.is_active_in_constructor || false,
-        //     createdAt: user._doc.createdAt
-        // }));
-
-
+        const totalUsersLength = await UserModel.countDocuments(designerFilter);
         const usersWithCartFilled = await Promise.all(
             doc.map(async user => {
                 const user_public_fields = {
@@ -88,7 +88,8 @@ export const getUsers = async (req, res) => {
             users: usersWithCartFilled,
             hasNextPage,
             sort,
-            page
+            page,
+            totalUsersCount: totalUsersLength,
         })
     } catch (err) {
         console.log(err);

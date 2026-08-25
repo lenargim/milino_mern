@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import s from './profile.module.sass'
-import {useAppSelector} from "../../helpers/helpers";
 import {useAuthUser} from "../../utils/customHooks";
 
 const ProfileMain:FC = () => {

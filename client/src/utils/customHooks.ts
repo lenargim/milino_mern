@@ -9,7 +9,7 @@ export const useAuthUser = () => {
         throw new Error("useAuthUser должен использоваться только внутри PrivateRoute");
     }
 
-    return user; // TypeScript автоматически поймет, что здесь тип UserType (без null)
+    return user;
 };
 
 

@@ -54,16 +54,13 @@ function App() {
                             <Route path="admin/edit/:user_id" element={<ProfileAdminEdit/>}>
                                 <Route path="purchase" element={<PurchaseOrder/>}>
                                     <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
-
                                         <Route path="rooms" element={<PurchaseOrderRooms/>}>
-
                                             <Route path=":room_name" element={<Room/>}>
                                                 <Route path="edit" element={<RoomEdit/>}/>
                                                 <Route index element={<RoomCategory/>}/>
                                                 <Route path="product/:productId/edit/:cart_id"
                                                        element={<RoomEditCartProduct/>}/>
                                                 <Route path="product/:productId" element={<RoomProduct/>}/>
-
                                             </Route>
                                         </Route>
                                     </Route>

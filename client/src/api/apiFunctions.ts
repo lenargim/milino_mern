@@ -4,7 +4,7 @@ import {
     EditProfileAPIType,
     EditProfileType,
     LogInType,
-    SignUpType,
+    SignUpType, UserBasicTypesType,
     UserType
 } from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, checkoutAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
@@ -63,6 +63,21 @@ export const updateProfile = async (values: EditProfileAPIType): Promise<MaybeUn
     }
 }
 
+export const linkManager= async (email:string): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.linkManager(email)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+export const unlinkManager= async (): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.unlinkManager()).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
 
 export const logIn = async (values: LogInType) => {
     try {
@@ -108,15 +123,15 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async (sort: SortAdminUsers, page: number): Promise<MaybeUndefined<AdminUsersRes>> => {
+export const getAdminUsers = async (sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
     try {
-        return (await AdminAPI.getUsers(sort, page)).data
+        return (await AdminAPI.getUsers(sort, page, user_type)).data
     } catch (error) {
         alertError(error);
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<AdminUsersType>> => {
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await AdminAPI.toggleUserEnabled(_id, data)).data
     } catch (error) {

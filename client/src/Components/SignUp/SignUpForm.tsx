@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC, useState} from 'react';
-import {PasswordInput, PhoneInput, TextInput} from "../../common/Form";
+import {PasswordInput, PhoneInput, ProductCheckboxBoolean, TextInput, UserTypeRadioInput} from "../../common/Form";
 import s from './../Login/login.module.sass'
 import {SignUpSchema} from "./signUpSchema";
 import {signUp} from "../../api/apiFunctions";
@@ -16,7 +16,8 @@ const initialValues: SignUpFrontType = {
     phone: '',
     password: '',
     compare: '',
-    website: ''
+    website: '',
+    user_type: 'designer'
 
 }
 
@@ -48,6 +49,7 @@ const SignUpForm = () => {
                 <PasswordInput type={"password"} label={'Password'} name={'password'}/>
                 <PasswordInput type={"password"} label={'Confirm password'} name={'compare'}/>
                 <TextInput type={"text"} label={'Website'} name={'website'}/>
+                <UserTypeRadioInput name="user_type"/>
                 <button type="submit" className={['button yellow'].join(' ')}>Sign Up</button>
                 {userSuccessModalIsOpen && <UserWillBeActivated />}
             </Form>

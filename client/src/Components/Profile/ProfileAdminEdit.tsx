@@ -1,14 +1,13 @@
 import React, {FC, useEffect} from "react";
 import {Navigate, Outlet, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
-import {getEditableUser} from "../../store/reducers/adminSlice";
-import {AdminUsersRes} from "../../api/apiTypes";
+import {AdminStateType, getEditableUser} from "../../store/reducers/adminSlice";
 import Loading from "../../common/Loading";
 import s from './profile.module.sass'
 
 const ProfileAdminEdit: FC = () => {
     const dispatch = useAppDispatch();
-    const {loading, editable_user} = useAppSelector<AdminUsersRes>(state => state.admin);
+    const {loading, editable_user} = useAppSelector<AdminStateType>(state => state.admin);
     const {user_id} = useParams();
     useEffect(() => {
         user_id && dispatch(getEditableUser({_id: user_id}))

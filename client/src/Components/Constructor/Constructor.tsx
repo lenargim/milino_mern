@@ -1,13 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
 import Iframe from "./Iframe";
 import {constructorLogin} from "../../api/apiFunctions";
-import {useAppSelector} from "../../helpers/helpers";
+import {has_super_user_access, useAppSelector} from "../../helpers/helpers";
 import {UserType} from "../../api/apiTypes";
 import {Navigate} from "react-router-dom";
 
 const Constructor: FC = () => {
     const user = useAppSelector<UserType>(state => state.user.user!);
-    const hasPermission = user.is_active_in_constructor || user.is_super_user;
+    const hasPermission = user.is_active_in_constructor || has_super_user_access(user);
 
     const [isLoading, setIsLoading] = useState(true);
     const [customerToken, setCustomerToken] = useState<string>();

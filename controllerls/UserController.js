@@ -41,7 +41,7 @@ export const register = async (req, res) => {
             is_active: false,
             is_active_in_constructor: false,
             constructor_id: req.body.email,
-            is_super_user: false,
+            user_type: req.body.user_type,
             passwordHash,
         })
 
@@ -72,6 +72,11 @@ export const register = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        if (err.code === 11000) {
+            return res.status(400).json({
+                message: 'Email already in use'
+            });
+        }
         res.status(500).json({
             message: "Registration failed"
         })
@@ -114,7 +119,8 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.user_id);
+
+        const user = await UserModel.findById(req.user_id).populate('manager_id', 'name email');
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
@@ -189,6 +195,60 @@ export const patchMe = async (req, res) => {
         const {passwordHash: hash, ...userData} = user._doc;
         res.json(userData);
     } catch (e) {
+        res.status(403).json({
+            message: 'Cannot update'
+        })
+    }
+}
+
+export const linkManager = async (req, res, next) => {
+    try {
+        const email = req.body.email;
+
+        const manager = await UserModel.findOne({
+            email: email,
+            user_type: 'manager',
+            is_active: true
+        })
+
+        if (!manager) {
+            return res.status(404).json({
+                message: "Manager not found"
+            })
+        }
+
+        const user = await UserModel.findByIdAndUpdate(req.user_id, {
+            manager_id: manager._id
+        })
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        next()
+    } catch (error) {
+        res.status(403).json({
+            message: 'Cannot update'
+        })
+    }
+}
+
+
+export const unlinkManager = async (req, res, next) => {
+    try {
+
+        const user = await UserModel.findByIdAndUpdate(req.user_id, {
+            manager_id: null
+        })
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        next()
+    } catch (error) {
         res.status(403).json({
             message: 'Cannot update'
         })
@@ -307,3 +367,4 @@ export const getTokenName = async (req, res) => {
         res.status(500).json({message: "Internal server error", error});
     }
 }
+

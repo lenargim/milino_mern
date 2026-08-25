@@ -8,7 +8,7 @@ export default async (req, res, next) => {
         message: "User not found"
       })
     }
-    if (!user._doc.is_super_user) {
+    if (!user._doc.user_type === 'admin') {
       return res.status(403).json({
         message: "User is not admin"
       })

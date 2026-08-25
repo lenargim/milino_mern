@@ -344,3 +344,28 @@
     overflow: hidden
     transition: all 0.3s ease
     letter-spacing: -0.07em
+
+.userType
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  width: 100%
+  gap: 10px
+  &Item
+    position: relative
+    input
+      position: absolute
+      z-index: -1
+      visibility: hidden
+  .userLabel
+    display: flex
+    align-items: center
+    justify-content: center
+
+    border-radius: 3px
+    border: 1px solid #000
+    cursor: pointer
+  .userLabelActive
+    border: 1px solid $accent
+    background: $accent
+    color: #fff

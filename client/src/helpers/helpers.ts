@@ -87,6 +87,7 @@ import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
 import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
+import {UserType} from "../api/apiTypes";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -2378,4 +2379,13 @@ export const hasGlassShelfColor = (index: MaybeUndefined<number>): boolean => {
 
 export const prepareAdditionEmailsArrayToAPI = (emails: string[]): string[] => {
     return [...new Set(emails.filter(str => str.trim() !== ""))];
+}
+
+
+export const has_super_user_access = (user:UserType):boolean => {
+    return user.user_type === "admin";
+}
+
+export const has_manager_access = (user:UserType):boolean => {
+    return user.user_type === "manager";
 }

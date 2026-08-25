@@ -98,6 +98,8 @@ const start = async () => {
         // Users
         app.get('/api/users/me', checkAuth, UserController.getMe)
         app.patch('/api/users/me', checkAuth, UserController.patchMe)
+        app.patch('/api/users/link', checkAuth, UserController.linkManager, UserController.getMe)
+        app.patch('/api/users/unlink', checkAuth, UserController.unlinkManager, UserController.getMe)
         app.get('/api/users/:user_id', checkAuth, UserController.getUser)
 
         // Purchase Order

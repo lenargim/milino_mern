@@ -10,13 +10,14 @@ import {useAdmin} from "../../helpers/AdminContext";
 import {clearCart} from "../../store/reducers/roomSlice";
 import ApproveRemovePO from "./ApproveRemovePO";
 import PurchaseOrderNavLink from "./PurchaseOrderNavLink";
+import {AdminStateType} from "../../store/reducers/adminSlice";
 
 const PurchaseOrder: FC = () => {
     const location = useLocation();
     const user = useAppSelector(state => state.user.user);
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const dispatch = useAppDispatch();
-    const {editable_user} = useAppSelector(state => state.admin);
+    const {editable_user} = useAppSelector<AdminStateType>(state => state.admin);
     const scrollToRef = useRef<MaybeNull<HTMLDivElement>>(null);
     const [warningModal, setWarningModal] = useState<MaybeNull<PurchaseOrderType>>(null);
     const is_admin = useAdmin();

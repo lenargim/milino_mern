@@ -2,13 +2,18 @@ import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
 import {CartOrder} from "../helpers/cartTypes";
 import {MaybeNull, MaybeUndefined} from "../helpers/productTypes";
 
+
+export type UserBasicTypesType = 'designer' | 'manager'
+export type UserTypesType = MaybeUndefined<UserBasicTypesType|'admin'>
+
 export type UserDataType = {
     name: string,
-    company: string,
     email: string,
+    company: string,
     additional_emails: string[],
     phone: string,
-    website: string
+    website: string,
+    user_type: UserTypesType,
 }
 
 export interface SignUpType extends UserDataType {
@@ -19,14 +24,19 @@ export interface SignUpFrontType extends SignUpType {
     compare: string
 }
 
+
+export type UserManagerDataType = {
+    name: string,
+    email: string,
+}
 export interface UserType extends UserDataType {
     _id: string,
     is_active: boolean,
-    is_super_user: boolean,
     is_active_in_constructor: boolean,
     has_archives: boolean,
     createdAt: Date,
     constructor_id: string,
+    manager_id: MaybeNull<UserManagerDataType>
 }
 
 export interface UserAndTokenType extends UserType {
@@ -76,8 +86,7 @@ export type AdminUsersRes = {
     hasNextPage: boolean,
     sort: SortAdminUsers,
     page: number,
-    editable_user: MaybeNull<UserType>,
-    loading: boolean,
+    totalUsersCount: number
 }
 
 export type AdminUsersType = {
