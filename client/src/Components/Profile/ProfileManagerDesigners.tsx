@@ -14,7 +14,6 @@ const ProfileManagerDesigners: FC = () => {
     useEffect(() => {
         // Get Designers for exact manager
         getManagerDesigners(sort, page).then(res => {
-            console.log(res)
             if (res) dispatch(setAdminUsers(res));
         })
     }, [])

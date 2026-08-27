@@ -2,6 +2,7 @@ import UserModel from "../models/User.js";
 import PurchaseOrder from "../models/PurchaseOrder.js";
 import Room from "../models/Room.js";
 import Cart from "../models/Cart.js";
+import user from "../models/User.js";
 
 export const getUsers = async (req, res) => {
     try {
@@ -108,10 +109,9 @@ export const geManagerDesigners = async (req, res) => {
 
         const designerFilter = {
             user_type: 'designer',
+            is_active: true,
             manager_id: req.user_id
         };
-
-        console.log(req.user_id)
 
         const doc = await UserModel
             .find(designerFilter)
