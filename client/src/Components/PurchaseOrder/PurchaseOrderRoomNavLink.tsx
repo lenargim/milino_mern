@@ -8,16 +8,16 @@ import s from './../Profile/profile.module.sass'
 const PurchaseOrderRoomNavLink: FC<{
     room: RoomFront,
     setWarningModal: (val: MaybeNull<RoomFront>) => void,
-    is_admin: boolean
+    is_my_project: boolean
 }> = ({
           room,
           setWarningModal,
-          is_admin
+          is_my_project
       }) => {
     const {name} = room
     return (
         <div className={s.linkWrap}>
-            {!is_admin && <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}>
+            {is_my_project && <button type="button" onClick={() => setWarningModal(room)} className={s.linkDelete}>
                 <span>&#10005;</span></button>}
             <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}><span>✎</span></NavLink>
             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}

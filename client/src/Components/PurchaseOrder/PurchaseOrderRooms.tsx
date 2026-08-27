@@ -8,16 +8,16 @@ import {fetchRooms, RoomsState} from "../../store/reducers/roomSlice";
 import {MaybeNull} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import Loading from "../../common/Loading";
-import {useAdmin} from "../../helpers/AdminContext";
 import PurchaseOrderRoomNavLink from "./PurchaseOrderRoomNavLink";
 import PurchaseOrderApproveRemoveRoom from "./PurchaseOrderApproveRemoveRoom";
+import {useEditor} from "../../helpers/EditorContext";
 
 const PurchaseOrderRooms: FC = () => {
     const dispatch = useAppDispatch();
     const {rooms, loading_rooms} = useAppSelector<RoomsState>(state => state.room);
     const [warningModal, setWarningModal] = useState<MaybeNull<RoomFront>>(null);
     const {purchase_order} = useOutletContext<{ purchase_order: PurchaseOrderType}>();
-    const is_admin = useAdmin();
+    const is_my_project = useEditor() === 'designer';
     useEffect(() => {
         if (!purchase_order) return;
         dispatch(fetchRooms({_id: purchase_order._id}))
@@ -33,9 +33,9 @@ const PurchaseOrderRooms: FC = () => {
                 <div>
                     <nav className={s.nav}>
                         {rooms.map(room => <PurchaseOrderRoomNavLink room={room} setWarningModal={setWarningModal}
-                                                                     is_admin={is_admin}
+                                                                     is_my_project={is_my_project}
                                                                      key={room._id}/>)}
-                        {!is_admin &&
+                        {is_my_project &&
                             <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                                      to="new">Add Room +</NavLink>}
                     </nav>

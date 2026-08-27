@@ -217,7 +217,14 @@ export const linkManager = async (req, res, next) => {
             })
         }
 
-        const user = await UserModel.findByIdAndUpdate(req.user_id, {
+        const user = await UserModel.findOneAndUpdate({
+            _id: req.user_id,
+            $or: [
+                {user_type: 'designer'},
+                {user_type: {$exists: false}}
+            ]
+        }, {
+            user_type: "designer",
             manager_id: manager._id
         })
         if (!user) {

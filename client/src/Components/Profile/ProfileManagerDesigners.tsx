@@ -1,38 +1,36 @@
-import React, {FC, useEffect} from 'react';
-import s from "./profile.module.sass";
-import {getAdminUsers} from "../../api/apiFunctions";
-import {setAdminManagers} from "../../store/reducers/adminSlice";
-import ProfileTableRow from "./ProfileTableRow";
+import React, {FC, useEffect} from "react";
+import s from './profile.module.sass'
 import {getSortClass} from "./ProfileAdmin";
-import {has_super_user_access, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {setAdminUsers} from "../../store/reducers/adminSlice";
+import ProfileTableRow from "./ProfileTableRow";
+import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {AdminUsersRes} from "../../api/apiTypes";
-import {useAuthUser} from "../../utils/customHooks";
+import {getManagerDesigners} from "../../api/apiFunctions";
 
-const ProfileManagers = () => {
+const ProfileManagerDesigners: FC = () => {
     const dispatch = useAppDispatch();
-    const {users, sort, page, hasNextPage, totalUsersCount} = useAppSelector<AdminUsersRes>(state => state.admin.managers);
-    const user = useAuthUser()
-    const is_admin = has_super_user_access(user);
-    const user_type = 'manager'
+    const {users, sort, page, hasNextPage, totalUsersCount} = useAppSelector<AdminUsersRes>(state => state.admin.designers);
+    const is_admin = false;
     useEffect(() => {
-        // Get Managers
-        getAdminUsers(is_admin,sort, page, user_type).then(res => {
-            if (res) dispatch(setAdminManagers(res));
+        // Get Designers for exact manager
+        getManagerDesigners(sort, page).then(res => {
+            console.log(res)
+            if (res) dispatch(setAdminUsers(res));
         })
     }, [])
-    if (!users.length) return <div><h1>No Managers Found</h1></div>;
+    if (!users.length) return <div><h1>No Designers Found</h1></div>;
     return (
         <div>
-            <h1>Managers (Total: {totalUsersCount})</h1>
+            <h1>Designers (Total: {totalUsersCount})</h1>
             <div className={s.table}>
-                <div className={s.tableHead}>
+                <div className={is_admin ? s.tableHead : s.tableHeadManager}>
                     <button type="button"
                             title="Sort by Date"
                             className={[s.tableHeadButton, s[getSortClass(sort,'createdAt')]].join(' ')}
                             onClick={() => {
                                 const sorting = sort.createdAt !== 1 ? 1 : -1;
-                                getAdminUsers(is_admin,{createdAt: sorting}, 1, user_type).then(res => {
-                                    if (res) dispatch(setAdminManagers(res));
+                                getManagerDesigners({createdAt: sorting}, 1).then(res => {
+                                    if (res) dispatch(setAdminUsers(res));
                                 })
                             }}>Date
                     </button>
@@ -41,8 +39,8 @@ const ProfileManagers = () => {
                             className={[s.tableHeadButton, s[getSortClass(sort,'company')]].join(' ')}
                             onClick={() => {
                                 const sorting = sort.company !== 1 ? 1 : -1;
-                                getAdminUsers(is_admin,{company: sorting}, 1, user_type).then(res => {
-                                    if (res) dispatch(setAdminManagers(res));
+                                getManagerDesigners({company: sorting}, 1).then(res => {
+                                    if (res) dispatch(setAdminUsers(res));
                                 })
                             }}>Company
                     </button>
@@ -51,8 +49,8 @@ const ProfileManagers = () => {
                             className={[s.tableHeadButton, s[getSortClass(sort,'name')]].join(' ')}
                             onClick={() => {
                                 const sorting = sort.name !== 1 ? 1 : -1;
-                                getAdminUsers(is_admin,{name: sorting}, 1, user_type).then(res => {
-                                    if (res) dispatch(setAdminManagers(res));
+                                getManagerDesigners({name: sorting}, 1).then(res => {
+                                    if (res) dispatch(setAdminUsers(res));
                                 })
                             }}>Name
                     </button>
@@ -61,29 +59,27 @@ const ProfileManagers = () => {
                             className={[s.tableHeadButton, s[getSortClass(sort,'email')]].join(' ')}
                             onClick={() => {
                                 const sorting = sort.email !== 1 ? 1 : -1;
-                                getAdminUsers(is_admin,{email: sorting}, 1, user_type).then(res => {
-                                    if (res) dispatch(setAdminManagers(res));
+                                getManagerDesigners({email: sorting}, 1).then(res => {
+                                    if (res) dispatch(setAdminUsers(res));
                                 })
                             }}>Email
                     </button>
-                    <div>Enabled</div>
-                    <div>Constructor</div>
                     <div>Edit</div>
                 </div>
                 <div className={s.tableBody}>
-                    {users.map(el => <ProfileTableRow key={el._id} is_admin={is_admin} user={el} row_user_type={user_type}/>)}
+                    {users.map(el => <ProfileTableRow is_admin={false} row_user_type="designer" key={el._id} user={el}/>)}
                 </div>
             </div>
             <div className={s.navigation}>
                 {page > 1 && <button type="button" title="Prev Page" onClick={() => {
-                    getAdminUsers(is_admin,sort, page - 1, user_type).then(res => {
-                        if (res) dispatch(setAdminManagers(res));
+                    getManagerDesigners(sort, page - 1).then(res => {
+                        if (res) dispatch(setAdminUsers(res));
                     })
                 }}>&#8249;</button>}
 
                 {hasNextPage && <button type="button" title="Next Page" onClick={() => {
-                    getAdminUsers(is_admin,sort, page + 1, user_type).then(res => {
-                        if (res) dispatch(setAdminManagers(res));
+                    getManagerDesigners(sort, page + 1).then(res => {
+                        if (res) dispatch(setAdminUsers(res));
                     })
                 }}>&#8250;</button>}
                 {page > 1 && <div>Page: {page}</div>}
@@ -92,4 +88,5 @@ const ProfileManagers = () => {
     );
 };
 
-export default ProfileManagers;
+export default ProfileManagerDesigners;
+

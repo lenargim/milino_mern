@@ -263,8 +263,12 @@
   display: grid
   grid-template-columns: 100px 200px 150px 1fr 100px 100px 100px
   gap: 20px
+.tableHeadManager, .tableRowManager
+  display: grid
+  grid-template-columns: 100px 200px 150px 1fr 100px
+  gap: 20px
 
-.tableHead
+.tableHead, .tableHeadManager
   padding: 10px
   border-bottom: 1px solid #000
   *
@@ -280,7 +284,7 @@
 .desc:after
   content: '\2193'
 
-.tableRow
+.tableRow, .tableRowManager
   padding: 5px 10px
   &:nth-of-type(odd)
     background-color: rgba(0, 0, 0, 0.1)

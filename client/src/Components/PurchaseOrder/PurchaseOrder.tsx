@@ -6,22 +6,22 @@ import {MaybeNull} from "../../helpers/productTypes";
 import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {PurchaseOrdersState, PurchaseOrderType, setPOs} from "../../store/reducers/purchaseOrderSlice";
 import {getAllPOs} from "../../api/apiFunctions";
-import {useAdmin} from "../../helpers/AdminContext";
-import {clearCart} from "../../store/reducers/roomSlice";
 import ApproveRemovePO from "./ApproveRemovePO";
 import PurchaseOrderNavLink from "./PurchaseOrderNavLink";
 import {AdminStateType} from "../../store/reducers/adminSlice";
+import {useAuthUser} from "../../utils/customHooks";
+import {useEditor} from "../../helpers/EditorContext";
 
 const PurchaseOrder: FC = () => {
     const location = useLocation();
-    const user = useAppSelector(state => state.user.user);
-    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
+    const {_id} = useAuthUser();
     const dispatch = useAppDispatch();
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const {editable_user} = useAppSelector<AdminStateType>(state => state.admin);
+    const is_my_project = useEditor() === 'designer';
+    const user_id = is_my_project ? _id : editable_user?._id;
     const scrollToRef = useRef<MaybeNull<HTMLDivElement>>(null);
     const [warningModal, setWarningModal] = useState<MaybeNull<PurchaseOrderType>>(null);
-    const is_admin = useAdmin();
-    const user_id = !is_admin ? user?._id : editable_user?._id;
 
     useEffect(() => {
         const scrollEl = scrollToRef.current;
@@ -46,10 +46,10 @@ const PurchaseOrder: FC = () => {
                 <nav className={s.nav}>
                     {po_filtered.length
                         ? po_filtered.map(item => <PurchaseOrderNavLink key={item._id} item={item}
-                                                                            setWarningModal={setWarningModal}
-                                                                            is_admin={is_admin}/>)
+                                                                        setWarningModal={setWarningModal}
+                                                                        is_my_project={is_my_project}/>)
                         : null}
-                    {!is_admin &&
+                    {is_my_project &&
                         <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
                                  to="new">Add PO +</NavLink>}
                 </nav>

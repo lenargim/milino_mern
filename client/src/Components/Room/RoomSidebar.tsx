@@ -6,14 +6,14 @@ import {clearCart, fetchCart, removeAllFromCart, RoomsState} from "../../store/r
 import {MiniCart} from "../../common/MiniCart";
 import {NavLink, useParams} from "react-router-dom";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
-import {useAdmin} from "../../helpers/AdminContext";
+import {useEditor} from "../../helpers/EditorContext";
 
 const RoomSidebar: FC = () => {
     const {room_name, purchase_order_name} = useParams();
     const dispatch = useAppDispatch()
     const {cart_items, rooms} = useAppSelector<RoomsState>(state => state.room)
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order)
-    const is_admin = useAdmin();
+    const is_my_project = useEditor() === 'designer';
     const total = getCartTotal(cart_items);
     const po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name)
     const room = rooms.find(room => textToLink(room.name) === room_name);
@@ -27,14 +27,14 @@ const RoomSidebar: FC = () => {
     }, [room?._id, dispatch]);
 
     if (!room || !po || !cart_items?.length) return null;
-    const show_cart_link = !is_admin && !po.is_archived
+    const my_project_not_archived = is_my_project && !po.is_archived
     return (
         <aside className={s.sidebar}>
             <div className={s.sidebarContent}>
                 <div className={s.sidebarList}>
                     <div className={s.sidebarTitle}>
                         <h3>Cart<span>{cart_items.length}</span></h3>
-                        {!is_admin && <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove
+                        {my_project_not_archived && <button onClick={() => dispatch(removeAllFromCart({room_id: room._id}))}>Remove
                             all</button>}
                     </div>
                     {cart_items.map((item, key) => {
@@ -43,7 +43,7 @@ const RoomSidebar: FC = () => {
                         )
                     })}
                 </div>
-                {show_cart_link ?
+                {my_project_not_archived ?
                     <NavLink
                         to={`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room.name)}/checkout`}
                         className={s.total}>

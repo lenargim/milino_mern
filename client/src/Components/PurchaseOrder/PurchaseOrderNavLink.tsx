@@ -11,11 +11,11 @@ import {setUser} from "../../store/reducers/userSlice";
 const PurchaseOrderNavLink: FC<{
     item: PurchaseOrderType,
     setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void,
-    is_admin: boolean
+    is_my_project: boolean
 }> = ({
           item,
           setWarningModal,
-          is_admin
+          is_my_project
       }) => {
     const {name} = item;
     const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ const PurchaseOrderNavLink: FC<{
 
     return (
         <div className={s.linkWrap}>
-            {!is_admin &&
+            {is_my_project &&
                 <>
                     <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>
                         <div className={s.linkIcon}>&#10005;</div>
@@ -39,7 +39,7 @@ const PurchaseOrderNavLink: FC<{
                         <div className={s.linkIcon}>✎</div>
                     </NavLink>
                     <button type="button" onClick={archivePO} className={s.linkArchive}>
-                        <div className={s.linkIcon}><ArchiveIcon /></div>
+                        <div className={s.linkIcon}><ArchiveIcon/></div>
                     </button>
                 </>
             }

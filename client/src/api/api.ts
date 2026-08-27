@@ -13,7 +13,7 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
 import {CartAPIResponse, CartAPI} from "../helpers/cartTypes";
-import {linkManager} from "./apiFunctions";
+import {getManagerDesigners, linkManager} from "./apiFunctions";
 
 const instanceFormData = axios.create({
     headers: {
@@ -105,6 +105,10 @@ export const AdminAPI = {
         sort,
         page,
         user_type
+    }, {headers: getHeaders()}),
+    getManagerDesigners: (sort: SortAdminUsers, page: number): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/manager_designers`, {
+        sort,
+        page
     }, {headers: getHeaders()}),
     toggleUserEnabled: (_id: string, user_data: UserAccessData):Promise<AxiosResponse<UserType>> => instance.patch(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
 }

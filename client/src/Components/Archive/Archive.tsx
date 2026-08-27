@@ -6,16 +6,16 @@ import {Outlet, useNavigate} from "react-router-dom";
 import ArchiveNavLink from "./ArchiveNavLink";
 import RoomSidebar from "../Room/RoomSidebar";
 import {getAllPOs} from "../../api/apiFunctions";
+import {useAuthUser} from "../../utils/customHooks";
 
 const Archive: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const po_archived = purchase_orders.filter(po => po.is_archived);
-    const user = useAppSelector(state => state.user.user);
+    const user = useAuthUser()
 
     useEffect(() => {
-        if (!user?._id) return;
         getAllPOs(user._id).then(data => {
             if (!data) return;
             dispatch(setPOs(data));
@@ -24,7 +24,7 @@ const Archive: FC = () => {
 
             if (!archived.length) navigate('/profile');
         })
-    }, [user?._id, dispatch, navigate]);
+    }, [dispatch, navigate]);
 
     return (
         <div className={s.purchaseOrder}>

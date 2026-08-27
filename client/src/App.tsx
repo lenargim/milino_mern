@@ -30,10 +30,13 @@ import ForgotPassword from "./Components/Login/ForgotPassword";
 import ResetPassword from "./Components/Login/ResetPassword";
 import ProfileDoorTypes from "./Components/Profile/ProfileDoorTypes";
 import ProfileAdminEdit from "./Components/Profile/ProfileAdminEdit";
-import ProfileAdminLayout from "./Components/Profile/ProfileAdminProvider";
 import Archive from "./Components/Archive/Archive";
 import ArchiveItem from "./Components/Archive/ArchiveItem";
 import ArchiveRoom from "./Components/Archive/ArchiveRoom";
+import AdminRoute from "./common/AdminRoute";
+import ManagerRoute from "./common/ManagerRoute";
+import ProfileManagerDesigners from "./Components/Profile/ProfileManagerDesigners";
+import DesignerRoute from "./common/DesignerRoute";
 
 function App() {
     return (
@@ -49,7 +52,9 @@ function App() {
                 <Route element={<PrivateRoute/>}>
                     <Route path='/profile' element={<Profile/>}>
                         <Route index element={<ProfileMain/>}/>
-                        <Route element={<ProfileAdminLayout is_admin={true}/>}>
+
+                        {/*Admin*/}
+                        <Route element={<AdminRoute/>}>
                             <Route path="admin" element={<ProfileAdmin/>}/>
                             <Route path="admin/edit/:user_id" element={<ProfileAdminEdit/>}>
                                 <Route path="purchase" element={<PurchaseOrder/>}>
@@ -67,7 +72,31 @@ function App() {
                                 </Route>
                             </Route>
                         </Route>
-                        <Route element={<ProfileAdminLayout is_admin={false}/>}>
+
+
+                        {/*Manager*/}
+                        <Route element={<ManagerRoute/>}>
+                            <Route path="manager" element={<ProfileManagerDesigners/>}/>
+                            <Route path="manager/edit/:user_id" element={<ProfileAdminEdit/>}>
+                                <Route path="purchase" element={<PurchaseOrder/>}>
+                                    <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
+                                        <Route path="rooms" element={<PurchaseOrderRooms/>}>
+                                            <Route path=":room_name" element={<Room/>}>
+                                                <Route path="edit" element={<RoomEdit/>}/>
+                                                <Route index element={<RoomCategory/>}/>
+                                                <Route path="product/:productId/edit/:cart_id"
+                                                       element={<RoomEditCartProduct/>}/>
+                                                <Route path="product/:productId" element={<RoomProduct/>}/>
+                                            </Route>
+                                        </Route>
+                                    </Route>
+                                </Route>
+                            </Route>
+                        </Route>
+
+
+                        {/*Designer*/}
+                        <Route element={<DesignerRoute/>}>
                             <Route path="purchase" element={<PurchaseOrder/>}>
                                 <Route path="new" element={<PurchaseOrderNew/>}/>
                                 <Route path=":purchase_order_name" element={<PurchaseOrderItem/>}>
@@ -85,7 +114,7 @@ function App() {
                                     </Route>
                                 </Route>
                             </Route>
-                            <Route path="archive" element={<Archive />}>
+                            <Route path="archive" element={<Archive/>}>
                                 <Route path=":purchase_order_name/rooms" element={<ArchiveItem/>}>
                                     <Route path=":room_name" element={<ArchiveRoom/>}/>
                                 </Route>
@@ -95,8 +124,7 @@ function App() {
                             <Route path="constructor" element={<Constructor/>}/>
                             <Route path="catalog" element={<ProfileCatalog/>}/>
                             <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
-                            <Route path="tutorial" element={<ProfileTutorial/>}>
-                            </Route>
+                            <Route path="tutorial" element={<ProfileTutorial/>}/>
                         </Route>
                     </Route>
                 </Route>

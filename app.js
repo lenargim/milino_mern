@@ -30,6 +30,7 @@ import {
 
 import {upload} from './utils/helpers.js'
 import {removeAllFromCart} from "./controllerls/CartController.js";
+import {geManagerDesigners} from "./controllerls/AdminController.js";
 
 /* ---------------- INIT ---------------- */
 
@@ -124,6 +125,7 @@ const start = async () => {
 
         // Admin
         app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
+        app.post('/api/admin/manager_designers', checkAuth, checkAdmin, AdminController.geManagerDesigners)
         app.patch('/api/admin/user/:user_id', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
 
         /* -------- React prod / test -------- */

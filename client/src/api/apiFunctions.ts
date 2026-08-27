@@ -123,7 +123,8 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async (sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
+export const getAdminUsers = async (is_admin:boolean,sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
+    if (!is_admin) return;
     try {
         return (await AdminAPI.getUsers(sort, page, user_type)).data
     } catch (error) {
@@ -131,13 +132,23 @@ export const getAdminUsers = async (sort: SortAdminUsers, page: number, user_typ
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
+export const adminUserToggleEnabled = async (is_admin:boolean,_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
+    if (!is_admin) return;
     try {
         return (await AdminAPI.toggleUserEnabled(_id, data)).data
     } catch (error) {
         alertError(error);
     }
 }
+
+export const getManagerDesigners = async (sort: SortAdminUsers, page: number): Promise<MaybeUndefined<AdminUsersRes>> => {
+    try {
+        return (await AdminAPI.getManagerDesigners(sort, page)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
 
 
 export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {

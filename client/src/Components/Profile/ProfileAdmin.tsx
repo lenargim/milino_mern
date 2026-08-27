@@ -1,7 +1,4 @@
-import React, {FC, useEffect} from 'react';
-import {has_super_user_access} from "../../helpers/helpers";
-import {useNavigate} from "react-router-dom";
-import {useAuthUser} from "../../utils/customHooks";
+import React, {FC} from 'react';
 import ProfileDesigners from "./ProfileDesigners";
 import ProfileManagers from "./ProfileManagers";
 
@@ -33,19 +30,11 @@ export function getSortClass(sort:SortAdminUsers,type:SortTypes):string {
 }
 
 const ProfileAdmin: FC = () => {
-    const navigate = useNavigate();
-
-    const user = useAuthUser();
-    useEffect(() => {
-        if (!has_super_user_access(user)) {
-            navigate('/profile')
-        }
-    }, [])
 
     return (
         <div>
-            <ProfileDesigners user_type="designer" />
-            <ProfileManagers user_type="manager" />
+            <ProfileDesigners/>
+            <ProfileManagers/>
         </div>
     );
 };
