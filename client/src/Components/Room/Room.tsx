@@ -26,7 +26,8 @@ const Room: FC = () => {
     const {rooms} = useAppSelector<RoomsState>(state => state.room);
     const room = rooms.find(room => textToLink(room.name) === room_name);
     const editor = useEditor();
-    if (!room_name || !purchase_order_name || !room) return <Navigate to="/profile"/>;
+    if (!room) return null;
+    if (!room_name || !purchase_order_name) return <Navigate to="/profile"/>;
     const cabinetLink = getCabinetLink(user_id, purchase_order_name, room_name, editor);
     const showBackButton = location.pathname !== cabinetLink;
 

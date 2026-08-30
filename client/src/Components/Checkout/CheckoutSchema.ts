@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
+import {mb_to_byte} from "../../helpers/helpers";
 
 const MAX_FILES = 5;
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_KB = mb_to_byte(10)
 
 const ALLOWED_TYPES = [
     'application/pdf',
@@ -67,12 +69,23 @@ export const CheckoutSchema = Yup.object({
     files: Yup.array()
         .of(Yup.mixed<File>().required())
         .max(MAX_FILES, `You can upload up to ${MAX_FILES} files.`)
+        // .test(
+        //     'fileSize',
+        //     `Each file must be no larger than ${MAX_FILE_SIZE_MB} MB.`,
+        //     (files) =>
+        //         !files ||
+        //         files.every(file => file.size <= MAX_FILE_SIZE_KB)
+        // )
         .test(
-            'fileSize',
-            'Each file must be no larger than 10 MB.',
-            (files) =>
-                !files ||
-                files.every(file => file.size <= MAX_FILE_SIZE)
+            'filesSize',
+            `Total files size must be no larger than ${MAX_FILE_SIZE_MB} MB.`,
+            (files) => {
+                if (!files) return true;
+                const files_size = files.reduce((acc, currentFile) => {
+                    return acc + currentFile.size
+                },0);
+                return files_size <= MAX_FILE_SIZE_KB;
+            }
         )
         .test(
             'fileType',

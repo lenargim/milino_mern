@@ -123,7 +123,7 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
 }
 
 export const getProductImg = (folder: string, img: string): string => {
-    for (const s of ['', ' L', ' 2L', ' 4'] as const) {
+    for (const s of ['', ' L', ' 2L', ' 2', ' 4'] as const) {
         try {
             const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
             return require(`./../assets/img/products/${folder}/${postfix}`);
@@ -132,6 +132,32 @@ export const getProductImg = (folder: string, img: string): string => {
         }
     }
     return noImg;
+}
+
+const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>, product_subcategory: productCategory): string => {
+    let n = name.replace(' Series', '');
+    switch (hinge_type) {
+        case "Left":
+        case "Single left door":
+            n = `${n} L`;
+            break
+        case "Right":
+        case "Single right door":
+            n = `${n} R`;
+            break
+        case "Two left doors":
+            n = `${n} 2L`;
+            break
+        case "Two right doors":
+            n = `${n} 2R`;
+            break
+        case "Four doors":
+            n = `${n} 4`;
+            break
+        default:
+            break;
+    }
+    return `${n}.jpg`;
 }
 
 export const getCategoryImg = (room: RoomFront, currentCat: CatItem, hover?: MaybeNull<CustomPartsImgListItem>): string => {
@@ -271,8 +297,9 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
     if (isCustomPart(product)) {
         return getProductImg(`Custom Parts`, `${product.name}.jpg`);
     } else {
-        const {category: product_subcategory, name, extra_categories} = product
-        const img_src = getProductImgSrc(name, hinge_type);
+        const {category: product_subcategory, name, extra_categories} = product;
+
+        const img_src = getProductImgSrc(name, hinge_type, product_subcategory);
         let category_folder = extra_categories ? getRoomCategoryByProductCategory(product_subcategory) : category;
         let material_folder = '';
         switch (category) {
@@ -316,34 +343,6 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
     }
 }
 
-const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>): string => {
-    let n = name.replace(' Series', '');
-    switch (hinge_type) {
-        case "Left":
-        case "Single left door":
-            n = `${n} L`;
-            break
-        case "Right":
-        case "Single right door":
-            n = `${n} R`;
-            break
-        case "Two left doors":
-            n = `${n} 2L`;
-            break
-        case "Two right doors":
-            n = `${n} 2R`;
-            break
-        case "Four doors":
-            n = `${n} 4`;
-            break
-        case "Double Doors":
-            n = `${n} 2`;
-            break
-        default:
-            break;
-    }
-    return `${n}.jpg`;
-}
 
 export const getCustomPartImagePath = (product: CustomPartType, values: CustomPartFormType): string => {
     const {type} = product;
@@ -2382,10 +2381,14 @@ export const prepareAdditionEmailsArrayToAPI = (emails: string[]): string[] => {
 }
 
 
-export const has_super_user_access = (user:UserType):boolean => {
+export const has_super_user_access = (user: UserType): boolean => {
     return user.user_type === "admin";
 }
 
-export const has_manager_access = (user:UserType):boolean => {
+export const has_manager_access = (user: UserType): boolean => {
     return user.user_type === "manager";
+}
+
+export const mb_to_byte = (size: number): number => {
+    return size * 1024 * 1024
 }

@@ -536,14 +536,16 @@ export const FileInput: FC<FileInputInterface> = ({
     const files = field.value ?? [];
     const {error, touched} = meta;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const newFiles = Array.from(e.currentTarget.files ?? []);
 
         if (!newFiles.length) return;
 
         const combinedFiles = [...files, ...newFiles];
 
-        // Не больше 5 файлов
+        // Убираем дубликаты
         const uniqueFiles = combinedFiles.filter(
             (file, index, array) =>
                 index === array.findIndex(
@@ -554,7 +556,9 @@ export const FileInput: FC<FileInputInterface> = ({
                 )
         );
 
-        setValue(uniqueFiles.slice(0, max_files));
+        // НЕ обрезаем до max_files.
+        // Yup должен сам проверить количество.
+        setValue(uniqueFiles);
         setTouched(true);
 
         // Позволяет повторно выбрать тот же файл
@@ -562,7 +566,11 @@ export const FileInput: FC<FileInputInterface> = ({
     };
 
     const handleRemove = (index: number) => {
-        setValue(files.filter((_, fileIndex) => fileIndex !== index));
+        const newFiles = files.filter(
+            (_, fileIndex) => fileIndex !== index
+        );
+
+        setValue(newFiles);
         setTouched(true);
     };
 
@@ -575,6 +583,7 @@ export const FileInput: FC<FileInputInterface> = ({
                     type="file"
                     multiple
                     accept={accept}
+                    disabled={files.length >= max_files}
                     onChange={handleChange}
                     onBlur={() => setTouched(true)}
                     className={styles.fileInput}
@@ -582,28 +591,58 @@ export const FileInput: FC<FileInputInterface> = ({
 
                 <label
                     htmlFor={name}
-                    className={['button yellow small', files.length >= max_files ? 'disabled' : ''].join(' ')}
+                    className={[
+                        'button yellow small',
+                        files.length >= max_files ? 'disabled' : ''
+                    ].join(' ')}
                 >
                     + {label}
                 </label>
-                {accept && <span>*{accept}</span>}
-                <span>(Max:{max_files} files)</span>
+
+                {accept && (
+                    <span>*{accept}</span>
+                )}
+
+                <span>
+                    (Max: {max_files} files)
+                </span>
             </div>
 
             {files.length > 0 && (
                 <div className={styles.list}>
                     {files.map((file, index) => {
-                        const is_img = file.type.startsWith('image/');
+                        const isImg = file.type.startsWith('image/');
+                        const previewUrl = isImg
+                            ? URL.createObjectURL(file)
+                            : '';
+
                         return (
                             <div
                                 key={`${file.name}-${file.lastModified}-${index}`}
                                 className={styles.fileItem}
                             >
-                                <div className={[styles.fileBg, is_img ? styles.fileImg : ''].join(' ')}
-                                     style={{backgroundImage: `url(${URL.createObjectURL(file)}`}}>
-                                    <span className={styles.fileType}>
-                                    {file.name.split('.').pop()?.toUpperCase()}
-                                </span>
+                                <div
+                                    className={[
+                                        styles.fileBg,
+                                        isImg ? styles.fileImg : ''
+                                    ].join(' ')}
+                                    style={
+                                        isImg
+                                            ? {
+                                                backgroundImage: `url(${previewUrl})`
+                                            }
+                                            : undefined
+                                    }
+                                >
+                                    {!isImg && (
+                                        <span className={styles.fileType}>
+                                            {file.name
+                                                .split('.')
+                                                .pop()
+                                                ?.toUpperCase()}
+                                        </span>
+                                    )}
+
                                     <div className={styles.fileName}>
                                         {file.name}
                                     </div>
@@ -613,9 +652,11 @@ export const FileInput: FC<FileInputInterface> = ({
                                     type="button"
                                     onClick={() => handleRemove(index)}
                                     className={styles.linkDelete}
-                                ><span>✕</span></button>
+                                >
+                                    <span>✕</span>
+                                </button>
                             </div>
-                        )
+                        );
                     })}
                 </div>
             )}
