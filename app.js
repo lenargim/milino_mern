@@ -127,6 +127,7 @@ const start = async () => {
         app.post('/api/admin/users', checkAuth, checkAdmin, AdminController.getUsers)
         app.post('/api/admin/manager_designers', checkAuth, checkAdmin, AdminController.geManagerDesigners)
         app.patch('/api/admin/user/:user_id', checkAuth, checkAdmin, AdminController.toggleUserEnabled)
+        app.patch('/api/admin/user/role/:user_id', checkAuth, checkAdmin, AdminController.toggleUserRole)
 
         /* -------- React prod / test -------- */
 

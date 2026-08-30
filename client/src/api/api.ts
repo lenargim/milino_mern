@@ -1,10 +1,9 @@
 import {
     AdminUsersRes, EditProfileAPIType,
-    EditProfileType,
     LogInType,
     SignUpType,
     UserAndTokenType, UserBasicTypesType,
-    UserType
+    UserType, UserTypesType
 } from "./apiTypes";
 import axios, {AxiosResponse} from "axios";
 import {Customer} from "../helpers/constructorTypes";
@@ -101,7 +100,7 @@ export const cartAPI = {
 }
 
 export const AdminAPI = {
-    getUsers: (sort: SortAdminUsers, page: number,user_type: UserBasicTypesType): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
+    getUsers: (sort: SortAdminUsers, page: number,user_type: UserTypesType): Promise<AxiosResponse<AdminUsersRes>> => instance.post(`/admin/users`, {
         sort,
         page,
         user_type
@@ -111,6 +110,7 @@ export const AdminAPI = {
         page
     }, {headers: getHeaders()}),
     toggleUserEnabled: (_id: string, user_data: UserAccessData):Promise<AxiosResponse<UserType>> => instance.patch(`/admin/user/${_id}`, user_data, {headers: getHeaders()}),
+    toggleUserRole: (_id: string, role: UserBasicTypesType):Promise<AxiosResponse<UserType>> => instance.patch(`/admin/user/role/${_id}`, {role}, {headers: getHeaders()}),
 }
 
 export const ConstructorAPI = {

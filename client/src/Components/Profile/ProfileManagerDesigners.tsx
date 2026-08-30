@@ -66,7 +66,7 @@ const ProfileManagerDesigners: FC = () => {
                     <div>Edit</div>
                 </div>
                 <div className={s.tableBody}>
-                    {users.map(el => <ProfileTableRow is_admin={false} row_user_type="designer" key={el._id} user={el}/>)}
+                    {users.map(el => <ProfileTableRow row_user_type="designer" key={el._id} user={el}/>)}
                 </div>
             </div>
             <div className={s.navigation}>

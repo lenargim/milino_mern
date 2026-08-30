@@ -1,8 +1,6 @@
 import {
     AdminUsersRes,
-    AdminUsersType,
     EditProfileAPIType,
-    EditProfileType,
     LogInType,
     SignUpType, UserBasicTypesType,
     UserType
@@ -123,8 +121,7 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async (is_admin:boolean,sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
-    if (!is_admin) return;
+export const getAdminUsers = async (sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
     try {
         return (await AdminAPI.getUsers(sort, page, user_type)).data
     } catch (error) {
@@ -132,10 +129,17 @@ export const getAdminUsers = async (is_admin:boolean,sort: SortAdminUsers, page:
     }
 }
 
-export const adminUserToggleEnabled = async (is_admin:boolean,_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
-    if (!is_admin) return;
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await AdminAPI.toggleUserEnabled(_id, data)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const adminToggleUserRole = async (_id: string, role: UserBasicTypesType): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await AdminAPI.toggleUserRole(_id, role)).data
     } catch (error) {
         alertError(error);
     }
@@ -148,8 +152,6 @@ export const getManagerDesigners = async (sort: SortAdminUsers, page: number): P
         alertError(error);
     }
 }
-
-
 
 export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {
     try {

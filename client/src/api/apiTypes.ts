@@ -97,5 +97,6 @@ export type AdminUsersType = {
     name: string,
     is_active: boolean,
     is_active_in_constructor: boolean,
-    is_cart_filled: boolean
+    is_cart_filled: boolean,
+    user_type: UserBasicTypesType
 }

@@ -47,6 +47,7 @@ export const getUsers = async (req, res) => {
                     email: user.email,
                     name: user.name,
                     company: user.company,
+                    user_type: user.user_type,
                     is_active: user.is_active,
                     is_active_in_constructor: user.is_active_in_constructor || false,
                     createdAt: user.createdAt,
@@ -199,7 +200,32 @@ export const toggleUserEnabled = async (req, res) => {
         const doc = await UserModel.findByIdAndUpdate(req.params.user_id, {
             $set: {
                 "is_active": req.body.is_active,
-                "is_active_in_constructor": req.body.is_active_in_constructor
+                "is_active_in_constructor": req.body.is_active_in_constructor,
+                "user_type": req.body.user_type,
+            },
+        }, {
+            returnDocument: "after"
+        })
+        if (!doc) {
+            return res.status(400).json({
+                message: "No user"
+            })
+        }
+        res.status(200).json(doc._doc)
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Toggle user failed"
+        })
+    }
+}
+
+export const toggleUserRole = async (req, res) => {
+    try {
+
+        const doc = await UserModel.findByIdAndUpdate(req.params.user_id, {
+            $set: {
+                "user_type": req.body.role,
             },
         }, {
             returnDocument: "after"

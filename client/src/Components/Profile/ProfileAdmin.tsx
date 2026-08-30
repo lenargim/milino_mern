@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import ProfileDesigners from "./ProfileDesigners";
 import ProfileManagers from "./ProfileManagers";
+import {UserBasicTypesType} from "../../api/apiTypes";
 
 
 export type SortTypes = 'createdAt' | 'name' | 'email' | 'company';
@@ -30,15 +31,14 @@ export function getSortClass(sort:SortAdminUsers,type:SortTypes):string {
 }
 
 const ProfileAdmin: FC = () => {
-
     return (
         <div>
             <ProfileDesigners/>
-            <ProfileManagers/>
+            <ProfileManagers />
         </div>
     );
 };
 
 export default ProfileAdmin;
 
-export type UserAccessData = { is_active: boolean, is_active_in_constructor: boolean };
+export type UserAccessData = { is_active: boolean, is_active_in_constructor: boolean, user_type:UserBasicTypesType };
