@@ -596,7 +596,7 @@ function getLedPrice (width: number, height: number, led: MaybeUndefined<CartLED
     let length: number = 0;
 
     if (border.includes('LED Panel')) return height * 2.55;
-    if (border.includes('LED Shelf')) return (width-1.5) * 2.55;
+    if (border.includes('LED Shelf')) return (width) * 2.55;
 
     if (border.includes('Sides')) length = height * 2
     if (border.includes('Top')) length += (width - 1.5)
@@ -1052,7 +1052,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 34;
                     break;
             }
-            const ledPrice = getLedPrice(width, height, led);
+            const ledPrice = getLedPrice(width-1.5, height, led);
             price = shelfCoef * materialCoef + ledPrice;
             break;
         }
