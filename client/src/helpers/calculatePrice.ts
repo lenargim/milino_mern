@@ -176,25 +176,6 @@ export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUnd
     return 0
 }
 
-// const filterAttrByDimension = (attrArr: MaybeUndefined<valueItemType[]>,width: number, height: number): MaybeUndefined<valueItemType[]> => {
-//     if (!attrArr) return undefined;
-//     if (!attrArr[0].type) return undefined;
-//
-//     const filter = attrArr.filter(val => {
-//         const isMaxWidth = val.maxWidth
-//         const isMinWidth = val.minWidth
-//         const isMaxHeight = val.maxHeight
-//         const isMinHeight = val.minHeight
-//
-//         if (isMaxWidth && isMaxWidth <= width) return false;
-//         if (isMinWidth && isMinWidth > width) return false;
-//         if (isMaxHeight && isMaxHeight <= height) return false;
-//         if (isMinHeight && isMinHeight > height) return false;
-//         return true
-//     })
-//     return filter;
-// }
-
 export const resolveTypeByDimensions = (
     attributes: AttrItemType[],
     width: number,
@@ -238,61 +219,6 @@ export const resolveTypeByDimensions = (
 
     return [...(common ?? [])][0] ?? 1;
 };
-
-export function getType(width: number, height: number, widthDivider: MaybeUndefined<number>, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
-    const filteredAttrs = getAttributesWithoutDesc(attributes)
-    if (!filteredAttrs.length) return 1;
-    // const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values;
-    // const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values;
-    // const trashBinValues = filteredAttrs.find(el => el.name === 'Trash Bin')?.values;
-    // const filterDimension = filteredAttrs.filter(el => !!filterAttrByDimension(el.values, width, height)).map(el => filterAttrByDimension(el.values, width, height));
-
-
-    return 1;
-    // switch (category) {
-    //     case 'Base Cabinets':
-    //     case "Vanities":
-    //     case "Floating Vanities":
-    //     case "Gola Floating Vanities":
-    //     case "Gola Base Cabinets":
-    //     case "Standard Base Cabinets":
-    //     case "Standard Vanities":
-    //     case "Standard Floating Vanities":
-    //         if (widthDivider) return width <= widthDivider ? 1 : 2;
-    //         const currentDoorType = doorValues.find(el => el.value === doors)?.type
-    //         return currentDoorType ?? 1;
-    //     case 'Wall Cabinets':
-    //     case 'Tall Cabinets':
-    //     case "Gola Wall Cabinets":
-    //     case "Gola Tall Cabinets":
-    //     case "Build In":
-    //     case "Leather":
-    //     case "Standard Wall Cabinets":
-    //     case "Standard Tall Cabinets":
-    //         if (!shelfValues.length) return 1;
-    //         const doorsArr = filterDoorArr(width, doorValues);
-    //
-    //         const shelfsArr = shelfValues.filter(val => {
-    //             const isMaxWidth = val.maxWidth
-    //             const isMinWidth = val.minWidth
-    //             const isMaxHeight = val.maxHeight
-    //             const isMinHeight = val.minHeight
-    //
-    //             if (isMaxWidth && isMaxWidth <= width) return false;
-    //             if (isMinWidth && isMinWidth > width) return false;
-    //             if (isMaxHeight && isMaxHeight <= height) return false;
-    //             if (isMinHeight && isMinHeight > height) return false;
-    //             return true
-    //         })
-    //
-    //         let doorTypes = doorsArr.map(el => el.type);
-    //         const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
-    //         return currentType ? currentType.type : 1
-    //
-    //     default:
-    //         return 1
-    // }
-}
 
 export const getProductFrontCustomVal = (custom: MaybeNull<ProductExtraType>): MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
@@ -1361,8 +1287,8 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {widthDivider, category, attributes} = product
     const {width, height, depth, options, hinge} = cabinetItem;
-    const doors = checkDoors(hinge);
-    const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
+    // const doors = checkDoors(hinge);
+    const image_active_number = resolveTypeByDimensions(attributes,width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
