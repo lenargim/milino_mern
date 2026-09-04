@@ -942,11 +942,19 @@
               "img": "Black-Metallic-Gloss-300x300.jpg"
             },
             {
-              "value": "Champagne Mettalic",
+              "value": "Champagne Mettalic Gloss",
               "img": "Champagne-Metallic-Gloss-300x300.jpg"
             },
             {
-              "value": "Dark Grey Mettalic",
+              "value": "Champagne Mettalic Matte",
+              "img": "Champagne-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Dark Grey Mettalic Gloss",
+              "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Dark Grey Mettalic Matte",
               "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
             },
             {
@@ -962,7 +970,11 @@
               "img": "Obsidian-1024x1024.jpg"
             },
             {
-              "value": "Silver Mettalic",
+              "value": "Silver Mettalic Gloss",
+              "img": "Silver-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Silver Mettalic Matte",
               "img": "Silver-Metallic-Gloss-300x300.jpg"
             },
             {
@@ -2075,9 +2087,34 @@
           "img": "syncron.jpg",
           "colors": [
             {
+              "value": "Alhambra 1",
+              "img": "Alhambra 1.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Alhambra 2",
+              "img": "Alhambra 2.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Alhambra 3",
+              "img": "Alhambra 3.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Anniversary Oak 2",
               "isGrain": true,
               "img": "Anniversary Oak 2.jpg"
+            },
+            {
+              "value": "Brushed Concrete 1",
+              "img": "Brushed Concrete 1.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Brushed Concrete 2",
+              "img": "Brushed Concrete 2.jpg",
+              "isGrain": true
             },
             {
               "value": "Como Ash 1",
@@ -2185,6 +2222,21 @@
               "img": "Oxid 4.jpg"
             },
             {
+              "value": "Picasso 1",
+              "img": "Picasso 1.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Picasso 2",
+              "img": "Picasso 2.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Picasso 3",
+              "img": "Picasso 3.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Rosales 1",
               "isGrain": true,
               "img": "Rosales 1.jpg"
@@ -2198,6 +2250,51 @@
               "value": "Rosales 3",
               "isGrain": true,
               "img": "Rosales 3.jpg"
+            },
+            {
+              "value": "Siena",
+              "img": "Siena.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Textil Plata",
+              "img": "Textil Plata.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Velazquez 1",
+              "img": "Velazquez 1.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Velazquez 2",
+              "img": "Velazquez 2.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Velazquez 5",
+              "img": "Velazquez 5.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Verde Nosta",
+              "img": "Verde Nosta.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Woodline 1",
+              "isGrain": true,
+              "img": "Woodline 1.jpg"
+            },
+            {
+              "value": "Woodline 3",
+              "isGrain": true,
+              "img": "Woodline 3.jpg"
+            },
+            {
+              "value": "Woodline 4",
+              "isGrain": true,
+              "img": "Woodline 4.jpg"
             }
           ]
         },
@@ -2291,6 +2388,21 @@
               "img": "Metallo 4.jpg"
             },
             {
+              "value": "Nuvola 3 HG",
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
+            },
+            {
+              "value": "Olivo HG",
+              "isGrain": true,
+              "img": "Olivo.jpg"
+            },
+            {
+              "value": "Picasso 1 HG",
+              "img": "Picasso 1.jpg",
+              "isGrain": true
+            },
+            {
               "value": "Olmo HG",
               "isGrain": true,
               "img": "Olmo.jpg"
@@ -2300,13 +2412,12 @@
               "img": "Porcelain 1.jpg"
             },
             {
-              "value": "Rosales 3 HG",
-              "isGrain": true,
-              "img": "Rosales 3.jpg"
-            },
-            {
               "value": "Textil Plata HG",
               "img": "Textil Plata.jpg"
+            },
+            {
+              "value": "Textil Grafito HG",
+              "img": "Textil_Grafito.jpg"
             }
           ]
         },
@@ -2393,6 +2504,10 @@
               "img": "SuperMatt Azul Marino.jpg"
             },
             {
+              "value": "Arena SM",
+              "img": "Arena SM.jpg"
+            },
+            {
               "value": "Basalto SM",
               "img": "Supermatt Basalto.jpg"
             },
@@ -2435,6 +2550,15 @@
             {
               "value": "MetalDeco Blanco SM",
               "img": "MetalDeco Blanco SM.jpg"
+            },
+            {
+              "value": "Taupe SM",
+              "img": "Taupe SM.jpg"
+            },
+            {
+              "value": "Nuvola 3 SM",
+              "img": "Nuvola 3.jpg",
+              "isGrain": true
             }
           ]
         },
@@ -2443,16 +2567,28 @@
           "img": "ultrapan.jpg",
           "colors": [
             {
-              "value": "Champagne Mettalic",
+              "value": "Champagne Mettalic Gloss",
               "img": "Champagne-Metallic-Gloss-300x300.jpg"
             },
             {
-              "value": "Silver Mettalic",
+              "value": "Champagne Mettalic Matte",
+              "img": "Champagne-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Dark Grey Mettalic Gloss",
+              "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Dark Grey Mettalic Matte",
+              "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+            },
+            {
+              "value": "Silver Mettalic Gloss",
               "img": "Silver-Metallic-Gloss-300x300.jpg"
             },
             {
-              "value": "Dark Grey Mettalic",
-              "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+              "value": "Silver Mettalic Matte",
+              "img": "Silver-Metallic-Gloss-300x300.jpg"
             },
             {
               "value": "Polar White Acrylic",
