@@ -166,7 +166,7 @@ const EmailWasSent: FC<{ setIsModalOpen: Dispatch<boolean> }> = ({setIsModalOpen
     }, 4000)
     return (
         <div className={s.notificationWrap}>
-            <div className={s.notification}>Email was sent. Thank you!</div>
+            <div className={s.notification}>Email sent. Thank you!</div>
         </div>
     )
 }

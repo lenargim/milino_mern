@@ -473,7 +473,6 @@ export const getProductById = (id: MaybeUndefined<number>, isProductStandard: bo
             const {category, isBlind = false, hasCornerSideWidth = false} = product;
             return {
                 ...product,
-                hasLedBlock: isHasLedBlock(category),
                 blindArr: getBlindArr(category, product.id, isBlind || hasCornerSideWidth),
             }
         }
@@ -559,15 +558,6 @@ export const getInitialDepth = (productRange: productRangeType, isAngle: AngleTy
 
 export const getLimit = (d: MaybeUndefined<number[]>): number => {
     return d ? d[0] : 0
-}
-
-export const getIsProductStandard = (productRange: productRangeType, width: number, height: number, depth: number, blind_width: number, middle_section: number, options: string[], led_border: string[], product: ProductType): boolean => {
-    const {isAngle, isBlind = false, blindArr, middleSectionDefault} = product;
-    return checkDimensionsStandard(productRange, width, height, depth, isAngle)
-        && checkBlindStandard(isBlind, blind_width, blindArr)
-        && checkMiddleSectionStandard(middleSectionDefault, middle_section)
-        && checkOptionsSelected(options)
-        && checkLedSelected(led_border)
 }
 
 export const checkDimensionsStandard = (productRange: productRangeType, width: number, height: number, depth: number, isAngle: MaybeUndefined<AngleType>): IsStandardDimentionsType => {
@@ -778,7 +768,6 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         current[keys[keys.length - 1]] = value;
     }
 
-
     // Glass
     if (glass_door && (!!glass_door[0] || !!glass_door[1])) forceSetPath(preparedProduct, 'glass.door', glass_door);
     if (glass_shelf) forceSetPath(preparedProduct, 'glass.shelf', glass_shelf);
@@ -901,9 +890,13 @@ export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccess
     return Object.keys(result).length ? result : undefined;
 };
 
-const isHasLedBlock = (category: productCategory): boolean => {
-    const ledCategoryArr = ['Wall Cabinets', 'Gola Wall Cabinets', 'Leather'];
-    return ledCategoryArr.includes(category)
+export const isHasLedBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
+    switch (door_type) {
+        case "Standard Size Shaker":
+            return ['Wall Cabinets', 'Leather'].includes(category);
+        default:
+            return ['Wall Cabinets', 'Gola Wall Cabinets', 'Leather'].includes(category);
+    }
 }
 
 export const isGolaCategoryTypeShown = (category: MaybeEmpty<RoomCategoriesType>, hasGola: boolean): boolean => {
@@ -1371,19 +1364,21 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
     return options.includes("Farm Sink")
 }
 
-export const isShowFinishSidesBlock = (category: productCategory): boolean => {
+export const isShowFinishSidesBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
     switch (category) {
         case "Base Cabinets":
         case "Wall Cabinets":
         case "Tall Cabinets":
         case "Gola Base Cabinets":
-        case "Gola Wall Cabinets":
         case "Gola Tall Cabinets":
         case "Vanities":
         case "Floating Vanities":
         case "Gola Floating Vanities":
         case "Cabinet System Closet":
         case "Build In":
+            return true;
+        case "Gola Wall Cabinets":
+            if (door_type === 'Standard Size Shaker') return false;
             return true;
         default:
             return false
@@ -1637,7 +1632,7 @@ export const getProductInitialTableData = (product: ProductType, materials: Room
     const middleSection = middleSectionNumber ? getFraction(middleSectionNumber) : '';
     const blindWidth = blindArr ? blindArr[0] : '';
     const corner = isCornerChoose ? 'Left' : '';
-    const productPriceData = getProductDataToCalculatePrice(product, materials.drawer_brand);
+    const productPriceData = getProductDataToCalculatePrice(product, materials);
     if (!sizeLimit || !tablePriceData || !productRange.widthRange.length) return undefined
     return {
         materialData,
@@ -2117,7 +2112,6 @@ export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean =
 
 export function glassDoorHasProfile(id: number): boolean {
     return id !== 913;
-
 }
 
 export function capitalize(word: string): string {
@@ -2375,11 +2369,9 @@ export const hasGlassShelfColor = (index: MaybeUndefined<number>): boolean => {
     return index !== undefined && [3, 4].includes(+index);
 }
 
-
 export const prepareAdditionEmailsArrayToAPI = (emails: string[]): string[] => {
     return [...new Set(emails.filter(str => str.trim() !== ""))];
 }
-
 
 export const has_super_user_access = (user: UserType): boolean => {
     return user.user_type === "admin";

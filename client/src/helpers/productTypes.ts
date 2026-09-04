@@ -1,6 +1,6 @@
 import {optionType} from "../common/SelectField";
 import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
+import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomFront, RoomMaterialsFormType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
@@ -123,7 +123,6 @@ export interface ProductType extends BaseProduct {
     widthDivider?: number,
     heightRange?: number,
     cartExtras: CartExtrasType,
-    hasLedBlock: boolean,
     blindArr?: number[],
     horizontal_line?: number,
     hasClosetAccessoriesBlock?: boolean,
@@ -181,24 +180,14 @@ export type materialsLimitsType = {
     depth?: number[]
 }
 
-export type materialDataType = {
+export interface materialDataType extends RoomMaterialsFormType {
     is_standard_room: boolean,
-    room_category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
     box_material_finish_coef: number,
     door_price_multiplier: number,
-    door_type: MaybeEmpty<DoorTypesType>,
-    door_finish_material: string,
-    drawer_brand: string,
-    drawer_type: string,
-    drawer_color: string,
-    leather: string,
-    box_material: MaybeEmpty<BoxMaterialType>,
-    box_color: string,
     materials_coef: number,
-    rod: MaybeEmpty<RodType>
 }
 
 

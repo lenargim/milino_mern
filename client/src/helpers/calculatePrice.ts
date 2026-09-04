@@ -10,7 +10,7 @@ import {
     pricePart, priceStandardPanel,
     pricesTypings, pricesTypingsNumber,
     productCategory,
-    productDataToCalculatePriceType, ProductExtraType,
+    productDataToCalculatePriceType, ProductExtraType, ProductOptionsType,
     productRangeType,
     ProductType,
     productTypings,
@@ -21,7 +21,7 @@ import settings from './../api/settings.json'
 import {
     checkDoors,
     convertDoorAccessories,
-    getAttributes, getAttributesWithoutDesc,
+    getAttributes,
     getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart,
     getIsCloset,
     getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset, getLedHeight,
@@ -253,9 +253,9 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
     const {
         door_finish_material,
         door_type,
-        room_category
+        category
     } = materialData;
-    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(room_category) || door_type === 'Wood ribbed doors') return 0;
+    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(category) || door_type === 'Wood ribbed doors') return 0;
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     let coef = 2.5;
     if (door_type === 'Custom Painted') coef = 2.63;
@@ -266,11 +266,11 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
 function getDoorPrice(square: number, materialData: materialDataType): number {
     const {
         door_price_multiplier,
-        room_category,
+        category,
         box_material,
         box_color,
     } = materialData;
-    if (getIsLeatherOrRTAorSystemCloset(room_category)) {
+    if (getIsLeatherOrRTAorSystemCloset(category)) {
         const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
         return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
     }
@@ -790,18 +790,12 @@ export const getSizeLimitsFromData = (product_id: number, isAngle: MaybeUndefine
 
 export const getMaterialData = (materials: RoomMaterialsFormType, product_id: number): materialDataType => {
     const {
-        category,
         door_type,
         door_grain,
         door_finish_material,
         door_color,
         box_material,
         box_color,
-        drawer_brand,
-        drawer_type,
-        drawer_color,
-        leather,
-        rod
     } = materials;
     const is_standard_room = door_type === "Standard Size Shaker";
     const base_price_type = getBasePriceType(materials);
@@ -811,26 +805,26 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
     return {
+        ...materials,
         is_standard_room,
-        room_category: category,
         base_price_type,
         grain_coef,
         box_material_coef,
         box_material_finish_coef,
-        box_color,
         door_price_multiplier,
-        door_type,
-        door_finish_material,
-        drawer_brand,
-        drawer_type,
-        drawer_color,
-        leather,
-        box_material,
-        materials_coef,
-        rod
+        materials_coef
     }
 }
-export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
+
+const filterProductOptionsBasedOnMaterialData = (options:ProductOptionsType[], materials:RoomMaterialsFormType):ProductOptionsType[] => {
+    const {door_type, drawer_brand} = materials;
+    let arr = [...options];
+    // options.filter(option => (option !== 'PTO for drawers' || drawer_brand !== 'Milino'));
+    if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors');
+    return arr;
+}
+
+export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, materials: RoomMaterialsFormType, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {attributes, options} = product;
     const attrArr = getAttributes(attributes, image_active_number);
     const doorValues = attributes.find(el => el.name === 'Door')?.values;
@@ -844,7 +838,7 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
     }, 0);
-    const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
+    const filteredOptions = filterProductOptionsBasedOnMaterialData(options, materials)
     const shelfsQty = getShelfsQty(attrArr);
     const rodsQty = getRodsQty(attrArr)
     return {
@@ -1343,11 +1337,11 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         drawer_color,
         door_type,
         door_finish_material,
-        room_category,
+        category: room_category,
         rod
     } = materialData;
 
-    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
+    const productPriceData = getProductDataToCalculatePrice(product, materialData, image_active_number);
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = height - legsHeight - middle_section;

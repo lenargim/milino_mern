@@ -53,7 +53,7 @@ const EmailWasSent: FC<{ setIsSent: Dispatch<boolean> }> = ({setIsSent}) => {
     }, 4000)
     return (
         <div className={st.notificationWrap}>
-            <div className={st.notification}>Link was sent to your E-mail</div>
+            <div className={st.notification}>Link sent to your E-mail</div>
         </div>
     )
 }

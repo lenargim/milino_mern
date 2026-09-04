@@ -14,7 +14,7 @@ import ProductHingeBlock from "./ProductHingeBlock";
 import ProductCornerBlock from "./ProductCornerBlock";
 import {
     getFinishSidesArr,
-    getHeightRange,
+    getHeightRange, isHasLedBlock,
     isShowBlindWidthBlock, isShowCornerSideWidthBlock, isShowFarmSinkBlock, isShowFinishSidesBlock, isShowHingeBlock,
     isShowMiddleSectionBlock
 } from "../../helpers/helpers";
@@ -43,7 +43,6 @@ const ProductLayout: FC<CabinetFormType> = ({
         middleSectionDefault,
         isAngle,
         isCornerChoose,
-        hasLedBlock,
         hasClosetAccessoriesBlock,
         hasJeweleryBlock,
         hasMechanism,
@@ -57,11 +56,14 @@ const ProductLayout: FC<CabinetFormType> = ({
         hasExtraRolloutsBlock,
         hasCornerSideWidth
     } = product;
-    const {productPriceData, tablePriceData, widthRange, heightRange, depthRange} = productData
-    const {cart_id} = useParams();
-    const buttonText = !cart_id ? 'Add to cart' : 'Update Product'
+
+    const {productPriceData, tablePriceData, widthRange, heightRange, depthRange, materialData} = productData
+    const {cartId} = useParams();
+    const buttonText = !cartId ? 'Add to cart' : 'Update Product'
+
     const {values, isSubmitting} = useFormikContext<ProductFormType>();
     const {filteredOptions} = productPriceData;
+
     const {
         width,
         height,
@@ -77,9 +79,10 @@ const ProductLayout: FC<CabinetFormType> = ({
     const showMiddleSectionBlock = isShowMiddleSectionBlock(middleSectionDefault, product_type === "standard");
     const showHingeBlock = isShowHingeBlock(hingeArr);
     const showFarmSinkBlock = isShowFarmSinkBlock(options);
-    const showFinishSidesBlock = isShowFinishSidesBlock(category)
+    const showFinishSidesBlock = isShowFinishSidesBlock(category, materialData.door_type)
     const showCornerSideWidth = isShowCornerSideWidthBlock(hasCornerSideWidth)
     const finishSidesArr = getFinishSidesArr(category)
+    const showLedBlock = isHasLedBlock(category, materialData.door_type)
     return (
         <Form>
             {!hasSolidWidth ?
@@ -138,7 +141,7 @@ const ProductLayout: FC<CabinetFormType> = ({
             {showFinishSidesBlock ? <ProductFinishSidesBlock arr={finishSidesArr}/> : null}
             <ProductCornerBlock isCornerChoose={isCornerChoose}/>
             {showCornerSideWidth ? <ProductCornerSideWidthBlock arr={blindArr} blind_width={blind_width}/> : null}
-            {hasLedBlock ? <ProductLED id={id}/> : null}
+            {showLedBlock ? <ProductLED id={id}/> : null}
             {hasClosetAccessoriesBlock ? <ProductClosetAccessories/> : null}
             {hasJeweleryBlock ? <ProductJeweleryBlock/> : null}
             {hasMechanism ? <ProductMechanism hasMechanism={hasMechanism}/> : null}

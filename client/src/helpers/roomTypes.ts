@@ -22,25 +22,25 @@ export type BoxMaterialType = typeof totalBoxMaterialNames[number];
 export type GrooveType = typeof grooveNames[number];
 export type RodType = typeof rodNames[number];
 
-export type RoomMaterialsFormType = {
-    name: string,
+export interface RoomMaterialsFormType {
     category: MaybeEmpty<RoomCategoriesType>,
-    category_gola_type: MaybeEmpty<GolaTypesType>
-    gola: MaybeEmpty<GolaType>,
     door_type: MaybeEmpty<DoorTypesType>,
     door_finish_material: MaybeEmpty<FinishTypes>,
-    door_frame_width: string,
-    door_color: string,
-    door_grain: string,
     box_material: MaybeEmpty<BoxMaterialType>,
     box_color: string,
     drawer_brand: string,
     drawer_type: string,
     drawer_color: string,
     leather: string,
+    rod: MaybeEmpty<RodType>
+    name: string,
+    category_gola_type: MaybeEmpty<GolaTypesType>
+    gola: MaybeEmpty<GolaType>,
+    door_frame_width: string,
+    door_color: string,
+    door_grain: string,
     leather_note: string,
     groove: MaybeEmpty<GrooveType>,
-    rod: MaybeEmpty<RodType>
 }
 
 export interface RoomNewType extends RoomMaterialsFormType {
