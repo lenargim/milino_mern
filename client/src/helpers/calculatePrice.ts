@@ -820,6 +820,7 @@ const filterProductOptionsBasedOnMaterialData = (options:ProductOptionsType[], m
     const {door_type, drawer_brand} = materials;
     let arr = [...options];
     // options.filter(option => (option !== 'PTO for drawers' || drawer_brand !== 'Milino'));
+    if (drawer_brand === 'Milino') arr = arr.filter(o => o !== 'PTO for drawers');
     if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors');
     return arr;
 }

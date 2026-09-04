@@ -11341,64 +11341,60 @@
         "type": 1,
         "data": [
           {
-
             "width": 40,
             "height": 84,
             "price": 912
           },
           {
-            "width": 42,
-            "height": 84,
+            "width": 40,
+            "height": 90,
             "price": 942
           },
           {
-            "width": 44,
-            "height": 84,
+            "width": 40,
+            "height": 96,
             "price": 968
           },
-
           {
-            "width": 46,
+            "width": 42,
             "height": 84,
             "price": 938
           },
           {
-            "width": 40,
+            "width": 42,
             "height": 90,
             "price": 968
           },
           {
             "width": 42,
-            "height": 90,
+            "height": 96,
             "price": 998
           },
           {
             "width": 44,
-            "height": 90,
+            "height": 84,
             "price": 964
           },
-
           {
-            "width": 46,
+            "width": 44,
             "height": 90,
             "price": 994
-          },
-          {
-            "width": 40,
-            "height": 96,
-            "price": 1024
-          },
-          {
-            "width": 42,
-            "height": 96,
-            "price": 990
           },
           {
             "width": 44,
             "height": 96,
             "price": 1024
           },
-
+          {
+            "width": 46,
+            "height": 84,
+            "price": 990
+          },
+          {
+            "width": 46,
+            "height": 90,
+            "price": 1024
+          },
           {
             "width": 46,
             "height": 96,
@@ -11409,65 +11405,61 @@
       {
         "type": 2,
         "data": [
-
           {
             "width": 40,
             "height": 84,
             "price": 1108
           },
           {
-            "width": 42,
-            "height": 84,
+            "width": 40,
+            "height": 90,
             "price": 1158
           },
           {
-            "width": 44,
-            "height": 84,
+            "width": 40,
+            "height": 96,
             "price": 1206
           },
-
           {
-            "width": 46,
+            "width": 42,
             "height": 84,
             "price": 1140
           },
           {
-            "width": 40,
+            "width": 42,
             "height": 90,
             "price": 1192
           },
           {
             "width": 42,
-            "height": 90,
+            "height": 96,
             "price": 1238
           },
           {
             "width": 44,
-            "height": 90,
+            "height": 84,
             "price": 1172
           },
-
           {
-            "width": 46,
+            "width": 44,
             "height": 90,
             "price": 1224
           },
           {
-            "width": 40,
+            "width": 44,
             "height": 96,
             "price": 1248
           },
           {
-            "width": 42,
-            "height": 96,
+            "width": 46,
+            "height": 84,
             "price": 1192
           },
           {
-            "width": 44,
-            "height": 96,
+            "width": 46,
+            "height": 90,
             "price": 1262
           },
-
           {
             "width": 46,
             "height": 96,
@@ -11484,58 +11476,55 @@
             "price": 1219
           },
           {
-            "width": 42,
-            "height": 84,
+            "width": 40,
+            "height": 90,
             "price": 1274
           },
           {
-            "width": 44,
-            "height": 84,
+            "width": 40,
+            "height": 96,
             "price": 1327
           },
-
           {
-            "width": 46,
+            "width": 42,
             "height": 84,
             "price": 1254
           },
           {
-            "width": 40,
+            "width": 42,
             "height": 90,
             "price": 1311
           },
           {
             "width": 42,
-            "height": 90,
+            "height": 96,
             "price": 1362
           },
           {
             "width": 44,
-            "height": 90,
+            "height": 84,
             "price": 1289
           },
-
           {
-            "width": 46,
+            "width": 44,
             "height": 90,
             "price": 1346
           },
           {
-            "width": 40,
+            "width": 44,
             "height": 96,
             "price": 1373
           },
           {
-            "width": 42,
-            "height": 96,
+            "width": 46,
+            "height": 84,
             "price": 1311
           },
           {
-            "width": 44,
-            "height": 96,
+            "width": 46,
+            "height": 90,
             "price": 1388
           },
-
           {
             "width": 46,
             "height": 96,
