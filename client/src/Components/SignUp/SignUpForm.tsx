@@ -1,6 +1,6 @@
 import {Form, Formik} from 'formik';
 import React, {FC, useState} from 'react';
-import {PasswordInput, PhoneInput, ProductCheckboxBoolean, TextInput, UserTypeRadioInput} from "../../common/Form";
+import {PasswordInput, PhoneInput, TextInput, UserTypeRadioInput} from "../../common/Form";
 import s from './../Login/login.module.sass'
 import {SignUpSchema} from "./signUpSchema";
 import {signUp} from "../../api/apiFunctions";

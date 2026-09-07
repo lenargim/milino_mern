@@ -14,8 +14,6 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
-import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
-import {Text, View} from "@react-pdf/renderer";
 import CartItemShelves from "./CartItemShelves";
 
 const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {

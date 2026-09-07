@@ -15,14 +15,14 @@ import CustomPartHingeHoles from "./CustomPartHingeHoles";
 import CustomPartCutoutBlock from "./CustomPartCutoutBlock";
 import ProductLED from "../Product/ProductLED";
 
-type CustomPartPanel = {
+type CustomPartPanelType = {
     product: CustomPartType,
     isStandardCabinet: boolean
 }
 
 
-const CustomPartPanel: FC<CustomPartPanel> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+const CustomPartPanel: FC<CustomPartPanelType> = ({product, isStandardCabinet}) => {
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values;
     const {materials_array, id} = product;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);

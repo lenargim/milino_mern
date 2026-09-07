@@ -1280,8 +1280,8 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 }
 
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
-    const {widthDivider, category, attributes} = product
-    const {width, height, depth, options, hinge} = cabinetItem;
+    const {attributes} = product
+    const {width, height, depth, options} = cabinetItem;
     // const doors = checkDoors(hinge);
     const image_active_number = resolveTypeByDimensions(attributes,width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
@@ -1311,7 +1311,6 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
 const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
     const {
         legsHeight = 0,
-        horizontal_line = 2,
         isAngle,
         category,
         id,

@@ -1,6 +1,6 @@
-import {Navigate, Outlet} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {useAuthUser} from "../utils/customHooks";
-import {has_manager_access, has_super_user_access} from "../helpers/helpers";
+import {has_manager_access} from "../helpers/helpers";
 import ProfileEditorLayout from "../Components/Profile/ProfileEditorProvider";
 
 const ManagerRoute = () => {

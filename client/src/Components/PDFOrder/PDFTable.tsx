@@ -18,7 +18,7 @@ const PdfTable:FC<{cart: CartItemFrontType[], children?: ReactNode}> = ({cart}) 
             {cart.map((el, index) => {
                 const {product_id, product_type, isStandard, exact_image} = el;
                 const product = getProductById(product_id, product_type === 'standard');
-                if (!product) return;
+                if (!product) return null;
                 const {name} = product;
                 const anyNotStandard = Object.values(isStandard).some(value => !value) || Object.values(isStandard.dimensions).some(value => !value);
                 return (

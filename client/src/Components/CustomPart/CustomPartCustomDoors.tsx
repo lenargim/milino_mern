@@ -1,15 +1,11 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 
-type CustomPartCabinet = {
-    product: CustomPartType
-}
-const CustomPartCabinet: FC<CustomPartCabinet> = ({product}) => {
+const CustomPartCustomDoors: FC = () => {
     const {values} = useFormikContext<CustomPartFormType>();
     const {price} = values;
     return (
@@ -38,4 +34,4 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product}) => {
     );
 };
 
-export default CustomPartCabinet;
+export default CustomPartCustomDoors;

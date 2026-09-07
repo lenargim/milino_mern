@@ -10,11 +10,11 @@ import CustomPartSubmit from "./CustomPartSubmit";
 import SelectField, {optionType} from "../../common/SelectField";
 import {getSelectValfromVal, prepareToSelectField} from "../../helpers/helpers";
 
-type CustomPartRODrawer = {
+type CustomPartRODrawerType = {
     product: CustomPartType
 }
 
-const CustomPartRODrawer: FC<CustomPartRODrawer> = ({product}) => {
+const CustomPartRODrawer: FC<CustomPartRODrawerType> = ({product}) => {
         const {values} = useFormikContext<CustomPartFormType>();
         const {
             price,

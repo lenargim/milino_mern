@@ -12,7 +12,6 @@ import {
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import {numericQuantity} from "numeric-quantity";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,

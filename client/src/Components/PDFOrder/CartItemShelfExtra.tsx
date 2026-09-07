@@ -1,8 +1,7 @@
 import React, {FC} from "react";
 import {Text, View} from '@react-pdf/renderer';
 import {s} from './PDFOrder'
-import Dimensions from "./Dimensions";
-import {CartItemFrontType, GlassAPIType} from "../../helpers/cartTypes";
+import {GlassAPIType} from "../../helpers/cartTypes";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
 const CartItemShelfExtra: FC<{ glass: MaybeUndefined<GlassAPIType>}> = ({glass}) => {

@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
-import {FieldArray, FieldArrayRenderProps, Form, useFormikContext, useField} from "formik";
+import {FieldArray, FieldArrayRenderProps, Form, useFormikContext} from "formik";
 import {CustomPartFormType, RTAClosetCustomOptions, RTAPartCustomType} from "./CustomPart";
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import SelectField, {optionType} from "../../common/SelectField";
@@ -19,7 +19,7 @@ export const newItemRTACloset: RTAPartCustomType = {
 
 const CustomPartRTACloset: FC<{ materials: RoomMaterialsFormType }> = ({materials}) => {
     const dropdownOptions: optionType[] = RTAClosetCustomOptions.map(el => ({value: el, label: el}));
-    const {values, setFieldValue, isSubmitting} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price, rta_closet_custom} = values;
     useEffect(() => {
         if (!rta_closet_custom || !rta_closet_custom.length) setFieldValue('rta_closet_custom', [newItemRTACloset]);

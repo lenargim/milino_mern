@@ -41,26 +41,26 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
     }
 
 
-    const getBlindLimits = (fullWidth: number) => {
-        if (isAngle) {
-            const angleCoef = Math.cos(45);
-            return {
-                min: Math.floor(fullWidth - blindDoorMinMax[1] * angleCoef),
-                max: Math.floor(fullWidth - blindDoorMinMax[0] * angleCoef),
-            };
-        }
-        if (hasCornerSideWidth) {
-            return {
-                min: 0,
-                max: 99
-            }
-        }
-
-        return {
-            min: fullWidth - blindDoorMinMax[1],
-            max: fullWidth - blindDoorMinMax[0],
-        };
-    };
+    // const getBlindLimits = (fullWidth: number) => {
+    //     if (isAngle) {
+    //         const angleCoef = Math.cos(45);
+    //         return {
+    //             min: Math.floor(fullWidth - blindDoorMinMax[1] * angleCoef),
+    //             max: Math.floor(fullWidth - blindDoorMinMax[0] * angleCoef),
+    //         };
+    //     }
+    //     if (hasCornerSideWidth) {
+    //         return {
+    //             min: 0,
+    //             max: 99
+    //         }
+    //     }
+    //
+    //     return {
+    //         min: fullWidth - blindDoorMinMax[1],
+    //         max: fullWidth - blindDoorMinMax[0],
+    //     };
+    // };
 
     const schemaBasic = Yup.object({
         width: Yup.number().required(),
@@ -165,7 +165,7 @@ export function getProductSchema(product: ProductType, sizeLimit: sizeLimitsType
                     .required('Please write down blind width')
                     .matches(/^\d{1,2}\s\d{1,2}\/\d{1,2}|\d{1,2}\/\d{1,2}|\d{1,2}/, "Type error. Example: 12 3/8")
                     .test('min-max', function (val, context){
-                        const {parent, createError} = context;
+                        const {parent} = context;
                         const cabinet_width = parent.width || parent.custom_width;
                         const numberVal = NumericQuantityRounded(val)
                         let min = 0;

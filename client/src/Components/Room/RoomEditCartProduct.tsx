@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {MaybeUndefined} from "../../helpers/productTypes";
 import {textToLink, useAppSelector} from "../../helpers/helpers";
 import {RoomsState} from "../../store/reducers/roomSlice";

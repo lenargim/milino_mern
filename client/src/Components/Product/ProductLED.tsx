@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import s from "./product.module.sass";
-import {ProductCheckboxBoolean, ProductCheckboxInput, ProductInputCustom, ProductOptionsInput} from "../../common/Form";
+import {ProductCheckboxInput, ProductInputCustom} from "../../common/Form";
 import SelectField, {optionType} from "../../common/SelectField";
 import {alignmentOptions} from "./ProductSchema";
 import {LEDType, MaybeEmpty} from "../../helpers/productTypes";

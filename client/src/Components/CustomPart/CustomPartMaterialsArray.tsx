@@ -6,12 +6,12 @@ import {
 import s from "../Product/product.module.sass";
 import {ProductRadioInput} from "../../common/Form";
 
-type CustomPartMaterialsArray = {
+type CustomPartMaterialsArrayType = {
     product: CustomPartType,
     isStandardCabinet: boolean
 }
 
-const CustomPartMaterialsArray: FC<CustomPartMaterialsArray> = ({product, isStandardCabinet}) => {
+const CustomPartMaterialsArray: FC<CustomPartMaterialsArrayType> = ({product, isStandardCabinet}) => {
     const {materials_array, id} = product;
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
     if (!filtered_materials_array) return null;

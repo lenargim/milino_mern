@@ -1,8 +1,8 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Form, useField, useFormikContext} from 'formik';
-import {CustomPartType, ImgFieldType, itemImg} from "../../helpers/productTypes";
+import {CustomPartType, ImgFieldType} from "../../helpers/productTypes";
 import {
-    CustomPartFormType, DrawerAccessoriesType, DrawerInsertsBoxNames,
+    CustomPartFormType, DrawerInsertsBoxNames,
     DrawerInsertsColorNames,
     DrawerInsertsLetterNames,
 } from "./CustomPart";
@@ -45,7 +45,7 @@ const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStanda
             price,
             drawer_accessories,
         } = values;
-        const [field, meta, helpers] = useField('width_string');
+        const [, meta] = useField('width_string');
         const drawerInsertsTypeArr: optionType[] = prepareToSelectField([...DrawerInsertsBoxNames]);
         const drawerInsertsColorArr: optionType[] = prepareToSelectField([...DrawerInsertsColorNames]);
         const drawerInsertsLettersFiltered = filterLetterTypeByWidth(width, [...DrawerInsertsLetterNames]);

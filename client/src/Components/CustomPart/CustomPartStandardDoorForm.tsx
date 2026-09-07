@@ -2,13 +2,12 @@ import React, {FC, useEffect} from 'react';
 import {FieldArray, Form, useField, useFormikContext} from 'formik';
 import {
     getSelectDoorVal,
-    getSelectValfromVal,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {TextInput} from "../../common/Form";
-import {CustomPartType, CustomTypes, MaybeNull} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import {changeAmountType} from "../../helpers/cartTypes";
-import SelectField, {optionTypeDoor} from "../../common/SelectField";
+import {optionTypeDoor} from "../../common/SelectField";
 import SelectFieldInArr from "../../common/SelectFieldInArr";
 import settings from './../../api/settings.json'
 import {CustomPartFormType} from "./CustomPart";

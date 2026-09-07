@@ -8,7 +8,6 @@ import {
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
-import CustomPartLEDForm from "./CustomPartLEDForm";
 import ProductLED from "../Product/ProductLED";
 
 type CustomPartThickFloatingShelf = {
@@ -17,7 +16,7 @@ type CustomPartThickFloatingShelf = {
 }
 
 const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {
         price
     } = values;

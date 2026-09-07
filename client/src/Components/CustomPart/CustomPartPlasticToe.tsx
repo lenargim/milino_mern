@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Form, useFormikContext} from "formik";
 import s from "../Product/product.module.sass";
 import {ProductRadioInputCustom, TextInput} from "../../common/Form";

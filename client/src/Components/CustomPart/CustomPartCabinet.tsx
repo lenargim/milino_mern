@@ -17,7 +17,7 @@ type CustomPartCabinet = {
 }
 
 const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {
         material,
         depth,

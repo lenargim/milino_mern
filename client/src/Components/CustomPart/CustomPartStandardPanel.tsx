@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {
-    CustomPartType, MaybeNull,
+    CustomPartType,
     pricePartStandardPanel,
     priceStandardPanel
 } from "../../helpers/productTypes";
@@ -14,7 +14,6 @@ import Select, {OnChangeValue} from "react-select";
 import styles from "../../common/Form.module.sass";
 import {customStyles, optionType} from "../../common/SelectField";
 import {getdimensionsRow} from "../../helpers/helpers";
-import settings from '../../api/settings.json'
 import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import CustomPartSubmit from "./CustomPartSubmit";
 
@@ -41,7 +40,6 @@ type PanelTypeName = 'standard_panel' | 'shape_panel' | 'wtk';
 type MoldingTypeName = 'crown_molding';
 
 
-
 export const initialStandardPanels: PanelsFormType = {
     standard_panel: [],
     shape_panel: [],
@@ -49,10 +47,9 @@ export const initialStandardPanels: PanelsFormType = {
     crown_molding: 0
 }
 
-const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMaterialsFormType }> = ({
-                                                                                                        product,
-                                                                                                        materials
-                                                                                                    }) => {
+const CustomPartStandardPanel: FC<{ product: CustomPartType }> = ({
+                                                                      product
+                                                                  }) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price, standard_panels} = values;
 
@@ -162,21 +159,27 @@ const CustomPartStandardPanel: FC<{ product: CustomPartType, materials: RoomMate
                 <span>Total: </span>
                 <span>{price}$</span>
             </div>
-            <CustomPartSubmit />
+            <CustomPartSubmit/>
         </Form>
     );
 };
 
 export default CustomPartStandardPanel;
 
-const PanelItem: FC<{ index: number, remove: Function, panel: PanelType, dropdown: pricePartStandardPanel[], panel_type: PanelTypeName }> = ({
-                                                                                                                                                 index,
-                                                                                                                                                 remove,
-                                                                                                                                                 panel,
-                                                                                                                                                 dropdown,
-                                                                                                                                                 panel_type
-                                                                                                                                             }) => {
-    const [{value}, _, {setValue}] = useField<PanelType[]>(`standard_panels.${panel_type}`)
+const PanelItem: FC<{
+    index: number,
+    remove: Function,
+    panel: PanelType,
+    dropdown: pricePartStandardPanel[],
+    panel_type: PanelTypeName
+}> = ({
+          index,
+          remove,
+          panel,
+          dropdown,
+          panel_type
+      }) => {
+    const [{value}, , {setValue}] = useField<PanelType[]>(`standard_panels.${panel_type}`)
     const {qty, name} = panel;
 
     const item = dropdown.find(apiEL => apiEL.name === name);
@@ -218,7 +221,7 @@ const PanelItem: FC<{ index: number, remove: Function, panel: PanelType, dropdow
 
 
 const CrownMolding: FC<{ molding_type: MoldingTypeName }> = ({molding_type}) => {
-    const [{value}, _, {setValue}] = useField<number>(`standard_panels.${molding_type}`)
+    const [{value}, , {setValue}] = useField<number>(`standard_panels.${molding_type}`)
 
     const changeAmount = (type: changeAmountType) => {
         setValue(type === 'minus' ? value - 1 : value + 1)

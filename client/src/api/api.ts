@@ -12,7 +12,6 @@ import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {PONewType} from "../Components/PurchaseOrder/PurchaseOrderNew";
 import {RoomNewType, RoomOrderType, RoomType} from "../helpers/roomTypes";
 import {CartAPIResponse, CartAPI} from "../helpers/cartTypes";
-import {getManagerDesigners, linkManager} from "./apiFunctions";
 
 const instanceFormData = axios.create({
     headers: {

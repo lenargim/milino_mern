@@ -15,25 +15,12 @@ import {CustomTypes} from "../../helpers/productTypes";
 import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
-import {getCustomPartShelvesNameByIndex} from "../../helpers/helpers";
 import CartItemShelves from "./CartItemShelves";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
     const {subcategory, product_id, custom, width, glass, led} = product;
-    // if (!custom) return null;
-    // const {
-    //     accessories,
-    //     standard_doors,
-    //     standard_panels,
-    //     material,
-    //     rta_closet,
-    //     groove,
-    //     drawer_accessories,
-    //     panel_accessories,
-    //     shelves,
-    //     painted_molding
-    // } = custom;
+
     switch (subcategory as CustomTypes) {
         case 'glass-door':
             return <View><CartItemGlassDoorExtra product={product}/></View>

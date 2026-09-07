@@ -16,7 +16,7 @@ import CustomPartSubmit from "./CustomPartSubmit";
 import materialsAPI from './../../api/materials.json'
 import {materialsData} from "../../helpers/roomTypes";
 
-type CustomPartRibbed = {
+type CustomPartRibbedType = {
     product: CustomPartType,
     isStandardCabinet: boolean
 }
@@ -28,7 +28,7 @@ const isPaintedMaterial = (material: string): boolean => {
 let grooveArr = materialsAPI.groove as materialsData[];
 grooveArr = grooveArr.map(el => ({...el, img: getImg('materials/groove', el.img)}));
 
-const CustomPartRibbed: FC<CustomPartRibbed> = ({product, isStandardCabinet}) => {
+const CustomPartRibbed: FC<CustomPartRibbedType> = ({product, isStandardCabinet}) => {
         const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
         const {
             groove,

@@ -9,7 +9,7 @@ const ProfileDoorTypes = () => {
     );
     const folders: Record<string, string[]> = {};
     images.keys().forEach(key => {
-        const [, folder, file] = key.match(/^\.\/([^/]+)\/(.+)$/)!;
+        const [, folder] = key.match(/^\.\/([^/]+)\/(.+)$/)!;
 
         if (!folders[folder]) {
             folders[folder] = [];

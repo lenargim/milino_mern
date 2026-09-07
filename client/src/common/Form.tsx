@@ -580,7 +580,6 @@ export const FileInput: FC<FileInputInterface> = ({
         // Validation запускается уже с новым массивом
         setValue(newFiles, true);
     };
-    const isMaxFiles = files.length >= max_files;
 
     return (
         <div className={styles.file}>

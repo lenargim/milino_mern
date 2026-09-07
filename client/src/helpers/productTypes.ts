@@ -1,10 +1,9 @@
 import {optionType} from "../common/SelectField";
 import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, FinishTypes, RodType, RoomCategoriesType, RoomFront, RoomMaterialsFormType} from "./roomTypes";
+import {RoomFront, RoomMaterialsFormType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {BoxMaterialType} from "./roomTypes";
 import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4

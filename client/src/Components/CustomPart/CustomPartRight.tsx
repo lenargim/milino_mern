@@ -75,13 +75,13 @@ const CustomPartRight: FC<CustomPartRight> = ({
         case "standard-glass-doors":
             return <CustomPartStandardDoorForm customPart={customPartProduct} color={door_color}/>
         case "standard-panel":
-            return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
+            return <CustomPartStandardPanel product={customPartProduct}/>
         case "plastic_toe":
             return <CustomPartPlasticToe product={customPartProduct}/>
         case "rta-closets":
             return <CustomPartRTACloset materials={materials}/>
         case "custom-doors":
-            return <CustomPartCustomDoors product={customPartProduct} />;
+            return <CustomPartCustomDoors />;
         case "ribbed":
             return <CustomPartRibbed product={customPartProduct} isStandardCabinet={isStandardCabinet} />
         case "thick_floating_shelf":
