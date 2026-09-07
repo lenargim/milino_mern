@@ -13,7 +13,7 @@ import {MaybeUndefined} from "../helpers/productTypes";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {addMonths, addWeeks} from 'date-fns';
-import {UserBasicTypesType, UserTypesType} from "../api/apiTypes";
+import {UserBasicTypesType} from "../api/apiTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -42,7 +42,8 @@ interface FileInputInterface extends InputInterface {
     label: string,
     multiple?: boolean,
     accept?: string,
-    max_files?: number
+    max_files?: number,
+    max_mb?: number
 }
 
 
@@ -528,13 +529,15 @@ const AdditionalEmailInput: FC<{ index: number, typeErrorIsString: boolean, arra
 export const FileInput: FC<FileInputInterface> = ({
                                                       name,
                                                       label,
-                                                      accept,
+                                                      accept = '*',
                                                       max_files = 5,
+                                                      max_mb = 10
                                                   }) => {
     const [field, meta, {setValue, setTouched}] = useField<File[]>(name);
 
     const files = field.value ?? [];
     const {error, touched} = meta;
+
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -556,10 +559,11 @@ export const FileInput: FC<FileInputInterface> = ({
                 )
         );
 
-        // НЕ обрезаем до max_files.
-        // Yup должен сам проверить количество.
-        setValue(uniqueFiles);
-        setTouched(true);
+        // Сначала помечаем поле touched
+        setTouched(true, false);
+
+        // Затем меняем value и ЯВНО запускаем validation
+        setValue(uniqueFiles, true);
 
         // Позволяет повторно выбрать тот же файл
         e.currentTarget.value = '';
@@ -570,9 +574,13 @@ export const FileInput: FC<FileInputInterface> = ({
             (_, fileIndex) => fileIndex !== index
         );
 
-        setValue(newFiles);
-        setTouched(true);
+        // touched уже true, но на всякий случай устанавливаем его
+        setTouched(true, false);
+
+        // Validation запускается уже с новым массивом
+        setValue(newFiles, true);
     };
+    const isMaxFiles = files.length >= max_files;
 
     return (
         <div className={styles.file}>
@@ -599,13 +607,11 @@ export const FileInput: FC<FileInputInterface> = ({
                     + {label}
                 </label>
 
-                {accept && (
+                <div className={s.req}>
                     <span>*{accept}</span>
-                )}
+                    <span>(Max: {max_files} files, {max_mb}MB)</span>
+                </div>
 
-                <span>
-                    (Max: {max_files} files)
-                </span>
             </div>
 
             {files.length > 0 && (

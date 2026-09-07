@@ -6,7 +6,7 @@ import {
     getMaterialStrings, textToLink,
     useAppSelector
 } from "../../helpers/helpers";
-import {CheckoutSchema, CheckoutSchemaType} from "./CheckoutSchema";
+import {CheckoutSchema} from "./CheckoutSchema";
 import {pdf} from "@react-pdf/renderer";
 import PDFOrder from "../PDFOrder/PDFOrder";
 import {saveAs} from "file-saver";
@@ -14,31 +14,41 @@ import {Form, Formik} from "formik";
 import s from "./checkout.module.sass";
 import {AdditionalEmailsArray, FileInput, MyDatePicker, PhoneInput, TextInput} from "../../common/Form";
 import CheckoutCart from "./CheckoutCart";
-import {MaybeNull} from "../../helpers/productTypes";
+import {MaybeNull, MaybeUndefined} from "../../helpers/productTypes";
 import {RoomFront} from "../../helpers/roomTypes";
 import {RoomsState} from "../../store/reducers/roomSlice";
-import {UserState} from "../../store/reducers/userSlice";
 import {getPurchaseRoomsOrder, sendOrder} from "../../api/apiFunctions";
 import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 import CheckoutButtonRow from "./CheckoutButtonRow";
+import {useAuthUser} from "../../utils/customHooks";
 
 export type ButtonType = 'save-room' | 'send-room' | 'save-po' | 'send-po';
 
-type WithNullableFields<T, K extends keyof T> = Omit<T, K> & {
-    [P in K]: T[P] | null;
-};
+export type CheckoutFormType = {
+    name: string,
+    company: string,
+    purchase_order: string,
+    room_name: string,
+    email: string,
+    phone: string,
+    delivery:string,
+    delivery_date:MaybeNull<Date>,
+    additional_emails:string[],
+    files: MaybeUndefined<File[]>
+}
 
-export type CheckoutFormValues = WithNullableFields<CheckoutSchemaType, 'delivery_date'>;
+export const MAX_FILES = 5;
+export const MAX_FILE_SIZE_MB = 5;
 
 const CheckoutForm: FC = () => {
-    const {purchase_order_name, room_name} = useParams()
+    const {purchase_order_name} = useParams()
     const navigate = useNavigate();
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
     const {room} = useOutletContext<{ room: RoomFront }>();
-    const {user} = useAppSelector<UserState>(state => state.user)!
+    const user = useAuthUser();
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
 
     const active_po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name && !po.is_archived)?.name
@@ -51,9 +61,9 @@ const CheckoutForm: FC = () => {
     const total = getCartTotal(cart_items);
     const materialStrings = getMaterialStrings(materials);
 
-    const handleSubmit = async (values: CheckoutFormValues) => {
+    const handleSubmit = async (values: CheckoutFormType) => {
         if (!values.delivery_date) return;
-        const validatedValues: CheckoutSchemaType = {
+        const validatedValues = {
             ...values,
             delivery_date: values.delivery_date,
             additional_emails: values.additional_emails ? [...new Set(values.additional_emails.filter(str => str.trim() !== ""))] : []
@@ -105,11 +115,11 @@ const CheckoutForm: FC = () => {
         }
     }
 
-    if (!user || !active_po || !cart_items) return null;
+    if (!active_po || !cart_items) return null;
     const {name, company, email, additional_emails, phone} = user;
     if (!cart_items.length || !active_po) navigate(-1);
 
-    const initialValues: CheckoutFormValues = {
+    const initialValues: CheckoutFormType = {
         name,
         company,
         email,
@@ -121,10 +131,10 @@ const CheckoutForm: FC = () => {
         delivery_date: null,
         files: []
     };
-
+    const schema = CheckoutSchema(MAX_FILES, MAX_FILE_SIZE_MB)
     return (
         <Formik initialValues={initialValues}
-                validationSchema={CheckoutSchema}
+                validationSchema={schema}
                 onSubmit={handleSubmit}
         >
             {({values, errors}) => {
@@ -143,8 +153,13 @@ const CheckoutForm: FC = () => {
                             <PhoneInput type="text" name="phone" label="Phone number"/>
                             <TextInput type="text" name="delivery" label="Delivery address"/>
                             <MyDatePicker name="delivery_date" weeks={4} label="Delivery date"/>
-                            <FileInput name="files" label="Attachments" multiple={true}
-                                       accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"/>
+                            <FileInput name="files"
+                                       label="Attachments"
+                                       multiple={true}
+                                       accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+                                       max_files={MAX_FILES}
+                                       max_mb={MAX_FILE_SIZE_MB}
+                            />
                         </div>
                         <CheckoutCart cart={cart_items} total={total}/>
                         <CheckoutButtonRow clickedButtonRef={clickedButtonRef} handleSubmit={handleSubmit}

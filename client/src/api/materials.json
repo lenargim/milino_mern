@@ -2142,11 +2142,6 @@
               "img": "Frappé 1.jpg"
             },
             {
-              "value": "Frappé 2",
-              "isGrain": true,
-              "img": "Frappé 2.jpg"
-            },
-            {
               "value": "Frappé 3",
               "isGrain": true,
               "img": "Frappé 3.jpg"
@@ -2210,16 +2205,6 @@
               "value": "Olmo 3",
               "isGrain": true,
               "img": "Olmo 3.jpg"
-            },
-            {
-              "value": "Oxid 1",
-              "isGrain": true,
-              "img": "Oxid 1.jpg"
-            },
-            {
-              "value": "Oxid 4",
-              "isGrain": true,
-              "img": "Oxid 4.jpg"
             },
             {
               "value": "Picasso 1",

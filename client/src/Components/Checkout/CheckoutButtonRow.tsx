@@ -1,6 +1,6 @@
 import React, {FC, MutableRefObject, useEffect, useState} from 'react';
 import s from "./checkout.module.sass";
-import {ButtonType, CheckoutFormValues} from "./CheckoutForm";
+import {ButtonType, CheckoutFormType} from "./CheckoutForm";
 import {useFormikContext} from "formik";
 import {MaybeNull} from "../../helpers/productTypes";
 import {getPurchaseRoomsOrderAmount} from "../../api/apiFunctions";
@@ -8,11 +8,11 @@ import {getPurchaseRoomsOrderAmount} from "../../api/apiFunctions";
 
 type CheckoutButtonRowType = {
     clickedButtonRef: MutableRefObject<MaybeNull<ButtonType>>,
-    handleSubmit: (values: CheckoutFormValues) => Promise<void>,
+    handleSubmit: (values: CheckoutFormType) => Promise<void>,
     purchase_order_id: string
 }
 const CheckoutButtonRow: FC<CheckoutButtonRowType> = ({clickedButtonRef, handleSubmit, purchase_order_id}) => {
-    const {values, isSubmitting, validateForm, setTouched} = useFormikContext<CheckoutFormValues>();
+    const {values, isSubmitting, validateForm, setTouched} = useFormikContext<CheckoutFormType>();
     const [showPOButton, setShowPOButton] = useState<boolean>(false)
 
     const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
@@ -22,7 +22,7 @@ const CheckoutButtonRow: FC<CheckoutButtonRowType> = ({clickedButtonRef, handleS
         clickedButtonRef.current = buttonType;
 
         if (hasErrors) {
-            const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormValues;
+            const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormType;
             const errorElement = document.getElementsByName(firstErrorField)[0];
             if (errorElement) {
                 setTouched({

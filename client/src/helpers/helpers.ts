@@ -82,12 +82,12 @@ import {
 } from "./roomTypes";
 import {PurchaseOrderType} from "../store/reducers/purchaseOrderSlice";
 import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm";
-import {CheckoutSchemaType} from "../Components/Checkout/CheckoutSchema";
 import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
 import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
 import {UserType} from "../api/apiTypes";
+import {CheckoutFormType} from "../Components/Checkout/CheckoutForm";
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -1550,7 +1550,7 @@ export const getUniqueNames = (array_of_objects_with_name_field: PurchaseOrderTy
     return excluded;
 }
 
-export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: Blob, values: CheckoutFormType, fileName: string, date: string): Promise<FormData> => {
     const rooms = po_rooms_api.map(room => {
         const {_id, purchase_order_id, carts, ...materials} = room;
         const cartFront = convertCartAPIToFront(carts, room);
@@ -1571,7 +1571,7 @@ export const createOrderFormData = async (po_rooms_api: RoomOrderType[], blob: B
     return await formData(blob, fileName, dataToJSON, values)
 }
 
-export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], blob: Blob, values: CheckoutSchemaType, fileName: string, date: string): Promise<FormData> => {
+export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartItemFrontType[], blob: Blob, values: CheckoutFormType, fileName: string, date: string): Promise<FormData> => {
     const {_id, purchase_order_id, activeProductCategory, name, ...materials} = room;
     const cart_orders: CartOrder[] = cart_items.map((el) => {
         const {subcategory, isStandard, image_active_number, _id, room_id, ...cart_order_item} = el;
@@ -1590,7 +1590,7 @@ export const createOrderFormRoomData = async (room: RoomFront, cart_items: CartI
 }
 
 
-async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType, values: CheckoutSchemaType): Promise<FormData> {
+async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType, values: CheckoutFormType): Promise<FormData> {
     const formData = new FormData();
     const pdfFile = new File([blob], `${fileName}.pdf`, {type: "application/pdf"});
     const jsonBlob = new Blob([JSON.stringify(dataToJSON)]);
