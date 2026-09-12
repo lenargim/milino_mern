@@ -6200,6 +6200,8 @@
     "product_type": "custom",
     "name": "Double Panel",
     "type": "panel",
+    "initial_width": 25,
+    "initial_height": 34.5,
     "materials_array": [
       {
         "name": "Milino"
@@ -7121,6 +7123,69 @@
     ]
   },
   {
+    "id": 32,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SB FF Series",
+    "category": "Standard Base Cabinets",
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Sink Cabinet with False Front",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 34,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SB Farm Sink Series",
+    "category": "Standard Base Cabinets",
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Sink cabinet for Farm sink",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+
+  {
     "id": 18,
     "product_type": "standard",
     "legsHeight": 4.5,
@@ -7160,6 +7225,87 @@
       "Glass Door"
     ]
   },
+  {
+    "id": 37,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SBD FF Series",
+    "category": "Standard Base Cabinets",
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Sink cabinet with False Front",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+  {
+    "id": 38,
+    "product_type": "standard",
+    "legsHeight": 4.5,
+    "name": "SBD Farm Sink Series",
+    "category": "Standard Base Cabinets",
+    "attributes": [
+      {
+        "name": "Door",
+        "values": [
+          {
+            "type": 1,
+            "value": 2
+          }
+        ]
+      },
+      {
+        "name": "Rollout",
+        "values": [
+          {
+            "type": 1,
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "Sink cabinet for Farm sink",
+        "values": [
+          {
+            "type": 1,
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "options": [
+      "PTO for doors",
+      "Glass Door"
+    ]
+  },
+
   {
     "id": 19,
     "product_type": "standard",

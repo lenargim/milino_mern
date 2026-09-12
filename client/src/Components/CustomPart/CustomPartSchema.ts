@@ -40,6 +40,17 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         if (numberVal > max) return context.createError({message: `Maximum ${getFraction(max)} inches`})
         return true;
     }
+    const testMinSquare = (context: TestContext<AnyObject>, id:number) => {
+        // products array
+        const ids: number[] = [905];
+        if (!ids.includes(id)) return true;
+        const w = context.parent.width;
+        const h = context.parent.height;
+        if (!w || !h) return true;
+        // id 905 has minimal sqft = 1
+        if (w*h/144 < 1) return context.createError({message: `Minimum square is 1 sqft`})
+        return true
+    }
     const {materials_array, type, id} = product;
     const customInitialSchema = Yup.object({
         width_string: Yup.string()
@@ -52,6 +63,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         height_string: Yup.string()
             .required('Please write down height')
             .test('limit', (val, context) => testMinMax(val, context, materials_array, 'height'))
+            .test('minSquare', (val, context) => testMinSquare(context, id))
     })
     const customPartWithDepthSchema = Yup.object({
         depth_string: Yup.string()
@@ -76,7 +88,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                 }),
             color: Yup.string()
                 .when('index', {
-                    is: (index:MaybeUndefined<number>) => hasGlassShelfColor(index),
+                    is: (index: MaybeUndefined<number>) => hasGlassShelfColor(index),
                     then: s => s.required("Choose glass color"),
                 })
         })
