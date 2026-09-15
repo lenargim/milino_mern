@@ -28,6 +28,7 @@ import RoomEditCartProduct from "./Components/Room/RoomEditCartProduct";
 import ProfileCatalog2020 from "./Components/Profile/ProfileCatalog2020";
 import ForgotPassword from "./Components/Login/ForgotPassword";
 import ResetPassword from "./Components/Login/ResetPassword";
+import ProfileCatalog2020Sample from "./Components/Profile/ProfileCatalog2020Sample";
 
 function App() {
     return (
@@ -63,7 +64,7 @@ function App() {
                         <Route path="edit" element={<ProfileEdit/>}/>
                         <Route path="constructor" element={<Constructor/>}/>
                         <Route path="catalog" element={<ProfileCatalog/>}/>
-                        <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
+                        <Route path="catalog_2020" element={<ProfileCatalog2020Sample/>}/>
                         <Route path="tutorial" element={<ProfileTutorial/>}>
                         </Route>
                     </Route>
