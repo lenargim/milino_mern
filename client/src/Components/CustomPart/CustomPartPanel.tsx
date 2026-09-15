@@ -36,6 +36,9 @@ const CustomPartPanel: FC<CustomPartPanelType> = ({product, isStandardCabinet}) 
             switch (values?.material) {
                 case "Milino":
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     setFieldValue('depth', 0.75);
                     break;
                 case "Painted":

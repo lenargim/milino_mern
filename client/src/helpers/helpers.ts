@@ -526,14 +526,14 @@ export const getCustomParts = (room: RoomType, customPartType: "Standard Parts" 
 
 export const getInitialMaterialArrayData = (custom: CustomPartType, materials: RoomMaterialsFormType): MaybeNull<materialsCustomPart> => {
     const {materials_array, id} = custom;
-    const isRoomStandard = findIsRoomStandard(materials.door_type);
-    const {door_finish_material, door_type} = materials;
+    const {door_finish_material, door_type, category, box_material} = materials;
+    const isRoomStandard = findIsRoomStandard(door_type);
     const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isRoomStandard)
     if (!filtered_materials_array) return null;
-
+    const byBoxMaterial = getIsRTAorSystemCloset(category);
     const filteredName = filtered_materials_array.find(el => door_finish_material.includes(el.name) || door_type === el.name)
     if (filteredName) return filteredName
-
+    if (byBoxMaterial) return filtered_materials_array.find(el => el.name === box_material) || null;
     if (door_type === "Custom Painted") return filtered_materials_array.find(el => el.name === "Painted") || null;
     if (door_finish_material.includes('Ultrapan')) return filtered_materials_array.find(el => el.name === "Luxe") || null;
 
@@ -1056,6 +1056,7 @@ export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, do
         case "Finsa":
         case "Egger":
         case "Cleaf":
+        case "OneSkin":
             return colors.sort((a, b) => a.value.localeCompare(b.value));
         default:
             return colors
@@ -1845,7 +1846,6 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         standardDoorData
     } = customPartData;
     const {initial_width, initial_height, initial_depth} = initialSizes
-
     if (!cartItemValues) {
         return {
             width_string: getFraction(initial_width),
@@ -2167,6 +2167,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Ultrapan Acrylic":
                 case "Wood Veneer":
                 case "Finsa":
+                case "OneSkin":
                     return {width: [2.5, 48], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 48], height: [2.5, 120]};
@@ -2189,6 +2190,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Finsa":
                 case "Egger":
                 case "Cleaf":
+                case "OneSkin":
                     return {width: [3, 48], height: [6, 108], depth: [4, 48]};
                 case "Painted":
                     return {width: [3, 48], height: [6, 120], depth: [4, 48]};
@@ -2211,6 +2213,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Finsa":
                 case "Egger":
                 case "Cleaf":
+                case "OneSkin":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
@@ -2237,6 +2240,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Finsa":
                 case "Egger":
                 case "Cleaf":
+                case "OneSkin":
                     return {width: [2.5, 108], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 120], height: [2.5, 120]};
@@ -2263,6 +2267,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Zenit":
                 case "Egger":
                 case "Cleaf":
+                case "OneSkin":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
                 case "Wood Veneer": {
@@ -2285,6 +2290,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Zenit":
                 case "Finsa":
                 case "Egger":
+                case "OneSkin":
                 case "Cleaf": {
                     return {width: [5, 108], height: [5, 108]}
                 }
