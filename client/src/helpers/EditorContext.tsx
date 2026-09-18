@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ReactNode } from 'react';
-import {UserTypesType} from "../api/apiTypes";
+import {UserAllTypesType, UserBasicTypesType, UserTypesType} from "../api/apiTypes";
 
-const EditorContext = createContext<UserTypesType>('designer');
+const EditorContext = createContext<UserAllTypesType>('designer');
 
 interface EditorProviderProps {
     children: ReactNode;
@@ -17,4 +17,4 @@ export const EditorProvider: React.FC<EditorProviderProps> = ({ children, user_t
     );
 };
 
-export const useEditor = (): UserTypesType => useContext(EditorContext);
+export const useEditor = (): UserAllTypesType => useContext(EditorContext);

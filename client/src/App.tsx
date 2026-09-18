@@ -87,13 +87,13 @@ function App() {
                                                 <Route path="product/:productId/edit/:cart_id"
                                                        element={<RoomEditCartProduct/>}/>
                                                 <Route path="product/:productId" element={<RoomProduct/>}/>
+                                                <Route path="checkout" element={<CheckoutForm/>}/>
                                             </Route>
                                         </Route>
                                     </Route>
                                 </Route>
                             </Route>
                         </Route>
-
 
                         {/*Designer*/}
                         <Route element={<DesignerRoute/>}>

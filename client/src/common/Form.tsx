@@ -670,7 +670,7 @@ export const FileInput: FC<FileInputInterface> = ({
                 <ErrorMessage
                     name={name}
                     component="div"
-                    className={styles.error}
+                    className={[styles.error, styles.errorBig].join(' ')}
                 />
             )}
         </div>

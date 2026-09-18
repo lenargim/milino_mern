@@ -4,7 +4,8 @@ import {MaybeNull, MaybeUndefined} from "../helpers/productTypes";
 
 
 export type UserBasicTypesType = 'designer' | 'manager'
-export type UserTypesType = MaybeUndefined<UserBasicTypesType|'admin'>
+export type UserAllTypesType = UserBasicTypesType|'admin'
+export type UserTypesType = MaybeUndefined<UserAllTypesType>
 
 export type UserDataType = {
     name: string,

@@ -22,6 +22,7 @@ import {PurchaseOrdersState} from "../../store/reducers/purchaseOrderSlice";
 import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 import CheckoutButtonRow from "./CheckoutButtonRow";
 import {useAuthUser} from "../../utils/customHooks";
+import {useEditor} from "../../helpers/EditorContext";
 
 export type ButtonType = 'save-room' | 'send-room' | 'save-po' | 'send-po';
 
@@ -32,9 +33,9 @@ export type CheckoutFormType = {
     room_name: string,
     email: string,
     phone: string,
-    delivery:string,
-    delivery_date:MaybeNull<Date>,
-    additional_emails:string[],
+    delivery: string,
+    delivery_date: MaybeNull<Date>,
+    additional_emails: string[],
     files: MaybeUndefined<File[]>
 }
 
@@ -47,11 +48,13 @@ const CheckoutForm: FC = () => {
     const clickedButtonRef = useRef<MaybeNull<ButtonType>>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
-    const {room} = useOutletContext<{ room: RoomFront }>();
+    const {room} = useOutletContext<{room: RoomFront}>();
     const user = useAuthUser();
+    const is_my_project = useEditor() === 'designer';
+    const editable_user = useAppSelector(state => state.admin.editable_user);
     const {cart_items} = useAppSelector<RoomsState>(state => state.room)!
-
     const active_po = purchase_orders.find(po => textToLink(po.name) === purchase_order_name && !po.is_archived)?.name
+
     const {
         _id,
         purchase_order_id,
@@ -114,17 +117,30 @@ const CheckoutForm: FC = () => {
             }
         }
     }
-
-    if (!active_po || !cart_items) return null;
+    const has_editable_user = !is_my_project && !!editable_user
+    if (!cart_items?.length || !active_po) {
+        navigate(-1);
+        return null;
+    }
     const {name, company, email, additional_emails, phone} = user;
-    if (!cart_items.length || !active_po) navigate(-1);
 
-    const initialValues: CheckoutFormType = {
+    const initialValues: CheckoutFormType = !has_editable_user ? {
         name,
         company,
         email,
         additional_emails,
         phone,
+        purchase_order: active_po,
+        room_name: room.name,
+        delivery: '',
+        delivery_date: null,
+        files: []
+    } : {
+        name: editable_user.name,
+        company: editable_user.company,
+        email: editable_user.email,
+        additional_emails: editable_user.additional_emails,
+        phone: editable_user.phone,
         purchase_order: active_po,
         room_name: room.name,
         delivery: '',
