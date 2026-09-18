@@ -117,6 +117,7 @@ const CheckoutForm: FC = () => {
             }
         }
     }
+
     const has_editable_user = !is_my_project && !!editable_user
     if (!cart_items?.length || !active_po) {
         navigate(-1);

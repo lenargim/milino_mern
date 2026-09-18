@@ -32,7 +32,8 @@ const CheckoutButtonRow: FC<CheckoutButtonRowType> = ({clickedButtonRef, handleS
                     phone: true,
                     purchase_order: true,
                     room_name: true,
-                    delivery: true
+                    delivery: true,
+                    files: true
                 }, true)
                 errorElement.scrollIntoView({behavior: "smooth", block: "center"});
                 (errorElement as HTMLElement).focus();

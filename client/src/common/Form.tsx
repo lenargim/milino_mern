@@ -666,13 +666,11 @@ export const FileInput: FC<FileInputInterface> = ({
                 </div>
             )}
 
-            {touched && error && (
-                <ErrorMessage
-                    name={name}
-                    component="div"
-                    className={[styles.error, styles.errorBig].join(' ')}
-                />
-            )}
+            <ErrorMessage
+                name={name}
+                component="div"
+                className={[styles.error, styles.errorBig].join(' ')}
+            />
         </div>
     );
 };
