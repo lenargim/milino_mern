@@ -11,7 +11,7 @@ export const boxMaterialNames = ['White Melamine', 'Gray Melamine', 'Gray Linen 
 export const leatherBoxMaterialNames = ['Milino', 'Syncron', 'Luxe', 'Ultrapan PET', 'Zenit', 'Ultrapan Acrylic', 'Wood Veneer'] as const;
 export const totalBoxMaterialNames = [...boxMaterialNames, ...leatherBoxMaterialNames] as const;
 export const grooveNames = ['1/4 rounded', '1/4 squared', '3/4 squared'] as const;
-export const rodNames = ["Oval Chrome (Default)", "Matte Black", "Stain Brass", "Stain Chrome", "Stain Nickel"] as const;
+export const rodNames = ["Oval Chrome (Default)", "Matte Black", "Satin Brass", "Satin Chrome", "Satin Nickel"] as const;
 
 export type RoomCategoriesType = typeof roomCategories[number];
 export type GolaTypesType = typeof golaTypeNames[number];

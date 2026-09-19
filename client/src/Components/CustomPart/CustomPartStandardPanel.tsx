@@ -14,7 +14,6 @@ import Select, {OnChangeValue} from "react-select";
 import styles from "../../common/Form.module.sass";
 import {customStyles, optionType} from "../../common/SelectField";
 import {getdimensionsRow} from "../../helpers/helpers";
-import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import CustomPartSubmit from "./CustomPartSubmit";
 
 export type PanelsFormType = {

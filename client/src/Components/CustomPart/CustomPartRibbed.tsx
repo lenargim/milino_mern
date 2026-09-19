@@ -1,9 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import {
-    filterCustomPartsMaterialsArray, getImg,
+    getImg,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {
@@ -16,10 +16,6 @@ import CustomPartSubmit from "./CustomPartSubmit";
 import materialsAPI from './../../api/materials.json'
 import {materialsData} from "../../helpers/roomTypes";
 
-type CustomPartRibbedType = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
 
 const isPaintedMaterial = (material: string): boolean => {
     return material === 'Painted';
@@ -28,15 +24,15 @@ const isPaintedMaterial = (material: string): boolean => {
 let grooveArr = materialsAPI.groove as materialsData[];
 grooveArr = grooveArr.map(el => ({...el, img: getImg('materials/groove', el.img)}));
 
-const CustomPartRibbed: FC<CustomPartRibbedType> = ({product, isStandardCabinet}) => {
+const CustomPartRibbed: FC<{
+        filtered_materials_array: MaybeNull<materialsCustomPart[]>
+    }> = ({filtered_materials_array}) => {
         const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
         const {
             groove,
             material,
             price
         } = values;
-        const {materials_array, id} = product;
-        const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
         const isPainted = isPaintedMaterial(material);
 
         useEffect(() => {
@@ -65,30 +61,31 @@ const CustomPartRibbed: FC<CustomPartRibbedType> = ({product, isStandardCabinet}
                 </div>
 
                 {filtered_materials_array &&
-                <div className={s.block}>
-                  <h3>Material</h3>
-                  <div className={s.optionsWithImage}>
-                      {filtered_materials_array.map((m, index) => <RadioInputWithImage key={index}
-                                                                                    name="material" value={m.name}
-                                                                                    img={getImg('materials/door_finish_material', m.img)}/>)}
-                  </div>
-                </div>
+                    <div className={s.block}>
+                        <h3>Material</h3>
+                        <div className={s.optionsWithImage}>
+                            {filtered_materials_array.map((m, index) => <RadioInputWithImage key={index}
+                                                                                             name="material" value={m.name}
+                                                                                             img={getImg('materials/door_finish_material', m.img)}/>)}
+                        </div>
+                    </div>
                 }
                 {
                     !isPainted && <>
-                      <div className={s.block}>
-                        <h3>Groove Styles</h3>
-                        <div className={s.optionsWithImage}>
-                            {grooveArr.map((el, index) => <RadioInputWithImage key={index} name="groove.style" value={el.value}
-                                                                            label={el.label} img={el.img}/>)}
+                        <div className={s.block}>
+                            <h3>Groove Styles</h3>
+                            <div className={s.optionsWithImage}>
+                                {grooveArr.map((el, index) => <RadioInputWithImage key={index} name="groove.style"
+                                                                                   value={el.value}
+                                                                                   label={el.label} img={el.img}/>)}
+                            </div>
                         </div>
-                      </div>
-                      <div className={s.block}>
-                        <h3>Clear Coat</h3>
-                        <div className={s.optionsWithImage}>
-                          <CustomPartAttrCheckbox label="Clear Coat" name="groove.clear_coat"/>
+                        <div className={s.block}>
+                            <h3>Clear Coat</h3>
+                            <div className={s.optionsWithImage}>
+                                <CustomPartAttrCheckbox label="Clear Coat" name="groove.clear_coat"/>
+                            </div>
                         </div>
-                      </div>
                     </>
                 }
                 <div className={s.block}>

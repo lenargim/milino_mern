@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Form, useField, useFormikContext} from 'formik';
-import {CustomPartType, ImgFieldType} from "../../helpers/productTypes";
+import {ImgFieldType} from "../../helpers/productTypes";
 import {
     CustomPartFormType, DrawerInsertsBoxNames,
     DrawerInsertsColorNames,
@@ -14,11 +14,6 @@ import s from "../Product/product.module.sass";
 import {ProductInputCustom, RadioInputWithImage, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 import SelectField, {optionType} from "../../common/SelectField";
-
-type CustomPartDrawerInserts = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
 
 const filterLetterTypeByWidth = (width: number, drawerInsertsLetters: string[]): string[] => {
     if (width < 15) return drawerInsertsLetters.filter(el => ['A', 'B'].includes(el));
@@ -38,7 +33,7 @@ const prepareToImgField = (arr: string[], color: string = ''): ImgFieldType[] =>
     }))
 }
 
-const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStandardCabinet}) => {
+const CustomPartDrawerInserts: FC = () => {
         const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
         const {
             width,

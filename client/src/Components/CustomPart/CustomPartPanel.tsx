@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import {
     filterCustomPartsMaterialsArray,
@@ -14,18 +14,18 @@ import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartHingeHoles from "./CustomPartHingeHoles";
 import CustomPartCutoutBlock from "./CustomPartCutoutBlock";
 import ProductLED from "../Product/ProductLED";
+import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
 
 type CustomPartPanelType = {
     product: CustomPartType,
-    isStandardCabinet: boolean
+    filtered_materials_array:  MaybeNull<materialsCustomPart[]>
 }
 
 
-const CustomPartPanel: FC<CustomPartPanelType> = ({product, isStandardCabinet}) => {
+const CustomPartPanel: FC<CustomPartPanelType> = ({product, filtered_materials_array}) => {
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values;
-    const {materials_array, id} = product;
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
+    const {id} = product;
     const showHingeHoles = isHingeHolesBlock(id)
     const showCutout = isPanelCutoutBlock(id)
     const showLedBlock = isLedBlock(id)
@@ -67,17 +67,7 @@ const CustomPartPanel: FC<CustomPartPanelType> = ({product, isStandardCabinet}) 
             {showLedBlock ? <ProductLED id={id} /> : null}
             {showHingeHoles ? <CustomPartHingeHoles/> : null}
             {showCutout ? <CustomPartCutoutBlock/> : null}
-            {filtered_materials_array &&
-            <div className={s.block}>
-              <h3>Material</h3>
-              <div className={s.options}>
-                  {filtered_materials_array.map((m, index) => <ProductRadioInput key={index}
-                                                                                 name="material"
-                                                                                 value={m.name}/>)}
-              </div>
-            </div>
-            }
-
+            <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array}/>
 
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
