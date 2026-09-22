@@ -37,6 +37,7 @@ export type CheckoutFormType = {
     delivery_date: MaybeNull<Date>,
     additional_emails: string[],
     files: MaybeUndefined<File[]>
+    manager_email: MaybeNull<string>,
 }
 
 export const MAX_FILES = 5;
@@ -135,7 +136,8 @@ const CheckoutForm: FC = () => {
         room_name: room.name,
         delivery: '',
         delivery_date: null,
-        files: []
+        files: [],
+        manager_email: null
     } : {
         name: editable_user.name,
         company: editable_user.company,
@@ -146,7 +148,8 @@ const CheckoutForm: FC = () => {
         room_name: room.name,
         delivery: '',
         delivery_date: null,
-        files: []
+        files: [],
+        manager_email: email
     };
     const schema = CheckoutSchema(MAX_FILES, MAX_FILE_SIZE_MB)
     return (
@@ -155,6 +158,7 @@ const CheckoutForm: FC = () => {
                 onSubmit={handleSubmit}
         >
             {({values, errors}) => {
+                console.log(errors)
                 return (
                     <Form className={[s.form].join(' ')}>
                         <h1>Checkout</h1>

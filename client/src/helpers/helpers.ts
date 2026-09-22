@@ -1601,6 +1601,7 @@ async function formData(blob: Blob, fileName: string, dataToJSON: DataToJSONType
     formData.append("json", jsonFile);
     formData.append("client_email", values.email);
     formData.append("additional_emails", additionalEmailsString);
+    formData.append("manager_email", values.manager_email ?? '');
     formData.append("client_name", values.name);
     formData.append("client_purchase_order", values.purchase_order);
     formData.append("client_room_name", values.room_name);

@@ -70,7 +70,7 @@ export const CheckoutSchema = (MAX_FILES: number = 5, MAX_FILE_SIZE_MB: number =
             .max(MAX_FILES, `You can upload up to ${MAX_FILES} files.`)
             .test(
                 'filesSize',
-                `Total files size must be no larger than ${MAX_FILE_SIZE_MB} MB.`,
+                `The total size of all files must be no larger than ${MAX_FILE_SIZE_MB} MB.`,
                 (files) => {
                     if (!files || !files.length) return true;
                     const files_size = files.reduce((acc, currentFile) => {
@@ -86,5 +86,9 @@ export const CheckoutSchema = (MAX_FILES: number = 5, MAX_FILE_SIZE_MB: number =
                     !files ||
                     files.every(file => ALLOWED_TYPES.includes(file.type))
             ),
+        manager_email: Yup.string()
+            .nullable()
+            .email('E-mail is not valid')
+            .default(null)
     })
 }
