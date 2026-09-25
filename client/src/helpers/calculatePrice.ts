@@ -912,12 +912,16 @@ const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: num
     return custom_part_price / 2
 }
 
+const minAvailableArea = (area:number, minArea:number):number => {
+    return Math.max(area, minArea);
+}
+
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
     const {width, height, depth, custom, glass, product_id, led} = values;
     const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
-    const area = +(width * height / 144).toFixed(2);
+    let area = +(width * height / 144).toFixed(2);
     const color = getIsRTAorSystemCloset(category) ? box_color : door_color;
     switch (id) {
         case 900: {
@@ -1014,6 +1018,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case 905: {
+            area = minAvailableArea(area, 1)
             switch (custom?.material) {
                 case "Milino":
                     price = area * 36;
@@ -1117,7 +1122,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break
         }
         case 909: {
-            price = width * height / 144 * 4.6;
+            price = area * 4.6;
             break
         }
         case 910: {
