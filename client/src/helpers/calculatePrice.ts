@@ -1165,7 +1165,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break
         }
         case 914: {
-            const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0]
+            const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0];
             price = addGlassDoorPrice(area, doorProfileVal, false, true);
             break;
         }
