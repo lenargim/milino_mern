@@ -2172,6 +2172,8 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                     return {width: [2.5, 48], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 48], height: [2.5, 120]};
+                case "StyleLite":
+                    return {width: [2.5, 47.5], height: [2.5, 95.5]};
             }
             break;
         }
@@ -2192,6 +2194,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Egger":
                 case "Cleaf":
                 case "OneSkin":
+                case "StyleLite":
                     return {width: [3, 48], height: [6, 108], depth: [4, 48]};
                 case "Painted":
                     return {width: [3, 48], height: [6, 120], depth: [4, 48]};
@@ -2217,7 +2220,8 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "OneSkin":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
-                case "Wood Veneer": {
+                case "Wood Veneer":
+                case "StyleLite": {
                     return {width: [6, 108], height: [6, 108], depth: [6, 108]}
                 }
                 case "Painted": {
@@ -2242,6 +2246,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "Egger":
                 case "Cleaf":
                 case "OneSkin":
+                case "StyleLite":
                     return {width: [2.5, 108], height: [2.5, 108]};
                 case "Painted":
                     return {width: [2.5, 120], height: [2.5, 120]};
@@ -2271,7 +2276,8 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                 case "OneSkin":
                 case "Ultrapan PET":
                 case "Ultrapan Acrylic":
-                case "Wood Veneer": {
+                case "Wood Veneer":
+                case "StyleLite": {
                     return {width: [3, 108], height: [3, 6], depth: [3, 48]}
                 }
                 case "Painted": {
@@ -2296,7 +2302,8 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
                     return {width: [5, 108], height: [5, 108]}
                 }
                 case "Painted":
-                case "Wood Veneer": {
+                case "Wood Veneer":
+                case "StyleLite": {
                     return {width: [5, 120], height: [5, 120]}
                 }
             }
