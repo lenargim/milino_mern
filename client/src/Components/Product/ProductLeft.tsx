@@ -19,11 +19,13 @@ const ProductLeft: FC<{ product: ProductType, materials: RoomMaterialsFormType, 
             doors_amount,
             hinge_opening,
             corner,
-            glass_door
+            glass_door,
+            options
         }
     } = useFormikContext<ProductFormType>();
+    const has_glass_door = options.includes("Glass Door");
     const {category} = room;
-    const img = getProductImagePath(room, product, hinge_opening ?? corner);
+    const img = getProductImagePath(room, product, hinge_opening ?? corner, has_glass_door);
     const imgSize = getImgSize(category);
     const [glassDoorImg, setGlassDoorImg] = useState<MaybeNull<string>>(null)
 

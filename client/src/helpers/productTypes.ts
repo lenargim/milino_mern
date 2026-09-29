@@ -68,6 +68,7 @@ export type kitchenCategories =
 export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
+    | 'Standard Gola Wall Cabinets'
     | 'Standard Tall Cabinets'
     | 'Standard Vanities'
     | 'Standard Floating Vanities'

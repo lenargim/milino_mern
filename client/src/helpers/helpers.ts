@@ -274,6 +274,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
         case 'Gola Tall Cabinets':
         case 'Standard Base Cabinets':
         case 'Standard Wall Cabinets':
+        case "Standard Gola Wall Cabinets":
         case 'Standard Tall Cabinets':
             return "Kitchen";
         case "Vanities":
@@ -292,7 +293,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
     return ''
 }
 
-export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>): string => {
+export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>,has_glass_door?:boolean): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
         return getProductImg(`Custom Parts`, `${product.name}.jpg`);
@@ -339,7 +340,14 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
                 break;
             case "":
         }
-        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}`, img_src);
+        let extra_folder = '';
+
+        // for one special category so far
+        if (has_glass_door) {
+            if (product_subcategory === 'Standard Gola Wall Cabinets') extra_folder = '/glass';
+        }
+
+        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}${extra_folder}`, img_src);
     }
 }
 
@@ -1175,7 +1183,7 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
 }
 
 const isWallCabinet = (category: productCategory): boolean => {
-    return ["Wall Cabinets", "Gola Wall Cabinets", "Standard Wall Cabinets"].includes(category)
+    return ["Wall Cabinets", "Gola Wall Cabinets", "Standard Wall Cabinets", "Standard Gola Wall Cabinets"].includes(category)
 }
 
 export const getWidthToCalculateDoor = (realWidth: number, blind_width: number, isAngle: MaybeUndefined<AngleType>, category: productCategory): number => {

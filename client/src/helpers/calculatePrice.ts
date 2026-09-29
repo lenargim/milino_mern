@@ -503,6 +503,7 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
         case "Wall Cabinets":
         case "Gola Wall Cabinets":
         case "Standard Wall Cabinets":
+        case "Standard Gola Wall Cabinets":
             return [13];
         case "Vanities":
         case "Floating Vanities":
@@ -827,7 +828,6 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
-    console.log(door_price_multiplier);
     return {
         ...materials,
         is_standard_room,
@@ -843,9 +843,8 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
 const filterProductOptionsBasedOnMaterialData = (options: ProductOptionsType[], materials: RoomMaterialsFormType): ProductOptionsType[] => {
     const {door_type, drawer_brand} = materials;
     let arr = [...options];
-    // options.filter(option => (option !== 'PTO for drawers' || drawer_brand !== 'Milino'));
     if (drawer_brand === 'Milino') arr = arr.filter(o => o !== 'PTO for drawers');
-    if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors');
+    if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors' || o === 'Glass Door');
     return arr;
 }
 
