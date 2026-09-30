@@ -22,13 +22,16 @@ type OptionsBlockType = {
 const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: number, height: number): boolean => {
     if (!isProductStandard) return true;
     switch (id) {
-        case 101: {
+        case 101:
+        case 115: {
             const standardHeight: boolean = [30, 36, 42].includes(height);
             if (!standardHeight) return false;
             return [12, 15, 18, 21, 24, 30, 36, 42].includes(width);
         }
         case 102:
-        case 103: {
+        case 103:
+        case 116:
+        case 117: {
             const standardHeight: boolean = [30, 36, 42].includes(height);
             if (!standardHeight) return false;
             return [30, 36, 42].includes(width);
@@ -46,16 +49,11 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
             if (!standardHeight) return false;
             return [12, 15, 18, 24, 30, 36].includes(width);
         }
-        case 111: {
+        case 111:
+        case 118: {
             const standardHeight: boolean = [30, 36, 42].includes(height);
             if (!standardHeight) return false;
             return [27, 30, 33, 36].includes(width);
-        }
-        case 115:
-        case 116:
-        case 117:
-        case 118: {
-            return true
         }
     }
     return false

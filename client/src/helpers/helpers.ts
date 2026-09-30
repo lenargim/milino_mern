@@ -122,10 +122,12 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
     }
 }
 
-export const getProductImg = (folder: string, img: string): string => {
-    for (const s of ['', ' L', ' 2L', ' 2', ' 4'] as const) {
+export const getProductImg = (folder: string, name:string, hinge_postfix:string = ''): string => {
+    for (const s of [hinge_postfix, '', 'L', '2L', '4'] as const) {
         try {
-            const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
+            // const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
+            const postfix = s ? `${name} ${s}.jpg` : `${name}.jpg`;
+            console.log(postfix)
             return require(`./../assets/img/products/${folder}/${postfix}`);
         } catch (error) {
             continue;
@@ -134,30 +136,24 @@ export const getProductImg = (folder: string, img: string): string => {
     return noImg;
 }
 
-const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>, product_subcategory: productCategory): string => {
-    let n = name.replace(' Series', '');
+const getProductImgSrc = (name: string, hinge_type: MaybeUndefined<hingeTypes>): [string, string] => {
+    const n = name.replace(' Series', '');
     switch (hinge_type) {
         case "Left":
         case "Single left door":
-            n = `${n} L`;
-            break
+            return [n, 'L']
         case "Right":
         case "Single right door":
-            n = `${n} R`;
-            break
+            return [n, 'R']
         case "Two left doors":
-            n = `${n} 2L`;
-            break
+            return [n, '2L']
         case "Two right doors":
-            n = `${n} 2R`;
-            break
+            return [n, '2R']
         case "Four doors":
-            n = `${n} 4`;
-            break
+            return [n, '4']
         default:
-            break;
+            return [n, '']
     }
-    return `${n}.jpg`;
 }
 
 export const getCategoryImg = (room: RoomFront, currentCat: CatItem, hover?: MaybeNull<CustomPartsImgListItem>): string => {
@@ -296,11 +292,12 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
 export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>,has_glass_door?:boolean): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
-        return getProductImg(`Custom Parts`, `${product.name}.jpg`);
+        // extra RO/Drawer
+        return getProductImg(`Custom Parts`, product.name.replace('/', ' '));
     } else {
         const {category: product_subcategory, name, extra_categories} = product;
 
-        const img_src = getProductImgSrc(name, hinge_type, product_subcategory);
+        const img_src = getProductImgSrc(name, hinge_type);
         let category_folder = extra_categories ? getRoomCategoryByProductCategory(product_subcategory) : category;
         let material_folder = '';
         switch (category) {
@@ -319,7 +316,7 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
             case "Leather Closet":
             case "RTA Closet":
             case "Cabinet System Closet": {
-                return getProductImg(category_folder, img_src);
+                return getProductImg(category_folder, img_src[0], img_src[1]);
             }
         }
         switch (door_type as MaybeEmpty<DoorTypesType>) {
@@ -344,10 +341,10 @@ export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomT
 
         // for one special category so far
         if (has_glass_door) {
-            if (product_subcategory === 'Standard Gola Wall Cabinets') extra_folder = '/glass';
+            if (['Standard Gola Wall Cabinets', 'Standard Wall Cabinets'].includes(product_subcategory)) extra_folder = '/glass';
         }
 
-        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}${extra_folder}`, img_src);
+        return getProductImg(`${category_folder}/${material_folder}/${product_subcategory}${extra_folder}`, img_src[0], img_src[1]);
     }
 }
 
@@ -359,10 +356,10 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
         case "drawer-inserts": {
             if (!drawer_accessories?.inserts) break;
             const {insert_type, box_type, color} = drawer_accessories.inserts
-            if (!box_type || !color) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
+            if (!box_type || !color) return getProductImg(`Custom Parts`, product.name);
             switch (box_type) {
                 case "Inserts": {
-                    if (!insert_type) return getProductImg(`Custom Parts`, `${product.name}.jpg`);
+                    if (!insert_type) return getProductImg(`Custom Parts`, product.name);
                     return getImg('drawer_inserts', `Type ${insert_type} ${color}.jpg`)
                 }
                 case "Pegs":
@@ -377,7 +374,7 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
     }
-    return getProductImg(`Custom Parts`, `${product.name}.jpg`);
+    return getProductImg(`Custom Parts`, product.name);
 }
 
 export function getSelectValfromVal(val: string | undefined, options: optionType[]): MaybeNull<optionType> {
