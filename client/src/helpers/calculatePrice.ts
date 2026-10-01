@@ -622,8 +622,8 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     }
                     break;
                 case 'Custom Painted':
-                    if (door_finish_material === 'Slab') return 1.05;
-                    return 1.1025;
+                    // if (door_finish_material === 'Slab') return 1.05;
+                    return 1.10;
                 case 'Shaker':
                     switch (door_finish_material) {
                         case 'Zenit':
@@ -824,14 +824,11 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     } = materials;
     const is_standard_room = door_type === "Standard Size Shaker";
     const base_price_type = getBasePriceType(materials);
-    console.log(`base_price_type ${base_price_type}`);
     const materials_coef = getMaterialCoef(materials);
-    console.log(`materials_coef ${materials_coef}`);
     const grain_coef = getGrainCoef(door_grain);
     const box_material_coef = getBoxMaterialCoef(box_material, box_color, product_id);
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
-    console.log(`door_price_multiplier ${door_price_multiplier}`);
     return {
         ...materials,
         is_standard_room,
