@@ -122,15 +122,18 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
     }
 }
 
-export const getProductImg = (folder: string, name:string, hinge_postfix:string = ''): string => {
+export const getProductImg = (folder: string, name:string, hinge_postfix:string = '', ): string => {
     for (const s of [hinge_postfix, '', 'L', '2L', '4'] as const) {
         try {
-            // const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
             const postfix = s ? `${name} ${s}.jpg` : `${name}.jpg`;
             return require(`./../assets/img/products/${folder}/${postfix}`);
         } catch (error) {
             continue;
         }
+    }
+    const glass_sbstr = '/glass';
+    if (folder.includes(glass_sbstr)) {
+        return getProductImg(folder.replace(glass_sbstr, ''), name, hinge_postfix);
     }
     return noImg;
 }
