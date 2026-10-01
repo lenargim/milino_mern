@@ -127,7 +127,6 @@ export const getProductImg = (folder: string, name:string, hinge_postfix:string 
         try {
             // const postfix = img.replace('.jpg', `${s}.jpg`).replace('/', ' ');
             const postfix = s ? `${name} ${s}.jpg` : `${name}.jpg`;
-            console.log(postfix)
             return require(`./../assets/img/products/${folder}/${postfix}`);
         } catch (error) {
             continue;
