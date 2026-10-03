@@ -257,7 +257,7 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     let coef = 2.5;
     if (door_type === 'Custom Painted') coef = 2.75;
-    if (['Ultrapan Acrylic'].includes(door_finish_material)) coef = 2.75;
+    if (['Ultrapan Acrylic', 'Wood Veneer', 'StyleLite'].includes(door_finish_material)) coef = 2.75;
     return +(per * coef).toFixed(2);
 }
 
@@ -758,7 +758,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
             if (!door_type) return 0;
             switch (door_type as DoorTypesType) {
                 case "Slab":
-                    if (['Wood Veneer', 'StyleLite'].includes(door_finish_material)) return 22;
+                    if (['Wood Veneer', 'StyleLite'].includes(door_finish_material)) return 24.2;
                     return 0;
                 case "No Doors":
                     return -8;
@@ -1339,6 +1339,7 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const startPrice = getStartPrice(tablePrice, materialData, options);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData, image_active_number);
+    console.log(attributesPrices)
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     const totalPrice = +(startPrice * size_coef + attrPrice).toFixed(1);
     return totalPrice * settings.global_price_coef
@@ -1401,6 +1402,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
+    console.log(getPvcPrice(doorWidth, doorHeight, product, materialData))
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
