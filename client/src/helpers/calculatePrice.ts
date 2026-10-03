@@ -623,7 +623,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     break;
                 case 'Custom Painted':
                     // if (door_finish_material === 'Slab') return 1.05;
-                    return 1.10;
+                    return 1.05 * 1.1;
                 case 'Shaker':
                     switch (door_finish_material) {
                         case 'Zenit':
@@ -998,7 +998,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 24 * 1.03;
                     break;
                 case "Painted":
-                    materialCoef = 34.32;
+                    materialCoef = 31.2 * 1.05 * 1.1;
                     break;
                 case "Wood Veneer":
                 case "StyleLite":
