@@ -1598,139 +1598,195 @@
           "img": "StyleLite.jpg",
           "colors": [
             {
-              "value": "Alabaster",
+              "value": "Alabaster Gloss",
               "img": "styleLite/Alabaster.jpg"
             },
             {
-              "value": "Arctic",
+              "value": "Alabaster Matte",
+              "img": "styleLite/Alabaster.jpg"
+            },
+            {
+              "value": "Arctic Gloss",
               "img": "styleLite/Arctic.jpg"
             },
             {
-              "value": "Ash",
+              "value": "Arctic Matte",
+              "img": "styleLite/Arctic.jpg"
+            },
+            {
+              "value": "Ash Gloss",
               "img": "styleLite/Ash.jpg"
             },
             {
-              "value": "Atlantic",
+              "value": "Ash Matte",
+              "img": "styleLite/Ash.jpg"
+            },
+            {
+              "value": "Atlantic Gloss",
               "img": "styleLite/Atlantic.jpg"
             },
             {
-              "value": "Brilliant-Pearl",
-              "img": "styleLite/Brilliant-Pearl.jpg"
-            },
-            {
-              "value": "Buran",
+              "value": "Braun Matte",
               "img": "styleLite/Buran.jpg"
             },
             {
-              "value": "Calacatta",
+              "value": "Brilliant Pearl Gloss",
+              "img": "styleLite/Brilliant-Pearl.jpg"
+            },
+            {
+              "value": "Calacatta Marble Gloss",
               "img": "styleLite/Calacatta.jpg"
             },
             {
-              "value": "Carbon",
+              "value": "Calacatta Marble Velvet",
+              "img": "styleLite/Calacatta.jpg"
+            },
+            {
+              "value": "Carbon Gloss",
               "img": "styleLite/Carbon.jpg"
             },
             {
-              "value": "Champagne",
+              "value": "Carbon Matte",
+              "img": "styleLite/Carbon.jpg"
+            },
+            {
+              "value": "Champagne Gloss",
               "img": "styleLite/Champagne.jpg"
             },
             {
-              "value": "Charcoal",
+              "value": "Charcoal Gloss",
               "img": "styleLite/Charcoal.jpg"
             },
             {
-              "value": "Dove",
+              "value": "Charcoal Matte",
+              "img": "styleLite/Charcoal.jpg"
+            },
+            {
+              "value": "Dove Gloss",
               "img": "styleLite/Dove.jpg"
             },
             {
-              "value": "Graphite",
+              "value": "Dove Matte",
+              "img": "styleLite/Dove.jpg"
+            },
+            {
+              "value": "Graphite Gloss",
               "img": "styleLite/Graphite.jpg"
             },
             {
-              "value": "Jura",
+              "value": "Graphite Matte",
+              "img": "styleLite/Graphite.jpg"
+            },
+            {
+              "value": "Jura Matte",
               "img": "styleLite/Jura.jpg"
             },
             {
-              "value": "Lavato-Oak",
+              "value": "Lavato-Oak Gloss",
               "img": "styleLite/Lavato-Oak.jpg"
             },
             {
-              "value": "Misty-Mirra",
+              "value": "Lavato-Oak Velvet",
+              "img": "styleLite/Lavato-Oak.jpg"
+            },
+            {
+              "value": "Misty Mirra Gloss",
               "img": "styleLite/Misty-Mirra.jpg"
             },
             {
-              "value": "Mocha",
+              "value": "Mocha Gloss",
               "img": "styleLite/Mocha.jpg"
             },
             {
-              "value": "mountain",
+              "value": "Mountain Matte",
               "img": "styleLite/mountain.jpg"
             },
             {
-              "value": "oceanic",
+              "value": "Oceanic Matte",
               "img": "styleLite/oceanic.jpg"
             },
             {
-              "value": "Pewter",
+              "value": "Pewter Gloss",
               "img": "styleLite/Pewter.jpg"
             },
             {
-              "value": "rainforest",
+              "value": "Rainforest Matte",
               "img": "styleLite/rainforest.jpg"
             },
             {
-              "value": "Riga-Birch",
+              "value": "Riga-Birch Gloss",
               "img": "styleLite/Riga-Birch.jpg"
             },
             {
-              "value": "Ruby",
+              "value": "Riga-Birch Velvet",
+              "img": "styleLite/Riga-Birch.jpg"
+            },
+            {
+              "value": "Ruby Gloss",
               "img": "styleLite/Ruby.jpg"
             },
             {
-              "value": "Sand",
+              "value": "Sand Gloss",
               "img": "styleLite/Sand.jpg"
             },
             {
-              "value": "shell",
+              "value": "Shell Matte",
               "img": "styleLite/shell.jpg"
             },
             {
-              "value": "Sienna-Teak",
+              "value": "Sienna-Teak Gloss",
               "img": "styleLite/Sienna-Teak.jpg"
             },
             {
-              "value": "Silver",
+              "value": "Sienna-Teak Velvet",
+              "img": "styleLite/Sienna-Teak.jpg"
+            },
+            {
+              "value": "Silver Gloss",
               "img": "styleLite/Silver.jpg"
             },
             {
-              "value": "Slate",
+              "value": "Slate Gloss",
               "img": "styleLite/Slate.jpg"
             },
             {
-              "value": "Tierra-Elm",
+              "value": "Slate Matte",
+              "img": "styleLite/Slate.jpg"
+            },
+            {
+              "value": "Tierra Elm Gloss",
               "img": "styleLite/Tierra-Elm.jpg"
             },
             {
-              "value": "Titanium",
+              "value": "Tierra Elm Velvet",
+              "img": "styleLite/Tierra-Elm.jpg"
+            },
+            {
+              "value": "Titanium Gloss",
               "img": "styleLite/Titanium.jpg"
             },
             {
-              "value": "Travertine-Crosscut",
+              "value": "Travertine Crosscut Velvet",
               "img": "styleLite/Travertine-Crosscut.jpg"
             },
             {
-              "value": "Travertine-Veincut",
+              "value": "Travertine Veincut Velvet",
               "img": "styleLite/Travertine-Veincut.jpg"
             },
             {
-              "value": "Vintage-Mira",
+              "value": "Vintage Mira Gloss",
               "img": "styleLite/Vintage-Mira.jpg"
             },
             {
-              "value": "Wired-Mercury",
+              "value": "Wired Mercury Gloss",
               "img": "styleLite/Wired-Mercury.jpg"
             },
             {
-              "value": "Wired-Zinc",
+              "value": "Wired Mercury Velvet",
+              "img": "styleLite/Wired-Mercury.jpg"
+            },
+            {
+              "value": "Wired Zinc Gloss",
               "img": "styleLite/Wired-Zinc.jpg"
             }
           ]
