@@ -7,15 +7,15 @@ import {
 import logo from '../../assets/img/black-logo.jpg'
 import {RoomOrderType} from "../../helpers/roomTypes";
 import {s} from "./PDFOrder"
-import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 import PdfTable from "./PDFTable";
 import {MaterialStringsType} from "../../common/Materials";
 import {CartItemFrontType} from "../../helpers/cartTypes";
 import PdfRoomMaterials from "./PDFRoomMaterials";
 import PDFRoomUserData from "./PDFRoomUserData";
+import {CheckoutFormType} from "../Checkout/CheckoutForm";
 
 
-const PDFPurchaseOrder: FC<{ values: CheckoutSchemaType, po_rooms_api: RoomOrderType[] }> = ({
+const PDFPurchaseOrder: FC<{ values: CheckoutFormType, po_rooms_api: RoomOrderType[] }> = ({
                                                                                                  values,
                                                                                                  po_rooms_api
                                                                                              }) => {

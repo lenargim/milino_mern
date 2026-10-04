@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Text, View} from "@react-pdf/renderer";
-import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
+import {CheckoutFormType} from "../Checkout/CheckoutForm";
 
-const PdfRoomUserData:FC<{values: CheckoutSchemaType, is_po?:boolean}> = ({values, is_po = false}) => {
+const PdfRoomUserData:FC<{values: CheckoutFormType, is_po?:boolean}> = ({values, is_po = false}) => {
     const {company, name, room_name, additional_emails, email, delivery_date, delivery, purchase_order, phone} = values
     return (
         <View>

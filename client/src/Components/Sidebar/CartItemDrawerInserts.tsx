@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {DrawerAccessoriesType, DrawerInserts} from "../CustomPart/CustomPart";
+import {DrawerInserts} from "../CustomPart/CustomPart";
 
 const CartItemDrawerInserts: FC<{ inserts: DrawerInserts, width: number }> = ({inserts, width}) => {
     const {box_type, color, insert_type} = inserts;

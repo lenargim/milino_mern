@@ -36,9 +36,6 @@ export const userSlice = createSlice({
             localStorage.removeItem('token')
             localStorage.removeItem('constructor_token')
             localStorage.removeItem('customer_token')
-        },
-        setOrders: (state, action: PayloadAction<OrderTypeAPI[]>) => {
-            state.orders = action.payload
         }
     },
     extraReducers: builder => {
@@ -62,6 +59,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const {setUser, logout, setOrders} = userSlice.actions
+export const {setUser, logout} = userSlice.actions
 
 export default userSlice.reducer

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {s} from './PDFOrder'
-import {DrawerAccessoriesType, DrawerInserts} from "../CustomPart/CustomPart";
+import {DrawerInserts} from "../CustomPart/CustomPart";
 import {Text, View} from '@react-pdf/renderer';
 
 const CartItemDrawerInserts: FC<{ inserts: DrawerInserts, width: number }> = ({inserts, width}) => {

@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {CustomPartTableDataType, CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType} from "../../helpers/productTypes";
 import CustomPartCabinet from "./CustomPartCabinet";
 import CustomPartLEDForm from "./CustomPartLEDForm";
 import CustomPartStandardDoorForm from "./CustomPartStandardDoorForm";
@@ -11,7 +11,7 @@ import CustomPartRTACloset from "./CustomPartRTACloset";
 import CustomPartCustomDoors from "./CustomPartCustomDoors";
 import {useFormikContext} from "formik";
 import {CustomPartFormType} from "./CustomPart";
-import {addToCartCustomPartAPI} from "../../helpers/helpers";
+import {addToCartCustomPartAPI, filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 import {getCustomPartPrice} from "../../helpers/calculatePrice";
 import CustomPartRibbed from "./CustomPartRibbed";
 import CustomPartDrawerInserts from "./CustomPartDrawerInserts";
@@ -22,28 +22,27 @@ import CustomPartRODrawer from "./CustomPartRODrawer";
 import CustomPartGlassShelfForm from "./CustomPartGlassShelfForm";
 import CustomPartGlassDoorForm from "./CustomPartGlassDoorForm";
 import CustomPartQtyOnly from "./CustomPartQtyOnly";
-import product from "../Product/Product";
 
 
 type CustomPartRight = {
     customPartProduct: CustomPartType,
-    customPartData: CustomPartTableDataType,
     materials: RoomMaterialsFormType
 }
 
 const CustomPartRight: FC<CustomPartRight> = ({
                                                   customPartProduct,
-                                                  customPartData,
                                                   materials
                                               }) => {
-    const {initialMaterialData} = customPartData;
+
     const {door_color, door_type} = materials
     const isStandardCabinet = door_type === 'Standard Size Shaker';
     const {depth, type} = customPartProduct;
-    const depthApi = initialMaterialData?.depth ?? depth;
-    const isDepthIsConst = typeof depthApi === 'number';
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+    // const depthApi = initialMaterialData?.depth ?? depth;
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values;
+    const {materials_array, id} = customPartProduct;
+    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
+
     useEffect(() => {
         const APIValues = addToCartCustomPartAPI(values, customPartProduct, '', undefined)
         const newPrice = getCustomPartPrice(customPartProduct, materials, APIValues);
@@ -51,21 +50,19 @@ const CustomPartRight: FC<CustomPartRight> = ({
             setFieldValue('price', newPrice)
         }
     }, [{...values}])
+
     switch (type) {
         case "custom":
-            return <CustomPartCabinet product={customPartProduct}
-                                      isDepthIsConst={isDepthIsConst}
-                                      isStandardCabinet={isStandardCabinet}
-            />
+            return <CustomPartCabinet product={customPartProduct} filtered_materials_array={filtered_materials_array}/>
         case "glass-door":
-            return <CustomPartGlassDoorForm product={customPartProduct} />
+            return <CustomPartGlassDoorForm product={customPartProduct} filtered_materials_array={filtered_materials_array}/>
         case "glass-shelf":
-            return <CustomPartGlassShelfForm />
+            return <CustomPartGlassShelfForm/>
         case "panel":
         case "backing":
-            return <CustomPartPanel product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+            return <CustomPartPanel product={customPartProduct} filtered_materials_array={filtered_materials_array}/>
         case "pvc":
-            return <CustomPartPVC product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+            return <CustomPartPVC filtered_materials_array={filtered_materials_array}/>
         case "led-accessories":
             return <CustomPartLEDForm/>
         case "door-accessories":
@@ -74,23 +71,23 @@ const CustomPartRight: FC<CustomPartRight> = ({
         case "standard-glass-doors":
             return <CustomPartStandardDoorForm customPart={customPartProduct} color={door_color}/>
         case "standard-panel":
-            return <CustomPartStandardPanel product={customPartProduct} materials={materials}/>
+            return <CustomPartStandardPanel product={customPartProduct}/>
         case "plastic_toe":
             return <CustomPartPlasticToe product={customPartProduct}/>
         case "rta-closets":
             return <CustomPartRTACloset materials={materials}/>
         case "custom-doors":
-            return <CustomPartCustomDoors product={customPartProduct} />;
+            return <CustomPartCustomDoors/>;
         case "ribbed":
-            return <CustomPartRibbed product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+            return <CustomPartRibbed filtered_materials_array={filtered_materials_array}/>
         case "thick_floating_shelf":
-            return <CustomPartThickFloatingShelf product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+            return <CustomPartThickFloatingShelf product={customPartProduct} filtered_materials_array={filtered_materials_array}/>
         case "drawer-inserts":
-            return <CustomPartDrawerInserts product={customPartProduct} isStandardCabinet={isStandardCabinet} />
+            return <CustomPartDrawerInserts/>
         case "ro_drawer":
-            return <CustomPartRODrawer product={customPartProduct} />
+            return <CustomPartRODrawer product={customPartProduct}/>
         case "qty_only":
-            return <CustomPartQtyOnly product={customPartProduct} />
+            return <CustomPartQtyOnly product={customPartProduct}/>
         default:
             return null;
     }

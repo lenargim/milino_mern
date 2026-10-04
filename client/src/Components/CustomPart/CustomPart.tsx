@@ -180,7 +180,6 @@ const CustomPart: FC<CustomPartFCType> = ({
                 <CustomPartLeft product={custom_part}/>
                 <div className={s.right}>
                     <CustomPartRight customPartProduct={custom_part}
-                                     customPartData={customPartData}
                                      materials={materials}/>
                 </div>
             </div>

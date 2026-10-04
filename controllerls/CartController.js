@@ -3,17 +3,16 @@ import {cleanObject} from "../utils/helpers.js";
 
 export const getCart = async (req, res) => {
   try {
-    const roomId = req.params.id;
-    if (!roomId) {
-      return res.status(404).json({
-        message: 'Cart not found Room'
-      })
+    const room_id = req.params.room_id;
+
+    const cart = await CartModel.find({room_id});
+    if (!cart) {
+        return res.status(404).json({
+            message: 'Cart not found in Room'
+        })
     }
-    const cart = await CartModel.find({room_id: roomId});
-    const response = {
-      cart: cart,
-      room_id: roomId
-    }
+
+    const response = {cart, room_id}
     res.json(response)
   } catch (e) {
     res.status(500).json({
@@ -29,7 +28,7 @@ export const addToCart = async (req, res, next) => {
     const cleanedCart = cleanObject(newCart);
     const doc = new CartModel(cleanedCart)
     await doc.save();
-    req.params.id = newCart.room_id;
+    req.params.room_id = newCart.room_id;
     next();
   } catch (e) {
     res.status(500).json({
@@ -40,9 +39,9 @@ export const addToCart = async (req, res, next) => {
 
 export const removeFromCart = async (req, res, next) => {
   try {
-    const roomId = req.params.roomId;
-    const cartId = req.params.cartId;
-    const doc = await CartModel.findByIdAndDelete(cartId, {
+    const room_id = req.params.room_id;
+    const cart_id = req.params.cart_id;
+    const doc = await CartModel.findByIdAndDelete(cart_id, {
       returnDocument: "after",
     })
 
@@ -51,7 +50,7 @@ export const removeFromCart = async (req, res, next) => {
         message: 'Cart Item not found'
       })
     }
-    req.params.id = roomId;
+    req.params.room_id = room_id;
     next()
 
   } catch (e) {
@@ -63,16 +62,16 @@ export const removeFromCart = async (req, res, next) => {
 
 export const removeAllFromCart = async (req, res, next) => {
   try {
-    const roomId = req.params.roomId;
-    const doc = await CartModel.deleteMany({room_id: roomId});
+    const room_id = req.params.room_id;
+    const doc = await CartModel.deleteMany({room_id: room_id});
 
     if (!doc) {
       return res.status(404).json({
         message: 'Room not found'
       })
     }
-    req.params.id = roomId;
-    next()
+    req.params.room_id = room_id;
+    next();
 
   } catch (e) {
     res.status(500).json({
@@ -83,10 +82,10 @@ export const removeAllFromCart = async (req, res, next) => {
 
 export const updateCartAmount = async (req, res, next) => {
   try {
-    const roomId = req.params.roomId;
-    const cartId = req.params.cartId;
+    const room_id = req.params.room_id;
+    const cart_id = req.params.cart_id;
 
-    const doc = await CartModel.findByIdAndUpdate(cartId,
+    const doc = await CartModel.findByIdAndUpdate(cart_id,
       {
         amount: req.body.amount
       }, {
@@ -98,9 +97,8 @@ export const updateCartAmount = async (req, res, next) => {
         message: 'Cart Item not found'
       })
     }
-    req.params.id = roomId;
+    req.params.room_id = room_id;
     next()
-
 
   } catch (e) {
     res.status(500).json({
@@ -125,7 +123,7 @@ export const updateCartItem = async (req, res, next) => {
       })
     }
 
-    req.params.id = cart.room_id;
+    req.params.room_id = cart.room_id;
     next()
   } catch (e) {
     res.status(500).json({

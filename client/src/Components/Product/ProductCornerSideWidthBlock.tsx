@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import s from "./product.module.sass";
-import {ProductCheckboxInput, ProductInputCustom, ProductRadioInputCustom} from "../../common/Form";
-import {FinishSidesTypes, MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
+import {ProductInputCustom, ProductRadioInputCustom} from "../../common/Form";
+import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 
 const ProductCornerSideWidthBlock: FC<{ arr:MaybeUndefined<number[]>, blind_width:MaybeEmpty<number> }> = ({arr, blind_width}) => {
     if (!arr) return null;

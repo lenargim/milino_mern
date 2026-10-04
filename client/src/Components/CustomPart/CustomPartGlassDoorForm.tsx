@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
@@ -8,7 +8,7 @@ import CustomPartGlassDoorBlock from "./CustomPartGlassDoorBlock";
 import CustomPartSubmit from "./CustomPartSubmit";
 import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
 
-const CustomPartGlassDoorForm: FC<{product:CustomPartType}> = ({product}) => {
+const CustomPartGlassDoorForm: FC<{product:CustomPartType, filtered_materials_array: MaybeNull<materialsCustomPart[]>}> = ({product, filtered_materials_array}) => {
     const {values} = useFormikContext<CustomPartFormType>();
     const {
         glass_door,
@@ -30,7 +30,7 @@ const CustomPartGlassDoorForm: FC<{product:CustomPartType}> = ({product}) => {
                     <ProductInputCustom name="height_string"/>
                 </div>
             </div>
-            <CustomPartMaterialsArray product={product} isStandardCabinet={false} />
+            <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array} />
             <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={true} product_id={id}/>
 
             <div className={s.block}>

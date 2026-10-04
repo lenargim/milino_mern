@@ -40,6 +40,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         if (numberVal > max) return context.createError({message: `Maximum ${getFraction(max)} inches`})
         return true;
     }
+
     const {materials_array, type, id} = product;
     const customInitialSchema = Yup.object({
         width_string: Yup.string()
@@ -76,7 +77,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
                 }),
             color: Yup.string()
                 .when('index', {
-                    is: (index:MaybeUndefined<number>) => hasGlassShelfColor(index),
+                    is: (index: MaybeUndefined<number>) => hasGlassShelfColor(index),
                     then: s => s.required("Choose glass color"),
                 })
         })
@@ -159,6 +160,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
             case 900:
                 return (root['depth'] || root['custom_depth']) - 1;
             case 901:
+            case 927:
                 return (root['depth']) - 1;
             case 903:
                 return (root['height']) - 1;
@@ -200,7 +202,7 @@ export function getCustomPartSchema(product: CustomPartType, materials: RoomMate
         case "pvc":
             return customInitialSchema.concat(customPartWithMaterialSchema);
         case "thick_floating_shelf":
-            return customInitialSchema.concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema);
+            return customInitialSchema.concat(customPartWithDepthSchema).concat(customPartWithMaterialSchema).concat(ledSchema);
         case "glass-door":
             const glassDoorSchema = Yup.object({
                 glass_door: Yup.lazy((value, context) => {

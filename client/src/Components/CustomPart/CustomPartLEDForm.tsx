@@ -20,7 +20,7 @@ export const initialLEDAccessories:LedAccessoriesFormType = {
 }
 
 const CustomPartLEDForm: FC = () => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {led_accessories, price} = values;
 
     useEffect(() => {

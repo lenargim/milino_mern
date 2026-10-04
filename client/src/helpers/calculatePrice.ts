@@ -10,7 +10,7 @@ import {
     pricePart, priceStandardPanel,
     pricesTypings, pricesTypingsNumber,
     productCategory,
-    productDataToCalculatePriceType, ProductExtraType,
+    productDataToCalculatePriceType, ProductExtraType, ProductOptionsType,
     productRangeType,
     ProductType,
     productTypings,
@@ -21,7 +21,7 @@ import settings from './../api/settings.json'
 import {
     checkDoors,
     convertDoorAccessories,
-    getAttributes, getAttributesWithoutDesc,
+    getAttributes,
     getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart,
     getIsCloset,
     getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset, getLedHeight,
@@ -69,7 +69,6 @@ const normalizeValue = (value: number, allowed: number[]): number => {
     return allowed[allowed.length - 1];
 };
 
-
 export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[]): number => {
     if (!priceData.length) return 0;
 
@@ -103,66 +102,6 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
 
     return found?.price ?? 0;
 };
-
-// export const getTablePrice = (width: number, height: number, depth: number, priceData: pricePart[], product: ProductType): number => {
-//     console.log(`${width} ${height} ${depth}`)
-//     const maxData = priceData[priceData.length - 1];
-//     const {width: maxDataWidth, price: maxDataPrice} = maxData
-//     const {category} = product
-//     switch (category) {
-//         case 'Base Cabinets':
-//         case "Vanities":
-//         case "Floating Vanities":
-//         case "Gola Floating Vanities":
-//         case "Gola Base Cabinets":
-//             // Round +1 inch to width
-//             if (width > maxDataWidth + 1) return maxDataPrice;
-//             const lastElIndex = priceData.length - 1;
-//             return priceData.find((data_el, index, arr) => {
-//                 const delta_with_next_width = lastElIndex >= index + 1 ? arr[index + 1].width - data_el.width : 3;
-//                 let round_width = delta_with_next_width > 1 ? 1 : 0.95;
-//                 return data_el.width + round_width >= width
-//             })?.price || 0
-//
-//         case 'Wall Cabinets':
-//         case "Gola Wall Cabinets":
-//         case 'Tall Cabinets':
-//         case "Gola Tall Cabinets":
-//         case "Build In":
-//         case "Custom Parts":
-//             const widthAndHeightTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.height && el.height + 1 >= height))?.price;
-//             if (widthAndHeightTablePrice) return widthAndHeightTablePrice;
-//             if (!maxData.height) return 0;
-//             if (width > maxData.width && height > maxData.height) return maxData.price;
-//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.height && el.height + 1 >= height))?.price || 0;
-//             if (height > maxData.height) return priceData.find(el => (el.height === maxData.height) && (el.width + 1 >= width))?.price || 0;
-//             return 0;
-//         case "Leather":
-//         case "RTA Closets":
-//         case "Cabinet System Closet":
-//             if (!priceData[0]?.depth) {
-//                 const widthTablePrice: MaybeUndefined<number> = priceData.find(el => el.width + 1 >= width)?.price;
-//                 if (widthTablePrice) return widthTablePrice;
-//                 if (width > maxData.width) return maxData.price;
-//                 return 0;
-//             }
-//             const widthAndDepthTablePrice: MaybeUndefined<number> = priceData.find(el => (el.width + 1 >= width) && (el.depth && el.depth + 1 >= depth))?.price;
-//             if (widthAndDepthTablePrice) return widthAndDepthTablePrice;
-//             if (width > maxData.width && maxData.depth && depth > maxData.depth) return maxData.price;
-//             if (width > maxData.width) return priceData.find(el => (el.width === maxData.width) && (el.depth && el.depth + 1 >= depth))?.price || 0;
-//             if (maxData.depth && depth > maxData.depth) return priceData.find(el => (el.depth === maxData.depth) && (el.width + 1 >= width))?.price || 0;
-//             return 0;
-//         case "Standard Base Cabinets":
-//         case "Standard Wall Cabinets":
-//         case "Standard Tall Cabinets":
-//         case "Standard Vanities":
-//         case "Standard Floating Vanities":
-//             const hasHeightDependency = priceData[0].height
-//             if (!hasHeightDependency) return priceData.find(el => el.width + 1 >= width)?.price || 0;
-//             return priceData.find(el => el.width === width && el.height === height)?.price || 0;
-//     }
-//     return 0
-// };
 
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
@@ -214,7 +153,7 @@ export function addGlassDoorPrice(square: number, profileName: MaybeUndefined<st
     return p > minPrice ? p : minPrice
 }
 
-export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes|GlassNamesTypes>>): number => {
+export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes | GlassNamesTypes>>): number => {
     // Min price area
     const areaForPrice = area >= 3 ? area : 3;
     switch (glassShelf) {
@@ -235,25 +174,6 @@ export const addGlassAndMirroredShelfPrice = (area: number, glassShelf: MaybeUnd
     }
     return 0
 }
-
-// const filterAttrByDimension = (attrArr: MaybeUndefined<valueItemType[]>,width: number, height: number): MaybeUndefined<valueItemType[]> => {
-//     if (!attrArr) return undefined;
-//     if (!attrArr[0].type) return undefined;
-//
-//     const filter = attrArr.filter(val => {
-//         const isMaxWidth = val.maxWidth
-//         const isMinWidth = val.minWidth
-//         const isMaxHeight = val.maxHeight
-//         const isMinHeight = val.minHeight
-//
-//         if (isMaxWidth && isMaxWidth <= width) return false;
-//         if (isMinWidth && isMinWidth > width) return false;
-//         if (isMaxHeight && isMaxHeight <= height) return false;
-//         if (isMinHeight && isMinHeight > height) return false;
-//         return true
-//     })
-//     return filter;
-// }
 
 export const resolveTypeByDimensions = (
     attributes: AttrItemType[],
@@ -299,61 +219,6 @@ export const resolveTypeByDimensions = (
     return [...(common ?? [])][0] ?? 1;
 };
 
-export function getType(width: number, height: number, widthDivider: MaybeUndefined<number>, doors: number, category: productCategory, attributes: AttrItemType[]): productTypings {
-    const filteredAttrs = getAttributesWithoutDesc(attributes)
-    if (!filteredAttrs.length) return 1;
-    // const doorValues = filteredAttrs.find(el => el.name === 'Door')?.values;
-    // const shelfValues = filteredAttrs.find(el => el.name === 'Adjustable Shelf')?.values;
-    // const trashBinValues = filteredAttrs.find(el => el.name === 'Trash Bin')?.values;
-    // const filterDimension = filteredAttrs.filter(el => !!filterAttrByDimension(el.values, width, height)).map(el => filterAttrByDimension(el.values, width, height));
-
-
-    return 1;
-    // switch (category) {
-    //     case 'Base Cabinets':
-    //     case "Vanities":
-    //     case "Floating Vanities":
-    //     case "Gola Floating Vanities":
-    //     case "Gola Base Cabinets":
-    //     case "Standard Base Cabinets":
-    //     case "Standard Vanities":
-    //     case "Standard Floating Vanities":
-    //         if (widthDivider) return width <= widthDivider ? 1 : 2;
-    //         const currentDoorType = doorValues.find(el => el.value === doors)?.type
-    //         return currentDoorType ?? 1;
-    //     case 'Wall Cabinets':
-    //     case 'Tall Cabinets':
-    //     case "Gola Wall Cabinets":
-    //     case "Gola Tall Cabinets":
-    //     case "Build In":
-    //     case "Leather":
-    //     case "Standard Wall Cabinets":
-    //     case "Standard Tall Cabinets":
-    //         if (!shelfValues.length) return 1;
-    //         const doorsArr = filterDoorArr(width, doorValues);
-    //
-    //         const shelfsArr = shelfValues.filter(val => {
-    //             const isMaxWidth = val.maxWidth
-    //             const isMinWidth = val.minWidth
-    //             const isMaxHeight = val.maxHeight
-    //             const isMinHeight = val.minHeight
-    //
-    //             if (isMaxWidth && isMaxWidth <= width) return false;
-    //             if (isMinWidth && isMinWidth > width) return false;
-    //             if (isMaxHeight && isMaxHeight <= height) return false;
-    //             if (isMinHeight && isMinHeight > height) return false;
-    //             return true
-    //         })
-    //
-    //         let doorTypes = doorsArr.map(el => el.type);
-    //         const currentType = shelfsArr.find(el => doorTypes.includes(el.type));
-    //         return currentType ? currentType.type : 1
-    //
-    //     default:
-    //         return 1
-    // }
-}
-
 export const getProductFrontCustomVal = (custom: MaybeNull<ProductExtraType>): MaybeUndefined<CartCustomTypeAPI> => {
     return custom ? {
         accessories: custom.closet_accessories ? {closet: custom.closet_accessories} : undefined,
@@ -363,20 +228,19 @@ export const getProductFrontCustomVal = (custom: MaybeNull<ProductExtraType>): M
     } : undefined
 }
 
-const filterDoorArr = (width: number, doorValues?: valueItemType[]): valueItemType[] => {
-    if (!doorValues) return [];
-    if (doorValues.length === 1) return doorValues;
-    return doorValues.filter(val => {
-        const maxWidth = val.maxWidth;
-        const minWidth = val.minWidth;
-        if (maxWidth && width >= maxWidth) return false;
-        if (minWidth && width < minWidth) return false;
-        return true;
-    });
-}
-
 export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItemType[], widthDivider?: number): MaybeNull<number[]> {
     if (!doorValues) return null;
+    const filterDoorArr = (width: number, doorValues?: valueItemType[]): valueItemType[] => {
+        if (!doorValues) return [];
+        if (doorValues.length === 1) return doorValues;
+        return doorValues.filter(val => {
+            const maxWidth = val.maxWidth;
+            const minWidth = val.minWidth;
+            if (maxWidth && width >= maxWidth) return false;
+            if (minWidth && width < minWidth) return false;
+            return true;
+        });
+    }
     if (widthDivider && doorValues.length >= 2) return realWidth <= widthDivider ? [doorValues[0].value] : [doorValues[1].value];
     const filter = filterDoorArr(realWidth, doorValues)
     return [...new Set<number>(filter.map(el => el.value))]
@@ -387,24 +251,24 @@ function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType
     const {
         door_finish_material,
         door_type,
-        room_category
+        category
     } = materialData;
-    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(room_category) || door_type === 'Wood ribbed doors') return 0;
+    if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(category) || door_type === 'Wood ribbed doors') return 0;
     const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     let coef = 2.5;
-    if (door_type === 'Custom Painted') coef = 2.63;
-    if (door_finish_material === 'Ultrapan Acrylic') coef = 2.75;
+    if (door_type === 'Custom Painted') coef = 2.75;
+    if (['Ultrapan Acrylic', 'Wood Veneer', 'StyleLite'].includes(door_finish_material)) coef = 2.75;
     return +(per * coef).toFixed(2);
 }
 
 function getDoorPrice(square: number, materialData: materialDataType): number {
     const {
         door_price_multiplier,
-        room_category,
+        category,
         box_material,
         box_color,
     } = materialData;
-    if (getIsLeatherOrRTAorSystemCloset(room_category)) {
+    if (getIsLeatherOrRTAorSystemCloset(category)) {
         const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
         return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
     }
@@ -423,18 +287,22 @@ function chooseDoorPanelMultiplier(door_type: string, material: string, color: s
                     break;
                 }
                 case "Syncron":
+                case "Finsa":
                     return 18;
                 case 'Luxe':
                 case 'Ultrapan PET':
                     return 24;
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     return 24.72;
                 case "Ultrapan Acrylic":
                     return 26.4;
             }
             break;
         case "Five Piece Shaker":
-            if (material === "Syncron") return 48;
+            if (material === "Syncron" || material === 'Finsa') return 48;
             return 61.8;
         case "Custom Painted":
             return 78;
@@ -454,6 +322,7 @@ function getPanelPrice(square: number, material: MaybeUndefined<string>): number
         case "Plywood":
             return square * k * 10;
         case "Syncron":
+        case "Finsa":
             return square * k * 18;
         case "Luxe":
         case "Ultrapan PET":
@@ -461,11 +330,15 @@ function getPanelPrice(square: number, material: MaybeUndefined<string>): number
         case "Ultrapan Acrylic":
             return square * k * 24 * 1.1;
         case "Zenit":
+        case "OneSkin":
+        case "Egger":
+        case "Cleaf":
             return square * k * 24 * 1.03;
         case "Painted":
-            return square * k * 40.56 * 1.05;
+            return square * k * 44.62;
         case "Wood Veneer":
-            return square * k * 42;
+        case "StyleLite":
+            return square * k * 46.2;
         default:
             return 0;
     }
@@ -478,15 +351,20 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
         case "Luxe":
         case "Syncron":
         case "Ultrapan PET":
+        case "Finsa":
             return square * 60;
         case "Ultrapan Acrylic":
             return square * 60 * 1.1;
         case "Zenit":
+        case "OneSkin":
+        case "Egger":
+        case "Cleaf":
             return square * 60 * 1.03;
         case 'Painted':
-            return square * 81.9;
+            return square * 85.8;
         case "Wood Veneer":
-            return square * 96;
+        case "StyleLite":
+            return square * 96 * 1.1;
         default:
             return 0;
     }
@@ -625,6 +503,7 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
         case "Wall Cabinets":
         case "Gola Wall Cabinets":
         case "Standard Wall Cabinets":
+        case "Standard Gola Wall Cabinets":
             return [13];
         case "Vanities":
         case "Floating Vanities":
@@ -641,26 +520,26 @@ function getDepthRange(priceData: pricePart[] | undefined, category: productCate
     }
 }
 
-function getLedPrice (width: number, height: number, led: MaybeUndefined<CartLEDAPI>): number {
+function getLedPrice(width: number, height: number, led: MaybeUndefined<CartLEDAPI>): number {
     if (!led) return 0;
     const {border} = led;
     let length: number = 0;
 
     if (border.includes('LED Panel')) return height * 2.55;
-    if (border.includes('LED Shelf')) return (width-1.5) * 2.55;
+    if (border.includes('LED Shelf')) return (width) * 2.55;
 
     if (border.includes('Sides')) length = height * 2
     if (border.includes('Top')) length += (width - 1.5)
     if (border.includes('Bottom')) length += (width - 1.5)
     if (border.includes('Bottom Inside')) length += (width - 1.5)
     if (border.includes('Bottom Outside')) length += (width - 1.5)
-    return +(length*2.55).toFixed(1);
+    return +(length * 2.55).toFixed(1);
 }
 
 const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
     const {door_type, door_color, door_finish_material, box_material, category} = materials;
     if (!category) return 3;
-    if (box_material === 'Wood Veneer') return "wood_veneer";
+    if (['Wood Veneer', 'StyleLite'].includes(box_material)) return "wood_veneer";
     switch (category as RoomCategoriesType) {
         case "Leather Closet":
         case "RTA Closet":
@@ -682,6 +561,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                             if (colorType === 1 || colorType === 2) return 1;
                             return 2;
                         case 'Syncron':
+                        case 'Finsa':
                             return 2;
                     }
                     break;
@@ -690,7 +570,7 @@ const getBasePriceType = (materials: RoomMaterialsFormType): pricesTypings => {
                 case 'Five Piece Shaker':
                 case 'Three Piece Door':
                 case 'Finger Pull':
-                    if (door_finish_material === 'Syncron') return 2;
+                    if (door_finish_material === 'Syncron' || door_finish_material === 'Finsa') return 2;
                     break;
                 case 'Shaker':
                 case 'Slatted':
@@ -721,21 +601,40 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                         case 'Milino':
                             return getDoorColorType(door_color) === 2 ? 1.05 : 1;
                         case 'Zenit':
+                        case "OneSkin":
+                        case "Egger":
+                        case "Cleaf":
                             return 1.03;
                         case 'Ultrapan Acrylic':
+                        case "StyleLite":
+                        case "Wood Veneer":
                             return 1.1;
                     }
                     break;
                 case 'Finger Pull':
                 case 'Five Piece Shaker':
-                    if (door_finish_material === 'Zenit') return 1.03;
+                    switch (door_finish_material) {
+                        case 'Zenit':
+                        case "OneSkin":
+                        case "Egger":
+                        case "Cleaf":
+                            return 1.03;
+                    }
                     break;
                 case 'Custom Painted':
-                    if (door_finish_material === 'Slab') return 1.05;
-                    return 1.1025;
+                    // if (door_finish_material === 'Slab') return 1.05;
+                    return 1.05 * 1.1;
                 case 'Shaker':
-                    if (door_finish_material === 'Zenit') return 1.03;
-                    if (door_finish_material === 'Ultrapan Acrylic') return 1.1;
+                    switch (door_finish_material) {
+                        case 'Zenit':
+                        case "OneSkin":
+                        case "Egger":
+                        case "Cleaf":
+                            return 1.03;
+                        case 'Ultrapan Acrylic':
+                        case "StyleLite":
+                            return 1.1;
+                    }
                     break;
                 case 'Slatted':
                     return 1.03;
@@ -825,6 +724,9 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
             return getBoxMaterialCoefByColorType(boxColorType);
         }
         case 'Zenit':
+        case "OneSkin":
+        case "Egger":
+        case "Cleaf":
             return 1.03;
         case 'Ultrapan Acrylic':
             return 1.1;
@@ -840,6 +742,7 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
             if (colorType === 2) return 1.1;
             return 1.2
         case "Syncron":
+        case "Finsa":
             return 1.845
         default:
             return 2.706
@@ -855,23 +758,24 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
             if (!door_type) return 0;
             switch (door_type as DoorTypesType) {
                 case "Slab":
-                    if (door_finish_material === 'Wood Veneer') return 22;
+                    if (['Wood Veneer', 'StyleLite'].includes(door_finish_material)) return 24.2;
                     return 0;
                 case "No Doors":
                     return -8;
                 case "Five Piece Shaker":
                 case "Three Piece Door":
                 case "Finger Pull":
-                    if (door_finish_material === 'Syncron') return 30;
+                    if (door_finish_material === 'Syncron' || door_finish_material === 'Finsa') return 30;
                     return 36;
                 case "Custom Painted":
-                    if (door_finish_material === 'Slab') return 31.5;
-                    return 45.36;
+                    if (door_finish_material === 'Slab') return 33;
+                    return 47.52;
                 case "Shaker":
                     switch (door_finish_material as FinishTypes) {
                         case "Milino":
                             return 30;
                         case "Wood Veneer":
+                        case "StyleLite":
                             return 58
                         default:
                             return 36;
@@ -911,18 +815,12 @@ export const getSizeLimitsFromData = (product_id: number, isAngle: MaybeUndefine
 
 export const getMaterialData = (materials: RoomMaterialsFormType, product_id: number): materialDataType => {
     const {
-        category,
         door_type,
         door_grain,
         door_finish_material,
         door_color,
         box_material,
         box_color,
-        drawer_brand,
-        drawer_type,
-        drawer_color,
-        leather,
-        rod
     } = materials;
     const is_standard_room = door_type === "Standard Size Shaker";
     const base_price_type = getBasePriceType(materials);
@@ -932,26 +830,26 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     const box_material_finish_coef = getBoxMaterialFinishCoef(door_finish_material, door_color);
     const door_price_multiplier = getDoorPriceMultiplier(materials, is_standard_room);
     return {
+        ...materials,
         is_standard_room,
-        room_category: category,
         base_price_type,
         grain_coef,
         box_material_coef,
         box_material_finish_coef,
-        box_color,
         door_price_multiplier,
-        door_type,
-        door_finish_material,
-        drawer_brand,
-        drawer_type,
-        drawer_color,
-        leather,
-        box_material,
-        materials_coef,
-        rod
+        materials_coef
     }
 }
-export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, drawerBrand: MaybeUndefined<string>, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
+
+const filterProductOptionsBasedOnMaterialData = (options: ProductOptionsType[], materials: RoomMaterialsFormType): ProductOptionsType[] => {
+    const {door_type, drawer_brand} = materials;
+    let arr = [...options];
+    if (drawer_brand === 'Milino') arr = arr.filter(o => o !== 'PTO for drawers');
+    if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors' || o === 'Glass Door');
+    return arr;
+}
+
+export const getProductDataToCalculatePrice = (product: ProductType | productChangeMaterialType, materials: RoomMaterialsFormType, image_active_number: productTypings = 1): productDataToCalculatePriceType => {
     const {attributes, options} = product;
     const attrArr = getAttributes(attributes, image_active_number);
     const doorValues = attributes.find(el => el.name === 'Door')?.values;
@@ -965,7 +863,7 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         const qty = current.name.includes('Rollout') ? current.value : 0
         return acc + qty;
     }, 0);
-    const filteredOptions = options.filter(option => (option !== 'PTO for drawers' || drawerBrand !== 'Milino'));
+    const filteredOptions = filterProductOptionsBasedOnMaterialData(options, materials)
     const shelfsQty = getShelfsQty(attrArr);
     const rodsQty = getRodsQty(attrArr)
     return {
@@ -1018,12 +916,16 @@ const getPanelCutoutPrice = (id: number, values: CartAPI, custom_part_price: num
     return custom_part_price / 2
 }
 
+const minAvailableArea = (area: number, minArea: number): number => {
+    return Math.max(area, minArea);
+}
+
 export const getCustomPartPrice = (product: CustomPartType, materials: RoomMaterialsFormType, values: CartAPI): number => {
     let price: number = 0;
     const {width, height, depth, custom, glass, product_id, led} = values;
     const {door_color, door_type, box_color, category} = materials
     const {id, type} = product;
-    const area = +(width * height / 144).toFixed(2);
+    let area = +(width * height / 144).toFixed(2);
     const color = getIsRTAorSystemCloset(category) ? box_color : door_color;
     switch (id) {
         case 900: {
@@ -1035,6 +937,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = (width * height * depth / 80) + 120;
                     break;
                 case "Syncron":
+                case "Finsa":
                     price = (width * height * depth / 50) + 120;
                     break;
                 case "Luxe":
@@ -1045,20 +948,24 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = ((width * height * depth / 20) + 120) * 1.1;
                     break;
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     price = ((width * height * depth / 20) + 120) * 1.03;
                     break;
                 case "Painted":
-                    price = ((width * height * depth / 20) * 1.3 + 156) * 1.05 * 1.05;
+                    price = ((width * height * depth / 20) * 1.3 + 156) * 1.05 * 1.1;
                     break;
                 case "Wood Veneer":
-                    price = ((width * height * depth / 10) + 120);
+                case "StyleLite":
+                    price = ((width * height * depth / 10) + 120) * 1.1;
                     break;
             }
             const shelves = custom?.shelves;
             if (shelves) {
                 const {qty, color, index} = shelves
                 const sq = (width - 1.5) * (depth - 0.75) / 144;
-                const shelfsPrice = (hasGlassShelfColor(index) ? addGlassAndMirroredShelfPrice(sq, color) : getPanelPrice(sq, custom?.material) ) * qty;
+                const shelfsPrice = (hasGlassShelfColor(index) ? addGlassAndMirroredShelfPrice(sq, color) : getPanelPrice(sq, custom?.material)) * qty;
                 price += shelfsPrice;
             }
             if (led?.border.length) {
@@ -1074,6 +981,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 20;
                     break;
                 case "Syncron":
+                case "Finsa":
                     materialCoef = 22;
                     break;
                 case "Luxe":
@@ -1084,16 +992,20 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     materialCoef = 24 * 1.1;
                     break;
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     materialCoef = 24 * 1.03;
                     break;
                 case "Painted":
-                    materialCoef = 32.76 * 1.05;
+                    materialCoef = 31.2 * 1.05 * 1.1;
                     break;
                 case "Wood Veneer":
-                    materialCoef = 34;
+                case "StyleLite":
+                    materialCoef = 37.4;
                     break;
             }
-            const ledPrice = getLedPrice(width, height, led);
+            const ledPrice = getLedPrice(width - 1.5, height, led);
             price = shelfCoef * materialCoef + ledPrice;
             break;
         }
@@ -1112,6 +1024,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case 905: {
+            area = minAvailableArea(area, 1)
             switch (custom?.material) {
                 case "Milino":
                     price = area * 36;
@@ -1120,6 +1033,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = area * 40;
                     break;
                 case "Syncron":
+                case "Finsa":
                     price = area * 48;
                     break;
                 case "Luxe":
@@ -1130,13 +1044,17 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = area * 60 * 1.1;
                     break;
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     price = area * 60 * 1.03;
                     break;
                 case "Painted":
-                    price = area * 81.9;
+                    price = area * 85.8;
                     break;
                 case "Wood Veneer":
-                    price = area * 90;
+                case "StyleLite":
+                    price = area * 99;
                     break;
             }
             break;
@@ -1153,6 +1071,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = lSHapeArea * 21;
                     break
                 case "Syncron":
+                case "Finsa":
                     price = lSHapeArea * 39;
                     break
                 case "Luxe":
@@ -1163,13 +1082,17 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = lSHapeArea * 58 * 1.1;
                     break
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     price = lSHapeArea * 58 * 1.03;
                     break
                 case "Painted":
-                    price = lSHapeArea * 79.17;
+                    price = lSHapeArea * 82.94;
                     break
                 case "Wood Veneer":
-                    price = lSHapeArea * 100;
+                case "StyleLite":
+                    price = lSHapeArea * 110;
                     break
             }
             break
@@ -1181,6 +1104,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = columnArea * 15.2;
                     break
                 case "Syncron":
+                case "Finsa":
                     price = columnArea * 16.8;
                     break
                 case "Luxe":
@@ -1191,19 +1115,23 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = columnArea * 18.4 * 1.1;
                     break
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                     price = columnArea * 18.4 * 1.03;
                     break
                 case "Painted":
-                    price = columnArea * 25.12;
+                    price = columnArea * 26.31;
                     break
                 case "Wood Veneer":
-                    price = columnArea * 26;
+                case "StyleLite":
+                    price = columnArea * 28.6;
                     break
             }
             break
         }
         case 909: {
-            price = width * height / 144 * 4.6;
+            price = area * 4.6;
             break
         }
         case 910: {
@@ -1212,13 +1140,13 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
         }
         case 911: {
             let decorPrice = area > 4 ? area * 64 : 240;
-            price = custom?.material === 'Ultrapan Acrylic' ? decorPrice * 1.1 : decorPrice
             switch (custom?.material) {
                 case "Ultrapan Acrylic":
                     price = decorPrice * 1.1;
                     break;
                 case "Wood Veneer":
-                    price = area > 4 ? area * 105 : 240;
+                case "StyleLite":
+                    price = area > 4 ? area * 115.5 : 240;
                     break;
                 default:
                     price = decorPrice;
@@ -1236,8 +1164,10 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
                     price = shakerDoorPrice * 1.1;
                     break;
                 }
+                case "Wood Veneer":
+                case "StyleLite":
                 case "Painted": {
-                    price = shakerDoorPrice * 1.365;
+                    price = shakerDoorPrice * 1.43;
                     break;
                 }
                 default:
@@ -1246,23 +1176,26 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break
         }
         case 914: {
-            const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0]
+            const doorProfileVal: MaybeUndefined<string> = glass?.door?.[0];
             price = addGlassDoorPrice(area, doorProfileVal, false, true);
             break;
         }
         case 915: {
-            price = custom?.material === 'Ultrapan Acrylic' ? Math.ceil(width * 1.1) : Math.ceil(width);
+            let PVCPrice = Math.ceil(width);
+            switch (custom?.material) {
+                case "Ultrapan Acrylic": {
+                    price = PVCPrice * 1.1;
+                    break;
+                }
+                default:
+                    price = PVCPrice;
+            }
             break;
         }
         case 916: {
             const glassShelf: MaybeUndefined<MaybeEmpty<GlassAndMirrorTypes>> = glass?.shelf;
             price = addGlassAndMirroredShelfPrice(area, glassShelf)
             break
-        }
-        case 927: {
-            const sq = width * depth / 144;
-            price = getFloatingShelfCustomPartPrice(custom?.material, sq);
-            break;
         }
         case 917: {
             if (custom?.accessories?.led) price = getLEDProductCartPrice(custom.accessories.led);
@@ -1302,6 +1235,13 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             price = getRibbedCustomPartPrice(custom?.material, custom?.groove, area);
             break;
         }
+        case 927: {
+            const sq = width * depth / 144;
+            const floatingShelfCustomPartPrice = getFloatingShelfCustomPartPrice(custom?.material, sq);
+            const ledPrice = getLedPrice(width, height, led);
+            price = floatingShelfCustomPartPrice + ledPrice;
+            break;
+        }
         case 928: {
             price = getDrawerInsertsCustomPartPrice(custom?.drawer_accessories?.inserts, width);
             break;
@@ -1311,7 +1251,7 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case 930: {
-            if (custom?.painted_molding) price = 168*custom.painted_molding;
+            if (custom?.painted_molding) price = 168 * custom.painted_molding;
 
         }
     }
@@ -1389,16 +1329,17 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 }
 
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
-    const {widthDivider, category, attributes} = product
-    const {width, height, depth, options, hinge} = cabinetItem;
-    const doors = checkDoors(hinge);
-    const image_active_number = getType(width, height, widthDivider, doors, category, attributes);
+    const {attributes} = product
+    const {width, height, depth, options} = cabinetItem;
+    // const doors = checkDoors(hinge);
+    const image_active_number = resolveTypeByDimensions(attributes, width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData, image_active_number);
+    console.log(attributesPrices)
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     const totalPrice = +(startPrice * size_coef + attrPrice).toFixed(1);
     return totalPrice * settings.global_price_coef
@@ -1420,7 +1361,6 @@ const checkProductSize = (customWidth: number, customHeight: number, customDepth
 const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materialData: materialDataType, image_active_number: productTypings): AttributesPrices => {
     const {
         legsHeight = 0,
-        horizontal_line = 2,
         isAngle,
         category,
         id,
@@ -1447,11 +1387,11 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         drawer_color,
         door_type,
         door_finish_material,
-        room_category,
+        category: room_category,
         rod
     } = materialData;
 
-    const productPriceData = getProductDataToCalculatePrice(product, drawer_brand, image_active_number);
+    const productPriceData = getProductDataToCalculatePrice(product, materialData, image_active_number);
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = height - legsHeight - middle_section;
@@ -1462,6 +1402,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
+    console.log(getPvcPrice(doorWidth, doorHeight, product, materialData))
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
@@ -1510,12 +1451,17 @@ export const getRTAClosetCustomPartPrice = (rta_closet_custom: MaybeNull<RTAClos
                     if (boxType === 3) return 9.6;
                     return 9.2;
                 case "Syncron":
+                case "Finsa":
                     return 18;
                 case "Luxe":
                 case "Zenit":
+                case "OneSkin":
+                case "Egger":
+                case "Cleaf":
                 case "Ultrapan PET":
                     return 24;
                 case "Ultrapan Acrylic":
+                case "StyleLite":
                     return 26.4;
                 default:
                     return 0;
@@ -1561,7 +1507,7 @@ export const getRibbedCustomPartPrice = (material: MaybeUndefined<string>, groov
     const clearCoatPrice = groove?.clear_coat ? settings.fixPrices.clear_coat : 0;
     switch (material) {
         case "Painted":
-            return area * (78 + clearCoatPrice)
+            return area * (85.8 + clearCoatPrice)
         case "Maple":
         case "Birch":
             return area * (145 + clearCoatPrice)
@@ -1577,18 +1523,23 @@ export const getFloatingShelfCustomPartPrice = (material: MaybeUndefined<string>
         case "Milino":
             return area * 72;
         case "Syncron":
+        case "Finsa":
             return area * 86.4;
         case "Luxe":
         case "Ultrapan PET":
             return area * 102;
         case "Zenit":
+        case "OneSkin":
+        case "Egger":
+        case "Cleaf":
             return area * 102 * 1.03;
         case "Ultrapan Acrylic":
             return area * 102 * 1.1;
         case "Painted":
-            return area * 139.2;
+            return area * 145.9;
         case "Wood Veneer":
-            return area * 153;
+        case "StyleLite":
+            return area * 168.3;
     }
     return 0
 }

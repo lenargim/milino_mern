@@ -6,105 +6,71 @@
         "type": 4
       },
       {
-        "value": "1021 Black",
+        "value": "1021 Black Matte",
         "type": 2
       },
       {
-        "value": "1021 Champagne",
+        "value": "1021 Champagne Matte",
         "type": 2
       },
       {
-        "value": "1021 Clear Anodized",
+        "value": "1021 Graphite Brushed",
         "type": 2
       },
       {
-        "value": "1021 Polished",
+        "value": "1021 Silver Polished",
         "type": 2
       },
       {
-        "value": "1021 Graphite",
-        "type": 2
-      },
-      {
-        "value": "1021 Sepia",
-        "type": 2
-      },
-      {
-        "value": "1021 Gold",
-        "type": 2
-      },
-      {
-        "value": "1022 Black",
+        "value": "1022 Black Matte",
         "type": 3
       },
       {
-        "value": "1022 Champagne",
+        "value": "1022 Champagne Matte",
         "type": 3
       },
       {
-        "value": "1022 Graphite",
+        "value": "1022 Graphite Brushed",
         "type": 3
-      },
-      {
-        "value": "1040 Black",
-        "type": 2
-      },
-      {
-        "value": "1040 Champagne",
-        "type": 2
-      },
-      {
-        "value": "1040 Clear Anodized",
-        "type": 2
-      },
-      {
-        "value": "1040 Polished",
-        "type": 2
-      },
-      {
-        "value": "1040 Graphite",
-        "type": 2
-      },
-      {
-        "value": "1040 Sepia",
-        "type": 2
-      },
-      {
-        "value": "1040 White",
-        "type": 2
       },
       {
         "value": "1040 Black Matte",
         "type": 2
       },
       {
-        "value": "1040 Bronze Matte",
+        "value": "1040 Champagne Matte",
         "type": 2
       },
       {
         "value": "1040 Gold",
         "type": 2
-      },{
-        "value": "1040 Golden Sand Matte",
+      },
+      {
+        "value": "1040 Graphite Brushed",
         "type": 2
-      },{
+      },
+      {
         "value": "1040 Graphite Matte",
         "type": 2
       },
       {
-        "value": "1042 Black",
+        "value": "1040 Silver",
+        "type": 2
+      },
+      {
+        "value": "1040 Silver Polished",
+        "type": 2
+      },
+      {
+        "value": "1040 White Gloss",
+        "type": 2
+      },
+      {
+        "value": "1042 Black Matte",
         "type": 3
       },
       {
-        "value": "1042 Champagne",
-        "type": 3
-      },
-      {
-        "value": "1042 Clear Anodized",
-        "type": 3
-      },
-      {
-        "value": "1042 Polished",
+        "value": "1042 Champagne Matte",
         "type": 3
       },
       {
@@ -112,51 +78,35 @@
         "type": 3
       },
       {
-        "value": "1042 Graphite",
+        "value": "1042 Graphite Brushed",
         "type": 3
       },
       {
-        "value": "1042 Sepia",
+        "value": "1042 Silver Brushed",
         "type": 3
       },
       {
-        "value": "1042 White",
+        "value": "1042 White Gloss",
         "type": 3
       },
       {
-        "value": "1042 Black Matte",
+        "value": "1070 Black Matte",
         "type": 3
       },
       {
-        "value": "1042 Bronze",
+        "value": "1070 Champagne Matte",
         "type": 3
       },
       {
-        "value": "1042 Golden Sand Matte",
+        "value": "1070 Gold",
         "type": 3
       },
       {
-        "value": "1042 Graphite Matte",
+        "value": "1070 Graphite Brushed",
         "type": 3
       },
       {
-        "value": "1042 Mint Matte",
-        "type": 3
-      },
-      {
-        "value": "1070 Champagne",
-        "type": 3
-      },
-      {
-        "value": "1070 Black",
-        "type": 3
-      },
-      {
-        "value": "1070 Silver",
-        "type": 3
-      },
-      {
-        "value": "1070 Graphite",
+        "value": "1070 Silver Brushed",
         "type": 3
       }
     ],
@@ -217,6 +167,7 @@
     "Wall Cabinets": 16,
     "Gola Wall Cabinets": 16,
     "Standard Wall Cabinets": 16,
+    "Standard Gola Wall Cabinets": 16,
     "Tall Cabinets": 27,
     "Gola Tall Cabinets": 27,
     "Standard Tall Cabinets": 27,

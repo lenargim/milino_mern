@@ -6,7 +6,7 @@ import {useField} from "formik";
 import {getFraction} from "../../helpers/helpers";
 
 const ProductFarmSink:FC<{farm_sink_height: MaybeUndefined<number>}> = ({farm_sink_height}) => {
-    const [{value}, meta, {setValue}] = useField('farm_sink_height_string');
+    const [{value}, , {setValue}] = useField('farm_sink_height_string');
     useEffect(() => {
         if (!value) setValue(getFraction(farm_sink_height || 0), true)
     }, [])

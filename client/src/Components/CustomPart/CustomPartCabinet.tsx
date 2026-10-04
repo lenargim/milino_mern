@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, TextInput} from "../../common/Form";
@@ -10,28 +10,26 @@ import {isLedBlock, isShowShelvesBlock} from "../../helpers/helpers";
 import CustomPartShelvesBlock from "./CustomPartShelvesBlock";
 import ProductLED from "../Product/ProductLED";
 
-type CustomPartCabinet = {
+type CustomPartCabinetType = {
     product: CustomPartType,
-    isDepthIsConst: boolean,
-    isStandardCabinet: boolean
+    filtered_materials_array: MaybeNull<materialsCustomPart[]>
 }
 
-const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+const CustomPartCabinet: FC<CustomPartCabinetType> = ({product, filtered_materials_array}) => {
+    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {
         material,
         depth,
         price
     } = values;
     const {materials_array, id} = product;
-
     useEffect(() => {
         const new_depth = materials_array && materials_array.find(el => el.name === material)?.depth;
         if (new_depth && depth !== new_depth) setFieldValue('depth', new_depth);
     }, [material])
 
     const showLedBlock = isLedBlock(id)
-    const showShelvesBlock = isShowShelvesBlock(product.id)
+    const showShelvesBlock = isShowShelvesBlock(id)
     return (
         <Form>
             <div className={s.block}>
@@ -54,7 +52,7 @@ const CustomPartCabinet: FC<CustomPartCabinet> = ({product, isStandardCabinet}) 
             </div>
             {showShelvesBlock ? <CustomPartShelvesBlock /> : null}
             {showLedBlock ? <ProductLED id={id} /> : null}
-            <CustomPartMaterialsArray product={product} isStandardCabinet={isStandardCabinet} />
+            <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array} />
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

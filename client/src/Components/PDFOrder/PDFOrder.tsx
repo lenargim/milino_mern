@@ -6,10 +6,10 @@ import {
 import logo from '../../assets/img/black-logo.jpg'
 import {MaterialStringsType} from "../../common/Materials";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import {CheckoutSchemaType} from "../Checkout/CheckoutSchema";
 import PdfTable from "./PDFTable";
 import PdfRoomMaterials from "./PDFRoomMaterials";
 import PDFRoomUserData from "./PDFRoomUserData";
+import {CheckoutFormType} from "../Checkout/CheckoutForm";
 
 export const s = StyleSheet.create({
     page: {
@@ -181,7 +181,7 @@ export const s = StyleSheet.create({
     }
 })
 
-const PDFOrder: FC<{ values: CheckoutSchemaType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
+const PDFOrder: FC<{ values: CheckoutFormType, cart: CartItemFrontType[], materialStrings: MaterialStringsType }> = ({
                                                                                                                      values,
                                                                                                                      cart,
                                                                                                                      materialStrings

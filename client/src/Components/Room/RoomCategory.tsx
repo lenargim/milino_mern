@@ -10,7 +10,7 @@ import {roomSetActiveCategory} from "../../store/reducers/roomSlice";
 
 
 const RoomCategory: FC = () => {
-    const [room] = useOutletContext<[RoomFront]>();
+    const {room} = useOutletContext<{room:RoomFront}>();
     const [hoveredItem, setHoveredItem] = useState<MaybeNull<CustomPartsImgListItem>>(null);
     if (!room) return null;
     const {_id, activeProductCategory: category_active, door_type, category} = room;

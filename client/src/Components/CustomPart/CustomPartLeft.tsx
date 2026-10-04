@@ -1,8 +1,6 @@
 import React, {FC} from 'react';
 import s from "../Product/product.module.sass";
 import {CustomPartType} from "../../helpers/productTypes";
-import Materials from "../../common/Materials";
-import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {useFormikContext} from "formik";
 import {CustomPartFormType} from "./CustomPart";
 import {getCustomPartImagePath} from "../../helpers/helpers";

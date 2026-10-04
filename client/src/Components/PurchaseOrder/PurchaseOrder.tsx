@@ -1,19 +1,25 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import s from "../Profile/profile.module.sass";
-import {NavLink, Outlet, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, Outlet, useLocation} from "react-router-dom";
 import RoomSidebar from "../Room/RoomSidebar";
 import {MaybeNull} from "../../helpers/productTypes";
-import {textToLink, useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
 import {PurchaseOrdersState, PurchaseOrderType, setPOs} from "../../store/reducers/purchaseOrderSlice";
-import {deletePO, getAllPOs} from "../../api/apiFunctions";
-import checkoutStyle from "../Checkout/checkout.module.sass";
+import {getAllPOs} from "../../api/apiFunctions";
+import ApproveRemovePO from "./ApproveRemovePO";
+import PurchaseOrderNavLink from "./PurchaseOrderNavLink";
+import {AdminStateType} from "../../store/reducers/adminSlice";
+import {useAuthUser} from "../../utils/customHooks";
+import {useEditor} from "../../helpers/EditorContext";
 
 const PurchaseOrder: FC = () => {
     const location = useLocation();
-    const user = useAppSelector(state => state.user.user)!
-    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
-    const {_id} = user;
+    const {_id} = useAuthUser();
     const dispatch = useAppDispatch();
+    const {purchase_orders} = useAppSelector<PurchaseOrdersState>(state => state.purchase_order);
+    const {editable_user} = useAppSelector<AdminStateType>(state => state.admin);
+    const is_my_project = useEditor() === 'designer';
+    const user_id = is_my_project ? _id : editable_user?._id;
     const scrollToRef = useRef<MaybeNull<HTMLDivElement>>(null);
     const [warningModal, setWarningModal] = useState<MaybeNull<PurchaseOrderType>>(null);
 
@@ -24,80 +30,34 @@ const PurchaseOrder: FC = () => {
 
     // eslint-disable-next-line
     useEffect(() => {
-        _id && getAllPOs(_id).then(data => {
+        if (!user_id) return;
+        getAllPOs(user_id).then(data => {
             data && dispatch(setPOs(data));
         })
-    }, [_id]);
+    }, [user_id, dispatch]);
 
-    if (!_id) return null;
+    if (!user_id) return null;
+    const po_filtered = purchase_orders.filter(po => !po.is_archived);
     return (
         <div className={s.purchaseOrder}>
             {warningModal ? <ApproveRemovePO po={warningModal} setWarningModal={setWarningModal}/> : null}
             <div>
-                <h1 ref={scrollToRef}>Purchase orders</h1>
+                <h1 ref={scrollToRef}>Purchase Orders</h1>
                 <nav className={s.nav}>
-                    {purchase_orders.length
-                        ? purchase_orders.map(item => <PurchaseOrderNavLink key={item._id} item={item}
-                                                                            setWarningModal={setWarningModal}/>)
+                    {po_filtered.length
+                        ? po_filtered.map(item => <PurchaseOrderNavLink key={item._id} item={item}
+                                                                        setWarningModal={setWarningModal}
+                                                                        is_my_project={is_my_project}/>)
                         : null}
-                    <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
-                             to="new">Add PO +</NavLink>
+                    {is_my_project &&
+                        <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
+                                 to="new">Add PO +</NavLink>}
                 </nav>
-                <Outlet context={{user_id: _id, purchase_orders}}/>
+                <Outlet context={{purchase_orders: po_filtered, user_id}}/>
             </div>
-            <RoomSidebar />
+            <RoomSidebar/>
         </div>
     );
 };
 
 export default PurchaseOrder;
-
-const PurchaseOrderNavLink: FC<{ item: PurchaseOrderType, setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void }> = ({
-                                                                                                                                 item,
-                                                                                                                                 setWarningModal
-                                                                                                                             }) => {
-    const {name} = item
-    return (
-        <div className={s.linkWrap}>
-            <button type="button" onClick={() => setWarningModal(item)} className={s.linkDelete}>
-                <span>&#10005;</span>
-            </button>
-            <NavLink to={`${textToLink(name)}/edit`} className={s.linkEdit}>
-                <span>✎</span>
-            </NavLink>
-            <NavLink className={({isActive}) => [isActive ? s.linkActive : '', s.navItem].join(' ')}
-                     to={`${textToLink(name)}/rooms`}>{name}</NavLink>
-        </div>
-    )
-}
-
-const ApproveRemovePO: FC<{ po: PurchaseOrderType, setWarningModal: (val: MaybeNull<PurchaseOrderType>) => void }> = ({
-                                                                                                                        po,
-                                                                                                                        setWarningModal
-                                                                                                                    }) => {
-    const {_id, user_id, name} = po
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    return (
-        <div className={checkoutStyle.notificationWrap}>
-            <div className={checkoutStyle.notification}>
-                <div className={s.approvalRemove}>
-                    <h3>Delete "{name}" purchase order?</h3>
-                    <div className={s.approvalRemoveButonset}>
-                        <button className="button red small" onClick={() => {
-                            deletePO(user_id, _id).then(po_res => {
-                                setWarningModal(null)
-                                if (po_res) {
-                                    dispatch(setPOs(po_res));
-                                    navigate(`/profile/purchase/`);
-                                }
-                            })
-                        }}>Yes
-                        </button>
-                        <button className="button green small" onClick={() => setWarningModal(null)}>No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}

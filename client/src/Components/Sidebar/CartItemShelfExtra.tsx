@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import s from "./sidebar.module.sass";
-import {CartItemFrontType, GlassAPIType} from "../../helpers/cartTypes";
+import {GlassAPIType} from "../../helpers/cartTypes";
 import {MaybeUndefined} from "../../helpers/productTypes";
 
 const CartItemShelfExtra: FC<{ glass: MaybeUndefined<GlassAPIType> }> = ({glass}) => {

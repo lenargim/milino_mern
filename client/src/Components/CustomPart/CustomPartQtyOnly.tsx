@@ -2,18 +2,9 @@ import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
 import {CustomPartType} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {
-    filterCustomPartsMaterialsArray,
-    isHingeHolesBlock,
-    isLedBlock,
-    isPanelCutoutBlock,
-} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
-import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
+import {TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
-import CustomPartHingeHoles from "./CustomPartHingeHoles";
-import CustomPartCutoutBlock from "./CustomPartCutoutBlock";
-import ProductLED from "../Product/ProductLED";
 import NumberPart from "./CustomPartNumberPart";
 
 
@@ -26,7 +17,7 @@ function getFieldName(name:string):string {
 }
 
 const CustomPartQtyOnly: FC<{ product: CustomPartType }> = ({product}) => {
-    const {values, setFieldValue, errors} = useFormikContext<CustomPartFormType>();
+    const {values} = useFormikContext<CustomPartFormType>();
     const {price} = values;
     const {name} = product
     const field_name = getFieldName(name)

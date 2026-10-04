@@ -13,15 +13,30 @@ import {CartItemFrontType} from "../../helpers/cartTypes";
 import {removeFromCart, RoomsState, updateCartAmount} from "../../store/reducers/roomSlice";
 import Loading from "../../common/Loading";
 import {NavLink, useParams} from "react-router-dom";
+import {useEditor} from "../../helpers/EditorContext";
+import {UserTypesType} from "../../api/apiTypes";
+import {MaybeUndefined} from "../../helpers/productTypes";
+
+const getEditProductLink = (editor: UserTypesType, purchase_order_name: string, room_name: string, user_id: MaybeUndefined<string>, product_id: string, _id: string): string => {
+    switch (editor) {
+        case "admin":
+            return `/profile/admin/edit/${user_id}/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}/product/${product_id}/edit/${_id}`;
+        case "manager":
+            return `/profile/manager/edit/${user_id}/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}/product/${product_id}/edit/${_id}`;
+        default:
+            return `/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}/product/${product_id}/edit/${_id}`
+    }
+}
 
 const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     const dispatch = useAppDispatch();
     const {loading_cart_items, rooms} = useAppSelector<RoomsState>(state => state.room);
     const {amount, note, _id, price, product_id, product_type, room_id} = item;
     const productAPI = getProductById(product_id, product_type === 'standard');
-    const {room_name, purchase_order_name} = useParams();
-    const room = rooms.find(el => el._id === room_id );
-    if (!room || !productAPI) return null;
+    const {room_name, purchase_order_name, user_id} = useParams();
+    const room = rooms.find(el => el._id === room_id);
+    const editor = useEditor();
+    if (!room || !productAPI || !purchase_order_name || !room_name) return null;
     const {name} = productAPI;
     const img = getCartImagePath(room, productAPI, item);
 
@@ -30,6 +45,7 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
     }
 
     if (loading_cart_items) return <Loading/>
+    const edit_link = getEditProductLink(editor, purchase_order_name, room_name, user_id, product_id.toString(), _id.toString())
     return (
         <div className={s.cartItem} data-uuid={_id}>
             <div className={s.cartItemTop}>
@@ -37,8 +53,9 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
                         type={"button"}>×
                 </button>
                 <NavLink
-                    to={`/profile/purchase/${textToLink(purchase_order_name)}/rooms/${textToLink(room_name)}/product/${product_id}/edit/${_id}`}
-                    className={s.itemEdit}>✎</NavLink>
+                    to={edit_link}
+                    className={s.itemEdit}
+                >✎</NavLink>
                 <img className={s.itemimg} src={img} alt={name}/>
                 <div className={s.itemName}>{name}</div>
             </div>
@@ -46,10 +63,10 @@ const RoomCartItem: FC<{ item: CartItemFrontType }> = ({item}) => {
             <div>
                 <CartItemOptions item={item}/>
                 {note &&
-                <div className={s.itemOption}>
-                  <span>Note:</span>
-                  <span>{note}</span>
-                </div>
+                    <div className={s.itemOption}>
+                        <span>Note:</span>
+                        <span>{note}</span>
+                    </div>
                 }
             </div>
 

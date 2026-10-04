@@ -1,6 +1,12 @@
-import {AdminUsersRes, AdminUsersType, EditProfileType, LogInType, SignUpType, UserType} from "./apiTypes";
+import {
+    AdminUsersRes,
+    EditProfileAPIType,
+    LogInType,
+    SignUpType, UserBasicTypesType,
+    UserType
+} from "./apiTypes";
 import {AdminAPI, AuthAPI, cartAPI, checkoutAPI, ConstructorAPI, PurchaseOrdersAPI, roomsAPI, usersAPI} from "./api";
-import axios, {AxiosError, AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {
     MaybeUndefined,
 } from "../helpers/productTypes";
@@ -47,9 +53,24 @@ export const signUp = async (values: SignUpType): Promise<MaybeUndefined<true>> 
     }
 }
 
-export const updateProfile = async (values: EditProfileType): Promise<MaybeUndefined<UserType>> => {
+export const updateProfile = async (values: EditProfileAPIType): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await usersAPI.patchMe(values)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const linkManager= async (email:string): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.linkManager(email)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+export const unlinkManager= async (): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.unlinkManager()).data;
     } catch (error) {
         alertError(error);
     }
@@ -100,15 +121,15 @@ export const updateProductAmountAPI = async (room: string, _id: string, amount: 
     }
 }
 
-export const getAdminUsers = async (sort: SortAdminUsers, page: number): Promise<MaybeUndefined<AdminUsersRes>> => {
+export const getAdminUsers = async (sort: SortAdminUsers, page: number, user_type: UserBasicTypesType): Promise<MaybeUndefined<AdminUsersRes>> => {
     try {
-        return (await AdminAPI.getUsers(sort, page)).data
+        return (await AdminAPI.getUsers(sort, page, user_type)).data
     } catch (error) {
         alertError(error);
     }
 }
 
-export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<AdminUsersType>> => {
+export const adminUserToggleEnabled = async (_id: string, data: UserAccessData): Promise<MaybeUndefined<UserType>> => {
     try {
         return (await AdminAPI.toggleUserEnabled(_id, data)).data
     } catch (error) {
@@ -116,6 +137,21 @@ export const adminUserToggleEnabled = async (_id: string, data: UserAccessData):
     }
 }
 
+export const adminToggleUserRole = async (_id: string, role: UserBasicTypesType): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await AdminAPI.toggleUserRole(_id, role)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getManagerDesigners = async (sort: SortAdminUsers, page: number): Promise<MaybeUndefined<AdminUsersRes>> => {
+    try {
+        return (await AdminAPI.getManagerDesigners(sort, page)).data
+    } catch (error) {
+        alertError(error);
+    }
+}
 
 export const constructorGetToken = async (): Promise<MaybeUndefined<string>> => {
     try {
@@ -221,7 +257,7 @@ export const deletePO = async (user_id: string, purchase_order_id: string): Prom
     }
 }
 
-export const editPOAPI = async (purchase_order: PurchaseOrderType): Promise<MaybeUndefined<PurchaseOrderType>> => {
+export const editPOAPI = async (purchase_order: PurchaseOrderType): Promise<MaybeUndefined<PurchaseOrderType[]>> => {
     try {
         return (await PurchaseOrdersAPI.editPO(purchase_order)).data
     } catch (error) {
@@ -275,6 +311,14 @@ export const postResetPasswordEmail = async (password: string, token: string): P
 export const getEmailByResetPasswordToken = async (token: string): Promise<MaybeUndefined<{ name: string }>> => {
     try {
         return (await AuthAPI.getTokenName(token)).data;
+    } catch (error) {
+        alertError(error);
+    }
+}
+
+export const getUser = async (_id: string): Promise<MaybeUndefined<UserType>> => {
+    try {
+        return (await usersAPI.getUser(_id)).data;
     } catch (error) {
         alertError(error);
     }

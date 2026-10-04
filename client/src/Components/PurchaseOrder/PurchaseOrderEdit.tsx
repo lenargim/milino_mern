@@ -35,8 +35,9 @@ const PurchaseOrderEdit: FC = () => {
                 }
                 editPOAPI(poAPI).then(po_res => {
                     if (po_res) {
+                        const po_name_new = po_res.find(po => po._id === _id)?.name;
                         dispatch(editPO(po_res))
-                        navigate(`/profile/purchase/${textToLink(po_res.name)}/rooms`);
+                        navigate(`/profile/purchase/${textToLink(po_name_new ?? purchase_order.name)}/rooms`);
                     }
                 })
                 setSubmitting(false)

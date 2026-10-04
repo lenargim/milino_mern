@@ -1,18 +1,16 @@
 import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType,} from "../../helpers/productTypes";
+import {materialsCustomPart, MaybeNull,} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
-import {filterCustomPartsMaterialsArray} from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
-import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
+import {ProductInputCustom, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
+import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
 
 
-const CustomPartPVC: FC<{ product: CustomPartType, isStandardCabinet: boolean }> = ({product, isStandardCabinet}) => {
-    const {values,} = useFormikContext<CustomPartFormType>();
+const CustomPartPVC: FC<{ filtered_materials_array: MaybeNull<materialsCustomPart[]> }> = ({filtered_materials_array}) => {
+    const {values} = useFormikContext<CustomPartFormType>();
     const {price} = values;
-    const {materials_array, id} = product;
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
     return (
         <Form>
             <div className={s.block}>
@@ -21,16 +19,7 @@ const CustomPartPVC: FC<{ product: CustomPartType, isStandardCabinet: boolean }>
                     <ProductInputCustom name="width_string"/>
                 </div>
             </div>
-            {filtered_materials_array &&
-            <div className={s.block}>
-              <h3>Material</h3>
-              <div className={s.options}>
-                  {filtered_materials_array.map((m, index) => <ProductRadioInput key={index}
-                                                                                 name="material"
-                                                                                 value={m.name}/>)}
-              </div>
-            </div>
-            }
+            <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array}/>
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

@@ -1,74 +1,245 @@
 import UserModel from "../models/User.js";
+import PurchaseOrder from "../models/PurchaseOrder.js";
+import Room from "../models/Room.js";
+import Cart from "../models/Cart.js";
+import user from "../models/User.js";
 
 export const getUsers = async (req, res) => {
-  try {
-    const sort = req.body.sort;
-    const page = req.body.page;
-    let resultsPerPage = 50;
+    try {
+        const sort = req.body.sort;
+        const page = req.body.page;
+        const user_type = req.body.user_type;
+        let resultsPerPage = 20;
 
-    const doc = await UserModel
-      .find({is_super_user: {$ne: true}})
-      .skip((page-1) * resultsPerPage)
-      .limit(resultsPerPage + 1)
-      .sort(sort)
-      .collation({caseLevel: false, locale: 'en'});
+        const designerFilter = user_type === 'designer' ? {
+            $or: [
+                { user_type: 'designer' },
+                { user_type: { $exists: false } }
+            ]
+        } : {
+            user_type: 'manager'
+        }
 
-    if (!doc) {
-      return res.status(400).json({
-        message: "No users"
-      })
+        const doc = await UserModel
+            .find(designerFilter)
+            .skip((page - 1) * resultsPerPage)
+            .limit(resultsPerPage + 1)
+            .sort(sort)
+            .collation({caseLevel: false, locale: 'en'});
+
+        if (!doc) {
+            return res.status(400).json({
+                message: "No users"
+            })
+        }
+
+
+        let hasNextPage = false;
+        if (doc.length > resultsPerPage) {
+            hasNextPage = true;
+            doc.pop();
+        }
+        const totalUsersLength = await UserModel.countDocuments(designerFilter);
+        const usersWithCartFilled = await Promise.all(
+            doc.map(async user => {
+                const user_public_fields = {
+                    _id: user._id,
+                    email: user.email,
+                    name: user.name,
+                    company: user.company,
+                    user_type: user.user_type,
+                    is_active: user.is_active,
+                    is_active_in_constructor: user.is_active_in_constructor || false,
+                    createdAt: user.createdAt,
+                    is_cart_filled: false,
+                };
+                if (!user.is_active) return user_public_fields;
+
+                const purchaseOrders = await PurchaseOrder.find(
+                    {user_id: user._id},
+                    {_id: 1}
+                ).lean();
+
+                if (purchaseOrders.length === 0) return user_public_fields;
+
+                const rooms = await Room.find(
+                    {
+                        purchase_order_id: {
+                            $in: purchaseOrders.map(po => po._id),
+                        },
+                    },
+                    {_id: 1}
+                ).lean();
+
+                if (rooms.length === 0) return user_public_fields;
+
+                const hasCart = await Cart.exists({
+                    room_id: {
+                        $in: rooms.map(room => room._id),
+                    },
+                });
+
+                return {
+                    ...user_public_fields,
+                    is_cart_filled: !!hasCart,
+                };
+            })
+        );
+
+        res.status(200).json({
+            users: usersWithCartFilled,
+            hasNextPage,
+            sort,
+            page,
+            totalUsersCount: totalUsersLength,
+        })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Getting users failed"
+        })
     }
+}
 
 
-    let hasNextPage = false;
-    if (doc.length > resultsPerPage) {
-      hasNextPage = true;
-      doc.pop();
+export const geManagerDesigners = async (req, res) => {
+    try {
+        const sort = req.body.sort;
+        const page = req.body.page;
+        let resultsPerPage = 20;
+
+        const designerFilter = {
+            user_type: 'designer',
+            is_active: true,
+            manager_id: req.user_id
+        };
+
+        const doc = await UserModel
+            .find(designerFilter)
+            .skip((page - 1) * resultsPerPage)
+            .limit(resultsPerPage + 1)
+            .sort(sort)
+            .collation({caseLevel: false, locale: 'en'});
+
+        if (!doc) {
+            return res.status(400).json({
+                message: "No users"
+            })
+        }
+
+
+        let hasNextPage = false;
+        if (doc.length > resultsPerPage) {
+            hasNextPage = true;
+            doc.pop();
+        }
+        const totalUsersLength = await UserModel.countDocuments(designerFilter);
+        const usersWithCartFilled = await Promise.all(
+            doc.map(async user => {
+                const user_public_fields = {
+                    _id: user._id,
+                    email: user.email,
+                    name: user.name,
+                    company: user.company,
+                    is_active: user.is_active,
+                    is_active_in_constructor: user.is_active_in_constructor || false,
+                    createdAt: user.createdAt,
+                    is_cart_filled: false,
+                };
+                if (!user.is_active) return user_public_fields;
+
+                const purchaseOrders = await PurchaseOrder.find(
+                    {user_id: user._id},
+                    {_id: 1}
+                ).lean();
+
+                if (purchaseOrders.length === 0) return user_public_fields;
+
+                const rooms = await Room.find(
+                    {
+                        purchase_order_id: {
+                            $in: purchaseOrders.map(po => po._id),
+                        },
+                    },
+                    {_id: 1}
+                ).lean();
+
+                if (rooms.length === 0) return user_public_fields;
+
+                const hasCart = await Cart.exists({
+                    room_id: {
+                        $in: rooms.map(room => room._id),
+                    },
+                });
+
+                return {
+                    ...user_public_fields,
+                    is_cart_filled: !!hasCart,
+                };
+            })
+        );
+
+        res.status(200).json({
+            users: usersWithCartFilled,
+            hasNextPage,
+            sort,
+            page,
+            totalUsersCount: totalUsersLength,
+        })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Getting users failed"
+        })
     }
-    const users = doc.map(user => ({
-      _id: user._doc._id,
-      email: user._doc.email,
-      name: user._doc.name,
-      company: user._doc.company,
-      is_active: user._doc.is_active,
-      is_active_in_constructor: user._doc.is_active_in_constructor || false,
-      createdAt: user._doc.createdAt
-    }));
-    res.status(200).json({
-      users,
-      hasNextPage,
-      sort,
-      page
-    })
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      message: "Getting users failed"
-    })
-  }
 }
 
 export const toggleUserEnabled = async (req, res) => {
-  try {
+    try {
 
-    const doc = await UserModel.findByIdAndUpdate(req.params.userId, {
-      $set: {
-        "is_active": req.body.is_active,
-        "is_active_in_constructor": req.body.is_active_in_constructor
-      },
-    }, {
-      returnDocument: "after"
-    })
-    if (!doc) {
-      return res.status(400).json({
-        message: "No user"
-      })
+        const doc = await UserModel.findByIdAndUpdate(req.params.user_id, {
+            $set: {
+                "is_active": req.body.is_active,
+                "is_active_in_constructor": req.body.is_active_in_constructor,
+                "user_type": req.body.user_type,
+            },
+        }, {
+            returnDocument: "after"
+        })
+        if (!doc) {
+            return res.status(400).json({
+                message: "No user"
+            })
+        }
+        res.status(200).json(doc._doc)
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Toggle user failed"
+        })
     }
-    res.status(200).json(doc._doc)
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      message: "Toggle user failed"
-    })
-  }
+}
+
+export const toggleUserRole = async (req, res) => {
+    try {
+
+        const doc = await UserModel.findByIdAndUpdate(req.params.user_id, {
+            $set: {
+                "user_type": req.body.role,
+            },
+        }, {
+            returnDocument: "after"
+        })
+        if (!doc) {
+            return res.status(400).json({
+                message: "No user"
+            })
+        }
+        res.status(200).json(doc._doc)
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Toggle user failed"
+        })
+    }
 }

@@ -1,13 +1,20 @@
 import {SortAdminUsers} from "../Components/Profile/ProfileAdmin";
 import {CartOrder} from "../helpers/cartTypes";
+import {MaybeNull, MaybeUndefined} from "../helpers/productTypes";
+
+
+export type UserBasicTypesType = 'designer' | 'manager'
+export type UserAllTypesType = UserBasicTypesType|'admin'
+export type UserTypesType = MaybeUndefined<UserAllTypesType>
 
 export type UserDataType = {
     name: string,
-    company: string,
     email: string,
+    company: string,
     additional_emails: string[],
     phone: string,
-    website: string
+    website: string,
+    user_type: UserTypesType,
 }
 
 export interface SignUpType extends UserDataType {
@@ -18,11 +25,19 @@ export interface SignUpFrontType extends SignUpType {
     compare: string
 }
 
+
+export type UserManagerDataType = {
+    name: string,
+    email: string,
+}
 export interface UserType extends UserDataType {
     _id: string,
     is_active: boolean,
-    is_super_user: boolean,
-    is_active_in_constructor: boolean
+    is_active_in_constructor: boolean,
+    has_archives: boolean,
+    createdAt: Date,
+    constructor_id: string,
+    manager_id: MaybeNull<UserManagerDataType>
 }
 
 export interface UserAndTokenType extends UserType {
@@ -49,6 +64,8 @@ export interface EditProfileType {
     additional_emails: string[],
 }
 
+export type EditProfileAPIType = Omit<EditProfileType, "compare">;
+
 export type LogInType = {
     email: string,
     password: string
@@ -69,7 +86,8 @@ export type AdminUsersRes = {
     users: AdminUsersType[],
     hasNextPage: boolean,
     sort: SortAdminUsers,
-    page: number
+    page: number,
+    totalUsersCount: number
 }
 
 export type AdminUsersType = {
@@ -79,5 +97,7 @@ export type AdminUsersType = {
     email: string,
     name: string,
     is_active: boolean,
-    is_active_in_constructor: boolean
+    is_active_in_constructor: boolean,
+    is_cart_filled: boolean,
+    user_type: UserBasicTypesType
 }

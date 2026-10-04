@@ -1,27 +1,24 @@
 import React, {FC} from 'react';
 import {Form, useFormikContext} from 'formik';
-import {CustomPartType} from "../../helpers/productTypes";
+import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import {
-    filterCustomPartsMaterialsArray,
+    filterCustomPartsMaterialsArray, isLedBlock,
 } from "../../helpers/helpers";
 import s from "../Product/product.module.sass";
 import {ProductInputCustom, ProductRadioInput, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
+import ProductLED from "../Product/ProductLED";
+import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
 
-type CustomPartThickFloatingShelf = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
 
-const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product, isStandardCabinet}) => {
-    const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
+const CustomPartThickFloatingShelf: FC<{filtered_materials_array: MaybeNull<materialsCustomPart[]>, product: CustomPartType}> = ({filtered_materials_array, product}) => {
+    const {values} = useFormikContext<CustomPartFormType>();
     const {
         price
     } = values;
-    const {materials_array, id} = product;
-
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet)
+    const {id} = product;
+    const showLedBlock = isLedBlock(id)
 
     return (
         <Form>
@@ -38,15 +35,8 @@ const CustomPartThickFloatingShelf: FC<CustomPartThickFloatingShelf> = ({product
                 </div>
             </div>
 
-            {filtered_materials_array &&
-            <div className={s.block}>
-              <h3>Material</h3>
-              <div className={s.options}>
-                  {filtered_materials_array.map((m, index) => <ProductRadioInput key={index}
-                                                                                 name="material"
-                                                                                 value={m.name}/>)}
-              </div>
-            </div>}
+            {showLedBlock ? <ProductLED id={id} /> : null}
+            <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array} />
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

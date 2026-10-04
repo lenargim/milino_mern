@@ -1,10 +1,9 @@
 import {optionType} from "../common/SelectField";
 import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
-import {DoorTypesType, RodType, RoomCategoriesType, RoomFront} from "./roomTypes";
+import {RoomFront, RoomMaterialsFormType} from "./roomTypes";
 import {DoorAccessoryType} from "../Components/CustomPart/CustomPart";
 import {PanelsFormType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {DoorSizesArrType} from "../Components/CustomPart/CustomPartStandardDoorForm";
-import {BoxMaterialType} from "./roomTypes";
 import {colorOption} from "../Components/CustomPart/CustomPartGolaProfile";
 
 export type productTypings = 1 | 2 | 3 | 4
@@ -24,7 +23,7 @@ export const closetAccessoriesNames = ['Belt Rack', 'Tie Rack', 'Valet Rod', 'Pa
 export const glassAndMirrorNames = ['Clear Glass', 'Bronze Glass', 'Gray Glass', 'Frosted Glass', 'Clear Mirror', 'Bronze Mirror', 'Gray Mirror'] as const;
 export const glassNames = ['Clear', 'Bronze', 'Gray', 'Frosted'];
 
-export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer"] as const;
+export const CustomPartMaterialsNames = ["Milino", "Syncron", "Luxe", "Zenit", "Plywood",  "Ultrapan PET", "Ultrapan Acrylic", "Painted", "Wood Veneer", "Shaker Syncron", "Shaker Zenit", "Shaker Painted", "Shaker Milino", "Shaker", "Shaker Veneer", "Finsa", "Egger", "Cleaf", "OneSkin", "StyleLite"] as const;
 export type CustomPartMaterialsArraySizeLimitsType = typeof CustomPartMaterialsNames[number];
 
 export type cornerTypes = typeof cornerArr[number];
@@ -69,6 +68,7 @@ export type kitchenCategories =
 export type StandardCategory =
     'Standard Base Cabinets'
     | 'Standard Wall Cabinets'
+    | 'Standard Gola Wall Cabinets'
     | 'Standard Tall Cabinets'
     | 'Standard Vanities'
     | 'Standard Floating Vanities'
@@ -123,7 +123,6 @@ export interface ProductType extends BaseProduct {
     widthDivider?: number,
     heightRange?: number,
     cartExtras: CartExtrasType,
-    hasLedBlock: boolean,
     blindArr?: number[],
     horizontal_line?: number,
     hasClosetAccessoriesBlock?: boolean,
@@ -181,24 +180,14 @@ export type materialsLimitsType = {
     depth?: number[]
 }
 
-export type materialDataType = {
+export interface materialDataType extends RoomMaterialsFormType {
     is_standard_room: boolean,
-    room_category: MaybeEmpty<RoomCategoriesType>,
     base_price_type: pricesTypings,
     grain_coef: number,
     box_material_coef: number,
     box_material_finish_coef: number,
     door_price_multiplier: number,
-    door_type: MaybeEmpty<DoorTypesType>,
-    door_finish_material: string,
-    drawer_brand: string,
-    drawer_type: string,
-    drawer_color: string,
-    leather: string,
-    box_material: MaybeEmpty<BoxMaterialType>,
-    box_color: string,
     materials_coef: number,
-    rod: MaybeEmpty<RodType>
 }
 
 

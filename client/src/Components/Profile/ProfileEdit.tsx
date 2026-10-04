@@ -1,48 +1,17 @@
-import {Formik} from 'formik';
-import React, {FC, useEffect} from 'react';
-import s from './profile.module.sass'
-import {EditProfileType, UserType} from "../../api/apiTypes";
-import {updateProfile} from "../../api/apiFunctions";
-import {setUser} from "../../store/reducers/userSlice";
-import {useAppDispatch, useAppSelector} from "../../helpers/helpers";
+import React, {FC} from 'react';
 import ProfileEditForm from "./ProfileEditForm";
-import {ProfileEditSchema} from "./ProfileEditSchema";
+import {useAuthUser} from "../../utils/customHooks";
+import ProfileLinkForm from "./ProfileLinkForm";
+import s from './profile.module.sass';
 
 const ProfileEdit: FC = () => {
-    const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user.user)!;
-    const getInitialValues = (user: UserType): EditProfileType => {
-        const {is_active, is_active_in_constructor, is_super_user, email, ...userData} = user
-        return {...userData, password: '', compare: ''}
-    }
-    let initialValues = getInitialValues(user);
+    const user = useAuthUser();
 
-    useEffect(() => {
-        //???
-        initialValues = getInitialValues(user);
-    }, [user]);
-    if (!initialValues._id) return null;
     return (
-        <Formik initialValues={initialValues}
-                validationSchema={ProfileEditSchema}
-                onSubmit={(values, {resetForm, setValues}) => {
-                    const {additional_emails} = values as EditProfileType;
-                    const emails:string[] = additional_emails ? [...new Set(additional_emails.filter(str => str.trim() !== ""))] : [];
-                    const preparedValues = {...values, additional_emails: emails} as EditProfileType;
-                    updateProfile(preparedValues).then(user => {
-                        if (user) {
-                            dispatch(setUser(user));
-                            resetForm();
-                            setValues({...user, password: '', compare: ''});
-                            // constructorLogin(user)
-                        }
-                    })
-                }}>
-            <div className={s.roomEdit}>
-                <h1>Update Profile</h1>
-                <ProfileEditForm user={user}/>
-            </div>
-        </Formik>
+        <div className={s.profileEdit}>
+            <ProfileEditForm user={user}/>
+            <ProfileLinkForm user={user} />
+        </div>
     );
 };
 

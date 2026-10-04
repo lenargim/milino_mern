@@ -1,11 +1,11 @@
 import React, {FC, useEffect, useState} from "react";
 import styles from './Form.module.sass'
+import s from "../Components/Profile/profile.module.sass";
 import {useField, ErrorMessage, Field, FieldArray, FieldArrayRenderProps} from "formik";
 import CheckSvg from "../assets/img/CheckSvg";
 import noImg from "../assets/img/noPhoto.png"
 import Input from 'react-phone-number-input/input'
 import {getFraction, getVariableType, NumericQuantityRounded} from "../helpers/helpers";
-import {numericQuantity} from 'numeric-quantity';
 import EyeOff from "../assets/img/Eye-Off";
 import EyeOn from "../assets/img/Eye-on";
 import NestedErrorMessage from "./ErrorForNestedFields";
@@ -13,7 +13,7 @@ import {MaybeUndefined} from "../helpers/productTypes";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import {addMonths, addWeeks} from 'date-fns';
-import s from "../Components/Profile/profile.module.sass";
+import {UserBasicTypesType} from "../api/apiTypes";
 
 export function handleFocus(input: HTMLInputElement): void {
     input.classList.add(`${styles.focused}`);
@@ -35,6 +35,15 @@ interface textInputInterface extends InputInterface {
     label: string,
 
     [x: string]: any;
+}
+
+interface FileInputInterface extends InputInterface {
+    name: string,
+    label: string,
+    multiple?: boolean,
+    accept?: string,
+    max_files?: number,
+    max_mb?: number
 }
 
 
@@ -305,7 +314,7 @@ export const ProductRadioInputNumber: FC<ProductRadioInterfaceNumber> = ({name, 
 
 type checkboxType = {
     name: string,
-    value: string|boolean,
+    value: string | boolean,
     className?: string,
     inputIndex: number,
     label?: string,
@@ -327,7 +336,7 @@ export const ProductCheckboxInput: FC<checkboxType> = ({name, value, className, 
 
 type ProductCheckboxBooleanType = {
     name: string,
-    value: string|boolean,
+    value: string | boolean,
     className?: string,
     label: string
 }
@@ -514,5 +523,174 @@ const AdditionalEmailInput: FC<{ index: number, typeErrorIsString: boolean, arra
                 {!typeErrorIsString && <ErrorMessage name={name} component="div" className={styles.error}/>}
             </div>
         </div>
+    )
+}
+
+export const FileInput: FC<FileInputInterface> = ({
+                                                      name,
+                                                      label,
+                                                      accept = '*',
+                                                      max_files = 5,
+                                                      max_mb = 10
+                                                  }) => {
+    const [field, meta, {setValue, setTouched}] = useField<File[]>(name);
+
+    const files = field.value ?? [];
+    const {error, touched} = meta;
+
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const newFiles = Array.from(e.currentTarget.files ?? []);
+
+        if (!newFiles.length) return;
+
+        const combinedFiles = [...files, ...newFiles];
+
+        // Убираем дубликаты
+        const uniqueFiles = combinedFiles.filter(
+            (file, index, array) =>
+                index === array.findIndex(
+                    item =>
+                        item.name === file.name &&
+                        item.size === file.size &&
+                        item.lastModified === file.lastModified
+                )
+        );
+
+        // Сначала помечаем поле touched
+        setTouched(true, false);
+
+        // Затем меняем value и ЯВНО запускаем validation
+        setValue(uniqueFiles, true);
+
+        // Позволяет повторно выбрать тот же файл
+        e.currentTarget.value = '';
+    };
+
+    const handleRemove = (index: number) => {
+        const newFiles = files.filter(
+            (_, fileIndex) => fileIndex !== index
+        );
+
+        // touched уже true, но на всякий случай устанавливаем его
+        setTouched(true, false);
+
+        // Validation запускается уже с новым массивом
+        setValue(newFiles, true);
+    };
+
+    return (
+        <div className={styles.file}>
+            <div className={styles.row}>
+                <input
+                    id={name}
+                    name={name}
+                    type="file"
+                    multiple
+                    accept={accept}
+                    disabled={files.length >= max_files}
+                    onChange={handleChange}
+                    onBlur={() => setTouched(true)}
+                    className={styles.fileInput}
+                />
+
+                <label
+                    htmlFor={name}
+                    className={[
+                        'button yellow small',
+                        files.length >= max_files ? 'disabled' : ''
+                    ].join(' ')}
+                >
+                    + {label}
+                </label>
+
+                <div className={s.req}>
+                    <span>*{accept}</span>
+                    <span>(Max: {max_files} files, {max_mb}MB)</span>
+                </div>
+
+            </div>
+
+            {files.length > 0 && (
+                <div className={styles.list}>
+                    {files.map((file, index) => {
+                        const isImg = file.type.startsWith('image/');
+                        const previewUrl = isImg
+                            ? URL.createObjectURL(file)
+                            : '';
+
+                        return (
+                            <div
+                                key={`${file.name}-${file.lastModified}-${index}`}
+                                className={styles.fileItem}
+                            >
+                                <div
+                                    className={[
+                                        styles.fileBg,
+                                        isImg ? styles.fileImg : ''
+                                    ].join(' ')}
+                                    style={
+                                        isImg
+                                            ? {
+                                                backgroundImage: `url(${previewUrl})`
+                                            }
+                                            : undefined
+                                    }
+                                >
+                                    {!isImg && (
+                                        <span className={styles.fileType}>
+                                            {file.name
+                                                .split('.')
+                                                .pop()
+                                                ?.toUpperCase()}
+                                        </span>
+                                    )}
+
+                                    <div className={styles.fileName}>
+                                        {file.name}
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemove(index)}
+                                    className={styles.linkDelete}
+                                >
+                                    <span>✕</span>
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            <ErrorMessage
+                name={name}
+                component="div"
+                className={[styles.error, styles.errorBig].join(' ')}
+            />
+        </div>
+    );
+};
+
+export const UserTypeRadioInput: FC<{ name: string }> = ({name
+                                                                                                           }) => {
+    const [field] = useField(name);
+    const arr:UserBasicTypesType[] = ['designer', 'manager'];
+
+    return (
+        <div className={styles.userType}>{
+            arr.map((value, i) => (
+                <div key={i} className={[styles.userTypeItem].join(' ')}>
+                    <Field type="radio" name={name} value={value} id={`${name}_${value}`}/>
+                    <label htmlFor={`${name}_${value}`}
+                           className={['button small', styles.userLabel, field.value === value ? styles.userLabelActive: ''].join(' ')}>
+                        <span>I'm a {value}</span>
+                    </label>
+                </div>
+            ))
+        }</div>
     )
 }

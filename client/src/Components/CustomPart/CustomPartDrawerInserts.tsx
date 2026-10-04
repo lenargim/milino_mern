@@ -1,8 +1,8 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Form, useField, useFormikContext} from 'formik';
-import {CustomPartType, ImgFieldType, itemImg} from "../../helpers/productTypes";
+import {ImgFieldType} from "../../helpers/productTypes";
 import {
-    CustomPartFormType, DrawerAccessoriesType, DrawerInsertsBoxNames,
+    CustomPartFormType, DrawerInsertsBoxNames,
     DrawerInsertsColorNames,
     DrawerInsertsLetterNames,
 } from "./CustomPart";
@@ -14,11 +14,6 @@ import s from "../Product/product.module.sass";
 import {ProductInputCustom, RadioInputWithImage, TextInput} from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
 import SelectField, {optionType} from "../../common/SelectField";
-
-type CustomPartDrawerInserts = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
-}
 
 const filterLetterTypeByWidth = (width: number, drawerInsertsLetters: string[]): string[] => {
     if (width < 15) return drawerInsertsLetters.filter(el => ['A', 'B'].includes(el));
@@ -38,14 +33,14 @@ const prepareToImgField = (arr: string[], color: string = ''): ImgFieldType[] =>
     }))
 }
 
-const CustomPartDrawerInserts: FC<CustomPartDrawerInserts> = ({product, isStandardCabinet}) => {
+const CustomPartDrawerInserts: FC = () => {
         const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
         const {
             width,
             price,
             drawer_accessories,
         } = values;
-        const [field, meta, helpers] = useField('width_string');
+        const [, meta] = useField('width_string');
         const drawerInsertsTypeArr: optionType[] = prepareToSelectField([...DrawerInsertsBoxNames]);
         const drawerInsertsColorArr: optionType[] = prepareToSelectField([...DrawerInsertsColorNames]);
         const drawerInsertsLettersFiltered = filterLetterTypeByWidth(width, [...DrawerInsertsLetterNames]);

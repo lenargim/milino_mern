@@ -16,7 +16,8 @@ export type CatItemType = 'reqular'|'gola'|'custom'|'standard'
 export type CatItem = {
     name: productCategory,
     img: string,
-    type: CatItemType
+    type: CatItemType,
+    label?: string
 }
 
 export type SliderCategoriesType = {

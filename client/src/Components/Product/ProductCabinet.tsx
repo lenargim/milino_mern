@@ -12,7 +12,6 @@ import {
 import {useFormikContext} from "formik";
 import ProductLayout from "./ProductLayout";
 import {CartItemFrontType} from "../../helpers/cartTypes";
-import {numericQuantity} from "numeric-quantity";
 
 const ProductCabinet: FC<CabinetType> = ({
                                              product,
@@ -23,11 +22,10 @@ const ProductCabinet: FC<CabinetType> = ({
         id,
         attributes,
         widthDivider,
-        category,
         isAngle,
         product_type,
     } = product;
-    const {materialData, tablePriceData, sizeLimit, productPriceData, heightRange} = productData
+    const {materialData, tablePriceData, sizeLimit, productPriceData, } = productData
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {doorValues} = productPriceData;
     const {
@@ -86,7 +84,6 @@ const ProductCabinet: FC<CabinetType> = ({
         if (!hingeArr.includes(hinge_opening)) setFieldValue('hinge_opening', hingeArr[0]);
     }, [hingeArr, hinge_opening])
 
-    // const newType = getType(realWidth, realHeight, widthDivider, doors, category, attributes);
     const newType = resolveTypeByDimensions(attributes, realWidth, realHeight)
     const customVal = getProductFrontCustomVal(custom);
     const img = getProductImage(room, product, values);

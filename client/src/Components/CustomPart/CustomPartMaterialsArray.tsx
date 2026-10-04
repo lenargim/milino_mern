@@ -1,19 +1,13 @@
 import React, {FC} from 'react';
-import {CustomPartType,} from "../../helpers/productTypes";
-import {
-    filterCustomPartsMaterialsArray,
-} from "../../helpers/helpers";
+import {materialsCustomPart, MaybeNull,} from "../../helpers/productTypes";
 import s from "../Product/product.module.sass";
 import {ProductRadioInput} from "../../common/Form";
 
-type CustomPartMaterialsArray = {
-    product: CustomPartType,
-    isStandardCabinet: boolean
+type CustomPartMaterialsArrayType = {
+    filtered_materials_array: MaybeNull<materialsCustomPart[]>
 }
 
-const CustomPartMaterialsArray: FC<CustomPartMaterialsArray> = ({product, isStandardCabinet}) => {
-    const {materials_array, id} = product;
-    const filtered_materials_array = filterCustomPartsMaterialsArray(materials_array, id, isStandardCabinet);
+const CustomPartMaterialsArray: FC<CustomPartMaterialsArrayType> = ({filtered_materials_array}) => {
     if (!filtered_materials_array) return null;
     return (
         <div className={s.block}>
