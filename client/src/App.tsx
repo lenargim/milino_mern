@@ -121,12 +121,9 @@ function App() {
                                 </Route>
                             </Route>
                             <Route path="door_types" element={<ProfileDoorTypes/>}/>
-                            <Route path="edit" element={<ProfileEdit/>}/>
-                            <Route path="constructor" element={<Constructor/>}/>
-                            <Route path="catalog" element={<ProfileCatalog/>}/>
-                            <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
-                            <Route path="tutorial" element={<ProfileTutorial/>}/>
                         </Route>
+
+                        {/*Common*/}
                         <Route path="edit" element={<ProfileEdit/>}/>
                         <Route path="constructor" element={<Constructor/>}/>
                         <Route path="catalog" element={<ProfileCatalog/>}/>
