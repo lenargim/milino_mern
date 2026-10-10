@@ -1167,14 +1167,12 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_closet: boolean): number => {
-    if (is_leather_closet) {
-        // Door exceptions for leather closet
-        if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
-        if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
-        if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
-        return 0;
-    }
+export const getSquare = (doorWidth: number, doorHeight: number, product_id: number): number => {
+    // Door exceptions for leather closet
+    if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
+    if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
+    if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
+
     // Exceptions
     const noDoorsArr: number[] = [28];
     if (noDoorsArr.includes(product_id)) return 0;
@@ -2102,6 +2100,16 @@ export const getIsLeatherOrRTAorSystemCloset = (category: MaybeEmpty<RoomCategor
 export const getIsLeatherCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     if (!category) return false;
     return category === 'Leather Closet';
+}
+
+export const getIsSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Cabinet System Closet';
+}
+
+export const getIsLeatherOrSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Leather Closet' || category === 'Cabinet System Closet';
 }
 
 export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {

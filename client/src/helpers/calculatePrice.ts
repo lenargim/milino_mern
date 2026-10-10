@@ -10,7 +10,7 @@ import {
     pricePart, priceStandardPanel,
     pricesTypings, pricesTypingsNumber,
     productCategory,
-    productDataToCalculatePriceType, ProductExtraType, ProductOptionsType,
+    productDataToCalculatePriceType, ProductExtraType, ProductOptionsType, ProductOptionsTypes,
     productRangeType,
     ProductType,
     productTypings,
@@ -22,13 +22,23 @@ import {
     checkDoors,
     convertDoorAccessories,
     getAttributes,
-    getCabinetHeightRangeBasedOnCategory, getFinishColorCoefCustomPart,
+    getCabinetHeightRangeBasedOnCategory,
+    getFinishColorCoefCustomPart,
     getIsCloset,
-    getIsLeatherOrRTAorSystemCloset, getIsRTAorSystemCloset, getLedHeight,
-    getLEDProductCartPrice, getLedWidth,
+    getIsLeatherCloset,
+    getIsLeatherOrRTAorSystemCloset,
+    getIsLeatherOrSystemCloset,
+    getIsRTAorSystemCloset,
+    getIsSystemCloset,
+    getLedHeight,
+    getLEDProductCartPrice,
+    getLedWidth,
     getProductById,
     getSquare,
-    getWidthToCalculateDoor, hasGlassShelfColor, isHingeHolesBlock, isPanelCutoutBlock,
+    getWidthToCalculateDoor,
+    hasGlassShelfColor,
+    isHingeHolesBlock,
+    isPanelCutoutBlock,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -125,11 +135,16 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(hinge_opening: hingeTypes, id: number): number {
+function addPTODoorsPrice(hinge_opening: hingeTypes, id: number, category:MaybeEmpty<RoomCategoriesType>, width:number): number {
     let doorQty = checkDoors(hinge_opening);
 
     // Stationary door qty
     if ([105, 108].includes(id)) doorQty = 1;
+
+    // No doors in System Closet (only Glass door option)
+    if (getIsLeatherOrSystemCloset(category)) {
+        doorQty = width >=24 ? 2 : 1;
+    }
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
 
@@ -841,9 +856,18 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     }
 }
 
+const filterByOptionsType = (options:string[]):ProductOptionsType[] => {
+    return options.filter(
+        (value): value is ProductOptionsType =>
+            ProductOptionsTypes.includes(value as ProductOptionsType)
+    );
+}
+
 const filterProductOptionsBasedOnMaterialData = (options: ProductOptionsType[], materials: RoomMaterialsFormType): ProductOptionsType[] => {
     const {door_type, drawer_brand} = materials;
-    let arr = [...options];
+    let arr = filterByOptionsType(options);
+
+
     if (drawer_brand === 'Milino') arr = arr.filter(o => o !== 'PTO for drawers');
     if (door_type === "Standard Size Shaker") arr = arr.filter(o => o === 'PTO for doors' || o === 'Glass Door');
     return arr;
@@ -864,7 +888,10 @@ export const getProductDataToCalculatePrice = (product: ProductType | productCha
         return acc + qty;
     }, 0);
     const filteredOptions = filterProductOptionsBasedOnMaterialData(options, materials)
-    const shelfsQty = getShelfsQty(attrArr);
+    const shelfsQty = attrArr.reduce((acc, current) => {
+        const qty = current.name.includes('Shelf') ? current.value : 0
+        return acc + qty;
+    }, 0);
     const rodsQty = getRodsQty(attrArr)
     return {
         doorValues,
@@ -1304,10 +1331,6 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormAPIType, is_pr
     return standard_panel_price + shape_panel_price + wtk_price + crown_price;
 }
 
-const getShelfsQty = (attrArr: { name: string, value: number }[]): number => {
-    return attrArr.find(el => el.name === 'Adjustable Shelf')?.value ?? 0;
-}
-
 const getRodsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name.includes('Hanging Rod'))?.value ?? 0;
 }
@@ -1331,7 +1354,6 @@ export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[]
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {attributes} = product
     const {width, height, depth, options} = cabinetItem;
-    // const doors = checkDoors(hinge);
     const image_active_number = resolveTypeByDimensions(attributes, width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
@@ -1393,18 +1415,18 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
 
     const productPriceData = getProductDataToCalculatePrice(product, materialData, image_active_number);
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
+
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = height - legsHeight - middle_section;
-    const frontSquare = getSquare(doorWidth, doorHeight, id, getIsLeatherOrRTAorSystemCloset(room_category));
+    const frontSquare = getSquare(doorWidth, doorHeight, id);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
-    console.log(getPvcPrice(doorWidth, doorHeight, product, materialData))
     return {
-        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id) : 0,
+        ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id, room_category, doorWidth) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
         glassShelf: options.includes('Glass Shelf') ? addGlassAndMirroredShelfPrice(shelfArea, glass?.shelf) : 0,
         ptoTrashBins: options.includes('Servo-Drive') ? addPTOTrashBinsPrice() : 0,
@@ -1598,7 +1620,7 @@ export const getRoDrawerPrice = (ro_drawer: MaybeUndefined<DrawerROType>, width:
     const startPrice = getStartPrice(tablePrice, materialData, [])
     const drawerPrice = getDrawerPrice(1, width, door_type, drawer_brand, drawer_type, drawer_color);
     if (ro_drawer === 'Extra RO') return startPrice + drawerPrice;
-    const sq = getSquare(width, 6, product_id, false);
+    const sq = getSquare(width, 6, product_id);
     const doorPrice = getDoorPrice(sq, materialData);
     return startPrice + drawerPrice + doorPrice;
 }

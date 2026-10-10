@@ -9,12 +9,12 @@ import {
 import {ProductOptionsInput} from "../../common/Form";
 import {useFormikContext} from "formik";
 import CustomPartGlassDoorBlock from "../CustomPart/CustomPartGlassDoorBlock";
-import {AttrItemType, ProductFormType} from "../../helpers/productTypes";
+import {AttrItemType, ProductFormType, ProductOptionsType} from "../../helpers/productTypes";
 import settings from "../../api/settings.json";
 
 type OptionsBlockType = {
     id: number,
-    filteredOptions: string[],
+    filteredOptions: ProductOptionsType[],
     isProductStandard: boolean,
     attributes: AttrItemType[]
 }
@@ -60,26 +60,35 @@ const enableGlassDoorOption = (id: number, isProductStandard: boolean, width: nu
 }
 
 const enableGlassShelfOption = (attrs: { name: string, value: number }[]): boolean => {
-    return !!attrs.find(el => (el.name.includes("Shelf") || el.name.includes("Shelves") ) && el.value >= 1);
+    return !!attrs.find(el => (el.name.includes("Shelf") || el.name.includes("Shelves")) && el.value >= 1);
 }
 
-const getFrontOptions = (filteredOptions: string[], isEnabledGlassDoorOption: boolean, isEnableGlassShelfOption: boolean): string[] => {
+const enablePTOForDoorsOption = (attrs: {
+    name: string,
+    value: number
+}[], chosenOptions: ProductOptionsType[]): boolean => {
+    if (chosenOptions.includes("Glass Door")) return true;
+    return !!attrs.find(el => (el.name.includes("Door") || el.name.includes("Doors")) && el.value >= 1);
+}
+
+const getFrontOptions = (filteredOptions: ProductOptionsType[], isEnabledGlassDoorOption: boolean, isEnableGlassShelfOption: boolean, isEnablePTOForDoorsOption:boolean): string[] => {
     let opt = [...filteredOptions];
     if (!isEnabledGlassDoorOption) opt = removeOptionFromOptions(opt, 'Glass Door');
     if (!isEnableGlassShelfOption) opt = removeOptionFromOptions(opt, 'Glass Shelf');
+    if (!isEnablePTOForDoorsOption) opt = removeOptionFromOptions(opt, 'PTO for doors');
     return opt;
 }
 
-const removeOptionFromOptions = (options: string[], option: string): string[] => {
+const removeOptionFromOptions = (options: ProductOptionsType[], option: ProductOptionsType): ProductOptionsType[] => {
     return options.filter(el => el !== option)
 }
 
 const ProductOptionsBlock: FC<OptionsBlockType> = ({
-                                                id,
-                                                filteredOptions,
-                                                isProductStandard,
-                                                attributes
-                                            }) => {
+                                                       id,
+                                                       filteredOptions,
+                                                       isProductStandard,
+                                                       attributes
+                                                   }) => {
     const {values, setFieldValue} = useFormikContext<ProductFormType>();
     const {
         options: chosenOptions,
@@ -90,11 +99,14 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
         image_active_number
     } = values;
     const attrs = getAttributes(attributes, image_active_number);
-    const [, , glass_color] = glass_door
+    const [, , glass_color] = glass_door;
+
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
     const isEnableGlassShelfOption = enableGlassShelfOption(attrs);
+    const isEnablePTOForDoorsOption = enablePTOForDoorsOption(attrs, chosenOptions);
     const shelfGlassList = prepareToSelectField(settings["Glass"].glass_shelf)
-    const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption);
+    const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption, isEnablePTOForDoorsOption);
+
     useEffect(() => {
         if (!isEnabledGlassDoorOption) {
             glass_color && setFieldValue('glass_door', '');
@@ -109,6 +121,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
     useEffect(() => {
         if (!chosenOptions.includes('Glass Shelf') && shelfGlassColor) setFieldValue('glass_shelf', '');
         if (!chosenOptions.includes('Glass Door') && glass_door) setFieldValue('glass_door', []);
+        if (chosenOptions.includes('PTO for doors') && !isEnablePTOForDoorsOption) setFieldValue('options', removeOptionFromOptions(chosenOptions, 'PTO for doors'));
     }, [chosenOptions])
     return (
         <>
@@ -122,25 +135,25 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
                 </div>
                 : null}
             {chosenOptions.includes('Glass Door') &&
-            <>
-                {isProductStandard ?
-                    <StandardCabinetGlassDoorBlock doorGlassColor={glass_color}/> :
-                    <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false} product_id={id}/>
-                }
-            </>}
+                <>
+                    {isProductStandard ?
+                        <StandardCabinetGlassDoorBlock doorGlassColor={glass_color}/> :
+                        <CustomPartGlassDoorBlock glass_door={glass_door} is_custom={false} product_id={id}/>
+                    }
+                </>}
 
             {chosenOptions.includes('Glass Shelf') &&
-            <>
-              <h3>Glass Shelf</h3>
-              <div className={s.blockWrap}>
-                <div className={s.block}>
-                  <SelectField label="Shelf Glass Color"
-                               name="glass_shelf"
-                               val={getSelectValfromVal(shelfGlassColor, shelfGlassList)}
-                               options={shelfGlassList}/>
-                </div>
-              </div>
-            </>}
+                <>
+                    <h3>Glass Shelf</h3>
+                    <div className={s.blockWrap}>
+                        <div className={s.block}>
+                            <SelectField label="Shelf Glass Color"
+                                         name="glass_shelf"
+                                         val={getSelectValfromVal(shelfGlassColor, shelfGlassList)}
+                                         options={shelfGlassList}/>
+                        </div>
+                    </div>
+                </>}
         </>
     );
 };

@@ -96,15 +96,8 @@ interface BaseProduct {
     initial_height?: number
 }
 
-export type ProductOptionsType =
-    "PTO for drawers"
-    | "PTO for doors"
-    | "Servo-Drive"
-    | "Box from finish material"
-    | "Glass Door"
-    | "Glass Shelf"
-    | "Farm Sink"
-    | "False Front on top";
+export const ProductOptionsTypes = ["PTO for drawers","PTO for doors","Servo-Drive","Box from finish material","Glass Door","Glass Shelf","Farm Sink","False Front on top"] as const;
+export type ProductOptionsType = typeof ProductOptionsTypes[number];
 
 export interface ProductType extends BaseProduct {
     product_type: 'cabinet' | 'standard',
@@ -321,7 +314,7 @@ export type productDataToCalculatePriceType = {
     drawersQty: number,
     shelfsQty: number,
     rodsQty: number,
-    filteredOptions: string[]
+    filteredOptions: ProductOptionsType[]
     blindArr?: number[],
 }
 

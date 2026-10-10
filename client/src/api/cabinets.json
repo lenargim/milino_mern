@@ -4953,7 +4953,7 @@
       }
     ],
     "hasClosetAccessoriesBlock": true,
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 409,
@@ -4990,7 +4990,7 @@
         ]
       }
     ],
-    "options": [],
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -5019,7 +5019,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 411,
@@ -5047,7 +5047,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 412,
@@ -5084,7 +5084,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 413,
@@ -5121,7 +5121,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 414,
@@ -5159,7 +5159,7 @@
         ]
       }
     ],
-    "options": ["PTO for drawers"]
+    "options": ["Glass Door","PTO for doors", "Glass Shelf","PTO for drawers"]
   },
   {
     "id": 415,
@@ -5227,7 +5227,7 @@
         ]
       }
     ],
-    "options": [],
+    "options": ["Glass Shelf"],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -5257,7 +5257,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 418,
@@ -5651,7 +5651,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 601,
@@ -5682,7 +5682,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 602,
@@ -5704,7 +5704,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 603,
@@ -5726,7 +5726,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 604,
@@ -5757,7 +5757,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 605,
@@ -5788,7 +5788,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf", "PTO for drawers"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf", "PTO for drawers"]
   },
   {
     "id": 606,
@@ -5819,7 +5819,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 607,
@@ -5921,7 +5921,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 611,
@@ -5954,7 +5954,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 612,
@@ -5978,7 +5978,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
 
   {
