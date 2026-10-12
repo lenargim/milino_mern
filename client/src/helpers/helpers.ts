@@ -71,7 +71,8 @@ import {
     LEDAccessoriesType, PanelAccessoriesTypeAPI
 } from "./cartTypes";
 import {
-    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
+    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, DrawerAPIType,
+    finishNames, finishType, FinishTypes,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -1010,11 +1011,11 @@ export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, draw
     return !(!drawer_type || drawer_type === 'Same as Box Material' || !drawerColorsArr.length);
 }
 
-export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
+export const getDrawerBrandArr = (drawers: DrawerAPIType[]): materialsData[] => {
     return drawers.map(el => ({value: el.value, img: el.img})) as materialsData[] ?? [];
 }
 
-export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): materialsData[] => {
+export const getDrawerTypeArr = (drawers: DrawerAPIType[], drawer_brand: string): materialsData[] => {
     const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
     if (!drawerTypesArrFilter) return [];
     return drawerTypesArrFilter.map(el => ({
@@ -1023,7 +1024,7 @@ export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): mater
     })) as materialsData[];
 }
 
-export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawer_type: string): materialsData[] => {
+export const getDrawerColorArr = (drawers: DrawerAPIType[], drawer_brand: string, drawer_type: string): materialsData[] => {
     const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
     if (!drawerTypesArrFilter) return [];
     return drawerTypesArrFilter.find(el => el.value === drawer_type)?.colors as materialsData[] ?? [];
@@ -1043,7 +1044,11 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
 }
 
 export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): finishType[] => {
-    return doors.find(el => el.value === door_type)?.finish ?? [];
+    return [...(doors.find(el => el.value === door_type)?.finish ?? [])]
+        .sort((a, b) =>
+            finishNames.indexOf(a.value as FinishTypes) -
+            finishNames.indexOf(b.value as FinishTypes)
+        );
 }
 
 export const getFrameWidthArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): materialsData[] => {

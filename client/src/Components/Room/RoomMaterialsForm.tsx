@@ -49,6 +49,7 @@ import {
 } from "../../helpers/roomTypes";
 import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
 import {usePrevious} from "../../utils/customHooks";
+import {MaterialsAPI} from "../../api/materials";
 
 const {
     categories,
@@ -61,7 +62,7 @@ const {
     grain,
     groove: grooveArr,
     rod: rodArr
-}: MaterialsType = materialsAPI;
+} = MaterialsAPI;
 
 export const materialsFormInitial: RoomMaterialsFormType = {
     name: '',
