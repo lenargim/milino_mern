@@ -110,10 +110,12 @@ export const updateCartAmount = async (req, res, next) => {
 export const updateCartItem = async (req, res, next) => {
   try {
     const cart = req.body;
-    const cleanedCart = cleanObject(cart);
+
+    // if cleanedCart cannot update empty fields
+    // const cleanedCart = cleanObject(cart);
 
     const doc = await CartModel.findByIdAndUpdate(cart._id,
-      cleanedCart, {
+        cart, {
         returnDocument: "after",
       })
 

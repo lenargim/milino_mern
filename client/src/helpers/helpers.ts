@@ -123,7 +123,7 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
     }
 }
 
-export const getProductImg = (folder: string, name:string, hinge_postfix:string = '', ): string => {
+export const getProductImg = (folder: string, name: string, hinge_postfix: string = '',): string => {
     for (const s of [hinge_postfix, '', 'L', '2L', '4'] as const) {
         try {
             const postfix = s ? `${name} ${s}.jpg` : `${name}.jpg`;
@@ -292,7 +292,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
     return ''
 }
 
-export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>,has_glass_door?:boolean): string => {
+export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>, has_glass_door?: boolean): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
         // extra RO/Drawer
@@ -898,7 +898,7 @@ export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccess
     return Object.keys(result).length ? result : undefined;
 };
 
-export const isHasLedBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
+export const isHasLedBlock = (category: productCategory, door_type: MaybeEmpty<DoorTypesType>): boolean => {
     switch (door_type) {
         case "Standard Size Shaker":
             return ['Wall Cabinets', 'Leather'].includes(category);
@@ -1060,7 +1060,12 @@ export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, do
     const isStandardDoor = findIsRoomStandard(doorType);
     if (isStandardDoor) return standardColors.colors as colorType[] || [];
     if (doorType === 'Custom Painted') return finishArr?.[0].colors || [];
-    const colors = finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    let colors = finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    colors = colors.map(el => ({
+        ...el,
+        label: el.value + ' ' + getMaterialColorSizesRatioString(doorFinishMaterial, el.value)
+    }))
+    console.log(doorFinishMaterial)
     switch (doorFinishMaterial) {
         case "Syncron":
         case "Zenit":
@@ -1153,8 +1158,9 @@ export const getMaterialStrings = (materials: RoomMaterialsFormType): MaterialSt
         rod
     } = data;
 
+    const door_color_with_sizes = door_color + ' ' + getMaterialColorSizesRatioString(door_finish_material, door_color);
     const categoryString = materialsStringify([category, gola])
-    const doorString = materialsStringify([door_type, door_finish_material, door_color, door_grain, door_frame_width])
+    const doorString = materialsStringify([door_type, door_finish_material, door_color_with_sizes, door_grain, door_frame_width])
     const boxString = materialsStringify([box_material, box_color])
     const drawerString = materialsStringify([drawer_brand, drawer_type, drawer_color]);
     const leatherString = materialsStringify([leather, leather_note]);
@@ -1375,7 +1381,7 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
     return options.includes("Farm Sink")
 }
 
-export const isShowFinishSidesBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
+export const isShowFinishSidesBlock = (category: productCategory, door_type: MaybeEmpty<DoorTypesType>): boolean => {
     switch (category) {
         case "Base Cabinets":
         case "Wall Cabinets":
@@ -2417,4 +2423,91 @@ export const has_manager_access = (user: UserType): boolean => {
 
 export const mb_to_byte = (size: number): number => {
     return size * 1024 * 1024
+}
+
+export const getMaterialColorSizesRatioString = (door_finish: MaybeEmpty<FinishTypes>, door_color: string): string => {
+    switch (door_finish) {
+        case "":
+            return "";
+        case "Milino":
+            switch (door_color) {
+                case "Ash Melamine":
+                case "Beige Linen Melamine":
+                case "Grey Linen Melamine":
+                case "Grey Melamine":
+                case "Walnut Melamine":
+                case "White Melamine":
+                case "Grey Plywood":
+                case "Natural":
+                case "White":
+                    return `(4'x8')`;
+
+                case "White Gloss":
+                case "Grey Woodline":
+                case "Ivory Woodline":
+                case "Brown Oak":
+                case "Desert Oak":
+                case "White Oak":
+                case "Glacier Oak":
+                case "Sable Wood":
+                case "Ultra Matte White":
+                case "Ultra Matte Grey":
+                case "Ultra Matte Gris":
+                case "Ultra Matte Cashmere":
+                case "Ultra Matte Volcano":
+                    return `(4'x9')`;
+                default:
+                    return ''
+            }
+        case "Ultrapan Acrylic":
+            switch (door_color) {
+                case "Arctic White Matte":
+                case "Eclipse Grey Gloss":
+                case "Hot Rod Red Gloss":
+                case "Jet Black Matte":
+                case "Pebble Gloss":
+                case "Pebble Matte":
+                case "Seal Grey Gloss":
+                case "Seal Grey Matte":
+                case "Black Mettalic Gloss":
+                case "Champagne Mettalic Gloss":
+                case "Dark Grey Mettalic Gloss":
+                case "Frost White Mettalic Gloss":
+                case "Silver Mettalic Gloss":
+                case "Polar White Matte":
+                    return `(4'x8')`;
+
+                case "Arctic White Gloss":
+                case "Comfort Grey Gloss":
+                case "Comfort Grey Matte":
+                case "Galactic Grey Gloss":
+                case "Galactic Grey Matte":
+                case "Jet Black Gloss":
+                case "Polar White Gloss":
+                case "Royal Blue Gloss":
+                case "Champagne Mettalic Matte":
+                case "Dark Grey Mettalic Matte":
+                case "Diamond Mettalic Gloss":
+                case "Obsidian Mettalic Gloss":
+                case "Silver Mettalic Matte":
+                case "Titanium Mettalic Gloss":
+                    return `(4'x10')`;
+                default: return '';
+            }
+        case "Syncron":
+        case "Luxe":
+        case "Zenit":
+        case "Egger":
+        case "OneSkin":
+        case "Cleaf":
+        case "Wood Veneer":
+            return `(4'x9')`;
+        case "Finsa":
+        case "StyleLite":
+            return `(4'x8')`;
+
+        case "Ultrapan PET":
+            return `(4'x10')`;
+    }
+    return ''
 }
