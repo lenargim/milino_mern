@@ -17,7 +17,7 @@ import {
     isDoorGrain,
     isGolaShown, getIsLeatherOrRTAorSystemCloset,
 } from "../../helpers/helpers";
-import materials from './../../api/materials.json'
+import {MaterialsAPI} from '../../api/materials'
 
 export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMaterialsFormType> => {
     return (
@@ -93,9 +93,9 @@ export const RoomSchema = (reservedNames: string[] = []): ObjectSchema<RoomMater
                 .when(['category', 'door_type', 'door_finish_material', 'door_color'], {
                     is: (category:MaybeEmpty<RoomCategoriesType>, door_type:MaybeEmpty<DoorTypesType>, door_finish_material:MaybeEmpty<FinishTypes>, door_color:string) => {
                         if (!category || !door_type || !door_finish_material || !door_color) return true;
-                        const finishArr = getDoorFinishArr(materials.doors, door_type);
+                        const finishArr = getDoorFinishArr(MaterialsAPI.doors, door_type);
                         const colorArr = getDoorColorsArr(door_finish_material, door_type, finishArr);
-                        const grainArr = getGrainArr(materials.grain, colorArr, door_color)
+                        const grainArr = getGrainArr(MaterialsAPI.grain, colorArr, door_color)
                         return !isDoorGrain(category, door_finish_material, grainArr)
                     },
                     then: schema => schema,

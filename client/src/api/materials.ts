@@ -533,214 +533,257 @@ export const MaterialsAPI = {
                     "img": "ultrapan.jpg",
                     "colors": [
                         {
-                            "value": "Black UG",
-                            "img": "Black-Ultra-Gloss-300x300.jpg"
+                            "value": "Amalfi Noce Gloss",
+                            "img": "Ultrapan_PET/Amalfi Noce Gloss.jpg"
                         },
                         {
-                            "value": "Black UM",
-                            "img": "Black-Ultra-Matte-300x300.jpg"
+                            "value": "Amalfi Noce Matte",
+                            "img": "Ultrapan_PET/Amalfi Noce Matte.jpg"
                         },
                         {
-                            "value": "Bright White UG",
-                            "img": "Bright White.jpg"
+                            "value": "Black Gloss",
+                            "img": "Ultrapan_PET/Black Gloss.jpg"
                         },
                         {
-                            "value": "Bright White UM",
-                            "img": "Bright White.jpg"
+                            "value": "Black Matte",
+                            "img": "Ultrapan_PET/Black Matte.jpg"
                         },
                         {
-                            "value": "Citadel UG",
-                            "img": "citadel-ultra-gloss-300x300.jpg"
+                            "value": "Bright White Gloss",
+                            "img": "Ultrapan_PET/Bright White Gloss.jpg"
                         },
                         {
-                            "value": "Citadel UM",
-                            "img": "citadel-ultra-matte-300x300.jpg"
+                            "value": "Bright White Matte",
+                            "img": "Ultrapan_PET/Bright White Matte.jpg"
                         },
                         {
-                            "value": "Flint UG",
-                            "img": "flint-ultra-gloss-large-300x300.jpg"
+                            "value": "Canvas Gloss",
+                            "img": "Ultrapan_PET/Canvas Gloss.jpg"
                         },
                         {
-                            "value": "Flint UM",
-                            "img": "Flint Grey.jpg"
+                            "value": "Chino Gloss",
+                            "img": "Ultrapan_PET/Chino Gloss.jpg"
                         },
                         {
-                            "value": "Greystone UG",
-                            "img": "greystone-ultra-gloss-300x300.jpg"
+                            "value": "Citadel Gloss",
+                            "img": "Ultrapan_PET/Citadel Gloss.jpg"
                         },
                         {
-                            "value": "Greystone UM",
-                            "img": "Greystone.jpg"
+                            "value": "Citadel Matte",
+                            "img": "Ultrapan_PET/Citadel Matte.jpg"
                         },
                         {
-                            "value": "London Fog UG",
-                            "img": "London Fog.jpg"
+                            "value": "Flint Gloss",
+                            "img": "Ultrapan_PET/Flint Gloss.jpg"
                         },
                         {
-                            "value": "London Fog UM",
-                            "img": "London Fog.jpg"
+                            "value": "Flint Matte",
+                            "img": "Ultrapan_PET/Flint Matte.jpg"
                         },
                         {
-                            "value": "Outer Space UG",
-                            "img": "outer-space-ultra-gloss-300x300.jpg"
+                            "value": "Greystone Gloss",
+                            "img": "Ultrapan_PET/Greystone Gloss.jpg"
                         },
                         {
-                            "value": "Outer Space UM",
-                            "img": "Outer Space.jpg"
+                            "value": "Greystone Matte",
+                            "img": "Ultrapan_PET/Greystone Matte.jpg"
                         },
                         {
-                            "value": "Red UG",
-                            "img": "red-ultra-gloss-300x300.jpg"
+                            "value": "Honey Mustard Matte",
+                            "img": "Ultrapan_PET/Honey Mustard Matte.jpg"
                         },
                         {
-                            "value": "Slate Grey UG",
-                            "img": "slate-grey-ultra-gloss-300x300.jpg"
+                            "value": "Ivory Gloss",
+                            "img": "Ultrapan_PET/Ivory Gloss.jpg"
                         },
                         {
-                            "value": "Slate Grey UM",
-                            "img": "slate-grey-ultra-matte-300x300.jpg"
+                            "value": "Ivory Matte",
+                            "img": "Ultrapan_PET/Ivory Matte.jpg"
                         },
                         {
-                            "value": "Starfire Pearl UG",
-                            "img": "starfire-pearl-ultra-gloss-1024x1024.jpg"
+                            "value": "Jade Green Matte",
+                            "img": "Ultrapan_PET/Jade Green Matte.jpg"
                         },
                         {
-                            "value": "Twilight Pearl UG",
-                            "img": "Twilight-Pearl-Ultra-Gloss-1-300x300.jpg"
+                            "value": "London Fog Matte",
+                            "img": "Ultrapan_PET/London Fog Matte.jpg"
                         },
                         {
-                            "value": "Utaupia UG",
-                            "img": "Utaupia-Ultra-Gloss-300x300.jpg"
+                            "value": "Merlot Matte",
+                            "img": "Ultrapan_PET/Merlot Matte.jpg"
                         },
                         {
-                            "value": "Utaupia UM",
-                            "img": "Utaupia-Ultra-Matte-300x300.jpg"
+                            "value": "Metallic Elm Gloss",
+                            "img": "Ultrapan_PET/Metallic Elm Gloss.jpg"
                         },
                         {
-                            "value": "White UG",
-                            "img": "White.jpg"
+                            "value": "Metallic Elm Matte",
+                            "img": "Ultrapan_PET/Metallic Elm Matte.jpg"
                         },
                         {
-                            "value": "White UM",
-                            "img": "White.jpg"
+                            "value": "Outer Space Gloss",
+                            "img": "Ultrapan_PET/Outer Space Gloss.jpg"
                         },
                         {
-                            "value": "Amalfi Noce UG",
-                            "img": "amalfi-noce-ultra-gloss-large-300x300.jpg",
-                            "isGrain": true
+                            "value": "Outer Space Matte",
+                            "img": "Ultrapan_PET/Outer Space Matte.jpg"
                         },
                         {
-                            "value": "Daybreak Pearl",
-                            "img": "daybreak-pearl-ultra-gloss-300x300.jpg"
+                            "value": "Rainstorm Matte",
+                            "img": "Ultrapan_PET/Rainstorm Matte.jpg"
                         },
                         {
-                            "value": "Lunar Surface",
-                            "img": "Lunar Surface.jpg"
+                            "value": "Red Gloss",
+                            "img": "Ultrapan_PET/Red Gloss.jpg"
                         },
                         {
-                            "value": "Metallic Elm Wood",
-                            "img": "Metallic Elm Wood.jpg",
-                            "isGrain": true
+                            "value": "Sheer Linen Gloss",
+                            "img": "Ultrapan_PET/Sheer Linen Gloss.jpg"
                         },
                         {
-                            "value": "Midnight Pearl UG",
-                            "img": "mIdnight-pearl-ultra-gloss-300x300.jpg"
+                            "value": "Slate Grey Gloss",
+                            "img": "Ultrapan_PET/Slate Grey Gloss.jpg"
                         },
                         {
-                            "value": "Rainstorm UM",
-                            "img": "Rainstorm-ok-300x300.jpg"
+                            "value": "Slate Grey Matte",
+                            "img": "Ultrapan_PET/Slate Grey Matte.jpg"
                         },
                         {
-                            "value": "Timberline UM",
-                            "img": "Timberline.jpg",
-                            "isGrain": true
+                            "value": "Toffe Gloss",
+                            "img": "Ultrapan_PET/Toffe Gloss.jpg"
+                        },
+                        {
+                            "value": "Utaupia Gloss",
+                            "img": "Ultrapan_PET/Utaupia Gloss.jpg"
+                        },
+                        {
+                            "value": "Utaupia Matte",
+                            "img": "Ultrapan_PET/Utaupia Matte.jpg"
+                        },
+                        {
+                            "value": "White Gloss",
+                            "img": "Ultrapan_PET/White Gloss.jpg"
+                        },
+                        {
+                            "value": "White Matte",
+                            "img": "Ultrapan_PET/White Matte.jpg"
+                        },
+                        {
+                            "value": "Daybreak Pearl Gloss",
+                            "img": "Ultrapan_PET/Daybreak Pearl Gloss.jpg"
+                        },
+                        {
+                            "value": "Lunar Surface Gloss",
+                            "img": "Ultrapan_PET/Lunar Surface Gloss.jpg"
+                        },
+                        {
+                            "value": "Midnight Pearl Gloss",
+                            "img": "Ultrapan_PET/Midnight Pearl Gloss.jpg"
+                        },
+                        {
+                            "value": "Starfire Pearl Gloss",
+                            "img": "Ultrapan_PET/Starfire Pearl Gloss.jpg"
+                        },
+                        {
+                            "value": "Twilight Pearl Gloss",
+                            "img": "Ultrapan_PET/Twilight Pearl Gloss.jpg"
+                        },
+                        {
+                            "value": "Arizona SoftTouch",
+                            "img": "Ultrapan_PET/Arizona SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Cashmere SoftTouch",
+                            "img": "Ultrapan_PET/Cashmere SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Harbor Mist SoftTouch",
+                            "img": "Ultrapan_PET/Harbor Mist SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Intercoastal SoftTouch",
+                            "img": "Ultrapan_PET/Intercoastal SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Mint SoftTouch",
+                            "img": "Ultrapan_PET/Mint SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Nautical Blue SoftTouch",
+                            "img": "Ultrapan_PET/Nautical Blue SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Oceanside SoftTouch",
+                            "img": "Ultrapan_PET/Oceanside SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Platinum SoftTouch",
+                            "img": "Ultrapan_PET/Platinum SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Stone SoftTouch",
+                            "img": "Ultrapan_PET/Stone SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Timberline SoftTouch",
+                            "img": "Ultrapan_PET/Timberline SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Volcanic Rock SoftTouch",
+                            "img": "Ultrapan_PET/Volcanic Rock SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Zinfandel SoftTouch",
+                            "img": "Ultrapan_PET/Zinfandel SoftTouch.jpg"
                         },
                         {
                             "value": "Quiet Concrete",
-                            "img": "Quiet Concrete.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Quiet Concrete.jpg"
                         },
                         {
                             "value": "Quiet Grain",
-                            "img": "Quiet Grain.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Quiet Grain.jpg"
                         },
                         {
                             "value": "Quiet Leather",
-                            "img": "Quiet Leather.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Quiet Leather.jpg"
+                        },
+                        {
+                            "value": "Quiet Rock",
+                            "img": "Ultrapan_PET/Quiet Rock.jpg"
                         },
                         {
                             "value": "Quiet Stone",
-                            "img": "Quiet Stone.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Quiet Stone.jpg"
                         },
                         {
                             "value": "Quiet Wood",
-                            "img": "Quiet Wood.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Quiet Wood.jpg"
                         },
                         {
                             "value": "Willow Concrete",
-                            "img": "Willow Concrete.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Willow Concrete.jpg"
                         },
                         {
                             "value": "Willow Grain",
-                            "img": "Ultrapan-Willow-Grain.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Willow Grain.jpg"
                         },
                         {
                             "value": "Willow Leather",
-                            "img": "Willow Leather.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Willow Leather.jpg"
+                        },
+                        {
+                            "value": "Willow Rock",
+                            "img": "Ultrapan_PET/Willow Rock.jpg"
                         },
                         {
                             "value": "Willow Stone",
-                            "img": "Willow Stone.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Willow Stone.jpg"
                         },
                         {
                             "value": "Willow Wood",
-                            "img": "Willow Wood.jpg",
-                            "isGrain": true
+                            "img": "Ultrapan_PET/Willow Wood.jpg"
                         },
-                        {
-                            "value": "Arizona ST",
-                            "img": "Arizona.jpg"
-                        },
-                        {
-                            "value": "Harbor Mist ST",
-                            "img": "Harbor Mist.jpg"
-                        },
-                        {
-                            "value": "Intercoastal ST",
-                            "img": "Intercoastal.jpg"
-                        },
-                        {
-                            "value": "Mint ST",
-                            "img": "Mint.jpg"
-                        },
-                        {
-                            "value": "Nautical Blue ST",
-                            "img": "Nautical Blue.jpg"
-                        },
-                        {
-                            "value": "Platinum ST",
-                            "img": "Platinum.jpg"
-                        },
-                        {
-                            "value": "Stone ST",
-                            "img": "Stone.jpg"
-                        },
-                        {
-                            "value": "Volcanic Rock ST",
-                            "img": "Volcanic Rock.jpg"
-                        },
-                        {
-                            "value": "Zinfandel ST",
-                            "img": "Zinfandel.jpg"
-                        }
                     ]
                 },
                 {
@@ -862,127 +905,119 @@ export const MaterialsAPI = {
                 {
                     "value": "Ultrapan Acrylic",
                     "img": "ultrapan.jpg",
-                    "colors": [
+                    colors: [
                         {
                             "value": "Arctic White Gloss",
-                            "img": "arctic-white-high-gloss.jpg"
+                            "img": "Ultrapan_Acrylic/Arctic White Gloss.jpg"
                         },
                         {
                             "value": "Arctic White Matte",
-                            "img": "Arctic White.jpg"
-                        },
-                        {
-                            "value": "Burgundy Gloss",
-                            "img": "Burgundy.jpg"
+                            "img": "Ultrapan_Acrylic/Arctic White Matte.jpg"
                         },
                         {
                             "value": "Comfort Grey Gloss",
-                            "img": "Comfort-Grey-1-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Comfort Grey Gloss.jpg"
+                        },
+                        {
+                            "value": "Comfort Grey Matte",
+                            "img": "Ultrapan_Acrylic/Comfort Grey Matte.jpg"
                         },
                         {
                             "value": "Eclipse Grey Gloss",
-                            "img": "Eclipse.jpg"
+                            "img": "Ultrapan_Acrylic/Eclipse Grey Gloss.jpg"
                         },
                         {
                             "value": "Galactic Grey Gloss",
-                            "img": "Galactic Grey.jpg"
+                            "img": "Ultrapan_Acrylic/Galactic Grey Gloss.jpg"
+                        },
+                        {
+                            "value": "Galactic Grey Matte",
+                            "img": "Ultrapan_Acrylic/Galactic Grey Matte.jpg"
                         },
                         {
                             "value": "Hot Rod Red Gloss",
-                            "img": "red-ultra-gloss-300x300.jpg"
-                        },
-                        {
-                            "value": "Ivory Gloss",
-                            "img": "ivory-ultra-gloss-300x300.jpg"
-                        },
-                        {
-                            "value": "Ivory Matte",
-                            "img": "ivory-ultra-matte-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Hot Rod Red Gloss.jpg"
                         },
                         {
                             "value": "Jet Black Gloss",
-                            "img": "Black-Ultra-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Jet Black Gloss.jpg"
                         },
                         {
                             "value": "Jet Black Matte",
-                            "img": "Black-Ultra-Matte-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Jet Black Matte.jpg"
                         },
                         {
                             "value": "Pebble Gloss",
-                            "img": "Pebble.jpg"
+                            "img": "Ultrapan_Acrylic/Pebble Gloss.jpg"
                         },
                         {
                             "value": "Pebble Matte",
-                            "img": "Pebble.jpg"
+                            "img": "Ultrapan_Acrylic/Pebble Matte.jpg"
                         },
                         {
                             "value": "Polar White Gloss",
-                            "img": "Polar White.jpg"
+                            "img": "Ultrapan_Acrylic/Polar White Gloss.jpg"
                         },
                         {
                             "value": "Polar White Matte",
-                            "img": "Polar White.jpg"
+                            "img": "Ultrapan_Acrylic/Polar White Matte.jpg"
                         },
                         {
                             "value": "Royal Blue Gloss",
-                            "img": "Royal-Blue-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Royal Blue Gloss.jpg"
                         },
                         {
                             "value": "Seal Grey Gloss",
-                            "img": "Seal Grey.jpg"
+                            "img": "Ultrapan_Acrylic/Seal Grey Gloss.jpg"
                         },
                         {
                             "value": "Seal Grey Matte",
-                            "img": "Seal Grey.jpg"
+                            "img": "Ultrapan_Acrylic/Seal Grey Matte.jpg"
                         },
                         {
-                            "value": "Super White Gloss",
-                            "img": "Super White.jpg"
-                        },
-                        {
-                            "value": "Black Mettalic",
-                            "img": "Black-Metallic-Gloss-300x300.jpg"
+                            "value": "Black Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Black Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Champagne Mettalic Gloss",
-                            "img": "Champagne-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Champagne Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Champagne Mettalic Matte",
-                            "img": "Champagne-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Champagne Mettalic Matte.jpg"
                         },
                         {
                             "value": "Dark Grey Mettalic Gloss",
-                            "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Dark Grey Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Dark Grey Mettalic Matte",
-                            "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Dark Grey Mettalic Matte.jpg"
                         },
                         {
-                            "value": "Diamond Mettalic",
-                            "img": "Diamond-Metallic-Gloss-1024x1024.jpg"
+                            "value": "Diamond Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Diamond Metallic Gloss.jpg"
                         },
                         {
-                            "value": "Frost White Mettalic",
-                            "img": "Frost-White-Metallic-Gloss-300x300.jpg"
+                            "value": "Frost White Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Frost White Mettalic Gloss.jpg"
                         },
                         {
-                            "value": "Obsidian Mettalic",
-                            "img": "Obsidian-1024x1024.jpg"
+                            "value": "Obsidian Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Obsidian Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Silver Mettalic Gloss",
-                            "img": "Silver-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Silver Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Silver Mettalic Matte",
-                            "img": "Silver-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Silver Mettalic Matte.jpg"
                         },
                         {
-                            "value": "Titanium Mettalic",
-                            "img": "Titanium-300x300.jpg"
-                        }
+                            "value": "Titanium Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Titanium Mettalic Gloss.jpg"
+                        },
                     ]
                 },
                 {
@@ -2761,60 +2796,117 @@ export const MaterialsAPI = {
                     "img": "ultrapan.jpg",
                     "colors": [
                         {
-                            "value": "Black UM",
-                            "img": "Black-Ultra-Matte-300x300.jpg"
+                            "value": "Amalfi Noce Matte",
+                            "img": "Ultrapan_PET/Amalfi Noce Matte.jpg"
                         },
                         {
-                            "value": "Bright White UG",
-                            "img": "Bright White.jpg"
+                            "value": "Black Matte",
+                            "img": "Ultrapan_PET/Black Matte.jpg"
                         },
                         {
-                            "value": "Bright White UM",
-                            "img": "Bright White.jpg"
+                            "value": "Bright White Gloss",
+                            "img": "Ultrapan_PET/Bright White Gloss.jpg"
                         },
                         {
-                            "value": "Citadel UM",
-                            "img": "citadel-ultra-matte-300x300.jpg"
+                            "value": "Bright White Matte",
+                            "img": "Ultrapan_PET/Bright White Matte.jpg"
                         },
                         {
-                            "value": "Greystone UG",
-                            "img": "Greystone.jpg"
+                            "value": "Citadel Matte",
+                            "img": "Ultrapan_PET/Citadel Matte.jpg"
                         },
                         {
-                            "value": "Greystone UM",
-                            "img": "Greystone.jpg"
+                            "value": "Flint Matte",
+                            "img": "Ultrapan_PET/Flint Matte.jpg"
                         },
                         {
-                            "value": "London Fog UM",
-                            "img": "London Fog.jpg"
+                            "value": "Greystone Gloss",
+                            "img": "Ultrapan_PET/Greystone Gloss.jpg"
                         },
                         {
-                            "value": "Outer Space UM",
-                            "img": "Outer Space.jpg"
+                            "value": "Greystone Matte",
+                            "img": "Ultrapan_PET/Greystone Matte.jpg"
                         },
                         {
-                            "value": "Rainstorm UM",
-                            "img": "Rainstorm-ok-300x300.jpg"
+                            "value": "Honey Mustard Matte",
+                            "img": "Ultrapan_PET/Honey Mustard Matte.jpg"
                         },
                         {
-                            "value": "Slate Grey UM",
-                            "img": "slate-grey-ultra-matte-300x300.jpg"
+                            "value": "London Fog Matte",
+                            "img": "Ultrapan_PET/London Fog Matte.jpg"
                         },
                         {
-                            "value": "Utaupia UG",
-                            "img": "Utaupia-Ultra-Gloss-300x300.jpg"
+                            "value": "Merlot Matte",
+                            "img": "Ultrapan_PET/Merlot Matte.jpg"
                         },
                         {
-                            "value": "Utaupia UM",
-                            "img": "Utaupia-Ultra-Matte-300x300.jpg"
+                            "value": "Metallic Elm Matte",
+                            "img": "Ultrapan_PET/Metallic Elm Matte.jpg"
                         },
                         {
-                            "value": "White UG",
-                            "img": "White.jpg"
+                            "value": "Outer Space Matte",
+                            "img": "Ultrapan_PET/Outer Space Matte.jpg"
                         },
                         {
-                            "value": "White UM",
-                            "img": "White.jpg"
+                            "value": "Sheer Linen Gloss",
+                            "img": "Ultrapan_PET/Sheer Linen Gloss.jpg"
+                        },
+                        {
+                            "value": "Slate Grey Matte",
+                            "img": "Ultrapan_PET/Slate Grey Matte.jpg"
+                        },
+                        {
+                            "value": "Utaupia Gloss",
+                            "img": "Ultrapan_PET/Utaupia Gloss.jpg"
+                        },
+                        {
+                            "value": "Utaupia Matte",
+                            "img": "Ultrapan_PET/Utaupia Matte.jpg"
+                        },
+                        {
+                            "value": "White Gloss",
+                            "img": "Ultrapan_PET/White Gloss.jpg"
+                        },
+                        {
+                            "value": "White Matte",
+                            "img": "Ultrapan_PET/White Matte.jpg"
+                        },
+
+                        {
+                            "value": "Arizona SoftTouch",
+                            "img": "Ultrapan_PET/Arizona SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Cashmere SoftTouch",
+                            "img": "Ultrapan_PET/Cashmere SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Harbor Mist SoftTouch",
+                            "img": "Ultrapan_PET/Harbor Mist SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Intercoastal SoftTouch",
+                            "img": "Ultrapan_PET/Intercoastal SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Mint SoftTouch",
+                            "img": "Ultrapan_PET/Mint SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Platinum SoftTouch",
+                            "img": "Ultrapan_PET/Platinum SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Timberline SoftTouch",
+                            "img": "Ultrapan_PET/Timberline SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Volcanic Rock SoftTouch",
+                            "img": "Ultrapan_PET/Volcanic Rock SoftTouch.jpg"
+                        },
+                        {
+                            "value": "Zinfandel SoftTouch",
+                            "img": "Ultrapan_PET/Zinfandel SoftTouch.jpg"
                         }
                     ]
                 },
@@ -2900,55 +2992,47 @@ export const MaterialsAPI = {
                 {
                     "value": "Ultrapan Acrylic",
                     "img": "ultrapan.jpg",
-                    "colors": [
+                    colors: [
                         {
-                            "value": "Champagne Mettalic Gloss",
-                            "img": "Champagne-Metallic-Gloss-300x300.jpg"
+                            "value": "Eclipse Grey Gloss",
+                            "img": "Ultrapan_Acrylic/Eclipse Grey Gloss.jpg"
                         },
                         {
-                            "value": "Champagne Mettalic Matte",
-                            "img": "Champagne-Metallic-Gloss-300x300.jpg"
+                            "value": "Galactic Grey Gloss",
+                            "img": "Ultrapan_Acrylic/Galactic Grey Gloss.jpg"
+                        },
+                        {
+                            "value": "Jet Black Gloss",
+                            "img": "Ultrapan_Acrylic/Jet Black Gloss.jpg"
+                        },
+                        {
+                            "value": "Pebble Matte",
+                            "img": "Ultrapan_Acrylic/Pebble Matte.jpg"
+                        },
+                        {
+                            "value": "Royal Blue Gloss",
+                            "img": "Ultrapan_Acrylic/Royal Blue Gloss.jpg"
+                        },
+                        {
+                            "value": "Seal Grey Gloss",
+                            "img": "Ultrapan_Acrylic/Seal Grey Gloss.jpg"
+                        },
+                        {
+                            "value": "Champagne Mettalic Gloss",
+                            "img": "Ultrapan_Acrylic/Champagne Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Dark Grey Mettalic Gloss",
-                            "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
-                        },
-                        {
-                            "value": "Dark Grey Mettalic Matte",
-                            "img": "Dk-Grey-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Dark Grey Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Silver Mettalic Gloss",
-                            "img": "Silver-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Silver Mettalic Gloss.jpg"
                         },
                         {
                             "value": "Silver Mettalic Matte",
-                            "img": "Silver-Metallic-Gloss-300x300.jpg"
+                            "img": "Ultrapan_Acrylic/Silver Mettalic Matte.jpg"
                         },
-                        {
-                            "value": "Polar White Acrylic",
-                            "img": "Polar White.jpg"
-                        },
-                        {
-                            "value": "Galactic Grey Acrylic",
-                            "img": "Galactic Grey.jpg"
-                        },
-                        {
-                            "value": "Seal Grey Acrylic",
-                            "img": "Seal Grey.jpg"
-                        },
-                        {
-                            "value": "Eclipse Grey Acrylic",
-                            "img": "Eclipse.jpg"
-                        },
-                        {
-                            "value": "Jet Black Acrylic",
-                            "img": "Black-Ultra-Gloss-300x300.jpg"
-                        },
-                        {
-                            "value": "Royal Blue Acrylic",
-                            "img": "Royal-Blue-300x300.jpg"
-                        }
                     ]
                 },
                 {

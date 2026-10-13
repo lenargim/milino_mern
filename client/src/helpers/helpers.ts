@@ -1080,11 +1080,11 @@ export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], lea
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, isRTACloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): colorType[] => {
+export const getBoxMaterialColorsArr = (isLeather: boolean, isRTAorSystemCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): colorType[] => {
     const colorsArr: MaybeUndefined<colorType[]> = boxMaterialsArr.find(el => el.value === boxMaterialType)?.colors;
     if (!colorsArr) return [];
     if (isLeather) return colorsArr;
-    if (isRTACloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
+    if (isRTAorSystemCloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
     return [];
 }
 
