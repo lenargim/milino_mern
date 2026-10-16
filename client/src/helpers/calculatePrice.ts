@@ -1376,6 +1376,7 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const {width, height, depth, options} = cabinetItem;
     const image_active_number = resolveTypeByDimensions(attributes, width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
+    console.log('------------------------------')
     console.log(`tablePrice ${tablePrice}`)
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
