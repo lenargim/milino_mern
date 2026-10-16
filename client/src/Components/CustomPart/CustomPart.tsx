@@ -5,7 +5,6 @@ import {
     useAppDispatch
 } from "../../helpers/helpers";
 import {
-    CustomPartTableDataType,
     CustomPartType, GlassAndMirrorTypes, GlassNamesTypes, LedAccessoriesFormType, LEDType, MaybeEmpty,
     MaybeNull,
     MaybeUndefined
@@ -20,6 +19,7 @@ import {RoomMaterialsFormType} from "../../helpers/roomTypes";
 import {addProduct, updateProduct} from "../../store/reducers/roomSlice";
 import st from "../Profile/profile.module.sass";
 import {useNavigate} from "react-router-dom";
+import {CustomPartDoublePanelType} from "../../helpers/Enums";
 
 type FilterAccessory = 'aventos' | 'hinge' | 'PTO' | 'servo';
 
@@ -100,10 +100,10 @@ export type CustomPartFormType = {
     amount: number,
 }
 
-
 export type PanelAccessoriesType = {
     hinges_or_holes: HingesOrHolesType,
-    cutout: PanelCutoutType
+    cutout: PanelCutoutType,
+    double_panel?: CustomPartDoublePanelType
 }
 
 export type HingesOrHolesType = {
@@ -123,6 +123,7 @@ export type PanelCutoutType = {
     height_string?: string
 }
 
+
 export type HingesOrHolesTypesType = 'Hinges'|'Holes Only';
 export const RTAClosetCustomOptions: string[] = ['SR', 'STK', 'AS14', 'AS18', 'AS22', 'FS14', 'FS18', 'FS22', 'SS14', 'SS18', 'SS22'];
 export type RTAClosetCustomTypes = typeof RTAClosetCustomOptions[number];
@@ -141,7 +142,7 @@ type CustomPartFCType = {
     materials: RoomMaterialsFormType,
     room_id: string,
     custom_part: CustomPartType,
-    customPartData: CustomPartTableDataType,
+    // customPartData: CustomPartTableDataType,
     initialCustomPartValues: CustomPartFormType,
     productEditId: MaybeUndefined<string>,
 }
@@ -150,7 +151,6 @@ const CustomPart: FC<CustomPartFCType> = ({
                                               materials,
                                               room_id,
                                               custom_part,
-                                              customPartData,
                                               initialCustomPartValues,
                                               productEditId
                                           }) => {

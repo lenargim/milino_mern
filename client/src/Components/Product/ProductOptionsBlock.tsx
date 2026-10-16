@@ -63,12 +63,9 @@ const enableGlassShelfOption = (attrs: { name: string, value: number }[]): boole
     return !!attrs.find(el => (el.name.includes("Shelf") || el.name.includes("Shelves")) && el.value >= 1);
 }
 
-const enablePTOForDoorsOption = (attrs: {
-    name: string,
-    value: number
-}[], chosenOptions: ProductOptionsType[]): boolean => {
+const enablePTOForDoorsOption = (attrs: AttrItemType[], chosenOptions: ProductOptionsType[]): boolean => {
     if (chosenOptions.includes("Glass Door")) return true;
-    return !!attrs.find(el => (el.name.includes("Door") || el.name.includes("Doors")) && el.value >= 1);
+    return !!attrs.find(el => (el.name.includes("Door")));
 }
 
 const getFrontOptions = (filteredOptions: ProductOptionsType[], isEnabledGlassDoorOption: boolean, isEnableGlassShelfOption: boolean, isEnablePTOForDoorsOption:boolean): string[] => {
@@ -103,7 +100,7 @@ const ProductOptionsBlock: FC<OptionsBlockType> = ({
 
     const isEnabledGlassDoorOption = enableGlassDoorOption(id, isProductStandard, width, height);
     const isEnableGlassShelfOption = enableGlassShelfOption(attrs);
-    const isEnablePTOForDoorsOption = enablePTOForDoorsOption(attrs, chosenOptions);
+    const isEnablePTOForDoorsOption = enablePTOForDoorsOption(attributes, chosenOptions);
     const shelfGlassList = prepareToSelectField(settings["Glass"].glass_shelf)
     const filteredOptionsFront = getFrontOptions(filteredOptions, isEnabledGlassDoorOption, isEnableGlassShelfOption, isEnablePTOForDoorsOption);
 

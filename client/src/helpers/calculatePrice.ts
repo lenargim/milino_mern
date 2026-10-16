@@ -53,6 +53,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
+import {CustomPartDoublePanel, CustomPartDoublePanelType} from "./Enums";
 
 
 // собираем уникальные значения
@@ -135,7 +136,7 @@ export function addDepthPriceCoef(customDepth: number, depthRangeData: number[],
     return 0
 }
 
-function addPTODoorsPrice(hinge_opening: hingeTypes, id: number, category:MaybeEmpty<RoomCategoriesType>, width:number): number {
+function addPTODoorsPrice(hinge_opening: hingeTypes, id: number, category: MaybeEmpty<RoomCategoriesType>, width: number): number {
     let doorQty = checkDoors(hinge_opening);
 
     // Stationary door qty
@@ -143,7 +144,7 @@ function addPTODoorsPrice(hinge_opening: hingeTypes, id: number, category:MaybeE
 
     // No doors in System Closet (only Glass door option)
     if (getIsLeatherOrSystemCloset(category)) {
-        doorQty = width >=24 ? 2 : 1;
+        doorQty = width >= 24 ? 2 : 1;
     }
     return doorQty && settings.fixPrices["PTO for doors"] ? +doorQty * settings.fixPrices["PTO for doors"] : 0;
 }
@@ -856,7 +857,7 @@ export const getMaterialData = (materials: RoomMaterialsFormType, product_id: nu
     }
 }
 
-const filterByOptionsType = (options:string[]):ProductOptionsType[] => {
+const filterByOptionsType = (options: string[]): ProductOptionsType[] => {
     return options.filter(
         (value): value is ProductOptionsType =>
             ProductOptionsTypes.includes(value as ProductOptionsType)
@@ -1051,39 +1052,56 @@ export const getCustomPartPrice = (product: CustomPartType, materials: RoomMater
             break;
         }
         case 905: {
-            area = minAvailableArea(area, 1)
+            area = minAvailableArea(area, 1);
+            const double_panel = custom?.panel_accessories?.double_panel;
+            let typeCoef = 1;
+            let materialCoef = 0;
+            if (double_panel) {
+                switch (double_panel) {
+                    case 0:
+                        typeCoef = 1;
+                        break;
+                    case 1:
+                        typeCoef = 0.65;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
             switch (custom?.material) {
                 case "Milino":
-                    price = area * 36;
+                    materialCoef = 36;
                     break;
                 case "Plywood":
-                    price = area * 40;
+                    materialCoef = 40;
                     break;
                 case "Syncron":
                 case "Finsa":
-                    price = area * 48;
+                    materialCoef = 48;
                     break;
                 case "Luxe":
                 case "Ultrapan PET":
-                    price = area * 60;
+                    materialCoef = 60;
                     break;
                 case "Ultrapan Acrylic":
-                    price = area * 60 * 1.1;
+                    materialCoef = 60 * 1.1;
                     break;
                 case "Zenit":
                 case "OneSkin":
                 case "Egger":
                 case "Cleaf":
-                    price = area * 60 * 1.03;
+                    materialCoef = 60 * 1.03;
                     break;
                 case "Painted":
-                    price = area * 85.8;
+                    materialCoef = 85.8;
                     break;
                 case "Wood Veneer":
                 case "StyleLite":
-                    price = area * 99;
+                    materialCoef = 99;
                     break;
             }
+            price = area * materialCoef * typeCoef;
             break;
         }
         case 906: {

@@ -284,7 +284,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Box from finish material",
       "Glass Door"
     ]
@@ -1391,7 +1390,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Box from finish material",
       "Glass Door"
     ]
@@ -3314,12 +3312,7 @@
         ]
       }
     ],
-    "options": [
-      "PTO for doors",
-      "Glass Door",
-      "Glass Shelf",
-      "Box from finish material"
-    ]
+    "options": ["Box from finish material"]
   },
   {
     "id": 212,
@@ -6979,7 +6972,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Glass Door"
     ],
     "hasMechanism": {

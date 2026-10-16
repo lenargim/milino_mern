@@ -36,8 +36,7 @@ const CustomPartRight: FC<CustomPartRight> = ({
 
     const {door_color, door_type} = materials
     const isStandardCabinet = door_type === 'Standard Size Shaker';
-    const {depth, type} = customPartProduct;
-    // const depthApi = initialMaterialData?.depth ?? depth;
+    const {type} = customPartProduct;
     const {values, setFieldValue} = useFormikContext<CustomPartFormType>();
     const {price} = values;
     const {materials_array, id} = customPartProduct;

@@ -86,7 +86,13 @@ import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm"
 import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
-import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
+import {
+    CustomPartDoublePanel, CustomPartDoublePanelKeyType,
+    CustomPartDoublePanelType,
+    CustomPartShelves,
+    CustomPartShelvesEnumType,
+    getKeyByValue, getValueByKey
+} from "./Enums";
 import {UserType} from "../api/apiTypes";
 import {CheckoutFormType} from "../Components/Checkout/CheckoutForm";
 
@@ -727,7 +733,6 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         painted_molding
     } = values;
 
-
     const {id, product_type, name} = product;
 
     // Update L-Shape
@@ -879,7 +884,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
 export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccessoriesType>): MaybeUndefined<PanelAccessoriesTypeAPI> => {
     if (!panelAccessories) return undefined;
-    const {hinges_or_holes, cutout} = panelAccessories
+    const {hinges_or_holes, cutout, double_panel} = panelAccessories
+
     const result: PanelAccessoriesTypeAPI = {
         ...(hinges_or_holes?.has_hh && {
             hinges_or_holes: {
@@ -894,6 +900,7 @@ export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccess
                 height: cutout.height!,
             },
         }),
+        double_panel: double_panel ? getKeyByValue(CustomPartDoublePanel, double_panel) : undefined
     };
     return Object.keys(result).length ? result : undefined;
 };
@@ -1333,6 +1340,11 @@ export const isPanelCutoutBlock = (id: number): boolean => {
 
 export const isLedBlock = (id: number): boolean => {
     const IDsArr: number[] = [903, 901, 900, 927];
+    return IDsArr.includes(id)
+}
+
+export const isFullPanelBlock = (id: number): boolean => {
+    const IDsArr: number[] = [905];
     return IDsArr.includes(id)
 }
 
@@ -1912,6 +1924,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             has_cutout: false
         }
 
+        let doublePanelValues = undefined;
+
         let shelvesValues: CustomPartShelvesType = {
             has_shelves: false,
         }
@@ -1990,7 +2004,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             }
 
             if (panel_accessories) {
-                const {hinges_or_holes, cutout} = panel_accessories
+                const {hinges_or_holes, cutout, double_panel} = panel_accessories
                 const hasHH = !!hinges_or_holes;
                 const hasCutout = !!cutout
                 if (hasHH) {
@@ -2011,6 +2025,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                         width_string: getFraction(cutout?.width || 0),
                         height_string: getFraction(cutout?.height || 0)
                     }
+                }
+                if (double_panel) {
+                    doublePanelValues = getValueByKey(CustomPartDoublePanel, double_panel)
                 }
             }
 
@@ -2045,6 +2062,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             panel_accessories: {
                 hinges_or_holes: hhValues,
                 cutout: cutoutValues,
+                double_panel: doublePanelValues
             },
             led: ledBlock ? {
                 border: ledBlock.border,

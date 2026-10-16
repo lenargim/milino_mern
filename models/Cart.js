@@ -63,6 +63,10 @@ const PanelAccessoriesSchema = new mongoose.Schema({
     cutout: {
         type: CutoutSchema,
         default: undefined
+    },
+    double_panel: {
+        type: String,
+        default: undefined
     }
 }, {_id: false});
 
