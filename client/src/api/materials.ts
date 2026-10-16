@@ -876,11 +876,6 @@ export const MaterialsAPI = {
                             "isGrain": true
                         },
                         {
-                            "value": "Titán 1 SM",
-                            "isGrain": true,
-                            "img": "Supermatt Titán 1.jpg"
-                        },
-                        {
                             "value": "Verde Salvia SM",
                             "img": "SuperMatt Verde Salvia.jpg"
                         },
@@ -4246,11 +4241,6 @@ export const MaterialsAPI = {
                         {
                             "value": "Nuvola 3 SM",
                             "img": "Nuvola 3.jpg",
-                            "isGrain": true
-                        },
-                        {
-                            "value": "Titán 1 SM",
-                            "img": "Supermatt Titán 1.jpg",
                             "isGrain": true
                         },
                         {

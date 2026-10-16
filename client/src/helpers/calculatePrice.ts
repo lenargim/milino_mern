@@ -638,7 +638,6 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                     }
                     break;
                 case 'Custom Painted':
-                    // if (door_finish_material === 'Slab') return 1.05;
                     return 1.05 * 1.1;
                 case 'Shaker':
                     switch (door_finish_material) {
@@ -649,6 +648,7 @@ const getMaterialCoef = (materials: RoomMaterialsFormType): number => {
                             return 1.03;
                         case 'Ultrapan Acrylic':
                         case "StyleLite":
+                        case "Wood Veneer":
                             return 1.1;
                     }
                     break;
@@ -1442,6 +1442,9 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
+    console.log(doorWidth)
+    console.log(doorHeight)
+    console.log(frontSquare)
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id, room_category, doorWidth) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
