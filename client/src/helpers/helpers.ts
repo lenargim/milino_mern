@@ -382,6 +382,8 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             if (!glass_door || !glass_door[0]) break;
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
+        case "ro_drawer":
+            return getProductImg(`Custom Parts`, product.name.replace('/', ' '));
     }
     return getProductImg(`Custom Parts`, product.name);
 }
@@ -2510,22 +2512,45 @@ export const getMaterialColorSizesRatioString = (door_finish: MaybeEmpty<FinishT
                 case "Silver Mettalic Matte":
                 case "Titanium Mettalic Gloss":
                     return `(4'x10')`;
-                default: return '';
+                default:
+                    return '';
             }
         case "Syncron":
         case "Luxe":
         case "Zenit":
-        case "Egger":
         case "OneSkin":
-        case "Cleaf":
         case "Wood Veneer":
             return `(4'x9')`;
+        case "Cleaf":
+        case "Egger":
+            return `(5'x9')`;
         case "Finsa":
         case "StyleLite":
             return `(4'x8')`;
-
         case "Ultrapan PET":
             return `(4'x10')`;
     }
     return ''
+}
+
+export const notNegative = (val: number): number => {
+    return Math.max(val, 0);
+}
+
+export const getDoorHeight = (product: ProductType, cart: CartAPI): number => {
+    const {height, middle_section} = cart;
+    const {id, legsHeight = 0} = product;
+    // Exceptions
+    switch (id) {
+        case 413:
+            return height - 28;
+        case 414:
+            return height - 50;
+        case 605:
+            return height - 50;
+        case 606:
+            return height - 30;
+        default:
+            return height - legsHeight - middle_section;
+    }
 }

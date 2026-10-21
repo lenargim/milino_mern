@@ -1,4 +1,4 @@
-import CartModel from './../models/Cart.js'
+import CartModel from '../models/Cart.js'
 import {cleanObject} from "../utils/helpers.js";
 
 export const getCart = async (req, res) => {
@@ -109,13 +109,10 @@ export const updateCartAmount = async (req, res, next) => {
 
 export const updateCartItem = async (req, res, next) => {
   try {
-    const cart = req.body;
+      const { _id, ...cartData } = req.body;
 
-    // if cleanedCart cannot update empty fields
-    // const cleanedCart = cleanObject(cart);
-
-    const doc = await CartModel.findByIdAndUpdate(cart._id,
-        cart, {
+    const doc = await CartModel.findOneAndReplace({_id},
+        cartData, {
         returnDocument: "after",
       })
 
@@ -125,7 +122,7 @@ export const updateCartItem = async (req, res, next) => {
       })
     }
 
-    req.params.room_id = cart.room_id;
+    req.params.room_id = cartData.room_id;
     next()
   } catch (e) {
     res.status(500).json({

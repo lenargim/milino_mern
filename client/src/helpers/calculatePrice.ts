@@ -22,7 +22,7 @@ import {
     checkDoors,
     convertDoorAccessories,
     getAttributes,
-    getCabinetHeightRangeBasedOnCategory,
+    getCabinetHeightRangeBasedOnCategory, getDoorHeight,
     getFinishColorCoefCustomPart,
     getIsCloset,
     getIsLeatherCloset,
@@ -38,7 +38,7 @@ import {
     getWidthToCalculateDoor,
     hasGlassShelfColor,
     isHingeHolesBlock,
-    isPanelCutoutBlock,
+    isPanelCutoutBlock, notNegative,
 } from "./helpers";
 import {productChangeMaterialType,} from "../store/reducers/generalSlice";
 import standardProductsPrices from '../api/standartProductsPrices.json'
@@ -287,8 +287,9 @@ function getDoorPrice(square: number, materialData: materialDataType): number {
         box_color,
     } = materialData;
     if (getIsLeatherOrRTAorSystemCloset(category)) {
-        const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color)
-        return +(square * (door_price_multiplier - oldMultiplier)).toFixed(1);
+        const oldMultiplier = chooseDoorPanelMultiplier("Slab", box_material, box_color);
+        const diffMultiplier = notNegative(door_price_multiplier - oldMultiplier)
+        return +(square * diffMultiplier).toFixed(1);
     }
     return +(square * door_price_multiplier).toFixed(1);
 }
@@ -382,7 +383,7 @@ function getShakerPanelPrice(square: number, door_finish_material: MaybeUndefine
             return square * 85.8;
         case "Wood Veneer":
         case "StyleLite":
-            return square * 96 * 1.1;
+            return square * 96 * 1.1 * 1.1;
         default:
             return 0;
     }
@@ -1439,7 +1440,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const {drawersQty, shelfsQty, rodsQty} = productPriceData;
 
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
-    const doorHeight = height - legsHeight - middle_section;
+    const doorHeight = getDoorHeight(product, cart);
     const frontSquare = getSquare(doorWidth, doorHeight, id);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
@@ -1606,19 +1607,43 @@ export const getDrawerInsertsCustomPartPrice = (inserts: MaybeUndefined<DrawerIn
     if (!inserts || !width) return 0;
     const {box_type, color} = inserts;
     if (!color) return 0;
-    let colorCoef: number = 0;
+    // let colorCoef: number = 0;
     switch (box_type) {
         case "Inserts":
-            colorCoef = color === 'Maple' ? 5 : 9;
-            break;
+            // colorCoef = color === 'Maple' ? 5 : 9;
+            if (width <= 12) return color === "Maple" ? 84 : 151;
+            if (width <= 15) return color === "Maple" ? 105 : 189;
+            if (width <= 18) return color === "Maple" ? 126 : 227;
+            if (width <= 21) return color === "Maple" ? 147 : 265;
+            if (width <= 24) return color === "Maple" ? 168 : 302;
+            if (width <= 27) return color === "Maple" ? 189 : 340;
+            if (width <= 30) return color === "Maple" ? 210 : 378;
+            if (width <= 33) return color === "Maple" ? 231 : 416;
+            if (width <= 36) return color === "Maple" ? 252 : 454;
+            return color === "Maple" ? 273 : 491;
         case "Pegs":
-            colorCoef = color === 'Maple' ? 4 : 8;
-            break;
+            // colorCoef = color === 'Maple' ? 4 : 8;
+            if (width <= 24) return color === "Maple" ? 134 : 269;
+            if (width <= 27) return color === "Maple" ? 151 : 302;
+            if (width <= 30) return color === "Maple" ? 168 : 336;
+            if (width <= 33) return color === "Maple" ? 185 : 370;
+            if (width <= 36) return color === "Maple" ? 202 : 403;
+            return color === "Maple" ? 218 : 437;
         case "Spice":
-            colorCoef = color === 'Maple' ? 4 : 5;
-            break;
+            // colorCoef = color === 'Maple' ? 4 : 5;
+            if (width <= 12) return color === "Maple" ? 67 : 84;
+            if (width <= 15) return color === "Maple" ? 84 : 105;
+            if (width <= 18) return color === "Maple" ? 101 : 126;
+            if (width <= 21) return color === "Maple" ? 118 : 147;
+            if (width <= 24) return color === "Maple" ? 134 : 168;
+            if (width <= 27) return color === "Maple" ? 151 : 189;
+            if (width <= 30) return color === "Maple" ? 168 : 210;
+            if (width <= 33) return color === "Maple" ? 185 : 231;
+            if (width <= 36) return color === "Maple" ? 202 : 252;
+            return color === "Maple" ? 218 : 273;
+
     }
-    return Math.round(width * colorCoef * 1.4);
+    // return Math.round(width * colorCoef * 1.4);
 }
 
 const getRoDrawerTablePrice = (width: number, basePriceType: pricesTypings, ro_drawer: DrawerROType): number => {

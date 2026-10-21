@@ -4925,6 +4925,7 @@
     "name": "VDH Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Double Hanging Section",
@@ -4954,6 +4955,7 @@
     "name": "VLH Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Long Hanging Section",
@@ -4992,6 +4994,7 @@
     "name": "VSS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
@@ -5020,6 +5023,7 @@
     "name": "VAS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
@@ -5048,6 +5052,7 @@
     "name": "VFAS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
@@ -5085,6 +5090,7 @@
     "name": "VHS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Hamper Section",
@@ -5122,6 +5128,7 @@
     "name": "VDS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "hasJeweleryBlock": true,
     "attributes": [
       {
@@ -5162,6 +5169,7 @@
     "customHeight": 35.5,
     "customDepth": 18,
     "hasJeweleryBlock": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Island Drawers Section",
@@ -5191,6 +5199,7 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5230,6 +5239,7 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
@@ -5259,6 +5269,7 @@
     "name": "VDC Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
