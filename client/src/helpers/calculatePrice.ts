@@ -70,10 +70,10 @@ const normalizeValue = (value: number, allowed: number[]): number => {
     for (let i = 0; i < allowed.length; i++) {
         const current = allowed[i];
         const next = allowed[i + 1];
-
         const delta = next ? next - current : Infinity;
         const threshold = delta > 1 ? 1 : 0.95;
-        if (value < current + threshold) {
+
+        if (value <= current + threshold) {
             return current;
         }
     }
@@ -89,6 +89,7 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
     const widths = getAllowedValues(priceData, 'width');
     const heights = hasHeight ? getAllowedValues(priceData, 'height') : [];
     const depths = hasDepth ? getAllowedValues(priceData, 'depth') : [];
+
 
     const normWidth = normalizeValue(width, widths);
 
@@ -795,7 +796,7 @@ const getDoorPriceMultiplier = (materials: RoomMaterialsFormType, is_standard_ro
                             return 30;
                         case "Wood Veneer":
                         case "StyleLite":
-                            return 58
+                            return 36 + 22 * 1.1
                         default:
                             return 36;
                     }

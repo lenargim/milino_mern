@@ -455,7 +455,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
                 if (doorArr.includes(4)) tallArr.push(double, four)
             } else if (tall_type_2.includes(product_id)) {
                 if (doorArr.includes(1)) tallArr.push(left, right);
-                if (doorArr.includes(2)) tallArr.push(double);
+                if (doorArr.includes(2)) tallArr.push(four);
             } else if (tall_type_3.includes(product_id)) {
                 tallArr.push(left_2, right_2, single_left, single_right)
             } else if (tall_type_4.includes(product_id)) {
