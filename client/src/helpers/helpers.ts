@@ -2186,10 +2186,20 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
     const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color;
-    const is_special_milino = ["Desert Oak", "White Oak", "White Gloss", "Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+    // const is_special_milino = ["Desert Oak", "White Oak", "White Gloss", "Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
-        return is_special_milino ?
+        const is_special_milino = (color:string):boolean => {
+            if (color.includes("Ultra Matte")) return true;
+            if (color.includes("Woodline")) return true;
+            if (color.includes("Oak")) return true;
+            if (color === "White Gloss") return true;
+            if (color === "Sable Wood") return true;
+
+            return false;
+        }
+        return is_special_milino(color) ?
             {
                 ...limits,
                 [direction]: limits[direction]
