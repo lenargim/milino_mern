@@ -37,6 +37,7 @@ import AdminRoute from "./common/AdminRoute";
 import ManagerRoute from "./common/ManagerRoute";
 import ProfileManagerDesigners from "./Components/Profile/ProfileManagerDesigners";
 import DesignerRoute from "./common/DesignerRoute";
+import ProfileCatalog2020Sample from "./Components/Profile/ProfileCatalog2020Sample";
 
 function App() {
     return (
@@ -126,7 +127,7 @@ function App() {
                         <Route path="edit" element={<ProfileEdit/>}/>
                         <Route path="constructor" element={<Constructor/>}/>
                         <Route path="catalog" element={<ProfileCatalog/>}/>
-                        <Route path="catalog_2020" element={<ProfileCatalog2020/>}/>
+                        <Route path="catalog_2020" element={<ProfileCatalog2020Sample/>}/>
                         <Route path="tutorial" element={<ProfileTutorial/>}>
                         </Route>
                     </Route>
