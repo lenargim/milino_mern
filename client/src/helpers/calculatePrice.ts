@@ -23,13 +23,11 @@ import {
     convertDoorAccessories,
     getAttributes,
     getCabinetHeightRangeBasedOnCategory, getDoorHeight,
-    getFinishColorCoefCustomPart,
+    getFinishColorCoefCustomPart, getGlassDoorSquare,
     getIsCloset,
-    getIsLeatherCloset,
     getIsLeatherOrRTAorSystemCloset,
     getIsLeatherOrSystemCloset,
     getIsRTAorSystemCloset,
-    getIsSystemCloset,
     getLedHeight,
     getLEDProductCartPrice,
     getLedWidth,
@@ -53,8 +51,6 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {PanelsFormAPIType} from "../Components/CustomPart/CustomPartStandardPanel";
 import {BoxMaterialType} from "./roomTypes";
-import {CustomPartDoublePanel, CustomPartDoublePanelType} from "./Enums";
-
 
 // собираем уникальные значения
 export const getAllowedValues = (data: pricePart[], key: keyof pricePart): number[] => {
@@ -118,8 +114,6 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
-    console.log(`boxCoef ${boxCoef}`)
-    console.log(`grain_coef ${grain_coef}`)
     const totalCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
     return +(tablePrice * totalCoef).toFixed(1)
 }
@@ -1378,13 +1372,10 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const {width, height, depth, options} = cabinetItem;
     const image_active_number = resolveTypeByDimensions(attributes, width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
-    console.log('------------------------------')
-    console.log(`tablePrice ${tablePrice}`)
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
-    console.log(`size_coef ${size_coef}`)
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData, image_active_number);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     const totalPrice = +(startPrice * size_coef + attrPrice).toFixed(1);
@@ -1442,8 +1433,8 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
 
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = getDoorHeight(product, cart);
-    const frontSquare = getSquare(doorWidth, doorHeight, id);
-    console.log(`front sq ${frontSquare}`)
+    const doorSquare = getSquare(doorWidth, doorHeight, id);
+    const glassDoorSquare = getGlassDoorSquare(doorSquare, doorWidth, doorHeight, id);
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
@@ -1451,18 +1442,12 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
     const pvcPrice = getPvcPrice(doorWidth, doorHeight, product, materialData);
-    const doorPrice = getDoorPrice(frontSquare, materialData);
+    const doorPrice = getDoorPrice(doorSquare, materialData);
     const drawerPrice = getDrawerPrice(drawersQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color)
     const finish_sidesPrice = finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, finishSidesMaterial) : 0
 
-
-    console.log(`doorWidth ${doorWidth}`)
-    console.log(`doorHeight ${doorHeight}`)
-    console.log(`frontSquare ${frontSquare}`)
-    console.log(`pvcPrice ${pvcPrice}`)
-    console.log(`doorPrice ${doorPrice}`)
-    console.log(`drawerPrice ${drawerPrice}`)
-    console.log(`finishSidesPrice ${finish_sidesPrice}`)
+    console.log(`doorSquare ${doorSquare}`)
+    console.log(`glassDoorSquare ${glassDoorSquare}`)
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id, room_category, doorWidth) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
@@ -1473,7 +1458,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
         doorPrice,
         drawerPrice,
         ledPrice: getLedPrice(led_width, led_height, led),
-        glassDoor: addGlassDoorPrice(frontSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
+        glassDoor: addGlassDoorPrice(glassDoorSquare, glassDoorProfile, product_type === "standard", hasGlassDoor),
         closetAccessoriesPrice: getClosetAccessoriesPrice(custom?.accessories?.closet, width),
         jeweleryInsertsPrice: getJeweleryInsertsPrice(custom?.jewelery_inserts),
         mechanismPrice: getMechanismPrice(custom?.mechanism, hasMechanism),
