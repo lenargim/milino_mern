@@ -75,7 +75,7 @@ const CustomPartLEDForm: FC = () => {
             </div>
             <div className={s.block}>
                 <div className={s.attrdesc}>
-                    <strong>*** Regular Transformer</strong>:** Dimmable via remote control only. Not compatible with wall-mounted dimmer switches.
+                    <strong>* Regular Transformer</strong>: Dimmable via remote control only. Not compatible with wall-mounted dimmer switches.
                 </div>
                 <div className={s.attrdesc}>
                     <strong>** Dimmable Transformer</strong>: Compatible with wall-mounted dimmer switches.

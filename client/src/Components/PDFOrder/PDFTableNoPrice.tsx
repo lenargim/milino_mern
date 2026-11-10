@@ -9,9 +9,11 @@ const PdfTableNoPrice:FC<{cart: CartItemFrontType[], children?: ReactNode}> = ({
     return (
         <View style={s.table}>
             <View style={s.cartItem}>
-                <View style={s.th0_short}><Text>#</Text></View>
-                <View style={s.th1_short}><Text>Img</Text></View>
-                <View style={s.th2_short}><Text>Description</Text></View>
+                <View style={s.th0}><Text>#</Text></View>
+                <View style={s.th1}><Text>Img</Text></View>
+                <View style={s.th2}><Text>Description</Text></View>
+                <View style={s.th3}><Text></Text></View>
+                <View style={s.th4}><Text></Text></View>
             </View>
             {cart.map((el, index) => {
                 const {product_id, product_type, isStandard, exact_image} = el;
@@ -21,17 +23,19 @@ const PdfTableNoPrice:FC<{cart: CartItemFrontType[], children?: ReactNode}> = ({
                 const anyNotStandard = Object.values(isStandard).some(value => !value) || Object.values(isStandard.dimensions).some(value => !value);
                 return (
                     <View wrap={false} style={s.cartItem} key={index}>
-                        <View style={s.th0_short}><Text>{++index}</Text></View>
-                        <View style={s.img_short}>
+                        <View style={s.th0}><Text>{++index}</Text></View>
+                        <View style={s.img}>
                             <Image src={exact_image}/>
                         </View>
-                        <View style={s.data_short}>
+                        <View style={s.data}>
                             <Text style={s.itemName}>
                                 <Text>{name}</Text> {anyNotStandard && <Text style={s.non}>Custom</Text>}
                             </Text>
                             <CartItemOptions item={el}/>
                             {el.note ? <Text style={s.note}>*{el.note}</Text> : null}
                         </View>
+                        <View style={s.itemPrice}></View>
+                        <View style={s.sum}></View>
                     </View>
                 )
             })}

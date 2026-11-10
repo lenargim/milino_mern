@@ -1443,6 +1443,7 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const doorWidth = getWidthToCalculateDoor(width, blind_width, isAngle, category)
     const doorHeight = getDoorHeight(product, cart);
     const frontSquare = getSquare(doorWidth, doorHeight, id);
+    console.log(`front sq ${frontSquare}`)
     const hasGlassDoor = options.includes('Glass Door');
     const glassDoorProfile = glass?.door ? glass.door[0] : undefined;
     const shelfArea = (width * depth / 144) * shelfsQty;
