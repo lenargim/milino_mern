@@ -114,6 +114,8 @@ export const getTablePrice = (width: number, height: number, depth: number, pric
 function getStartPrice(tablePrice: number, materialData: materialDataType, options: string[]): number {
     const {box_material_coef, box_material_finish_coef, grain_coef, materials_coef} = materialData;
     const boxCoef = options.includes("Box from finish material") ? box_material_finish_coef : box_material_coef;
+    console.log(`boxCoef ${boxCoef}`)
+    console.log(`grain_coef ${grain_coef}`)
     const totalCoef = +(boxCoef * materials_coef * grain_coef).toFixed(3);
     return +(tablePrice * totalCoef).toFixed(1)
 }
@@ -259,19 +261,23 @@ export function getDoorMinMaxValuesArr(realWidth: number, doorValues?: valueItem
     return [...new Set<number>(filter.map(el => el.value))]
 }
 
-function getPvcPrice(doorWidth: number, doorHeight: number, product: ProductType, materialData: materialDataType): number {
-    const {horizontal_line = 2, product_type} = product
+function getPvcPrice(per: number, product: ProductType, materialData: materialDataType): number {
+    const {product_type} = product
     const {
         door_finish_material,
         door_type,
         category
     } = materialData;
     if (door_type === 'No Doors' || door_finish_material === 'Milino' || product_type === 'standard' || getIsLeatherOrRTAorSystemCloset(category) || door_type === 'Wood ribbed doors') return 0;
-    const per = (horizontal_line * doorWidth + doorHeight * 2) / 12;
     let coef = 2.5;
     if (door_type === 'Custom Painted') coef = 2.75;
     if (['Ultrapan Acrylic', 'Wood Veneer', 'StyleLite'].includes(door_finish_material)) coef = 2.75;
     return +(per * coef).toFixed(2);
+}
+
+function getPVCPerimeter(doorWidth: number, doorHeight: number, product: ProductType):number {
+    const {horizontal_line = 2} = product;
+    return (horizontal_line * doorWidth + doorHeight * 2) / 12;
 }
 
 function getDoorPrice(square: number, materialData: materialDataType): number {
@@ -1372,10 +1378,13 @@ export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDat
     const {width, height, depth, options} = cabinetItem;
     const image_active_number = resolveTypeByDimensions(attributes, width, height);
     const tablePrice = getTablePrice(width, height, depth, tablePriceData);
+    console.log('------------------------------')
+    console.log(`tablePrice ${tablePrice}`)
     const isSizeValid = checkProductSize(width, height, depth, sizeLimit, tablePrice);
     if (!isSizeValid) return 0;
     const startPrice = getStartPrice(tablePrice, materialData, options);
     const size_coef = getSizeCoef(cabinetItem, tablePriceData, product);
+    console.log(`size_coef ${size_coef}`)
     const attributesPrices = getAttributesProductPrices(cabinetItem, product, materialData, image_active_number);
     const attrPrice = Object.values(attributesPrices).reduce((partialSum, a) => partialSum + a, 0);
     const totalPrice = +(startPrice * size_coef + attrPrice).toFixed(1);
@@ -1441,13 +1450,21 @@ const getAttributesProductPrices = (cart: CartAPI, product: ProductType, materia
     const finishSidesMaterial = door_type === 'Custom Painted' ? 'Painted' : door_finish_material;
     const led_width = getLedWidth(width, rodsQty);
     const led_height = getLedHeight(height, id);
-    const pvcPrice = getPvcPrice(doorWidth, doorHeight, product, materialData);
+    const pvcPerimeter = getPVCPerimeter(doorWidth, doorHeight, product)
+    const pvcPrice = getPvcPrice(pvcPerimeter, product, materialData);
     const doorPrice = getDoorPrice(doorSquare, materialData);
     const drawerPrice = getDrawerPrice(drawersQty, doorWidth, door_type, drawer_brand, drawer_type, drawer_color)
     const finish_sidesPrice = finish_sides?.length ? getFinishSidesPrice(finish_sides, doorWidth, height - legsHeight, depth, finishSidesMaterial) : 0
 
+    console.log(`doorWidth ${doorWidth}`)
+    console.log(`doorHeight ${doorHeight}`)
     console.log(`doorSquare ${doorSquare}`)
     console.log(`glassDoorSquare ${glassDoorSquare}`)
+    console.log(`pvcPerimeter ${pvcPerimeter}`)
+    console.log(`pvcPrice ${pvcPrice}`)
+    console.log(`doorPrice ${doorPrice}`)
+    console.log(`drawerPrice ${drawerPrice}`)
+    console.log(`finishSidesPrice ${finish_sidesPrice}`)
     return {
         ptoDoors: options.includes('PTO for doors') ? addPTODoorsPrice(hinge, id, room_category, doorWidth) : 0,
         ptoDrawers: options.includes('PTO for drawers') ? addPTODrawerPrice(image_active_number, drawersQty) : 0,
