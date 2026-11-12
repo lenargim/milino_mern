@@ -93,6 +93,16 @@ export const login = async (req, res) => {
         }
         const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
 
+        console.log("LOGIN DEBUG:", {
+            db: UserModel.db.name,
+            email: user.email,
+            hashLength: user._doc.passwordHash?.length,
+            hashPrefix: user._doc.passwordHash?.slice(0, 7),
+            passwordType: typeof req.body.password,
+            passwordLength: req.body.password?.length,
+            isValidPass,
+        });
+
         if (!isValidPass) {
             return res.status(401).json({
                 message: "Incorrect password"
