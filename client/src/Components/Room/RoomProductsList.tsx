@@ -46,7 +46,6 @@ export default RoomProductsList;
 const Item: FC<{ product: ProductType,room:RoomType }> = ({product, room}) => {
     const {name, attributes, id} = product;
     const initialType:productTypings = 1;
-    // const img = getProductImage(product, initialType);
     const {category} = room
     const img = getProductImagePath(room, product);
     const imgSize = getImgSize(category);

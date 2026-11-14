@@ -61,7 +61,8 @@ const ProductLayout: FC<CabinetFormType> = ({
     const {cartId} = useParams();
     const buttonText = !cartId ? 'Add to cart' : 'Update Product'
 
-    const {values, isSubmitting} = useFormikContext<ProductFormType>();
+    const {values, isSubmitting, errors} = useFormikContext<ProductFormType>();
+
     const {filteredOptions} = productPriceData;
 
     const {
@@ -130,10 +131,10 @@ const ProductLayout: FC<CabinetFormType> = ({
                     </div>
                     : null}
                 {showMiddleSectionBlock &&
-                <div className={s.block}>
-                  <h3>Cutout Height</h3>
-                  <ProductInputCustom name="middle_section_string"/>
-                </div>
+                    <div className={s.block}>
+                        <h3>Cutout Height</h3>
+                        <ProductInputCustom name="middle_section_string"/>
+                    </div>
                 }
             </div>
 
@@ -151,7 +152,7 @@ const ProductLayout: FC<CabinetFormType> = ({
                                  id={id}
                                  attributes={attributes}
             />
-            {showFarmSinkBlock ? <ProductFarmSink farm_sink_height={farm_sink_height} /> : null}
+            {showFarmSinkBlock ? <ProductFarmSink farm_sink_height={farm_sink_height}/> : null}
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>
             </div>

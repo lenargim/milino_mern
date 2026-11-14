@@ -3,7 +3,7 @@ import {Form, useFormikContext} from 'formik';
 import {CustomPartType, materialsCustomPart, MaybeNull} from "../../helpers/productTypes";
 import {CustomPartFormType} from "./CustomPart";
 import {
-    filterCustomPartsMaterialsArray,
+    filterCustomPartsMaterialsArray, isFullPanelBlock,
     isHingeHolesBlock,
     isLedBlock,
     isPanelCutoutBlock,
@@ -15,6 +15,7 @@ import CustomPartHingeHoles from "./CustomPartHingeHoles";
 import CustomPartCutoutBlock from "./CustomPartCutoutBlock";
 import ProductLED from "../Product/ProductLED";
 import CustomPartMaterialsArray from "./CustomPartMaterialsArray";
+import CustomPartFullPanelBlock from "./CustomPartFullPanelBlock";
 
 type CustomPartPanelType = {
     product: CustomPartType,
@@ -29,6 +30,7 @@ const CustomPartPanel: FC<CustomPartPanelType> = ({product, filtered_materials_a
     const showHingeHoles = isHingeHolesBlock(id)
     const showCutout = isPanelCutoutBlock(id)
     const showLedBlock = isLedBlock(id)
+    const showFullPanelBlock = isFullPanelBlock(id)
 
     useEffect(() => {
         // Change depth for shaker panel
@@ -67,6 +69,7 @@ const CustomPartPanel: FC<CustomPartPanelType> = ({product, filtered_materials_a
             {showLedBlock ? <ProductLED id={id} /> : null}
             {showHingeHoles ? <CustomPartHingeHoles/> : null}
             {showCutout ? <CustomPartCutoutBlock/> : null}
+            {showFullPanelBlock ? <CustomPartFullPanelBlock/> : null}
             <CustomPartMaterialsArray filtered_materials_array={filtered_materials_array}/>
 
             <div className={s.block}>

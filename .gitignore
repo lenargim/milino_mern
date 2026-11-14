@@ -9,3 +9,4 @@ client/build/
 .DS_Store
 client/.env
 client/.env.development
+client/src/api/temp.json

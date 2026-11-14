@@ -49,8 +49,15 @@ export const s = StyleSheet.create({
         display: "flex",
         maxWidth: "20vw"
     },
+    img_short: {
+        display: "flex",
+        maxWidth: "35vw"
+    },
     data: {
         width: '50vw'
+    },
+    data_short: {
+        width: '60vw'
     },
     itemName: {
         fontSize: 16,
@@ -90,13 +97,29 @@ export const s = StyleSheet.create({
         width: "2vw",
         borderRight: '1px solid #000'
     },
+    th0_short: {
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: "center",
+        fontSize: 12,
+        width: "5vw",
+        borderRight: '1px solid #000'
+    },
     th1: {
         fontSize: 12,
         width: '20vw'
     },
+    th1_short: {
+        fontSize: 12,
+        width: '35vw'
+    },
     th2: {
         fontSize: 12,
         width: '50vw'
+    },
+    th2_short: {
+        fontSize: 12,
+        width: '60vw'
     },
     th3: {
         fontSize: 12,

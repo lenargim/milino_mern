@@ -38,7 +38,6 @@ import {
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
 import RoomMaterialsDataType from "./RoomMaterialsDataType";
-import materialsAPI from "../../api/materials.json";
 import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
 import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
 import {
@@ -49,6 +48,7 @@ import {
 } from "../../helpers/roomTypes";
 import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
 import {usePrevious} from "../../utils/customHooks";
+import {MaterialsAPI} from "../../api/materials";
 
 const {
     categories,
@@ -61,7 +61,7 @@ const {
     grain,
     groove: grooveArr,
     rod: rodArr
-}: MaterialsType = materialsAPI;
+} = MaterialsAPI;
 
 export const materialsFormInitial: RoomMaterialsFormType = {
     name: '',
@@ -115,7 +115,7 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
 
     const submitText = isRoomNew ? 'Create Room' : 'Edit Room';
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
-    const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = materialsAPI.doors.find(el => el.value === 'Slab')?.finish
+    const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = MaterialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
     const isRTAorSystemCloset = getIsRTAorSystemCloset(category);
     const isLeatherOrRTAOrSystemCloset = getIsLeatherOrRTAorSystemCloset(category);

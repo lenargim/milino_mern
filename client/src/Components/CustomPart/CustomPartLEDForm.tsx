@@ -67,11 +67,19 @@ const CustomPartLEDForm: FC = () => {
 
             <div className={s.block}>
                 <h3>Accessories</h3>
-                <NumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W"/>
-                <NumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W"/>
+                <NumberPart el={'led_accessories.transformer_100_W'} label="Transformer 100W *"/>
+                <NumberPart el={'led_accessories.transformer_dimmable_96_W'} label="Dimmable Transformer 96W **"/>
                 <NumberPart el={'led_accessories.remote_control'} label="Remote control"/>
                 <NumberPart el={'led_accessories.door_sensor_single'} label='Door sensor single'/>
                 <NumberPart el={'led_accessories.door_sensor_double'} label='Door sensor double'/>
+            </div>
+            <div className={s.block}>
+                <div className={s.attrdesc}>
+                    <strong>* Regular Transformer</strong>: Dimmable via remote control only. Not compatible with wall-mounted dimmer switches.
+                </div>
+                <div className={s.attrdesc}>
+                    <strong>** Dimmable Transformer</strong>: Compatible with wall-mounted dimmer switches.
+                </div>
             </div>
             <div className={s.block}>
                 <TextInput type={"text"} label={'Note'} name="note"/>

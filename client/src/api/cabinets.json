@@ -284,7 +284,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Box from finish material",
       "Glass Door"
     ]
@@ -1391,7 +1390,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Box from finish material",
       "Glass Door"
     ]
@@ -3314,12 +3312,7 @@
         ]
       }
     ],
-    "options": [
-      "PTO for doors",
-      "Glass Door",
-      "Glass Shelf",
-      "Box from finish material"
-    ]
+    "options": ["Box from finish material"]
   },
   {
     "id": 212,
@@ -4932,6 +4925,7 @@
     "name": "VDH Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Double Hanging Section",
@@ -4953,7 +4947,7 @@
       }
     ],
     "hasClosetAccessoriesBlock": true,
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 409,
@@ -4961,6 +4955,7 @@
     "name": "VLH Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Long Hanging Section",
@@ -4990,7 +4985,7 @@
         ]
       }
     ],
-    "options": [],
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -4999,6 +4994,7 @@
     "name": "VSS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
@@ -5019,7 +5015,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 411,
@@ -5027,6 +5023,7 @@
     "name": "VAS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
@@ -5047,7 +5044,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 412,
@@ -5055,6 +5052,7 @@
     "name": "VFAS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
@@ -5084,7 +5082,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 413,
@@ -5092,6 +5090,7 @@
     "name": "VHS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Hamper Section",
@@ -5121,7 +5120,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors", "Glass Shelf"]
   },
   {
     "id": 414,
@@ -5129,6 +5128,7 @@
     "name": "VDS Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "hasJeweleryBlock": true,
     "attributes": [
       {
@@ -5159,7 +5159,7 @@
         ]
       }
     ],
-    "options": ["PTO for drawers"]
+    "options": ["Glass Door","PTO for doors", "Glass Shelf","PTO for drawers"]
   },
   {
     "id": 415,
@@ -5169,6 +5169,7 @@
     "customHeight": 35.5,
     "customDepth": 18,
     "hasJeweleryBlock": true,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Island Drawers Section",
@@ -5198,6 +5199,7 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5227,7 +5229,7 @@
         ]
       }
     ],
-    "options": [],
+    "options": ["Glass Shelf"],
     "hasClosetAccessoriesBlock": true
   },
   {
@@ -5237,6 +5239,7 @@
     "category": "Leather",
     "isCornerChoose": true,
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
@@ -5257,7 +5260,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Shelf"]
   },
   {
     "id": 418,
@@ -5266,6 +5269,7 @@
     "name": "VDC Series",
     "category": "Leather",
     "customHeight": 95,
+    "legsHeight": 3.5,
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
@@ -5636,6 +5640,7 @@
     "product_type": "cabinet",
     "name": "IDH Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Double Hanging Section",
@@ -5651,13 +5656,14 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 601,
     "product_type": "cabinet",
     "name": "ILH Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Long Hanging Section",
@@ -5682,13 +5688,14 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 602,
     "product_type": "cabinet",
     "name": "IAS Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Adjustable Shelves Section",
@@ -5704,13 +5711,14 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 603,
     "product_type": "cabinet",
     "name": "ISS Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves Section",
@@ -5726,13 +5734,14 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 604,
     "product_type": "cabinet",
     "name": "IFAS Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Angled Shoe Shelves/Adjustable Shelves Section",
@@ -5757,13 +5766,14 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 605,
     "product_type": "cabinet",
     "name": "IDS Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Drawers Section",
@@ -5788,13 +5798,14 @@
         ]
       }
     ],
-    "options": ["Glass Shelf", "PTO for drawers"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf", "PTO for drawers"]
   },
   {
     "id": 606,
     "product_type": "cabinet",
     "name": "IHS Series",
     "category": "Cabinet System Closet",
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Hamper Section",
@@ -5819,7 +5830,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 607,
@@ -5827,6 +5838,7 @@
     "name": "IDC Series",
     "category": "Cabinet System Closet",
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Double Hanging Sections",
@@ -5850,6 +5862,7 @@
     "name": "ILC Series",
     "category": "Cabinet System Closet",
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Long Hanging Section",
@@ -5882,6 +5895,7 @@
     "name": "ISC Series",
     "category": "Cabinet System Closet",
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Corner Adjustable Shelves Section",
@@ -5906,6 +5920,7 @@
     "category": "Cabinet System Closet",
     "isBlind": true,
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Blind Corner Double Hanging",
@@ -5921,7 +5936,7 @@
         ]
       }
     ],
-    "options": []
+    "options": ["Glass Door","PTO for doors"]
   },
   {
     "id": 611,
@@ -5930,6 +5945,7 @@
     "category": "Cabinet System Closet",
     "isBlind": true,
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Blind Corner Long Hanging",
@@ -5954,7 +5970,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
   {
     "id": 612,
@@ -5963,6 +5979,7 @@
     "category": "Cabinet System Closet",
     "isBlind": true,
     "isCornerChoose": true,
+    "legsHeight": 4.5,
     "attributes": [
       {
         "name": "Blind Corner Adjustable Shelves",
@@ -5978,7 +5995,7 @@
         ]
       }
     ],
-    "options": ["Glass Shelf"]
+    "options": ["Glass Door","PTO for doors","Glass Shelf"]
   },
 
   {
@@ -6979,7 +6996,6 @@
       }
     ],
     "options": [
-      "PTO for doors",
       "Glass Door"
     ],
     "hasMechanism": {

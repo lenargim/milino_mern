@@ -16,6 +16,7 @@ import {
 } from "./productTypes";
 import {BorderType, ledAlignmentType} from "../Components/Product/ProductLED";
 
+
 export type CartAPI = {
     _id: string,
     room_id: string,
@@ -107,7 +108,8 @@ export type CartCustomShelvesAPI = {
 
 export type PanelAccessoriesTypeAPI = {
     hinges_or_holes?: HingesOrHolesTypeAPI,
-    cutout?: PanelCutoutAPI
+    cutout?: PanelCutoutAPI,
+    double_panel?: number
 }
 export type HingesOrHolesTypeAPI = {
     type: HingesOrHolesTypesType

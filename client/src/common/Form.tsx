@@ -372,6 +372,7 @@ export const ProductInputCustom: FC<{ name: string, label?: string }> = ({
                     name={name}
                     id={name}
                     placeholder={label ?? `Example: 12 5/8″`}
+                    autoFocus
                 />
             </label>
             <Field

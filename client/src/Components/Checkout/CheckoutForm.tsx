@@ -23,8 +23,10 @@ import PDFPurchaseOrder from "../PDFOrder/PDFPurchaseOrder";
 import CheckoutButtonRow from "./CheckoutButtonRow";
 import {useAuthUser} from "../../utils/customHooks";
 import {useEditor} from "../../helpers/EditorContext";
+import PDFOrderNoPrice from "../PDFOrder/PDFOrderNoPrice";
+import PDFPurchaseOrderNoPrice from "../PDFOrder/PDFPurchaseOrderNoPrice";
 
-export type ButtonType = 'save-room' | 'send-room' | 'save-po' | 'send-po';
+export type ButtonType = 'save-room' | 'save-room-no-prices' | 'send-room' | 'save-po' | 'save-po-no-prices' | 'send-po';
 
 export type CheckoutFormType = {
     name: string,
@@ -87,12 +89,28 @@ const CheckoutForm: FC = () => {
                 saveAs(room_blob, `${fileName}.pdf`);
                 break;
             }
+            case "save-room-no-prices": {
+                const cartWithJPG = checkoutCartItemWithImg(cart_items, room);
+                const room_blob = await pdf(<PDFOrderNoPrice values={validatedValues}
+                                                      materialStrings={materialStrings}
+                                                      cart={cartWithJPG}/>).toBlob();
+                saveAs(room_blob, `${fileName}_no_price.pdf`);
+                break;
+            }
             case "save-po": {
                 const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
                 if (!po_rooms_api) return;
                 const po_blob = await pdf(<PDFPurchaseOrder values={validatedValues}
                                                             po_rooms_api={po_rooms_api}/>).toBlob();
                 saveAs(po_blob, `${fileName}.pdf`);
+                break;
+            }
+            case "save-po-no-prices": {
+                const po_rooms_api = await getPurchaseRoomsOrder(purchase_order_id);
+                if (!po_rooms_api) return;
+                const po_blob = await pdf(<PDFPurchaseOrderNoPrice values={validatedValues}
+                                                            po_rooms_api={po_rooms_api}/>).toBlob();
+                saveAs(po_blob, `${fileName}_no_price.pdf`);
                 break;
             }
             case "send-room": {

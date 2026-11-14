@@ -71,7 +71,8 @@ import {
     LEDAccessoriesType, PanelAccessoriesTypeAPI
 } from "./cartTypes";
 import {
-    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, drawer, finishType, FinishTypes,
+    colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, DrawerAPIType,
+    finishNames, finishType, FinishTypes,
     GolaType,
     GolaTypesType, materialsData,
     RoomCategoriesType,
@@ -85,7 +86,13 @@ import {initialLEDAccessories} from "../Components/CustomPart/CustomPartLEDForm"
 import {numericQuantity, NumericQuantityOptions} from "numeric-quantity";
 import {AnyObject, TestContext} from "yup";
 import {BorderType} from "../Components/Product/ProductLED";
-import {CustomPartShelves, CustomPartShelvesEnumType} from "./Enums";
+import {
+    CustomPartDoublePanel, CustomPartDoublePanelKeyType,
+    CustomPartDoublePanelType,
+    CustomPartShelves,
+    CustomPartShelvesEnumType,
+    getKeyByValue, getValueByKey
+} from "./Enums";
 import {UserType} from "../api/apiTypes";
 import {CheckoutFormType} from "../Components/Checkout/CheckoutForm";
 
@@ -122,7 +129,7 @@ export const getImgOrNull = (folder: string, img: MaybeUndefined<string>): Maybe
     }
 }
 
-export const getProductImg = (folder: string, name:string, hinge_postfix:string = '', ): string => {
+export const getProductImg = (folder: string, name: string, hinge_postfix: string = '',): string => {
     for (const s of [hinge_postfix, '', 'L', '2L', '4'] as const) {
         try {
             const postfix = s ? `${name} ${s}.jpg` : `${name}.jpg`;
@@ -291,7 +298,7 @@ const getRoomCategoryByProductCategory = (prod_cat: productCategory): MaybeEmpty
     return ''
 }
 
-export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>,has_glass_door?:boolean): string => {
+export const getProductImagePath = (room: RoomNewType, product: ProductOrCustomType, hinge_type?: MaybeUndefined<hingeTypes>, has_glass_door?: boolean): string => {
     const {door_type, category} = room;
     if (isCustomPart(product)) {
         // extra RO/Drawer
@@ -375,6 +382,8 @@ export const getCustomPartImagePath = (product: CustomPartType, values: CustomPa
             if (!glass_door || !glass_door[0]) break;
             return getImg('glass_door_profile', `${glass_door[0]}.jpg`);
         }
+        case "ro_drawer":
+            return getProductImg(`Custom Parts`, product.name.replace('/', ' '));
     }
     return getProductImg(`Custom Parts`, product.name);
 }
@@ -446,7 +455,7 @@ export function getHingeArr(doorArr: number[], product_id: number, width: number
                 if (doorArr.includes(4)) tallArr.push(double, four)
             } else if (tall_type_2.includes(product_id)) {
                 if (doorArr.includes(1)) tallArr.push(left, right);
-                if (doorArr.includes(2)) tallArr.push(double);
+                if (doorArr.includes(2)) tallArr.push(four);
             } else if (tall_type_3.includes(product_id)) {
                 tallArr.push(left_2, right_2, single_left, single_right)
             } else if (tall_type_4.includes(product_id)) {
@@ -726,7 +735,6 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
         painted_molding
     } = values;
 
-
     const {id, product_type, name} = product;
 
     // Update L-Shape
@@ -878,7 +886,8 @@ export const addToCartCustomPartAPI = (values: CustomPartFormType, product: Cust
 
 export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccessoriesType>): MaybeUndefined<PanelAccessoriesTypeAPI> => {
     if (!panelAccessories) return undefined;
-    const {hinges_or_holes, cutout} = panelAccessories
+    const {hinges_or_holes, cutout, double_panel} = panelAccessories
+
     const result: PanelAccessoriesTypeAPI = {
         ...(hinges_or_holes?.has_hh && {
             hinges_or_holes: {
@@ -893,11 +902,12 @@ export const panelAccessoriesAPI = (panelAccessories: MaybeUndefined<PanelAccess
                 height: cutout.height!,
             },
         }),
+        double_panel: double_panel ? getKeyByValue(CustomPartDoublePanel, double_panel) : undefined
     };
     return Object.keys(result).length ? result : undefined;
 };
 
-export const isHasLedBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
+export const isHasLedBlock = (category: productCategory, door_type: MaybeEmpty<DoorTypesType>): boolean => {
     switch (door_type) {
         case "Standard Size Shaker":
             return ['Wall Cabinets', 'Leather'].includes(category);
@@ -1010,11 +1020,11 @@ export const isDrawerColor = (showDrawerType: boolean, drawer_type: string, draw
     return !(!drawer_type || drawer_type === 'Same as Box Material' || !drawerColorsArr.length);
 }
 
-export const getDrawerBrandArr = (drawers: drawer[]): materialsData[] => {
+export const getDrawerBrandArr = (drawers: DrawerAPIType[]): materialsData[] => {
     return drawers.map(el => ({value: el.value, img: el.img})) as materialsData[] ?? [];
 }
 
-export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): materialsData[] => {
+export const getDrawerTypeArr = (drawers: DrawerAPIType[], drawer_brand: string): materialsData[] => {
     const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
     if (!drawerTypesArrFilter) return [];
     return drawerTypesArrFilter.map(el => ({
@@ -1023,7 +1033,7 @@ export const getDrawerTypeArr = (drawers: drawer[], drawer_brand: string): mater
     })) as materialsData[];
 }
 
-export const getDrawerColorArr = (drawers: drawer[], drawer_brand: string, drawer_type: string): materialsData[] => {
+export const getDrawerColorArr = (drawers: DrawerAPIType[], drawer_brand: string, drawer_type: string): materialsData[] => {
     const drawerTypesArrFilter = drawers.find(el => el.value === drawer_brand)?.types;
     if (!drawerTypesArrFilter) return [];
     return drawerTypesArrFilter.find(el => el.value === drawer_type)?.colors as materialsData[] ?? [];
@@ -1043,7 +1053,11 @@ export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, is
 }
 
 export const getDoorFinishArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): finishType[] => {
-    return doors.find(el => el.value === door_type)?.finish ?? [];
+    return [...(doors.find(el => el.value === door_type)?.finish ?? [])]
+        .sort((a, b) =>
+            finishNames.indexOf(a.value as FinishTypes) -
+            finishNames.indexOf(b.value as FinishTypes)
+        );
 }
 
 export const getFrameWidthArr = (doors: doorType[], door_type: MaybeEmpty<DoorTypesType>): materialsData[] => {
@@ -1055,7 +1069,12 @@ export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, do
     const isStandardDoor = findIsRoomStandard(doorType);
     if (isStandardDoor) return standardColors.colors as colorType[] || [];
     if (doorType === 'Custom Painted') return finishArr?.[0].colors || [];
-    const colors = finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    let colors = finishArr?.find(el => el.value === doorFinishMaterial)?.colors || [];
+    colors = colors.map(el => ({
+        ...el,
+        label: el.value + ' ' + getMaterialColorSizesRatioString(doorFinishMaterial, el.value)
+    }))
+    console.log(doorFinishMaterial)
     switch (doorFinishMaterial) {
         case "Syncron":
         case "Zenit":
@@ -1075,11 +1094,11 @@ export const getBoxMaterialArr = <T, U>(isCloset: boolean, boxMaterial: T[], lea
 }
 
 
-export const getBoxMaterialColorsArr = (isLeather: boolean, isRTACloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): colorType[] => {
+export const getBoxMaterialColorsArr = (isLeather: boolean, isRTAorSystemCloset: boolean, boxMaterialType: string, boxMaterialsArr: finishType[], boxMaterialAPI: materialsData[]): colorType[] => {
     const colorsArr: MaybeUndefined<colorType[]> = boxMaterialsArr.find(el => el.value === boxMaterialType)?.colors;
     if (!colorsArr) return [];
     if (isLeather) return colorsArr;
-    if (isRTACloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
+    if (isRTAorSystemCloset) return boxMaterialType === 'Milino' ? boxMaterialAPI : colorsArr;
     return [];
 }
 
@@ -1148,8 +1167,9 @@ export const getMaterialStrings = (materials: RoomMaterialsFormType): MaterialSt
         rod
     } = data;
 
+    const door_color_with_sizes = door_color + ' ' + getMaterialColorSizesRatioString(door_finish_material, door_color);
     const categoryString = materialsStringify([category, gola])
-    const doorString = materialsStringify([door_type, door_finish_material, door_color, door_grain, door_frame_width])
+    const doorString = materialsStringify([door_type, door_finish_material, door_color_with_sizes, door_grain, door_frame_width])
     const boxString = materialsStringify([box_material, box_color])
     const drawerString = materialsStringify([drawer_brand, drawer_type, drawer_color]);
     const leatherString = materialsStringify([leather, leather_note]);
@@ -1167,18 +1187,22 @@ const materialsStringify = (materialsArr: (string | number | null)[]): string =>
     return materialsArr.filter(el => !!el).join(', ')
 }
 
-export const getSquare = (doorWidth: number, doorHeight: number, product_id: number, is_leather_closet: boolean): number => {
-    if (is_leather_closet) {
-        // Door exceptions for leather closet
-        if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
-        if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
-        if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
-        return 0;
-    }
+export const getSquare = (doorWidth: number, doorHeight: number, product_id: number): number => {
+    // Door exceptions for leather closet
+    if (product_id === 413) return +((doorWidth * 26) / 144).toFixed(2)
+    if (product_id === 414) return +((doorWidth * 38) / 144).toFixed(2)
+    if (product_id === 415) return +((doorWidth * 29) / 144).toFixed(2)
+
     // Exceptions
     const noDoorsArr: number[] = [28];
     if (noDoorsArr.includes(product_id)) return 0;
     return +((doorWidth * doorHeight) / 144).toFixed(2)
+}
+
+export const getGlassDoorSquare = (doorSq:number, doorWidth: number, doorHeight: number, product_id: number) => {
+    if (product_id === 413) return +((doorWidth * (doorHeight-28)) / 144).toFixed(2)
+    if (product_id === 414) return +((doorWidth * (doorHeight-50)) / 144).toFixed(2)
+    return doorSq;
 }
 
 const isWallCabinet = (category: productCategory): boolean => {
@@ -1327,6 +1351,11 @@ export const isLedBlock = (id: number): boolean => {
     return IDsArr.includes(id)
 }
 
+export const isFullPanelBlock = (id: number): boolean => {
+    const IDsArr: number[] = [905];
+    return IDsArr.includes(id)
+}
+
 export const getFinishColorCoefCustomPart = (id: number, material: MaybeUndefined<string>, color: string): number => {
     switch (id) {
         case 903:
@@ -1372,7 +1401,7 @@ export const isShowFarmSinkBlock = (options: ProductOptionsType[]): boolean => {
     return options.includes("Farm Sink")
 }
 
-export const isShowFinishSidesBlock = (category: productCategory, door_type:MaybeEmpty<DoorTypesType>): boolean => {
+export const isShowFinishSidesBlock = (category: productCategory, door_type: MaybeEmpty<DoorTypesType>): boolean => {
     switch (category) {
         case "Base Cabinets":
         case "Wall Cabinets":
@@ -1903,6 +1932,8 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             has_cutout: false
         }
 
+        let doublePanelValues = undefined;
+
         let shelvesValues: CustomPartShelvesType = {
             has_shelves: false,
         }
@@ -1981,7 +2012,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             }
 
             if (panel_accessories) {
-                const {hinges_or_holes, cutout} = panel_accessories
+                const {hinges_or_holes, cutout, double_panel} = panel_accessories
                 const hasHH = !!hinges_or_holes;
                 const hasCutout = !!cutout
                 if (hasHH) {
@@ -2002,6 +2033,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
                         width_string: getFraction(cutout?.width || 0),
                         height_string: getFraction(cutout?.height || 0)
                     }
+                }
+                if (double_panel) {
+                    doublePanelValues = getValueByKey(CustomPartDoublePanel, double_panel)
                 }
             }
 
@@ -2036,6 +2070,7 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
             panel_accessories: {
                 hinges_or_holes: hhValues,
                 cutout: cutoutValues,
+                double_panel: doublePanelValues
             },
             led: ledBlock ? {
                 border: ledBlock.border,
@@ -2104,6 +2139,16 @@ export const getIsLeatherCloset = (category: MaybeEmpty<RoomCategoriesType>): bo
     return category === 'Leather Closet';
 }
 
+export const getIsSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Cabinet System Closet';
+}
+
+export const getIsLeatherOrSystemCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
+    if (!category) return false;
+    return category === 'Leather Closet' || category === 'Cabinet System Closet';
+}
+
 export const getIsCloset = (category: MaybeEmpty<RoomCategoriesType>): boolean => {
     switch (category) {
         case "Cabinet System Closet":
@@ -2147,10 +2192,20 @@ export function pluralizeName(name: string, oneOf: string[]): string {
 
 export const getCustomPartMaterialsArraySizeLimits = (id: number, material: MaybeUndefined<CustomPartMaterialsArraySizeLimitsType>, materials: RoomMaterialsFormType): MaybeUndefined<materialsLimitsType> => {
     const color = getIsRTAorSystemCloset(materials.category) ? materials.box_color : materials.door_color;
-    const is_special_milino = ["Desert Oak", "White Oak", "White Gloss", "Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+    // const is_special_milino = ["Desert Oak", "White Oak", "White Gloss", "Brown Oak", "Glacier Oak", "Grey Woodline", "Ivory Woodline", "Sable Wood", "Ultra Matte White", "Ultra Matte Grey", "Ultra Matte Volcano"].includes(color)
+
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
-        return is_special_milino ?
+        const is_special_milino = (color:string):boolean => {
+            if (color.includes("Ultra Matte")) return true;
+            if (color.includes("Woodline")) return true;
+            if (color.includes("Oak")) return true;
+            if (color === "White Gloss") return true;
+            if (color === "Sable Wood") return true;
+
+            return false;
+        }
+        return is_special_milino(color) ?
             {
                 ...limits,
                 [direction]: limits[direction]
@@ -2404,4 +2459,114 @@ export const has_manager_access = (user: UserType): boolean => {
 
 export const mb_to_byte = (size: number): number => {
     return size * 1024 * 1024
+}
+
+export const getMaterialColorSizesRatioString = (door_finish: MaybeEmpty<FinishTypes>, door_color: string): string => {
+    switch (door_finish) {
+        case "":
+            return "";
+        case "Milino":
+            switch (door_color) {
+                case "Ash Melamine":
+                case "Beige Linen Melamine":
+                case "Grey Linen Melamine":
+                case "Grey Melamine":
+                case "Walnut Melamine":
+                case "White Melamine":
+                case "Grey Plywood":
+                case "Natural":
+                case "White":
+                    return `(4'x8')`;
+
+                case "White Gloss":
+                case "Grey Woodline":
+                case "Ivory Woodline":
+                case "Brown Oak":
+                case "Desert Oak":
+                case "White Oak":
+                case "Glacier Oak":
+                case "Sable Wood":
+                case "Ultra Matte White":
+                case "Ultra Matte Grey":
+                case "Ultra Matte Gris":
+                case "Ultra Matte Cashmere":
+                case "Ultra Matte Volcano":
+                    return `(4'x9')`;
+                default:
+                    return ''
+            }
+        case "Ultrapan Acrylic":
+            switch (door_color) {
+                case "Arctic White Matte":
+                case "Eclipse Grey Gloss":
+                case "Hot Rod Red Gloss":
+                case "Jet Black Matte":
+                case "Pebble Gloss":
+                case "Pebble Matte":
+                case "Seal Grey Gloss":
+                case "Seal Grey Matte":
+                case "Black Mettalic Gloss":
+                case "Champagne Mettalic Gloss":
+                case "Dark Grey Mettalic Gloss":
+                case "Frost White Mettalic Gloss":
+                case "Silver Mettalic Gloss":
+                case "Polar White Matte":
+                    return `(4'x8')`;
+
+                case "Arctic White Gloss":
+                case "Comfort Grey Gloss":
+                case "Comfort Grey Matte":
+                case "Galactic Grey Gloss":
+                case "Galactic Grey Matte":
+                case "Jet Black Gloss":
+                case "Polar White Gloss":
+                case "Royal Blue Gloss":
+                case "Champagne Mettalic Matte":
+                case "Dark Grey Mettalic Matte":
+                case "Diamond Mettalic Gloss":
+                case "Obsidian Mettalic Gloss":
+                case "Silver Mettalic Matte":
+                case "Titanium Mettalic Gloss":
+                    return `(4'x10')`;
+                default:
+                    return '';
+            }
+        case "Syncron":
+        case "Luxe":
+        case "Zenit":
+        case "OneSkin":
+        case "Wood Veneer":
+            return `(4'x9')`;
+        case "Cleaf":
+        case "Egger":
+            return `(5'x9')`;
+        case "Finsa":
+        case "StyleLite":
+            return `(4'x8')`;
+        case "Ultrapan PET":
+            return `(4'x10')`;
+    }
+    return ''
+}
+
+export const notNegative = (val: number): number => {
+    return Math.max(val, 0);
+}
+
+export const getDoorHeight = (product: ProductType, cart: CartAPI): number => {
+    const {height, middle_section} = cart;
+    const {id, legsHeight = 0} = product;
+    // Exceptions
+    switch (id) {
+        case 413:
+            return height - 28;
+        case 414:
+            return height - 50;
+        case 605:
+            return height - 50;
+        case 606:
+            return height - 30;
+        default:
+            return height - legsHeight - middle_section;
+    }
 }

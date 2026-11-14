@@ -15,6 +15,8 @@ import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
 import CartItemShelves from "./CartItemShelves";
+import CartItemDoublePanel from "./CartItemDoublePanel";
+import {CustomPartDoublePanel, getValueByKey} from "../../helpers/Enums";
 
 const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
     const {subcategory, product_id, custom, width, led, glass} = product;
@@ -50,6 +52,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType }> = ({product}) => {
             return <CartItemDrawerRO drawer_ro={custom?.drawer_accessories.drawer_ro} width={width}/>
         default:
             return <>
+                {custom?.panel_accessories?.double_panel &&
+                    <CartItemDoublePanel double_panel={custom.panel_accessories.double_panel}/>}
                 {custom?.material &&
                     <div className={s.itemOption}>
                         <span>Material:</span>

@@ -12,71 +12,87 @@ type CheckoutButtonRowType = {
     purchase_order_id: string
 }
 const CheckoutButtonRow: FC<CheckoutButtonRowType> = ({clickedButtonRef, handleSubmit, purchase_order_id}) => {
-    const {values, isSubmitting, validateForm, setTouched} = useFormikContext<CheckoutFormType>();
-    const [showPOButton, setShowPOButton] = useState<boolean>(false)
+        const {values, isSubmitting, validateForm, setTouched} = useFormikContext<CheckoutFormType>();
+        const [showPOButton, setShowPOButton] = useState<boolean>(false)
 
-    const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
-        e.preventDefault();
-        const errors = await validateForm();
-        const hasErrors = Object.keys(errors).length > 0;
-        clickedButtonRef.current = buttonType;
+        const customSubmitHandler = async (e: React.MouseEvent<HTMLButtonElement>, buttonType: ButtonType) => {
+            e.preventDefault();
+            const errors = await validateForm();
+            const hasErrors = Object.keys(errors).length > 0;
+            clickedButtonRef.current = buttonType;
 
-        if (hasErrors) {
-            const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormType;
-            const errorElement = document.getElementsByName(firstErrorField)[0];
-            if (errorElement) {
-                setTouched({
-                    name: true,
-                    company: true,
-                    email: true,
-                    phone: true,
-                    purchase_order: true,
-                    room_name: true,
-                    delivery: true,
-                    files: true
-                }, true)
-                errorElement.scrollIntoView({behavior: "smooth", block: "center"});
-                (errorElement as HTMLElement).focus();
+            if (hasErrors) {
+                const firstErrorField = Object.keys(errors)[0] as keyof CheckoutFormType;
+                const errorElement = document.getElementsByName(firstErrorField)[0];
+                if (errorElement) {
+                    setTouched({
+                        name: true,
+                        company: true,
+                        email: true,
+                        phone: true,
+                        purchase_order: true,
+                        room_name: true,
+                        delivery: true,
+                        files: true
+                    }, true)
+                    errorElement.scrollIntoView({behavior: "smooth", block: "center"});
+                    (errorElement as HTMLElement).focus();
+                }
+            } else {
+                await handleSubmit(values)
             }
-        } else {
-            await handleSubmit(values)
-        }
-    };
-    useEffect(() => {
-        getPurchaseRoomsOrderAmount(purchase_order_id).then(amount => {
-            if (amount && amount >= 2) setShowPOButton(true)
-        })
-    }, [])
-    return (
-        <div className={s.buttonRow}>
-            <button type="submit"
-                    onClick={(e) => customSubmitHandler(e, 'save-room')}
-                    className={['button yellow'].join(' ')}
-                    disabled={isSubmitting}>Download Room
-            </button>
-            <button type="submit"
-                    onClick={(e) => customSubmitHandler(e, 'send-room')}
-                    className={['button yellow'].join(' ')}
-                    disabled={isSubmitting}>Submit Room
-            </button>
-            {showPOButton
-                ? <>
+        };
+        useEffect(() => {
+            getPurchaseRoomsOrderAmount(purchase_order_id).then(amount => {
+                if (amount && amount >= 2) setShowPOButton(true)
+            })
+        }, [])
+        return (
+            <>
+                <div className={s.buttonRow}>
+                    <span>Download Report</span>
                     <button type="submit"
-                            onClick={(e) => customSubmitHandler(e, 'save-po')}
+                            onClick={(e) => customSubmitHandler(e, 'save-room')}
                             className={['button yellow'].join(' ')}
-                            disabled={isSubmitting}>Download PO
+                            disabled={isSubmitting}>Room
                     </button>
                     <button type="submit"
-                            onClick={(e) => customSubmitHandler(e, 'send-po')}
+                            onClick={(e) => customSubmitHandler(e, 'save-room-no-prices')}
                             className={['button yellow'].join(' ')}
-                            disabled={isSubmitting}>Submit Full Order
+                            disabled={isSubmitting}>Room(No Prices)
                     </button>
-                </>
-                : null
-            }
-        </div>
-    );
-}
+                    {showPOButton
+                        && <>
+                            <button type="submit"
+                                    onClick={(e) => customSubmitHandler(e, 'save-po')}
+                                    className={['button yellow'].join(' ')}
+                                    disabled={isSubmitting}>PO
+                            </button>
+                            <button type="submit"
+                                    onClick={(e) => customSubmitHandler(e, 'save-po-no-prices')}
+                                    className={['button yellow'].join(' ')}
+                                    disabled={isSubmitting}>PO(No Prices)
+                            </button>
+                        </>
+                    }
+                </div>
+                <div className={s.buttonRow}>
+                    <span>Submit Order</span>
+                    <button type="submit"
+                            onClick={(e) => customSubmitHandler(e, 'send-room')}
+                            className={['button yellow'].join(' ')}
+                            disabled={isSubmitting}>Room
+                    </button>
+                    {showPOButton &&
+                        <button type="submit"
+                                onClick={(e) => customSubmitHandler(e, 'send-po')}
+                                className={['button yellow'].join(' ')}
+                                disabled={isSubmitting}>Full Order
+                        </button>}
+                </div>
+            </>
+        );
+    }
 ;
 
 export default CheckoutButtonRow;

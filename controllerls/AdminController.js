@@ -2,7 +2,6 @@ import UserModel from "../models/User.js";
 import PurchaseOrder from "../models/PurchaseOrder.js";
 import Room from "../models/Room.js";
 import Cart from "../models/Cart.js";
-import user from "../models/User.js";
 
 export const getUsers = async (req, res) => {
     try {

@@ -13,15 +13,14 @@ import {
     TextInput
 } from "../../common/Form";
 import CustomPartSubmit from "./CustomPartSubmit";
-import materialsAPI from './../../api/materials.json'
+import {MaterialsAPI} from '../../api/materials'
 import {materialsData} from "../../helpers/roomTypes";
-
 
 const isPaintedMaterial = (material: string): boolean => {
     return material === 'Painted';
 }
 
-let grooveArr = materialsAPI.groove as materialsData[];
+let grooveArr = MaterialsAPI.groove as materialsData[];
 grooveArr = grooveArr.map(el => ({...el, img: getImg('materials/groove', el.img)}));
 
 const CustomPartRibbed: FC<{

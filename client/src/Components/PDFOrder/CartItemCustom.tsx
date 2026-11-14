@@ -16,6 +16,8 @@ import CartItemDrawerRO from "./CartItemDrawerRO";
 import CartItemPanelAccessories from "./CartItemPanelAccessories";
 import CartItemLED from "./CartItemLED";
 import CartItemShelves from "./CartItemShelves";
+import CartItemDoublePanel from "./CartItemDoublePanel";
+import {CustomPartDoublePanel, getValueByKey} from "../../helpers/Enums";
 
 
 const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
@@ -54,6 +56,8 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
             return <View><CartItemDrawerRO drawer_ro={custom?.drawer_accessories.drawer_ro} width={width}/></View>
         default:
             return <View>
+                {custom?.panel_accessories?.double_panel &&
+                    <CartItemDoublePanel double_panel={custom.panel_accessories.double_panel}/>}
                 {custom?.material &&
                     <Text style={s.itemOption}>
                         <Text>Material: {custom?.material}</Text>
@@ -74,7 +78,7 @@ const CartItemCustom: FC<{ product: CartItemFrontType, }> = ({product}) => {
                 }
                 {led && <CartItemLED led={led}/>}
                 {<CartItemPanelAccessories panel_accessories={custom?.panel_accessories}/>}
-                {custom?.shelves && <CartItemShelves shelves={custom.shelves} />}
+                {custom?.shelves && <CartItemShelves shelves={custom.shelves}/>}
                 {custom?.painted_molding &&
                     <View style={s.itemOption}>
                         <Text>Quantity: {custom?.painted_molding}</Text>

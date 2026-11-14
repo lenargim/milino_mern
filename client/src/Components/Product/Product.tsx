@@ -41,6 +41,7 @@ const Product: FC<ProductComponentType> = ({
                 if (!product) return;
                 setSubmitting(true)
                 const cartData = addProductToCart(product, values, room_id, productEditId);
+                console.log(cartData)
                 if (productEditId) {
                     await dispatch(updateProduct({product: cartData}));
                     resetForm();
