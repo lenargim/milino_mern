@@ -9,6 +9,7 @@ import {withTryCatch} from "../../utils/withTryCatch";
 export interface RoomsState {
     rooms: RoomFront[],
     cart_items: MaybeNull<CartItemFrontType[]>,
+    cart_items_front_changed: boolean,
     loading_rooms: boolean;
     loading_cart_items: boolean,
     loading_sidebar: boolean,
@@ -18,6 +19,7 @@ export interface RoomsState {
 const initialState: RoomsState = {
     rooms: [],
     cart_items: null,
+    cart_items_front_changed: false,
     loading_rooms: false,
     loading_cart_items: false,
     loading_sidebar: false,
@@ -60,6 +62,14 @@ export const fetchCart = createAsyncThunk<CartAPIResponse,
     'room/fetchCart',
     async ({_id}, thunkAPI) => {
         return await withTryCatch(() => cartAPI.getCart(_id), thunkAPI);
+    }
+);
+
+export const updateCart = createAsyncThunk<CartAPIResponse,
+    { room_id: string, cart_items: CartAPI[]}>(
+    'room/fetchCart',
+    async ({room_id, cart_items}, thunkAPI) => {
+        return await withTryCatch(() => cartAPI.updateCart(room_id, cart_items), thunkAPI);
     }
 );
 
@@ -127,8 +137,8 @@ export const roomSlice = createSlice({
         clearCart: (state) => {
             state.cart_items = null;
         },
-        updateCartAfterMaterialsChange: (state, action: PayloadAction<CartItemFrontType[]>) => {
-            state.cart_items = action.payload
+        updateCartAfterMaterialsChange: (state, action: PayloadAction<{cart: CartItemFrontType[], cart_update:boolean}>) => {
+            state.cart_items = action.payload.cart
         }
     },
     extraReducers: (builder) => {
@@ -165,7 +175,6 @@ export const roomSlice = createSlice({
 
 export const {
     addRoom,
-    setCart,
     clearCart,
     updateCartAfterMaterialsChange,
     roomSetActiveCategory

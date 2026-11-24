@@ -1,7 +1,8 @@
 import {
     AngleType,
     AttributesPrices,
-    AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes, CustomPartType, CustomTypes,
+    AttrItemType, BoxMaterialColorType, ClosetAccessoriesTypes,
+    CustomPartMaterialsArraySizeLimitsType, CustomPartType, CustomTypes,
     DoorColorType, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes, hingeTypes, JeweleryInsertsType,
     materialDataType, MaybeEmpty,
     MaybeNull,
@@ -19,6 +20,7 @@ import {
 } from "./productTypes";
 import settings from './../api/settings.json'
 import {
+    addToCartCustomPartAPI,
     checkDoors,
     convertDoorAccessories,
     getAttributes,
@@ -34,7 +36,7 @@ import {
     getProductById,
     getSquare,
     getWidthToCalculateDoor,
-    hasGlassShelfColor,
+    hasGlassShelfColor, isCustomPart,
     isHingeHolesBlock,
     isPanelCutoutBlock, notNegative,
 } from "./helpers";
@@ -275,7 +277,7 @@ function getPvcPrice(per: number, product: ProductType, materialData: materialDa
     return +(per * coef).toFixed(2);
 }
 
-function getPVCPerimeter(doorWidth: number, doorHeight: number, product: ProductType):number {
+function getPVCPerimeter(doorWidth: number, doorHeight: number, product: ProductType): number {
     const {horizontal_line = 2} = product;
     return (horizontal_line * doorWidth + doorHeight * 2) / 12;
 }
@@ -754,7 +756,7 @@ const getBoxMaterialCoef = (box_material: MaybeEmpty<BoxMaterialType>, box_color
     return 1;
 }
 
-const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: string): number => {
+const getBoxMaterialFinishCoef = (door_finish_material: MaybeEmpty<FinishTypes>, door_color: string): number => {
     switch (door_finish_material) {
         case "Milino":
             const colorType = getDoorColorType(door_color);
@@ -764,6 +766,9 @@ const getBoxMaterialFinishCoef = (door_finish_material: string, door_color: stri
         case "Syncron":
         case "Finsa":
             return 1.845
+        case "Wood Veneer":
+        case "StyleLite":
+            return 5.405
         default:
             return 2.706
     }
@@ -1356,22 +1361,43 @@ export const getStandardPanelsPrice = (standard_panels: PanelsFormAPIType, is_pr
 const getRodsQty = (attrArr: { name: string, value: number }[]): number => {
     return attrArr.find(el => el.name.includes('Hanging Rod'))?.value ?? 0;
 }
-export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartItemFrontType[] => {
-    return cart.map(cartItem => {
-        const {product_id, product_type} = cartItem;
-        const product_or_custom = getProductById(product_id, product_type === 'standard');
-        if (!product_or_custom) return cartItem;
-        if (product_type === 'custom') return cartItem;
-        const product = product_or_custom as unknown as ProductType;
-        const materialData = getMaterialData(materials, product_id)
-        const tablePriceData = getProductPriceRange(product_id, materialData);
-        if (!tablePriceData) return cartItem;
-        const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
-        if (!sizeLimit) return cartItem;
-        const totalPrice = calculateProduct(cartItem, materialData, tablePriceData, sizeLimit, product);
-        return {...cartItem, price: totalPrice};
-    });
-}
+// export const calculateCartPriceAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartItemFrontType[] => {
+//     return cart.map(cartItem => {
+//         const {product_id, product_type} = cartItem;
+//         const product_or_custom = getProductById(product_id, product_type === 'standard');
+//         if (!product_or_custom) return cartItem;
+//         return isCustomPart(product_or_custom)
+//             ? calculateCustomPartCartPriceAfterMaterialsChange(product_or_custom, cartItem, materials)
+//             : calculateProductCartPriceAfterMaterialsChange(product_or_custom, cartItem, materials);
+//     });
+// }
+
+// const calculateProductCartPriceAfterMaterialsChange = (product: ProductType, cartItem: CartItemFrontType, materials: RoomMaterialsFormType) => {
+//     const {product_id} = cartItem;
+//     const materialData = getMaterialData(materials, product_id)
+//     const tablePriceData = getProductPriceRange(product_id, materialData);
+//     if (!tablePriceData) return cartItem;
+//     const sizeLimit: MaybeUndefined<sizeLimitsType> = sizes.find(size => size.productIds.includes(product_id))?.limits;
+//     if (!sizeLimit) return cartItem;
+//     const totalPrice = calculateProduct(cartItem, materialData, tablePriceData, sizeLimit, product);
+//     return {...cartItem, price: totalPrice};
+// }
+//
+// const calculateCustomPartCartPriceAfterMaterialsChange = (custom_part: CustomPartType, cartItem: CartItemFrontType, materials: RoomMaterialsFormType): CartItemFrontType => {
+//     // Reset Box Material in RTA and System Closet after Material Change (Box Material)
+//     if (getIsRTAorSystemCloset(materials.category)) {
+//         const {subcategory, price, isStandard, image_active_number, exact_image, ...APIValues} = cartItem;
+//         if (APIValues.custom?.material && materials.box_material && materials.box_material !== APIValues.custom.material) {
+//             const newMaterial = setCustomPartMaterial(materials.box_material);
+//             const newAPIValues = {...APIValues, custom: {...APIValues.custom, material: newMaterial}}
+//             const newPrice = getCustomPartPrice(custom_part, materials, newAPIValues);
+//             return {...cartItem, ...newAPIValues, price: newPrice}
+//         }
+//     }
+//     return cartItem
+// }
+
+
 
 export const calculateProduct = (cabinetItem: CartAPI, materialData: materialDataType, tablePriceData: pricePart[], sizeLimit: sizeLimitsType, product: ProductType): number => {
     const {attributes} = product

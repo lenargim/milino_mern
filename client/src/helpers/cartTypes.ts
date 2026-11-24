@@ -8,7 +8,7 @@ import {
 } from "../Components/CustomPart/CustomPart";
 import {
     ClosetAccessoriesTypes,
-    cornerTypes, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes,
+    cornerTypes, CustomPartMaterialsArraySizeLimitsType, FinishSidesTypes, GlassAndMirrorTypes, GlassNamesTypes,
     hingeTypes, JeweleryInsertsType,
     MaybeEmpty,
     ProductApiType, ProductOptionsType,
@@ -85,7 +85,7 @@ export interface CartItemFrontType extends CartAPI {
 }
 
 export type CartCustomTypeAPI = {
-    material?: string,
+    material?: MaybeEmpty<CustomPartMaterialsArraySizeLimitsType>,
     groove?: GrooveAPIType,
     drawer_accessories?: DrawerAccessoriesType,
     panel_accessories?: PanelAccessoriesTypeAPI,

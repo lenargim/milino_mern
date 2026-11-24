@@ -96,6 +96,7 @@ export const cartAPI = {
     remove: (room_id: string, _id: string): Promise<AxiosResponse<CartAPIResponse>> => instance.delete(`/cart/${room_id}/${_id}`, {headers: getHeaders()}),
     updateAmount: (room_id: string, _id: string, amount: number): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart/${room_id}/${_id}`, {amount: amount}, {headers: getHeaders()}),
     updateProduct: (cart: CartAPI): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart`, cart, {headers: getHeaders()}),
+    updateCart: (room_id: string, cart_items: CartAPI[]): Promise<AxiosResponse<CartAPIResponse>> => instance.patch(`/cart/${room_id}`, cart_items, {headers: getHeaders()}),
 }
 
 export const AdminAPI = {

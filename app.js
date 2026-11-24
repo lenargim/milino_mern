@@ -117,6 +117,7 @@ const start = async () => {
 
         // Cart
         app.get('/api/cart/:room_id', checkAuth, CartController.getCart)
+        app.patch('/api/cart/:room_id', checkAuth, cartItemValidation, CartController.updateCart, CartController.getCart)
         app.post('/api/cart', checkAuth, cartItemValidation, handleValidationErrors, CartController.addToCart, CartController.getCart)
         app.delete('/api/cart/all/:room_id', checkAuth, CartController.removeAllFromCart, CartController.getCart)
         app.delete('/api/cart/:room_id/:cart_id', checkAuth, CartController.removeFromCart, CartController.getCart)

@@ -33,20 +33,18 @@ import {
     getIsRTAorSystemCloset,
     getIsCloset,
     getIsFilledDrawerBlock,
-    getIsFilledLeatherBlock, getIsLeatherOrRTAorSystemCloset, getGolaCategoryName, getFrameWidthArr
+    getIsFilledLeatherBlock, getIsLeatherOrRTAorSystemCloset, getGolaCategoryName, getFrameWidthArr, isCartEqual
 } from "../../helpers/helpers";
 import s from "./room.module.sass";
 import {TextInput} from "../../common/Form";
 import RoomMaterialsDataType from "./RoomMaterialsDataType";
 import {MaybeEmpty, MaybeUndefined} from "../../helpers/productTypes";
-import {calculateCartPriceAfterMaterialsChange} from "../../helpers/calculatePrice";
 import {
     finishType,
-    MaterialsType,
     RoomCategoriesType,
     RoomMaterialsFormType
 } from "../../helpers/roomTypes";
-import {RoomsState, updateCartAfterMaterialsChange} from "../../store/reducers/roomSlice";
+import {RoomsState} from "../../store/reducers/roomSlice";
 import {usePrevious} from "../../utils/customHooks";
 import {MaterialsAPI} from "../../api/materials";
 
@@ -133,7 +131,6 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const frameArr = getFrameWidthArr(doors, door_type);
     const grainArr = getGrainArr(grain, colorArr, door_color)
     const prevCategory = usePrevious(category);
-    const {cart_items} = useAppSelector<RoomsState>(state => state.room)
 
     useEffect(() => {
         if (!isRoomNew && hasGolaType && !category_gola_type) {
@@ -214,10 +211,12 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
             if (!isCloset && rod) setFieldValue('rod', '');
         }
 
-        if (!isRoomNew && cart_items?.length) {
-            const newCart = calculateCartPriceAfterMaterialsChange(cart_items, values);
-            dispatch(updateCartAfterMaterialsChange(newCart))
-        }
+        // if (!isRoomNew && cart_items?.length) {
+        //     const newCart = calculateCartPriceAfterMaterialsChange(cart_items, values);
+        //     const cart_update = !isCartEqual(cart_items, newCart);
+        //     console.log(cart_update)
+        //     dispatch(updateCartAfterMaterialsChange({cart:newCart, cart_update }))
+        // }
     }, [values]);
     const showCategoryGolaType = isGolaCategoryTypeShown(category, hasGolaType);
     const showGola = isGolaShown(category_gola_type)

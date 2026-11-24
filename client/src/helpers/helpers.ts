@@ -71,6 +71,7 @@ import {
     LEDAccessoriesType, PanelAccessoriesTypeAPI
 } from "./cartTypes";
 import {
+    BoxMaterialType,
     colorType, CustomPartsImgListItem, DataToJSONType, doorType, DoorTypesType, DrawerAPIType,
     finishNames, finishType, FinishTypes,
     GolaType,
@@ -95,6 +96,7 @@ import {
 } from "./Enums";
 import {UserType} from "../api/apiTypes";
 import {CheckoutFormType} from "../Components/Checkout/CheckoutForm";
+import isEqual from 'lodash/isEqual';
 
 export const urlRegex = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -631,6 +633,48 @@ export function isEmptyOrZeroValue(value: any): boolean {
     return false;
 }
 
+export const getCartAPIAfterMaterialsChange = (cart: CartItemFrontType[], materials: RoomMaterialsFormType): CartAPI[] => {
+    return cart.map(cartItem => {
+        const {subcategory, isStandard, price, image_active_number, exact_image, ...cartAPI} = cartItem;
+        const {product_id, product_type} = cartAPI as CartAPI;
+        const product_or_custom = getProductById(product_id, product_type === 'standard');
+        if (!product_or_custom) return cartAPI;
+        return isCustomPart(product_or_custom)
+            ? getCustomPartCartAPIAfterMaterialsChange(cartAPI, materials)
+            : cartAPI;
+    });
+}
+
+const getCustomPartCartAPIAfterMaterialsChange = (cartAPI: CartAPI, materials: RoomMaterialsFormType): CartAPI => {
+    if (getIsRTAorSystemCloset(materials.category)) {
+        if (cartAPI.custom?.material && materials.box_material && materials.box_material !== cartAPI.custom.material) {
+            const newMaterial = setCustomPartMaterial(materials.box_material);
+            return {...cartAPI, custom: {...cartAPI.custom, material: newMaterial}}
+        }
+    }
+    return cartAPI
+}
+
+const setCustomPartMaterial = (box_material: BoxMaterialType): CustomPartMaterialsArraySizeLimitsType => {
+    switch (box_material) {
+        case "Milino":
+        case "Syncron":
+        case "Luxe":
+        case "Ultrapan PET":
+        case "Zenit":
+        case "Ultrapan Acrylic":
+        case "OneSkin":
+        case "Wood Veneer":
+        case "Finsa":
+        case "Egger":
+        case "Cleaf":
+        case "StyleLite":
+            return box_material
+        default:
+            return "Milino"
+    }
+}
+
 export const addProductToCart = (product: ProductType, values: ProductFormType, room_id: string, productEditId: MaybeUndefined<string>): CartAPI => {
     const {id, product_type} = product
     const {
@@ -1074,7 +1118,6 @@ export const getDoorColorsArr = (doorFinishMaterial: MaybeEmpty<FinishTypes>, do
         ...el,
         label: el.value + ' ' + getMaterialColorSizesRatioString(doorFinishMaterial, el.value)
     }))
-    console.log(doorFinishMaterial)
     switch (doorFinishMaterial) {
         case "Syncron":
         case "Zenit":
@@ -1199,9 +1242,9 @@ export const getSquare = (doorWidth: number, doorHeight: number, product_id: num
     return +((doorWidth * doorHeight) / 144).toFixed(2)
 }
 
-export const getGlassDoorSquare = (doorSq:number, doorWidth: number, doorHeight: number, product_id: number) => {
-    if (product_id === 413) return +((doorWidth * (doorHeight-28)) / 144).toFixed(2)
-    if (product_id === 414) return +((doorWidth * (doorHeight-50)) / 144).toFixed(2)
+export const getGlassDoorSquare = (doorSq: number, doorWidth: number, doorHeight: number, product_id: number) => {
+    if (product_id === 413) return +((doorWidth * (doorHeight - 28)) / 144).toFixed(2)
+    if (product_id === 414) return +((doorWidth * (doorHeight - 50)) / 144).toFixed(2)
     return doorSq;
 }
 
@@ -2196,7 +2239,7 @@ export const getCustomPartMaterialsArraySizeLimits = (id: number, material: Mayb
 
     const checkMilino = (direction: 'width' | 'height', limits: materialsLimitsType): materialsLimitsType => {
         const milino_max = 107.5;
-        const is_special_milino = (color:string):boolean => {
+        const is_special_milino = (color: string): boolean => {
             if (color.includes("Ultra Matte")) return true;
             if (color.includes("Woodline")) return true;
             if (color.includes("Oak")) return true;
@@ -2570,3 +2613,20 @@ export const getDoorHeight = (product: ProductType, cart: CartAPI): number => {
             return height - legsHeight - middle_section;
     }
 }
+
+export const isCartEqual = (
+    cart1: CartItemFrontType[],
+    cart2: CartItemFrontType[]
+): boolean => {
+    const omitPrice = (cart: CartItemFrontType[]) =>
+        cart.map(({price, ...item}) => item);
+
+    return isEqual(omitPrice(cart1), omitPrice(cart2));
+};
+
+export const isCartAPIEqual = (
+    cart1: CartAPI[],
+    cart2: CartAPI[]
+): boolean => {
+    return isEqual(cart1, cart2);
+};

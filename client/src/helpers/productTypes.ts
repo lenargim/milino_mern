@@ -281,18 +281,6 @@ export type sizeLimitsType = {
     depth: number[]
 }
 
-export type getBoxMaterialCoefsType = {
-    boxMaterialCoef: number,
-    boxMaterialFinishCoef: number
-}
-
-export interface drawerInterface {
-    drawerBrand: MaybeUndefined<string>,
-    drawerType: MaybeUndefined<string>,
-    drawerColor: MaybeUndefined<string>
-}
-
-
 export type CabinetType = {
     product: ProductType,
     productData: ProductTableDataType,
