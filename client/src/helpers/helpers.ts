@@ -1084,9 +1084,12 @@ export const getDrawerColorArr = (drawers: DrawerAPIType[], drawer_brand: string
 
 }
 
-export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean): doorType[] => {
+export const getDoorTypeArr = (doors: doorType[], gola: MaybeEmpty<GolaType>, isLeather: boolean, isBuildIn:boolean): doorType[] => {
     let arr = doors.filter(el => !el.is_hide);
     if (gola) {
+        arr = arr.filter(el => el.value !== 'Standard Size Shaker');
+    }
+    if (isBuildIn) {
         arr = arr.filter(el => el.value !== 'Standard Size Shaker');
     }
     if (isLeather) {

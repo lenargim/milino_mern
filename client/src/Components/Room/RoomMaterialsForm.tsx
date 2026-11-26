@@ -115,12 +115,13 @@ const RoomMaterialsForm: FC<{ isRoomNew: boolean }> = ({isRoomNew}) => {
     const roomNameText = isRoomNew ? 'New Room Name' : 'Room Name';
     const leatherBoxMaterialArr: MaybeUndefined<finishType[]> = MaterialsAPI.doors.find(el => el.value === 'Slab')?.finish
     const isLeather = category === 'Leather Closet';
+    const isBuildIn = category === 'Build In Closet';
     const isRTAorSystemCloset = getIsRTAorSystemCloset(category);
     const isLeatherOrRTAOrSystemCloset = getIsLeatherOrRTAorSystemCloset(category);
     const isCloset = getIsCloset(category)
     const hasGolaType = findHasGolaTypeByCategory(category);
     const golaTypeArr = filterGolaTypeArrByCategory(category, golaType);
-    const doorTypeArr = getDoorTypeArr(doors, gola, isLeather);
+    const doorTypeArr = getDoorTypeArr(doors, gola, isLeather, isBuildIn);
     const finishArr = getDoorFinishArr(doors, door_type);
     const colorArr = getDoorColorsArr(door_finish_material, door_type, finishArr);
     const boxMaterialArr: finishType[] = getBoxMaterialArr(isLeatherOrRTAOrSystemCloset, boxMaterial, leatherBoxMaterialArr || [])
