@@ -142,7 +142,6 @@ type CustomPartFCType = {
     materials: RoomMaterialsFormType,
     room_id: string,
     custom_part: CustomPartType,
-    // customPartData: CustomPartTableDataType,
     initialCustomPartValues: CustomPartFormType,
     productEditId: MaybeUndefined<string>,
 }
@@ -159,6 +158,7 @@ const CustomPart: FC<CustomPartFCType> = ({
     return (
         <Formik
             initialValues={initialCustomPartValues}
+            enableReinitialize={true}
             validationSchema={getCustomPartSchema(custom_part, materials)}
             onSubmit={async (values: CustomPartFormType, {resetForm, setSubmitting}) => {
                 if (!custom_part || !values.price) return;

@@ -28,7 +28,6 @@ import {
     isLeatherNote,
     isLeatherType,
     useAppDispatch,
-    useAppSelector,
     isClosetRod,
     getIsRTAorSystemCloset,
     getIsCloset,
@@ -44,7 +43,6 @@ import {
     RoomCategoriesType,
     RoomMaterialsFormType
 } from "../../helpers/roomTypes";
-import {RoomsState} from "../../store/reducers/roomSlice";
 import {usePrevious} from "../../utils/customHooks";
 import {MaterialsAPI} from "../../api/materials";
 

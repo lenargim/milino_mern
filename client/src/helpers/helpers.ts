@@ -1928,8 +1928,9 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         initialLEDAccessories,
         standardDoorData
     } = customPartData;
-    const {initial_width, initial_height, initial_depth} = initialSizes
+
     if (!cartItemValues) {
+        const {initial_width, initial_height, initial_depth} = initialSizes
         return {
             width_string: getFraction(initial_width),
             height_string: getFraction(initial_height),
@@ -1964,7 +1965,6 @@ export const getCustomPartInitialFormValues = (customPartData: CustomPartTableDa
         }
     } else {
         const {width, height, depth, custom, note, glass, amount, led: ledBlock} = cartItemValues;
-
         let LEDAccessoriesValues: MaybeNull<LedAccessoriesFormType> = null;
         let doorAccessoriesValues: MaybeNull<DoorAccessoryType[]> = null;
         let standardDoorValues: MaybeNull<DoorType[]> = null;
